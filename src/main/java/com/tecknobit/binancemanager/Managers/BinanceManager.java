@@ -23,7 +23,7 @@ public class BinanceManager {
     protected JSONArray jsonArray;
     protected final String baseEndpoint;
 
-    /** Constructor to init all BinanceManagers
+    /** Constructor to init a Binance manager
      * @param #baseEndpoint base endpoint to work on
      * **/
     public BinanceManager(String baseEndpoint) throws SystemException, IOException {

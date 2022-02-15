@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.Managers;
 
 import com.tecknobit.binancemanager.Exceptions.SystemException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -41,6 +42,7 @@ public class BinanceWalletManager extends BinanceManager{
 
     /** Request to get your daily account snapshot
      * @param #type: SPOT,MARGIN OR FUTURES
+     * return string response
      * **/
     public String getAccountSnapshot(String type) throws Exception {
         String params = "?timestamp="+getTimestamp()+"&type="+type;
@@ -49,4 +51,12 @@ public class BinanceWalletManager extends BinanceManager{
         return connectionManager.getResponse();
     }
 
+    /** Request to get your daily account snapshot
+     * @param #type: SPOT,MARGIN OR FUTURES
+     * return jsonobject response
+     * **/
+    public JSONObject getJSONAccountSnapshot(String type) throws Exception {
+        return new JSONObject(getAccountSnapshot(type));
+    }
+    
 }
