@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.GET_METHOD;
+import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.POST_METHOD;
 
 public class BinanceWalletManager extends BinanceManager{
 
@@ -78,6 +79,27 @@ public class BinanceWalletManager extends BinanceManager{
      * **/
     public JSONObject getJSONAccountSnapshot(String type) throws Exception {
         return new JSONObject(getAccountSnapshot(type));
+    }
+
+    public boolean switchFastWithdraw(boolean enableFastWithdraw) throws Exception {
+        String switchOperationEndpoint = DISABLE_FAST_WITHDRAW_ENDPOINT;
+        String params = getParamsTimestamp();
+        if(enableFastWithdraw)
+            switchOperationEndpoint = ENABLE_FAST_WITHDRAW_ENDPOINT;
+        requestManager.startConnection(baseEndpoint+switchOperationEndpoint+params+getSignature(params),
+                POST_METHOD,apiKey);
+        return requestManager.getResponse().equals("{}");
+    }
+
+    public String submitWithdraw(String coinSymbol, String address, double amount) throws Exception {
+        String params = getParamsTimestamp()+"&coin="+coinSymbol+"&address="+address+"&amount="+amount;
+        requestManager.startConnection(baseEndpoint+SUBMIT_WITHDRAW_ENDPOINT+params+getSignature(params)
+                ,POST_METHOD,apiKey);
+        return requestManager.getResponse();
+    }
+
+    public JSONObject submitJSONWithdraw(String coinSymbol, String address, double amount) throws Exception {
+        return new JSONObject(submitWithdraw(coinSymbol,address,amount));
     }
 
     public ArrayList<Deposit> getDepositHistory() throws Exception {
