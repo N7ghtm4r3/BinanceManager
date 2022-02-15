@@ -8,8 +8,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.tecknobit.binancemanager.Constants.EndpointsList.SYSTEM_STATUS_ENDPOINT;
-import static com.tecknobit.binancemanager.Constants.EndpointsList.TIMESTAMP_ENDPOINT;
+import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.GET_METHOD;
 import static java.lang.System.currentTimeMillis;
 import static java.util.Arrays.asList;
@@ -73,6 +72,11 @@ public class BinanceManager {
      * **/
     protected String getParamsTimestamp(){
         return "?timestamp="+getTimestamp();
+    }
+
+    protected String getRequestResponse(String endpoint, String params, String method, String apiKey) throws IOException {
+        requestManager.startConnection(baseEndpoint+endpoint+params,method,apiKey);
+        return requestManager.getResponse();
     }
 
 }

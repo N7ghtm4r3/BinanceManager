@@ -2,6 +2,7 @@ package com.tecknobit.binancemanager.Managers;
 
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Helpers.Records.Deposit;
+import com.tecknobit.binancemanager.Helpers.Records.DepositAddress;
 import com.tecknobit.binancemanager.Helpers.Records.Withdraw;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -52,8 +53,7 @@ public class BinanceWalletManager extends BinanceManager{
      * **/
     public String getAllCoins() throws Exception {
         String params = getParamsTimestamp();
-        requestManager.startConnection(baseEndpoint+ ALL_COINS_ENDPOINT +params+getSignature(params),GET_METHOD,apiKey);
-        return requestManager.getResponse();
+        return getRequestResponse(ALL_COINS_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
     }
 
     /** Request to get information of your coins available for deposit and withdraw
@@ -70,8 +70,7 @@ public class BinanceWalletManager extends BinanceManager{
      * **/
     public String getAccountSnapshot(String type) throws Exception {
         String params = getParamsTimestamp()+"&type="+type;
-        requestManager.startConnection(baseEndpoint+ DAILY_ACCOUNT_SNAP_ENDPOINT +params+getSignature(params),GET_METHOD,apiKey);
-        return requestManager.getResponse();
+        return getRequestResponse(DAILY_ACCOUNT_SNAP_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
     }
 
     /** Request to get your daily account snapshot
@@ -93,9 +92,7 @@ public class BinanceWalletManager extends BinanceManager{
         String params = getParamsTimestamp();
         if(enableFastWithdraw)
             switchOperationEndpoint = ENABLE_FAST_WITHDRAW_ENDPOINT;
-        requestManager.startConnection(baseEndpoint+switchOperationEndpoint+params+getSignature(params),
-                POST_METHOD,apiKey);
-        return requestManager.getResponse().equals("{}");
+        return getRequestResponse(switchOperationEndpoint,params+getSignature(params),POST_METHOD,apiKey).equals("{}");
     }
 
     /** Request to submit withdraw
@@ -153,9 +150,7 @@ public class BinanceWalletManager extends BinanceManager{
      * return id of transaction if operation is successful as string
      * **/
     private String submitWithdraw(String params) throws Exception {
-        requestManager.startConnection(baseEndpoint+SUBMIT_WITHDRAW_ENDPOINT+params+getSignature(params)
-                ,POST_METHOD,apiKey);
-        return requestManager.getResponse();
+        return getRequestResponse(SUBMIT_WITHDRAW_ENDPOINT,params+getSignature(params),POST_METHOD,apiKey);
     }
 
     /** Request to get deposit history
@@ -183,9 +178,8 @@ public class BinanceWalletManager extends BinanceManager{
      * **/
     private ArrayList<Deposit> getDepositHistory(String params) throws Exception {
         ArrayList<Deposit> depositHistory = new ArrayList<>();
-        requestManager.startConnection(baseEndpoint+DEPOSIT_HISTORY_ENDPOINT+params+getSignature(params),
-                GET_METHOD,apiKey);
-        jsonArray = new JSONArray(requestManager.getResponse());
+        jsonArray = new JSONArray(getRequestResponse(DEPOSIT_HISTORY_ENDPOINT,
+                params+getSignature(params),GET_METHOD,apiKey));
         for(int j=0; j < jsonArray.length(); j++){
             JSONObject deposit = jsonArray.getJSONObject(j);
             depositHistory.add(new Deposit(deposit.getDouble("amount"),
@@ -229,9 +223,8 @@ public class BinanceWalletManager extends BinanceManager{
      * **/
     private ArrayList<Withdraw> getWithdrawHistory(String params) throws Exception {
         ArrayList<Withdraw> withdrawsHistory = new ArrayList<>();
-        requestManager.startConnection(baseEndpoint+WITHDRAW_HISTORY_ENDPOINT+params+getSignature(params),
-                GET_METHOD,apiKey);
-        jsonArray = new JSONArray(requestManager.getResponse());
+        jsonArray = new JSONArray(getRequestResponse(WITHDRAW_HISTORY_ENDPOINT,params+getSignature(params),
+                GET_METHOD,apiKey));
         for(int j=0; j < jsonArray.length(); j++){
             JSONObject withdraw = jsonArray.getJSONObject(j);
             withdrawsHistory.add(new Withdraw(withdraw.getString("address"),
@@ -252,7 +245,43 @@ public class BinanceWalletManager extends BinanceManager{
         return withdrawsHistory;
     }
 
+    public DepositAddress getDepositAddress(String coin) throws Exception {
+        return getDepositAddressSender(getParamsTimestamp()+"&coin="+coin);
+    }
 
+    public DepositAddress getDepositAddress(String coin,String network) throws Exception {
+        return getDepositAddressSender(getParamsTimestamp()+"&coin="+coin+"&network="+network);
+    }
+
+    private DepositAddress getDepositAddressSender(String params) throws Exception {
+        jsonObject = new JSONObject(getRequestResponse(DEPOSIT_ADDRESS_ENDPOINT,params+getSignature(params),
+                GET_METHOD,apiKey));
+        return new DepositAddress(jsonObject.getString("address"),
+                jsonObject.getString("coin"),
+                jsonObject.getString("tag"),
+                jsonObject.getString("url")
+        );
+    }
+
+    public String getAccountStatus() throws Exception {
+        String params = getParamsTimestamp();
+        return getRequestResponse(ACCOUNT_STATUS_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
+    }
+
+    public JSONObject getJSONAccountStatus() throws Exception {
+        return new JSONObject(getAccountStatus());
+    }
+
+    public String getAPITradingStatus() throws Exception {
+        String params = getParamsTimestamp();
+        return getRequestResponse(API_TRADING_STATUS_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
+    }
+
+    public JSONObject getJSONAPITradingStatus() throws Exception {
+        return new JSONObject(getAPITradingStatus());
+    }
+
+    
 
     /** Method to get signature of request
      * @param #params: params of request to get signature
