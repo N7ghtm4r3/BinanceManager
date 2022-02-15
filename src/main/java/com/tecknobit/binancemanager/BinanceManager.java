@@ -22,11 +22,11 @@ public class BinanceManager{
     public static final String MARGIN = "MARGIN";
     public static final String FUTURES = "FUTURES";
     private final ConnectionManager connectionManager;
+    private final String baseEndpoint;
     private final String apiKey;
     private final String secretKey;
     private JSONObject jsonObject;
     private JSONArray jsonArray;
-    private String baseEndpoint;
 
     public BinanceManager(String apiKey, String secretKey, String baseEndpoint) throws IOException, SystemException {
         connectionManager = new ConnectionManager();
@@ -56,7 +56,7 @@ public class BinanceManager{
         jsonObject = new JSONObject(connectionManager.getResponse());
         return jsonObject.getInt("status") == 0;
     }
-    
+
     /**Request to get server timestamp or your current timestamp
      * any param required **/
     public long getTimestamp(){
