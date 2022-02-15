@@ -281,7 +281,61 @@ public class BinanceWalletManager extends BinanceManager{
         return new JSONObject(getAPITradingStatus());
     }
 
-    
+    public String getDustLog() throws Exception {
+        String params = getParamsTimestamp();
+        return getRequestResponse(DUST_LOG_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
+    }
+
+    public String getDustLog(HashMap<String,Object> extraParams) throws Exception {
+        String params = requestManager.assembleExtraParams(getParamsTimestamp(),extraParams);
+        return getRequestResponse(DUST_LOG_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
+    }
+
+    public JSONObject getJSONDustLog() throws Exception {
+        return new JSONObject(getDustLog());
+    }
+
+    public JSONObject getJSONDustLog(HashMap<String,Object> extraParams) throws Exception {
+        return new JSONObject(getDustLog(extraParams));
+    }
+
+    public String getConvertibleBNBAssets() throws Exception {
+        String params = getParamsTimestamp();
+        return getRequestResponse(ASSET_CONVERTIBLE_BNB_ENDPOINT,params+getSignature(params),POST_METHOD,apiKey);
+    }
+
+    public JSONObject getJSONConvertibleBNBAssets() throws Exception {
+        return new JSONObject(getConvertibleBNBAssets());
+    }
+
+    public String getDustTransfer(ArrayList<String> assets) throws Exception {
+        StringBuilder params = new StringBuilder(getParamsTimestamp());
+        for (String asset : assets)
+            params.append("&asset=").append(asset);
+        return getRequestResponse(DUST_TRANSFER_ENDPOINT,params+getSignature(params.toString()),POST_METHOD,apiKey);
+    }
+
+    public JSONObject getJSONDustTransfer(ArrayList<String> assets) throws Exception {
+        return new JSONObject(getDustTransfer(assets));
+    }
+
+    public String getDividendAsset() throws Exception {
+        String params = getParamsTimestamp();
+        return getRequestResponse(ASSET_DIVIDEND_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
+    }
+
+    public JSONObject getJSONDividendAsset() throws Exception {
+        return new JSONObject(getDividendAsset());
+    }
+
+    public String getDividendAsset(HashMap<String,Object> extraParams) throws Exception {
+        String params = getParamsTimestamp();
+        return getRequestResponse(ASSET_DIVIDEND_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
+    }
+
+    public JSONObject getJSONDividendAsset(HashMap<String,Object> extraParams) throws Exception {
+        return new JSONObject(getDividendAsset(extraParams));
+    }
 
     /** Method to get signature of request
      * @param #params: params of request to get signature

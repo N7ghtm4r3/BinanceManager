@@ -16,5 +16,9 @@ public class EndpointsList {
     public static final String DEPOSIT_ADDRESS_ENDPOINT = "/sapi/v1/capital/deposit/address";
     public static final String ACCOUNT_STATUS_ENDPOINT = "/sapi/v1/account/status";
     public static final String API_TRADING_STATUS_ENDPOINT = "/sapi/v1/account/apiTradingStatus";
+    public static final String DUST_LOG_ENDPOINT = "/sapi/v1/asset/dribblet";
+    public static final String ASSET_CONVERTIBLE_BNB_ENDPOINT = "/sapi/v1/asset/dust-btc";
+    public static final String DUST_TRANSFER_ENDPOINT = "/sapi/v1/asset/dust";
+    public static final String ASSET_DIVIDEND_ENDPOINT = "/sapi/v1/asset/assetDividend";
 
 }
