@@ -20,5 +20,7 @@ public class EndpointsList {
     public static final String ASSET_CONVERTIBLE_BNB_ENDPOINT = "/sapi/v1/asset/dust-btc";
     public static final String DUST_TRANSFER_ENDPOINT = "/sapi/v1/asset/dust";
     public static final String ASSET_DIVIDEND_ENDPOINT = "/sapi/v1/asset/assetDividend";
+    public static final String UNIVERSAL_TRANSFER_ENDPOINT = "/sapi/v1/asset/transfer";
+    public static final String UNIVERSAL_TRANSFER_HISTORY_ENDPOINT  = "/sapi/v1/asset/transfer";
 
 }

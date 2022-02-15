@@ -337,6 +337,24 @@ public class BinanceWalletManager extends BinanceManager{
         return new JSONObject(getDividendAsset(extraParams));
     }
 
+    public String getUniversalTransfer(String type,String asset,double amount) throws Exception {
+        String params = getParamsTimestamp()+"&type="+type+"&asset="+asset+"&amount="+amount;
+        return getRequestResponse(UNIVERSAL_TRANSFER_ENDPOINT,params+getSignature(params),POST_METHOD,apiKey);
+    }
+
+    public JSONObject getJSONUniversalTransfer(String type,String asset,double amount) throws Exception {
+        return new JSONObject(getUniversalTransfer(type,asset,amount));
+    }
+
+    public String getUniversalTransfer(HashMap<String,Object> extraParams) throws Exception {
+        String params = requestManager.assembleExtraParams(getParamsTimestamp(),extraParams);
+        return getRequestResponse(ASSET_DIVIDEND_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
+    }
+
+    public JSONObject getJSONUniversalTransfer(HashMap<String,Object> extraParams) throws Exception {
+        return new JSONObject(getUniversalTransfer(extraParams));
+    }
+
     /** Method to get signature of request
      * @param #params: params of request to get signature
      * return es."&signature=c8db66725ae71d6d79447319e617115f4a920f5agcdabcb2838bd6b712b053c4"
