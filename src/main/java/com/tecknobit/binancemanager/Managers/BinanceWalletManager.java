@@ -39,7 +39,7 @@ public class BinanceWalletManager extends BinanceManager{
         this.apiKey = apiKey;
         this.secretKey = secretKey;
     }
-
+    
     /** Request to get your daily account snapshot
      * @param #type: SPOT,MARGIN OR FUTURES
      * return string response
