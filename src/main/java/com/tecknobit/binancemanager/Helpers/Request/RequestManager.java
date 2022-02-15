@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.codec.binary.Hex.encodeHexString;
@@ -46,6 +48,14 @@ public class RequestManager {
         Mac sha256 = Mac.getInstance("HmacSHA256");
         sha256.init(new SecretKeySpec(key.getBytes(UTF_8), "HmacSHA256"));
         return encodeHexString(sha256.doFinal(data.replace("?","").getBytes(UTF_8)));
+    }
+
+    public String assembleExtraParams(String params, HashMap<String, Object> extraParams) {
+        ArrayList<String> keys = new ArrayList<>(extraParams.keySet());
+        StringBuilder paramsBuilder = new StringBuilder(params);
+        for (String key : keys)
+            paramsBuilder.append("&").append(key).append("=").append(extraParams.get(key));
+        return paramsBuilder.toString();
     }
 
     private String readStream(BufferedReader bufferedReader) throws IOException {

@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.GET_METHOD;
@@ -81,6 +82,12 @@ public class BinanceWalletManager extends BinanceManager{
         return new JSONObject(getAccountSnapshot(type));
     }
 
+    /** Request to get enable or disable fast withdraw
+     * @param #enableFastWithdraw: true,false
+     * true: endpoint will be ENABLE_FAST_WITHDRAW_ENDPOINT
+     * false: endpoint will be DISABLE_FAST_WITHDRAW_ENDPOINT
+     * return successful or not of operation
+     * **/
     public boolean switchFastWithdraw(boolean enableFastWithdraw) throws Exception {
         String switchOperationEndpoint = DISABLE_FAST_WITHDRAW_ENDPOINT;
         String params = getParamsTimestamp();
@@ -91,44 +98,137 @@ public class BinanceWalletManager extends BinanceManager{
         return requestManager.getResponse().equals("{}");
     }
 
+    /** Request to submit withdraw
+     * @param #coinSymbol: symbol of coin used es. BTC
+     * @param #address: address used
+     * @param #amount: amount to withdraw
+     * return id of transaction if operation is successful as string
+     * **/
     public String submitWithdraw(String coinSymbol, String address, double amount) throws Exception {
         String params = getParamsTimestamp()+"&coin="+coinSymbol+"&address="+address+"&amount="+amount;
+        return submitWithdraw(params);
+    }
+
+    /** Request to submit withdraw
+     * @param #coinSymbol: symbol of coin used es. BTC
+     * @param #address: address used
+     * @param #amount: amount to withdraw
+     * return id of transaction if operation is successful as jsonObject
+     * **/
+    public JSONObject submitJSONWithdraw(String coinSymbol, String address, double amount) throws Exception {
+        return new JSONObject(submitWithdraw(coinSymbol,address,amount));
+    }
+
+    /** Request to submit withdraw with extraParams
+     * @param #coinSymbol: symbol of coin used es. BTC
+     * @param #address: address used
+     * @param #amount: amount to withdraw
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are withdrawOrderId,network,addressTag,transactionFeeFlag,name,walletType)
+     * return id of transaction if operation is successful as string
+     * **/
+    public String submitWithdraw(String coinSymbol, String address, double amount,
+                                 HashMap<String,Object> extraParams) throws Exception {
+        String params = getParamsTimestamp()+"&coin="+coinSymbol+"&address="+address+"&amount="+amount;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return submitWithdraw(params);
+    }
+
+    /** Request to submit withdraw with extraParams
+     * @param #coinSymbol: symbol of coin used es. BTC
+     * @param #address: address used
+     * @param #amount: amount to withdraw
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are withdrawOrderId,network,addressTag,transactionFeeFlag,name,walletType)
+     * return id of transaction if operation is successful as jsonObject
+     * **/
+    public JSONObject submitJSONWithdraw(String coinSymbol, String address, double amount,
+                                         HashMap<String,Object> extraParams) throws Exception {
+        return new JSONObject(submitWithdraw(coinSymbol,address,amount,extraParams));
+    }
+
+    /** Method to submit withdraw request
+     * @param #params: params of request
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data
+     * return id of transaction if operation is successful as string
+     * **/
+    private String submitWithdraw(String params) throws Exception {
         requestManager.startConnection(baseEndpoint+SUBMIT_WITHDRAW_ENDPOINT+params+getSignature(params)
                 ,POST_METHOD,apiKey);
         return requestManager.getResponse();
     }
 
-    public JSONObject submitJSONWithdraw(String coinSymbol, String address, double amount) throws Exception {
-        return new JSONObject(submitWithdraw(coinSymbol,address,amount));
+    /** Request to get deposit history
+     * any params required
+     * return list of deposits as ArrayList<Deposit>
+     * **/
+    public ArrayList<Deposit> getDepositHistory() throws Exception {
+        return getDepositHistory(getParamsTimestamp());
     }
 
-    public ArrayList<Deposit> getDepositHistory() throws Exception {
+    /** Request to get deposit history
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are coin,status,startTime,endTime,offset,limit)
+     * return list of deposits as ArrayList<Deposit>
+     * **/
+    public ArrayList<Deposit> getDepositHistory(HashMap<String,Object> extraParams) throws Exception {
+        String params = requestManager.assembleExtraParams(getParamsTimestamp(),extraParams);
+        return getDepositHistory(params);
+    }
+
+    /** Method to submit get deposit history request
+     * @param #params: params of request
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data
+     * return list of deposits as ArrayList<Deposit>
+     * **/
+    private ArrayList<Deposit> getDepositHistory(String params) throws Exception {
         ArrayList<Deposit> depositHistory = new ArrayList<>();
-        String params = getParamsTimestamp();
         requestManager.startConnection(baseEndpoint+DEPOSIT_HISTORY_ENDPOINT+params+getSignature(params),
                 GET_METHOD,apiKey);
         jsonArray = new JSONArray(requestManager.getResponse());
         for(int j=0; j < jsonArray.length(); j++){
             JSONObject deposit = jsonArray.getJSONObject(j);
             depositHistory.add(new Deposit(deposit.getDouble("amount"),
-                   deposit.getString("coin"),
-                   deposit.getString("network"),
-                   deposit.getInt("status"),
-                   deposit.getString("address"),
-                   deposit.getString("addressTag"),
-                   deposit.getString("txId"),
-                   deposit.getLong("insertTime"),
-                   deposit.getInt("transferType"),
-                   deposit.getString("unlockConfirm"),
-                   deposit.getString("confirmTimes")
+                    deposit.getString("coin"),
+                    deposit.getString("network"),
+                    deposit.getInt("status"),
+                    deposit.getString("address"),
+                    deposit.getString("addressTag"),
+                    deposit.getString("txId"),
+                    deposit.getLong("insertTime"),
+                    deposit.getInt("transferType"),
+                    deposit.getString("unlockConfirm"),
+                    deposit.getString("confirmTimes")
             ));
         }
         return depositHistory;
     }
 
+    /** Request to get withdraw history
+     * any params required
+     * return list of withdraws as ArrayList<Withdraw>
+     * **/
     public ArrayList<Withdraw> getWithdrawHistory() throws Exception {
+        return getWithdrawHistory(getParamsTimestamp());
+    }
+
+    /** Request to get withdraw history
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are coin,withdrawOrderId,status,offset,limit,startTime,endTime)
+     * return list of deposits as ArrayList<Withdraw>
+     * **/
+    public ArrayList<Withdraw> getWithdrawHistory(HashMap<String,Object> extraParams) throws Exception {
+        String params = requestManager.assembleExtraParams(getParamsTimestamp(),extraParams);
+        return getWithdrawHistory(params);
+    }
+
+    /** Method to submit get withdraw history request
+     * @param #params: params of request
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data
+     * return list of deposits as ArrayList<Withdraw>
+     * **/
+    private ArrayList<Withdraw> getWithdrawHistory(String params) throws Exception {
         ArrayList<Withdraw> withdrawsHistory = new ArrayList<>();
-        String params = getParamsTimestamp();
         requestManager.startConnection(baseEndpoint+WITHDRAW_HISTORY_ENDPOINT+params+getSignature(params),
                 GET_METHOD,apiKey);
         jsonArray = new JSONArray(requestManager.getResponse());
