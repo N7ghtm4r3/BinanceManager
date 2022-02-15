@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Helpers;
+package com.tecknobit.binancemanager.Helpers.Request;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -11,7 +11,7 @@ import java.net.URL;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.codec.binary.Hex.encodeHexString;
 
-public class ConnectionManager {
+public class RequestManager {
 
     private HttpURLConnection httpURLConnection;
     public static final String GET_METHOD = "GET";
