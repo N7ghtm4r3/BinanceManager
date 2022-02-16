@@ -415,7 +415,7 @@ public class BinanceWalletManager extends BinanceManager {
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
      * return dividend asset as String
      * **/
-    public String getDividendAsset() throws Exception {
+    public String getAssetDividend() throws Exception {
         String params = getParamTimestamp();
         return getRequestResponse(ASSET_DIVIDEND_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
     }
@@ -425,8 +425,8 @@ public class BinanceWalletManager extends BinanceManager {
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
      * return dividend asset as JsonObject
      * **/
-    public JSONObject getJSONDividendAsset() throws Exception {
-        return new JSONObject(getDividendAsset());
+    public JSONObject getJSONAssetDividend() throws Exception {
+        return new JSONObject(getAssetDividend());
     }
 
     /** Request to get dividend asset
@@ -435,7 +435,7 @@ public class BinanceWalletManager extends BinanceManager {
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
      * return  get dividend asset as String
      * **/
-    public String getDividendAsset(HashMap<String,Object> extraParams) throws Exception {
+    public String getAssetDividend(HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp();
         return getRequestResponse(ASSET_DIVIDEND_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
     }
@@ -446,8 +446,8 @@ public class BinanceWalletManager extends BinanceManager {
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
      * return  get dividend asset as JsonObject
      * **/
-    public JSONObject getJSONDividendAsset(HashMap<String,Object> extraParams) throws Exception {
-        return new JSONObject(getDividendAsset(extraParams));
+    public JSONObject getJSONAssetDividend(HashMap<String,Object> extraParams) throws Exception {
+        return new JSONObject(getAssetDividend(extraParams));
     }
 
     /** Request to get universal transfer
@@ -621,5 +621,12 @@ public class BinanceWalletManager extends BinanceManager {
     private String getSignature(String params) throws Exception {
         return "&signature="+ requestManager.getSignature(secretKey,params);
     }
+
+    //Account API Trading Status (USER_DATA)
+    //DustLog(USER_DATA)
+    //Get Assets That Can Be Converted Into BNB
+    //Dust Transfer (USER_DATA)
+    //Asset Dividend Record
+    //Get API Key Permission
     
 }
