@@ -412,7 +412,7 @@ public class BinanceWalletManager extends BinanceManager {
 
     /** Method to submit get dust log object
      * @param #jsonObject: jsonObject assembled from request to Binance
-     * return  dust log object
+     * return dust log object
      * **/
     private DustLog getObjectDustLog(JSONObject jsonObject){
         int total = 0;
@@ -503,6 +503,35 @@ public class BinanceWalletManager extends BinanceManager {
         return new JSONObject(getDustTransfer(assets));
     }
 
+    /** Request to get dust transfer
+     * @param #assets: list of assets to request dust transfer es. BTC,ETH,SOL
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-user_data
+     * return dust transfer as DustTransfer object
+     * **/
+    public DustTransfer getObjectDustTransfer(ArrayList<String> assets) throws Exception {
+        jsonObject = new JSONObject(getDustTransfer(assets));
+        ArrayList<DustTransfer.TransferResult> transferResults = new ArrayList<>();
+        double totalServiceCharge = 0,totalTransfered = 0;
+        try {
+            totalServiceCharge = jsonObject.getDouble("totalServiceCharge");
+            totalTransfered = jsonObject.getDouble("totalTransfered");
+            jsonArray = jsonObject.getJSONArray("transferResult");
+            for(int j=0; j < jsonArray.length(); j++){
+                JSONObject transferResult = jsonArray.getJSONObject(j);
+                transferResults.add(new DustTransfer.TransferResult(transferResult.getDouble("amount"),
+                        transferResult.getString("fromAsset"),
+                        transferResult.getLong("operateTime"),
+                        transferResult.getDouble("serviceChargeAmount"),
+                        transferResult.getLong("tranId"),
+                        transferResult.getDouble("transferedAmount")
+                ));
+            }
+        }catch (JSONException ignored){}
+        finally {
+            return new DustTransfer(totalServiceCharge,totalTransfered,transferResults);
+        }
+    }
+
     /** Request to get asset dividend
      * any params required
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
@@ -520,6 +549,15 @@ public class BinanceWalletManager extends BinanceManager {
      * **/
     public JSONObject getJSONAssetDividend() throws Exception {
         return new JSONObject(getAssetDividend());
+    }
+
+    /** Request to get asset dividend
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
+     * return asset dividend as AssetDividend object
+     * **/
+    public AssetDividend getObjectAssetDividend() throws Exception {
+        return getObjectAssetDividend(new JSONObject(getAssetDividend()));
     }
 
     /** Request to get asset dividend
@@ -541,6 +579,42 @@ public class BinanceWalletManager extends BinanceManager {
      * **/
     public JSONObject getJSONAssetDividend(HashMap<String,Object> extraParams) throws Exception {
         return new JSONObject(getAssetDividend(extraParams));
+    }
+
+    /** Request to get asset dividend
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are asset,startTime,endTime,limit)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
+     * return  get asset dividend as AssetDividend object
+     * **/
+    public AssetDividend getObjectAssetDividend(HashMap<String,Object> extraParams) throws Exception {
+        return getObjectAssetDividend(new JSONObject(getAssetDividend(extraParams)));
+    }
+
+    /** Method to submit get asset dividend
+     * @param #jsonObject: jsonObject assembled from request to Binance
+     * return asset dividend object
+     * **/
+    private AssetDividend getObjectAssetDividend(JSONObject jsonObject){
+        ArrayList<AssetDividend.AssetDividendDetails> assetDividendDetails = new ArrayList<>();
+        int total = 0;
+        try {
+            total = jsonObject.getInt("total");
+            jsonArray = jsonObject.getJSONArray("rows");
+            for (int j=0; j < jsonArray.length(); j++){
+                JSONObject jsonObjectAsset = jsonArray.getJSONObject(j);
+                assetDividendDetails.add(new AssetDividend.AssetDividendDetails(jsonObjectAsset.getLong("id"),
+                        jsonObjectAsset.getDouble("amount"),
+                        jsonObjectAsset.getString("asset"),
+                        jsonObjectAsset.getLong("divTime"),
+                        jsonObjectAsset.getString("enInfo"),
+                        jsonObjectAsset.getLong("tranId")
+                ));
+            }
+        }catch (JSONException ignored){}
+        finally {
+            return new AssetDividend(total,assetDividendDetails);
+        }
     }
 
     /** Request to get universal transfer
@@ -715,8 +789,8 @@ public class BinanceWalletManager extends BinanceManager {
         return "&signature="+ requestManager.getSignature(secretKey,params);
     }
 
-    //Dust Transfer (USER_DATA)
     //Asset Dividend Record
     //Get API Key Permission
-    
+    //All Coins' Information (USER_DATA)
+    //Daily Account Snapshot (USER_DATA)
 }
