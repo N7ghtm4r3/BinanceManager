@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Helpers.Records;
+package com.tecknobit.binancemanager.Managers.Wallet.Records;
 
 public record Deposit (double amount, String coin, String network, int status, String address, String addressTag,
                       String txId, long insertTime, int transferType, String unlockConfirm, String confirmTimes) {

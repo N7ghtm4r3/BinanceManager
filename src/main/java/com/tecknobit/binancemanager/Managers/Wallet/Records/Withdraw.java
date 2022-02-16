@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Helpers.Records;
+package com.tecknobit.binancemanager.Managers.Wallet.Records;
 
 public record Withdraw (String address, double amount, String applyTime, String coin, String id, String withdrawOrderId,
                         String network, int transferType, int status, double transactionFee, int confirmNo, String info,

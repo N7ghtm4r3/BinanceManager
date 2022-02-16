@@ -70,7 +70,7 @@ public class BinanceManager {
      * any params required
      * return "?timestamp=" + getTimestamp() return value
      * **/
-    protected String getParamsTimestamp(){
+    protected String getParamTimestamp(){
         return "?timestamp="+getTimestamp();
     }
 
