@@ -1,5 +1,8 @@
 package com.tecknobit.binancemanager.Managers.Wallet.Records;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public record DustLog(int total,ArrayList<AssetDribblets> userAssetDribblets) {
@@ -75,6 +78,21 @@ public record DustLog(int total,ArrayList<AssetDribblets> userAssetDribblets) {
         @Override
         public String fromAsset() {
             return fromAsset;
+        }
+
+        public static ArrayList<AssetDribbletsDetails> getListDribbletsDetails(JSONArray userAssetDribbletDetails) {
+            ArrayList<AssetDribbletsDetails> assetDribbletsDetails = new ArrayList<>();
+            for (int j=0; j < userAssetDribbletDetails.length(); j++){
+                JSONObject jsonObject = userAssetDribbletDetails.getJSONObject(j);
+                assetDribbletsDetails.add(new AssetDribbletsDetails(jsonObject.getLong("transId"),
+                        jsonObject.getDouble("serviceChargeAmount"),
+                        jsonObject.getDouble("amount"),
+                        jsonObject.getLong("operateTime"),
+                        jsonObject.getDouble("transferedAmount"),
+                        jsonObject.getString("fromAsset")
+                ));
+            }
+            return assetDribbletsDetails;
         }
 
     }

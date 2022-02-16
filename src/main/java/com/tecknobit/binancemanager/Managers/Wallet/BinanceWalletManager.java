@@ -370,21 +370,13 @@ public class BinanceWalletManager extends BinanceManager {
         return new JSONObject(getDustLog());
     }
 
+    /** Request to get dust log information
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
+     * return dust log information as DustLog object
+     * **/
     public DustLog getObjectDustLog() throws Exception {
-        jsonObject = new JSONObject(getDustLog());
-        int total = jsonObject.getInt("total");
-        ArrayList<DustLog.AssetDribblets> assetDribblets = new ArrayList<>();
-        JSONArray jsonArrayDribblets = jsonObject.getJSONArray("assetDribblets");
-        for (int j=0; j < jsonArrayDribblets.length(); j++){
-            JSONObject jsonObjectDribblets = jsonArrayDribblets.getJSONObject(j);
-            assetDribblets.add(new DustLog.AssetDribblets(jsonObjectDribblets.getLong("operateTime"),
-                        jsonObjectDribblets.getDouble("jsonArrayDribblets"),
-                        jsonObjectDribblets.getDouble("totalServiceChargeAmount"),
-                        jsonObjectDribblets.getLong("transId"),
-                        null
-                    ));
-        }
-        return new DustLog(total, assetDribblets);
+        return getObjectDustLog(new JSONObject(getDustLog()));
     }
 
     /** Request to get dust log information
@@ -406,6 +398,43 @@ public class BinanceWalletManager extends BinanceManager {
      * **/
     public JSONObject getJSONDustLog(HashMap<String,Object> extraParams) throws Exception {
         return new JSONObject(getDustLog(extraParams));
+    }
+
+    /** Request to get dust log information
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are startTime,endTime)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
+     * return dust log information as DustLog object
+     * **/
+    public DustLog getObjectDustLog(HashMap<String,Object> extraParams) throws Exception {
+        return getObjectDustLog(new JSONObject(getDustLog(extraParams)));
+    }
+
+    /** Method to submit get dust log object
+     * @param #jsonObject: jsonObject assembled from request to Binance
+     * return  dust log object
+     * **/
+    private DustLog getObjectDustLog(JSONObject jsonObject){
+        int total = 0;
+        ArrayList<DustLog.AssetDribblets> assetDribblets = new ArrayList<>();
+        try {
+            total = jsonObject.getInt("total");
+            assetDribblets = new ArrayList<>();
+            JSONArray jsonArrayDribblets = jsonObject.getJSONArray("assetDribblets");
+            for (int j=0; j < jsonArrayDribblets.length(); j++){
+                JSONObject jsonObjectDribblets = jsonArrayDribblets.getJSONObject(j);
+                assetDribblets.add(new DustLog.AssetDribblets(jsonObjectDribblets.getLong("operateTime"),
+                        jsonObjectDribblets.getDouble("jsonArrayDribblets"),
+                        jsonObjectDribblets.getDouble("totalServiceChargeAmount"),
+                        jsonObjectDribblets.getLong("transId"),
+                        DustLog.AssetDribbletsDetails.getListDribbletsDetails(jsonObjectDribblets
+                                .getJSONArray("userAssetDribbletDetails"))
+                ));
+            }
+        }catch (JSONException ignored){}
+        finally {
+            return new DustLog(total,assetDribblets);
+        }
     }
 
     /** Request to get convertible assets into BNB
@@ -660,7 +689,6 @@ public class BinanceWalletManager extends BinanceManager {
         return "&signature="+ requestManager.getSignature(secretKey,params);
     }
 
-    //DustLog(USER_DATA)
     //Get Assets That Can Be Converted Into BNB
     //Dust Transfer (USER_DATA)
     //Asset Dividend Record
