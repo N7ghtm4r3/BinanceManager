@@ -22,4 +22,14 @@ public record DepositAddress(String address, String coin, String tag, String url
         return url;
     }
 
+    @Override
+    public String toString() {
+        return "DepositAddress{" +
+                "address='" + address + '\'' +
+                ", coin='" + coin + '\'' +
+                ", tag='" + tag + '\'' +
+                ", url='" + url + '\'' +
+                '}';
+    }
+
 }

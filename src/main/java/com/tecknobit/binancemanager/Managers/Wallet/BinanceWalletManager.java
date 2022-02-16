@@ -330,6 +330,27 @@ public class BinanceWalletManager extends BinanceManager {
         return new JSONObject(getAPITradingStatus());
     }
 
+    /** Request to get API trading status
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data
+     * return API trading status as APIStatus object
+     * **/
+    public APIStatus getObjectAPITradingStatus() throws Exception {
+        jsonObject = new JSONObject(getAPITradingStatus()).getJSONObject("data");
+        HashMap<String,Integer> triggerCondition = new HashMap<>();
+        JSONObject jsonObjectTrigger = jsonObject.getJSONObject("triggerCondition");
+        ArrayList<String> keys = new ArrayList<>(jsonObjectTrigger.keySet());
+        for (int j=0; j < jsonObjectTrigger.length(); j++){
+            String key = keys.get(j);
+            triggerCondition.put(key,jsonObjectTrigger.getInt(key));
+        }
+        return new APIStatus(jsonObject.getBoolean("isLocked"),
+                jsonObject.getInt("plannedRecoverTime"),
+                triggerCondition,
+                jsonObject.getLong("updateTime")
+        );
+    }
+
     /** Request to get dust log information
      * any params required
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
@@ -341,6 +362,32 @@ public class BinanceWalletManager extends BinanceManager {
     }
 
     /** Request to get dust log information
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
+     * return dust log information as JsonObject
+     * **/
+    public JSONObject getJSONDustLog() throws Exception {
+        return new JSONObject(getDustLog());
+    }
+
+    public DustLog getObjectDustLog() throws Exception {
+        jsonObject = new JSONObject(getDustLog());
+        int total = jsonObject.getInt("total");
+        ArrayList<DustLog.AssetDribblets> assetDribblets = new ArrayList<>();
+        JSONArray jsonArrayDribblets = jsonObject.getJSONArray("assetDribblets");
+        for (int j=0; j < jsonArrayDribblets.length(); j++){
+            JSONObject jsonObjectDribblets = jsonArrayDribblets.getJSONObject(j);
+            assetDribblets.add(new DustLog.AssetDribblets(jsonObjectDribblets.getLong("operateTime"),
+                        jsonObjectDribblets.getDouble("jsonArrayDribblets"),
+                        jsonObjectDribblets.getDouble("totalServiceChargeAmount"),
+                        jsonObjectDribblets.getLong("transId"),
+                        null
+                    ));
+        }
+        return new DustLog(total, assetDribblets);
+    }
+
+    /** Request to get dust log information
      * @param #extraParams: hashmap composed by extraParams
      * @implSpec (keys accepted are startTime,endTime)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
@@ -349,15 +396,6 @@ public class BinanceWalletManager extends BinanceManager {
     public String getDustLog(HashMap<String,Object> extraParams) throws Exception {
         String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
         return getRequestResponse(DUST_LOG_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
-    }
-
-    /** Request to get dust log information
-     * any params required
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
-     * return dust log information as JsonObject
-     * **/
-    public JSONObject getJSONDustLog() throws Exception {
-        return new JSONObject(getDustLog());
     }
 
     /** Request to get dust log information
@@ -622,7 +660,6 @@ public class BinanceWalletManager extends BinanceManager {
         return "&signature="+ requestManager.getSignature(secretKey,params);
     }
 
-    //Account API Trading Status (USER_DATA)
     //DustLog(USER_DATA)
     //Get Assets That Can Be Converted Into BNB
     //Dust Transfer (USER_DATA)
