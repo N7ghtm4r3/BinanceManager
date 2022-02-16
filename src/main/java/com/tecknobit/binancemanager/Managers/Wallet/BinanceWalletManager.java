@@ -389,6 +389,11 @@ public class BinanceWalletManager extends BinanceManager {
         return new JSONObject(getConvertibleBNBAssets());
     }
 
+    /** Request to get dust transfer
+     * @param #assets: list of assets to request dust transfer es. BTC,ETH,SOL
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-user_data
+     * return dust transfer as String
+     * **/
     public String getDustTransfer(ArrayList<String> assets) throws Exception {
         StringBuilder params = new StringBuilder(getParamTimestamp());
         for (String asset : assets)
@@ -396,62 +401,138 @@ public class BinanceWalletManager extends BinanceManager {
         return getRequestResponse(DUST_TRANSFER_ENDPOINT,params+getSignature(params.toString()),POST_METHOD,apiKey);
     }
 
+    /** Request to get dust transfer
+     * @param #assets: list of assets to request dust transfer es. BTC,ETH,SOL
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-user_data
+     * return dust transfer as JsonObject
+     * **/
     public JSONObject getJSONDustTransfer(ArrayList<String> assets) throws Exception {
         return new JSONObject(getDustTransfer(assets));
     }
 
+    /** Request to get dividend asset
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
+     * return dividend asset as String
+     * **/
     public String getDividendAsset() throws Exception {
         String params = getParamTimestamp();
         return getRequestResponse(ASSET_DIVIDEND_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
     }
 
+    /** Request to get dividend asset
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
+     * return dividend asset as JsonObject
+     * **/
     public JSONObject getJSONDividendAsset() throws Exception {
         return new JSONObject(getDividendAsset());
     }
 
+    /** Request to get dividend asset
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are asset,startTime,endTime,limit)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
+     * return  get dividend asset as String
+     * **/
     public String getDividendAsset(HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp();
         return getRequestResponse(ASSET_DIVIDEND_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
     }
 
+    /** Request to get dividend asset
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are asset,startTime,endTime,limit)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
+     * return  get dividend asset as JsonObject
+     * **/
     public JSONObject getJSONDividendAsset(HashMap<String,Object> extraParams) throws Exception {
         return new JSONObject(getDividendAsset(extraParams));
     }
 
+    /** Request to get universal transfer
+     * @param #type: type for the request es. MAIN_UMFUTURE
+     * @param #asset: asset for the request es. BTC
+     * @param #amount: amount for the request
+     * @implNote in case #type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
+     * @implNote in case #type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data
+     * return universal transfer as String
+     * **/
     public String getUniversalTransfer(String type,String asset,double amount) throws Exception {
         String params = getParamTimestamp()+"&type="+type+"&asset="+asset+"&amount="+amount;
         return getRequestResponse(UNIVERSAL_TRANSFER_ENDPOINT,params+getSignature(params),POST_METHOD,apiKey);
     }
 
+    /** Request to get universal transfer
+     * @param #type: type for the request es. MAIN_UMFUTURE
+     * @param #asset: asset for the request es. BTC
+     * @param #amount: amount for the request
+     * @implNote in case #type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
+     * @implNote in case #type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data
+     * return universal transfer as JsonObject
+     * **/
     public JSONObject getJSONUniversalTransfer(String type,String asset,double amount) throws Exception {
         return new JSONObject(getUniversalTransfer(type,asset,amount));
     }
 
-    public String getUniversalTransfer(HashMap<String,Object> extraParams) throws Exception {
+    /** Request to get universal transfer
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are fromSymbol,toSymbol)
+     * @implNote in case #type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
+     * @implNote in case #type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data
+     * return universal transfer as String
+     * **/
+    public String getUniversalTransfer(String type,String asset,double amount, HashMap<String,Object> extraParams) throws Exception {
         String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
-        return getRequestResponse(UNIVERSAL_TRANSFER_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
+        return getRequestResponse(UNIVERSAL_TRANSFER_ENDPOINT,params+getSignature(params),POST_METHOD,apiKey);
     }
 
-    public JSONObject getJSONUniversalTransfer(HashMap<String,Object> extraParams) throws Exception {
-        return new JSONObject(getUniversalTransfer(extraParams));
+    /** Request to get universal transfer
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are fromSymbol,toSymbol)
+     * @implNote in case #type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
+     * @implNote in case #type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data
+     * return universal transfer as JsonObject
+     * **/
+    public JSONObject getJSONUniversalTransfer(String type,String asset,double amount, HashMap<String,Object> extraParams) throws Exception {
+        return new JSONObject(getUniversalTransfer(type, asset, amount, extraParams));
     }
 
-    /** Method to submit get withdraw history request
-     * @param #type: params of request
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data
-     * return list of deposits as ArrayList<Withdraw>
+    /** Request to get universal transfer history
+     * @param #type: type to fetch history
+     * @implNote in case #type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
+     * @implNote in case #type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data
+     * return universal transfer history as ArrayList<UniversalTransfer>
      * **/
     public ArrayList<UniversalTransfer> getUniversalTransferHistory(String type){
         String params = getParamTimestamp()+"&type="+type;
         return getUniversalTransferHistorySender(params);
     }
 
+    /** Request to get universal transfer history
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are startTime,endTime,current,size,fromSymbol,toSymbol)
+     * @implNote in case #type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
+     * @implNote in case #type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data
+     * return universal transfer history as ArrayList<UniversalTransfer>
+     * **/
     public ArrayList<UniversalTransfer> getUniversalTransferHistory(String type, HashMap<String,Object> extraParams){
         String params = getParamTimestamp()+"&type="+type;
         params = requestManager.assembleExtraParams(params,extraParams);
         return getUniversalTransferHistorySender(params);
     }
 
+    /** Method to submit get universal transfer history
+     * @param #params: params of request
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data
+     * return universal transfer history as ArrayList<UniversalTransfer>
+     * **/
     private ArrayList<UniversalTransfer> getUniversalTransferHistorySender(String params){
         ArrayList<UniversalTransfer> universalTransfersHistory = new ArrayList<>();
         try {
@@ -473,14 +554,30 @@ public class BinanceWalletManager extends BinanceManager {
         }
     }
 
+    /** Request to get funding wallet
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data
+     * return funding wallet as ArrayList<FundingWallet>
+     * **/
     public ArrayList<FundingWallet> getFundingWallet() throws Exception {
         return getFundingWallet(getParamTimestamp());
     }
 
+    /** Request to get universal transfer history
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are asset,needBtcValuation)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data
+     * return funding wallet as ArrayList<FundingWallet>
+     * **/
     public ArrayList<FundingWallet> getFundingWallet(HashMap<String,Object> extraParams) throws Exception {
         return getFundingWallet(requestManager.assembleExtraParams(getParamTimestamp(),extraParams));
     }
 
+    /** Method to submit get funding wallet request
+     * @param #params: params of request
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data
+     * return funding wallet as ArrayList<FundingWallet>
+     * **/
     private ArrayList<FundingWallet> getFundingWallet(String params) throws Exception {
         ArrayList<FundingWallet> fundingWalletsList = new ArrayList<>();
         jsonArray = new JSONArray(getRequestResponse(FUNDING_WALLET_ENDPOINT,params+getSignature(params),
@@ -498,11 +595,21 @@ public class BinanceWalletManager extends BinanceManager {
         return fundingWalletsList;
     }
 
+    /** Request to get API key permission
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data
+     * return API key permission as String
+     * **/
     public String getAPIKeyPermission() throws Exception {
         String params = getParamTimestamp();
         return getRequestResponse(API_KEY_PERMISSION_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
     }
 
+    /** Request to get API key permission
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data
+     * return API key permission as JsonObject
+     * **/
     public JSONObject getJSONAPIKeyPermission() throws Exception {
         return new JSONObject(getAPIKeyPermission());
     }

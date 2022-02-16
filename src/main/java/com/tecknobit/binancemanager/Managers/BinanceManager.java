@@ -74,6 +74,13 @@ public class BinanceManager {
         return "?timestamp="+getTimestamp();
     }
 
+    /** Method to execute and get response of a request
+     * @param #endpoint: endpoint to request
+     * @param #params: params HTTP for the request
+     * @param #method: method HTTP for the request
+     * @param #apiKey: apiKey of the account to perform request
+     * return response of request formatted in Json
+     * **/
     protected String getRequestResponse(String endpoint, String params, String method, String apiKey) throws IOException {
         requestManager.startConnection(baseEndpoint+endpoint+params,method,apiKey);
         return requestManager.getResponse();
