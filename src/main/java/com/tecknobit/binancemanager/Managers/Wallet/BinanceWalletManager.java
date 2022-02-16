@@ -49,7 +49,8 @@ public class BinanceWalletManager extends BinanceManager {
 
     /** Request to get information of your coins available for deposit and withdraw
      * any params required
-     * return string response
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data
+     * return all coin information as String
      * **/
     public String getAllCoins() throws Exception {
         String params = getParamTimestamp();
@@ -58,7 +59,8 @@ public class BinanceWalletManager extends BinanceManager {
 
     /** Request to get information of your coins available for deposit and withdraw
      * any params required
-     * return jsonArray response
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data
+     * return all coin information as JsonArray
      * **/
     public JSONArray getJSONAllCoins() throws Exception {
         return new JSONArray(getAllCoins());
@@ -66,7 +68,8 @@ public class BinanceWalletManager extends BinanceManager {
 
     /** Request to get your daily account snapshot
      * @param #type: SPOT,MARGIN OR FUTURES
-     * return string response
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+     * return account snapshot as String
      * **/
     public String getAccountSnapshot(String type) throws Exception {
         String params = getParamTimestamp()+"&type="+type;
@@ -75,7 +78,8 @@ public class BinanceWalletManager extends BinanceManager {
 
     /** Request to get your daily account snapshot
      * @param #type: SPOT,MARGIN OR FUTURES
-     * return jsonObject response
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+     * return account snapshot as JsonObject
      * **/
     public JSONObject getJSONAccountSnapshot(String type) throws Exception {
         return new JSONObject(getAccountSnapshot(type));
@@ -85,7 +89,8 @@ public class BinanceWalletManager extends BinanceManager {
      * @param #enableFastWithdraw: true,false
      * true: endpoint will be ENABLE_FAST_WITHDRAW_ENDPOINT
      * false: endpoint will be DISABLE_FAST_WITHDRAW_ENDPOINT
-     * return successful or not of operation
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#disable-fast-withdraw-switch-user_data
+     * return successful or not of operation (true or false)
      * **/
     public boolean switchFastWithdraw(boolean enableFastWithdraw) throws Exception {
         String switchOperationEndpoint = DISABLE_FAST_WITHDRAW_ENDPOINT;
@@ -99,7 +104,8 @@ public class BinanceWalletManager extends BinanceManager {
      * @param #coinSymbol: symbol of coin used es. BTC
      * @param #address: address used
      * @param #amount: amount to withdraw
-     * return id of transaction if operation is successful as string
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data
+     * return id of transaction if operation is successful as String
      * **/
     public String submitWithdraw(String coinSymbol, String address, double amount) throws Exception {
         String params = getParamTimestamp()+"&coin="+coinSymbol+"&address="+address+"&amount="+amount;
@@ -110,7 +116,8 @@ public class BinanceWalletManager extends BinanceManager {
      * @param #coinSymbol: symbol of coin used es. BTC
      * @param #address: address used
      * @param #amount: amount to withdraw
-     * return id of transaction if operation is successful as jsonObject
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data
+     * return id of transaction if operation is successful as JsonObject
      * **/
     public JSONObject submitJSONWithdraw(String coinSymbol, String address, double amount) throws Exception {
         return new JSONObject(submitWithdraw(coinSymbol,address,amount));
@@ -122,7 +129,8 @@ public class BinanceWalletManager extends BinanceManager {
      * @param #amount: amount to withdraw
      * @param #extraParams: hashmap composed by extraParams
      * @implSpec (keys accepted are withdrawOrderId,network,addressTag,transactionFeeFlag,name,walletType)
-     * return id of transaction if operation is successful as string
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data
+     * return id of transaction if operation is successful as String
      * **/
     public String submitWithdraw(String coinSymbol, String address, double amount,
                                  HashMap<String,Object> extraParams) throws Exception {
@@ -137,7 +145,8 @@ public class BinanceWalletManager extends BinanceManager {
      * @param #amount: amount to withdraw
      * @param #extraParams: hashmap composed by extraParams
      * @implSpec (keys accepted are withdrawOrderId,network,addressTag,transactionFeeFlag,name,walletType)
-     * return id of transaction if operation is successful as jsonObject
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data
+     * return id of transaction if operation is successful as JsonObject
      * **/
     public JSONObject submitJSONWithdraw(String coinSymbol, String address, double amount,
                                          HashMap<String,Object> extraParams) throws Exception {
@@ -147,7 +156,7 @@ public class BinanceWalletManager extends BinanceManager {
     /** Method to submit withdraw request
      * @param #params: params of request
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data
-     * return id of transaction if operation is successful as string
+     * return id of transaction if operation is successful as String
      * **/
     private String submitWithdraw(String params) throws Exception {
         return getRequestResponse(SUBMIT_WITHDRAW_ENDPOINT,params+getSignature(params),POST_METHOD,apiKey);
@@ -155,6 +164,7 @@ public class BinanceWalletManager extends BinanceManager {
 
     /** Request to get deposit history
      * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data
      * return list of deposits as ArrayList<Deposit>
      * **/
     public ArrayList<Deposit> getDepositHistory() throws Exception {
@@ -164,6 +174,7 @@ public class BinanceWalletManager extends BinanceManager {
     /** Request to get deposit history
      * @param #extraParams: hashmap composed by extraParams
      * @implSpec (keys accepted are coin,status,startTime,endTime,offset,limit)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data
      * return list of deposits as ArrayList<Deposit>
      * **/
     public ArrayList<Deposit> getDepositHistory(HashMap<String,Object> extraParams) throws Exception {
@@ -200,6 +211,7 @@ public class BinanceWalletManager extends BinanceManager {
 
     /** Request to get withdraw history
      * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data
      * return list of withdraws as ArrayList<Withdraw>
      * **/
     public ArrayList<Withdraw> getWithdrawHistory() throws Exception {
@@ -209,6 +221,7 @@ public class BinanceWalletManager extends BinanceManager {
     /** Request to get withdraw history
      * @param #extraParams: hashmap composed by extraParams
      * @implSpec (keys accepted are coin,withdrawOrderId,status,offset,limit,startTime,endTime)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data
      * return list of deposits as ArrayList<Withdraw>
      * **/
     public ArrayList<Withdraw> getWithdrawHistory(HashMap<String,Object> extraParams) throws Exception {
@@ -245,14 +258,30 @@ public class BinanceWalletManager extends BinanceManager {
         return withdrawsHistory;
     }
 
+    /** Request to get deposit address
+     * @param #coin: symbol of coin used to fetch address es. BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data
+     * return deposit address information as DepositAddress object
+     * **/
     public DepositAddress getDepositAddress(String coin) throws Exception {
         return getDepositAddressSender(getParamTimestamp()+"&coin="+coin);
     }
 
+    /** Request to get deposit address
+     * @param #coin: symbol of coin used to fetch address es. BTC
+     * @param #network: network used to fetch address es. BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data
+     * return deposit address information as DepositAddress object
+     * **/
     public DepositAddress getDepositAddress(String coin,String network) throws Exception {
         return getDepositAddressSender(getParamTimestamp()+"&coin="+coin+"&network="+network);
     }
 
+    /** Method to submit get deposit address request
+     * @param #params: params of request
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data
+     * return deposit address information as DepositAddress object
+     * **/
     private DepositAddress getDepositAddressSender(String params) throws Exception {
         jsonObject = new JSONObject(getRequestResponse(DEPOSIT_ADDRESS_ENDPOINT,params+getSignature(params),
                 GET_METHOD,apiKey));
@@ -263,47 +292,99 @@ public class BinanceWalletManager extends BinanceManager {
         );
     }
 
+    /** Request to get account status
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#account-status-user_data
+     * return account status as String
+     * **/
     public String getAccountStatus() throws Exception {
         String params = getParamTimestamp();
         return getRequestResponse(ACCOUNT_STATUS_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
     }
 
+    /** Request to get account status
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#account-status-user_data
+     * return account status as JsonObject
+     * **/
     public JSONObject getJSONAccountStatus() throws Exception {
         return new JSONObject(getAccountStatus());
     }
 
+    /** Request to get API trading status
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data
+     * return API trading status as String
+     * **/
     public String getAPITradingStatus() throws Exception {
         String params = getParamTimestamp();
         return getRequestResponse(API_TRADING_STATUS_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
     }
 
+    /** Request to get API trading status
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data
+     * return API trading status as JsonObject
+     * **/
     public JSONObject getJSONAPITradingStatus() throws Exception {
         return new JSONObject(getAPITradingStatus());
     }
 
+    /** Request to get dust log information
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
+     * return dust log information as String
+     * **/
     public String getDustLog() throws Exception {
         String params = getParamTimestamp();
         return getRequestResponse(DUST_LOG_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
     }
 
+    /** Request to get dust log information
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are startTime,endTime)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
+     * return dust log information as String
+     * **/
     public String getDustLog(HashMap<String,Object> extraParams) throws Exception {
         String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
         return getRequestResponse(DUST_LOG_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
     }
 
+    /** Request to get dust log information
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
+     * return dust log information as JsonObject
+     * **/
     public JSONObject getJSONDustLog() throws Exception {
         return new JSONObject(getDustLog());
     }
 
+    /** Request to get dust log information
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are startTime,endTime)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
+     * return dust log information as JsonObject
+     * **/
     public JSONObject getJSONDustLog(HashMap<String,Object> extraParams) throws Exception {
         return new JSONObject(getDustLog(extraParams));
     }
 
+    /** Request to get convertible assets into BNB
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data
+     * return convertible assets into BNB as String
+     * **/
     public String getConvertibleBNBAssets() throws Exception {
         String params = getParamTimestamp();
         return getRequestResponse(ASSET_CONVERTIBLE_BNB_ENDPOINT,params+getSignature(params),POST_METHOD,apiKey);
     }
-
+    
+    /** Request to get convertible assets into BNB
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data
+     * return convertible assets into BNB as JsonObject
+     * **/
     public JSONObject getJSONConvertibleBNBAssets() throws Exception {
         return new JSONObject(getConvertibleBNBAssets());
     }
@@ -355,6 +436,11 @@ public class BinanceWalletManager extends BinanceManager {
         return new JSONObject(getUniversalTransfer(extraParams));
     }
 
+    /** Method to submit get withdraw history request
+     * @param #type: params of request
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data
+     * return list of deposits as ArrayList<Withdraw>
+     * **/
     public ArrayList<UniversalTransfer> getUniversalTransferHistory(String type){
         String params = getParamTimestamp()+"&type="+type;
         return getUniversalTransferHistorySender(params);
@@ -421,7 +507,6 @@ public class BinanceWalletManager extends BinanceManager {
         return new JSONObject(getAPIKeyPermission());
     }
 
-    
     /** Method to get signature of request
      * @param #params: params of request to get signature
      * return es."&signature=c8db66725ae71d6d79447319e617115f4a920f5agcdabcb2838bd6b712b053c4"
