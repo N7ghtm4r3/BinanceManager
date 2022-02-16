@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.Wallet.Records;
+package com.tecknobit.binancemanager.Managers.Wallet.Records.Asset;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.Wallet.Records;
+package com.tecknobit.binancemanager.Managers.Wallet.Records.Dust;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

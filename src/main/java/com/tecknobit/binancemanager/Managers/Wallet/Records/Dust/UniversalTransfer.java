@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.Wallet.Records;
+package com.tecknobit.binancemanager.Managers.Wallet.Records.Dust;
 
 public record UniversalTransfer (String asset, double amount, String type, String status, long tranId, long timestamp) {
 

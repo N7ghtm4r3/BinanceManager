@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.Wallet.Records;
+package com.tecknobit.binancemanager.Managers.Wallet.Records.Deposit;
 
 public record DepositAddress(String address, String coin, String tag, String url) {
 

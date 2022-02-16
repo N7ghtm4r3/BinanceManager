@@ -3,6 +3,14 @@ package com.tecknobit.binancemanager.Managers.Wallet;
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.BinanceManager;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.*;
+import com.tecknobit.binancemanager.Managers.Wallet.Records.API.APIStatus;
+import com.tecknobit.binancemanager.Managers.Wallet.Records.Asset.AssetDividend;
+import com.tecknobit.binancemanager.Managers.Wallet.Records.Asset.ConvertibleBNBAssets;
+import com.tecknobit.binancemanager.Managers.Wallet.Records.Deposit.Deposit;
+import com.tecknobit.binancemanager.Managers.Wallet.Records.Deposit.DepositAddress;
+import com.tecknobit.binancemanager.Managers.Wallet.Records.Dust.DustLog;
+import com.tecknobit.binancemanager.Managers.Wallet.Records.Dust.DustTransfer;
+import com.tecknobit.binancemanager.Managers.Wallet.Records.Dust.UniversalTransfer;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -781,6 +789,8 @@ public class BinanceWalletManager extends BinanceManager {
         return new JSONObject(getAPIKeyPermission());
     }
 
+    
+
     /** Method to get signature of request
      * @param #params: params of request to get signature
      * return es."&signature=c8db66725ae71d6d79447319e617115f4a920f5agcdabcb2838bd6b712b053c4"
@@ -789,7 +799,6 @@ public class BinanceWalletManager extends BinanceManager {
         return "&signature="+ requestManager.getSignature(secretKey,params);
     }
 
-    //Asset Dividend Record
     //Get API Key Permission
     //All Coins' Information (USER_DATA)
     //Daily Account Snapshot (USER_DATA)
