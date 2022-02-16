@@ -1,4 +1,12 @@
 package com.tecknobit.binancemanager.Managers.Wallet.Records;
 
-public class DustTransfer {
+import java.util.ArrayList;
+
+public record DustTransfer (double totalServiceCharge, double totalTransfered, ArrayList<TransferResult> transferResults) {
+
+
+    public record TransferResult () {
+        
+    }
+
 }
