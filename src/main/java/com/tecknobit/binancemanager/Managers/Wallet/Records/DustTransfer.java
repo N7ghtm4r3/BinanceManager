@@ -6,7 +6,7 @@ public record DustTransfer (double totalServiceCharge, double totalTransfered, A
 
 
     public record TransferResult () {
-        
+
     }
 
 }
