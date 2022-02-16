@@ -55,7 +55,7 @@ public class BinanceWalletManager extends BinanceManager {
         this.apiKey = apiKey;
         this.secretKey = secretKey;
     }
-    
+
     //All Coins' Information (USER_DATA)
     //Daily Account Snapshot (USER_DATA)
 
