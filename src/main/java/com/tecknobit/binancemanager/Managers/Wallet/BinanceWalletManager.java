@@ -379,7 +379,7 @@ public class BinanceWalletManager extends BinanceManager {
         String params = getParamTimestamp();
         return getRequestResponse(ASSET_CONVERTIBLE_BNB_ENDPOINT,params+getSignature(params),POST_METHOD,apiKey);
     }
-    
+
     /** Request to get convertible assets into BNB
      * any params required
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data
