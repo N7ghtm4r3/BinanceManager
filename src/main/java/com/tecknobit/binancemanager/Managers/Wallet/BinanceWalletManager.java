@@ -410,41 +410,41 @@ public class BinanceWalletManager extends BinanceManager {
         return new JSONObject(getDustTransfer(assets));
     }
 
-    /** Request to get dividend asset
+    /** Request to get asset dividend
      * any params required
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
-     * return dividend asset as String
+     * return asset dividend as String
      * **/
     public String getAssetDividend() throws Exception {
         String params = getParamTimestamp();
         return getRequestResponse(ASSET_DIVIDEND_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
     }
 
-    /** Request to get dividend asset
+    /** Request to get asset dividend
      * any params required
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
-     * return dividend asset as JsonObject
+     * return asset dividend as JsonObject
      * **/
     public JSONObject getJSONAssetDividend() throws Exception {
         return new JSONObject(getAssetDividend());
     }
 
-    /** Request to get dividend asset
+    /** Request to get asset dividend
      * @param #extraParams: hashmap composed by extraParams
      * @implSpec (keys accepted are asset,startTime,endTime,limit)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
-     * return  get dividend asset as String
+     * return  get asset dividend as String
      * **/
     public String getAssetDividend(HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp();
         return getRequestResponse(ASSET_DIVIDEND_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
     }
 
-    /** Request to get dividend asset
+    /** Request to get asset dividend
      * @param #extraParams: hashmap composed by extraParams
      * @implSpec (keys accepted are asset,startTime,endTime,limit)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
-     * return  get dividend asset as JsonObject
+     * return  get asset dividend as JsonObject
      * **/
     public JSONObject getJSONAssetDividend(HashMap<String,Object> extraParams) throws Exception {
         return new JSONObject(getAssetDividend(extraParams));
