@@ -3,6 +3,7 @@ package com.tecknobit.binancemanager.Managers.Wallet;
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.BinanceManager;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.*;
+import com.tecknobit.binancemanager.Managers.Wallet.Records.API.APIPermission;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.API.APIStatus;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.Asset.AssetDividend;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.Asset.ConvertibleBNBAssets;
@@ -789,7 +790,33 @@ public class BinanceWalletManager extends BinanceManager {
         return new JSONObject(getAPIKeyPermission());
     }
 
-    
+    /** Request to get API key permission
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data
+     * @implSpec if tradingAuthorityExpirationTime = -1 means that is not set for this api key
+     * return API key permission as APIPermission object
+     * **/
+    public APIPermission getObjectAPIKeyPermission() throws Exception {
+        jsonObject = new JSONObject(getAPIKeyPermission());
+        long tradingAuthorityExpirationTime;
+        try {
+            tradingAuthorityExpirationTime = jsonObject.getLong("tradingAuthorityExpirationTime");
+        }catch (JSONException e){
+            tradingAuthorityExpirationTime = -1;
+        }
+        return new APIPermission(jsonObject.getBoolean("ipRestrict"),
+                jsonObject.getLong("createTime"),
+                jsonObject.getBoolean("enableWithdrawals"),
+                jsonObject.getBoolean("enableInternalTransfer"),
+                jsonObject.getBoolean("permitsUniversalTransfer"),
+                jsonObject.getBoolean("enableVanillaOptions"),
+                jsonObject.getBoolean("enableReading"),
+                jsonObject.getBoolean("enableFutures"),
+                jsonObject.getBoolean("enableMargin"),
+                jsonObject.getBoolean("enableSpotAndMarginTrading"),
+                tradingAuthorityExpirationTime
+        );
+    }
 
     /** Method to get signature of request
      * @param #params: params of request to get signature
@@ -799,7 +826,6 @@ public class BinanceWalletManager extends BinanceManager {
         return "&signature="+ requestManager.getSignature(secretKey,params);
     }
 
-    //Get API Key Permission
     //All Coins' Information (USER_DATA)
     //Daily Account Snapshot (USER_DATA)
 }
