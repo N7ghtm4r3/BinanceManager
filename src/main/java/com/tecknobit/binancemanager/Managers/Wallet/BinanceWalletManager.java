@@ -456,6 +456,32 @@ public class BinanceWalletManager extends BinanceManager {
         return new JSONObject(getConvertibleBNBAssets());
     }
 
+    /** Request to get convertible assets into BNB
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data
+     * return convertible assets into BNB as ConvertibleBNBAssets object
+     * **/
+    public ConvertibleBNBAssets getObjectConvertibleBNBAssets() throws Exception {
+        jsonObject = new JSONObject(getConvertibleBNBAssets());
+        ArrayList<ConvertibleBNBAssets.AssetDetails> assetsDetails = new ArrayList<>();
+        double totalTransferBtc = jsonObject.getDouble("totalTransferBtc");
+        double totalTransferBNB = jsonObject.getDouble("totalTransferBNB");
+        double dribbletPercentage = jsonObject.getDouble("dribbletPercentage");
+        jsonArray = jsonObject.getJSONArray("details");
+        for (int j=0; j < jsonArray.length(); j++){
+            JSONObject assetDetails = jsonArray.getJSONObject(j);
+            assetsDetails.add(new ConvertibleBNBAssets.AssetDetails(assetDetails.getString("asset"),
+                    assetDetails.getString("assetFullName"),
+                    assetDetails.getDouble("amountFree"),
+                    assetDetails.getDouble("toBTC"),
+                    assetDetails.getDouble("toBNB"),
+                    assetDetails.getDouble("toBNBOffExchange"),
+                    assetDetails.getDouble("exchange")
+            ));
+        }
+        return new ConvertibleBNBAssets(assetsDetails,totalTransferBtc,totalTransferBNB,dribbletPercentage);
+    }
+
     /** Request to get dust transfer
      * @param #assets: list of assets to request dust transfer es. BTC,ETH,SOL
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-user_data
@@ -689,7 +715,6 @@ public class BinanceWalletManager extends BinanceManager {
         return "&signature="+ requestManager.getSignature(secretKey,params);
     }
 
-    //Get Assets That Can Be Converted Into BNB
     //Dust Transfer (USER_DATA)
     //Asset Dividend Record
     //Get API Key Permission
