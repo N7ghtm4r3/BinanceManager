@@ -55,6 +55,9 @@ public class BinanceWalletManager extends BinanceManager {
         this.apiKey = apiKey;
         this.secretKey = secretKey;
     }
+    
+    //All Coins' Information (USER_DATA)
+    //Daily Account Snapshot (USER_DATA)
 
     /** Request to get information of your coins available for deposit and withdraw
      * any params required
@@ -826,6 +829,4 @@ public class BinanceWalletManager extends BinanceManager {
         return "&signature="+ requestManager.getSignature(secretKey,params);
     }
 
-    //All Coins' Information (USER_DATA)
-    //Daily Account Snapshot (USER_DATA)
 }
