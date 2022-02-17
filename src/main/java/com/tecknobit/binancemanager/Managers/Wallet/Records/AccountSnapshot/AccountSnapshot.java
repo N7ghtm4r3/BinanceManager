@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.Managers.Wallet.Records.AccountSnapshot;
 
+import com.tecknobit.binancemanager.Managers.Wallet.BinanceWalletManager;
 import org.json.JSONArray;
 
 public class AccountSnapshot {
@@ -7,15 +8,21 @@ public class AccountSnapshot {
     private final int code;
     private final String msg;
     private final String type;
-    private final long updateTime;
     private final JSONArray jsonArray;
 
-    public AccountSnapshot(int code, String msg, String type, long updateTime, JSONArray jsonArray) {
+    public AccountSnapshot(int code, String msg, String type, JSONArray jsonArray) {
         this.code = code;
         this.msg = msg;
         this.type = type;
-        this.updateTime = updateTime;
         this.jsonArray = jsonArray;
+    }
+
+    public AccountSnapshot getAccountSnapshot(){
+        switch (type){
+            case BinanceWalletManager.SPOT:
+                return new AccountSnapshotSpot(code,msg,type,jsonArray).getAccountSnapshotSpot();
+            default: return null;
+        }
     }
 
     public int getCode() {
@@ -30,8 +37,4 @@ public class AccountSnapshot {
         return type;
     }
 
-    public long getUpdateTime() {
-        return updateTime;
-    }
-    
 }

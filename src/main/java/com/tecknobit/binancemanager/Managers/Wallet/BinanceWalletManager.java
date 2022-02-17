@@ -5,6 +5,7 @@ import com.tecknobit.binancemanager.Managers.BinanceManager;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.*;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.API.APIPermission;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.API.APIStatus;
+import com.tecknobit.binancemanager.Managers.Wallet.Records.AccountSnapshot.AccountSnapshot;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.Asset.AssetDividend;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.Asset.CoinInformation;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.Asset.ConvertibleBNBAssets;
@@ -151,7 +152,36 @@ public class BinanceWalletManager extends BinanceManager {
         return new JSONObject(getAccountSnapshot(type,extraParams));
     }
 
+    /** Request to get your daily account snapshot
+     * @param #type: SPOT,MARGIN OR FUTURES
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+     * return account snapshot as AccountSnapshot object.
+     * @implNote you need to cast return object in: AccountSnapshotSpot or AccountSnapshotMargin or AccountSnapshotFutures
+     * **/
+    public AccountSnapshot getObjectAccountSnapshot(String type) throws Exception {
+        jsonObject = new JSONObject(getAccountSnapshot(type));
+        return new AccountSnapshot(
+                jsonObject.getInt("code"),
+                jsonObject.getString("msg"),
+                type,jsonObject.getJSONArray("snapshotVos")
+        ).getAccountSnapshot();
+    }
 
+    /** Request to get your daily account snapshot
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are startTime,endTime,limit)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+     * return account snapshot as AccountSnapshot object.
+     * @implNote you need to cast return object in: AccountSnapshotSpot or AccountSnapshotMargin or AccountSnapshotFutures
+     * **/
+    public AccountSnapshot getObjectAccountSnapshot(String type,HashMap<String,Object> extraParams) throws Exception {
+        jsonObject = new JSONObject(getAccountSnapshot(type,extraParams));
+        return new AccountSnapshot(
+                jsonObject.getInt("code"),
+                jsonObject.getString("msg"),
+                type,jsonObject.getJSONArray("snapshotVos")
+        ).getAccountSnapshot();
+    }
 
     /** Request to get enable or disable fast withdraw
      * @param #enableFastWithdraw: true,false
