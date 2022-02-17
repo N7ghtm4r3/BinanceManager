@@ -59,8 +59,6 @@ public class BinanceWalletManager extends BinanceManager {
         this.secretKey = secretKey;
     }
 
-    //Daily Account Snapshot (USER_DATA)
-
     /** Request to get information of your coins available for deposit and withdraw
      * any params required
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data
@@ -155,18 +153,8 @@ public class BinanceWalletManager extends BinanceManager {
      * return account snapshot as AccountSnapshot object.
      * @implNote you need to cast return object in: AccountSnapshotSpot or AccountSnapshotMargin or AccountSnapshotFutures
      * **/
-    public AccountSnapshot getObjectAccountSnapshot(String type) throws Exception {
-        jsonObject = new JSONObject(getAccountSnapshot(type));
-        try {
-            jsonArray = jsonObject.getJSONArray("snapshotVos");
-        }catch (JSONException jsonException){
-            jsonArray = null;
-        }
-        return new AccountSnapshot(
-                jsonObject.getInt("code"),
-                jsonObject.getString("msg"),
-                type,jsonArray
-        ).getAccountSnapshot();
+    public AccountSnapshot getObjectAccountSnapshot(String type){
+        return getObjectAccountSnapshot(type,new JSONObject(type));
     }
 
     /** Request to get your daily account snapshot
@@ -178,11 +166,27 @@ public class BinanceWalletManager extends BinanceManager {
      * in base of the type used
      * **/
     public AccountSnapshot getObjectAccountSnapshot(String type,HashMap<String,Object> extraParams) throws Exception {
-        jsonObject = new JSONObject(getAccountSnapshot(type,extraParams));
+        return getObjectAccountSnapshot(type,new JSONObject(getAccountSnapshot(type,extraParams)));
+    }
+
+    /** Method to get your daily account snapshot
+     * @param #type: SPOT,MARGIN OR FUTURES
+     * @param #jsonObject: obtain by request to binance
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+     * return account snapshot as AccountSnapshot object.
+     * @implNote you need to cast return object in: AccountSnapshotSpot or AccountSnapshotMargin or AccountSnapshotFutures
+     * in base of the type used
+     * **/
+    private AccountSnapshot getObjectAccountSnapshot(String type,JSONObject jsonObject){
+        try {
+            jsonArray = jsonObject.getJSONArray("snapshotVos");
+        }catch (JSONException jsonException){
+            jsonArray = null;
+        }
         return new AccountSnapshot(
                 jsonObject.getInt("code"),
                 jsonObject.getString("msg"),
-                type,jsonObject.getJSONArray("snapshotVos")
+                type,jsonArray
         ).getAccountSnapshot();
     }
 
