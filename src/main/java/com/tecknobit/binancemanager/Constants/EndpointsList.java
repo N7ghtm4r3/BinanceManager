@@ -1,10 +1,16 @@
 package com.tecknobit.binancemanager.Constants;
 
+/**
+ *  The {@code EndpointsList} class is a container class for all Binance's endpoints of the service API
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#introduction
+ * **/
+
 public class EndpointsList {
 
     /**Generals endpoint urls**/
     public static final String SYSTEM_STATUS_ENDPOINT = "/sapi/v1/system/status";
     public static final String TIMESTAMP_ENDPOINT = "/api/v3/time";
+
     /**Wallet managers endpoint urls**/
     public static final String ALL_COINS_ENDPOINT = "/sapi/v1/capital/config/getall";
     public static final String DAILY_ACCOUNT_SNAP_ENDPOINT = "/sapi/v1/accountSnapshot";

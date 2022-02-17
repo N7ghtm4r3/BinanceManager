@@ -5,6 +5,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ *  The {@code DustLog} class is useful to manage DustLog Binance request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
+ * **/
+
 public class DustLog {
 
     private final int total;
@@ -62,6 +67,11 @@ public class DustLog {
 
     }
 
+    /**
+     *  The {@code AssetDribbletsDetails} class is useful to obtain and format AssetDribbletsDetails object
+     *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
+     * **/
+
     public static class AssetDribbletsDetails {
 
         private final long transId;
@@ -105,6 +115,11 @@ public class DustLog {
             return fromAsset;
         }
 
+        /** Method to assemble an AssetDribbletsDetails list
+         * @param #userAssetDribbletDetails: jsonArray obtain by DustLog Binance request
+         * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
+         * return assetDribbletsDetails list as ArrayList<AssetDribbletsDetails>
+         * **/
         public static ArrayList<AssetDribbletsDetails> getListDribbletsDetails(JSONArray userAssetDribbletDetails) {
             ArrayList<AssetDribbletsDetails> assetDribbletsDetails = new ArrayList<>();
             for (int j = 0; j < userAssetDribbletDetails.length(); j++) {

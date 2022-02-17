@@ -327,7 +327,7 @@ public class BinanceWalletManager extends BinanceManager {
      * @param #extraParams: hashmap composed by extraParams
      * @implSpec (keys accepted are coin,withdrawOrderId,status,offset,limit,startTime,endTime)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data
-     * return list of deposits as ArrayList<Withdraw>
+     * return list of withdraws as ArrayList<Withdraw>
      * **/
     public ArrayList<Withdraw> getWithdrawHistory(HashMap<String,Object> extraParams) throws Exception {
         String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
@@ -337,7 +337,7 @@ public class BinanceWalletManager extends BinanceManager {
     /** Method to submit get withdraw history request
      * @param #params: params of request
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data
-     * return list of deposits as ArrayList<Withdraw>
+     * return list of withdraws as ArrayList<Withdraw>
      * **/
     private ArrayList<Withdraw> getWithdrawHistory(String params) throws Exception {
         ArrayList<Withdraw> withdrawsHistory = new ArrayList<>();

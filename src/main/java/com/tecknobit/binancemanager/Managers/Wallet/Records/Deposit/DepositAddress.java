@@ -1,5 +1,10 @@
 package com.tecknobit.binancemanager.Managers.Wallet.Records.Deposit;
 
+/**
+ *  The {@code DepositAddress} class is useful to manage DepositAddress Binance request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data
+ * **/
+
 public class DepositAddress {
 
     private final String address;

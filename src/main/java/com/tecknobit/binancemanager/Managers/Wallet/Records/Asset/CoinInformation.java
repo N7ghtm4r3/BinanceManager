@@ -6,6 +6,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ *  The {@code CoinInformation} class is useful to manage AllCoins Binance request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data
+ * **/
+
 public class CoinInformation {
 
     private final String coin;
@@ -102,6 +107,11 @@ public class CoinInformation {
         return withdrawing;
     }
 
+    /**
+     *  The {@code NetworkItem} class is useful to obtain and format NetworkItem object
+     *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data
+     * **/
+
     public static class NetworkItem {
 
         private final String addressRegex;
@@ -125,7 +135,7 @@ public class CoinInformation {
         private final boolean sameAddress;
 
 
-        private NetworkItem(String addressRegex, String coin, String depositDesc, boolean depositEnable,
+        public NetworkItem(String addressRegex, String coin, String depositDesc, boolean depositEnable,
                             boolean isDefault, String memoRegex, int minConfirm, String name, String network,
                             boolean resetAddressStatus, String specialTips, int unLockConfirm, String withdrawDesc,
                             boolean withdrawEnable, double withdrawFee, double withdrawIntegerMultiple, double withdrawMax,
@@ -151,6 +161,11 @@ public class CoinInformation {
             this.sameAddress = sameAddress;
         }
 
+        /** Method to assemble an AssetDribbletsDetails list
+         * @param #networkList: jsonArray obtain by AllCoins Binance request
+         * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data
+         * return networkItems list as  ArrayList<NetworkItem>
+         * **/
         public static ArrayList<NetworkItem> getNetworkList(JSONArray networkList) {
             ArrayList<NetworkItem> networkItems = new ArrayList<>();
             for (int j=0; j < networkList.length(); j++){

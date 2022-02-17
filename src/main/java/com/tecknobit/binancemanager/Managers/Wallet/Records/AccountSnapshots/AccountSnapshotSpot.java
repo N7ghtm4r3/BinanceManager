@@ -5,6 +5,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ *  The {@code AccountSnapshotSpot} class is useful to obtain and format AccountSnapshotSpot object
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+ * **/
+
 public class AccountSnapshotSpot extends AccountSnapshot{
 
     private final int code;
@@ -29,6 +34,10 @@ public class AccountSnapshotSpot extends AccountSnapshot{
         this.jsonArray = jsonArray;
     }
 
+    /** Method to get getAccountSnapshotSpot object
+     * any params required
+     * return AccountSnapshotSpot object then to cast
+     * **/
     public AccountSnapshotSpot getAccountSnapshotSpot() {
         assetsSpotData = new ArrayList<>();
         if(jsonArray != null){

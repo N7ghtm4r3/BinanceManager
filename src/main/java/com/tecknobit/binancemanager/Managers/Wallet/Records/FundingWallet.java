@@ -1,6 +1,12 @@
 package com.tecknobit.binancemanager.Managers.Wallet.Records;
 
+/**
+ *  The {@code FundingWallet} class is useful to manage FundingWallet Binance request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data
+ * **/
+
 public class FundingWallet {
+
     private final String asset;
     private final double free;
     private final double locked;

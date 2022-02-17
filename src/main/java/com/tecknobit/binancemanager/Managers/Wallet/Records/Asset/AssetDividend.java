@@ -2,6 +2,11 @@ package com.tecknobit.binancemanager.Managers.Wallet.Records.Asset;
 
 import java.util.ArrayList;
 
+/**
+ *  The {@code Deposit} class is useful to manage Deposit Binance request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data
+ * **/
+
 public class AssetDividend {
 
     private final int total;
@@ -19,6 +24,11 @@ public class AssetDividend {
     public ArrayList<AssetDividendDetails> assetDividendDetails() {
         return assetDividendDetails;
     }
+
+    /**
+     *  The {@code AssetDividendDetails} class is useful to obtain and format AssetDividendDetails object
+     *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data
+     * **/
 
     public static final class AssetDividendDetails {
 

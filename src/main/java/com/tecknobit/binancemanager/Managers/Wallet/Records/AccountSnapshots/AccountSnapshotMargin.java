@@ -5,6 +5,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ *  The {@code AccountSnapshotMargin} class is useful to obtain and format AccountSnapshotMargin object
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+ * **/
+
 public class AccountSnapshotMargin extends AccountSnapshot{
 
     private final int code;
@@ -29,6 +34,10 @@ public class AccountSnapshotMargin extends AccountSnapshot{
         this.dataMargins = dataMargins;
     }
 
+    /** Method to get getAccountSnapshotMargin object
+     * any params required
+     * return AccountSnapshotMargin object then to cast
+     * **/
     public AccountSnapshotMargin getAccountSnapshotMargin() {
         dataMargins = new ArrayList<>();
         if(jsonArray != null) {
@@ -52,6 +61,11 @@ public class AccountSnapshotMargin extends AccountSnapshot{
         return new AccountSnapshotMargin(code,msg,type,jsonArray,dataMargins);
     }
 
+    /** Method to assemble an UserAssetMargin list
+     * @param #jsonArray: jsonArray obtain by AccountSnapshot Binance request
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+     * return userAssetMargin list as ArrayList<UserAssetMargin>
+     * **/
     private ArrayList<UserAssetMargin> getUserAssetsList(JSONArray jsonArray) {
         ArrayList<UserAssetMargin> userAssetMargins = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
@@ -70,6 +84,11 @@ public class AccountSnapshotMargin extends AccountSnapshot{
     public ArrayList<DataMargin> getDataMargins() {
         return dataMargins;
     }
+
+    /**
+     *  The {@code DataMargin} class is useful to obtain and format DataMargin object
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+     * **/
 
     public static class DataMargin {
 
@@ -115,6 +134,11 @@ public class AccountSnapshotMargin extends AccountSnapshot{
         }
 
     }
+
+    /**
+     *  The {@code UserAssetMargin} class is useful to obtain and format UserAssetMargin object
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+     * **/
 
     public static class UserAssetMargin{
 

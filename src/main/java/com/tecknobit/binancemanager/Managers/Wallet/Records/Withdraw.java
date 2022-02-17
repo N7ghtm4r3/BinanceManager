@@ -1,5 +1,10 @@
 package com.tecknobit.binancemanager.Managers.Wallet.Records;
 
+/**
+ *  The {@code Withdraw} class is useful to manage Withdraw Binance request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data
+ * **/
+
 public class Withdraw {
 
     private final String address;

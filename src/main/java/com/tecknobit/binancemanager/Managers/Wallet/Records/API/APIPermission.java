@@ -1,5 +1,10 @@
 package com.tecknobit.binancemanager.Managers.Wallet.Records.API;
 
+/**
+ *  The {@code APIPermission} class is useful to manage APIPermission Binance request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data
+ * **/
+
 public class APIPermission {
 
     private final boolean ipRestrict;

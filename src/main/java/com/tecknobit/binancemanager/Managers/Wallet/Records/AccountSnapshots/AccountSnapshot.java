@@ -2,6 +2,11 @@ package com.tecknobit.binancemanager.Managers.Wallet.Records.AccountSnapshots;
 
 import org.json.JSONArray;
 
+/**
+ *  The {@code AccountSnapshot} class is useful to manage AccountSnapshot Binance request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+ * **/
+
 public class AccountSnapshot {
 
     public static final String SPOT = "SPOT";
@@ -19,6 +24,10 @@ public class AccountSnapshot {
         this.jsonArray = jsonArray;
     }
 
+    /** Method to get specifical AccountSnapshot object
+     * any params required
+     * return AccountSnapshot object then to cast
+     * **/
     public AccountSnapshot getAccountSnapshot(){
         switch (type){
             case SPOT:

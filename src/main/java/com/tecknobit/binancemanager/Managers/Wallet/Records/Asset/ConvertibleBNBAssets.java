@@ -2,6 +2,11 @@ package com.tecknobit.binancemanager.Managers.Wallet.Records.Asset;
 
 import java.util.ArrayList;
 
+/**
+ *  The {@code ConvertibleBNBAssets} class is useful to manage ConvertibleBNBAssets Binance request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data
+ * **/
+
 public class ConvertibleBNBAssets {
 
     private final ArrayList<AssetDetails> assetsDetails;
@@ -32,6 +37,11 @@ public class ConvertibleBNBAssets {
     public double dribbletPercentage() {
         return dribbletPercentage;
     }
+
+    /**
+     *  The {@code AssetDetails} class is useful to obtain and format AssetDetails object
+     *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data
+     * **/
 
     public static final class AssetDetails {
 

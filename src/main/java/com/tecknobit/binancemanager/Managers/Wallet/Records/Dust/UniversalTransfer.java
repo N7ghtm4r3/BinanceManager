@@ -1,6 +1,15 @@
 package com.tecknobit.binancemanager.Managers.Wallet.Records.Dust;
 
+/**
+ *  The {@code UniversalTransfer} class is useful to manage all UniversalTransfer Binance requests
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data
+ * **/
+
 public class UniversalTransfer {
+
+    /**
+     * All types paramaters for all Transfers Binance requests
+     * **/
 
     public static final String MAIN_UMFUTURE = "MAIN_UMFUTURE";
     public static final String MAIN_CMFUTURE = "MAIN_CMFUTURE";

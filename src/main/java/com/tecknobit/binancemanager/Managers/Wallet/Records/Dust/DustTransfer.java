@@ -2,6 +2,11 @@ package com.tecknobit.binancemanager.Managers.Wallet.Records.Dust;
 
 import java.util.ArrayList;
 
+/**
+ *  The {@code DustTransfer} class is useful to manage DustTransfer Binance request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data
+ * **/
+
 public class DustTransfer {
 
     private final double totalServiceCharge;
@@ -25,6 +30,11 @@ public class DustTransfer {
     public ArrayList<TransferResult> transferResults() {
         return transferResults;
     }
+
+    /**
+     *  The {@code TransferResult} class is useful to obtain and format TransferResult object
+     *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data
+     * **/
 
     public static class TransferResult {
 
