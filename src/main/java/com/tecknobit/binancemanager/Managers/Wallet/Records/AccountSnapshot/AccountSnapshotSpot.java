@@ -11,14 +11,13 @@ public class AccountSnapshotSpot extends AccountSnapshot{
     private final String msg;
     private final String type;
     private ArrayList<DataSpot> assetsSpotData;
-    private final JSONArray jsonArray;
+    private JSONArray jsonArray;
 
     public AccountSnapshotSpot(int code, String msg, String type, JSONArray jsonArray) {
         super(code, msg, type, jsonArray);
         this.code = code;
         this.msg = msg;
         this.type = type;
-        this.jsonArray = jsonArray;
     }
 
     public AccountSnapshotSpot(int code, String msg, String type, JSONArray jsonArray, ArrayList<DataSpot> assetsData) {
@@ -30,18 +29,16 @@ public class AccountSnapshotSpot extends AccountSnapshot{
         this.jsonArray = jsonArray;
     }
 
-    public ArrayList<DataSpot> getAssetsSpotData() {
-        return assetsSpotData;
-    }
-
     public AccountSnapshotSpot getAccountSnapshotSpot() {
         assetsSpotData = new ArrayList<>();
-        for (int j=0; j < jsonArray.length(); j++){
-            JSONObject dataSpotRaw = jsonArray.getJSONObject(j);
-            double updateTime = dataSpotRaw.getLong("updateTime");
-            dataSpotRaw = dataSpotRaw.getJSONObject("data");
-            double totalAssetOfBtc = dataSpotRaw.getDouble("totalAssetOfBtc");
-            assetsSpotData.add(new DataSpot(totalAssetOfBtc, updateTime, getBalancesSpot(dataSpotRaw.getJSONArray("balances"))));
+        if(jsonArray != null){
+            for (int j=0; j < jsonArray.length(); j++){
+                JSONObject dataSpotRow = jsonArray.getJSONObject(j);
+                double updateTime = dataSpotRow.getLong("updateTime");
+                dataSpotRow = dataSpotRow.getJSONObject("data");
+                double totalAssetOfBtc = dataSpotRow.getDouble("totalAssetOfBtc");
+                assetsSpotData.add(new DataSpot(totalAssetOfBtc, updateTime, getBalancesSpot(dataSpotRow.getJSONArray("balances"))));
+            }
         }
         return new AccountSnapshotSpot(code,msg,type,jsonArray,assetsSpotData);
     }
@@ -56,6 +53,10 @@ public class AccountSnapshotSpot extends AccountSnapshot{
             ));
         }
         return balancesSpots;
+    }
+
+    public ArrayList<DataSpot> getAssetsSpotData() {
+        return assetsSpotData;
     }
 
     public static class DataSpot {

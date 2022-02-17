@@ -157,10 +157,15 @@ public class BinanceWalletManager extends BinanceManager {
      * **/
     public AccountSnapshot getObjectAccountSnapshot(String type) throws Exception {
         jsonObject = new JSONObject(getAccountSnapshot(type));
+        try {
+            jsonArray = jsonObject.getJSONArray("snapshotVos");
+        }catch (JSONException jsonException){
+            jsonArray = null;
+        }
         return new AccountSnapshot(
                 jsonObject.getInt("code"),
                 jsonObject.getString("msg"),
-                type,jsonObject.getJSONArray("snapshotVos")
+                type,jsonArray
         ).getAccountSnapshot();
     }
 

@@ -23,7 +23,8 @@ public class AccountSnapshot {
         switch (type){
             case SPOT:
                 return new AccountSnapshotSpot(code,msg,type,jsonArray).getAccountSnapshotSpot();
-            case MARGIN: return null;
+            case MARGIN:
+                return new AccountSnapshotMargin(code,msg,type,jsonArray).getAccountSnapshotMargin();
             default: return null;
         }
     }
@@ -38,6 +39,10 @@ public class AccountSnapshot {
 
     public String getType() {
         return type;
+    }
+
+    public JSONArray getJsonArray() {
+        return jsonArray;
     }
 
 }
