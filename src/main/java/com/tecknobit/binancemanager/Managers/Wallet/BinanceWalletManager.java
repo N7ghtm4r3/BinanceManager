@@ -57,7 +57,6 @@ public class BinanceWalletManager extends BinanceManager {
         this.secretKey = secretKey;
     }
 
-    //All Coins' Information (USER_DATA)
     //Daily Account Snapshot (USER_DATA)
 
     /** Request to get information of your coins available for deposit and withdraw
