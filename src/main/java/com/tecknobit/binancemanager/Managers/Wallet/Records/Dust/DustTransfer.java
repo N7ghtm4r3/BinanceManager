@@ -2,52 +2,69 @@ package com.tecknobit.binancemanager.Managers.Wallet.Records.Dust;
 
 import java.util.ArrayList;
 
-public record DustTransfer (double totalServiceCharge, double totalTransfered, ArrayList<TransferResult> transferResults) {
+public class DustTransfer {
 
-    @Override
+    private final double totalServiceCharge;
+    private final double totalTransfered;
+    private final ArrayList<TransferResult> transferResults;
+
+    public DustTransfer(double totalServiceCharge, double totalTransfered, ArrayList<TransferResult> transferResults) {
+        this.totalServiceCharge = totalServiceCharge;
+        this.totalTransfered = totalTransfered;
+        this.transferResults = transferResults;
+    }
+
     public double totalServiceCharge() {
         return totalServiceCharge;
     }
 
-    @Override
     public double totalTransfered() {
         return totalTransfered;
     }
 
-    @Override
     public ArrayList<TransferResult> transferResults() {
         return transferResults;
     }
 
-    public record TransferResult (double amount, String fromAsset, long operateTime, double serviceChargeAmount,
-                                  long tranId, double transferedAmount) {
+    public static class TransferResult {
 
-        @Override
+        private final double amount;
+        private final String fromAsset;
+        private final long operateTime;
+        private final double serviceChargeAmount;
+        private final long tranId;
+        private final double transferedAmount;
+
+        public TransferResult(double amount, String fromAsset, long operateTime, double serviceChargeAmount,
+                              long tranId, double transferedAmount) {
+            this.amount = amount;
+            this.fromAsset = fromAsset;
+            this.operateTime = operateTime;
+            this.serviceChargeAmount = serviceChargeAmount;
+            this.tranId = tranId;
+            this.transferedAmount = transferedAmount;
+        }
+
         public double amount() {
             return amount;
         }
 
-        @Override
         public String fromAsset() {
             return fromAsset;
         }
 
-        @Override
         public long operateTime() {
             return operateTime;
         }
 
-        @Override
         public double serviceChargeAmount() {
             return serviceChargeAmount;
         }
 
-        @Override
         public long tranId() {
             return tranId;
         }
 
-        @Override
         public double transferedAmount() {
             return transferedAmount;
         }

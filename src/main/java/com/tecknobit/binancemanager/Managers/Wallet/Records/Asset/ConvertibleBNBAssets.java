@@ -2,63 +2,82 @@ package com.tecknobit.binancemanager.Managers.Wallet.Records.Asset;
 
 import java.util.ArrayList;
 
-public record ConvertibleBNBAssets (ArrayList<AssetDetails> assetsDetails, double totalTransferBtc, double totalTransferBNB,
-                                    double dribbletPercentage) {
+public class ConvertibleBNBAssets {
 
-    @Override
+    private final ArrayList<AssetDetails> assetsDetails;
+    private final double totalTransferBtc;
+    private final double totalTransferBNB;
+    private final double dribbletPercentage;
+
+    public ConvertibleBNBAssets(ArrayList<AssetDetails> assetsDetails, double totalTransferBtc, double totalTransferBNB,
+                                double dribbletPercentage) {
+        this.assetsDetails = assetsDetails;
+        this.totalTransferBtc = totalTransferBtc;
+        this.totalTransferBNB = totalTransferBNB;
+        this.dribbletPercentage = dribbletPercentage;
+    }
+
     public ArrayList<AssetDetails> assetsDetails() {
         return assetsDetails;
     }
 
-    @Override
     public double totalTransferBtc() {
         return totalTransferBtc;
     }
 
-    @Override
     public double totalTransferBNB() {
         return totalTransferBNB;
     }
 
-    @Override
     public double dribbletPercentage() {
         return dribbletPercentage;
     }
 
-    public record AssetDetails (String asset, String assetFullName, double amountFree, double toBTC,
-                                double toBNB, double toBNBOffExchange, double exchange) {
+    public static final class AssetDetails {
 
-        @Override
+        private final String asset;
+        private final String assetFullName;
+        private final double amountFree;
+        private final double toBTC;
+        private final double toBNB;
+        private final double toBNBOffExchange;
+        private final double exchange;
+
+        public AssetDetails(String asset, String assetFullName, double amountFree, double toBTC,
+                            double toBNB, double toBNBOffExchange, double exchange) {
+            this.asset = asset;
+            this.assetFullName = assetFullName;
+            this.amountFree = amountFree;
+            this.toBTC = toBTC;
+            this.toBNB = toBNB;
+            this.toBNBOffExchange = toBNBOffExchange;
+            this.exchange = exchange;
+        }
+
         public String asset() {
             return asset;
         }
 
-        @Override
         public String assetFullName() {
             return assetFullName;
         }
 
-        @Override
         public double amountFree() {
             return amountFree;
         }
 
-        @Override
         public double toBTC() {
             return toBTC;
         }
 
-        @Override
         public double toBNB() {
             return toBNB;
         }
 
-        @Override
         public double toBNBOffExchange() {
             return toBNBOffExchange;
         }
 
-        @Override
         public double exchange() {
             return exchange;
         }

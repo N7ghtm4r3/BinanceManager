@@ -5,84 +5,109 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public record DustLog(int total,ArrayList<AssetDribblets> userAssetDribblets) {
+public class DustLog {
 
-    @Override
+    private final int total;
+    private final ArrayList<AssetDribblets> userAssetDribblets;
+
+    public DustLog(int total, ArrayList<AssetDribblets> userAssetDribblets) {
+        this.total = total;
+        this.userAssetDribblets = userAssetDribblets;
+    }
+
     public int total() {
         return total;
     }
 
-    @Override
     public ArrayList<AssetDribblets> userAssetDribblets() {
         return userAssetDribblets;
     }
 
-    public record AssetDribblets(long operateTime, double totalTransferedAmount, double totalServiceChargeAmount,
-                                 long transId,ArrayList<AssetDribbletsDetails> assetDribbletsDetails) {
+    public static class AssetDribblets {
 
-        @Override
+        private final long operateTime;
+        private final double totalTransferedAmount;
+        private final double totalServiceChargeAmount;
+        private final long transId;
+        private final ArrayList<AssetDribbletsDetails> assetDribbletsDetails;
+
+        public AssetDribblets(long operateTime, double totalTransferedAmount, double totalServiceChargeAmount,
+                              long transId, ArrayList<AssetDribbletsDetails> assetDribbletsDetails) {
+            this.operateTime = operateTime;
+            this.totalTransferedAmount = totalTransferedAmount;
+            this.totalServiceChargeAmount = totalServiceChargeAmount;
+            this.transId = transId;
+            this.assetDribbletsDetails = assetDribbletsDetails;
+        }
+
         public long operateTime() {
             return operateTime;
         }
 
-        @Override
         public double totalTransferedAmount() {
             return totalTransferedAmount;
         }
 
-        @Override
         public double totalServiceChargeAmount() {
             return totalServiceChargeAmount;
         }
 
-        @Override
         public long transId() {
             return transId;
         }
 
-        @Override
         public ArrayList<AssetDribbletsDetails> assetDribbletsDetails() {
             return assetDribbletsDetails;
         }
 
     }
 
-    public record AssetDribbletsDetails (long transId, double serviceChargeAmount, double amount, long operateTime,
-                                         double transferedAmount, String fromAsset) {
+    public static class AssetDribbletsDetails {
 
-        @Override
+        private final long transId;
+        private final double serviceChargeAmount;
+        private final double amount;
+        private final long operateTime;
+        private final double transferedAmount;
+        private final String fromAsset;
+
+        public AssetDribbletsDetails(long transId, double serviceChargeAmount, double amount, long operateTime,
+                                     double transferedAmount, String fromAsset) {
+            this.transId = transId;
+            this.serviceChargeAmount = serviceChargeAmount;
+            this.amount = amount;
+            this.operateTime = operateTime;
+            this.transferedAmount = transferedAmount;
+            this.fromAsset = fromAsset;
+        }
+
         public long transId() {
             return transId;
         }
 
-        @Override
         public double serviceChargeAmount() {
             return serviceChargeAmount;
         }
 
-        @Override
         public double amount() {
             return amount;
         }
 
-        @Override
         public long operateTime() {
             return operateTime;
         }
 
-        @Override
         public double transferedAmount() {
             return transferedAmount;
         }
 
-        @Override
         public String fromAsset() {
             return fromAsset;
         }
 
         public static ArrayList<AssetDribbletsDetails> getListDribbletsDetails(JSONArray userAssetDribbletDetails) {
             ArrayList<AssetDribbletsDetails> assetDribbletsDetails = new ArrayList<>();
-            for (int j=0; j < userAssetDribbletDetails.length(); j++){
+            for (int j = 0; j < userAssetDribbletDetails.length(); j++) {
                 JSONObject jsonObject = userAssetDribbletDetails.getJSONObject(j);
                 assetDribbletsDetails.add(new AssetDribbletsDetails(jsonObject.getLong("transId"),
                         jsonObject.getDouble("serviceChargeAmount"),

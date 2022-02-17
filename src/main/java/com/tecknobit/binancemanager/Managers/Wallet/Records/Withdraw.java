@@ -1,91 +1,89 @@
 package com.tecknobit.binancemanager.Managers.Wallet.Records;
 
-public record Withdraw (String address, double amount, String applyTime, String coin, String id, String withdrawOrderId,
-                        String network, int transferType, int status, double transactionFee, int confirmNo, String info,
-                        String txId) {
+public class Withdraw {
 
-    @Override
+    private final String address;
+    private final double amount;
+    private final String applyTime;
+    private final String coin;
+    private final String id;
+    private final String withdrawOrderId;
+    private final String network;
+    private final int transferType;
+    private final int status;
+    private final double transactionFee;
+    private final int confirmNo;
+    private final String info;
+    private final String txId;
+
+    public Withdraw(String address, double amount, String applyTime, String coin, String id, String withdrawOrderId,
+                    String network, int transferType, int status, double transactionFee, int confirmNo, String info,
+                    String txId) {
+        this.address = address;
+        this.amount = amount;
+        this.applyTime = applyTime;
+        this.coin = coin;
+        this.id = id;
+        this.withdrawOrderId = withdrawOrderId;
+        this.network = network;
+        this.transferType = transferType;
+        this.status = status;
+        this.transactionFee = transactionFee;
+        this.confirmNo = confirmNo;
+        this.info = info;
+        this.txId = txId;
+    }
+
     public String address() {
         return address;
     }
 
-    @Override
     public double amount() {
         return amount;
     }
 
-    @Override
     public String applyTime() {
         return applyTime;
     }
 
-    @Override
     public String coin() {
         return coin;
     }
 
-    @Override
     public String id() {
         return id;
     }
 
-    @Override
     public String withdrawOrderId() {
         return withdrawOrderId;
     }
 
-    @Override
     public String network() {
         return network;
     }
 
-    @Override
     public int transferType() {
         return transferType;
     }
 
-    @Override
     public int status() {
         return status;
     }
 
-    @Override
     public double transactionFee() {
         return transactionFee;
     }
 
-    @Override
     public int confirmNo() {
         return confirmNo;
     }
 
-    @Override
     public String info() {
         return info;
     }
 
-    @Override
     public String txId() {
         return txId;
-    }
-
-    @Override
-    public String toString() {
-        return "Withdraw{" +
-                "address='" + address + '\'' +
-                ", amount=" + amount +
-                ", applyTime='" + applyTime + '\'' +
-                ", coin='" + coin + '\'' +
-                ", id='" + id + '\'' +
-                ", withdrawOrderId='" + withdrawOrderId + '\'' +
-                ", network='" + network + '\'' +
-                ", transferType=" + transferType +
-                ", status=" + status +
-                ", transactionFee=" + transactionFee +
-                ", confirmNo=" + confirmNo +
-                ", info='" + info + '\'' +
-                ", txId='" + txId + '\'' +
-                '}';
     }
 
 }

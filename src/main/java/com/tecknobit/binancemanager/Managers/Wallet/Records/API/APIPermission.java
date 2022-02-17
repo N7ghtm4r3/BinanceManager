@@ -1,61 +1,76 @@
 package com.tecknobit.binancemanager.Managers.Wallet.Records.API;
 
-public record APIPermission (boolean ipRestrict, long createTime, boolean enableWithdrawals, boolean enableInternalTransfer,
-                             boolean permitsUniversalTransfer, boolean enableVanillaOptions, boolean enableReading,
-                             boolean enableFutures, boolean enableMargin, boolean enableSpotAndMarginTrading,
-                             long tradingAuthorityExpirationTime) {
+public class APIPermission {
 
-    @Override
+    private final boolean ipRestrict;
+    private final long createTime;
+    private final boolean enableWithdrawals;
+    private final boolean enableInternalTransfer;
+    private final boolean permitsUniversalTransfer;
+    private final boolean enableVanillaOptions;
+    private final boolean enableReading;
+    private final boolean enableFutures;
+    private final boolean enableMargin;
+    private final boolean enableSpotAndMarginTrading;
+    private final long tradingAuthorityExpirationTime;
+
+    public APIPermission(boolean ipRestrict, long createTime, boolean enableWithdrawals, boolean enableInternalTransfer,
+                         boolean permitsUniversalTransfer, boolean enableVanillaOptions, boolean enableReading,
+                         boolean enableFutures, boolean enableMargin, boolean enableSpotAndMarginTrading,
+                         long tradingAuthorityExpirationTime) {
+        this.ipRestrict = ipRestrict;
+        this.createTime = createTime;
+        this.enableWithdrawals = enableWithdrawals;
+        this.enableInternalTransfer = enableInternalTransfer;
+        this.permitsUniversalTransfer = permitsUniversalTransfer;
+        this.enableVanillaOptions = enableVanillaOptions;
+        this.enableReading = enableReading;
+        this.enableFutures = enableFutures;
+        this.enableMargin = enableMargin;
+        this.enableSpotAndMarginTrading = enableSpotAndMarginTrading;
+        this.tradingAuthorityExpirationTime = tradingAuthorityExpirationTime;
+    }
+
     public boolean ipRestrict() {
         return ipRestrict;
     }
 
-    @Override
     public long createTime() {
         return createTime;
     }
 
-    @Override
     public boolean enableWithdrawals() {
         return enableWithdrawals;
     }
 
-    @Override
     public boolean enableInternalTransfer() {
         return enableInternalTransfer;
     }
 
-    @Override
     public boolean permitsUniversalTransfer() {
         return permitsUniversalTransfer;
     }
 
-    @Override
     public boolean enableVanillaOptions() {
         return enableVanillaOptions;
     }
 
-    @Override
     public boolean enableReading() {
         return enableReading;
     }
 
-    @Override
     public boolean enableFutures() {
         return enableFutures;
     }
 
-    @Override
     public boolean enableMargin() {
         return enableMargin;
     }
 
-    @Override
     public boolean enableSpotAndMarginTrading() {
         return enableSpotAndMarginTrading;
     }
 
-    @Override
     public long tradingAuthorityExpirationTime() {
         return tradingAuthorityExpirationTime;
     }

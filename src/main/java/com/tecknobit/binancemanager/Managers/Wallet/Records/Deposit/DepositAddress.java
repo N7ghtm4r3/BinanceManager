@@ -1,35 +1,33 @@
 package com.tecknobit.binancemanager.Managers.Wallet.Records.Deposit;
 
-public record DepositAddress(String address, String coin, String tag, String url) {
+public class DepositAddress {
 
-    @Override
+    private final String address;
+    private final String coin;
+    private final String tag;
+    private final String url;
+
+    public DepositAddress(String address, String coin, String tag, String url) {
+        this.address = address;
+        this.coin = coin;
+        this.tag = tag;
+        this.url = url;
+    }
+
     public String address() {
         return address;
     }
 
-    @Override
     public String coin() {
         return coin;
     }
 
-    @Override
     public String tag() {
         return tag;
     }
 
-    @Override
     public String url() {
         return url;
-    }
-
-    @Override
-    public String toString() {
-        return "DepositAddress{" +
-                "address='" + address + '\'' +
-                ", coin='" + coin + '\'' +
-                ", tag='" + tag + '\'' +
-                ", url='" + url + '\'' +
-                '}';
     }
 
 }
