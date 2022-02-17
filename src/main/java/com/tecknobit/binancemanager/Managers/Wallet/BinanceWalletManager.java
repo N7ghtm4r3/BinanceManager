@@ -6,6 +6,7 @@ import com.tecknobit.binancemanager.Managers.Wallet.Records.*;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.API.APIPermission;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.API.APIStatus;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.Asset.AssetDividend;
+import com.tecknobit.binancemanager.Managers.Wallet.Records.Asset.CoinInformation;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.Asset.ConvertibleBNBAssets;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.Deposit.Deposit;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.Deposit.DepositAddress;
@@ -76,6 +77,35 @@ public class BinanceWalletManager extends BinanceManager {
      * **/
     public JSONArray getJSONAllCoins() throws Exception {
         return new JSONArray(getAllCoins());
+    }
+
+    /** Request to get information of your coins available for deposit and withdraw
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data
+     * return all coin information as ArrayList<CoinInformation>
+     * **/
+    public ArrayList<CoinInformation> getObjectAllCoins() throws Exception {
+        jsonArray = new JSONArray(getAllCoins());
+        ArrayList<CoinInformation> coinInformationList = new ArrayList<>();
+        for (int j=0; j < jsonArray.length(); j++){
+            JSONObject coin = jsonArray.getJSONObject(j);
+            coinInformationList.add(new CoinInformation(coin.getString("coin"),
+                    coin.getBoolean("depositAllEnable"),
+                    coin.getDouble("free"),
+                    coin.getDouble("freeze"),
+                    coin.getDouble("ipoable"),
+                    coin.getDouble("ipoing"),
+                    coin.getBoolean("isLegalMoney"),
+                    coin.getDouble("locked"),
+                    coin.getString("name"),
+                    CoinInformation.NetworkItem.getNetworkList(coin.getJSONArray("networkList")),
+                    coin.getDouble("storage"),
+                    coin.getBoolean("trading"),
+                    coin.getBoolean("withdrawAllEnable"),
+                    coin.getDouble("withdrawing")
+            ));
+        }
+        return coinInformationList;
     }
 
     /** Request to get your daily account snapshot
