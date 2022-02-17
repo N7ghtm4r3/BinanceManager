@@ -13,6 +13,12 @@ import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.GET_ME
 import static java.lang.System.currentTimeMillis;
 import static java.util.Arrays.asList;
 
+/**
+ *  The {@code BinanceManager} class is useful to manage all Binance Endpoints
+ *  giving basics methods for others Binance managers and basics endpoints for API request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#introduction
+ * **/
+
 public class BinanceManager {
 
     public static final ArrayList<String> BASE_ENDPOINTS = new ArrayList<>(asList("https://api.binance.com",

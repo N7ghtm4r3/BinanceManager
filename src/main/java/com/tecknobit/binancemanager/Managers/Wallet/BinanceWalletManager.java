@@ -25,9 +25,13 @@ import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.GET_METHOD;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.POST_METHOD;
 
+/**
+ *  The {@code BinanceWalletManager} class is useful to manage all Binance Wallet Endpoints
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#general-api-information
+ * **/
+
 public class BinanceWalletManager extends BinanceManager {
 
-    //https://binance-docs.github.io/apidocs/spot/en/#general-api-information
     public static final String SPOT = "SPOT";
     public static final String MARGIN = "MARGIN";
     public static final String FUTURES = "FUTURES";
@@ -47,7 +51,7 @@ public class BinanceWalletManager extends BinanceManager {
             throw new SystemException();
     }
 
-    /** Constructor with an endpoint give by list research
+    /** Constructor with an endpoint give by list auto research
      * @param #apiKey your api key
      * @param #secretKey your secret key
      * **/
@@ -118,6 +122,17 @@ public class BinanceWalletManager extends BinanceManager {
     }
 
     /** Request to get your daily account snapshot
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are startTime,endTime,limit)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+     * return account snapshot as String
+     * **/
+    public String getAccountSnapshot(String type, HashMap<String,Object> extraParams) throws Exception {
+        String params = requestManager.assembleExtraParams(getParamTimestamp()+"&type="+type,extraParams);
+        return getRequestResponse(DAILY_ACCOUNT_SNAP_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
+    }
+
+    /** Request to get your daily account snapshot
      * @param #type: SPOT,MARGIN OR FUTURES
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
      * return account snapshot as JsonObject
@@ -125,6 +140,18 @@ public class BinanceWalletManager extends BinanceManager {
     public JSONObject getJSONAccountSnapshot(String type) throws Exception {
         return new JSONObject(getAccountSnapshot(type));
     }
+
+    /** Request to get your daily account snapshot
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are startTime,endTime,limit)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+     * return account snapshot as JsonObject
+     * **/
+    public JSONObject getJSONAccountSnapshot(String type,HashMap<String,Object> extraParams) throws Exception {
+        return new JSONObject(getAccountSnapshot(type,extraParams));
+    }
+
+
 
     /** Request to get enable or disable fast withdraw
      * @param #enableFastWithdraw: true,false
