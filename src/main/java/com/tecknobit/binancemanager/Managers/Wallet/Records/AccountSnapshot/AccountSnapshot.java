@@ -1,10 +1,12 @@
 package com.tecknobit.binancemanager.Managers.Wallet.Records.AccountSnapshot;
 
-import com.tecknobit.binancemanager.Managers.Wallet.BinanceWalletManager;
 import org.json.JSONArray;
 
 public class AccountSnapshot {
 
+    public static final String SPOT = "SPOT";
+    public static final String MARGIN = "MARGIN";
+    public static final String FUTURES = "FUTURES";
     private final int code;
     private final String msg;
     private final String type;
@@ -19,9 +21,9 @@ public class AccountSnapshot {
 
     public AccountSnapshot getAccountSnapshot(){
         switch (type){
-            case BinanceWalletManager.SPOT:
+            case SPOT:
                 return new AccountSnapshotSpot(code,msg,type,jsonArray).getAccountSnapshotSpot();
-            case BinanceWalletManager.MARGIN: return null;
+            case MARGIN: return null;
             default: return null;
         }
     }

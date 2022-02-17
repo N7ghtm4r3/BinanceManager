@@ -33,9 +33,6 @@ import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.POST_M
 
 public class BinanceWalletManager extends BinanceManager {
 
-    public static final String SPOT = "SPOT";
-    public static final String MARGIN = "MARGIN";
-    public static final String FUTURES = "FUTURES";
     private final String apiKey;
     private final String secretKey;
 
