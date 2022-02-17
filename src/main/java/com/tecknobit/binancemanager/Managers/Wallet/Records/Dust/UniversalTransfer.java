@@ -1,6 +1,28 @@
 package com.tecknobit.binancemanager.Managers.Wallet.Records.Dust;
 
 public class UniversalTransfer {
+
+    public static final String MAIN_UMFUTURE = "MAIN_UMFUTURE";
+    public static final String MAIN_CMFUTURE = "MAIN_CMFUTURE";
+    public static final String MAIN_MARGIN = "MAIN_MARGIN";
+    public static final String UMFUTURE_MAIN = "UMFUTURE_MAIN";
+    public static final String UMFUTURE_MARGIN = "UMFUTURE_MARGIN";
+    public static final String CMFUTURE_MAIN = "CMFUTURE_MAIN";
+    public static final String CMFUTURE_MARGIN = "CMFUTURE_MARGIN";
+    public static final String MARGIN_MAIN = "MARGIN_MAIN";
+    public static final String MARGIN_UMFUTURE = "MARGIN_UMFUTURE";
+    public static final String MARGIN_CMFUTURE = "MARGIN_CMFUTURE";
+    public static final String ISOLATEDMARGIN_MARGIN = "ISOLATEDMARGIN_MARGIN";
+    public static final String MARGIN_ISOLATEDMARGIN = "MARGIN_ISOLATEDMARGIN";
+    public static final String ISOLATEDMARGIN_ISOLATEDMARGIN = "ISOLATEDMARGIN_ISOLATEDMARGIN";
+    public static final String MAIN_FUNDING = "MAIN_FUNDING";
+    public static final String FUNDING_MAIN = "FUNDING_MAIN";
+    public static final String FUNDING_UMFUTURE = "MAIN_UMFUTURE";
+    public static final String UMFUTURE_FUNDING = "UMFUTURE_FUNDING";
+    public static final String MARGIN_FUNDING = "MARGIN_FUNDING";
+    public static final String FUNDING_MARGIN = "FUNDING_MARGIN";
+    public static final String FUNDING_CMFUTURE = "FUNDING_CMFUTURE";
+    public static final String CMFUTURE_FUNDING = "CMFUTURE_FUNDING";
     private final String asset;
     private final double amount;
     private final String type;
