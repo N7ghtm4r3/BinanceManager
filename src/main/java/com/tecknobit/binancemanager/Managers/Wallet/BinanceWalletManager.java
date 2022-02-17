@@ -173,6 +173,7 @@ public class BinanceWalletManager extends BinanceManager {
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
      * return account snapshot as AccountSnapshot object.
      * @implNote you need to cast return object in: AccountSnapshotSpot or AccountSnapshotMargin or AccountSnapshotFutures
+     * in base of the type used
      * **/
     public AccountSnapshot getObjectAccountSnapshot(String type,HashMap<String,Object> extraParams) throws Exception {
         jsonObject = new JSONObject(getAccountSnapshot(type,extraParams));

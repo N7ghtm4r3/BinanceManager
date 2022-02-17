@@ -21,6 +21,7 @@ public class AccountSnapshot {
         switch (type){
             case BinanceWalletManager.SPOT:
                 return new AccountSnapshotSpot(code,msg,type,jsonArray).getAccountSnapshotSpot();
+            case BinanceWalletManager.MARGIN: return null;
             default: return null;
         }
     }
