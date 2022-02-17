@@ -25,7 +25,8 @@ public class AccountSnapshot {
                 return new AccountSnapshotSpot(code,msg,type,jsonArray).getAccountSnapshotSpot();
             case MARGIN:
                 return new AccountSnapshotMargin(code,msg,type,jsonArray).getAccountSnapshotMargin();
-            default: return null;
+            default:
+                return new AccountSnapshotFutures(code,msg,type,jsonArray).getAccountSnapshotFutures();
         }
     }
 
