@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.Wallet.Records.AccountSnapshot;
+package com.tecknobit.binancemanager.Managers.Wallet.Records.AccountSnapshots;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

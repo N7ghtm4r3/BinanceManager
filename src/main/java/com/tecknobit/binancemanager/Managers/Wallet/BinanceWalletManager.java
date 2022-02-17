@@ -5,7 +5,7 @@ import com.tecknobit.binancemanager.Managers.BinanceManager;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.*;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.API.APIPermission;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.API.APIStatus;
-import com.tecknobit.binancemanager.Managers.Wallet.Records.AccountSnapshot.AccountSnapshot;
+import com.tecknobit.binancemanager.Managers.Wallet.Records.AccountSnapshots.AccountSnapshot;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.Asset.AssetDividend;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.Asset.CoinInformation;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.Asset.ConvertibleBNBAssets;
