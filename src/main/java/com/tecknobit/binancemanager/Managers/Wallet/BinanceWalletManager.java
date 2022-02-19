@@ -723,15 +723,30 @@ public class BinanceWalletManager extends BinanceManager {
         }
     }
 
+    /** Request to get asset detail
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data
+     * return asset detail as String
+     * **/
     public String getAssetDetail() throws Exception {
         String params = getParamTimestamp();
         return getRequestResponse(ASSET_DETAIL_ENPOINT,params+getSignature(params),GET_METHOD,apiKey);
     }
 
+    /** Request to get asset detail
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data
+     * return asset detail as JsonObject
+     * **/
     public JSONObject getJSONAssetDetail() throws Exception {
         return new JSONObject(getAssetDetail());
     }
 
+    /** Request to get asset detail
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data
+     * return asset detail list as ArrayList<AssetDetail>
+     * **/
     public ArrayList<AssetDetail> getAssetDetailList() throws Exception {
         jsonObject = new JSONObject(getAssetDetail());
         ArrayList<AssetDetail> assetDetailList = new ArrayList<>();
@@ -748,15 +763,30 @@ public class BinanceWalletManager extends BinanceManager {
         return assetDetailList;
     }
 
+    /** Request to get asset detail
+     * @param #asset: asset to get details es BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data
+     * return asset detail as String
+     * **/
     public String getAssetDetail(String asset) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
         return getRequestResponse(ASSET_DETAIL_ENPOINT,params+getSignature(params),GET_METHOD,apiKey);
     }
 
+    /** Request to get asset detail
+     * @param #asset: asset to get details es BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data
+     * return asset detail as JsonObject
+     * **/
     public JSONObject getJSONAssetDetail(String asset) throws Exception {
         return new JSONObject(getAssetDetail(asset));
     }
 
+    /** Request to get asset detail
+     * @param #asset: asset to get details es BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data
+     * return asset detail as AssetDetail object
+     * **/
     public AssetDetail getObjectAssetDetail(String asset) throws Exception {
         jsonObject = new JSONObject(getAssetDetail(asset)).getJSONObject(asset);
         return new AssetDetail(asset,
@@ -768,6 +798,10 @@ public class BinanceWalletManager extends BinanceManager {
         );
     }
 
+    /** Method to get depositTip
+     * @param #jsonObject: jsonObject assembled from request to Binance
+     * return depositTip as String
+     * **/
     private String getDepositTip(JSONObject jsonObject){
         try {
             return jsonObject.getString("depositTip");
@@ -776,15 +810,30 @@ public class BinanceWalletManager extends BinanceManager {
         }
     }
 
+    /** Request to get asset trade fee
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data
+     * return asset trade fee as String
+     * **/
     public String getTradeFee() throws Exception {
         String params = getParamTimestamp();
         return getRequestResponse(TRADE_FEE_ENPOINT,params+getSignature(params),GET_METHOD,apiKey);
     }
 
+    /** Request to get asset trade fee
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data
+     * return asset trade fee as JsonArray
+     * **/
     public JSONArray getJSONTradeFee() throws Exception {
         return new JSONArray(getTradeFee());
     }
 
+    /** Request to get asset trade fee
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data
+     * return asset trade fee list as ArrayList<TradeFee>
+     * **/
     public ArrayList<TradeFee> getTradeFeeList() throws Exception {
         ArrayList<TradeFee> tradeFeesList = new ArrayList<>();
         jsonArray = new JSONArray(getTradeFee());
@@ -798,15 +847,30 @@ public class BinanceWalletManager extends BinanceManager {
         return tradeFeesList;
     }
 
+    /** Request to get asset trade fee
+     * @param #symbol: asset to get details es BTCUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data
+     * return asset trade fee as String
+     * **/
     public String getTradeFee(String symbol) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
         return getRequestResponse(TRADE_FEE_ENPOINT,params+getSignature(params),GET_METHOD,apiKey);
     }
 
+    /** Request to get asset trade fee
+     * @param #symbol: asset to get details es BTCUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data
+     * return asset trade fee as JsonArray
+     * **/
     public JSONArray getJSONTradeFee(String symbol) throws Exception {
         return new JSONArray(getTradeFee(symbol));
     }
 
+    /** Request to get asset trade fee
+     * @param #symbol: asset to get details es BTCUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data
+     * return asset trade fee as TradeFee object
+     * **/
     public TradeFee getObjectTradeFee(String symbol) throws Exception {
         jsonObject = new JSONArray(getTradeFee(symbol)).getJSONObject(0);
         return new TradeFee(jsonObject.getString("symbol"),
