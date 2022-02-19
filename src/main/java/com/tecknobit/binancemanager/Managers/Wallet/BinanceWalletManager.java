@@ -722,7 +722,7 @@ public class BinanceWalletManager extends BinanceManager {
             return new AssetDividend(total,assetDividendDetails);
         }
     }
-    
+
     public String getAssetDetail() throws Exception {
         String params = getParamTimestamp();
         return getRequestResponse(ASSET_DETAIL_ENPOINT,params+getSignature(params),GET_METHOD,apiKey);
