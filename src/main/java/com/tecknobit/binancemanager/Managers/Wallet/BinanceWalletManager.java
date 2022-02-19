@@ -6,6 +6,7 @@ import com.tecknobit.binancemanager.Managers.Wallet.Records.*;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.API.APIPermission;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.API.APIStatus;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.AccountSnapshots.AccountSnapshot;
+import com.tecknobit.binancemanager.Managers.Wallet.Records.Asset.AssetDetail;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.Asset.AssetDividend;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.Asset.CoinInformation;
 import com.tecknobit.binancemanager.Managers.Wallet.Records.Asset.ConvertibleBNBAssets;
@@ -721,6 +722,42 @@ public class BinanceWalletManager extends BinanceManager {
             return new AssetDividend(total,assetDividendDetails);
         }
     }
+    //Asset Detail (USER_DATA)
+    public String getAssetDetail() throws Exception {
+        String params = getParamTimestamp();
+        return getRequestResponse(ASSET_DETAIL_ENPOINT,params+getSignature(params),GET_METHOD,apiKey);
+    }
+
+    public JSONObject getJSONAssetDetail() throws Exception {
+        return new JSONObject(getAssetDetail());
+    }
+
+    public String getAssetDetail(String asset) throws Exception {
+        String params = getParamTimestamp()+"&asset="+asset;
+        return getRequestResponse(ASSET_DETAIL_ENPOINT,params+getSignature(params),GET_METHOD,apiKey);
+    }
+
+    public JSONObject getJSONAssetDetail(String asset) throws Exception {
+        return new JSONObject(getAssetDetail(asset));
+    }
+
+    public AssetDetail getObjectAssetDetail(String asset) throws Exception {
+        jsonObject = new JSONObject(getAssetDetail(asset)).getJSONObject(asset);
+        String depositTip;
+        try {
+            depositTip = jsonObject.getString("depositTip");
+        }catch (JSONException jsonException){
+            depositTip = "No tip";
+        }
+        return new AssetDetail(asset,
+                jsonObject.getDouble("minWithdrawAmount"),
+                jsonObject.getBoolean("depositStatus"),
+                jsonObject.getDouble("withdrawFee"),
+                jsonObject.getBoolean("withdrawStatus"),
+                depositTip);
+    }
+
+    //Trade Fee (USER_DATA)
 
     /** Request to get universal transfer
      * @param #type: type for the request es. MAIN_UMFUTURE

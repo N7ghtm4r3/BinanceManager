@@ -92,4 +92,15 @@ public class BinanceManager {
         return requestManager.getResponse();
     }
 
+    /** Method to execute and get response of a request
+     * @param #endpoint: endpoint to request
+     * @param #params: params HTTP for the request
+     * @param #method: method HTTP for the request
+     * return response of request formatted in Json
+     * **/
+    protected String getRequestResponse(String endpoint, String params, String method) throws IOException {
+        requestManager.startConnection(baseEndpoint+endpoint+params,method);
+        return requestManager.getResponse();
+    }
+
 }
