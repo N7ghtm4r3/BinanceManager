@@ -722,7 +722,7 @@ public class BinanceWalletManager extends BinanceManager {
             return new AssetDividend(total,assetDividendDetails);
         }
     }
-    //Asset Detail (USER_DATA)
+    
     public String getAssetDetail() throws Exception {
         String params = getParamTimestamp();
         return getRequestResponse(ASSET_DETAIL_ENPOINT,params+getSignature(params),GET_METHOD,apiKey);
@@ -730,6 +730,22 @@ public class BinanceWalletManager extends BinanceManager {
 
     public JSONObject getJSONAssetDetail() throws Exception {
         return new JSONObject(getAssetDetail());
+    }
+
+    public ArrayList<AssetDetail> getAssetDetailList() throws Exception {
+        jsonObject = new JSONObject(getAssetDetail());
+        ArrayList<AssetDetail> assetDetailList = new ArrayList<>();
+        for (String key : new ArrayList<>(jsonObject.keySet())){
+            JSONObject asset = jsonObject.getJSONObject(key);
+            assetDetailList.add(new AssetDetail(key,
+                    asset.getDouble("minWithdrawAmount"),
+                    asset.getBoolean("depositStatus"),
+                    asset.getDouble("withdrawFee"),
+                    asset.getBoolean("withdrawStatus"),
+                    getDepositTip(asset)
+            ));
+        }
+        return assetDetailList;
     }
 
     public String getAssetDetail(String asset) throws Exception {
@@ -743,18 +759,21 @@ public class BinanceWalletManager extends BinanceManager {
 
     public AssetDetail getObjectAssetDetail(String asset) throws Exception {
         jsonObject = new JSONObject(getAssetDetail(asset)).getJSONObject(asset);
-        String depositTip;
-        try {
-            depositTip = jsonObject.getString("depositTip");
-        }catch (JSONException jsonException){
-            depositTip = "No tip";
-        }
         return new AssetDetail(asset,
                 jsonObject.getDouble("minWithdrawAmount"),
                 jsonObject.getBoolean("depositStatus"),
                 jsonObject.getDouble("withdrawFee"),
                 jsonObject.getBoolean("withdrawStatus"),
-                depositTip);
+                getDepositTip(jsonObject)
+        );
+    }
+
+    private String getDepositTip(JSONObject jsonObject){
+        try {
+            return jsonObject.getString("depositTip");
+        }catch (JSONException jsonException){
+            return "No tip";
+        }
     }
 
     //Trade Fee (USER_DATA)
