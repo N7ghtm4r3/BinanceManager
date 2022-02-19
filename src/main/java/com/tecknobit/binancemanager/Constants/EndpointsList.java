@@ -27,6 +27,7 @@ public class EndpointsList {
     public static final String DUST_TRANSFER_ENDPOINT = "/sapi/v1/asset/dust";
     public static final String ASSET_DIVIDEND_ENDPOINT = "/sapi/v1/asset/assetDividend";
     public static final String ASSET_DETAIL_ENPOINT = "/sapi/v1/asset/assetDetail";
+    public static final String TRADE_FEE_ENPOINT = "/sapi/v1/asset/tradeFee";
     public static final String UNIVERSAL_TRANSFER_ENDPOINT = "/sapi/v1/asset/transfer";
     public static final String FUNDING_WALLET_ENDPOINT = "/sapi/v1/asset/get-funding-asset";
     public static final String API_KEY_PERMISSION_ENDPOINT = "/sapi/v1/account/apiRestrictions";

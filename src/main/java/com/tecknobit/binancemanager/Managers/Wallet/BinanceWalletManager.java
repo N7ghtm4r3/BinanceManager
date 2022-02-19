@@ -776,6 +776,28 @@ public class BinanceWalletManager extends BinanceManager {
         }
     }
 
+    public String getTradeFee() throws Exception {
+        String params = getParamTimestamp();
+        return getRequestResponse(TRADE_FEE_ENPOINT,params+getSignature(params),GET_METHOD,apiKey);
+    }
+
+    public JSONArray getJSONTradeFee() throws Exception {
+        return new JSONArray(getTradeFee());
+    }
+
+    public ArrayList<TradeFee> getTradeFeeList() throws Exception {
+        ArrayList<TradeFee> tradeFeesList = new ArrayList<>();
+        jsonArray = new JSONArray(getTradeFee());
+        for (int j=0; j < jsonArray.length(); j++){
+            JSONObject fee = jsonArray.getJSONObject(j);
+            tradeFeesList.add(new TradeFee(fee.getString("symbol"),
+                    fee.getDouble("makerCommission"),
+                    fee.getDouble("takerCommission")
+            ));
+        }
+        return tradeFeesList;
+    }
+
     //Trade Fee (USER_DATA)
 
     /** Request to get universal transfer
