@@ -37,7 +37,6 @@ public class ExchangeInformation {
         }
     }
 
-    /**CONVERT INTO HASHMAP**/
     private static ArrayList<Filter> assembleFilters(JSONArray jsonArray) {
         ArrayList<Filter> filters = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
@@ -46,7 +45,7 @@ public class ExchangeInformation {
             ArrayList<Object> filterValues = new ArrayList<>();
             for (String filterKey : filterKeys)
                 filterValues.add(filter.get(filterKey));
-            filters.add(new Filter(filterKeys,filterValues));
+            filters.add(new Filter(filterKeys,filterValues,filter.getString("filterType")));
         }
         return filters;
     }
@@ -143,13 +142,13 @@ public class ExchangeInformation {
         private final String quoteAsset;
         private final int quotePrecision;
         private final int quoteAssetPrecision;
-        private final ArrayList<EnumValues> orderTypes;
+        private final ArrayList<ExchangeEnumValues> orderTypes;
         private final boolean icebergAllowed;
         private final boolean ocoAllowed;
         private final boolean isSpotTradingAllowed;
         private final boolean isMarginTradingAllowed;
         private final ArrayList<Filter> filters;
-        private final ArrayList<EnumValues> permissions;
+        private final ArrayList<ExchangeEnumValues> permissions;
         private final int baseCommissionPrecision;
 
         public Symbol(String symbol, boolean quoteOrderQtyMarketAllowed, String status, String baseAsset, int baseAssetPrecision, String quoteAsset,
@@ -173,10 +172,10 @@ public class ExchangeInformation {
             this.baseCommissionPrecision = baseCommissionPrecision;
         }
 
-        private ArrayList<EnumValues> loadEnumsList(JSONArray jsonArray){
-            ArrayList<EnumValues> enumValues = new ArrayList<>();
+        private ArrayList<ExchangeEnumValues> loadEnumsList(JSONArray jsonArray){
+            ArrayList<ExchangeEnumValues> enumValues = new ArrayList<>();
             for(int j=0; j < jsonArray.length(); j++)
-                enumValues.add(new EnumValues(jsonArray.getString(j)));
+                enumValues.add(new ExchangeEnumValues(jsonArray.getString(j)));
             return enumValues;
         }
 
@@ -212,7 +211,7 @@ public class ExchangeInformation {
             return quoteAssetPrecision;
         }
 
-        public ArrayList<EnumValues> getOrderTypes() {
+        public ArrayList<ExchangeEnumValues> getOrderTypes() {
             return orderTypes;
         }
 
@@ -236,7 +235,7 @@ public class ExchangeInformation {
             return filters;
         }
 
-        public ArrayList<EnumValues> getPermissions() {
+        public ArrayList<ExchangeEnumValues> getPermissions() {
             return permissions;
         }
 
@@ -244,11 +243,11 @@ public class ExchangeInformation {
             return baseCommissionPrecision;
         }
 
-        private static class EnumValues {
+        public static class ExchangeEnumValues {
 
             private final String enumValue;
 
-            public EnumValues(String enumValue) {
+            public ExchangeEnumValues(String enumValue) {
                 this.enumValue = enumValue;
             }
 
