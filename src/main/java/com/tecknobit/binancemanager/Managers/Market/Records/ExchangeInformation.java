@@ -255,6 +255,10 @@ public class ExchangeInformation {
                 return enumValue;
             }
 
+            @Override
+            public String toString() {
+                return enumValue;
+            }
         }
 
     }

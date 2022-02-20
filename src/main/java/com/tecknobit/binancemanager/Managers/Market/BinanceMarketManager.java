@@ -38,7 +38,7 @@ public class BinanceMarketManager extends BinanceManager {
     }
 
     public String getExchangeInformation() throws IOException {
-        return getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT,"?symbol=BTCBUSD",GET_METHOD);
+        return getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT,"",GET_METHOD);
     }
 
     public JSONObject getJSONExchangeInformation() throws IOException {
@@ -52,5 +52,19 @@ public class BinanceMarketManager extends BinanceManager {
                 jsonObject);
     }
 
+    public String getExchangeInformation(String symbol) throws IOException {
+        return getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT,"?symbol="+symbol,GET_METHOD);
+    }
+
+    public JSONObject getJSONExchangeInformation(String symbol) throws IOException {
+        return new JSONObject(getExchangeInformation(symbol));
+    }
+
+    public ExchangeInformation getObjectExchangeInformation(String symbol) throws IOException {
+        jsonObject = new JSONObject(getExchangeInformation(symbol));
+        return new ExchangeInformation(jsonObject.getString("timezone"),
+                jsonObject.getLong("serverTime"),
+                jsonObject);
+    }
 
 }
