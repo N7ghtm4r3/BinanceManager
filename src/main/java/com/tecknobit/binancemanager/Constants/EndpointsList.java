@@ -34,7 +34,7 @@ public class EndpointsList {
     public static final String API_KEY_PERMISSION_ENDPOINT = "/sapi/v1/account/apiRestrictions";
 
     /**Market managers endpoint urls**/
-
+    public static final String TEST_CONNECTIVITY_ENDPOINT = "/api/v3/ping";
 
 
 }

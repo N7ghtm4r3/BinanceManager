@@ -5,6 +5,9 @@ import com.tecknobit.binancemanager.Managers.BinanceManager;
 
 import java.io.IOException;
 
+import static com.tecknobit.binancemanager.Constants.EndpointsList.TEST_CONNECTIVITY_ENDPOINT;
+import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.GET_METHOD;
+
 /**
  * The {@code BinanceMarketManager} class is useful to manage all Binance Market Endpoints
  * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#market-data-endpoints
@@ -25,6 +28,10 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     public BinanceMarketManager() throws SystemException, IOException {
         super(null);
+    }
+
+    public boolean isMarketServiceWork() throws IOException {
+        return getRequestResponse(TEST_CONNECTIVITY_ENDPOINT,"",GET_METHOD).equals("{}");
     }
 
 }
