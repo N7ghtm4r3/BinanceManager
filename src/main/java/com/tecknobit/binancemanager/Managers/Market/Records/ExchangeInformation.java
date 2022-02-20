@@ -5,7 +5,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ExchangeInformation {
 
@@ -13,7 +12,7 @@ public class ExchangeInformation {
     private final long serverTime;
     private final JSONObject jsonObject;
     private ArrayList<RateLimit> rateLimits;
-    private ArrayList<ExchangeFilter> exchangeFilters;
+    private final ArrayList<Filter> exchangeFilters;
     private ArrayList<Symbol> symbols;
 
     public ExchangeInformation(String timezone, long serverTime, JSONObject jsonObject) {
@@ -21,7 +20,7 @@ public class ExchangeInformation {
         this.serverTime = serverTime;
         this.jsonObject = jsonObject;
         assembleRateLimits();
-        assembleExchangeFilters();
+        exchangeFilters = assembleFilters(jsonObject.getJSONArray("exchangeFilters"));
         assembleSymbols();
     }
 
@@ -38,24 +37,40 @@ public class ExchangeInformation {
         }
     }
 
-    private void assembleExchangeFilters() {
-        exchangeFilters = new ArrayList<>();
-        JSONArray jsonArray = jsonObject.getJSONArray("exchangeFilters");
+    /**CONVERT INTO HASHMAP**/
+    private static ArrayList<Filter> assembleFilters(JSONArray jsonArray) {
+        ArrayList<Filter> filters = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
             JSONObject filter = jsonArray.getJSONObject(j);
             ArrayList<String> filterKeys = new ArrayList<>(filter.keySet());
             ArrayList<Object> filterValues = new ArrayList<>();
-            for (int i=0; j < filterKeys.size(); i++)
-                filterValues.add(filter.get(filterKeys.get(j)));
-            exchangeFilters.add(new ExchangeFilter(filterKeys,filterValues));
+            for (String filterKey : filterKeys)
+                filterValues.add(filter.get(filterKey));
+            filters.add(new Filter(filterKeys,filterValues));
         }
+        return filters;
     }
 
     private void assembleSymbols() {
         symbols = new ArrayList<>();
         JSONArray jsonArray = jsonObject.getJSONArray("symbols");
         for (int j=0; j < jsonArray.length(); j++){
-            
+            JSONObject symbol = jsonArray.getJSONObject(j);
+            symbols.add(new Symbol(symbol.getString("symbol"),
+                    symbol.getBoolean("quoteOrderQtyMarketAllowed"),
+                    symbol.getString("status"),
+                    symbol.getString("baseAsset"),
+                    symbol.getInt("baseAssetPrecision"),
+                    symbol.getString("quoteAsset"),
+                    symbol.getInt("quotePrecision"),
+                    symbol.getInt("quoteAssetPrecision"),
+                    symbol.getBoolean("icebergAllowed"),
+                    symbol.getBoolean("ocoAllowed"),
+                    symbol.getBoolean("isSpotTradingAllowed"),
+                    symbol.getBoolean("isMarginTradingAllowed"),
+                    symbol,
+                    symbol.getInt("baseCommissionPrecision")
+            ));
         }
     }
 
@@ -71,7 +86,7 @@ public class ExchangeInformation {
         return rateLimits;
     }
 
-    public ArrayList<ExchangeFilter> getExchangeFilters() {
+    public ArrayList<Filter> getExchangeFilters() {
         return exchangeFilters;
     }
 
@@ -118,24 +133,6 @@ public class ExchangeInformation {
 
     }
 
-    public static class ExchangeFilter extends Filter {
-
-        public ExchangeFilter(ArrayList<String> keys, ArrayList<Object> values) {
-            super(keys, values);
-        }
-
-        @Override
-        public ArrayList<String> getKeys() {
-            return super.getKeys();
-        }
-
-        @Override
-        public ArrayList<Object> getValues() {
-            return super.getValues();
-        }
-
-    }
-
     public static class Symbol {
 
         private final String symbol;
@@ -151,13 +148,13 @@ public class ExchangeInformation {
         private final boolean ocoAllowed;
         private final boolean isSpotTradingAllowed;
         private final boolean isMarginTradingAllowed;
-        private final HashMap<String,Filter> filters;
+        private final ArrayList<Filter> filters;
         private final ArrayList<EnumValues> permissions;
+        private final int baseCommissionPrecision;
 
         public Symbol(String symbol, boolean quoteOrderQtyMarketAllowed, String status, String baseAsset, int baseAssetPrecision, String quoteAsset,
-                      int quotePrecision, int quoteAssetPrecision, ArrayList<EnumValues> orderTypes, boolean icebergAllowed,
-                      boolean ocoAllowed, boolean isSpotTradingAllowed, boolean isMarginTradingAllowed, HashMap<String, Filter> filters,
-                      ArrayList<EnumValues> permissions) {
+                      int quotePrecision, int quoteAssetPrecision, boolean icebergAllowed, boolean ocoAllowed,
+                      boolean isSpotTradingAllowed, boolean isMarginTradingAllowed, JSONObject jsonObject, int baseCommissionPrecision) {
             this.symbol = symbol;
             this.quoteOrderQtyMarketAllowed = quoteOrderQtyMarketAllowed;
             this.status = status;
@@ -166,13 +163,21 @@ public class ExchangeInformation {
             this.quoteAsset = quoteAsset;
             this.quotePrecision = quotePrecision;
             this.quoteAssetPrecision = quoteAssetPrecision;
-            this.orderTypes = orderTypes;
+            this.orderTypes = loadEnumsList(jsonObject.getJSONArray("orderTypes"));
             this.icebergAllowed = icebergAllowed;
             this.ocoAllowed = ocoAllowed;
             this.isSpotTradingAllowed = isSpotTradingAllowed;
             this.isMarginTradingAllowed = isMarginTradingAllowed;
-            this.filters = filters;
-            this.permissions = permissions;
+            filters = ExchangeInformation.assembleFilters(jsonObject.getJSONArray("filters"));
+            this.permissions = loadEnumsList(jsonObject.getJSONArray("permissions"));
+            this.baseCommissionPrecision = baseCommissionPrecision;
+        }
+
+        private ArrayList<EnumValues> loadEnumsList(JSONArray jsonArray){
+            ArrayList<EnumValues> enumValues = new ArrayList<>();
+            for(int j=0; j < jsonArray.length(); j++)
+                enumValues.add(new EnumValues(jsonArray.getString(j)));
+            return enumValues;
         }
 
         public String getSymbol() {
@@ -227,12 +232,16 @@ public class ExchangeInformation {
             return isMarginTradingAllowed;
         }
 
-        public HashMap<String,Filter> getFilters() {
+        public ArrayList<Filter> getFilters() {
             return filters;
         }
 
         public ArrayList<EnumValues> getPermissions() {
             return permissions;
+        }
+
+        public int getBaseCommissionPrecision() {
+            return baseCommissionPrecision;
         }
 
         private static class EnumValues {
