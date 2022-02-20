@@ -20,6 +20,7 @@ import static org.apache.commons.codec.binary.Hex.encodeHexString;
 public class RequestManager {
 
     private HttpURLConnection httpURLConnection;
+    private String errorReponse;
     public static final String GET_METHOD = "GET";
     public static final String POST_METHOD = "POST";
 
@@ -55,12 +56,18 @@ public class RequestManager {
      * **/
     public String getResponse() throws IOException {
         BufferedReader bufferedReader;
+        String response;
+        boolean isInError = false;
         try {
             bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
         } catch (IOException e) {
             bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getErrorStream()));
+            isInError = true;
         }
-        return readStream(bufferedReader);
+        response = readStream(bufferedReader);
+        if(isInError)
+            errorReponse = response;
+        return response;
     }
 
     /** Method get params signature of an HTTP request
@@ -74,7 +81,7 @@ public class RequestManager {
         return encodeHexString(sha256.doFinal(data.replace("?","").getBytes(UTF_8)));
     }
 
-    /** Method get formatted extraParams of an HTTP request
+    /** Method to get formatted extraParams of an HTTP request
      * @param #params: mandatory params of the request
      * @param #extraParams: extra params of the request
      * return formatted query params for the HTTP request
@@ -85,6 +92,16 @@ public class RequestManager {
         for (String key : keys)
             paramsBuilder.append("&").append(key).append("=").append(extraParams.get(key));
         return paramsBuilder.toString();
+    }
+
+    /** Method to get error response of an HTTP request
+     * any params required
+     * return errorResponse
+     * **/
+    public String getErrorReponse() {
+        if(errorReponse == null)
+            return "No HTTP request error";
+        return errorReponse;
     }
 
     /** Method to format stream of a response of an HTTP request
