@@ -100,7 +100,7 @@ public class RequestManager {
      * **/
     public String getErrorReponse() {
         if(errorReponse == null)
-            return "No HTTP request error";
+            return "No HTTP Binance request error, check your code";
         return errorReponse;
     }
 

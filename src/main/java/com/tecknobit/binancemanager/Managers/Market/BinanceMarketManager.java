@@ -6,6 +6,8 @@ import com.tecknobit.binancemanager.Managers.Market.Records.ExchangeInformation;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static com.tecknobit.binancemanager.Constants.EndpointsList.EXCHANGE_INFORMATION_ENDPOINT;
 import static com.tecknobit.binancemanager.Constants.EndpointsList.TEST_CONNECTIVITY_ENDPOINT;
@@ -61,7 +63,38 @@ public class BinanceMarketManager extends BinanceManager {
     }
 
     public ExchangeInformation getObjectExchangeInformation(String symbol) throws IOException {
-        jsonObject = new JSONObject(getExchangeInformation(symbol));
+        return getObjectExchangeInformation(new JSONObject(getExchangeInformation(symbol)));
+    }
+
+    public String getExchangeInformation(ArrayList<String> symbols) throws IOException {
+        StringBuilder params = new StringBuilder();
+        for (String symbol : symbols)
+            params.append("%22").append(symbol).append("%22,");
+        params.replace(params.length()-1,params.length(),"");
+        return getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT,"?symbols=["+ params +"]",GET_METHOD);
+    }
+
+    public JSONObject getJSONExchangeInformation(ArrayList<String> symbols) throws IOException {
+        return new JSONObject(getExchangeInformation(symbols));
+    }
+
+    public ExchangeInformation getObjectExchangeInformation(ArrayList<String> symbols) throws IOException {
+        return getObjectExchangeInformation(new JSONObject(getExchangeInformation(symbols)));
+    }
+
+    public String getExchangeInformation(String[] symbols) throws IOException {
+       return getExchangeInformation(new ArrayList<>(Arrays.asList(symbols)));
+    }
+
+    public JSONObject getJSONExchangeInformation(String[] symbols) throws IOException {
+        return new JSONObject(getExchangeInformation(symbols));
+    }
+
+    public ExchangeInformation getObjectExchangeInformation(String[] symbols) throws IOException {
+        return getObjectExchangeInformation(new JSONObject(getExchangeInformation(symbols)));
+    }
+
+    private ExchangeInformation getObjectExchangeInformation(JSONObject jsonObject){
         return new ExchangeInformation(jsonObject.getString("timezone"),
                 jsonObject.getLong("serverTime"),
                 jsonObject);
