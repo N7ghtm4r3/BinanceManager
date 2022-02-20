@@ -35,6 +35,7 @@ public class EndpointsList {
 
     /**Market managers endpoint urls**/
     public static final String TEST_CONNECTIVITY_ENDPOINT = "/api/v3/ping";
+    public static final String EXCHANGE_INFORMATION_ENDPOINT = "/api/v3/exchangeInfo";
 
 
 }

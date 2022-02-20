@@ -2,9 +2,12 @@ package com.tecknobit.binancemanager.Managers.Market;
 
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.BinanceManager;
+import com.tecknobit.binancemanager.Managers.Market.Records.ExchangeInformation;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
+import static com.tecknobit.binancemanager.Constants.EndpointsList.EXCHANGE_INFORMATION_ENDPOINT;
 import static com.tecknobit.binancemanager.Constants.EndpointsList.TEST_CONNECTIVITY_ENDPOINT;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.GET_METHOD;
 
@@ -33,5 +36,20 @@ public class BinanceMarketManager extends BinanceManager {
     public boolean isMarketServiceWork() throws IOException {
         return getRequestResponse(TEST_CONNECTIVITY_ENDPOINT,"",GET_METHOD).equals("{}");
     }
+
+    public String getExchangeInformation() throws IOException {
+        return getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT,"",GET_METHOD);
+    }
+
+    public JSONObject getJSONExchangeInformation() throws IOException {
+        return new JSONObject(getExchangeInformation());
+    }
+
+    public ExchangeInformation getObjectExchangeInformation() throws IOException {
+        jsonObject = new JSONObject(getExchangeInformation());
+
+        return null;
+    }
+
 
 }
