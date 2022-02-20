@@ -6,8 +6,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- *  The {@code AccountSnapshotFutures} class is useful to obtain and format AccountSnapshotFutures object
+ * The {@code AccountSnapshotFutures} class is useful to obtain and format AccountSnapshotFutures object
  * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+ * @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class AccountSnapshotFutures extends AccountSnapshot{

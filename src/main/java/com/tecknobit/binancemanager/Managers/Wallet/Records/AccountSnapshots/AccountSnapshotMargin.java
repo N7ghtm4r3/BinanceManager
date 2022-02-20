@@ -6,8 +6,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- *  The {@code AccountSnapshotMargin} class is useful to obtain and format AccountSnapshotMargin object
+ * The {@code AccountSnapshotMargin} class is useful to obtain and format AccountSnapshotMargin object
  * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+ * @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class AccountSnapshotMargin extends AccountSnapshot{

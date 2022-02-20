@@ -3,6 +3,7 @@ package com.tecknobit.binancemanager.Managers.Wallet.Records.Deposit;
 /**
  *  The {@code Deposit} class is useful to manage Deposit Binance request
  *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data
+ *  @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class Deposit {

@@ -1,5 +1,11 @@
 package com.tecknobit.binancemanager.Managers.Wallet.Records;
 
+/**
+ *  The {@code TradeFee} class is useful to manage TradeFee Binance request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data
+ *  @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class TradeFee {
 
     private final String symbol;

@@ -6,8 +6,9 @@ import com.tecknobit.binancemanager.Managers.BinanceManager;
 import java.io.IOException;
 
 /**
- *  The {@code BinanceMarketManager} class is useful to manage all Binance Market Endpoints
- *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#market-data-endpoints
+ * The {@code BinanceMarketManager} class is useful to manage all Binance Market Endpoints
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#market-data-endpoints
+ * @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class BinanceMarketManager extends BinanceManager {

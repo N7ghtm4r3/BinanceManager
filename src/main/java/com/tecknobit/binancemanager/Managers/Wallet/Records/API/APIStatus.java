@@ -6,6 +6,7 @@ import java.util.HashMap;
 /**
  *  The {@code APIStatus} class is useful to manage APIStatus Binance request
  *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data
+ *  @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class APIStatus {

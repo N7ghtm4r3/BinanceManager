@@ -17,6 +17,7 @@ import static java.util.Arrays.asList;
  *  The {@code BinanceManager} class is useful to manage all Binance Endpoints
  *  giving basics methods for others Binance managers and basics endpoints for API request
  *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#introduction
+ *  @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class BinanceManager {

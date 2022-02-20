@@ -30,6 +30,7 @@ import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.POST_M
 /**
  *  The {@code BinanceWalletManager} class is useful to manage all Binance Wallet Endpoints
  *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#general-api-information
+ *  @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class BinanceWalletManager extends BinanceManager {
