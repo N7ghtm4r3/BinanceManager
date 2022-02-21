@@ -4,6 +4,8 @@ import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.BinanceManager;
 import com.tecknobit.binancemanager.Managers.Market.Records.ExchangeInformation;
 import com.tecknobit.binancemanager.Managers.Market.Records.OrderBook;
+import com.tecknobit.binancemanager.Managers.Market.Records.RecentTrade;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -126,6 +128,46 @@ public class BinanceMarketManager extends BinanceManager {
         jsonObject = new JSONObject(getOrderBook(symbol, limit));
         return new OrderBook(jsonObject.getLong("lastUpdateId"),jsonObject,
                 symbol);
+    }
+
+    public String getRecentTrade(String symbol) throws IOException {
+        return getRequestResponse(RECENT_TRADE_LIST_ENPOINT,"?symbol="+symbol,GET_METHOD);
+    }
+
+    public JSONArray getJSONRecentTrade(String symbol) throws IOException {
+        return new JSONArray(getRecentTrade(symbol));
+    }
+
+    public ArrayList<RecentTrade> getRecentTradeList(String symbol) throws IOException {
+        return getRecentTradeList(new JSONArray(getRecentTrade(symbol)));
+    }
+
+    public String getRecentTrade(String symbol, int limit) throws IOException {
+        return getRequestResponse(RECENT_TRADE_LIST_ENPOINT,"?symbol="+symbol+"&limit="+limit,GET_METHOD);
+    }
+
+    public JSONArray getJSONRecentTrade(String symbol, int limit) throws IOException {
+        return new JSONArray(getRecentTrade(symbol,limit));
+    }
+
+    public ArrayList<RecentTrade> getRecentTradeList(String symbol, int limit) throws IOException {
+        return getRecentTradeList(new JSONArray(getRecentTrade(symbol,limit)));
+    }
+
+    private ArrayList<RecentTrade> getRecentTradeList(JSONArray jsonArray) {
+        ArrayList<RecentTrade> recentTrades = new ArrayList<>();
+        for (int j=0; j < jsonArray.length(); j++){
+            JSONObject recentTrade = jsonArray.getJSONObject(j);
+            recentTrades.add(new RecentTrade(recentTrade.getLong("id"),
+                    recentTrade.getDouble("price"),
+                    recentTrade.getDouble("qty"),
+                    recentTrade.getDouble("quoteQty"),
+                    recentTrade.getLong("time"),
+                    recentTrade.getBoolean("isBuyerMaker"),
+                    recentTrade.getBoolean("isBestMatch")
+            ));
+        }
+        return recentTrades;
     }
 
 }

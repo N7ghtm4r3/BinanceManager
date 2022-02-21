@@ -37,6 +37,6 @@ public class EndpointsList {
     public static final String TEST_CONNECTIVITY_ENDPOINT = "/api/v3/ping";
     public static final String EXCHANGE_INFORMATION_ENDPOINT = "/api/v3/exchangeInfo";
     public static final String ORDER_BOOK_ENDPOINT = "/api/v3/depth";
-    public static final String TRADE_LIST_ENPOINT = "/api/v3/trades";
+    public static final String RECENT_TRADE_LIST_ENPOINT = "/api/v3/trades";
 
 }
