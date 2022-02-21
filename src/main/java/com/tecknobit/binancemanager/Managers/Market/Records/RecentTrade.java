@@ -1,5 +1,11 @@
 package com.tecknobit.binancemanager.Managers.Market.Records;
 
+/**
+ * The {@code RecentTrade} class is useful to format Binance Recent Trade request
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list
+ * @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class RecentTrade {
 
     private final long id;

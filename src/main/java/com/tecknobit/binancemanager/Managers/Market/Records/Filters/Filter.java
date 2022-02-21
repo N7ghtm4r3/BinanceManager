@@ -5,6 +5,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ *  The {@code Filter} class is useful to format filter of ExchangeInformation Binance request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+ *  @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class Filter {
 
     public static final String PRICE_FILTER = "PRICE_FILTER";
@@ -37,6 +43,11 @@ public class Filter {
         return filterType;
     }
 
+    /** Method to get order details value formatted in JSON
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#order-book
+     * return JsonObject of key and values of a filter
+     * **/
     public JSONObject getFilterDetails() {
        HashMap<String,HashMap<String,Object>> filterDetails = new HashMap<>();
        HashMap<String,Object> filterValues = new HashMap<>();
@@ -45,6 +56,11 @@ public class Filter {
        filterDetails.put(filterType, filterValues);
        return new JSONObject(filterDetails);
     }
+
+    /**
+     * The {@code FilterDetails} class is useful to contain and format FilterDetails object
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * **/
 
     public static class FilterDetails {
 

@@ -6,6 +6,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ *  The {@code ExchangeInformation} class is useful to manage ExchangeInformation Binance request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+ *  @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class ExchangeInformation {
 
     private final String timezone;
@@ -24,6 +30,11 @@ public class ExchangeInformation {
         assembleSymbols();
     }
 
+    /** Method to assemble an RateLimits list
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * any return
+     * **/
     private void assembleRateLimits() {
         rateLimits = new ArrayList<>();
         JSONArray jsonArray = jsonObject.getJSONArray("rateLimits");
@@ -37,6 +48,11 @@ public class ExchangeInformation {
         }
     }
 
+    /** Method to assemble a Filters list
+     * @param #jsonArray: obtained from Binance request
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * return filters list as ArrayList<Filter> object
+     * **/
     private static ArrayList<Filter> assembleFilters(JSONArray jsonArray) {
         ArrayList<Filter> filters = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
@@ -50,6 +66,11 @@ public class ExchangeInformation {
         return filters;
     }
 
+    /** Method to assemble a Symbols list
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * any return
+     * **/
     private void assembleSymbols() {
         symbols = new ArrayList<>();
         JSONArray jsonArray = jsonObject.getJSONArray("symbols");
@@ -93,6 +114,11 @@ public class ExchangeInformation {
         return symbols;
     }
 
+    /**
+     * The {@code RateLimit} class is useful to obtain and format RateLimit object
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * **/
+
     public static class RateLimit {
 
         public static final String RATE_TYPE_REQUEST_WEIGHT = "REQUEST_WEIGHT";
@@ -131,6 +157,11 @@ public class ExchangeInformation {
         }
 
     }
+
+    /**
+     * The {@code Symbol} class is useful to obtain and format Symbol object
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * **/
 
     public static class Symbol {
 
@@ -172,6 +203,11 @@ public class ExchangeInformation {
             this.baseCommissionPrecision = baseCommissionPrecision;
         }
 
+        /** Method to assemble a ExchangeEnumValues list
+         * @param #jsonArray: obtained from Binance request
+         * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+         * return exchangeEnumValues list as ArrayList<ExchangeEnumValues> object
+         * **/
         private ArrayList<ExchangeEnumValues> loadEnumsList(JSONArray jsonArray){
             ArrayList<ExchangeEnumValues> enumValues = new ArrayList<>();
             for(int j=0; j < jsonArray.length(); j++)
@@ -242,6 +278,11 @@ public class ExchangeInformation {
         public int getBaseCommissionPrecision() {
             return baseCommissionPrecision;
         }
+
+        /**
+         * The {@code ExchangeEnumValues} class is useful to contain and format ExchangeEnumValues object
+         * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+         * **/
 
         public static class ExchangeEnumValues {
 

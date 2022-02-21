@@ -37,18 +37,38 @@ public class BinanceMarketManager extends BinanceManager {
         super(null);
     }
 
+    /** Request to get if service is avaible
+     * any param required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#test-connectivity
+     * return response as boolean
+     * **/
     public boolean isMarketServiceWork() throws IOException {
         return getRequestResponse(TEST_CONNECTIVITY_ENDPOINT,"",GET_METHOD).equals("{}");
     }
 
+    /** Request to get exchange information
+     * any param required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * return exchange information as String
+     * **/
     public String getExchangeInformation() throws IOException {
         return getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT,"",GET_METHOD);
     }
 
+    /** Request to get exchange information
+     * any param required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * return exchange information as JSONObject
+     * **/
     public JSONObject getJSONExchangeInformation() throws IOException {
         return new JSONObject(getExchangeInformation());
     }
 
+    /** Request to get exchange information
+     * any param required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * return exchange information as ExchangeInformation object
+     * **/
     public ExchangeInformation getObjectExchangeInformation() throws IOException {
         jsonObject = new JSONObject(getExchangeInformation());
         return new ExchangeInformation(jsonObject.getString("timezone"),
@@ -56,18 +76,38 @@ public class BinanceMarketManager extends BinanceManager {
                 jsonObject);
     }
 
+    /** Request to get exchange information
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * return exchange information as String
+     * **/
     public String getExchangeInformation(String symbol) throws Exception {
         return getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT,"?symbol="+symbol,GET_METHOD);
     }
 
+    /** Request to get exchange information
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * return exchange information as JSONObject
+     * **/
     public JSONObject getJSONExchangeInformation(String symbol) throws Exception {
         return new JSONObject(getExchangeInformation(symbol));
     }
 
+    /** Request to get exchange information
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * return exchange information as ExchangeInformation object
+     * **/
     public ExchangeInformation getObjectExchangeInformation(String symbol) throws Exception {
         return getObjectExchangeInformation(new JSONObject(getExchangeInformation(symbol)));
     }
 
+    /** Request to get exchange information
+     * @param #symbols: ArrayList of symbols to fetch exchange information es. BTCBUSD,ETHBUSD (auto assembled)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * return exchange information as String
+     * **/
     public String getExchangeInformation(ArrayList<String> symbols) throws Exception {
         StringBuilder params = new StringBuilder();
         for (String symbol : symbols)
@@ -76,84 +116,191 @@ public class BinanceMarketManager extends BinanceManager {
         return getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT,"?symbols=["+ params +"]",GET_METHOD);
     }
 
+    /** Request to get exchange information
+     * @param #symbols: ArrayList of symbols to fetch exchange information es. BTCBUSD,ETHBUSD (auto assembled)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * return exchange information as JSONObject
+     * **/
     public JSONObject getJSONExchangeInformation(ArrayList<String> symbols) throws Exception {
         return new JSONObject(getExchangeInformation(symbols));
     }
 
+    /** Request to get exchange information
+     * @param #symbols: ArrayList of symbols to fetch exchange information es. BTCBUSD,ETHBUSD (auto assembled)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * return exchange information as ExchangeInformation object
+     * **/
     public ExchangeInformation getObjectExchangeInformation(ArrayList<String> symbols) throws Exception {
         return getObjectExchangeInformation(new JSONObject(getExchangeInformation(symbols)));
     }
 
+    /** Request to get exchange information
+     * @param #symbols: String[] of symbols to fetch exchange information es. BTCBUSD,ETHBUSD (auto assembled)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * return exchange information as String
+     * **/
     public String getExchangeInformation(String[] symbols) throws Exception {
        return getExchangeInformation(new ArrayList<>(Arrays.asList(symbols)));
     }
 
+    /** Request to get exchange information
+     * @param #symbols: String[] of symbols to fetch exchange information es. BTCBUSD,ETHBUSD (auto assembled)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * return exchange information as JSONObject
+     * **/
     public JSONObject getJSONExchangeInformation(String[] symbols) throws Exception {
         return new JSONObject(getExchangeInformation(symbols));
     }
 
+    /** Request to get exchange information
+     * @param #symbols: String[] of symbols to fetch exchange information es. BTCBUSD,ETHBUSD (auto assembled)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * return exchange information as ExchangeInformation object
+     * **/
     public ExchangeInformation getObjectExchangeInformation(String[] symbols) throws Exception {
         return getObjectExchangeInformation(new JSONObject(getExchangeInformation(symbols)));
     }
 
+    /** Method to get ExchangeInformation object
+     * @param #jsonObject: obtained from Binance request
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * return exchange information as ExchangeInformation object
+     * **/
     private ExchangeInformation getObjectExchangeInformation(JSONObject jsonObject){
         return new ExchangeInformation(jsonObject.getString("timezone"),
                 jsonObject.getLong("serverTime"),
                 jsonObject);
     }
 
+    /** Request to get order book
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#order-book
+     * return order book as String
+     * **/
     public String getOrderBook(String symbol) throws IOException {
         return getRequestResponse(ORDER_BOOK_ENDPOINT,"?symbol="+symbol,GET_METHOD);
     }
 
+    /** Request to get order book
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#order-book
+     * return order book as JSONObject
+     * **/
     public JSONObject getJSONOrderBook(String symbol) throws IOException {
         return new JSONObject(getOrderBook(symbol));
     }
 
+    /** Request to get order book
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#order-book
+     * return order book as OrderBook object
+     * **/
     public OrderBook getObjectOrderBook(String symbol) throws IOException {
         jsonObject = new JSONObject(getOrderBook(symbol));
         return new OrderBook(jsonObject.getLong("lastUpdateId"),jsonObject,
                 symbol);
     }
 
+    /** Request to get order book
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @param #limit: limit of resutl to fetch
+     * @implSpec Limit of default is 100 and max 5000. Valid limits:[5, 10, 20, 50, 100, 500, 1000, 5000]
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#order-book
+     * return order book as String
+     * **/
     public String getOrderBook(String symbol, int limit) throws IOException {
         return getRequestResponse(ORDER_BOOK_ENDPOINT,"?symbol="+symbol+"&limit="+limit,GET_METHOD);
     }
 
+    /** Request to get order book
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @param #limit: limit of resutl to fetch
+     * @implSpec Limit of default is 100 and max 5000. Valid limits:[5, 10, 20, 50, 100, 500, 1000, 5000]
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#order-book
+     * return order book as JSONObject
+     * **/
     public JSONObject getJSONOrderBook(String symbol, int limit) throws IOException {
         return new JSONObject(getOrderBook(symbol,limit));
     }
 
+    /** Request to get order book
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @param #limit: limit of resutl to fetch
+     * @implSpec Limit of default is 100 and max 5000. Valid limits:[5, 10, 20, 50, 100, 500, 1000, 5000]
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#order-book
+     * return order book as OrderBook object
+     * **/
     public OrderBook getObjectOrderBook(String symbol, int limit) throws IOException {
         jsonObject = new JSONObject(getOrderBook(symbol, limit));
         return new OrderBook(jsonObject.getLong("lastUpdateId"),jsonObject,
                 symbol);
     }
 
+    /** Request to get order book
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list
+     * return order book as String
+     * **/
     public String getRecentTrade(String symbol) throws IOException {
         return getRequestResponse(RECENT_TRADE_LIST_ENPOINT,"?symbol="+symbol,GET_METHOD);
     }
 
+    /** Request to get order book
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list
+     * return order book as JsonArray
+     * **/
     public JSONArray getJSONRecentTrade(String symbol) throws IOException {
         return new JSONArray(getRecentTrade(symbol));
     }
 
+    /** Request to get order book
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list
+     * return order book as ArrayList<RecentTrade>
+     * **/
     public ArrayList<RecentTrade> getRecentTradeList(String symbol) throws IOException {
         return getRecentTradeList(new JSONArray(getRecentTrade(symbol)));
     }
 
+    /** Request to get recent trade
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @param #limit: limit of resutl to fetch
+     * @implSpec Limit of default is 100 and max 5000. Valid limits:[5, 10, 20, 50, 100, 500, 1000, 5000]
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list
+     * return recent trade as String
+     * **/
     public String getRecentTrade(String symbol, int limit) throws IOException {
         return getRequestResponse(RECENT_TRADE_LIST_ENPOINT,"?symbol="+symbol+"&limit="+limit,GET_METHOD);
     }
 
+    /** Request to get recent trade
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @param #limit: limit of resutl to fetch
+     * @implSpec Limit of default is 100 and max 5000. Valid limits:[5, 10, 20, 50, 100, 500, 1000, 5000]
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list
+     * return recent trade as JsonArray
+     * **/
     public JSONArray getJSONRecentTrade(String symbol, int limit) throws IOException {
         return new JSONArray(getRecentTrade(symbol,limit));
     }
 
+    /** Request to get recent trade
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @param #limit: limit of resutl to fetch
+     * @implSpec Limit of default is 100 and max 5000. Valid limits:[5, 10, 20, 50, 100, 500, 1000, 5000]
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list
+     * return recent trade as ArrayList<RecentTrade>
+     * **/
     public ArrayList<RecentTrade> getRecentTradeList(String symbol, int limit) throws IOException {
         return getRecentTradeList(new JSONArray(getRecentTrade(symbol,limit)));
     }
 
+    /** Method to get RecentTrade list object
+     * @param #jsonArray: obtained from Binance request
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list
+     * return recent trades list as ArrayList<RecentTrade> object
+     * **/
     private ArrayList<RecentTrade> getRecentTradeList(JSONArray jsonArray) {
         ArrayList<RecentTrade> recentTrades = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
