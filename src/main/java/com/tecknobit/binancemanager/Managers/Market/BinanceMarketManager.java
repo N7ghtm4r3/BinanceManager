@@ -3,6 +3,7 @@ package com.tecknobit.binancemanager.Managers.Market;
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.BinanceManager;
 import com.tecknobit.binancemanager.Managers.Market.Records.Candlestick;
+import com.tecknobit.binancemanager.Managers.Market.Records.CurrentAveragePrice;
 import com.tecknobit.binancemanager.Managers.Market.Records.ExchangeInformation;
 import com.tecknobit.binancemanager.Managers.Market.Records.OrderBook;
 import com.tecknobit.binancemanager.Managers.Market.Records.Trade.CompressedTrade;
@@ -482,6 +483,26 @@ public class BinanceMarketManager extends BinanceManager {
             ));
         }
         return candlesticksList;
+    }
+
+    public String getCurrentAveragePrice(String symbol) throws IOException {
+        return getRequestResponse(CURRENT_AVERAGE_PRICE_ENDPOINT,"?symbol="+symbol,GET_METHOD);
+    }
+
+    public JSONObject getJSONCurrentAveragePrice(String symbol) throws IOException {
+        return new JSONObject(getCurrentAveragePrice(symbol));
+    }
+
+    public double getCurrentAveragePriceValue(String symbol) throws IOException {
+        jsonObject = new JSONObject(getCurrentAveragePrice(symbol));
+        return jsonObject.getDouble("price");
+    }
+
+    public CurrentAveragePrice getObjectCurrentAveragePrice(String symbol) throws IOException {
+        jsonObject = new JSONObject(getCurrentAveragePrice(symbol));
+        return new CurrentAveragePrice(jsonObject.getInt("mins"),
+                jsonObject.getDouble("price")
+        );
     }
 
 }
