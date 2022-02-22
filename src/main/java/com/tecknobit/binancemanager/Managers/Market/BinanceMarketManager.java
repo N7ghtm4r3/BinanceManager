@@ -4,13 +4,14 @@ import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.BinanceManager;
 import com.tecknobit.binancemanager.Managers.Market.Records.ExchangeInformation;
 import com.tecknobit.binancemanager.Managers.Market.Records.OrderBook;
-import com.tecknobit.binancemanager.Managers.Market.Records.RecentTrade;
+import com.tecknobit.binancemanager.Managers.Market.Records.Trade;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.GET_METHOD;
@@ -236,31 +237,31 @@ public class BinanceMarketManager extends BinanceManager {
                 symbol);
     }
 
-    /** Request to get order book
+    /** Request to get recent trade
      * @param #symbol: symbol to fetch exchange information es. BTCBUSD
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list
-     * return order book as String
+     * return recent trade as String
      * **/
     public String getRecentTrade(String symbol) throws IOException {
-        return getRequestResponse(RECENT_TRADE_LIST_ENPOINT,"?symbol="+symbol,GET_METHOD);
+        return getRequestResponse(RECENT_TRADE_LIST_ENDPOINT,"?symbol="+symbol,GET_METHOD);
     }
 
-    /** Request to get order book
+    /** Request to get recent trade
      * @param #symbol: symbol to fetch exchange information es. BTCBUSD
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list
-     * return order book as JsonArray
+     * return recent trade as JsonArray
      * **/
     public JSONArray getJSONRecentTrade(String symbol) throws IOException {
         return new JSONArray(getRecentTrade(symbol));
     }
 
-    /** Request to get order book
+    /** Request to get recent trade
      * @param #symbol: symbol to fetch exchange information es. BTCBUSD
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list
-     * return order book as ArrayList<RecentTrade>
+     * return recent trade as ArrayList<Trade>
      * **/
-    public ArrayList<RecentTrade> getRecentTradeList(String symbol) throws IOException {
-        return getRecentTradeList(new JSONArray(getRecentTrade(symbol)));
+    public ArrayList<Trade> getRecentTradeList(String symbol) throws IOException {
+        return getTradeList(new JSONArray(getRecentTrade(symbol)));
     }
 
     /** Request to get recent trade
@@ -271,7 +272,7 @@ public class BinanceMarketManager extends BinanceManager {
      * return recent trade as String
      * **/
     public String getRecentTrade(String symbol, int limit) throws IOException {
-        return getRequestResponse(RECENT_TRADE_LIST_ENPOINT,"?symbol="+symbol+"&limit="+limit,GET_METHOD);
+        return getRequestResponse(RECENT_TRADE_LIST_ENDPOINT,"?symbol="+symbol+"&limit="+limit,GET_METHOD);
     }
 
     /** Request to get recent trade
@@ -290,22 +291,22 @@ public class BinanceMarketManager extends BinanceManager {
      * @param #limit: limit of resutl to fetch
      * @implSpec Limit of default is 100 and max 5000. Valid limits:[5, 10, 20, 50, 100, 500, 1000, 5000]
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list
-     * return recent trade as ArrayList<RecentTrade>
+     * return recent trade as ArrayList<Trade>
      * **/
-    public ArrayList<RecentTrade> getRecentTradeList(String symbol, int limit) throws IOException {
-        return getRecentTradeList(new JSONArray(getRecentTrade(symbol,limit)));
+    public ArrayList<Trade> getRecentTradeList(String symbol, int limit) throws IOException {
+        return getTradeList(new JSONArray(getRecentTrade(symbol,limit)));
     }
 
     /** Method to get RecentTrade list object
      * @param #jsonArray: obtained from Binance request
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list
-     * return recent trades list as ArrayList<RecentTrade> object
+     * return recent trades list as ArrayList<Trade> object
      * **/
-    private ArrayList<RecentTrade> getRecentTradeList(JSONArray jsonArray) {
-        ArrayList<RecentTrade> recentTrades = new ArrayList<>();
+    private ArrayList<Trade> getTradeList(JSONArray jsonArray) {
+        ArrayList<Trade> trades = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
             JSONObject recentTrade = jsonArray.getJSONObject(j);
-            recentTrades.add(new RecentTrade(recentTrade.getLong("id"),
+            trades.add(new Trade(recentTrade.getLong("id"),
                     recentTrade.getDouble("price"),
                     recentTrade.getDouble("qty"),
                     recentTrade.getDouble("quoteQty"),
@@ -314,7 +315,81 @@ public class BinanceMarketManager extends BinanceManager {
                     recentTrade.getBoolean("isBestMatch")
             ));
         }
-        return recentTrades;
+        return trades;
+    }
+
+    /** Request to get old trade
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @param #apiKey: apiKey of your Binance account
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data
+     * return old trade as String
+     * **/
+    public String getOldTrade(String symbol, String apiKey) throws IOException {
+        return getRequestResponse(OLD_TRADE_LOOKUP_ENDPOINT,"?symbol="+symbol,GET_METHOD,apiKey);
+    }
+
+    /** Request to get old trade
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @param #apiKey: apiKey of your Binance account
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data
+     * return old trade as JsonArray
+     * **/
+    public JSONArray getJSONOldTrade(String symbol, String apiKey) throws IOException {
+        return new JSONArray(getOldTrade(symbol,apiKey));
+    }
+
+    /** Request to get old trade
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @param #apiKey: apiKey of your Binance account
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list
+     * return old trade as ArrayList<Trade>
+     * **/
+    public ArrayList<Trade> getOldTradeList(String symbol, String apiKey) throws IOException {
+        return getTradeList(new JSONArray(getOldTrade(symbol,apiKey)));
+    }
+
+    /** Request to get old trade
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @param #apiKey: apiKey of your Binance account
+     * @param #extraParams: extraParams of request
+     * @implSpec (keys accepted are limit,fromId)
+     * @implNote limit: valid limits are default 500 and max 1000
+     * @implNote fromId: to insert it correctly ad L at the end of long number es 1499865549590 + L = 1499865549590L
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data
+     * return old trade as String
+     * **/
+    public String getOldTrade(String symbol, String apiKey, HashMap<String,Object> extraParams) throws IOException {
+        String params = "?symbol="+symbol;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return getRequestResponse(OLD_TRADE_LOOKUP_ENDPOINT,params,GET_METHOD,apiKey);
+    }
+
+    /** Request to get old trade
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @param #apiKey: apiKey of your Binance account
+     * @param #extraParams: extraParams of request
+     * @implSpec (keys accepted are limit,fromId)
+     * @implNote limit: valid limits are default 500 and max 1000
+     * @implNote fromId: to insert it correctly ad L at the end of long number es 1499865549590 + L = 1499865549590L
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data
+     * return old trade as JsonArray
+     * **/
+    public JSONArray getJSONOldTrade(String symbol, String apiKey, HashMap<String,Object> extraParams) throws IOException {
+        return new JSONArray(getOldTrade(symbol,apiKey,extraParams));
+    }
+
+    /** Request to get old trade
+     * @param #symbol: symbol to fetch exchange information es. BTCBUSD
+     * @param #apiKey: apiKey of your Binance account
+     * @param #extraParams: extraParams of request
+     * @implSpec (keys accepted are limit,fromId)
+     * @implNote limit: valid limits are default 500 and max 1000
+     * @implNote fromId: to insert it correctly ad L at the end of long number es 1499865549590 + L = 1499865549590L
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data
+     * return old trade as ArrayList<Trade>
+     * **/
+    public ArrayList<Trade> getOldTradeList(String symbol, String apiKey, HashMap<String,Object> extraParams) throws IOException {
+        return getTradeList(new JSONArray(getOldTrade(symbol,apiKey,extraParams)));
     }
 
 }

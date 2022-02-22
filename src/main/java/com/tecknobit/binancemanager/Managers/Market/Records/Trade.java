@@ -1,12 +1,12 @@
 package com.tecknobit.binancemanager.Managers.Market.Records;
 
 /**
- * The {@code RecentTrade} class is useful to format Binance Recent Trade request
+ * The {@code Trade} class is useful to format Binance Recent Trade request
  * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list
  * @author N7ghtm4r3 - Tecknobit
  * **/
 
-public class RecentTrade {
+public class Trade {
 
     private final long id;
     private final double price;
@@ -16,7 +16,7 @@ public class RecentTrade {
     private final boolean isBuyerMaker;
     private final boolean isBestMatch;
 
-    public RecentTrade(long id, double price, double qty, double quoteQty, long time, boolean isBuyerMaker, boolean isBestMatch) {
+    public Trade(long id, double price, double qty, double quoteQty, long time, boolean isBuyerMaker, boolean isBestMatch) {
         this.id = id;
         this.price = price;
         this.qty = qty;
