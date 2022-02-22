@@ -43,17 +43,5 @@ public class AssetDetail {
         return depositTip;
     }
 
-    @Override
-    public String toString() {
-        return "AssetDetail{" +
-                "assetName='" + assetName + '\'' +
-                ", minWithdrawAmount=" + minWithdrawAmount +
-                ", depositStatus=" + depositStatus +
-                ", withdrawFee=" + withdrawFee +
-                ", withdrawStatus=" + withdrawStatus +
-                ", depositTip='" + depositTip + '\'' +
-                '}';
-    }
-
 }
 
