@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.Market.Records;
+package com.tecknobit.binancemanager.Managers.Market.Records.Stats;
 
 public class Candlestick {
 

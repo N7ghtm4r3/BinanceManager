@@ -2,10 +2,10 @@ package com.tecknobit.binancemanager.Managers.Market;
 
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.BinanceManager;
-import com.tecknobit.binancemanager.Managers.Market.Records.Candlestick;
-import com.tecknobit.binancemanager.Managers.Market.Records.CurrentAveragePrice;
-import com.tecknobit.binancemanager.Managers.Market.Records.ExchangeInformation;
-import com.tecknobit.binancemanager.Managers.Market.Records.OrderBook;
+import com.tecknobit.binancemanager.Managers.Market.Records.Stats.Candlestick;
+import com.tecknobit.binancemanager.Managers.Market.Records.Price.CurrentAveragePrice;
+import com.tecknobit.binancemanager.Managers.Market.Records.Stats.ExchangeInformation;
+import com.tecknobit.binancemanager.Managers.Market.Records.Book.OrderBook;
 import com.tecknobit.binancemanager.Managers.Market.Records.Trade.CompressedTrade;
 import com.tecknobit.binancemanager.Managers.Market.Records.Trade.Trade;
 import org.json.JSONArray;
