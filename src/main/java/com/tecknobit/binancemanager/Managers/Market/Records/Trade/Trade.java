@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.Market.Records;
+package com.tecknobit.binancemanager.Managers.Market.Records.Trade;
 
 /**
  * The {@code Trade} class is useful to format Binance Recent Trade request

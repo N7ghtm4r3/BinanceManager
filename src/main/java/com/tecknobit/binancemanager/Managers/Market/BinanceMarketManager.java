@@ -2,9 +2,11 @@ package com.tecknobit.binancemanager.Managers.Market;
 
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.BinanceManager;
+import com.tecknobit.binancemanager.Managers.Market.Records.Candlestick;
 import com.tecknobit.binancemanager.Managers.Market.Records.ExchangeInformation;
 import com.tecknobit.binancemanager.Managers.Market.Records.OrderBook;
-import com.tecknobit.binancemanager.Managers.Market.Records.Trade;
+import com.tecknobit.binancemanager.Managers.Market.Records.Trade.CompressedTrade;
+import com.tecknobit.binancemanager.Managers.Market.Records.Trade.Trade;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -390,6 +392,96 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     public ArrayList<Trade> getOldTradeList(String symbol, String apiKey, HashMap<String,Object> extraParams) throws IOException {
         return getTradeList(new JSONArray(getOldTrade(symbol,apiKey,extraParams)));
+    }
+
+    public String getCompressedTradeList(String symbol) throws IOException {
+        return getRequestResponse(COMPRESSED_TRADE_LIST_ENDPOINT,"?symbol="+symbol,GET_METHOD);
+    }
+
+    public JSONArray getJSONCompressedTradeList(String symbol) throws IOException {
+        return new JSONArray(getCompressedTradeList(symbol));
+    }
+
+    public ArrayList<CompressedTrade> getObjectCompressedTradeList(String symbol) throws IOException {
+        return getObjectCompressedTradeList(new JSONArray(getCompressedTradeList(symbol)));
+    }
+
+    public String getCompressedTradeList(String symbol, HashMap<String,Object> extraParams) throws IOException {
+        String params = "?symbol="+symbol;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return getRequestResponse(COMPRESSED_TRADE_LIST_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONCompressedTradeList(String symbol, HashMap<String,Object> extraParams) throws IOException {
+        return new JSONArray(getCompressedTradeList(symbol,extraParams));
+    }
+
+    public ArrayList<CompressedTrade> getObjectCompressedTradeList(String symbol, HashMap<String,Object> extraParams) throws IOException {
+        return getObjectCompressedTradeList(new JSONArray(getCompressedTradeList(symbol,extraParams)));
+    }
+
+    private ArrayList<CompressedTrade> getObjectCompressedTradeList(JSONArray jsonArray){
+        ArrayList<CompressedTrade> compressedTrades = new ArrayList<>();
+        for (int j=0; j < jsonArray.length(); j++){
+            JSONObject compressedTrade = jsonArray.getJSONObject(j);
+            compressedTrades.add(new CompressedTrade(compressedTrade.getLong("a"),
+                    compressedTrade.getDouble("p"),
+                    compressedTrade.getDouble("q"),
+                    compressedTrade.getLong("f"),
+                    compressedTrade.getLong("l"),
+                    compressedTrade.getLong("T"),
+                    compressedTrade.getBoolean("m"),
+                    compressedTrade.getBoolean("M")
+            ));
+        }
+        return compressedTrades;
+    }
+
+    public String getCandlestickData(String symbol, String interval) throws IOException {
+        return getRequestResponse(CANDLESTICK_DATA_ENDPOINT,"?symbol="+symbol+"&interval="+interval,GET_METHOD);
+    }
+
+    public JSONArray getJSONCandlestickData(String symbol, String interval) throws IOException {
+        return new JSONArray(getCandlestickData(symbol,interval));
+    }
+
+    public ArrayList<Candlestick> getCandlestickDataList(String symbol, String interval) throws IOException {
+        return getCandlestickDataList(new JSONArray(getCandlestickData(symbol,interval)));
+    }
+
+    public String getCandlestickData(String symbol, String interval, HashMap<String,Object> extraParams) throws IOException {
+        String params = "?symbol="+symbol+"&interval="+interval;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return getRequestResponse(CANDLESTICK_DATA_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONCandlestickData(String symbol, String interval, HashMap<String,Object> extraParams) throws IOException {
+        return new JSONArray(getCandlestickData(symbol,interval,extraParams));
+    }
+
+    public ArrayList<Candlestick> getCandlestickDataList(String symbol, String interval, HashMap<String,Object> extraParams) throws IOException {
+        return getCandlestickDataList(new JSONArray(getCandlestickData(symbol,interval,extraParams)));
+    }
+
+    private ArrayList<Candlestick> getCandlestickDataList(JSONArray jsonArray){
+        ArrayList<Candlestick> candlesticksList = new ArrayList<>();
+        for (int j=0; j < jsonArray.length(); j++){
+            JSONArray candlestick = jsonArray.getJSONArray(j);
+            candlesticksList.add(new Candlestick(candlestick.getLong(0),
+                    candlestick.getDouble(1),
+                    candlestick.getDouble(2),
+                    candlestick.getDouble(3),
+                    candlestick.getDouble(4),
+                    candlestick.getDouble(5),
+                    candlestick.getLong(6),
+                    candlestick.getDouble(7),
+                    candlestick.getInt(8),
+                    candlestick.getDouble(9),
+                    candlestick.getDouble(10),
+                    candlestick.getDouble(11)
+            ));
+        }
+        return candlesticksList;
     }
 
 }
