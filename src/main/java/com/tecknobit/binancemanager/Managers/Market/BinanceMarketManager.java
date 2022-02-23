@@ -6,7 +6,7 @@ import com.tecknobit.binancemanager.Managers.Market.Records.Stats.Candlestick;
 import com.tecknobit.binancemanager.Managers.Market.Records.CurrentAveragePrice;
 import com.tecknobit.binancemanager.Managers.Market.Records.Stats.ExchangeInformation;
 import com.tecknobit.binancemanager.Managers.Market.Records.OrderBook;
-import com.tecknobit.binancemanager.Managers.Market.Records.Tickers.BookTicker;
+import com.tecknobit.binancemanager.Managers.Market.Records.Tickers.OrderBookTicker;
 import com.tecknobit.binancemanager.Managers.Market.Records.Tickers.PriceTicker;
 import com.tecknobit.binancemanager.Managers.Market.Records.Tickers.TickerPriceChange;
 import com.tecknobit.binancemanager.Managers.Market.Records.Trade.CompressedTrade;
@@ -398,32 +398,73 @@ public class BinanceMarketManager extends BinanceManager {
         return getTradeList(new JSONArray(getOldTrade(symbol,apiKey,extraParams)));
     }
 
+    /** Request to get compressed trade list
+     * @param #symbol: symbol to fetch compressed trade es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list
+     * return compressed trade list as String
+     * **/
     public String getCompressedTradeList(String symbol) throws IOException {
         return getRequestResponse(COMPRESSED_TRADE_LIST_ENDPOINT,"?symbol="+symbol,GET_METHOD);
     }
 
+    /** Request to get compressed trade list
+     * @param #symbol: symbol to fetch compressed trade es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list
+     * return compressed trade list as JsonArray
+     * **/
     public JSONArray getJSONCompressedTradeList(String symbol) throws IOException {
         return new JSONArray(getCompressedTradeList(symbol));
     }
 
+    /** Request to get compressed trade list
+     * @param #symbol: symbol to fetch compressed trade es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list
+     * return compressed trade list as ArrayList<CompressedTrade>
+     * **/
     public ArrayList<CompressedTrade> getObjectCompressedTradeList(String symbol) throws IOException {
         return getObjectCompressedTradeList(new JSONArray(getCompressedTradeList(symbol)));
     }
 
+    /** Request to get compressed trade list
+     * @param #symbol: symbol to fetch compressed trade es. BTCBUSD
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are fromId,startTime,endTime,limit)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list
+     * return compressed trade list as String
+     * **/
     public String getCompressedTradeList(String symbol, HashMap<String,Object> extraParams) throws IOException {
         String params = "?symbol="+symbol;
         params = requestManager.assembleExtraParams(params,extraParams);
         return getRequestResponse(COMPRESSED_TRADE_LIST_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get compressed trade list
+     * @param #symbol: symbol to fetch compressed trade es. BTCBUSD
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are fromId,startTime,endTime,limit)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list
+     * return compressed trade list as JsonArray
+     * **/
     public JSONArray getJSONCompressedTradeList(String symbol, HashMap<String,Object> extraParams) throws IOException {
         return new JSONArray(getCompressedTradeList(symbol,extraParams));
     }
 
+    /** Request to get compressed trade list
+     * @param #symbol: symbol to fetch compressed trade es. BTCBUSD
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are fromId,startTime,endTime,limit)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list
+     * return compressed trade list as ArrayList<CompressedTrade>
+     * **/
     public ArrayList<CompressedTrade> getObjectCompressedTradeList(String symbol, HashMap<String,Object> extraParams) throws IOException {
         return getObjectCompressedTradeList(new JSONArray(getCompressedTradeList(symbol,extraParams)));
     }
 
+    /** Method to assemble CompressedTrade list
+     * @param #jsonArray: obtain from Binance request
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list
+     * return list of compressedTrade as ArrayList<CompressedTrade>
+     * **/
     private ArrayList<CompressedTrade> getObjectCompressedTradeList(JSONArray jsonArray){
         ArrayList<CompressedTrade> compressedTrades = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
@@ -441,32 +482,79 @@ public class BinanceMarketManager extends BinanceManager {
         return compressedTrades;
     }
 
+    /** Request to get candlestick data
+     * @param #symbol: symbol to fetch candlestick data es. BTCBUSD
+     * @param #interval: time period to fetch
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data
+     * return candlestick data as String
+     * **/
     public String getCandlestickData(String symbol, String interval) throws IOException {
         return getRequestResponse(CANDLESTICK_DATA_ENDPOINT,"?symbol="+symbol+"&interval="+interval,GET_METHOD);
     }
 
+    /** Request to get candlestick data
+     * @param #symbol: symbol to fetch candlestick data es. BTCBUSD
+     * @param #interval: time period to fetch
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data
+     * return candlestick data as JsonArray
+     * **/
     public JSONArray getJSONCandlestickData(String symbol, String interval) throws IOException {
         return new JSONArray(getCandlestickData(symbol,interval));
     }
 
+    /** Request to get candlestick data list
+     * @param #symbol: symbol to fetch candlestick data es. BTCBUSD
+     * @param #interval: time period to fetch
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data
+     * return candlestick data as ArrayList<Candlestick>
+     * **/
     public ArrayList<Candlestick> getCandlestickDataList(String symbol, String interval) throws IOException {
         return getCandlestickDataList(new JSONArray(getCandlestickData(symbol,interval)));
     }
 
+    /** Request to get candlestick data
+     * @param #symbol: symbol to fetch compressed trade es. BTCBUSD
+     * @param #interval: time period to fetch
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are startTime,endTime,limit)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data
+     * return candlestick data as String
+     * **/
     public String getCandlestickData(String symbol, String interval, HashMap<String,Object> extraParams) throws IOException {
         String params = "?symbol="+symbol+"&interval="+interval;
         params = requestManager.assembleExtraParams(params,extraParams);
         return getRequestResponse(CANDLESTICK_DATA_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get candlestick data
+     * @param #symbol: symbol to fetch compressed trade es. BTCBUSD
+     * @param #interval: time period to fetch
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are startTime,endTime,limit)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data
+     * return candlestick data as JsonArray
+     * **/
     public JSONArray getJSONCandlestickData(String symbol, String interval, HashMap<String,Object> extraParams) throws IOException {
         return new JSONArray(getCandlestickData(symbol,interval,extraParams));
     }
 
+    /** Request to get candlestick data list
+     * @param #symbol: symbol to fetch compressed trade es. BTCBUSD
+     * @param #interval: time period to fetch
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are startTime,endTime,limit)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data
+     * return candlestick data as ArrayList<Candlestick>
+     * **/
     public ArrayList<Candlestick> getCandlestickDataList(String symbol, String interval, HashMap<String,Object> extraParams) throws IOException {
         return getCandlestickDataList(new JSONArray(getCandlestickData(symbol,interval,extraParams)));
     }
 
+    /** Method to assemble Candlestick list
+     * @param #jsonArray: obtain from Binance request
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data
+     * return list of candlestick as ArrayList<Candlestick>
+     * **/
     private ArrayList<Candlestick> getCandlestickDataList(JSONArray jsonArray){
         ArrayList<Candlestick> candlesticksList = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
@@ -488,19 +576,39 @@ public class BinanceMarketManager extends BinanceManager {
         return candlesticksList;
     }
 
+    /** Request to get current average price
+     * @param #symbol: symbol to fetch current average price es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#current-average-price
+     * return current average price as String
+     * **/
     public String getCurrentAveragePrice(String symbol) throws IOException {
         return getRequestResponse(CURRENT_AVERAGE_PRICE_ENDPOINT,"?symbol="+symbol,GET_METHOD);
     }
 
+    /** Request to get current average price
+     * @param #symbol: symbol to fetch current average price es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#current-average-price
+     * return current average price as JsonObject
+     * **/
     public JSONObject getJSONCurrentAveragePrice(String symbol) throws IOException {
         return new JSONObject(getCurrentAveragePrice(symbol));
     }
 
+    /** Request to get current average price
+     * @param #symbol: symbol to fetch current average price es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#current-average-price
+     * return current average price value as double
+     * **/
     public double getCurrentAveragePriceValue(String symbol) throws IOException {
         jsonObject = new JSONObject(getCurrentAveragePrice(symbol));
         return jsonObject.getDouble("price");
     }
 
+    /** Request to get current average price
+     * @param #symbol: symbol to fetch current average price es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#current-average-price
+     * return current average price CurrentAveragePrice object
+     * **/
     public CurrentAveragePrice getObjectCurrentAveragePrice(String symbol) throws IOException {
         jsonObject = new JSONObject(getCurrentAveragePrice(symbol));
         return new CurrentAveragePrice(jsonObject.getInt("mins"),
@@ -508,26 +616,56 @@ public class BinanceMarketManager extends BinanceManager {
         );
     }
 
+    /** Request to get ticker price change
+     * @param #symbol: symbol to fetch ticker price change es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#24hr-ticker-price-change-statistics
+     * return ticker price change as String
+     * **/
     public String getTickerPriceChange(String symbol) throws IOException {
         return getRequestResponse(TICKER_PRICE_CHANGE_ENDPOINT,"?symbol="+symbol,GET_METHOD);
     }
 
+    /** Request to get ticker price change
+     * @param #symbol: symbol to fetch ticker price change es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#24hr-ticker-price-change-statistics
+     * return ticker price change as JsonObject
+     * **/
     public JSONObject getJSONTickerPriceChange(String symbol) throws IOException {
         return new JSONObject(getTickerPriceChange(symbol));
     }
 
+    /** Request to get ticker price change
+     * @param #symbol: symbol to fetch ticker price change es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#24hr-ticker-price-change-statistics
+     * return ticker price change as TickerPriceChange object
+     * **/
     public TickerPriceChange getObjectTickerPriceChange(String symbol) throws IOException {
         return assembleTickerPriceChange(new JSONObject(getTickerPriceChange(symbol)));
     }
 
+    /** Request to get ticker price change list
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#24hr-ticker-price-change-statistics
+     * return ticker price change list as String
+     * **/
     public String getTickerPriceChange() throws IOException {
         return getRequestResponse(TICKER_PRICE_CHANGE_ENDPOINT,"",GET_METHOD);
     }
 
-    public JSONObject getJSONTickerPriceChange() throws IOException {
-        return new JSONObject(getTickerPriceChange());
+    /** Request to get ticker price change list
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#24hr-ticker-price-change-statistics
+     * return ticker price change list as JsonArray
+     * **/
+    public JSONArray getJSONTickerPriceChange() throws IOException {
+        return new JSONArray(getTickerPriceChange());
     }
 
+    /** Request to get ticker price change list
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#24hr-ticker-price-change-statistics
+     * return ticker price change list as ArrayList<TickerPriceChange>
+     * **/
     public ArrayList<TickerPriceChange> getTickerPriceChangeList() throws IOException {
         ArrayList<TickerPriceChange> tickerPriceStatistics = new ArrayList<>();
         jsonArray = new JSONArray(getTickerPriceChange());
@@ -536,6 +674,11 @@ public class BinanceMarketManager extends BinanceManager {
         return tickerPriceStatistics;
     }
 
+    /** Method to assemble TickerPriceChange list
+     * @param #jsonObject: obtain from Binance request
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#24hr-ticker-price-change-statistics
+     * return ticker price change list as ArrayList<TickerPriceChange>
+     * **/
     private TickerPriceChange assembleTickerPriceChange(JSONObject jsonObject){
         return new TickerPriceChange(jsonObject.getString("symbol"),
                 jsonObject.getDouble("priceChange"),
@@ -561,70 +704,140 @@ public class BinanceMarketManager extends BinanceManager {
         );
     }
 
+    /** Request to get price ticker
+     * @param #symbol: symbol to fetch price ticker es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#symbol-price-ticker
+     * return price ticker as String
+     * **/
     public String getPriceTicker(String symbol) throws IOException {
         return getRequestResponse(PRICE_TICKER_ENDPOINT,"?symbol="+symbol,GET_METHOD);
     }
 
+    /** Request to get price ticker
+     * @param #symbol: symbol to fetch price ticker es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#symbol-price-ticker
+     * return price ticker as JsonObject
+     * **/
     public JSONObject getJSONPriceTicker(String symbol) throws IOException {
         return new JSONObject(getPriceTicker(symbol));
     }
 
+    /** Request to get price ticker
+     * @param #symbol: symbol to fetch price ticker es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#symbol-price-ticker
+     * return price ticker as PriceTicker object
+     * **/
     public PriceTicker getObjectPriceTicker(String symbol) throws IOException {
-        return assemlePriceTicker(new JSONObject(getPriceTicker(symbol)));
+        return assemblePriceTicker(new JSONObject(getPriceTicker(symbol)));
     }
 
+    /** Request to get price ticker list
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#symbol-price-ticker
+     * return price ticker list as String
+     * **/
     public String getPriceTicker() throws IOException {
         return getRequestResponse(PRICE_TICKER_ENDPOINT,"",GET_METHOD);
     }
 
-    public JSONObject getJSONPriceTicker() throws IOException {
-        return new JSONObject(getPriceTicker());
+    /** Request to get price ticker list
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#symbol-price-ticker
+     * return price ticker list as JsonArray
+     * **/
+    public JSONArray getJSONPriceTicker() throws IOException {
+        return new JSONArray(getPriceTicker());
     }
 
+    /** Request to get price ticker list
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#symbol-price-ticker
+     * return price ticker list as ArrayList<PriceTicker>
+     * **/
     public ArrayList<PriceTicker> getTickerPriceList() throws IOException {
         ArrayList<PriceTicker> tickerPrices = new ArrayList<>();
         jsonArray = new JSONArray(getPriceTicker());
         for (int j=0; j < jsonArray.length(); j++)
-            tickerPrices.add(assemlePriceTicker(jsonArray.getJSONObject(j)));
+            tickerPrices.add(assemblePriceTicker(jsonArray.getJSONObject(j)));
         return tickerPrices;
     }
 
-    private PriceTicker assemlePriceTicker(JSONObject jsonObject){
+    /** Method to assemble PriceTicker list
+     * @param #jsonObject: obtain from Binance request
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#symbol-price-ticker
+     * return PriceTicker object
+     * **/
+    private PriceTicker assemblePriceTicker(JSONObject jsonObject){
         return new PriceTicker(jsonObject.getString("symbol"),
                 jsonObject.getDouble("price")
         );
     }
 
-    public String getBookTicker(String symbol) throws IOException {
+    /** Request to get order book ticker
+     * @param #symbol: symbol to fetch book ticker es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker
+     * return order book ticker as String
+     * **/
+    public String getOrderBookTicker(String symbol) throws IOException {
         return getRequestResponse(BOOK_TICKER_ENDPOINT,"?symbol="+symbol,GET_METHOD);
     }
 
-    public JSONObject getJSONBookTicker(String symbol) throws IOException {
-        return new JSONObject(getBookTicker(symbol));
+    /** Request to get order book ticker
+     * @param #symbol: symbol to fetch book ticker es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker
+     * return order book ticker as JsonObject
+     * **/
+    public JSONObject getJSONOrderBookTicker(String symbol) throws IOException {
+        return new JSONObject(getOrderBookTicker(symbol));
     }
 
-    public BookTicker getObjectBookTicker(String symbol) throws IOException {
-        return assembleBookTicker(new JSONObject(getBookTicker(symbol)));
+    /** Request to get order book ticker
+     * @param #symbol: symbol to fetch book ticker es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker
+     * return order book ticker as BookTicker object
+     * **/
+    public OrderBookTicker getObjectOrderBookTicker(String symbol) throws IOException {
+        return assembleOrderBookTicker(new JSONObject(getOrderBookTicker(symbol)));
     }
 
-    public String getBookTicker() throws IOException {
+    /** Request to get order book ticker list
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker
+     * return order book ticker list as String
+     * **/
+    public String getOrderBookTicker() throws IOException {
         return getRequestResponse(BOOK_TICKER_ENDPOINT,"",GET_METHOD);
     }
 
-    public JSONObject getJSONBookTicker() throws IOException {
-        return new JSONObject(getBookTicker());
+    /** Request to get order book ticker list
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker
+     * return order book ticker list as JsonArray
+     * **/
+    public JSONArray getJSONOrderBookTicker() throws IOException {
+        return new JSONArray(getOrderBookTicker());
     }
 
-    public ArrayList<BookTicker> getBookTickerList(String symbol) throws IOException {
-        ArrayList<BookTicker> bookTickers = new ArrayList<>();
-        jsonArray = new JSONArray(getBookTicker());
+    /** Request to get book ticker list
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker
+     * return order book ticker list as ArrayList<OrderBookTicker>
+     * **/
+    public ArrayList<OrderBookTicker> getOrderBookTickerList(String symbol) throws IOException {
+        ArrayList<OrderBookTicker> bookTickers = new ArrayList<>();
+        jsonArray = new JSONArray(getOrderBookTicker());
         for (int j=0; j < jsonArray.length(); j++)
-            bookTickers.add(assembleBookTicker(jsonArray.getJSONObject(j)));
+            bookTickers.add(assembleOrderBookTicker(jsonArray.getJSONObject(j)));
         return bookTickers;
     }
 
-    private BookTicker assembleBookTicker(JSONObject jsonObject){
-        return new BookTicker(jsonObject.getString("symbol"),
+    /** Method to assemble OrderBookTicker list
+     * @param #jsonObject: obtain from Binance request
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker
+     * return OrderBookTicker object
+     * **/
+    private OrderBookTicker assembleOrderBookTicker(JSONObject jsonObject){
+        return new OrderBookTicker(jsonObject.getString("symbol"),
                 jsonObject.getDouble("bidPrice"),
                 jsonObject.getDouble("bidQty"),
                 jsonObject.getDouble("askPrice"),

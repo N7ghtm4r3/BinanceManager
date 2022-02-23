@@ -1,5 +1,11 @@
 package com.tecknobit.binancemanager.Managers.Market.Records.Tickers;
 
+/**
+ * The {@code PriceTicker} class is useful to manage PriceTicker requests
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#symbol-price-ticker
+ * @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class PriceTicker extends Ticker{
 
     private final double price;

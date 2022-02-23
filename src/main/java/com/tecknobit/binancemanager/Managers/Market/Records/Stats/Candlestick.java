@@ -1,5 +1,12 @@
 package com.tecknobit.binancemanager.Managers.Market.Records.Stats;
 
+/**
+ * The {@code Candlestick} class is useful to manage Candlestick requests
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data
+ * @author N7ghtm4r3 - Tecknobit
+ * **/
+
+
 public class Candlestick {
 
     public static final String INTERVAL_1m = "1m";

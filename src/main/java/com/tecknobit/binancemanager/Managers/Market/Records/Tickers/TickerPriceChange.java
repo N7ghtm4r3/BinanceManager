@@ -1,5 +1,11 @@
 package com.tecknobit.binancemanager.Managers.Market.Records.Tickers;
 
+/**
+ * The {@code TickerPriceChange} class is useful to manage TickerPriceChange requests
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#24hr-ticker-price-change-statistics
+ * @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class TickerPriceChange extends Ticker{
 
     private final double priceChange;
