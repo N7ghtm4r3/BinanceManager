@@ -6,7 +6,9 @@ import com.tecknobit.binancemanager.Managers.Market.Records.Stats.Candlestick;
 import com.tecknobit.binancemanager.Managers.Market.Records.CurrentAveragePrice;
 import com.tecknobit.binancemanager.Managers.Market.Records.Stats.ExchangeInformation;
 import com.tecknobit.binancemanager.Managers.Market.Records.OrderBook;
-import com.tecknobit.binancemanager.Managers.Market.Records.Tickers.TickerPriceStatistics;
+import com.tecknobit.binancemanager.Managers.Market.Records.Tickers.BookTicker;
+import com.tecknobit.binancemanager.Managers.Market.Records.Tickers.PriceTicker;
+import com.tecknobit.binancemanager.Managers.Market.Records.Tickers.TickerPriceChange;
 import com.tecknobit.binancemanager.Managers.Market.Records.Trade.CompressedTrade;
 import com.tecknobit.binancemanager.Managers.Market.Records.Trade.Trade;
 import org.json.JSONArray;
@@ -506,36 +508,36 @@ public class BinanceMarketManager extends BinanceManager {
         );
     }
 
-    public String getTickerPriceStatistics(String symbol) throws IOException {
-        return getRequestResponse(TICKER_PRICE_STATITICS_ENDPOINT,"?symbol="+symbol,GET_METHOD);
+    public String getTickerPriceChange(String symbol) throws IOException {
+        return getRequestResponse(TICKER_PRICE_CHANGE_ENDPOINT,"?symbol="+symbol,GET_METHOD);
     }
 
-    public JSONObject getJSONTickerPriceStatistics(String symbol) throws IOException {
-        return new JSONObject(getTickerPriceStatistics(symbol));
+    public JSONObject getJSONTickerPriceChange(String symbol) throws IOException {
+        return new JSONObject(getTickerPriceChange(symbol));
     }
 
-    public TickerPriceStatistics getObjectTickerPriceStatistics(String symbol) throws IOException {
-        return assembleTickerPriceStatistics(new JSONObject(getTickerPriceStatistics(symbol)));
+    public TickerPriceChange getObjectTickerPriceChange(String symbol) throws IOException {
+        return assembleTickerPriceChange(new JSONObject(getTickerPriceChange(symbol)));
     }
 
-    public String getTickerPriceStatistics() throws IOException {
-        return getRequestResponse(TICKER_PRICE_STATITICS_ENDPOINT,"",GET_METHOD);
+    public String getTickerPriceChange() throws IOException {
+        return getRequestResponse(TICKER_PRICE_CHANGE_ENDPOINT,"",GET_METHOD);
     }
 
-    public JSONObject getJSONTickerPriceStatistics() throws IOException {
-        return new JSONObject(getTickerPriceStatistics());
+    public JSONObject getJSONTickerPriceChange() throws IOException {
+        return new JSONObject(getTickerPriceChange());
     }
 
-    public ArrayList<TickerPriceStatistics> getObjectTickerPriceStatistics() throws IOException {
-        ArrayList<TickerPriceStatistics> tickerPriceStatistics = new ArrayList<>();
-        jsonArray = new JSONArray(getTickerPriceStatistics());
+    public ArrayList<TickerPriceChange> getTickerPriceChangeList() throws IOException {
+        ArrayList<TickerPriceChange> tickerPriceStatistics = new ArrayList<>();
+        jsonArray = new JSONArray(getTickerPriceChange());
         for(int j=0; j < jsonArray.length(); j++)
-            tickerPriceStatistics.add(assembleTickerPriceStatistics(jsonArray.getJSONObject(j)));
+            tickerPriceStatistics.add(assembleTickerPriceChange(jsonArray.getJSONObject(j)));
         return tickerPriceStatistics;
     }
 
-    private TickerPriceStatistics assembleTickerPriceStatistics(JSONObject jsonObject){
-        return new TickerPriceStatistics(jsonObject.getString("symbol"),
+    private TickerPriceChange assembleTickerPriceChange(JSONObject jsonObject){
+        return new TickerPriceChange(jsonObject.getString("symbol"),
                 jsonObject.getDouble("priceChange"),
                 jsonObject.getDouble("priceChangePercent"),
                 jsonObject.getDouble("weightedAvgPrice"),
@@ -556,6 +558,77 @@ public class BinanceMarketManager extends BinanceManager {
                 jsonObject.getLong("firstId"),
                 jsonObject.getLong("lastId"),
                 jsonObject.getInt("count")
+        );
+    }
+
+    public String getPriceTicker(String symbol) throws IOException {
+        return getRequestResponse(PRICE_TICKER_ENDPOINT,"?symbol="+symbol,GET_METHOD);
+    }
+
+    public JSONObject getJSONPriceTicker(String symbol) throws IOException {
+        return new JSONObject(getPriceTicker(symbol));
+    }
+
+    public PriceTicker getObjectPriceTicker(String symbol) throws IOException {
+        return assemlePriceTicker(new JSONObject(getPriceTicker(symbol)));
+    }
+
+    public String getPriceTicker() throws IOException {
+        return getRequestResponse(PRICE_TICKER_ENDPOINT,"",GET_METHOD);
+    }
+
+    public JSONObject getJSONPriceTicker() throws IOException {
+        return new JSONObject(getPriceTicker());
+    }
+
+    public ArrayList<PriceTicker> getTickerPriceList() throws IOException {
+        ArrayList<PriceTicker> tickerPrices = new ArrayList<>();
+        jsonArray = new JSONArray(getPriceTicker());
+        for (int j=0; j < jsonArray.length(); j++)
+            tickerPrices.add(assemlePriceTicker(jsonArray.getJSONObject(j)));
+        return tickerPrices;
+    }
+
+    private PriceTicker assemlePriceTicker(JSONObject jsonObject){
+        return new PriceTicker(jsonObject.getString("symbol"),
+                jsonObject.getDouble("price")
+        );
+    }
+
+    public String getBookTicker(String symbol) throws IOException {
+        return getRequestResponse(BOOK_TICKER_ENDPOINT,"?symbol="+symbol,GET_METHOD);
+    }
+
+    public JSONObject getJSONBookTicker(String symbol) throws IOException {
+        return new JSONObject(getBookTicker(symbol));
+    }
+
+    public BookTicker getObjectBookTicker(String symbol) throws IOException {
+        return assembleBookTicker(new JSONObject(getBookTicker(symbol)));
+    }
+
+    public String getBookTicker() throws IOException {
+        return getRequestResponse(BOOK_TICKER_ENDPOINT,"",GET_METHOD);
+    }
+
+    public JSONObject getJSONBookTicker() throws IOException {
+        return new JSONObject(getBookTicker());
+    }
+
+    public ArrayList<BookTicker> getBookTickerList(String symbol) throws IOException {
+        ArrayList<BookTicker> bookTickers = new ArrayList<>();
+        jsonArray = new JSONArray(getBookTicker());
+        for (int j=0; j < jsonArray.length(); j++)
+            bookTickers.add(assembleBookTicker(jsonArray.getJSONObject(j)));
+        return bookTickers;
+    }
+
+    private BookTicker assembleBookTicker(JSONObject jsonObject){
+        return new BookTicker(jsonObject.getString("symbol"),
+                jsonObject.getDouble("bidPrice"),
+                jsonObject.getDouble("bidQty"),
+                jsonObject.getDouble("askPrice"),
+                jsonObject.getDouble("askQty")
         );
     }
 

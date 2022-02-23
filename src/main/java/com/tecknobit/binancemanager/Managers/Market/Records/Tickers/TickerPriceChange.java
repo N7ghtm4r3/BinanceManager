@@ -1,8 +1,7 @@
 package com.tecknobit.binancemanager.Managers.Market.Records.Tickers;
 
-public class TickerPriceStatistics {
+public class TickerPriceChange extends Ticker{
 
-    private final String symbol;
     private final double priceChange;
     private final double priceChangePercent;
     private final double weightedAvgPrice;
@@ -24,12 +23,12 @@ public class TickerPriceStatistics {
     private final long lastId;
     private final int count;
 
-    public TickerPriceStatistics(String symbol, double priceChange, double priceChangePercent, double weightedAvgPrice,
-                                 double prevClosePrice, double lastPrice, double lastQty, double bidPrice, double bidQty,
-                                 double askPrice, double askQty, double openPrice, double highPrice, double lowPrice,
-                                 double volume, double quoteVolume, long openTime, long closeTime, long firstId,
-                                 long lastId, int count) {
-        this.symbol = symbol;
+    public TickerPriceChange(String symbol, double priceChange, double priceChangePercent, double weightedAvgPrice,
+                             double prevClosePrice, double lastPrice, double lastQty, double bidPrice, double bidQty,
+                             double askPrice, double askQty, double openPrice, double highPrice, double lowPrice,
+                             double volume, double quoteVolume, long openTime, long closeTime, long firstId,
+                             long lastId, int count) {
+        super(symbol);
         this.priceChange = priceChange;
         this.priceChangePercent = priceChangePercent;
         this.weightedAvgPrice = weightedAvgPrice;
@@ -50,10 +49,6 @@ public class TickerPriceStatistics {
         this.firstId = firstId;
         this.lastId = lastId;
         this.count = count;
-    }
-
-    public String getSymbol() {
-        return symbol;
     }
 
     public double getPriceChange() {
