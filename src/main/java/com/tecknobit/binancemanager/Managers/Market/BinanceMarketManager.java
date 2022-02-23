@@ -847,4 +847,3 @@ public class BinanceMarketManager extends BinanceManager {
 
 }
 
-
