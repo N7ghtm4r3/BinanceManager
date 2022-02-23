@@ -3,9 +3,10 @@ package com.tecknobit.binancemanager.Managers.Market;
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.BinanceManager;
 import com.tecknobit.binancemanager.Managers.Market.Records.Stats.Candlestick;
-import com.tecknobit.binancemanager.Managers.Market.Records.Price.CurrentAveragePrice;
+import com.tecknobit.binancemanager.Managers.Market.Records.CurrentAveragePrice;
 import com.tecknobit.binancemanager.Managers.Market.Records.Stats.ExchangeInformation;
-import com.tecknobit.binancemanager.Managers.Market.Records.Book.OrderBook;
+import com.tecknobit.binancemanager.Managers.Market.Records.OrderBook;
+import com.tecknobit.binancemanager.Managers.Market.Records.Tickers.TickerPriceStatistics;
 import com.tecknobit.binancemanager.Managers.Market.Records.Trade.CompressedTrade;
 import com.tecknobit.binancemanager.Managers.Market.Records.Trade.Trade;
 import org.json.JSONArray;
@@ -505,4 +506,59 @@ public class BinanceMarketManager extends BinanceManager {
         );
     }
 
+    public String getTickerPriceStatistics(String symbol) throws IOException {
+        return getRequestResponse(TICKER_PRICE_STATITICS_ENDPOINT,"?symbol="+symbol,GET_METHOD);
+    }
+
+    public JSONObject getJSONTickerPriceStatistics(String symbol) throws IOException {
+        return new JSONObject(getTickerPriceStatistics(symbol));
+    }
+
+    public TickerPriceStatistics getObjectTickerPriceStatistics(String symbol) throws IOException {
+        return assembleTickerPriceStatistics(new JSONObject(getTickerPriceStatistics(symbol)));
+    }
+
+    public String getTickerPriceStatistics() throws IOException {
+        return getRequestResponse(TICKER_PRICE_STATITICS_ENDPOINT,"",GET_METHOD);
+    }
+
+    public JSONObject getJSONTickerPriceStatistics() throws IOException {
+        return new JSONObject(getTickerPriceStatistics());
+    }
+
+    public ArrayList<TickerPriceStatistics> getObjectTickerPriceStatistics() throws IOException {
+        ArrayList<TickerPriceStatistics> tickerPriceStatistics = new ArrayList<>();
+        jsonArray = new JSONArray(getTickerPriceStatistics());
+        for(int j=0; j < jsonArray.length(); j++)
+            tickerPriceStatistics.add(assembleTickerPriceStatistics(jsonArray.getJSONObject(j)));
+        return tickerPriceStatistics;
+    }
+
+    private TickerPriceStatistics assembleTickerPriceStatistics(JSONObject jsonObject){
+        return new TickerPriceStatistics(jsonObject.getString("symbol"),
+                jsonObject.getDouble("priceChange"),
+                jsonObject.getDouble("priceChangePercent"),
+                jsonObject.getDouble("weightedAvgPrice"),
+                jsonObject.getDouble("prevClosePrice"),
+                jsonObject.getDouble("lastPrice"),
+                jsonObject.getDouble("lastQty"),
+                jsonObject.getDouble("bidPrice"),
+                jsonObject.getDouble("bidQty"),
+                jsonObject.getDouble("askPrice"),
+                jsonObject.getDouble("askQty"),
+                jsonObject.getDouble("openPrice"),
+                jsonObject.getDouble("highPrice"),
+                jsonObject.getDouble("lowPrice"),
+                jsonObject.getDouble("volume"),
+                jsonObject.getDouble("quoteVolume"),
+                jsonObject.getLong("openTime"),
+                jsonObject.getLong("closeTime"),
+                jsonObject.getLong("firstId"),
+                jsonObject.getLong("lastId"),
+                jsonObject.getInt("count")
+        );
+    }
+
 }
+
+

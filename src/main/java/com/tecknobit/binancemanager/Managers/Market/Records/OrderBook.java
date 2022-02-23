@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.Market.Records.Book;
+package com.tecknobit.binancemanager.Managers.Market.Records;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

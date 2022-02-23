@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.Market.Records.Price;
+package com.tecknobit.binancemanager.Managers.Market.Records;
 
 public class CurrentAveragePrice {
 

@@ -42,5 +42,6 @@ public class EndpointsList {
     public static final String COMPRESSED_TRADE_LIST_ENDPOINT = "/api/v3/aggTrades";
     public static final String CANDLESTICK_DATA_ENDPOINT = "/api/v3/klines";
     public static final String CURRENT_AVERAGE_PRICE_ENDPOINT = "/api/v3/avgPrice";
+    public static final String TICKER_PRICE_STATITICS_ENDPOINT = "/api/v3/ticker/24hr";
 
 }

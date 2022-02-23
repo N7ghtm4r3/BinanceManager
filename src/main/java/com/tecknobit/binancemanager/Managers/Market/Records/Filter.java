@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.Market.Records.Filters;
+package com.tecknobit.binancemanager.Managers.Market.Records;
 
 import org.json.JSONObject;
 

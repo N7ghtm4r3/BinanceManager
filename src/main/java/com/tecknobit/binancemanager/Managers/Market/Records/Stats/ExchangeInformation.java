@@ -1,6 +1,6 @@
 package com.tecknobit.binancemanager.Managers.Market.Records.Stats;
 
-import com.tecknobit.binancemanager.Managers.Market.Records.Filters.Filter;
+import com.tecknobit.binancemanager.Managers.Market.Records.Filter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
