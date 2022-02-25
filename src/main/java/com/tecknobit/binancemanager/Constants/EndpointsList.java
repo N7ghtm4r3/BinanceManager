@@ -48,5 +48,6 @@ public class EndpointsList {
 
     /**Spot manager endpoint urls**/
     public static final String TEST_NEW_ORDER_ENDPOINT = "/api/v3/order/test";
+    public static final String SEND_NEW_ORDER_ENDPOINT = "/api/v3/order";
 
 }

@@ -6,6 +6,7 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager
 import java.io.IOException;
 import java.util.HashMap;
 
+import static com.tecknobit.binancemanager.Constants.EndpointsList.SEND_NEW_ORDER_ENDPOINT;
 import static com.tecknobit.binancemanager.Constants.EndpointsList.TEST_NEW_ORDER_ENDPOINT;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.POST_METHOD;
 
@@ -16,6 +17,9 @@ import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.POST_M
  * **/
 
 public class BinanceSpotManager extends BinanceSignedManager {
+
+    public static final String BUY = "BUY";
+    public static final String SELL = "SELL";
 
     /** Constructor to init BinanceSpotManager
      * @param #baseEndpoint base endpoint to work on
@@ -35,9 +39,31 @@ public class BinanceSpotManager extends BinanceSignedManager {
         super(null, apiKey, secretKey);
     }
 
-    public String testNewOrder(String symbol, String side, String type, HashMap<String,Object> extraParams) throws Exception {
+    public String testNewOrder(String symbol, String side, String type,HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type;
-        return getRequestResponse(TEST_NEW_ORDER_ENDPOINT,params+getSignature(params),POST_METHOD);
+        return newOrderRequest(TEST_NEW_ORDER_ENDPOINT,requestManager.assembleExtraParams(params,extraParams));
     }
+
+    public String testNewOrder(String symbol, String side, String type, String newOrderRespType,
+                               HashMap<String,Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type+"&newOrderRespType="+newOrderRespType;
+        return newOrderRequest(TEST_NEW_ORDER_ENDPOINT,requestManager.assembleExtraParams(params,extraParams));
+    }
+
+    public String sendNewOrder(String symbol, String side, String type,HashMap<String,Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type;
+        return newOrderRequest(SEND_NEW_ORDER_ENDPOINT,requestManager.assembleExtraParams(params,extraParams));
+    }
+
+    public String sendNewOrder(String symbol, String side, String type,String newOrderRespType,
+                               HashMap<String,Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type+"&newOrderRespType="+newOrderRespType;
+        return newOrderRequest(SEND_NEW_ORDER_ENDPOINT,requestManager.assembleExtraParams(params,extraParams));
+    }
+
+    private String newOrderRequest(String endpoint,String params) throws Exception {
+        return getRequestResponse(endpoint,params+getSignature(params),POST_METHOD,apiKey);
+    }
+
 
 }
