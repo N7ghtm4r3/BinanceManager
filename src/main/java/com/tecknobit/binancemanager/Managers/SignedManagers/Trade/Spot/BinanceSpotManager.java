@@ -7,6 +7,7 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.O
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.OpenOrders;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ACKOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.FullOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.OrderStatus;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ResultOrder;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,8 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
-import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.DELETE_METHOD;
-import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.POST_METHOD;
+import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Order.*;
 
 /**
@@ -245,9 +245,78 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return new OpenOrders(cancelOrders,cancelOrderComposeds);
     }
 
-    private String getOrderStatus(String symbol, long orderId){
+    public String getOrderStatus(String symbol, long orderId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderId="+orderId;
-        return null;
+        return sendOrderRequest(ORDER_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONOrderStatus(String symbol, long orderId) throws Exception {
+        return new JSONObject(getOrderStatus(symbol, orderId));
+    }
+
+    public OrderStatus getObjectOrderStatus(String symbol, long orderId) throws Exception {
+        return getObjectOrderStatus(new JSONObject(getOrderStatus(symbol, orderId)));
+    }
+
+    public String getOrderStatus(String symbol, String origClientOrderId) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId ;
+        return sendOrderRequest(ORDER_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONOrderStatus(String symbol, String origClientOrderId) throws Exception {
+        return new JSONObject(getOrderStatus(symbol, origClientOrderId));
+    }
+
+    public OrderStatus getObjectOrderStatus(String symbol, String origClientOrderId) throws Exception {
+        return getObjectOrderStatus(new JSONObject(getOrderStatus(symbol,origClientOrderId)));
+    }
+
+    public String getOrderStatus(String symbol, long orderId, long recvWindow) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&orderId="+orderId+"&recvWindow="+recvWindow;
+        return sendOrderRequest(ORDER_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONOrderStatus(String symbol, long orderId, long recvWindow) throws Exception {
+        return new JSONObject(getOrderStatus(symbol, orderId, recvWindow));
+    }
+
+    public OrderStatus getObjectOrderStatus(String symbol, long orderId, long recvWindow) throws Exception {
+        return getObjectOrderStatus(new JSONObject(getOrderStatus(symbol, orderId, recvWindow)));
+    }
+
+    public String getOrderStatus(String symbol, String origClientOrderId, long recvWindow) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId+"&recvWindow="+recvWindow;
+        return sendOrderRequest(ORDER_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONOrderStatus(String symbol, String origClientOrderId, long recvWindow) throws Exception {
+        return new JSONObject(getOrderStatus(symbol, origClientOrderId,recvWindow));
+    }
+
+    public OrderStatus getObjectOrderStatus(String symbol, String origClientOrderId, long recvWindow) throws Exception {
+        return getObjectOrderStatus(new JSONObject(getOrderStatus(symbol,origClientOrderId,recvWindow)));
+    }
+
+    private OrderStatus getObjectOrderStatus(JSONObject response){
+        return new OrderStatus(response.getString("symbol"),
+                response.getLong("orderId"),
+                response.getLong("orderListId"),
+                response.getString("clientOrderId"),
+                response.getDouble("price"),
+                response.getDouble("origQty"),
+                response.getDouble("executedQty"),
+                response.getDouble("cummulativeQuoteQty"),
+                response.getString("status"),
+                response.getString("timeInForce"),
+                response.getString("type"),
+                response.getString("side"),
+                response.getDouble("stopPrice"),
+                response.getDouble("icebergQty"),
+                response.getLong("time"),
+                response.getLong("updateTime"),
+                response.getBoolean("isWorking"),
+                response.getDouble("origQuoteOrderQty")
+        );
     }
 
     private String sendOrderRequest(String endpoint, String params, String method) throws Exception {
