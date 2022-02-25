@@ -2,17 +2,21 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot;
 
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.CancelOrderComposed;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.OpenOrders;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ACKOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.CancelOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.FullOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ResultOrder;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
-import static com.tecknobit.binancemanager.Constants.EndpointsList.ORDER_ENDPOINT;
-import static com.tecknobit.binancemanager.Constants.EndpointsList.TEST_NEW_ORDER_ENDPOINT;
+import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.DELETE_METHOD;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.POST_METHOD;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ACKOrder.*;
@@ -148,8 +152,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     public CancelOrder cancelOrderObject(String symbol, long orderId) throws Exception {
-        jsonObject = new JSONObject(cancelOrderJSON(symbol, orderId));
-        return cancelOrderObject(jsonObject);
+        return CancelOrder.assembleCancelOrderObject(new JSONObject(cancelOrderJSON(symbol, orderId)));
     }
 
     public String cancelOrder(String symbol, String origClientOrderId) throws Exception {
@@ -162,8 +165,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     public CancelOrder cancelOrderObject(String symbol, String origClientOrderId) throws Exception {
-        jsonObject = new JSONObject(cancelOrderJSON(symbol, origClientOrderId));
-        return cancelOrderObject(jsonObject);
+        return CancelOrder.assembleCancelOrderObject( new JSONObject(cancelOrderJSON(symbol, origClientOrderId)));
     }
 
     public String cancelOrder(String symbol, long orderId, HashMap<String,Object> extraParams) throws Exception {
@@ -177,8 +179,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     public CancelOrder cancelOrderObject(String symbol, long orderId, HashMap<String,Object> extraParams) throws Exception {
-        jsonObject = new JSONObject(cancelOrderJSON(symbol, orderId, extraParams));
-        return cancelOrderObject(jsonObject);
+        return CancelOrder.assembleCancelOrderObject(new JSONObject(cancelOrderJSON(symbol, orderId, extraParams)));
     }
 
     public String cancelOrder(String symbol, String origClientOrderId, HashMap<String,Object> extraParams) throws Exception {
@@ -192,25 +193,56 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     public CancelOrder cancelOrderObject(String symbol, String origClientOrderId, HashMap<String,Object> extraParams) throws Exception {
-        jsonObject = new JSONObject(cancelOrderJSON(symbol, origClientOrderId, extraParams));
-        return cancelOrderObject(jsonObject);
+        return CancelOrder.assembleCancelOrderObject(new JSONObject(cancelOrderJSON(symbol, origClientOrderId, extraParams)));
     }
 
-    private CancelOrder cancelOrderObject(JSONObject response){
-        return new CancelOrder(response.getString("symbol"),
-                response.getString("origClientOrderId"),
-                response.getLong("orderId"),
-                response.getLong("orderListId"),
-                response.getString("clientOrderId"),
-                response.getDouble("price"),
-                response.getDouble("origQty"),
-                response.getDouble("executedQty"),
-                response.getDouble("cummulativeQuoteQty"),
-                response.getString("status"),
-                response.getString("timeInForce"),
-                response.getString("type"),
-                response.getString("side")
-        );
+    public String cancelAllOpenOrders(String symbol) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol;
+        return sendOrderRequest(DELETE_ALL_OPEN_ORDERS_ENDPOINT,params,DELETE_METHOD);
+    }
+
+    public JSONArray cancelAllOpenOrdersJSON(String symbol) throws Exception {
+        return new JSONArray(cancelAllOpenOrders(symbol));
+    }
+
+    public OpenOrders cancelAllOpenOrdersObject(String symbol) throws Exception {
+        return cancelAllOpenOrdersObject(new JSONArray(cancelAllOpenOrders(symbol)));
+    }
+
+    public String cancelAllOpenOrders(String symbol, long recvWindow) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&recvWindow="+recvWindow;
+        return sendOrderRequest(DELETE_ALL_OPEN_ORDERS_ENDPOINT,params,DELETE_METHOD);
+    }
+
+    public JSONArray cancelAllOpenOrdersJSON(String symbol, long recvWindow) throws Exception {
+        return new JSONArray(cancelAllOpenOrders(symbol, recvWindow));
+    }
+
+    public OpenOrders cancelAllOpenOrdersObject(String symbol, long recvWindow) throws Exception {
+        return cancelAllOpenOrdersObject(new JSONArray(cancelAllOpenOrders(symbol, recvWindow)));
+    }
+
+    private OpenOrders cancelAllOpenOrdersObject(JSONArray jsonArray){
+        ArrayList<CancelOrder> cancelOrders = new ArrayList<>();
+        ArrayList<CancelOrderComposed> cancelOrderComposeds = new ArrayList<>();
+        for (int j=0; j < jsonArray.length(); j++){
+            JSONObject order = jsonArray.getJSONObject(j);
+            try {
+                String contingencyType = order.getString("contingencyType");
+                cancelOrderComposeds.add(new CancelOrderComposed(order.getLong("orderListId"),
+                        contingencyType,
+                        order.getString("listStatusType"),
+                        order.getString("listOrderStatus"),
+                        order.getString("listClientOrderId"),
+                        order.getLong("transactionTime"),
+                        order.getString("symbol"),
+                        order
+                ));
+            }catch (JSONException e){
+                cancelOrders.add(CancelOrder.assembleCancelOrderObject(order));
+            }
+        }
+        return new OpenOrders(cancelOrders,cancelOrderComposeds);
     }
 
     private String sendOrderRequest(String endpoint, String params, String method) throws Exception {

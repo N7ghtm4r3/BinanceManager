@@ -43,6 +43,8 @@ public class CancelOrderComposed {
 
     private void loadCancelOrders(JSONArray list){
         cancelOrders = new ArrayList<>();
+        for (int j=0; j < list.length(); j++)
+            cancelOrders.add(CancelOrder.assembleCancelOrderObject(list.getJSONObject(j)));
     }
 
     public long getOrderListId() {
