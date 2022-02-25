@@ -12,7 +12,7 @@ public class EndpointsList {
     public static final String SYSTEM_STATUS_ENDPOINT = "/sapi/v1/system/status";
     public static final String TIMESTAMP_ENDPOINT = "/api/v3/time";
 
-    /**Wallet managers endpoint urls**/
+    /**Wallet manager endpoint urls**/
     public static final String ALL_COINS_ENDPOINT = "/sapi/v1/capital/config/getall";
     public static final String DAILY_ACCOUNT_SNAP_ENDPOINT = "/sapi/v1/accountSnapshot";
     public static final String DISABLE_FAST_WITHDRAW_ENDPOINT = "/sapi/v1/account/disableFastWithdrawSwitch";
@@ -33,7 +33,7 @@ public class EndpointsList {
     public static final String FUNDING_WALLET_ENDPOINT = "/sapi/v1/asset/get-funding-asset";
     public static final String API_KEY_PERMISSION_ENDPOINT = "/sapi/v1/account/apiRestrictions";
 
-    /**Market managers endpoint urls**/
+    /**Market manager endpoint urls**/
     public static final String TEST_CONNECTIVITY_ENDPOINT = "/api/v3/ping";
     public static final String EXCHANGE_INFORMATION_ENDPOINT = "/api/v3/exchangeInfo";
     public static final String ORDER_BOOK_ENDPOINT = "/api/v3/depth";
@@ -45,5 +45,8 @@ public class EndpointsList {
     public static final String TICKER_PRICE_CHANGE_ENDPOINT = "/api/v3/ticker/24hr";
     public static final String PRICE_TICKER_ENDPOINT = "/api/v3/ticker/price";
     public static final String BOOK_TICKER_ENDPOINT = "/api/v3/ticker/bookTicker";
+
+    /**Spot manager endpoint urls**/
+    public static final String TEST_NEW_ORDER_ENDPOINT = "/api/v3/order/test";
 
 }
