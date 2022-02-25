@@ -1,15 +1,12 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel;
 
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Order;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class CancelOrder {
+public class CancelOrder extends Order {
 
-    private final String symbol;
     private final String origClientOrderId;
-    private final long orderId;
-    private final long orderListId;
-    private final String clientOrderId;
     private final double price;
     private final double origQty;
     private final double executedQty;
@@ -20,14 +17,11 @@ public class CancelOrder {
     private final String side;
     private final JSONObject jsonObject;
 
-    public CancelOrder(String symbol, String origClientOrderId, long orderId, long orderListId, String clientOrderId,
+    public CancelOrder(String symbol, long orderId, long orderListId, String clientOrderId, String origClientOrderId,
                        double price, double origQty, double executedQty, double cummulativeQuoteQty, String status,
                        String timeInForce, String type, String side, JSONObject jsonObject) {
-        this.symbol = symbol;
+        super(symbol, orderId, orderListId, clientOrderId);
         this.origClientOrderId = origClientOrderId;
-        this.orderId = orderId;
-        this.orderListId = orderListId;
-        this.clientOrderId = clientOrderId;
         this.price = price;
         this.origQty = origQty;
         this.executedQty = executedQty;
@@ -39,24 +33,8 @@ public class CancelOrder {
         this.jsonObject = jsonObject;
     }
 
-    public String getSymbol() {
-        return symbol;
-    }
-
     public String getOrigClientOrderId() {
         return origClientOrderId;
-    }
-
-    public long getOrderId() {
-        return orderId;
-    }
-
-    public long getOrderListId() {
-        return orderListId;
-    }
-
-    public String getClientOrderId() {
-        return clientOrderId;
     }
 
     public double getPrice() {

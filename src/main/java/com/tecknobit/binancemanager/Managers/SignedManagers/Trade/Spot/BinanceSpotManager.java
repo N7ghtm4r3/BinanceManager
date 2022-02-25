@@ -2,10 +2,10 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot;
 
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.CancelOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.CancelOrderComposed;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.OpenOrders;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ACKOrder;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.CancelOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.FullOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ResultOrder;
 import org.json.JSONArray;
@@ -19,7 +19,7 @@ import java.util.HashMap;
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.DELETE_METHOD;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.POST_METHOD;
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ACKOrder.*;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Order.*;
 
 /**
  *  The {@code BinanceSpotManager} class is useful to manage all Binance Spot Endpoints
@@ -243,6 +243,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
             }
         }
         return new OpenOrders(cancelOrders,cancelOrderComposeds);
+    }
+
+    private String getOrderStatus(String symbol, long orderId){
+        String params = getParamTimestamp()+"&symbol="+symbol+"&orderId="+orderId;
+        return null;
     }
 
     private String sendOrderRequest(String endpoint, String params, String method) throws Exception {
