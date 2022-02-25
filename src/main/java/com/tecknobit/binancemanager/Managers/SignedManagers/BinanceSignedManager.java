@@ -16,7 +16,7 @@ public class BinanceSignedManager extends BinanceManager {
     protected final String apiKey;
     protected final String secretKey;
 
-    /** Constructor to init a BinanceSignedManager
+    /** Constructor to init BinanceSignedManager
      * @param #baseEndpoint base endpoint to work on
      * @param #apiKey your api key
      * @param #secretKey your secret key
