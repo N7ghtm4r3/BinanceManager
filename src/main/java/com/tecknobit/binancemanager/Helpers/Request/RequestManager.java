@@ -23,6 +23,7 @@ public class RequestManager {
     private String errorReponse;
     public static final String GET_METHOD = "GET";
     public static final String POST_METHOD = "POST";
+    public static final String DELETE_METHOD = "DELETE";
 
     /** Method to start connection by an endpoint
      * @param #url: url used to make HTTP request
