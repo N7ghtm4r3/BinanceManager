@@ -35,7 +35,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
         super(null, apiKey, secretKey);
     }
 
-    public String testNewOrder(String symbol, String side, String type, HashMap<String,Object> extraObject) throws Exception {
+    public String testNewOrder(String symbol, String side, String type, HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type;
         return getRequestResponse(TEST_NEW_ORDER_ENDPOINT,params+getSignature(params),POST_METHOD);
     }
