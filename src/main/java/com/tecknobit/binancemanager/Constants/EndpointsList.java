@@ -49,4 +49,6 @@ public class EndpointsList {
     /**Spot manager endpoint urls**/
     public static final String TEST_NEW_ORDER_ENDPOINT = "/api/v3/order/test";
     public static final String ORDER_ENDPOINT = "/api/v3/order";
+    public static final String DELETE_ALL_OPEN_ORDERS_ENDPOINT = "/api/v3/openOrders";
+
 }
