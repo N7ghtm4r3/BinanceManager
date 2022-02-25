@@ -116,7 +116,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get your daily account snapshot
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are startTime,endTime,limit)
+     * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
      * return account snapshot as String
      * **/
@@ -136,7 +136,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get your daily account snapshot
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are startTime,endTime,limit)
+     * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
      * return account snapshot as JsonObject
      * **/
@@ -156,7 +156,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get your daily account snapshot
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are startTime,endTime,limit)
+     * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
      * return account snapshot as AccountSnapshot object.
      * @implNote you need to cast return object in: AccountSnapshotSpot or AccountSnapshotMargin or AccountSnapshotFutures
@@ -230,7 +230,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param #address: address used
      * @param #amount: amount to withdraw
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are withdrawOrderId,network,addressTag,transactionFeeFlag,name,walletType)
+     * @implSpec (keys accepted are withdrawOrderId,network,addressTag,transactionFeeFlag,name,walletType,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data
      * return id of transaction if operation is successful as String
      * **/
@@ -246,7 +246,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param #address: address used
      * @param #amount: amount to withdraw
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are withdrawOrderId,network,addressTag,transactionFeeFlag,name,walletType)
+     * @implSpec (keys accepted are withdrawOrderId,network,addressTag,transactionFeeFlag,name,walletType,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data
      * return id of transaction if operation is successful as JsonObject
      * **/
@@ -275,7 +275,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get deposit history
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are coin,status,startTime,endTime,offset,limit)
+     * @implSpec (keys accepted are coin,status,startTime,endTime,offset,limit,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data
      * return list of deposits as ArrayList<Deposit>
      * **/
@@ -322,7 +322,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get withdraw history
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are coin,withdrawOrderId,status,offset,limit,startTime,endTime)
+     * @implSpec (keys accepted are coin,withdrawOrderId,status,offset,limit,startTime,endTime,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data
      * return list of withdraws as ArrayList<Withdraw>
      * **/
@@ -483,7 +483,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get dust log information
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are startTime,endTime)
+     * @implSpec (keys accepted are startTime,endTime,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
      * return dust log information as String
      * **/
@@ -494,7 +494,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get dust log information
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are startTime,endTime)
+     * @implSpec (keys accepted are startTime,endTime,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
      * return dust log information as JsonObject
      * **/
@@ -504,7 +504,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get dust log information
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are startTime,endTime)
+     * @implSpec (keys accepted are startTime,endTime,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
      * return dust log information as DustLog object
      * **/
@@ -664,7 +664,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get asset dividend
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are asset,startTime,endTime,limit)
+     * @implSpec (keys accepted are asset,startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
      * return  get asset dividend as String
      * **/
@@ -675,7 +675,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get asset dividend
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are asset,startTime,endTime,limit)
+     * @implSpec (keys accepted are asset,startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
      * return  get asset dividend as JsonObject
      * **/
@@ -685,7 +685,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get asset dividend
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are asset,startTime,endTime,limit)
+     * @implSpec (keys accepted are asset,startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
      * return  get asset dividend as AssetDividend object
      * **/
@@ -904,7 +904,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get universal transfer
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are fromSymbol,toSymbol)
+     * @implSpec (keys accepted are fromSymbol,toSymbol,recvWindow)
      * @implNote in case #type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
      * @implNote in case #type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data
@@ -917,7 +917,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get universal transfer
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are fromSymbol,toSymbol)
+     * @implSpec (keys accepted are fromSymbol,toSymbol,recvWindow)
      * @implNote in case #type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
      * @implNote in case #type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data
@@ -941,7 +941,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get universal transfer history
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are startTime,endTime,current,size,fromSymbol,toSymbol)
+     * @implSpec (keys accepted are startTime,endTime,current,size,fromSymbol,toSymbol,recvWindow)
      * @implNote in case #type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
      * @implNote in case #type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data
@@ -990,7 +990,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get universal transfer history
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are asset,needBtcValuation)
+     * @implSpec (keys accepted are asset,needBtcValuation,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data
      * return funding wallet as ArrayList<FundingWallet>
      * **/

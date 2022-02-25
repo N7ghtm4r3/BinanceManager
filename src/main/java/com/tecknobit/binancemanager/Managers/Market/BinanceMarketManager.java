@@ -358,7 +358,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @param #symbol: symbol to fetch exchange information es. BTCBUSD
      * @param #apiKey: apiKey of your Binance account
      * @param #extraParams: extraParams of request
-     * @implSpec (keys accepted are limit,fromId)
+     * @implSpec (keys accepted are limit,fromId,recvWindow)
      * @implNote limit: valid limits are default 500 and max 1000
      * @implNote fromId: to insert it correctly ad L at the end of long number es 1499865549590 + L = 1499865549590L
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data
@@ -374,7 +374,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @param #symbol: symbol to fetch exchange information es. BTCBUSD
      * @param #apiKey: apiKey of your Binance account
      * @param #extraParams: extraParams of request
-     * @implSpec (keys accepted are limit,fromId)
+     * @implSpec (keys accepted are limit,fromId,recvWindow)
      * @implNote limit: valid limits are default 500 and max 1000
      * @implNote fromId: to insert it correctly ad L at the end of long number es 1499865549590 + L = 1499865549590L
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data
@@ -388,7 +388,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @param #symbol: symbol to fetch exchange information es. BTCBUSD
      * @param #apiKey: apiKey of your Binance account
      * @param #extraParams: extraParams of request
-     * @implSpec (keys accepted are limit,fromId)
+     * @implSpec (keys accepted are limit,fromId,recvWindow)
      * @implNote limit: valid limits are default 500 and max 1000
      * @implNote fromId: to insert it correctly ad L at the end of long number es 1499865549590 + L = 1499865549590L
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data
@@ -428,7 +428,7 @@ public class BinanceMarketManager extends BinanceManager {
     /** Request to get compressed trade list
      * @param #symbol: symbol to fetch compressed trade es. BTCBUSD
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are fromId,startTime,endTime,limit)
+     * @implSpec (keys accepted are fromId,startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list
      * return compressed trade list as String
      * **/
@@ -441,7 +441,7 @@ public class BinanceMarketManager extends BinanceManager {
     /** Request to get compressed trade list
      * @param #symbol: symbol to fetch compressed trade es. BTCBUSD
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are fromId,startTime,endTime,limit)
+     * @implSpec (keys accepted are fromId,startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list
      * return compressed trade list as JsonArray
      * **/
@@ -452,7 +452,7 @@ public class BinanceMarketManager extends BinanceManager {
     /** Request to get compressed trade list
      * @param #symbol: symbol to fetch compressed trade es. BTCBUSD
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are fromId,startTime,endTime,limit)
+     * @implSpec (keys accepted are fromId,startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list
      * return compressed trade list as ArrayList<CompressedTrade>
      * **/
@@ -516,7 +516,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @param #symbol: symbol to fetch compressed trade es. BTCBUSD
      * @param #interval: time period to fetch
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are startTime,endTime,limit)
+     * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data
      * return candlestick data as String
      * **/
@@ -530,7 +530,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @param #symbol: symbol to fetch compressed trade es. BTCBUSD
      * @param #interval: time period to fetch
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are startTime,endTime,limit)
+     * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data
      * return candlestick data as JsonArray
      * **/
@@ -542,7 +542,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @param #symbol: symbol to fetch compressed trade es. BTCBUSD
      * @param #interval: time period to fetch
      * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are startTime,endTime,limit)
+     * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data
      * return candlestick data as ArrayList<Candlestick>
      * **/
