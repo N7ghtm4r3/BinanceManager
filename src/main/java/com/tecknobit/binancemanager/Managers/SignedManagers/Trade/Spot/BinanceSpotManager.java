@@ -4,6 +4,7 @@ import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import static com.tecknobit.binancemanager.Constants.EndpointsList.TEST_NEW_ORDER_ENDPOINT;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.POST_METHOD;
@@ -34,7 +35,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
         super(null, apiKey, secretKey);
     }
 
-    public String testNewOrder(String symbol, String side, String type) throws Exception {
+    public String testNewOrder(String symbol, String side, String type, HashMap<String,Object> extraObject) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type;
         return getRequestResponse(TEST_NEW_ORDER_ENDPOINT,params+getSignature(params),POST_METHOD);
     }
