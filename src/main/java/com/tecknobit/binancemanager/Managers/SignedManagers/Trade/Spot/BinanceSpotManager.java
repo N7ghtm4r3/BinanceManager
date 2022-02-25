@@ -153,7 +153,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     public String cancelOrder(String symbol, String origClientOrderId) throws Exception {
-        String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId ="+origClientOrderId ;
+        String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId ;
         return sendOrderRequest(ORDER_ENDPOINT,params,DELETE_METHOD);
     }
 
