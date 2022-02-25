@@ -2,10 +2,10 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot;
 
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.ACKOrder;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.CancelOrder;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.FullOrder;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.ResultOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ACKOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.CancelOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.FullOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ResultOrder;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ import static com.tecknobit.binancemanager.Constants.EndpointsList.ORDER_ENDPOIN
 import static com.tecknobit.binancemanager.Constants.EndpointsList.TEST_NEW_ORDER_ENDPOINT;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.DELETE_METHOD;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.POST_METHOD;
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.ACKOrder.*;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ACKOrder.*;
 
 /**
  *  The {@code BinanceSpotManager} class is useful to manage all Binance Spot Endpoints
