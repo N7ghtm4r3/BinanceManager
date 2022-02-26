@@ -198,7 +198,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
 
     public String cancelAllOpenOrders(String symbol) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
-        return sendOrderRequest(DELETE_ALL_OPEN_ORDERS_ENDPOINT,params,DELETE_METHOD);
+        return sendOrderRequest(OPEN_ORDERS_ENDPOINT,params,DELETE_METHOD);
     }
 
     public JSONArray cancelAllOpenOrdersJSON(String symbol) throws Exception {
@@ -211,7 +211,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
 
     public String cancelAllOpenOrders(String symbol, long recvWindow) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&recvWindow="+recvWindow;
-        return sendOrderRequest(DELETE_ALL_OPEN_ORDERS_ENDPOINT,params,DELETE_METHOD);
+        return sendOrderRequest(OPEN_ORDERS_ENDPOINT,params,DELETE_METHOD);
     }
 
     public JSONArray cancelAllOpenOrdersJSON(String symbol, long recvWindow) throws Exception {
@@ -297,6 +297,59 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return getObjectOrderStatus(new JSONObject(getOrderStatus(symbol,origClientOrderId,recvWindow)));
     }
 
+    public String getCurrentOpenOrders() throws Exception {
+        return sendOrderRequest(OPEN_ORDERS_ENDPOINT,getParamTimestamp(),GET_METHOD);
+    }
+
+    public JSONArray getJSONCurrentOpenOrders() throws Exception {
+        return new JSONArray(sendOrderRequest(OPEN_ORDERS_ENDPOINT,getParamTimestamp(),GET_METHOD));
+    }
+
+    public ArrayList<OrderStatus> getCurrentOpenOrdersList() throws Exception {
+        return assembleOrderStatusList(new JSONArray(sendOrderRequest(OPEN_ORDERS_ENDPOINT,getParamTimestamp(),GET_METHOD)));
+    }
+
+    public String getCurrentOpenOrders(HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp();
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendOrderRequest(OPEN_ORDERS_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONCurrentOpenOrders(HashMap<String, Object> extraParams) throws Exception {
+        return new JSONArray(getCurrentOpenOrders(extraParams));
+    }
+
+    public ArrayList<OrderStatus> getCurrentOpenOrdersList(HashMap<String, Object> extraParams) throws Exception {
+        return assembleOrderStatusList(new JSONArray(getCurrentOpenOrders(extraParams)));
+    }
+
+    public String getAllOrdersList(String symbol) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol;
+        return sendOrderRequest(ALL_ORDERS_LIST_ENPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONAllOrdersList(String symbol) throws Exception {
+        return new JSONArray(getAllOrdersList(symbol));
+    }
+
+    public ArrayList<OrderStatus> getObjectAllOrdersList(String symbol) throws Exception {
+        return assembleOrderStatusList(new JSONArray(getAllOrdersList(symbol)));
+    }
+
+    public String getAllOrdersList(String symbol,HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendOrderRequest(ALL_ORDERS_LIST_ENPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONAllOrdersList(String symbol,HashMap<String, Object> extraParams) throws Exception {
+        return new JSONArray(getAllOrdersList(symbol, extraParams));
+    }
+
+    public ArrayList<OrderStatus> getObjectAllOrdersList(String symbol,HashMap<String, Object> extraParams) throws Exception {
+        return assembleOrderStatusList(new JSONArray(getAllOrdersList(symbol, extraParams)));
+    }
+
     private OrderStatus getObjectOrderStatus(JSONObject response){
         return new OrderStatus(response.getString("symbol"),
                 response.getLong("orderId"),
@@ -317,6 +370,13 @@ public class BinanceSpotManager extends BinanceSignedManager {
                 response.getBoolean("isWorking"),
                 response.getDouble("origQuoteOrderQty")
         );
+    }
+
+    private ArrayList<OrderStatus> assembleOrderStatusList(JSONArray jsonArray){
+        ArrayList<OrderStatus> orderStatuses = new ArrayList<>();
+        for (int j=0; j < jsonArray.length(); j++)
+            orderStatuses.add(getObjectOrderStatus(jsonArray.getJSONObject(j)));
+        return orderStatuses;
     }
 
     private String sendOrderRequest(String endpoint, String params, String method) throws Exception {

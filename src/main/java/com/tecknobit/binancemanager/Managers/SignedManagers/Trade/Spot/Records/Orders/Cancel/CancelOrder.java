@@ -89,10 +89,10 @@ public class CancelOrder extends Order {
 
     public static CancelOrder assembleCancelOrderObject(JSONObject response){
         return new CancelOrder(response.getString("symbol"),
-                response.getString("origClientOrderId"),
                 response.getLong("orderId"),
                 response.getLong("orderListId"),
                 response.getString("clientOrderId"),
+                response.getString("origClientOrderId"),
                 response.getDouble("price"),
                 response.getDouble("origQty"),
                 response.getDouble("executedQty"),
