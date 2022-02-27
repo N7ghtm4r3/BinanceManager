@@ -50,37 +50,79 @@ public class BinanceSpotManager extends BinanceSignedManager {
         super(null, apiKey, secretKey);
     }
 
+    /** Request to test a spot order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #side: BUY or SELL order
+     * @param #type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
+     * @param #extraParams: extraParams of the request
+     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
+     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade
+     * return result of the order WITHOUT buy or sell nothing, if is correct return "{}" else error of the request
+     * **/
     public String testNewOrder(String symbol, String side, String type,HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type;
         return sendOrderRequest(TEST_NEW_ORDER_ENDPOINT,requestManager.assembleExtraParams(params,extraParams),POST_METHOD);
     }
 
+    /** Request to test a spot order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #side: BUY or SELL order
+     * @param #type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
+     * @param #newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param #extraParams: extraParams of the request
+     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
+     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade
+     * return result of the order WITHOUT buy or sell nothing, if is correct return "{}" else error of the request
+     * **/
     public String testNewOrder(String symbol, String side, String type, String newOrderRespType,
                                HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type+"&newOrderRespType="+newOrderRespType;
         return sendOrderRequest(TEST_NEW_ORDER_ENDPOINT,requestManager.assembleExtraParams(params,extraParams),POST_METHOD);
     }
 
+    /** Request to send a spot order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #side: BUY or SELL order
+     * @param #type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
+     * @param #extraParams: extraParams of the request
+     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
+     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-order-trade
+     * return result of the order as String
+     * **/
     public String newOrder(String symbol, String side, String type, HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type;
         return sendOrderRequest(ORDER_ENDPOINT,requestManager.assembleExtraParams(params,extraParams),POST_METHOD);
     }
 
-    public String newOrder(String symbol, String side, String type, String newOrderRespType,
-                           HashMap<String,Object> extraParams) throws Exception {
-        String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type+"&newOrderRespType="+newOrderRespType;
-        return sendOrderRequest(ORDER_ENDPOINT,requestManager.assembleExtraParams(params,extraParams),POST_METHOD);
-    }
-
+    /** Request to send a spot order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #side: BUY or SELL order
+     * @param #type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
+     * @param #extraParams: extraParams of the request
+     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
+     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-order-trade
+     * return result of the order as JsonObject
+     * **/
     public JSONObject newOrderJSON(String symbol, String side, String type, HashMap<String,Object> extraParams) throws Exception {
         return new JSONObject(newOrder(symbol,side,type,extraParams));
     }
 
-    public JSONObject newOrderJSON(String symbol, String side, String type, String newOrderRespType,
-                                   HashMap<String,Object> extraParams) throws Exception {
-        return new JSONObject(newOrder(symbol,side,type,newOrderRespType,extraParams));
-    }
-
+    /** Request to send a spot order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #side: BUY or SELL order
+     * @param #type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
+     * @param #extraParams: extraParams of the request
+     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
+     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-order-trade
+     * return result of the order as AckOrder (next to cast in base at type used)
+     * @implNote if type LIMIT or MARKET will be must cast in {@link FullOrder} object
+     * @implNote with other types will be an {@link ACKOrder} object
+     * **/
     public ACKOrder newOrderObject(String symbol, String side, String type, HashMap<String,Object> extraParams) throws Exception {
         jsonObject = new JSONObject(newOrder(symbol,side,type,extraParams));
         if(type.equals(LIMIT) || type.equals(MARKET))
@@ -89,6 +131,53 @@ public class BinanceSpotManager extends BinanceSignedManager {
             return getACKResponse(jsonObject);
     }
 
+    /** Request to send a spot order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #side: BUY or SELL order
+     * @param #type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
+     * @param #newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param #extraParams: extraParams of the request
+     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
+     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-order-trade
+     * return result of the order as String
+     * **/
+    public String newOrder(String symbol, String side, String type, String newOrderRespType,
+                           HashMap<String,Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type+"&newOrderRespType="+newOrderRespType;
+        return sendOrderRequest(ORDER_ENDPOINT,requestManager.assembleExtraParams(params,extraParams),POST_METHOD);
+    }
+
+    /** Request to send a spot order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #side: BUY or SELL order
+     * @param #type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
+     * @param #newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param #extraParams: extraParams of the request
+     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
+     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-order-trade
+     * return result of the order as JsonObject
+     * **/
+    public JSONObject newOrderJSON(String symbol, String side, String type, String newOrderRespType,
+                                   HashMap<String,Object> extraParams) throws Exception {
+        return new JSONObject(newOrder(symbol,side,type,newOrderRespType,extraParams));
+    }
+
+    /** Request to send a spot order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #side: BUY or SELL order
+     * @param #type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
+     * @param #newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param #extraParams: extraParams of the request
+     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
+     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-order-trade
+     * return result of the order as AckOrder (next to cast in base at newOrderRespType used)
+     * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_RESULT object will be {@link ResultOrder}
+     * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_FULL object will be {@link FullOrder}
+     * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_ACK object will be {@link ACKOrder}
+     * **/
     public ACKOrder newOrderObject(String symbol, String side, String type, String newOrderRespType,
                                    HashMap<String,Object> extraParams) throws Exception {
         jsonObject = new JSONObject(newOrder(symbol,side,type,newOrderRespType,extraParams));
@@ -115,6 +204,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
         }
     }
 
+    /** Method to assemble an ACKOrder object
+     * @param #response: obtained from Binance's request
+     * return an ACKOrder object with response data
+     * **/
     private ACKOrder getACKResponse(JSONObject response){
         return new ACKOrder(response.getString("symbol"),
                 response.getLong("orderId"),
@@ -124,6 +217,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
         );
     }
 
+    /** Method to assemble an FullOrder object
+     * @param #response: obtained from Binance's request
+     * return an FullOrder object with response data
+     * **/
     private FullOrder getFullOrderResponse(JSONObject response){
         return new FullOrder(response.getString("symbol"),
                 response.getLong("orderId"),
@@ -142,56 +239,140 @@ public class BinanceSpotManager extends BinanceSignedManager {
         );
     }
 
+    /** Request to cancel an Order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #orderId: identifier of the order es. 1232065
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
+     * return result of CancelOrder operation as String
+     * **/
     public String cancelOrder(String symbol, long orderId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderId="+orderId;
         return sendOrderRequest(ORDER_ENDPOINT,params,DELETE_METHOD);
     }
 
+    /** Request to cancel an Order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #orderId: identifier of the order es. 1232065
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
+     * return result of CancelOrder operation as JsonObject
+     * **/
     public JSONObject cancelOrderJSON(String symbol, long orderId) throws Exception {
        return new JSONObject(cancelOrder(symbol, orderId));
     }
 
+    /** Request to cancel an Order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #orderId: identifier of the order es. 1232065
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
+     * return result of CancelOrder operation as {@link CancelOrder} object
+     * **/
     public CancelOrder cancelOrderObject(String symbol, long orderId) throws Exception {
         return CancelOrder.assembleCancelOrderObject(new JSONObject(cancelOrderJSON(symbol, orderId)));
     }
 
+    /** Request to cancel an Order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #origClientOrderId: identifier of the client order es. myOrder1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
+     * return result of CancelOrder operation as String
+     * **/
     public String cancelOrder(String symbol, String origClientOrderId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId ;
         return sendOrderRequest(ORDER_ENDPOINT,params,DELETE_METHOD);
     }
 
+    /** Request to cancel an Order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #origClientOrderId: identifier of the client order es. myOrder1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
+     * return result of CancelOrder operation as JsonObject
+     * **/
     public JSONObject cancelOrderJSON(String symbol, String origClientOrderId) throws Exception {
         return new JSONObject(cancelOrder(symbol, origClientOrderId));
     }
 
+    /** Request to cancel an Order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #origClientOrderId: identifier of the client order es. myOrder1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
+     * return result of CancelOrder operation as {@link CancelOrder} object
+     * **/
     public CancelOrder cancelOrderObject(String symbol, String origClientOrderId) throws Exception {
         return CancelOrder.assembleCancelOrderObject( new JSONObject(cancelOrderJSON(symbol, origClientOrderId)));
     }
 
+    /** Request to cancel an Order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #orderId: identifier of the order es. 1232065
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
+     * return result of CancelOrder operation as String
+     * **/
     public String cancelOrder(String symbol, long orderId, HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderId="+orderId;
         params = requestManager.assembleExtraParams(params, extraParams);
         return sendOrderRequest(ORDER_ENDPOINT, params, DELETE_METHOD);
     }
 
+    /** Request to cancel an Order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #orderId: identifier of the order es. 1232065
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
+     * return result of CancelOrder operation as JsonObject
+     * **/
     public JSONObject cancelOrderJSON(String symbol, long orderId, HashMap<String,Object> extraParams) throws Exception {
         return new JSONObject(cancelOrder(symbol, orderId, extraParams));
     }
 
+    /** Request to cancel an Order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #orderId: identifier of the order es. 1232065
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
+     * return result of CancelOrder operation as {@link CancelOrder} object
+     * **/
     public CancelOrder cancelOrderObject(String symbol, long orderId, HashMap<String,Object> extraParams) throws Exception {
         return CancelOrder.assembleCancelOrderObject(new JSONObject(cancelOrderJSON(symbol, orderId, extraParams)));
     }
 
+    /** Request to cancel an Order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #origClientOrderId: identifier of the client order es. myOrder1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
+     * return result of CancelOrder operation as String
+     * **/
     public String cancelOrder(String symbol, String origClientOrderId, HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId ="+origClientOrderId;
         params = requestManager.assembleExtraParams(params, extraParams);
         return sendOrderRequest(ORDER_ENDPOINT, params, DELETE_METHOD);
     }
 
+    /** Request to cancel an Order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #origClientOrderId: identifier of the client order es. myOrder1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
+     * return result of CancelOrder operation as JsonObject
+     * **/
     public JSONObject cancelOrderJSON(String symbol, String origClientOrderId, HashMap<String,Object> extraParams) throws Exception {
         return new JSONObject(cancelOrder(symbol, origClientOrderId, extraParams));
     }
 
+    /** Request to cancel an Order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #origClientOrderId: identifier of the client order es. myOrder1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
+     * return result of CancelOrder operation as {@link CancelOrder} object
+     * **/
     public CancelOrder cancelOrderObject(String symbol, String origClientOrderId, HashMap<String,Object> extraParams) throws Exception {
         return CancelOrder.assembleCancelOrderObject(new JSONObject(cancelOrderJSON(symbol, origClientOrderId, extraParams)));
     }
@@ -350,6 +531,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return assembleOrderStatusList(new JSONArray(getAllOrdersList(symbol, extraParams)));
     }
 
+    /** Method to get timestamp for request
+     * any params required
+     * return "?timestamp=" + getTimestamp() return value
+     * **/
     private OrderStatus getObjectOrderStatus(JSONObject response){
         return new OrderStatus(response.getString("symbol"),
                 response.getLong("orderId"),
