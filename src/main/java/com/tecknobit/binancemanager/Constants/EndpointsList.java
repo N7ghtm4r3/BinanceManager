@@ -51,5 +51,6 @@ public class EndpointsList {
     public static final String ORDER_ENDPOINT = "/api/v3/order";
     public static final String OPEN_ORDERS_ENDPOINT = "/api/v3/openOrders";
     public static final String ALL_ORDERS_LIST_ENPOINT = "/api/v3/allOrders";
+    public static final String OCO_ORDER_ENDPOINT = "/api/v3/order/oco";
 
 }

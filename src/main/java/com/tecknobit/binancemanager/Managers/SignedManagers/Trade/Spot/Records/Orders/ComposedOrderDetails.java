@@ -1,17 +1,18 @@
-package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel;
+package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders;
 
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Simple.Cancel.CancelOrder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 /**
- * The {@code CancelOrderComposed} class is useful to format a CancelOrderComposed object
+ * The {@code ComposedOrderDetails} class is useful to format a ComposedOrderDetails object
  * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade
  * @author N7ghtm4r3 - Tecknobit
  * **/
 
-public class CancelOrderComposed {
+public class ComposedOrderDetails {
 
     private final long orderListId;
     private final String contingencyType;
@@ -23,8 +24,8 @@ public class CancelOrderComposed {
     private ArrayList<SpotOrderDetails> orderDetails;
     private ArrayList<CancelOrder> cancelOrders;
 
-    public CancelOrderComposed(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
-                               String listClientOrderId, long transactionTime, String symbol, JSONObject jsonObject) {
+    public ComposedOrderDetails(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
+                                String listClientOrderId, long transactionTime, String symbol, JSONObject jsonObject) {
         this.orderListId = orderListId;
         this.contingencyType = contingencyType;
         this.listStatusType = listStatusType;

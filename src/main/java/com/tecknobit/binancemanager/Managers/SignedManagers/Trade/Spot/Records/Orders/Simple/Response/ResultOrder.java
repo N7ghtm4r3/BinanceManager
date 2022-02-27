@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response;
+package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Simple.Response;
 
 /**
  *  The {@code FullOrder} class is useful to format all Order Binance request in ResultOrder format

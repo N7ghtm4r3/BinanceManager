@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel;
+package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Simple.Cancel;
 
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Order;
 import org.json.JSONException;

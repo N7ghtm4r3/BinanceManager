@@ -2,13 +2,13 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot;
 
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.CancelOrder;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.CancelOrderComposed;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.OpenOrders;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ACKOrder;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.FullOrder;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.OrderStatus;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ResultOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Simple.Cancel.CancelOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.ComposedOrderDetails;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Simple.Cancel.OpenOrders;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Simple.Response.ACKOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Simple.Response.FullOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Simple.Response.OrderStatus;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Simple.Response.ResultOrder;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -92,7 +92,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-order-trade
      * return result of the order as String
      * **/
-    public String newOrder(String symbol, String side, String type, HashMap<String,Object> extraParams) throws Exception {
+    public String sendNewOrder(String symbol, String side, String type, HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type;
         return sendOrderRequest(ORDER_ENDPOINT,requestManager.assembleExtraParams(params,extraParams),POST_METHOD);
     }
@@ -107,8 +107,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-order-trade
      * return result of the order as JsonObject
      * **/
-    public JSONObject newOrderJSON(String symbol, String side, String type, HashMap<String,Object> extraParams) throws Exception {
-        return new JSONObject(newOrder(symbol,side,type,extraParams));
+    public JSONObject sendNewOrderJSON(String symbol, String side, String type, HashMap<String,Object> extraParams) throws Exception {
+        return new JSONObject(sendNewOrder(symbol,side,type,extraParams));
     }
 
     /** Request to send a spot order
@@ -123,8 +123,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @implNote if type LIMIT or MARKET will be must cast in {@link FullOrder} object
      * @implNote with other types will be an {@link ACKOrder} object
      * **/
-    public ACKOrder newOrderObject(String symbol, String side, String type, HashMap<String,Object> extraParams) throws Exception {
-        jsonObject = new JSONObject(newOrder(symbol,side,type,extraParams));
+    public ACKOrder sendNewOrderObject(String symbol, String side, String type, HashMap<String,Object> extraParams) throws Exception {
+        jsonObject = new JSONObject(sendNewOrder(symbol,side,type,extraParams));
         if(type.equals(LIMIT) || type.equals(MARKET))
             return getFullOrderResponse(jsonObject);
         else
@@ -142,8 +142,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-order-trade
      * return result of the order as String
      * **/
-    public String newOrder(String symbol, String side, String type, String newOrderRespType,
-                           HashMap<String,Object> extraParams) throws Exception {
+    public String sendNewOrder(String symbol, String side, String type, String newOrderRespType,
+                               HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type+"&newOrderRespType="+newOrderRespType;
         return sendOrderRequest(ORDER_ENDPOINT,requestManager.assembleExtraParams(params,extraParams),POST_METHOD);
     }
@@ -159,9 +159,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-order-trade
      * return result of the order as JsonObject
      * **/
-    public JSONObject newOrderJSON(String symbol, String side, String type, String newOrderRespType,
-                                   HashMap<String,Object> extraParams) throws Exception {
-        return new JSONObject(newOrder(symbol,side,type,newOrderRespType,extraParams));
+    public JSONObject sendNewOrderJSON(String symbol, String side, String type, String newOrderRespType,
+                                       HashMap<String,Object> extraParams) throws Exception {
+        return new JSONObject(sendNewOrder(symbol,side,type,newOrderRespType,extraParams));
     }
 
     /** Request to send a spot order
@@ -178,9 +178,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_FULL object will be {@link FullOrder}
      * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_ACK object will be {@link ACKOrder}
      * **/
-    public ACKOrder newOrderObject(String symbol, String side, String type, String newOrderRespType,
-                                   HashMap<String,Object> extraParams) throws Exception {
-        jsonObject = new JSONObject(newOrder(symbol,side,type,newOrderRespType,extraParams));
+    public ACKOrder sendNewOrderObject(String symbol, String side, String type, String newOrderRespType,
+                                       HashMap<String,Object> extraParams) throws Exception {
+        jsonObject = new JSONObject(sendNewOrder(symbol,side,type,newOrderRespType,extraParams));
         switch (newOrderRespType){
             case NEW_ORDER_RESP_TYPE_RESULT:
                 return new ResultOrder(jsonObject.getString("symbol"),
@@ -442,20 +442,12 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     private OpenOrders cancelAllOpenOrdersObject(JSONArray jsonArray){
         ArrayList<CancelOrder> cancelOrders = new ArrayList<>();
-        ArrayList<CancelOrderComposed> cancelOrderComposeds = new ArrayList<>();
+        ArrayList<ComposedOrderDetails> cancelOrderComposeds = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
             JSONObject order = jsonArray.getJSONObject(j);
             try {
                 String contingencyType = order.getString("contingencyType");
-                cancelOrderComposeds.add(new CancelOrderComposed(order.getLong("orderListId"),
-                        contingencyType,
-                        order.getString("listStatusType"),
-                        order.getString("listOrderStatus"),
-                        order.getString("listClientOrderId"),
-                        order.getLong("transactionTime"),
-                        order.getString("symbol"),
-                        order
-                ));
+                cancelOrderComposeds.add(assembleComposedOrderDetails(order));
             }catch (JSONException e){
                 cancelOrders.add(CancelOrder.assembleCancelOrderObject(order));
             }
@@ -747,6 +739,86 @@ public class BinanceSpotManager extends BinanceSignedManager {
         for (int j=0; j < jsonArray.length(); j++)
             orderStatuses.add(getObjectOrderStatus(jsonArray.getJSONObject(j)));
         return orderStatuses;
+    }
+
+    public String sendNewOcoOrder(String symbol, String side, double price, double stopPrice) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&price="+price+"&stopPrice="+stopPrice;
+        return sendOrderRequest(OCO_ORDER_ENDPOINT,params,POST_METHOD);
+    }
+
+    public JSONObject sendNewOcoOrderJSON(String symbol, String side, double price, double stopPrice) throws Exception {
+        return new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice));
+    }
+
+    public ComposedOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice) throws Exception {
+        return assembleComposedOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice)));
+    }
+
+    public String sendNewOcoOrder(String symbol, String side, double price, double stopPrice, double stopLimitPrice,
+                                  String stopLimitTimeInForce) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&price="+price+"&stopPrice="+stopPrice
+                +"&stopLimitPrice="+stopLimitPrice+"&stopLimitTimeInForce="+stopLimitTimeInForce;
+        return sendOrderRequest(OCO_ORDER_ENDPOINT,params,POST_METHOD);
+    }
+
+    public JSONObject sendNewOcoOrderJSON(String symbol, String side, double price, double stopPrice, double stopLimitPrice,
+                                          String stopLimitTimeInForce) throws Exception {
+        return new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice,stopLimitPrice,stopLimitTimeInForce));
+    }
+
+    public ComposedOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice,
+                                                      double stopLimitPrice, String stopLimitTimeInForce) throws Exception {
+        return assembleComposedOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice,
+                stopLimitPrice,stopLimitTimeInForce)));
+    }
+
+    public String sendNewOcoOrder(String symbol, String side, double price, double stopPrice,
+                                  HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&price="+price+"&stopPrice="+stopPrice;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendOrderRequest(OCO_ORDER_ENDPOINT,params,POST_METHOD);
+    }
+
+    public JSONObject sendNewOcoOrderJSON(String symbol, String side, double price, double stopPrice,
+                                          HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice,extraParams));
+    }
+
+    public ComposedOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice,
+                                                      HashMap<String, Object> extraParams) throws Exception {
+        return assembleComposedOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice, extraParams)));
+    }
+
+    public String sendNewOcoOrder(String symbol, String side, double price, double stopPrice, double stopLimitPrice,
+                                  String stopLimitTimeInForce, HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&price="+price+"&stopPrice="+stopPrice
+                +"&stopLimitPrice="+stopLimitPrice+"&stopLimitTimeInForce="+stopLimitTimeInForce;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendOrderRequest(OCO_ORDER_ENDPOINT,params,POST_METHOD);
+    }
+
+    public JSONObject sendNewOcoOrderJSON(String symbol, String side, double price, double stopPrice, double stopLimitPrice,
+                                          String stopLimitTimeInForce, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice,stopLimitPrice,stopLimitTimeInForce,extraParams));
+    }
+
+    public ComposedOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice,
+                                                      double stopLimitPrice, String stopLimitTimeInForce,
+                                                      HashMap<String, Object> extraParams) throws Exception {
+        return assembleComposedOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice,
+                stopLimitPrice,stopLimitTimeInForce,extraParams)));
+    }
+
+    private ComposedOrderDetails assembleComposedOrderDetails(JSONObject order){
+        return new ComposedOrderDetails(order.getLong("orderListId"),
+                order.getString("contingencyType"),
+                order.getString("listStatusType"),
+                order.getString("listOrderStatus"),
+                order.getString("listClientOrderId"),
+                order.getLong("transactionTime"),
+                order.getString("symbol"),
+                order
+        );
     }
 
     /** Method to execute an Order request and get response of that

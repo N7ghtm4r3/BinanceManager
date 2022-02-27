@@ -1,4 +1,6 @@
-package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel;
+package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Simple.Cancel;
+
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.ComposedOrderDetails;
 
 import java.util.ArrayList;
 
@@ -11,9 +13,9 @@ import java.util.ArrayList;
 public class OpenOrders {
 
     private final ArrayList<CancelOrder> cancelSingleOrders;
-    private final ArrayList<CancelOrderComposed> cancelOrderComposeds;
+    private final ArrayList<ComposedOrderDetails> cancelOrderComposeds;
 
-    public OpenOrders(ArrayList<CancelOrder> singleOrders, ArrayList<CancelOrderComposed> cancelOrderComposeds) {
+    public OpenOrders(ArrayList<CancelOrder> singleOrders, ArrayList<ComposedOrderDetails> cancelOrderComposeds) {
         this.cancelSingleOrders = singleOrders;
         this.cancelOrderComposeds = cancelOrderComposeds;
     }
@@ -26,11 +28,11 @@ public class OpenOrders {
         return cancelSingleOrders.get(index);
     }
 
-    public ArrayList<CancelOrderComposed> getCancelOrderComposeds() {
+    public ArrayList<ComposedOrderDetails> getCancelOrderComposeds() {
         return cancelOrderComposeds;
     }
 
-    public CancelOrderComposed getComposedCancelOrder(int index){
+    public ComposedOrderDetails getComposedCancelOrder(int index){
         return cancelOrderComposeds.get(index);
     }
 
