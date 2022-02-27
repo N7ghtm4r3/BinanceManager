@@ -103,7 +103,7 @@ public class CancelOrder extends Order {
         }
     }
 
-    /** Method to assemble an CancelOrder object
+    /** Method to assemble a CancelOrder object
      * @param #response: obtained from Binance's request
      * return an CancelOrder object with response data
      * **/
