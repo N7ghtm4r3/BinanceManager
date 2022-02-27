@@ -1,5 +1,11 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders;
 
+/**
+ *  The {@code Order} class is useful to manage all Order Binance request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#spot-account-trade
+ *  @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class Order {
 
     public static final String LIMIT = "LIMIT";

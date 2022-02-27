@@ -1,5 +1,10 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Asset;
 
+/**
+ * The {@code AssetDetail} class is useful to manage AssetDetail Binance request
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data
+ * **/
+
 public class AssetDetail {
 
     private final String assetName;

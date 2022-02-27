@@ -5,6 +5,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * The {@code CancelOrderComposed} class is useful to format a CancelOrderComposed object
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade
+ * @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class CancelOrderComposed {
 
     private final long orderListId;
@@ -30,6 +36,10 @@ public class CancelOrderComposed {
         loadCancelOrders(jsonObject.getJSONArray("orderReports"));
     }
 
+    /** Method to load SpotOrderDetails list
+     * @param #list: obtained from Binance's request
+     * return an ArrayList<SpotOrderDetails> with response data
+     * **/
     private void loadOrderDetails(JSONArray list){
         orderDetails = new ArrayList<>();
         for (int j=0; j < list.length(); j++){
@@ -41,6 +51,10 @@ public class CancelOrderComposed {
         }
     }
 
+    /** Method to load CancelOrder list
+     * @param #list: obtained from Binance's request
+     * return an ArrayList<CancelOrder> with response data
+     * **/
     private void loadCancelOrders(JSONArray list){
         cancelOrders = new ArrayList<>();
         for (int j=0; j < list.length(); j++)
@@ -91,6 +105,10 @@ public class CancelOrderComposed {
         return cancelOrders.get(index);
     }
 
+    /**
+     * The {@code SpotOrderDetails} class is useful to obtain and format SpotOrderDetails object
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade
+     * **/
     public static class SpotOrderDetails {
 
         private final String symbol;

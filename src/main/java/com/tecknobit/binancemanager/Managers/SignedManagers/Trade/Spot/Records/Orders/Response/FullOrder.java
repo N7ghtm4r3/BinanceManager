@@ -5,6 +5,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ *  The {@code FullOrder} class is useful to format all Order Binance request in FullOrder format
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-order-trade
+ *  @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class FullOrder extends ResultOrder{
 
     private ArrayList<Fill> fills;
@@ -17,6 +23,10 @@ public class FullOrder extends ResultOrder{
         loadFills(fills);
     }
 
+    /** Method to load fills list
+     * @param #fillsArray: obtained from Binance's request
+     * return an ArrayList<OrderStatus> with response data
+     * **/
     private void loadFills(JSONArray fillsArray) {
         fills = new ArrayList<>();
         for(int j=0; j < fillsArray.length(); j++){
@@ -37,6 +47,11 @@ public class FullOrder extends ResultOrder{
     public Fill getFill(int index){
         return fills.get(index);
     }
+
+    /**
+     *  The {@code Fill} class is useful to obtain and format Fill object
+     *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-order-trade
+     * **/
 
     public static class Fill {
 

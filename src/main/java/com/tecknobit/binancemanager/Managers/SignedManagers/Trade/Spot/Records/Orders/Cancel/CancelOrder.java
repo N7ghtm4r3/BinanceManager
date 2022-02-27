@@ -4,6 +4,12 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.O
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ *  The {@code CancelOrder} class is useful to format all CancelOrder Binance request in CancelOrder format
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
+ *  @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class CancelOrder extends Order {
 
     private final String origClientOrderId;
@@ -69,16 +75,26 @@ public class CancelOrder extends Order {
         return side;
     }
 
-    /** indicate default value return**/
+    /** Method to get stopPrice
+     * any params requirde
+     * return stopPrice as double, if is a null field will return -1
+     * **/
     public double getStopPrice(){
         return getDoubleValue("stopPrice");
     }
 
-    /** indicate default value return**/
+    /** Method to get icebergQty
+     * any params requirde
+     * return icebergQty as double, if is a null field will return -1
+     * **/
     public double getIcebergQty(){
         return getDoubleValue("icebergQty");
     }
 
+    /** Method to assemble an CancelOrder object
+     * @param #key: field to fetch a double value in {@link #jsonObject}
+     * return an CancelOrder object with response data
+     * **/
     private double getDoubleValue(String key){
         try {
             return jsonObject.getDouble(key);
@@ -87,6 +103,10 @@ public class CancelOrder extends Order {
         }
     }
 
+    /** Method to assemble an CancelOrder object
+     * @param #response: obtained from Binance's request
+     * return an CancelOrder object with response data
+     * **/
     public static CancelOrder assembleCancelOrderObject(JSONObject response){
         return new CancelOrder(response.getString("symbol"),
                 response.getLong("orderId"),

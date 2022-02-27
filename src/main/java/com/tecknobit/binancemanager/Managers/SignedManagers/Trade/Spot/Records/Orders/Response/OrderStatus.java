@@ -2,6 +2,12 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.
 
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Order;
 
+/**
+ *  The {@code OrderStatus} class is useful to format an OrderStatus object
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data
+ *  @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class OrderStatus extends Order {
 
     private final double price;
