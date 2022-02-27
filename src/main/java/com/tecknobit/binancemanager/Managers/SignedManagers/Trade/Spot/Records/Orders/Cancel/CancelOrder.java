@@ -91,7 +91,7 @@ public class CancelOrder extends Order {
         return getDoubleValue("icebergQty");
     }
 
-    /** Method to assemble an CancelOrder object
+    /** Method to assemble a CancelOrder object
      * @param #key: field to fetch a double value in {@link #jsonObject}
      * return an CancelOrder object with response data
      * **/
