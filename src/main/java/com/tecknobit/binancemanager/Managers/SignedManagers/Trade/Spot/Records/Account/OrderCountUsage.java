@@ -1,5 +1,11 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account;
 
+/**
+ *  The {@code OrderCountUsage} class is useful to format OrderCountUsage object
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-current-order-count-usage-trade
+ *  @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class OrderCountUsage {
 
     private final String rateLimitType;

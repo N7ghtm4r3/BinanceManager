@@ -745,19 +745,53 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return orderStatuses;
     }
 
+    /** Request to send new oco order
+     * @param #symbol: symbol used in new oco order es. BTCBUSD
+     * @param #side: side of the order BUY,SELL
+     * @param #price: amount used in the order
+     * @param #stopPrice: amount to stop order
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade
+     * return oco order response as String
+     * **/
     public String sendNewOcoOrder(String symbol, String side, double price, double stopPrice) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&price="+price+"&stopPrice="+stopPrice;
         return sendSignedRequest(OCO_ORDER_ENDPOINT,params,POST_METHOD);
     }
 
+    /** Request to send new oco order
+     * @param #symbol: symbol used in new oco order es. BTCBUSD
+     * @param #side: side of the order BUY,SELL
+     * @param #price: amount used in the order
+     * @param #stopPrice: amount to stop order
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade
+     * return oco order response as JsonObject
+     * **/
     public JSONObject sendNewOcoOrderJSON(String symbol, String side, double price, double stopPrice) throws Exception {
         return new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice));
     }
 
+    /** Request to send new oco order
+     * @param #symbol: symbol used in new oco order es. BTCBUSD
+     * @param #side: side of the order BUY,SELL
+     * @param #price: amount used in the order
+     * @param #stopPrice: amount to stop order
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade
+     * return oco order response as ComposedOrderDetails object
+     * **/
     public ComposedOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice) throws Exception {
         return assembleComposedOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice)));
     }
 
+    /** Request to send new oco order
+     * @param #symbol: symbol used in new oco order es. BTCBUSD
+     * @param #side: side of the order BUY,SELL
+     * @param #price: amount used in the order
+     * @param #stopPrice: amount used to stop order
+     * @param #stopLimitPrice: amount used to stop in the limit order
+     * @param #stopLimitTimeInForce: GTC, FOK, IOC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade
+     * return oco order response as String
+     * **/
     public String sendNewOcoOrder(String symbol, String side, double price, double stopPrice, double stopLimitPrice,
                                   String stopLimitTimeInForce) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&price="+price+"&stopPrice="+stopPrice
@@ -765,17 +799,48 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return sendSignedRequest(OCO_ORDER_ENDPOINT,params,POST_METHOD);
     }
 
+    /** Request to send new oco order
+     * @param #symbol: symbol used in new oco order es. BTCBUSD
+     * @param #side: side of the order BUY,SELL
+     * @param #price: amount used in the order
+     * @param #stopPrice: amount used to stop order
+     * @param #stopLimitPrice: amount used to stop in the limit order
+     * @param #stopLimitTimeInForce: GTC, FOK, IOC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade
+     * return oco order response as JsonObject
+     * **/
     public JSONObject sendNewOcoOrderJSON(String symbol, String side, double price, double stopPrice, double stopLimitPrice,
                                           String stopLimitTimeInForce) throws Exception {
         return new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice,stopLimitPrice,stopLimitTimeInForce));
     }
 
+    /** Request to send new oco order
+     * @param #symbol: symbol used in new oco order es. BTCBUSD
+     * @param #side: side of the order BUY,SELL
+     * @param #price: amount used in the order
+     * @param #stopPrice: amount used to stop order
+     * @param #stopLimitPrice: amount used to stop in the limit order
+     * @param #stopLimitTimeInForce: GTC, FOK, IOC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade
+     * return oco order response as ComposedOrderDetails object
+     * **/
     public ComposedOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice,
                                                       double stopLimitPrice, String stopLimitTimeInForce) throws Exception {
         return assembleComposedOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice,
                 stopLimitPrice,stopLimitTimeInForce)));
     }
 
+    /** Request to send new oco order
+     * @param #symbol: symbol used in new oco order es. BTCBUSD
+     * @param #side: side of the order BUY,SELL
+     * @param #price: amount used in the order
+     * @param #stopPrice: amount to stop order
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are listClientOrderId,side,quantity,limitClientOrderId,limitIcebergQty,stopClientOrderId,
+     * stopLimitPrice,stopIcebergQty,stopLimitTimeInForce,newOrderRespType,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade
+     * return oco order response as String
+     * **/
     public String sendNewOcoOrder(String symbol, String side, double price, double stopPrice,
                                   HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&price="+price+"&stopPrice="+stopPrice;
@@ -783,16 +848,51 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return sendSignedRequest(OCO_ORDER_ENDPOINT,params,POST_METHOD);
     }
 
+    /** Request to send new oco order
+     * @param #symbol: symbol used in new oco order es. BTCBUSD
+     * @param #side: side of the order BUY,SELL
+     * @param #price: amount used in the order
+     * @param #stopPrice: amount to stop order
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are listClientOrderId,side,quantity,limitClientOrderId,limitIcebergQty,stopClientOrderId,
+     * stopLimitPrice,stopIcebergQty,stopLimitTimeInForce,newOrderRespType,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade
+     * return oco order response as JsonObject
+     * **/
     public JSONObject sendNewOcoOrderJSON(String symbol, String side, double price, double stopPrice,
                                           HashMap<String, Object> extraParams) throws Exception {
         return new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice,extraParams));
     }
 
+    /** Request to send new oco order
+     * @param #symbol: symbol used in new oco order es. BTCBUSD
+     * @param #side: side of the order BUY,SELL
+     * @param #price: amount used in the order
+     * @param #stopPrice: amount to stop order
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are listClientOrderId,side,quantity,limitClientOrderId,limitIcebergQty,stopClientOrderId,
+     * stopLimitPrice,stopIcebergQty,stopLimitTimeInForce,newOrderRespType,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade
+     * return oco order response as ComposedOrderDetails object
+     * **/
     public ComposedOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice,
                                                       HashMap<String, Object> extraParams) throws Exception {
         return assembleComposedOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice, extraParams)));
     }
 
+    /** Request to send new oco order
+     * @param #symbol: symbol used in new oco order es. BTCBUSD
+     * @param #side: side of the order BUY,SELL
+     * @param #price: amount used in the order
+     * @param #stopPrice: amount to stop order
+     * @param #stopLimitPrice: amount used to stop in the limit order
+     * @param #stopLimitTimeInForce: GTC, FOK, IOC
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are listClientOrderId,side,quantity,limitClientOrderId,limitIcebergQty,stopClientOrderId,
+     * stopLimitPrice,stopIcebergQty,stopLimitTimeInForce,newOrderRespType,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade
+     * return oco order response as String
+     * **/
     public String sendNewOcoOrder(String symbol, String side, double price, double stopPrice, double stopLimitPrice,
                                   String stopLimitTimeInForce, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&price="+price+"&stopPrice="+stopPrice
@@ -801,11 +901,37 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return sendSignedRequest(OCO_ORDER_ENDPOINT,params,POST_METHOD);
     }
 
+    /** Request to send new oco order
+     * @param #symbol: symbol used in new oco order es. BTCBUSD
+     * @param #side: side of the order BUY,SELL
+     * @param #price: amount used in the order
+     * @param #stopPrice: amount to stop order
+     * @param #stopLimitPrice: amount used to stop in the limit order
+     * @param #stopLimitTimeInForce: GTC, FOK, IOC
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are listClientOrderId,side,quantity,limitClientOrderId,limitIcebergQty,stopClientOrderId,
+     * stopLimitPrice,stopIcebergQty,stopLimitTimeInForce,newOrderRespType,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade
+     * return oco order response as JsonObject
+     * **/
     public JSONObject sendNewOcoOrderJSON(String symbol, String side, double price, double stopPrice, double stopLimitPrice,
                                           String stopLimitTimeInForce, HashMap<String, Object> extraParams) throws Exception {
         return new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice,stopLimitPrice,stopLimitTimeInForce,extraParams));
     }
 
+    /** Request to send new oco order
+     * @param #symbol: symbol used in new oco order es. BTCBUSD
+     * @param #side: side of the order BUY,SELL
+     * @param #price: amount used in the order
+     * @param #stopPrice: amount to stop order
+     * @param #stopLimitPrice: amount used to stop in the limit order
+     * @param #stopLimitTimeInForce: GTC, FOK, IOC
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are listClientOrderId,side,quantity,limitClientOrderId,limitIcebergQty,stopClientOrderId,
+     * stopLimitPrice,stopIcebergQty,stopLimitTimeInForce,newOrderRespType,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade
+     * return oco order response as ComposedOrderDetails object
+     * **/
     public ComposedOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice,
                                                       double stopLimitPrice, String stopLimitTimeInForce,
                                                       HashMap<String, Object> extraParams) throws Exception {
@@ -813,62 +939,150 @@ public class BinanceSpotManager extends BinanceSignedManager {
                 stopLimitPrice,stopLimitTimeInForce,extraParams)));
     }
 
+    /** Request to cancel all OcoOrders
+     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade
+     * return cancel all OcoOrders response as String
+     * **/
     public String cancelAllOcoOrders(String symbol, long orderListId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId;
         return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,DELETE_METHOD);
     }
 
+    /** Request to cancel all OcoOrders
+     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade
+     * return cancel all OcoOrders response as JsonObject
+     * **/
     public JSONObject cancelAllOcoOrdersJSON(String symbol, long orderListId) throws Exception {
         return new JSONObject(cancelOrderJSON(symbol, orderListId));
     }
 
+    /** Request to cancel all OcoOrders
+     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade
+     * return cancel all OcoOrders response as ComposedOrderDetails object
+     * **/
     public ComposedOrderDetails cancelAllOcoOrdersObject(String symbol, long orderListId) throws Exception {
         return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, orderListId)));
     }
 
+    /** Request to cancel all OcoOrders
+     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade
+     * return cancel all OcoOrders response as String
+     * **/
     public String cancelAllOcoOrders(String symbol, String listClientOrderId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&listClientOrderId="+listClientOrderId;
         return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,DELETE_METHOD);
     }
 
+    /** Request to cancel all OcoOrders
+     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade
+     * return cancel all OcoOrders response as JsonObject
+     * **/
     public JSONObject cancelAllOcoOrdersJSON(String symbol, String listClientOrderId) throws Exception {
         return new JSONObject(cancelOrderJSON(symbol, listClientOrderId));
     }
 
+    /** Request to cancel all OcoOrders
+     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade
+     * return cancel all OcoOrders response as ComposedOrderDetails object
+     * **/
     public ComposedOrderDetails cancelAllOcoOrdersObject(String symbol, String listClientOrderId) throws Exception {
         return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, listClientOrderId)));
     }
 
+    /** Request to cancel all OcoOrders
+     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted orderListId,listClientOrderId,newClientOrderId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade
+     * return cancel all OcoOrders response as String
+     * **/
     public String cancelAllOcoOrders(String symbol, long orderListId, HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,DELETE_METHOD);
     }
 
+    /** Request to cancel all OcoOrders
+     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted orderListId,listClientOrderId,newClientOrderId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade
+     * return cancel all OcoOrders response as JsonObject
+     * **/
     public JSONObject cancelAllOcoOrdersJSON(String symbol, long orderListId, HashMap<String,Object> extraParams) throws Exception {
         return new JSONObject(cancelOrderJSON(symbol, orderListId, extraParams));
     }
 
+    /** Request to cancel all OcoOrders
+     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted orderListId,listClientOrderId,newClientOrderId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade
+     * return cancel all OcoOrders response as ComposedOrderDetails object
+     * **/
     public ComposedOrderDetails cancelAllOcoOrdersObject(String symbol, long orderListId,
                                                          HashMap<String,Object> extraParams) throws Exception {
         return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, orderListId, extraParams)));
     }
 
+    /** Request to cancel all OcoOrders
+     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted orderListId,listClientOrderId,newClientOrderId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade
+     * return cancel all OcoOrders response as String
+     * **/
     public String cancelAllOcoOrders(String symbol, String listClientOrderId,  HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&listClientOrderId="+listClientOrderId;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,DELETE_METHOD);
     }
 
+    /** Request to cancel all OcoOrders
+     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted orderListId,listClientOrderId,newClientOrderId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade
+     * return cancel all OcoOrders response as JsonObject
+     * **/
     public JSONObject cancelAllOcoOrdersJSON(String symbol, String listClientOrderId, HashMap<String,Object> extraParams) throws Exception {
         return new JSONObject(cancelOrderJSON(symbol, listClientOrderId, extraParams));
     }
 
+    /** Request to cancel all OcoOrders
+     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted orderListId,listClientOrderId,newClientOrderId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade
+     * return cancel all OcoOrders response as ComposedOrderDetails object
+     * **/
     public ComposedOrderDetails cancelAllOcoOrdersObject(String symbol, String listClientOrderId,
                                                          HashMap<String,Object> extraParams) throws Exception {
         return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, listClientOrderId, extraParams)));
     }
 
+    /** Method to assemble an ComposedOrderDetails object
+     * @param #order: obtained from Binance's request
+     * return a ComposedOrderDetails object with response data
+     * **/
     private ComposedOrderDetails assembleComposedOrderDetails(JSONObject order){
         return new ComposedOrderDetails(order.getLong("orderListId"),
                 order.getString("contingencyType"),
@@ -881,54 +1095,132 @@ public class BinanceSpotManager extends BinanceSignedManager {
         );
     }
 
+    /** Request to get OCO order status
+     * @param #symbol: symbol used to fecth OCO order status es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data
+     * return OCO order status response as ComposedOrderDetails object
+     * **/
     public String getOcoOrderStatus(String symbol, long orderListId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId;
         return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get OCO order status
+     * @param #symbol: symbol used to fecth OCO order status es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data
+     * return OCO order status response as JsonObject
+     * **/
     public JSONObject getOcoOrderStatusJSON(String symbol, long orderListId) throws Exception {
         return new JSONObject(getOcoOrderStatus(symbol, orderListId));
     }
 
+    /** Request to get OCO order status
+     * @param #symbol: symbol used to fecth OCO order status es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data
+     * return OCO order status response as BaseOrderDetails object
+     * **/
     public BaseOrderDetails getOcoOrderStatusObject(String symbol, long orderListId) throws Exception {
         return assembleBaseOrderDetails(new JSONObject(getOcoOrderStatus(symbol, orderListId)));
     }
 
+    /** Request to get OCO order status
+     * @param #symbol: symbol used to fecth OCO order status es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data
+     * return cancel all OcoOrders response as String
+     * **/
     public String getOcoOrderStatus(String symbol, long orderListId, long recvWindow) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId+"&recvWindow="+recvWindow;
         return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get OCO order status
+     * @param #symbol: symbol used to fecth OCO order status es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data
+     * return cancel all OcoOrders response as JsonObject
+     * **/
     public JSONObject getOcoOrderStatusJSON(String symbol, long orderListId, long recvWindow) throws Exception {
         return new JSONObject(getOcoOrderStatus(symbol, orderListId, recvWindow));
     }
 
+    /** Request to get OCO order status
+     * @param #symbol: symbol used to fecth OCO order status es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data
+     * return cancel all OcoOrders response as BaseOrderDetails object
+     * **/
     public BaseOrderDetails getOcoOrderStatusObject(String symbol, long orderListId, long recvWindow) throws Exception {
         return assembleBaseOrderDetails(new JSONObject(getOcoOrderStatus(symbol, orderListId, recvWindow)));
     }
 
+    /** Request to get OCO order status
+     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data
+     * return OCO order status response as String
+     * **/
     public String getOcoOrderStatus(String symbol, String listClientOrderId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&listClientOrderId="+listClientOrderId;
         return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get OCO order status
+     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data
+     * return OCO order status response as JsonObject
+     * **/
     public JSONObject getOcoOrderStatusJSON(String symbol, String listClientOrderId) throws Exception {
         return new JSONObject(getOcoOrderStatus(symbol, listClientOrderId));
     }
 
+    /** Request to get OCO order status
+     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data
+     * return OCO order status response as BaseOrderDetails object
+     * **/
     public BaseOrderDetails getOcoOrderStatusObject(String symbol, String listClientOrderId) throws Exception {
         return assembleBaseOrderDetails(new JSONObject(getOcoOrderStatus(symbol, listClientOrderId)));
     }
 
+    /** Request to get OCO order status
+     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data
+     * return OCO order status response as String
+     * **/
     public String getOcoOrderStatus(String symbol, String listClientOrderId, long recvWindow) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&listClientOrderId="+listClientOrderId+"&recvWindow="+recvWindow;
         return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get OCO order status
+     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data
+     * return OCO order status response as JsonObject
+     * **/
     public JSONObject getOcoOrderStatusJSON(String symbol,  String listClientOrderId, long recvWindow) throws Exception {
         return new JSONObject(getOcoOrderStatus(symbol, listClientOrderId, recvWindow));
     }
 
+    /** Request to get OCO order status
+     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data
+     * return OCO order status response as BaseOrderDetails object
+     * **/
     public BaseOrderDetails getOcoOrderStatusObject(String symbol, String listClientOrderId, long recvWindow) throws Exception {
         return assembleBaseOrderDetails(new JSONObject(getOcoOrderStatus(symbol, listClientOrderId, recvWindow)));
     }

@@ -5,6 +5,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ *  The {@code BaseOrderDetails} class is useful to format BaseOrderDetails object
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#spot-account-trade
+ *  @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class BaseOrderDetails {
 
     private final long orderListId;
@@ -83,6 +89,7 @@ public class BaseOrderDetails {
      * The {@code SpotOrderDetails} class is useful to obtain and format SpotOrderDetails object
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade
      * **/
+
     public static class SpotOrderDetails {
 
         private final String symbol;

@@ -6,6 +6,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ *  The {@code SpotAccountInformation} class is useful to format SpotAccountInformation object
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data
+ *  @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class SpotAccountInformation {
 
     private final double makerCommission;
@@ -93,6 +99,11 @@ public class SpotAccountInformation {
     public Permission getPermission(int index){
         return permissions.get(index);
     }
+
+    /**
+     * The {@code Permission} class is useful to obtain and format Permission object
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data
+     * **/
 
     public static class Permission {
 
