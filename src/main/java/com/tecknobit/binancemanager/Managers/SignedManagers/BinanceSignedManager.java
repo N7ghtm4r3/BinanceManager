@@ -27,6 +27,16 @@ public class BinanceSignedManager extends BinanceManager {
         this.secretKey = secretKey;
     }
 
+    /** Method to execute an Order request and get response of that
+     * @param #endpoint: endpoint to request
+     * @param #params: params HTTP for the request
+     * @param #method: method HTTP for the request
+     * return response of the request
+     * **/
+    protected String sendSignedRequest(String endpoint, String params, String method) throws Exception {
+        return getRequestResponse(endpoint,params+getSignature(params),method,apiKey);
+    }
+
     /** Method to get signature of request
      * @param #params: params of request to get signature
      * return es."&signature=c8db66725ae71d6d79447319e617115f4a920f5agcdabcb2838bd6b712b053c4"

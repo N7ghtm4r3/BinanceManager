@@ -14,7 +14,7 @@ public class EndpointsList {
 
     /**Wallet manager endpoint urls**/
     public static final String ALL_COINS_ENDPOINT = "/sapi/v1/capital/config/getall";
-    public static final String DAILY_ACCOUNT_SNAP_ENDPOINT = "/sapi/v1/accountSnapshot";
+    public static final String DAILY_ACCOUNT_SNAPSHOT_ENDPOINT = "/sapi/v1/accountSnapshot";
     public static final String DISABLE_FAST_WITHDRAW_ENDPOINT = "/sapi/v1/account/disableFastWithdrawSwitch";
     public static final String ENABLE_FAST_WITHDRAW_ENDPOINT = "/sapi/v1/account/enableFastWithdrawSwitch";
     public static final String DEPOSIT_HISTORY_ENDPOINT = "/sapi/v1/capital/deposit/hisrec";
@@ -55,5 +55,6 @@ public class EndpointsList {
     public static final String OCO_ORDER_LIST_ENDPOINT = "/api/v3/orderList";
     public static final String OCO_ORDER_LIST_STATUS_ENDPOINT = "/api/v3/allOrderList";
     public static final String OCO_OPEN_ORDER_LIST_ENDPOINT = "/api/v3/openOrderList";
+    public static final String SPOT_ACCOUNT_INFORMATION_ENDPOINT = "/api/v3/account";
 
 }

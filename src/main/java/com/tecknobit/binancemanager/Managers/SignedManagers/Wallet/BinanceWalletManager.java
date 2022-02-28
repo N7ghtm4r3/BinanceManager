@@ -62,8 +62,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * return all coin information as String
      * **/
     public String getAllCoins() throws Exception {
-        String params = getParamTimestamp();
-        return getRequestResponse(ALL_COINS_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
+        return sendSignedRequest(ALL_COINS_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
     /** Request to get information of your coins available for deposit and withdraw
@@ -111,18 +110,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * **/
     public String getAccountSnapshot(String type) throws Exception {
         String params = getParamTimestamp()+"&type="+type;
-        return getRequestResponse(DAILY_ACCOUNT_SNAP_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
-    }
-
-    /** Request to get your daily account snapshot
-     * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
-     * return account snapshot as String
-     * **/
-    public String getAccountSnapshot(String type, HashMap<String,Object> extraParams) throws Exception {
-        String params = requestManager.assembleExtraParams(getParamTimestamp()+"&type="+type,extraParams);
-        return getRequestResponse(DAILY_ACCOUNT_SNAP_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
+        return sendSignedRequest(DAILY_ACCOUNT_SNAPSHOT_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get your daily account snapshot
@@ -135,16 +123,6 @@ public class BinanceWalletManager extends BinanceSignedManager {
     }
 
     /** Request to get your daily account snapshot
-     * @param #extraParams: hashmap composed by extraParams
-     * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
-     * return account snapshot as JsonObject
-     * **/
-    public JSONObject getJSONAccountSnapshot(String type,HashMap<String,Object> extraParams) throws Exception {
-        return new JSONObject(getAccountSnapshot(type,extraParams));
-    }
-
-    /** Request to get your daily account snapshot
      * @param #type: SPOT,MARGIN OR FUTURES
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
      * return account snapshot as AccountSnapshot object.
@@ -152,6 +130,27 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * **/
     public AccountSnapshot getObjectAccountSnapshot(String type){
         return getObjectAccountSnapshot(type,new JSONObject(type));
+    }
+
+    /** Request to get your daily account snapshot
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+     * return account snapshot as String
+     * **/
+    public String getAccountSnapshot(String type, HashMap<String,Object> extraParams) throws Exception {
+        String params = requestManager.assembleExtraParams(getParamTimestamp()+"&type="+type,extraParams);
+        return sendSignedRequest(DAILY_ACCOUNT_SNAPSHOT_ENDPOINT,params,GET_METHOD);
+    }
+
+    /** Request to get your daily account snapshot
+     * @param #extraParams: hashmap composed by extraParams
+     * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+     * return account snapshot as JsonObject
+     * **/
+    public JSONObject getJSONAccountSnapshot(String type,HashMap<String,Object> extraParams) throws Exception {
+        return new JSONObject(getAccountSnapshot(type,extraParams));
     }
 
     /** Request to get your daily account snapshot
@@ -196,10 +195,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * **/
     public boolean switchFastWithdraw(boolean enableFastWithdraw) throws Exception {
         String switchOperationEndpoint = DISABLE_FAST_WITHDRAW_ENDPOINT;
-        String params = getParamTimestamp();
         if(enableFastWithdraw)
             switchOperationEndpoint = ENABLE_FAST_WITHDRAW_ENDPOINT;
-        return getRequestResponse(switchOperationEndpoint,params+getSignature(params),POST_METHOD,apiKey).equals("{}");
+        return sendSignedRequest(switchOperationEndpoint,getParamTimestamp(),POST_METHOD).equals("{}");
     }
 
     /** Request to submit withdraw
@@ -261,7 +259,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * return id of transaction if operation is successful as String
      * **/
     private String submitWithdraw(String params) throws Exception {
-        return getRequestResponse(SUBMIT_WITHDRAW_ENDPOINT,params+getSignature(params),POST_METHOD,apiKey);
+        return sendSignedRequest(SUBMIT_WITHDRAW_ENDPOINT,params,POST_METHOD);
     }
 
     /** Request to get deposit history
@@ -291,8 +289,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * **/
     private ArrayList<Deposit> getDepositHistory(String params) throws Exception {
         ArrayList<Deposit> depositHistory = new ArrayList<>();
-        jsonArray = new JSONArray(getRequestResponse(DEPOSIT_HISTORY_ENDPOINT,
-                params+getSignature(params),GET_METHOD,apiKey));
+        jsonArray = new JSONArray(sendSignedRequest(DEPOSIT_HISTORY_ENDPOINT,params,GET_METHOD));
         for(int j=0; j < jsonArray.length(); j++){
             JSONObject deposit = jsonArray.getJSONObject(j);
             depositHistory.add(new Deposit(deposit.getDouble("amount"),
@@ -338,8 +335,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * **/
     private ArrayList<Withdraw> getWithdrawHistory(String params) throws Exception {
         ArrayList<Withdraw> withdrawsHistory = new ArrayList<>();
-        jsonArray = new JSONArray(getRequestResponse(WITHDRAW_HISTORY_ENDPOINT,params+getSignature(params),
-                GET_METHOD,apiKey));
+        jsonArray = new JSONArray(sendSignedRequest(WITHDRAW_HISTORY_ENDPOINT,params,GET_METHOD));
         for(int j=0; j < jsonArray.length(); j++){
             JSONObject withdraw = jsonArray.getJSONObject(j);
             withdrawsHistory.add(new Withdraw(withdraw.getString("address"),
@@ -385,8 +381,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * return deposit address information as DepositAddress object
      * **/
     private DepositAddress getDepositAddressSender(String params) throws Exception {
-        jsonObject = new JSONObject(getRequestResponse(DEPOSIT_ADDRESS_ENDPOINT,params+getSignature(params),
-                GET_METHOD,apiKey));
+        jsonObject = new JSONObject(sendSignedRequest(DEPOSIT_ADDRESS_ENDPOINT,params,GET_METHOD));
         return new DepositAddress(jsonObject.getString("address"),
                 jsonObject.getString("coin"),
                 jsonObject.getString("tag"),
@@ -400,8 +395,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * return account status as String
      * **/
     public String getAccountStatus() throws Exception {
-        String params = getParamTimestamp();
-        return getRequestResponse(ACCOUNT_STATUS_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
+        return sendSignedRequest(ACCOUNT_STATUS_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
     /** Request to get account status
@@ -419,8 +413,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * return API trading status as String
      * **/
     public String getAPITradingStatus() throws Exception {
-        String params = getParamTimestamp();
-        return getRequestResponse(API_TRADING_STATUS_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
+        return sendSignedRequest(API_TRADING_STATUS_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
     /** Request to get API trading status
@@ -459,8 +452,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * return dust log information as String
      * **/
     public String getDustLog() throws Exception {
-        String params = getParamTimestamp();
-        return getRequestResponse(DUST_LOG_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
+        return sendSignedRequest(DUST_LOG_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
     /** Request to get dust log information
@@ -489,7 +481,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * **/
     public String getDustLog(HashMap<String,Object> extraParams) throws Exception {
         String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
-        return getRequestResponse(DUST_LOG_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
+        return sendSignedRequest(DUST_LOG_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get dust log information
@@ -545,8 +537,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * return convertible assets into BNB as String
      * **/
     public String getConvertibleBNBAssets() throws Exception {
-        String params = getParamTimestamp();
-        return getRequestResponse(ASSET_CONVERTIBLE_BNB_ENDPOINT,params+getSignature(params),POST_METHOD,apiKey);
+        return sendSignedRequest(ASSET_CONVERTIBLE_BNB_ENDPOINT,getParamTimestamp(),POST_METHOD);
     }
 
     /** Request to get convertible assets into BNB
@@ -593,7 +584,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
         StringBuilder params = new StringBuilder(getParamTimestamp());
         for (String asset : assets)
             params.append("&asset=").append(asset);
-        return getRequestResponse(DUST_TRANSFER_ENDPOINT,params+getSignature(params.toString()),POST_METHOD,apiKey);
+        return sendSignedRequest(DUST_TRANSFER_ENDPOINT,params.toString(),POST_METHOD);
     }
 
     /** Request to get dust transfer
@@ -640,8 +631,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * return asset dividend as String
      * **/
     public String getAssetDividend() throws Exception {
-        String params = getParamTimestamp();
-        return getRequestResponse(ASSET_DIVIDEND_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
+        return sendSignedRequest(ASSET_DIVIDEND_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
     /** Request to get asset dividend
@@ -669,8 +659,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * return  get asset dividend as String
      * **/
     public String getAssetDividend(HashMap<String,Object> extraParams) throws Exception {
-        String params = getParamTimestamp();
-        return getRequestResponse(ASSET_DIVIDEND_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
+        return sendSignedRequest(ASSET_DIVIDEND_ENDPOINT,requestManager.assembleExtraParams(getParamTimestamp(),
+                extraParams),GET_METHOD);
     }
 
     /** Request to get asset dividend
@@ -725,8 +715,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * return asset detail as String
      * **/
     public String getAssetDetail() throws Exception {
-        String params = getParamTimestamp();
-        return getRequestResponse(ASSET_DETAIL_ENPOINT,params+getSignature(params),GET_METHOD,apiKey);
+        return sendSignedRequest(ASSET_DETAIL_ENPOINT,getParamTimestamp(),GET_METHOD);
     }
 
     /** Request to get asset detail
@@ -766,7 +755,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * **/
     public String getAssetDetail(String asset) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
-        return getRequestResponse(ASSET_DETAIL_ENPOINT,params+getSignature(params),GET_METHOD,apiKey);
+        return sendSignedRequest(ASSET_DETAIL_ENPOINT,params,GET_METHOD);
     }
 
     /** Request to get asset detail
@@ -812,8 +801,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * return asset trade fee as String
      * **/
     public String getTradeFee() throws Exception {
-        String params = getParamTimestamp();
-        return getRequestResponse(TRADE_FEE_ENPOINT,params+getSignature(params),GET_METHOD,apiKey);
+        return sendSignedRequest(TRADE_FEE_ENPOINT,getParamTimestamp(),GET_METHOD);
     }
 
     /** Request to get asset trade fee
@@ -850,7 +838,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * **/
     public String getTradeFee(String symbol) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
-        return getRequestResponse(TRADE_FEE_ENPOINT,params+getSignature(params),GET_METHOD,apiKey);
+        return sendSignedRequest(TRADE_FEE_ENPOINT,params,GET_METHOD);
     }
 
     /** Request to get asset trade fee
@@ -886,7 +874,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * **/
     public String getUniversalTransfer(String type,String asset,double amount) throws Exception {
         String params = getParamTimestamp()+"&type="+type+"&asset="+asset+"&amount="+amount;
-        return getRequestResponse(UNIVERSAL_TRANSFER_ENDPOINT,params+getSignature(params),POST_METHOD,apiKey);
+        return sendSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT,params,POST_METHOD);
     }
 
     /** Request to get universal transfer
@@ -911,8 +899,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * return universal transfer as String
      * **/
     public String getUniversalTransfer(String type,String asset,double amount, HashMap<String,Object> extraParams) throws Exception {
-        String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
-        return getRequestResponse(UNIVERSAL_TRANSFER_ENDPOINT,params+getSignature(params),POST_METHOD,apiKey);
+        return sendSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT,requestManager.assembleExtraParams(getParamTimestamp(),extraParams),
+                POST_METHOD);
     }
 
     /** Request to get universal transfer
@@ -961,8 +949,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
     private ArrayList<UniversalTransfer> getUniversalTransferHistorySender(String params){
         ArrayList<UniversalTransfer> universalTransfersHistory = new ArrayList<>();
         try {
-            jsonArray = new JSONObject(getRequestResponse(UNIVERSAL_TRANSFER_ENDPOINT,params+getSignature(params),
-                    GET_METHOD,apiKey)).getJSONArray("rows");
+            jsonArray = new JSONObject(sendSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT,params,GET_METHOD)).getJSONArray("rows");
             for (int j=0; j < jsonArray.length(); j++){
                 JSONObject universalTranHistory = jsonArray.getJSONObject(j);
                 universalTransfersHistory.add(new UniversalTransfer(universalTranHistory.getString("asset"),
@@ -1005,8 +992,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * **/
     private ArrayList<FundingWallet> getFundingWallet(String params) throws Exception {
         ArrayList<FundingWallet> fundingWalletsList = new ArrayList<>();
-        jsonArray = new JSONArray(getRequestResponse(FUNDING_WALLET_ENDPOINT,params+getSignature(params),
-                POST_METHOD,apiKey));
+        jsonArray = new JSONArray(sendSignedRequest(FUNDING_WALLET_ENDPOINT,params,POST_METHOD));
         for (int j=0; j < jsonArray.length(); j++){
             JSONObject fundingWallet = jsonArray.getJSONObject(j);
             fundingWalletsList.add(new FundingWallet(fundingWallet.getString("asset"),
@@ -1026,8 +1012,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * return API key permission as String
      * **/
     public String getAPIKeyPermission() throws Exception {
-        String params = getParamTimestamp();
-        return getRequestResponse(API_KEY_PERMISSION_ENDPOINT,params+getSignature(params),GET_METHOD,apiKey);
+        return sendSignedRequest(API_KEY_PERMISSION_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
     /** Request to get API key permission
