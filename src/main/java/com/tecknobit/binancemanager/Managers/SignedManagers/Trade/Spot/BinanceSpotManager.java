@@ -2,6 +2,7 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot;
 
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.BaseOrderDetails;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Simple.Cancel.CancelOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.ComposedOrderDetails;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Simple.Cancel.OpenOrders;
@@ -651,7 +652,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String getAllOrdersList(String symbol) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
-        return sendOrderRequest(ALL_ORDERS_LIST_ENPOINT,params,GET_METHOD);
+        return sendOrderRequest(ALL_ORDERS_LIST_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get all orders list
@@ -681,7 +682,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     public String getAllOrdersList(String symbol,HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
         params = requestManager.assembleExtraParams(params,extraParams);
-        return sendOrderRequest(ALL_ORDERS_LIST_ENPOINT,params,GET_METHOD);
+        return sendOrderRequest(ALL_ORDERS_LIST_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get all orders list
@@ -809,6 +810,194 @@ public class BinanceSpotManager extends BinanceSignedManager {
                 stopLimitPrice,stopLimitTimeInForce,extraParams)));
     }
 
+    public String cancelAllOcoOrders(String symbol, long orderListId) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId;
+        return sendOrderRequest(OCO_ORDER_LIST_ENDPOINT,params,DELETE_METHOD);
+    }
+
+    public JSONObject cancelAllOcoOrdersJSON(String symbol, long orderListId) throws Exception {
+        return new JSONObject(cancelOrderJSON(symbol, orderListId));
+    }
+
+    public ComposedOrderDetails cancelAllOcoOrdersObject(String symbol, long orderListId) throws Exception {
+        return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, orderListId)));
+    }
+
+    public String cancelAllOcoOrders(String symbol, String listClientOrderId) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&listClientOrderId="+listClientOrderId;
+        return sendOrderRequest(OCO_ORDER_LIST_ENDPOINT,params,DELETE_METHOD);
+    }
+
+    public JSONObject cancelAllOcoOrdersJSON(String symbol, String listClientOrderId) throws Exception {
+        return new JSONObject(cancelOrderJSON(symbol, listClientOrderId));
+    }
+
+    public ComposedOrderDetails cancelAllOcoOrdersObject(String symbol, String listClientOrderId) throws Exception {
+        return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, listClientOrderId)));
+    }
+
+    public String cancelAllOcoOrders(String symbol, long orderListId, HashMap<String,Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendOrderRequest(OCO_ORDER_LIST_ENDPOINT,params,DELETE_METHOD);
+    }
+
+    public JSONObject cancelAllOcoOrdersJSON(String symbol, long orderListId, HashMap<String,Object> extraParams) throws Exception {
+        return new JSONObject(cancelOrderJSON(symbol, orderListId, extraParams));
+    }
+
+    public ComposedOrderDetails cancelAllOcoOrdersObject(String symbol, long orderListId,
+                                                         HashMap<String,Object> extraParams) throws Exception {
+        return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, orderListId, extraParams)));
+    }
+
+    public String cancelAllOcoOrders(String symbol, String listClientOrderId,  HashMap<String,Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&listClientOrderId="+listClientOrderId;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendOrderRequest(OCO_ORDER_LIST_ENDPOINT,params,DELETE_METHOD);
+    }
+
+    public JSONObject cancelAllOcoOrdersJSON(String symbol, String listClientOrderId, HashMap<String,Object> extraParams) throws Exception {
+        return new JSONObject(cancelOrderJSON(symbol, listClientOrderId, extraParams));
+    }
+
+    public ComposedOrderDetails cancelAllOcoOrdersObject(String symbol, String listClientOrderId,
+                                                         HashMap<String,Object> extraParams) throws Exception {
+        return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, listClientOrderId, extraParams)));
+    }
+
+    public String getOcoOrderStatus(String symbol, long orderListId) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId;
+        return sendOrderRequest(OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getOcoOrderStatusJSON(String symbol, long orderListId) throws Exception {
+        return new JSONObject(getOcoOrderStatus(symbol, orderListId));
+    }
+
+    public BaseOrderDetails getOcoOrderStatusObject(String symbol, long orderListId) throws Exception {
+        return assembleBaseOrderDetails(new JSONObject(getOcoOrderStatus(symbol, orderListId)));
+    }
+
+    public String getOcoOrderStatus(String symbol, long orderListId, long recvWindow) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId+"&recvWindow="+recvWindow;
+        return sendOrderRequest(OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getOcoOrderStatusJSON(String symbol, long orderListId, long recvWindow) throws Exception {
+        return new JSONObject(getOcoOrderStatus(symbol, orderListId, recvWindow));
+    }
+
+    public BaseOrderDetails getOcoOrderStatusObject(String symbol, long orderListId, long recvWindow) throws Exception {
+        return assembleBaseOrderDetails(new JSONObject(getOcoOrderStatus(symbol, orderListId, recvWindow)));
+    }
+
+    public String getOcoOrderStatus(String symbol, String listClientOrderId) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&listClientOrderId="+listClientOrderId;
+        return sendOrderRequest(OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getOcoOrderStatusJSON(String symbol, String listClientOrderId) throws Exception {
+        return new JSONObject(getOcoOrderStatus(symbol, listClientOrderId));
+    }
+
+    public BaseOrderDetails getOcoOrderStatusObject(String symbol, String listClientOrderId) throws Exception {
+        return assembleBaseOrderDetails(new JSONObject(getOcoOrderStatus(symbol, listClientOrderId)));
+    }
+
+    public String getOcoOrderStatus(String symbol, String listClientOrderId, long recvWindow) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&listClientOrderId="+listClientOrderId+"&recvWindow="+recvWindow;
+        return sendOrderRequest(OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getOcoOrderStatusJSON(String symbol,  String listClientOrderId, long recvWindow) throws Exception {
+        return new JSONObject(getOcoOrderStatus(symbol, listClientOrderId, recvWindow));
+    }
+
+    public BaseOrderDetails getOcoOrderStatusObject(String symbol, String listClientOrderId, long recvWindow) throws Exception {
+        return assembleBaseOrderDetails(new JSONObject(getOcoOrderStatus(symbol, listClientOrderId, recvWindow)));
+    }
+
+    public String getOcoOrderStatusList() throws Exception {
+        return sendOrderRequest(OCO_ORDER_LIST_ENDPOINT,getParamTimestamp(),GET_METHOD);
+    }
+
+    public JSONArray getJSONOcoOrderStatusList() throws Exception {
+        return new JSONArray(getOcoOrderStatusList());
+    }
+
+    public ArrayList<BaseOrderDetails> getObjectOcoOrderStatusList() throws Exception {
+        return assembleBaseOrderDetails(new JSONArray(getOcoOrderStatusList()));
+    }
+
+    public String getOcoOrderStatusList(long fromId, String timeParam, long timeParamValue) throws Exception {
+        String params = getParamTimestamp()+"&fromId="+fromId+"&"+timeParam+"="+timeParamValue;
+        return sendOrderRequest(OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONOcoOrderStatusList(long fromId, String timeParam, long startTime) throws Exception {
+        return new JSONArray(getOcoOrderStatusList(fromId, timeParam, startTime));
+    }
+
+    public ArrayList<BaseOrderDetails> getObjectOcoOrderStatusList(long fromId, String timeParam, long startTime) throws Exception {
+        return assembleBaseOrderDetails(new JSONArray(getOcoOrderStatusList(fromId, timeParam, startTime)));
+    }
+
+    public String getOcoOrderStatusList(HashMap<String, Object> extraParams) throws Exception {
+        String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
+        return sendOrderRequest(OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONOcoOrderStatusList(HashMap<String, Object> extraParams) throws Exception {
+        return new JSONArray(getOcoOrderStatusList(extraParams));
+    }
+
+    public ArrayList<BaseOrderDetails> getObjectOcoOrderStatusList(HashMap<String, Object> extraParams) throws Exception {
+        return assembleBaseOrderDetails(new JSONArray(getOcoOrderStatusList(extraParams)));
+    }
+
+    public String getOcoOrderStatusList(long fromId, String timeParam, long timeParamValue,
+                                        HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&fromId="+fromId+"&"+timeParam+"="+timeParamValue;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendOrderRequest(OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONOcoOrderStatusList(long fromId, String timeParam, long startTime,
+                                               HashMap<String, Object> extraParams) throws Exception {
+        return new JSONArray(getOcoOrderStatusList(fromId, timeParam, startTime, extraParams));
+    }
+
+    public ArrayList<BaseOrderDetails> getObjectOcoOrderStatusList(long fromId, String timeParam, long startTime,
+                                                                   HashMap<String, Object> extraParams) throws Exception {
+        return assembleBaseOrderDetails(new JSONArray(getOcoOrderStatusList(fromId, timeParam, startTime, extraParams)));
+    }
+
+    public String getOpenOcoOrderList() throws Exception {
+        return sendOrderRequest(OCO_OPEN_ORDER_LIST_ENDPOINT,getParamTimestamp(),GET_METHOD);
+    }
+
+    public JSONArray getJSONOpenOcoOrderList() throws Exception {
+        return new JSONArray(getOpenOcoOrderList());
+    }
+
+    public ArrayList<BaseOrderDetails> getObjectOpenOcoOrderList() throws Exception {
+        return assembleBaseOrderDetails(new JSONArray(getOpenOcoOrderList()));
+    }
+
+    public String getOpenOcoOrderList(long recvWindow) throws Exception {
+        String params = getParamTimestamp()+"&recvWindow="+recvWindow;
+        return sendOrderRequest(OCO_OPEN_ORDER_LIST_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONOpenOcoOrderList(long recvWindow) throws Exception {
+        return new JSONArray(getOpenOcoOrderList(recvWindow));
+    }
+
+    public ArrayList<BaseOrderDetails> getObjectOpenOcoOrderList(long recvWindow) throws Exception {
+        return assembleBaseOrderDetails(new JSONArray(getOpenOcoOrderList(recvWindow)));
+    }
+
     private ComposedOrderDetails assembleComposedOrderDetails(JSONObject order){
         return new ComposedOrderDetails(order.getLong("orderListId"),
                 order.getString("contingencyType"),
@@ -819,6 +1008,25 @@ public class BinanceSpotManager extends BinanceSignedManager {
                 order.getString("symbol"),
                 order
         );
+    }
+
+    private BaseOrderDetails assembleBaseOrderDetails(JSONObject order){
+        return new BaseOrderDetails(order.getLong("orderListId"),
+                order.getString("contingencyType"),
+                order.getString("listStatusType"),
+                order.getString("listOrderStatus"),
+                order.getString("listClientOrderId"),
+                order.getLong("transactionTime"),
+                order.getString("symbol"),
+                order
+        );
+    }
+
+    private ArrayList<BaseOrderDetails> assembleBaseOrderDetails(JSONArray jsonArray){
+        ArrayList<BaseOrderDetails> baseOrderDetailsList = new ArrayList<>();
+        for (int j=0; j < jsonArray.length(); j++)
+            baseOrderDetailsList.add(assembleBaseOrderDetails(jsonArray.getJSONObject(j)));
+        return baseOrderDetailsList;
     }
 
     /** Method to execute an Order request and get response of that
