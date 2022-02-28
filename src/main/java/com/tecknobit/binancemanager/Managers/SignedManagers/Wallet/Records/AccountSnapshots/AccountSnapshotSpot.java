@@ -53,12 +53,12 @@ public class AccountSnapshotSpot extends AccountSnapshot{
         return new AccountSnapshotSpot(code,msg,type,jsonArray,assetsSpotData);
     }
 
-    /** Method to assemble an UserAssetMargin list
+    /** Method to assemble an BalancesSpot list
      * @param #jsonArray: jsonArray obtain by AccountSnapshot Binance request
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
      * return BalancesSpot list as ArrayList<BalancesSpot>
      * **/
-    private ArrayList<BalancesSpot> getBalancesSpot(JSONArray jsonArray){
+    public static ArrayList<BalancesSpot> getBalancesSpot(JSONArray jsonArray){
         ArrayList<BalancesSpot> balancesSpots = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
             JSONObject balance = jsonArray.getJSONObject(j);
@@ -72,6 +72,10 @@ public class AccountSnapshotSpot extends AccountSnapshot{
 
     public ArrayList<DataSpot> getAssetsSpotData() {
         return assetsSpotData;
+    }
+
+    public DataSpot getAssetSpotData(int index){
+        return assetsSpotData.get(index);
     }
 
     /**

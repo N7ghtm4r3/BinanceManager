@@ -2,6 +2,7 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot;
 
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account.SpotAccountInformation;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.BaseOrderDetails;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.CancelOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.ComposedOrderDetails;
@@ -998,8 +999,43 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return assembleBaseOrderDetails(new JSONArray(getOpenOcoOrderList(recvWindow)));
     }
 
-    public String getSpotAccountInformation(){
-        return null;
+    public String getSpotAccountInformation() throws Exception {
+        return sendSignedRequest(SPOT_ACCOUNT_INFORMATION_ENDPOINT,getParamTimestamp(),GET_METHOD);
+    }
+
+    public JSONObject getJSONSpotAccountInformation() throws Exception {
+        return new JSONObject(getSpotAccountInformation());
+    }
+
+    public SpotAccountInformation getObjectSpotAccountInformation() throws Exception {
+        return assembleSpotAccountInformationObject(new JSONObject(getSpotAccountInformation()));
+    }
+
+    public String getSpotAccountInformation(double recvWindow) throws Exception {
+        String params = getParamTimestamp()+"&recvWindow="+recvWindow;
+        return sendSignedRequest(SPOT_ACCOUNT_INFORMATION_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONSpotAccountInformation(double recvWindow) throws Exception {
+        return new JSONObject(getSpotAccountInformation(recvWindow));
+    }
+
+    public SpotAccountInformation getObjectSpotAccountInformation(double recvWindow) throws Exception {
+        return assembleSpotAccountInformationObject(new JSONObject(getSpotAccountInformation(recvWindow)));
+    }
+
+    private SpotAccountInformation assembleSpotAccountInformationObject(JSONObject jsonObject){
+        return new SpotAccountInformation(jsonObject.getDouble("makerCommission"),
+                jsonObject.getDouble("takerCommission"),
+                jsonObject.getDouble("buyerCommission"),
+                jsonObject.getDouble("sellerCommission"),
+                jsonObject.getBoolean("canTrade"),
+                jsonObject.getBoolean("canWithdraw"),
+                jsonObject.getBoolean("canDeposit"),
+                jsonObject.getLong("updateTime"),
+                jsonObject.getString("accountType"),
+                jsonObject
+        );
     }
 
     private ComposedOrderDetails assembleComposedOrderDetails(JSONObject order){
