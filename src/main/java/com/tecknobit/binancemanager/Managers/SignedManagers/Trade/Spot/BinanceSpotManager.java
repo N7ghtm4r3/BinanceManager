@@ -2,7 +2,9 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot;
 
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account.OrderCountUsage;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account.SpotAccountInformation;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account.SpotAccountTradeList;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.BaseOrderDetails;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.CancelOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.ComposedOrderDetails;
@@ -867,6 +869,18 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, listClientOrderId, extraParams)));
     }
 
+    private ComposedOrderDetails assembleComposedOrderDetails(JSONObject order){
+        return new ComposedOrderDetails(order.getLong("orderListId"),
+                order.getString("contingencyType"),
+                order.getString("listStatusType"),
+                order.getString("listOrderStatus"),
+                order.getString("listClientOrderId"),
+                order.getLong("transactionTime"),
+                order.getString("symbol"),
+                order
+        );
+    }
+
     public String getOcoOrderStatus(String symbol, long orderListId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId;
         return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
@@ -999,6 +1013,25 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return assembleBaseOrderDetails(new JSONArray(getOpenOcoOrderList(recvWindow)));
     }
 
+    private ArrayList<BaseOrderDetails> assembleBaseOrderDetails(JSONArray jsonArray){
+        ArrayList<BaseOrderDetails> baseOrderDetailsList = new ArrayList<>();
+        for (int j=0; j < jsonArray.length(); j++)
+            baseOrderDetailsList.add(assembleBaseOrderDetails(jsonArray.getJSONObject(j)));
+        return baseOrderDetailsList;
+    }
+
+    private BaseOrderDetails assembleBaseOrderDetails(JSONObject order){
+        return new BaseOrderDetails(order.getLong("orderListId"),
+                order.getString("contingencyType"),
+                order.getString("listStatusType"),
+                order.getString("listOrderStatus"),
+                order.getString("listClientOrderId"),
+                order.getLong("transactionTime"),
+                order.getString("symbol"),
+                order
+        );
+    }
+
     public String getSpotAccountInformation() throws Exception {
         return sendSignedRequest(SPOT_ACCOUNT_INFORMATION_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
@@ -1038,35 +1071,93 @@ public class BinanceSpotManager extends BinanceSignedManager {
         );
     }
 
-    private ComposedOrderDetails assembleComposedOrderDetails(JSONObject order){
-        return new ComposedOrderDetails(order.getLong("orderListId"),
-                order.getString("contingencyType"),
-                order.getString("listStatusType"),
-                order.getString("listOrderStatus"),
-                order.getString("listClientOrderId"),
-                order.getLong("transactionTime"),
-                order.getString("symbol"),
-                order
-        );
+    public String getAccountTradeList(String symbol) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol;
+        return sendSignedRequest(SPOT_ACCOUNT_TRADE_LIST_ENDPOINT,params,GET_METHOD);
     }
 
-    private BaseOrderDetails assembleBaseOrderDetails(JSONObject order){
-        return new BaseOrderDetails(order.getLong("orderListId"),
-                order.getString("contingencyType"),
-                order.getString("listStatusType"),
-                order.getString("listOrderStatus"),
-                order.getString("listClientOrderId"),
-                order.getLong("transactionTime"),
-                order.getString("symbol"),
-                order
-        );
+    public JSONArray getJSONAccountTradeList(String symbol) throws Exception {
+        return new JSONArray(getAccountTradeList(symbol));
     }
 
-    private ArrayList<BaseOrderDetails> assembleBaseOrderDetails(JSONArray jsonArray){
-        ArrayList<BaseOrderDetails> baseOrderDetailsList = new ArrayList<>();
-        for (int j=0; j < jsonArray.length(); j++)
-            baseOrderDetailsList.add(assembleBaseOrderDetails(jsonArray.getJSONObject(j)));
-        return baseOrderDetailsList;
+    public ArrayList<SpotAccountTradeList> getObjectAccountTradeList(String symbol) throws Exception {
+        return assembleSpotAccountTradeList(new JSONArray(getAccountTradeList(symbol)));
+    }
+
+    public String getAccountTradeList(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendSignedRequest(SPOT_ACCOUNT_TRADE_LIST_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONAccountTradeList(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONArray(getAccountTradeList(symbol, extraParams));
+    }
+
+    public ArrayList<SpotAccountTradeList> getObjectAccountTradeList(String symbol, HashMap<String, Object> extraParams)
+            throws Exception {
+        return assembleSpotAccountTradeList(new JSONArray(getAccountTradeList(symbol,extraParams)));
+    }
+
+    private ArrayList<SpotAccountTradeList> assembleSpotAccountTradeList(JSONArray jsonArray){
+        ArrayList<SpotAccountTradeList> spotAccountTradeLists = new ArrayList<>();
+        for (int j=0; j < jsonArray.length(); j++){
+            JSONObject trade = jsonArray.getJSONObject(j);
+            spotAccountTradeLists.add(new SpotAccountTradeList(trade.getString("symbol"),
+                    trade.getLong("id"),
+                    trade.getLong("orderId"),
+                    trade.getLong("orderListId"),
+                    trade.getDouble("price"),
+                    trade.getDouble("qty"),
+                    trade.getDouble("quoteQty"),
+                    trade.getDouble("commission"),
+                    trade.getString("commissionAsset"),
+                    trade.getLong("time"),
+                    trade.getBoolean("isBuyer"),
+                    trade.getBoolean("isMaker"),
+                    trade.getBoolean("isBestMatch")
+            ));
+        }
+        return spotAccountTradeLists;
+    }
+
+    public String getCurrentOrderCountUsage() throws Exception {
+        return sendSignedRequest(SPOT_ACCOUNT_CURRENT_ORDER_COUNT_USAGE,getParamTimestamp(),GET_METHOD);
+    }
+
+    public JSONArray getJSONCurrentOrderCountUsage() throws Exception {
+        return new JSONArray(getCurrentOrderCountUsage());
+    }
+
+    public ArrayList<OrderCountUsage> getObjectCurrentOrderCountUsage() throws Exception {
+        return assembleOrderCountUsageList(new JSONArray(getCurrentOrderCountUsage()));
+    }
+
+    public String getCurrentOrderCountUsage(long recvWindow) throws Exception {
+        String params = getParamTimestamp()+"&recvWindow="+recvWindow;
+        return sendSignedRequest(SPOT_ACCOUNT_CURRENT_ORDER_COUNT_USAGE,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONCurrentOrderCountUsage(long recvWindow) throws Exception {
+        return new JSONArray(getCurrentOrderCountUsage(recvWindow));
+    }
+
+    public ArrayList<OrderCountUsage> getObjectCurrentOrderCountUsage(long recvWindow) throws Exception {
+        return assembleOrderCountUsageList(new JSONArray(getCurrentOrderCountUsage(recvWindow)));
+    }
+
+    private ArrayList<OrderCountUsage> assembleOrderCountUsageList(JSONArray jsonArray){
+        ArrayList<OrderCountUsage> orderCountUsages = new ArrayList<>();
+        for (int j=0; j < jsonArray.length(); j++){
+            JSONObject order = jsonArray.getJSONObject(j);
+            orderCountUsages.add(new OrderCountUsage(order.getString("rateLimitType"),
+                    order.getString("interval"),
+                    order.getDouble("intervalNum"),
+                    order.getDouble("limit"),
+                    order.getInt("count")
+            ));
+        }
+        return orderCountUsages;
     }
 
 }

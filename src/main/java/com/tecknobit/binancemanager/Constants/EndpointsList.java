@@ -56,5 +56,7 @@ public class EndpointsList {
     public static final String OCO_ORDER_LIST_STATUS_ENDPOINT = "/api/v3/allOrderList";
     public static final String OCO_OPEN_ORDER_LIST_ENDPOINT = "/api/v3/openOrderList";
     public static final String SPOT_ACCOUNT_INFORMATION_ENDPOINT = "/api/v3/account";
+    public static final String SPOT_ACCOUNT_TRADE_LIST_ENDPOINT = "/api/v3/myTrades";
+    public static final String SPOT_ACCOUNT_CURRENT_ORDER_COUNT_USAGE = "/api/v3/rateLimit/order";
 
 }
