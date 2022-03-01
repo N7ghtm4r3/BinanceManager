@@ -11,13 +11,13 @@ import java.util.ArrayList;
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
-public class FullOrder extends ResultOrder{
+public class FullSpotOrder extends ResultSpotOrder {
 
     private ArrayList<Fill> fills;
 
-    public FullOrder(String symbol, long orderId, long orderListId, String clientOrderId, long transactTime, double price,
-                     double origQty, double executedQty, double cummulativeQuoteQty, String status, String timeInForce,
-                     String type, String side, JSONArray fills) {
+    public FullSpotOrder(String symbol, long orderId, long orderListId, String clientOrderId, long transactTime, double price,
+                         double origQty, double executedQty, double cummulativeQuoteQty, String status, String timeInForce,
+                         String type, String side, JSONArray fills) {
         super(symbol, orderId, orderListId, clientOrderId, transactTime, price, origQty, executedQty, cummulativeQuoteQty,
                 status, timeInForce, type, side);
         loadFills(fills);

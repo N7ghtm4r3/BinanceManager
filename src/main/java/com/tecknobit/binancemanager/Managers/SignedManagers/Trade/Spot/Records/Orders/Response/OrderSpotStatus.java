@@ -8,7 +8,7 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.O
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
-public class OrderStatus extends SpotOrder {
+public class OrderSpotStatus extends SpotOrder {
 
     private final double price;
     private final double origQty;
@@ -25,10 +25,10 @@ public class OrderStatus extends SpotOrder {
     private final boolean isWorking;
     private final double origQuoteOrderQty;
 
-    public OrderStatus(String symbol, long orderId, long orderListId, String clientOrderId, double price, double origQty,
-                       double executedQty, double cummulativeQuoteQty, String status, String timeInForce, String type,
-                       String side, double stopPrice, double icebergQty, long time, long updateTime, boolean isWorking,
-                       double origQuoteOrderQty) {
+    public OrderSpotStatus(String symbol, long orderId, long orderListId, String clientOrderId, double price, double origQty,
+                           double executedQty, double cummulativeQuoteQty, String status, String timeInForce, String type,
+                           String side, double stopPrice, double icebergQty, long time, long updateTime, boolean isWorking,
+                           double origQuoteOrderQty) {
         super(symbol, orderId, orderListId, clientOrderId);
         this.price = price;
         this.origQty = origQty;

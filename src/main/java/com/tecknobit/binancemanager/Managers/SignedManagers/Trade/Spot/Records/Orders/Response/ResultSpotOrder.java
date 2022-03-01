@@ -6,7 +6,7 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
-public class ResultOrder extends ACKOrder {
+public class ResultSpotOrder extends ACKSpotOrder {
 
     private final double price;
     private final double origQty;
@@ -17,9 +17,9 @@ public class ResultOrder extends ACKOrder {
     private final String type;
     private final String side;
 
-    public ResultOrder(String symbol, long orderId, long orderListId, String clientOrderId,
-                       long transactTime, double price, double origQty, double executedQty, double cummulativeQuoteQty,
-                       String status, String timeInForce, String type, String side) {
+    public ResultSpotOrder(String symbol, long orderId, long orderListId, String clientOrderId,
+                           long transactTime, double price, double origQty, double executedQty, double cummulativeQuoteQty,
+                           String status, String timeInForce, String type, String side) {
         super(symbol, orderId, orderListId, clientOrderId, transactTime);
         this.price = price;
         this.origQty = origQty;

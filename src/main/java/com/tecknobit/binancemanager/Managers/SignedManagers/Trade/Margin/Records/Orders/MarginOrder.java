@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.OrderResponse;
+package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders;
 
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Order;
 

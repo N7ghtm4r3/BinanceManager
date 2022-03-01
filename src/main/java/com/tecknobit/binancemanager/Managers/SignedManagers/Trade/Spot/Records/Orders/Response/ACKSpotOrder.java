@@ -8,11 +8,11 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.O
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
-public class ACKOrder extends SpotOrder {
+public class ACKSpotOrder extends SpotOrder {
 
     private final long transactTime;
 
-    public ACKOrder(String symbol, long orderId, long orderListId, String clientOrderId, long transactTime) {
+    public ACKSpotOrder(String symbol, long orderId, long orderListId, String clientOrderId, long transactTime) {
         super(symbol, orderId, orderListId, clientOrderId);
         this.transactTime = transactTime;
     }

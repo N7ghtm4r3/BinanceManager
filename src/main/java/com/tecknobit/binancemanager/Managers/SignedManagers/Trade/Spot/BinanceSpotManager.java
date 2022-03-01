@@ -9,10 +9,10 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.O
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.CancelOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.OpenOrders;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.ComposedOrderDetails;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ACKOrder;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.FullOrder;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.OrderStatus;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ResultOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ACKSpotOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.FullSpotOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.OrderSpotStatus;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ResultSpotOrder;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -121,10 +121,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-order-trade
      * return result of the order as AckOrder (next to cast in base at type used)
-     * @implNote if type LIMIT or MARKET will be must cast in {@link FullOrder} object
-     * @implNote with other types will be an {@link ACKOrder} object
+     * @implNote if type LIMIT or MARKET will be must cast in {@link FullSpotOrder} object
+     * @implNote with other types will be an {@link ACKSpotOrder} object
      * **/
-    public ACKOrder sendNewOrderObject(String symbol, String side, String type, HashMap<String,Object> extraParams) throws Exception {
+    public ACKSpotOrder sendNewOrderObject(String symbol, String side, String type, HashMap<String,Object> extraParams) throws Exception {
         jsonObject = new JSONObject(sendNewOrder(symbol,side,type,extraParams));
         if(type.equals(LIMIT) || type.equals(MARKET))
             return getFullOrderResponse(jsonObject);
@@ -175,16 +175,16 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-order-trade
      * return result of the order as AckOrder (next to cast in base at newOrderRespType used)
-     * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_RESULT object will be {@link ResultOrder}
-     * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_FULL object will be {@link FullOrder}
-     * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_ACK object will be {@link ACKOrder}
+     * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_RESULT object will be {@link ResultSpotOrder}
+     * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_FULL object will be {@link FullSpotOrder}
+     * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_ACK object will be {@link ACKSpotOrder}
      * **/
-    public ACKOrder sendNewOrderObject(String symbol, String side, String type, String newOrderRespType,
-                                       HashMap<String,Object> extraParams) throws Exception {
+    public ACKSpotOrder sendNewOrderObject(String symbol, String side, String type, String newOrderRespType,
+                                           HashMap<String,Object> extraParams) throws Exception {
         jsonObject = new JSONObject(sendNewOrder(symbol,side,type,newOrderRespType,extraParams));
         switch (newOrderRespType){
             case NEW_ORDER_RESP_TYPE_RESULT:
-                return new ResultOrder(jsonObject.getString("symbol"),
+                return new ResultSpotOrder(jsonObject.getString("symbol"),
                         jsonObject.getLong("orderId"),
                         jsonObject.getLong("orderListId"),
                         jsonObject.getString("clientOrderId"),
@@ -209,8 +209,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #response: obtained from Binance's request
      * return an ACKOrder object with response data
      * **/
-    private ACKOrder getACKResponse(JSONObject response){
-        return new ACKOrder(response.getString("symbol"),
+    private ACKSpotOrder getACKResponse(JSONObject response){
+        return new ACKSpotOrder(response.getString("symbol"),
                 response.getLong("orderId"),
                 response.getLong("orderListId"),
                 response.getString("clientOrderId"),
@@ -222,8 +222,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #response: obtained from Binance's request
      * return an FullOrder object with response data
      * **/
-    private FullOrder getFullOrderResponse(JSONObject response){
-        return new FullOrder(response.getString("symbol"),
+    private FullSpotOrder getFullOrderResponse(JSONObject response){
+        return new FullSpotOrder(response.getString("symbol"),
                 response.getLong("orderId"),
                 response.getLong("orderListId"),
                 response.getString("clientOrderId"),
@@ -481,9 +481,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #orderId: identifier of the order es. 1232065
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data
-     * return status of an order as {@link OrderStatus} object
+     * return status of an order as {@link OrderSpotStatus} object
      * **/
-    public OrderStatus getObjectOrderStatus(String symbol, long orderId) throws Exception {
+    public OrderSpotStatus getObjectOrderStatus(String symbol, long orderId) throws Exception {
         return getObjectOrderStatus(new JSONObject(getOrderStatus(symbol, orderId)));
     }
 
@@ -512,9 +512,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #origClientOrderId: identifier of the client order es. myOrder1
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data
-     * return status of an order as {@link OrderStatus} object
+     * return status of an order as {@link OrderSpotStatus} object
      * **/
-    public OrderStatus getObjectOrderStatus(String symbol, String origClientOrderId) throws Exception {
+    public OrderSpotStatus getObjectOrderStatus(String symbol, String origClientOrderId) throws Exception {
         return getObjectOrderStatus(new JSONObject(getOrderStatus(symbol,origClientOrderId)));
     }
 
@@ -546,9 +546,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #orderId: identifier of the order es. 1232065
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data
-     * return status of an order as {@link OrderStatus} object
+     * return status of an order as {@link OrderSpotStatus} object
      * **/
-    public OrderStatus getObjectOrderStatus(String symbol, long orderId, long recvWindow) throws Exception {
+    public OrderSpotStatus getObjectOrderStatus(String symbol, long orderId, long recvWindow) throws Exception {
         return getObjectOrderStatus(new JSONObject(getOrderStatus(symbol, orderId, recvWindow)));
     }
 
@@ -580,9 +580,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #origClientOrderId: identifier of the client order es. myOrder1
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data
-     * return status of an order as {@link OrderStatus} object
+     * return status of an order as {@link OrderSpotStatus} object
      * **/
-    public OrderStatus getObjectOrderStatus(String symbol, String origClientOrderId, long recvWindow) throws Exception {
+    public OrderSpotStatus getObjectOrderStatus(String symbol, String origClientOrderId, long recvWindow) throws Exception {
         return getObjectOrderStatus(new JSONObject(getOrderStatus(symbol,origClientOrderId,recvWindow)));
     }
 
@@ -609,7 +609,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#current-open-orders-user_data
      * return current open orders list as ArrayList<OrderStatus>
      * **/
-    public ArrayList<OrderStatus> getCurrentOpenOrdersList() throws Exception {
+    public ArrayList<OrderSpotStatus> getCurrentOpenOrdersList() throws Exception {
         return assembleOrderStatusList(new JSONArray(sendSignedRequest(OPEN_ORDERS_ENDPOINT,getParamTimestamp(),GET_METHOD)));
     }
 
@@ -641,7 +641,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#current-open-orders-user_data
      * return current open orders list as ArrayList<OrderStatus>
      * **/
-    public ArrayList<OrderStatus> getCurrentOpenOrdersList(HashMap<String, Object> extraParams) throws Exception {
+    public ArrayList<OrderSpotStatus> getCurrentOpenOrdersList(HashMap<String, Object> extraParams) throws Exception {
         return assembleOrderStatusList(new JSONArray(getCurrentOpenOrders(extraParams)));
     }
 
@@ -669,7 +669,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#all-orders-user_data
      * return all orders list as ArrayList<OrderStatus>
      * **/
-    public ArrayList<OrderStatus> getObjectAllOrdersList(String symbol) throws Exception {
+    public ArrayList<OrderSpotStatus> getObjectAllOrdersList(String symbol) throws Exception {
         return assembleOrderStatusList(new JSONArray(getAllOrdersList(symbol)));
     }
 
@@ -701,7 +701,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#all-orders-user_data
      * return all orders list as ArrayList<OrderStatus>
      * **/
-    public ArrayList<OrderStatus> getObjectAllOrdersList(String symbol,HashMap<String, Object> extraParams) throws Exception {
+    public ArrayList<OrderSpotStatus> getObjectAllOrdersList(String symbol, HashMap<String, Object> extraParams) throws Exception {
         return assembleOrderStatusList(new JSONArray(getAllOrdersList(symbol, extraParams)));
     }
 
@@ -709,8 +709,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #response: obtained from Binance's request
      * return an OrderStatus object with response data
      * **/
-    private OrderStatus getObjectOrderStatus(JSONObject response){
-        return new OrderStatus(response.getString("symbol"),
+    private OrderSpotStatus getObjectOrderStatus(JSONObject response){
+        return new OrderSpotStatus(response.getString("symbol"),
                 response.getLong("orderId"),
                 response.getLong("orderListId"),
                 response.getString("clientOrderId"),
@@ -735,8 +735,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #jsonArray: obtained from Binance's request
      * return an ArrayList<OrderStatus> with response data
      * **/
-    private ArrayList<OrderStatus> assembleOrderStatusList(JSONArray jsonArray){
-        ArrayList<OrderStatus> orderStatuses = new ArrayList<>();
+    private ArrayList<OrderSpotStatus> assembleOrderStatusList(JSONArray jsonArray){
+        ArrayList<OrderSpotStatus> orderStatuses = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++)
             orderStatuses.add(getObjectOrderStatus(jsonArray.getJSONObject(j)));
         return orderStatuses;
