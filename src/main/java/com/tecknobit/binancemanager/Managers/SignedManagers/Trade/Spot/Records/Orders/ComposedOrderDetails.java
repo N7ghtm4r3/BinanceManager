@@ -1,6 +1,6 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders;
 
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.CancelOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.CancelSpotOrder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class ComposedOrderDetails extends BaseOrderDetails {
 
-    private ArrayList<CancelOrder> cancelOrders;
+    private ArrayList<CancelSpotOrder> cancelOrders;
 
     public ComposedOrderDetails(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
                                 String listClientOrderId, long transactionTime, String symbol, JSONObject jsonObject) {
@@ -22,21 +22,21 @@ public class ComposedOrderDetails extends BaseOrderDetails {
         loadCancelOrders(jsonObject.getJSONArray("orderReports"));
     }
 
-    /** Method to load CancelOrder list
+    /** Method to load CancelSpotOrder list
      * @param #list: obtained from Binance's request
-     * return an ArrayList<CancelOrder> with response data
+     * return an ArrayList<CancelSpotOrder> with response data
      * **/
     private void loadCancelOrders(JSONArray list){
         cancelOrders = new ArrayList<>();
         for (int j=0; j < list.length(); j++)
-            cancelOrders.add(CancelOrder.assembleCancelOrderObject(list.getJSONObject(j)));
+            cancelOrders.add(CancelSpotOrder.assembleCancelOrderObject(list.getJSONObject(j)));
     }
 
-    public ArrayList<CancelOrder> getCancelOrders() {
+    public ArrayList<CancelSpotOrder> getCancelOrders() {
         return cancelOrders;
     }
 
-    public CancelOrder getCancelOrder(int index){
+    public CancelSpotOrder getCancelOrder(int index){
         return cancelOrders.get(index);
     }
 

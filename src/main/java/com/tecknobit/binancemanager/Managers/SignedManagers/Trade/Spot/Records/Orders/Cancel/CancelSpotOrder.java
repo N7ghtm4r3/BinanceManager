@@ -5,12 +5,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- *  The {@code CancelOrder} class is useful to format all CancelOrder Binance request in CancelOrder format
+ *  The {@code CancelSpotOrder} class is useful to format all CancelSpotOrder Binance request in CancelSpotOrder format
  *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
-public class CancelOrder extends SpotOrder {
+public class CancelSpotOrder extends SpotOrder {
 
     private final String origClientOrderId;
     private final double price;
@@ -23,9 +23,9 @@ public class CancelOrder extends SpotOrder {
     private final String side;
     private final JSONObject jsonObject;
 
-    public CancelOrder(String symbol, long orderId, long orderListId, String clientOrderId, String origClientOrderId,
-                       double price, double origQty, double executedQty, double cummulativeQuoteQty, String status,
-                       String timeInForce, String type, String side, JSONObject jsonObject) {
+    public CancelSpotOrder(String symbol, long orderId, long orderListId, String clientOrderId, String origClientOrderId,
+                           double price, double origQty, double executedQty, double cummulativeQuoteQty, String status,
+                           String timeInForce, String type, String side, JSONObject jsonObject) {
         super(symbol, orderId, orderListId, clientOrderId);
         this.origClientOrderId = origClientOrderId;
         this.price = price;
@@ -91,9 +91,9 @@ public class CancelOrder extends SpotOrder {
         return getDoubleValue("icebergQty");
     }
 
-    /** Method to assemble a CancelOrder object
+    /** Method to assemble a CancelSpotOrder object
      * @param #key: field to fetch a double value in {@link #jsonObject}
-     * return an CancelOrder object with response data
+     * return an CancelSpotOrder object with response data
      * **/
     private double getDoubleValue(String key){
         try {
@@ -103,12 +103,12 @@ public class CancelOrder extends SpotOrder {
         }
     }
 
-    /** Method to assemble a CancelOrder object
+    /** Method to assemble a CancelSpotOrder object
      * @param #response: obtained from Binance's request
-     * return an CancelOrder object with response data
+     * return an CancelSpotOrder object with response data
      * **/
-    public static CancelOrder assembleCancelOrderObject(JSONObject response){
-        return new CancelOrder(response.getString("symbol"),
+    public static CancelSpotOrder assembleCancelOrderObject(JSONObject response){
+        return new CancelSpotOrder(response.getString("symbol"),
                 response.getLong("orderId"),
                 response.getLong("orderListId"),
                 response.getString("clientOrderId"),

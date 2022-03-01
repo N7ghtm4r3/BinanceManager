@@ -12,19 +12,19 @@ import java.util.ArrayList;
 
 public class OpenOrders {
 
-    private final ArrayList<CancelOrder> cancelSingleOrders;
+    private final ArrayList<CancelSpotOrder> cancelSingleOrders;
     private final ArrayList<ComposedOrderDetails> cancelOrderComposeds;
 
-    public OpenOrders(ArrayList<CancelOrder> singleOrders, ArrayList<ComposedOrderDetails> cancelOrderComposeds) {
+    public OpenOrders(ArrayList<CancelSpotOrder> singleOrders, ArrayList<ComposedOrderDetails> cancelOrderComposeds) {
         this.cancelSingleOrders = singleOrders;
         this.cancelOrderComposeds = cancelOrderComposeds;
     }
 
-    public ArrayList<CancelOrder> getCancelSingleOrders() {
+    public ArrayList<CancelSpotOrder> getCancelSingleOrders() {
         return cancelSingleOrders;
     }
 
-    public CancelOrder getCancelSingleOrder(int index){
+    public CancelSpotOrder getCancelSingleOrder(int index){
         return cancelSingleOrders.get(index);
     }
 

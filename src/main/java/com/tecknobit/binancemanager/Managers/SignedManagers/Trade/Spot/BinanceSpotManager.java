@@ -6,7 +6,7 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.A
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account.SpotAccountInformation;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account.SpotAccountTradeList;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.BaseOrderDetails;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.CancelOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.CancelSpotOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.OpenOrders;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.ComposedOrderDetails;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ACKSpotOrder;
@@ -244,7 +244,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #orderId: identifier of the order es. 1232065
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelOrder operation as String
+     * return result of CancelSpotOrder operation as String
      * **/
     public String cancelOrder(String symbol, long orderId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderId="+orderId;
@@ -255,7 +255,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #orderId: identifier of the order es. 1232065
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelOrder operation as JsonObject
+     * return result of CancelSpotOrder operation as JsonObject
      * **/
     public JSONObject cancelOrderJSON(String symbol, long orderId) throws Exception {
        return new JSONObject(cancelOrder(symbol, orderId));
@@ -265,17 +265,17 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #orderId: identifier of the order es. 1232065
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelOrder operation as {@link CancelOrder} object
+     * return result of CancelSpotOrder operation as {@link CancelSpotOrder} object
      * **/
-    public CancelOrder cancelOrderObject(String symbol, long orderId) throws Exception {
-        return CancelOrder.assembleCancelOrderObject(new JSONObject(cancelOrderJSON(symbol, orderId)));
+    public CancelSpotOrder cancelOrderObject(String symbol, long orderId) throws Exception {
+        return CancelSpotOrder.assembleCancelOrderObject(new JSONObject(cancelOrderJSON(symbol, orderId)));
     }
 
     /** Request to cancel an SpotOrder
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #origClientOrderId: identifier of the client order es. myOrder1
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelOrder operation as String
+     * return result of CancelSpotOrder operation as String
      * **/
     public String cancelOrder(String symbol, String origClientOrderId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId ;
@@ -286,7 +286,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #origClientOrderId: identifier of the client order es. myOrder1
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelOrder operation as JsonObject
+     * return result of CancelSpotOrder operation as JsonObject
      * **/
     public JSONObject cancelOrderJSON(String symbol, String origClientOrderId) throws Exception {
         return new JSONObject(cancelOrder(symbol, origClientOrderId));
@@ -296,10 +296,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #origClientOrderId: identifier of the client order es. myOrder1
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelOrder operation as {@link CancelOrder} object
+     * return result of CancelSpotOrder operation as {@link CancelSpotOrder} object
      * **/
-    public CancelOrder cancelOrderObject(String symbol, String origClientOrderId) throws Exception {
-        return CancelOrder.assembleCancelOrderObject( new JSONObject(cancelOrderJSON(symbol, origClientOrderId)));
+    public CancelSpotOrder cancelOrderObject(String symbol, String origClientOrderId) throws Exception {
+        return CancelSpotOrder.assembleCancelOrderObject( new JSONObject(cancelOrderJSON(symbol, origClientOrderId)));
     }
 
     /** Request to cancel an SpotOrder
@@ -308,7 +308,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelOrder operation as String
+     * return result of CancelSpotOrder operation as String
      * **/
     public String cancelOrder(String symbol, long orderId, HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderId="+orderId;
@@ -322,7 +322,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelOrder operation as JsonObject
+     * return result of CancelSpotOrder operation as JsonObject
      * **/
     public JSONObject cancelOrderJSON(String symbol, long orderId, HashMap<String,Object> extraParams) throws Exception {
         return new JSONObject(cancelOrder(symbol, orderId, extraParams));
@@ -334,10 +334,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelOrder operation as {@link CancelOrder} object
+     * return result of CancelSpotOrder operation as {@link CancelSpotOrder} object
      * **/
-    public CancelOrder cancelOrderObject(String symbol, long orderId, HashMap<String,Object> extraParams) throws Exception {
-        return CancelOrder.assembleCancelOrderObject(new JSONObject(cancelOrderJSON(symbol, orderId, extraParams)));
+    public CancelSpotOrder cancelOrderObject(String symbol, long orderId, HashMap<String,Object> extraParams) throws Exception {
+        return CancelSpotOrder.assembleCancelOrderObject(new JSONObject(cancelOrderJSON(symbol, orderId, extraParams)));
     }
 
     /** Request to cancel an SpotOrder
@@ -346,7 +346,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelOrder operation as String
+     * return result of CancelSpotOrder operation as String
      * **/
     public String cancelOrder(String symbol, String origClientOrderId, HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId ="+origClientOrderId;
@@ -360,7 +360,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelOrder operation as JsonObject
+     * return result of CancelSpotOrder operation as JsonObject
      * **/
     public JSONObject cancelOrderJSON(String symbol, String origClientOrderId, HashMap<String,Object> extraParams) throws Exception {
         return new JSONObject(cancelOrder(symbol, origClientOrderId, extraParams));
@@ -372,10 +372,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelOrder operation as {@link CancelOrder} object
+     * return result of CancelSpotOrder operation as {@link CancelSpotOrder} object
      * **/
-    public CancelOrder cancelOrderObject(String symbol, String origClientOrderId, HashMap<String,Object> extraParams) throws Exception {
-        return CancelOrder.assembleCancelOrderObject(new JSONObject(cancelOrderJSON(symbol, origClientOrderId, extraParams)));
+    public CancelSpotOrder cancelOrderObject(String symbol, String origClientOrderId, HashMap<String,Object> extraParams) throws Exception {
+        return CancelSpotOrder.assembleCancelOrderObject(new JSONObject(cancelOrderJSON(symbol, origClientOrderId, extraParams)));
     }
 
     /** Request to cancel all open orders on a symbol
@@ -442,7 +442,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * return an OpenOrders object with response data
      * **/
     private OpenOrders cancelAllOpenOrdersObject(JSONArray jsonArray){
-        ArrayList<CancelOrder> cancelOrders = new ArrayList<>();
+        ArrayList<CancelSpotOrder> cancelOrders = new ArrayList<>();
         ArrayList<ComposedOrderDetails> cancelOrderComposeds = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
             JSONObject order = jsonArray.getJSONObject(j);
@@ -450,7 +450,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
                 String contingencyType = order.getString("contingencyType");
                 cancelOrderComposeds.add(assembleComposedOrderDetails(order));
             }catch (JSONException e){
-                cancelOrders.add(CancelOrder.assembleCancelOrderObject(order));
+                cancelOrders.add(CancelSpotOrder.assembleCancelOrderObject(order));
             }
         }
         return new OpenOrders(cancelOrders,cancelOrderComposeds);
