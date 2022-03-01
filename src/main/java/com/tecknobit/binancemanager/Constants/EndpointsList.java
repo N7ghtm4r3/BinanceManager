@@ -63,5 +63,10 @@ public class EndpointsList {
     public static final String CROSS_MARGIN_ACCOUNT_TRANSFER_ENDPOINT = "/sapi/v1/margin/transfer";
     public static final String MARGIN_ACCOUNT_BORROW_ENDPOINT = "/sapi/v1/margin/loan";
     public static final String MARGIN_ACCOUNT_REPAY_ENDPOINT = "/sapi/v1/margin/repay";
+    public static final String QUERY_MARGIN_ASSET_ENDPOINT = "/sapi/v1/margin/asset";
+    public static final String QUERY_ALL_MARGIN_ASSETS_ENDPOINT = "/sapi/v1/margin/allAssets";
+    public static final String QUERY_CROSS_MARGIN_PAIR_ENDPOINT = "/sapi/v1/margin/pair";
+    public static final String QUERY_ALL_CROSS_MARGIN_PAIRS_ENDPOINT = "/sapi/v1/margin/allPairs";
+    public static final String MARGIN_PRICE_INDEX_ENDPOINT = "/sapi/v1/margin/priceIndex";
 
 }
