@@ -32,10 +32,7 @@ import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Re
  * **/
 
 public class BinanceSpotManager extends BinanceSignedManager {
-
-    public static final String BUY = "BUY";
-    public static final String SELL = "SELL";
-
+    
     /** Constructor to init BinanceSpotManager
      * @param #baseEndpoint base endpoint to work on
      * @param #apiKey your api key
