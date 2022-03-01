@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 public class CancelMarginOrder extends Order {
 
+    private final boolean isIsolated;
     private final String origClientOrderId;
     private final double price;
     private final double origQty;
@@ -16,10 +17,11 @@ public class CancelMarginOrder extends Order {
     private final String side;
     private final JSONObject jsonObject;
 
-    public CancelMarginOrder(String symbol, double orderId, String clientOrderId, String origClientOrderId, double price,
+    public CancelMarginOrder(String symbol, double orderId, String clientOrderId, boolean isIsolated, String origClientOrderId, double price,
                              double origQty, double executedQty, double cummulativeQuoteQty, String status, String timeInForce,
                              String type, String side, JSONObject jsonObject) {
         super(symbol, orderId, clientOrderId);
+        this.isIsolated = isIsolated;
         this.origClientOrderId = origClientOrderId;
         this.price = price;
         this.origQty = origQty;
@@ -30,6 +32,10 @@ public class CancelMarginOrder extends Order {
         this.type = type;
         this.side = side;
         this.jsonObject = jsonObject;
+    }
+
+    public boolean getIsIsolated() {
+        return isIsolated;
     }
 
     public String getOrigClientOrderId() {

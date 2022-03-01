@@ -5,6 +5,7 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginAsset;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginPair;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginPriceIndex;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Cancel.CancelMarginOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.ACKMarginOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.FullMarginOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.ResultMarginOrder;
@@ -16,8 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
-import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.GET_METHOD;
-import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.POST_METHOD;
+import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Constants.TradeConstants.*;
 
 /**
@@ -232,7 +232,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     public String sendNewMarginOrder(String symbol, String side, String type, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type;
         params = requestManager.assembleExtraParams(params,extraParams);
-        return sendSignedRequest(SEND_NEW_MARGIN_ORDER_ENDPOINT,params,POST_METHOD);
+        return sendSignedRequest(MARGIN_ORDER_ENDPOINT,params,POST_METHOD);
     }
 
     public JSONObject sendJSONNewMarginOrder(String symbol, String side, String type, HashMap<String, Object> extraParams) throws Exception {
@@ -252,7 +252,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
                                      String newOrderRespType) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type+"&newOrderRespType="+newOrderRespType;
         params = requestManager.assembleExtraParams(params,extraParams);
-        return sendSignedRequest(SEND_NEW_MARGIN_ORDER_ENDPOINT,params,POST_METHOD);
+        return sendSignedRequest(MARGIN_ORDER_ENDPOINT,params,POST_METHOD);
     }
 
     public JSONObject sendJSONNewMarginOrder(String symbol, String side, String type, HashMap<String, Object> extraParams,
@@ -322,6 +322,49 @@ public class BinanceMarginManager extends BinanceSignedManager {
         );
     }
 
+    public String cancelMarginOrder(String symbol) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol;
+        return sendSignedRequest(MARGIN_ORDER_ENDPOINT,params,DELETE_METHOD);
+    }
 
+    public JSONObject cancelJSONMarginOrder(String symbol) throws Exception {
+        return new JSONObject(cancelMarginOrder(symbol));
+    }
+
+    public CancelMarginOrder cancelObjectMarginOrder(String symbol) throws Exception {
+        return assembleCancelMarginOrderObject(new JSONObject(cancelMarginOrder(symbol)));
+    }
+
+    public String cancelMarginOrder(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendSignedRequest(MARGIN_ORDER_ENDPOINT,params,DELETE_METHOD);
+    }
+
+    public JSONObject cancelJSONMarginOrder(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(cancelMarginOrder(symbol, extraParams));
+    }
+
+    public CancelMarginOrder cancelObjectMarginOrder(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        return assembleCancelMarginOrderObject(new JSONObject(cancelMarginOrder(symbol,extraParams)));
+    }
+
+    private CancelMarginOrder assembleCancelMarginOrderObject(JSONObject cancelMarginOrder){
+        return new CancelMarginOrder(cancelMarginOrder.getString("symbol"),
+                cancelMarginOrder.getLong("orderId"),
+                cancelMarginOrder.getString("clientOrderId"),
+                cancelMarginOrder.getBoolean("isIsolated"),
+                cancelMarginOrder.getString("origClientOrderId"),
+                cancelMarginOrder.getDouble("price"),
+                cancelMarginOrder.getDouble("origQty"),
+                cancelMarginOrder.getDouble("executedQty"),
+                cancelMarginOrder.getDouble("cummulativeQuoteQty"),
+                cancelMarginOrder.getString("status"),
+                cancelMarginOrder.getString("timeInForce"),
+                cancelMarginOrder.getString("type"),
+                cancelMarginOrder.getString("side"),
+                cancelMarginOrder
+        );
+    }
 
 }
