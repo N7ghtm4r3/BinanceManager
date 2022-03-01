@@ -1,6 +1,6 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders;
 
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Order;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Commons.Order;
 
 /**
  *  The {@code SpotOrder} class is useful to manage all SpotOrder Binance request

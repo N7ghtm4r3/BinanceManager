@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.SignedManagers.Trade;
+package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Commons;
 
 public class Order {
 
