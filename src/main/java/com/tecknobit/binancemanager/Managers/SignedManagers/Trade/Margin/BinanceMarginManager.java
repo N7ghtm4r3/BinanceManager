@@ -2,9 +2,9 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin;
 
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginAsset;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginPair;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginPriceIndex;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties.MarginAsset;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties.MarginPair;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties.MarginPriceIndex;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Cancel.CancelMarginOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.ACKMarginOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.FullMarginOrder;
@@ -332,7 +332,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     public CancelMarginOrder cancelObjectMarginOrder(String symbol) throws Exception {
-        return assembleCancelMarginOrderObject(new JSONObject(cancelMarginOrder(symbol)));
+        return CancelMarginOrder.assembleCancelMarginOrderObject(new JSONObject(cancelMarginOrder(symbol)));
     }
 
     public String cancelMarginOrder(String symbol, HashMap<String, Object> extraParams) throws Exception {
@@ -346,25 +346,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     public CancelMarginOrder cancelObjectMarginOrder(String symbol, HashMap<String, Object> extraParams) throws Exception {
-        return assembleCancelMarginOrderObject(new JSONObject(cancelMarginOrder(symbol,extraParams)));
-    }
-
-    private CancelMarginOrder assembleCancelMarginOrderObject(JSONObject cancelMarginOrder){
-        return new CancelMarginOrder(cancelMarginOrder.getString("symbol"),
-                cancelMarginOrder.getLong("orderId"),
-                cancelMarginOrder.getString("clientOrderId"),
-                cancelMarginOrder.getBoolean("isIsolated"),
-                cancelMarginOrder.getString("origClientOrderId"),
-                cancelMarginOrder.getDouble("price"),
-                cancelMarginOrder.getDouble("origQty"),
-                cancelMarginOrder.getDouble("executedQty"),
-                cancelMarginOrder.getDouble("cummulativeQuoteQty"),
-                cancelMarginOrder.getString("status"),
-                cancelMarginOrder.getString("timeInForce"),
-                cancelMarginOrder.getString("type"),
-                cancelMarginOrder.getString("side"),
-                cancelMarginOrder
-        );
+        return CancelMarginOrder.assembleCancelMarginOrderObject(new JSONObject(cancelMarginOrder(symbol,extraParams)));
     }
 
 }

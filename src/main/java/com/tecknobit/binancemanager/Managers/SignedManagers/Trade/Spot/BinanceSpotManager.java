@@ -2,17 +2,17 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot;
 
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.OrderDetails;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account.OrderCountUsage;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account.SpotAccountInformation;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account.SpotAccountTradeList;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.BaseOrderDetails;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.CancelSpotOrder;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.OpenOrders;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.ComposedOrderDetails;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.ComposedSpotOrderDetails;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.OpenSpotOrders;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ACKSpotOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.FullSpotOrder;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.OrderSpotStatus;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ResultSpotOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.SpotOrderStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -400,9 +400,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
     /** Request to cancel all open orders on a symbol
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade
-     * return result of cancel all open orders on a symbol as {@link OpenOrders} object
+     * return result of cancel all open orders on a symbol as {@link OpenSpotOrders} object
      * **/
-    public OpenOrders cancelAllOpenOrdersObject(String symbol) throws Exception {
+    public OpenSpotOrders cancelAllOpenOrdersObject(String symbol) throws Exception {
         return cancelAllOpenOrdersObject(new JSONArray(cancelAllOpenOrders(symbol)));
     }
 
@@ -431,19 +431,19 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #recvWindow: time to keep alive response, then rejected. Max value is 60000
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade
-     * return result of cancel all open orders on a symbol as {@link OpenOrders} object
+     * return result of cancel all open orders on a symbol as {@link OpenSpotOrders} object
      * **/
-    public OpenOrders cancelAllOpenOrdersObject(String symbol, long recvWindow) throws Exception {
+    public OpenSpotOrders cancelAllOpenOrdersObject(String symbol, long recvWindow) throws Exception {
         return cancelAllOpenOrdersObject(new JSONArray(cancelAllOpenOrders(symbol, recvWindow)));
     }
 
-    /** Method to assemble an OpenOrders object
+    /** Method to assemble an OpenSpotOrders object
      * @param #jsonArray: obtained from Binance's request
-     * return an OpenOrders object with response data
+     * return an OpenSpotOrders object with response data
      * **/
-    private OpenOrders cancelAllOpenOrdersObject(JSONArray jsonArray){
+    private OpenSpotOrders cancelAllOpenOrdersObject(JSONArray jsonArray){
         ArrayList<CancelSpotOrder> cancelOrders = new ArrayList<>();
-        ArrayList<ComposedOrderDetails> cancelOrderComposeds = new ArrayList<>();
+        ArrayList<ComposedSpotOrderDetails> cancelOrderComposeds = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
             JSONObject order = jsonArray.getJSONObject(j);
             try {
@@ -453,7 +453,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
                 cancelOrders.add(CancelSpotOrder.assembleCancelOrderObject(order));
             }
         }
-        return new OpenOrders(cancelOrders,cancelOrderComposeds);
+        return new OpenSpotOrders(cancelOrders,cancelOrderComposeds);
     }
 
     /** Request to get status of an order
@@ -481,9 +481,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #orderId: identifier of the order es. 1232065
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data
-     * return status of an order as {@link OrderSpotStatus} object
+     * return status of an order as {@link SpotOrderStatus} object
      * **/
-    public OrderSpotStatus getObjectOrderStatus(String symbol, long orderId) throws Exception {
+    public SpotOrderStatus getObjectOrderStatus(String symbol, long orderId) throws Exception {
         return getObjectOrderStatus(new JSONObject(getOrderStatus(symbol, orderId)));
     }
 
@@ -512,9 +512,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #origClientOrderId: identifier of the client order es. myOrder1
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data
-     * return status of an order as {@link OrderSpotStatus} object
+     * return status of an order as {@link SpotOrderStatus} object
      * **/
-    public OrderSpotStatus getObjectOrderStatus(String symbol, String origClientOrderId) throws Exception {
+    public SpotOrderStatus getObjectOrderStatus(String symbol, String origClientOrderId) throws Exception {
         return getObjectOrderStatus(new JSONObject(getOrderStatus(symbol,origClientOrderId)));
     }
 
@@ -546,9 +546,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #orderId: identifier of the order es. 1232065
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data
-     * return status of an order as {@link OrderSpotStatus} object
+     * return status of an order as {@link SpotOrderStatus} object
      * **/
-    public OrderSpotStatus getObjectOrderStatus(String symbol, long orderId, long recvWindow) throws Exception {
+    public SpotOrderStatus getObjectOrderStatus(String symbol, long orderId, long recvWindow) throws Exception {
         return getObjectOrderStatus(new JSONObject(getOrderStatus(symbol, orderId, recvWindow)));
     }
 
@@ -580,9 +580,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #origClientOrderId: identifier of the client order es. myOrder1
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data
-     * return status of an order as {@link OrderSpotStatus} object
+     * return status of an order as {@link SpotOrderStatus} object
      * **/
-    public OrderSpotStatus getObjectOrderStatus(String symbol, String origClientOrderId, long recvWindow) throws Exception {
+    public SpotOrderStatus getObjectOrderStatus(String symbol, String origClientOrderId, long recvWindow) throws Exception {
         return getObjectOrderStatus(new JSONObject(getOrderStatus(symbol,origClientOrderId,recvWindow)));
     }
 
@@ -609,7 +609,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#current-open-orders-user_data
      * return current open orders list as ArrayList<OrderStatus>
      * **/
-    public ArrayList<OrderSpotStatus> getCurrentOpenOrdersList() throws Exception {
+    public ArrayList<SpotOrderStatus> getCurrentOpenOrdersList() throws Exception {
         return assembleOrderStatusList(new JSONArray(sendSignedRequest(OPEN_ORDERS_ENDPOINT,getParamTimestamp(),GET_METHOD)));
     }
 
@@ -641,7 +641,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#current-open-orders-user_data
      * return current open orders list as ArrayList<OrderStatus>
      * **/
-    public ArrayList<OrderSpotStatus> getCurrentOpenOrdersList(HashMap<String, Object> extraParams) throws Exception {
+    public ArrayList<SpotOrderStatus> getCurrentOpenOrdersList(HashMap<String, Object> extraParams) throws Exception {
         return assembleOrderStatusList(new JSONArray(getCurrentOpenOrders(extraParams)));
     }
 
@@ -669,7 +669,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#all-orders-user_data
      * return all orders list as ArrayList<OrderStatus>
      * **/
-    public ArrayList<OrderSpotStatus> getObjectAllOrdersList(String symbol) throws Exception {
+    public ArrayList<SpotOrderStatus> getObjectAllOrdersList(String symbol) throws Exception {
         return assembleOrderStatusList(new JSONArray(getAllOrdersList(symbol)));
     }
 
@@ -701,7 +701,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#all-orders-user_data
      * return all orders list as ArrayList<OrderStatus>
      * **/
-    public ArrayList<OrderSpotStatus> getObjectAllOrdersList(String symbol, HashMap<String, Object> extraParams) throws Exception {
+    public ArrayList<SpotOrderStatus> getObjectAllOrdersList(String symbol, HashMap<String, Object> extraParams) throws Exception {
         return assembleOrderStatusList(new JSONArray(getAllOrdersList(symbol, extraParams)));
     }
 
@@ -709,8 +709,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #response: obtained from Binance's request
      * return an OrderStatus object with response data
      * **/
-    private OrderSpotStatus getObjectOrderStatus(JSONObject response){
-        return new OrderSpotStatus(response.getString("symbol"),
+    private SpotOrderStatus getObjectOrderStatus(JSONObject response){
+        return new SpotOrderStatus(response.getString("symbol"),
                 response.getLong("orderId"),
                 response.getLong("orderListId"),
                 response.getString("clientOrderId"),
@@ -735,8 +735,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #jsonArray: obtained from Binance's request
      * return an ArrayList<OrderStatus> with response data
      * **/
-    private ArrayList<OrderSpotStatus> assembleOrderStatusList(JSONArray jsonArray){
-        ArrayList<OrderSpotStatus> orderStatuses = new ArrayList<>();
+    private ArrayList<SpotOrderStatus> assembleOrderStatusList(JSONArray jsonArray){
+        ArrayList<SpotOrderStatus> orderStatuses = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++)
             orderStatuses.add(getObjectOrderStatus(jsonArray.getJSONObject(j)));
         return orderStatuses;
@@ -773,9 +773,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #price: amount used in the order
      * @param #stopPrice: amount to stop order
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade
-     * return oco order response as ComposedOrderDetails object
+     * return oco order response as ComposedSpotOrderDetails object
      * **/
-    public ComposedOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice) throws Exception {
+    public ComposedSpotOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice) throws Exception {
         return assembleComposedOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice)));
     }
 
@@ -819,10 +819,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #stopLimitPrice: amount used to stop in the limit order
      * @param #stopLimitTimeInForce: GTC, FOK, IOC
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade
-     * return oco order response as ComposedOrderDetails object
+     * return oco order response as ComposedSpotOrderDetails object
      * **/
-    public ComposedOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice,
-                                                      double stopLimitPrice, String stopLimitTimeInForce) throws Exception {
+    public ComposedSpotOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice,
+                                                          double stopLimitPrice, String stopLimitTimeInForce) throws Exception {
         return assembleComposedOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice,
                 stopLimitPrice,stopLimitTimeInForce)));
     }
@@ -870,10 +870,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @implSpec (keys accepted are listClientOrderId,side,quantity,limitClientOrderId,limitIcebergQty,stopClientOrderId,
      * stopLimitPrice,stopIcebergQty,stopLimitTimeInForce,newOrderRespType,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade
-     * return oco order response as ComposedOrderDetails object
+     * return oco order response as ComposedSpotOrderDetails object
      * **/
-    public ComposedOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice,
-                                                      HashMap<String, Object> extraParams) throws Exception {
+    public ComposedSpotOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice,
+                                                          HashMap<String, Object> extraParams) throws Exception {
         return assembleComposedOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice, extraParams)));
     }
 
@@ -927,11 +927,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @implSpec (keys accepted are listClientOrderId,side,quantity,limitClientOrderId,limitIcebergQty,stopClientOrderId,
      * stopLimitPrice,stopIcebergQty,stopLimitTimeInForce,newOrderRespType,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade
-     * return oco order response as ComposedOrderDetails object
+     * return oco order response as ComposedSpotOrderDetails object
      * **/
-    public ComposedOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice,
-                                                      double stopLimitPrice, String stopLimitTimeInForce,
-                                                      HashMap<String, Object> extraParams) throws Exception {
+    public ComposedSpotOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice,
+                                                          double stopLimitPrice, String stopLimitTimeInForce,
+                                                          HashMap<String, Object> extraParams) throws Exception {
         return assembleComposedOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice,
                 stopLimitPrice,stopLimitTimeInForce,extraParams)));
     }
@@ -961,9 +961,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used in cancel oco order es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade
-     * return cancel all OcoOrders response as ComposedOrderDetails object
+     * return cancel all OcoOrders response as ComposedSpotOrderDetails object
      * **/
-    public ComposedOrderDetails cancelAllOcoOrdersObject(String symbol, long orderListId) throws Exception {
+    public ComposedSpotOrderDetails cancelAllOcoOrdersObject(String symbol, long orderListId) throws Exception {
         return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, orderListId)));
     }
 
@@ -992,9 +992,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used in cancel oco order es. BTCBUSD
      * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade
-     * return cancel all OcoOrders response as ComposedOrderDetails object
+     * return cancel all OcoOrders response as ComposedSpotOrderDetails object
      * **/
-    public ComposedOrderDetails cancelAllOcoOrdersObject(String symbol, String listClientOrderId) throws Exception {
+    public ComposedSpotOrderDetails cancelAllOcoOrdersObject(String symbol, String listClientOrderId) throws Exception {
         return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, listClientOrderId)));
     }
 
@@ -1030,10 +1030,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted orderListId,listClientOrderId,newClientOrderId,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade
-     * return cancel all OcoOrders response as ComposedOrderDetails object
+     * return cancel all OcoOrders response as ComposedSpotOrderDetails object
      * **/
-    public ComposedOrderDetails cancelAllOcoOrdersObject(String symbol, long orderListId,
-                                                         HashMap<String,Object> extraParams) throws Exception {
+    public ComposedSpotOrderDetails cancelAllOcoOrdersObject(String symbol, long orderListId,
+                                                             HashMap<String,Object> extraParams) throws Exception {
         return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, orderListId, extraParams)));
     }
 
@@ -1069,19 +1069,19 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted orderListId,listClientOrderId,newClientOrderId,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade
-     * return cancel all OcoOrders response as ComposedOrderDetails object
+     * return cancel all OcoOrders response as ComposedSpotOrderDetails object
      * **/
-    public ComposedOrderDetails cancelAllOcoOrdersObject(String symbol, String listClientOrderId,
-                                                         HashMap<String,Object> extraParams) throws Exception {
+    public ComposedSpotOrderDetails cancelAllOcoOrdersObject(String symbol, String listClientOrderId,
+                                                             HashMap<String,Object> extraParams) throws Exception {
         return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, listClientOrderId, extraParams)));
     }
 
-    /** Method to assemble an ComposedOrderDetails object
+    /** Method to assemble an ComposedSpotOrderDetails object
      * @param #order: obtained from Binance's request
-     * return a ComposedOrderDetails object with response data
+     * return a ComposedSpotOrderDetails object with response data
      * **/
-    private ComposedOrderDetails assembleComposedOrderDetails(JSONObject order){
-        return new ComposedOrderDetails(order.getLong("orderListId"),
+    private ComposedSpotOrderDetails assembleComposedOrderDetails(JSONObject order){
+        return new ComposedSpotOrderDetails(order.getLong("orderListId"),
                 order.getString("contingencyType"),
                 order.getString("listStatusType"),
                 order.getString("listOrderStatus"),
@@ -1096,7 +1096,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used to fecth OCO order status es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data
-     * return OCO order status response as ComposedOrderDetails object
+     * return OCO order status response as ComposedSpotOrderDetails object
      * **/
     public String getOcoOrderStatus(String symbol, long orderListId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId;
@@ -1117,9 +1117,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used to fecth OCO order status es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data
-     * return OCO order status response as BaseOrderDetails object
+     * return OCO order status response as OrderValues object
      * **/
-    public BaseOrderDetails getOcoOrderStatusObject(String symbol, long orderListId) throws Exception {
+    public OrderDetails getOcoOrderStatusObject(String symbol, long orderListId) throws Exception {
         return assembleBaseOrderDetails(new JSONObject(getOcoOrderStatus(symbol, orderListId)));
     }
 
@@ -1151,9 +1151,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #orderListId: identifier od order list es. 1
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data
-     * return cancel all OcoOrders response as BaseOrderDetails object
+     * return cancel all OcoOrders response as OrderValues object
      * **/
-    public BaseOrderDetails getOcoOrderStatusObject(String symbol, long orderListId, long recvWindow) throws Exception {
+    public OrderDetails getOcoOrderStatusObject(String symbol, long orderListId, long recvWindow) throws Exception {
         return assembleBaseOrderDetails(new JSONObject(getOcoOrderStatus(symbol, orderListId, recvWindow)));
     }
 
@@ -1182,9 +1182,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used in cancel oco order es. BTCBUSD
      * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data
-     * return OCO order status response as BaseOrderDetails object
+     * return OCO order status response as OrderValues object
      * **/
-    public BaseOrderDetails getOcoOrderStatusObject(String symbol, String listClientOrderId) throws Exception {
+    public OrderDetails getOcoOrderStatusObject(String symbol, String listClientOrderId) throws Exception {
         return assembleBaseOrderDetails(new JSONObject(getOcoOrderStatus(symbol, listClientOrderId)));
     }
 
@@ -1216,9 +1216,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data
-     * return OCO order status response as BaseOrderDetails object
+     * return OCO order status response as OrderValues object
      * **/
-    public BaseOrderDetails getOcoOrderStatusObject(String symbol, String listClientOrderId, long recvWindow) throws Exception {
+    public OrderDetails getOcoOrderStatusObject(String symbol, String listClientOrderId, long recvWindow) throws Exception {
         return assembleBaseOrderDetails(new JSONObject(getOcoOrderStatus(symbol, listClientOrderId, recvWindow)));
     }
 
@@ -1243,9 +1243,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
     /** Request to get OCO order status list
      * any params required
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-all-oco-user_data
-     * return OCO order status list response as ArrayList<BaseOrderDetails>
+     * return OCO order status list response as ArrayList<OrderValues>
      * **/
-    public ArrayList<BaseOrderDetails> getObjectOcoOrderStatusList() throws Exception {
+    public ArrayList<OrderDetails> getObjectOcoOrderStatusList() throws Exception {
         return assembleBaseOrderDetails(new JSONArray(getOcoOrderStatusList()));
     }
 
@@ -1277,9 +1277,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #timeParam: startTime or endTime;
      * @param #timeParamValue: value of #timeParam
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-all-oco-user_data
-     * return OCO order status list response as ArrayList<BaseOrderDetails>
+     * return OCO order status list response as ArrayList<OrderValues>
      * **/
-    public ArrayList<BaseOrderDetails> getObjectOcoOrderStatusList(long fromId, String timeParam, long timeParamValue) throws Exception {
+    public ArrayList<OrderDetails> getObjectOcoOrderStatusList(long fromId, String timeParam, long timeParamValue) throws Exception {
         return assembleBaseOrderDetails(new JSONArray(getOcoOrderStatusList(fromId, timeParam, timeParamValue)));
     }
 
@@ -1308,9 +1308,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-all-oco-user_data
-     * return OCO order status list response as ArrayList<BaseOrderDetails>
+     * return OCO order status list response as ArrayList<OrderValues>
      * **/
-    public ArrayList<BaseOrderDetails> getObjectOcoOrderStatusList(HashMap<String, Object> extraParams) throws Exception {
+    public ArrayList<OrderDetails> getObjectOcoOrderStatusList(HashMap<String, Object> extraParams) throws Exception {
         return assembleBaseOrderDetails(new JSONArray(getOcoOrderStatusList(extraParams)));
     }
 
@@ -1351,10 +1351,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-all-oco-user_data
-     * return OCO order status list response as ArrayList<BaseOrderDetails>
+     * return OCO order status list response as ArrayList<OrderValues>
      * **/
-    public ArrayList<BaseOrderDetails> getObjectOcoOrderStatusList(long fromId, String timeParam, long timeParamValue,
-                                                                   HashMap<String, Object> extraParams) throws Exception {
+    public ArrayList<OrderDetails> getObjectOcoOrderStatusList(long fromId, String timeParam, long timeParamValue,
+                                                               HashMap<String, Object> extraParams) throws Exception {
         return assembleBaseOrderDetails(new JSONArray(getOcoOrderStatusList(fromId, timeParam, timeParamValue, extraParams)));
     }
 
@@ -1379,9 +1379,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
     /** Request to get open OCO order list
      * any params required
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-open-oco-user_data
-     * return open OCO order list response as ArrayList<BaseOrderDetails>
+     * return open OCO order list response as ArrayList<OrderValues>
      * **/
-    public ArrayList<BaseOrderDetails> getObjectOpenOcoOrderList() throws Exception {
+    public ArrayList<OrderDetails> getObjectOpenOcoOrderList() throws Exception {
         return assembleBaseOrderDetails(new JSONArray(getOpenOcoOrderList()));
     }
 
@@ -1407,29 +1407,29 @@ public class BinanceSpotManager extends BinanceSignedManager {
     /** Request to get open OCO order list
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-open-oco-user_data
-     * return open OCO order list response as ArrayList<BaseOrderDetails>
+     * return open OCO order list response as ArrayList<OrderValues>
      * **/
-    public ArrayList<BaseOrderDetails> getObjectOpenOcoOrderList(long recvWindow) throws Exception {
+    public ArrayList<OrderDetails> getObjectOpenOcoOrderList(long recvWindow) throws Exception {
         return assembleBaseOrderDetails(new JSONArray(getOpenOcoOrderList(recvWindow)));
     }
 
-    /** Method to assemble an BaseOrderDetails object list
+    /** Method to assemble an OrderValues object list
      * @param #jsonArray: obtained from Binance's request
-     * return an ArrayList<BaseOrderDetails> with response data
+     * return an ArrayList<OrderValues> with response data
      * **/
-    private ArrayList<BaseOrderDetails> assembleBaseOrderDetails(JSONArray jsonArray){
-        ArrayList<BaseOrderDetails> baseOrderDetailsList = new ArrayList<>();
+    private ArrayList<OrderDetails> assembleBaseOrderDetails(JSONArray jsonArray){
+        ArrayList<OrderDetails> baseOrderDetailsList = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++)
             baseOrderDetailsList.add(assembleBaseOrderDetails(jsonArray.getJSONObject(j)));
         return baseOrderDetailsList;
     }
 
-    /** Method to assemble an BaseOrderDetails object
+    /** Method to assemble an OrderValues object
      * @param #order: obtained from Binance's request
-     * return a BaseOrderDetails object with response data
+     * return a OrderValues object with response data
      * **/
-    private BaseOrderDetails assembleBaseOrderDetails(JSONObject order){
-        return new BaseOrderDetails(order.getLong("orderListId"),
+    private OrderDetails assembleBaseOrderDetails(JSONObject order){
+        return new OrderDetails(order.getLong("orderListId"),
                 order.getString("contingencyType"),
                 order.getString("listStatusType"),
                 order.getString("listOrderStatus"),

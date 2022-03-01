@@ -15,8 +15,8 @@ import java.util.HashMap;
 public class OrderBook {
 
     private final long lastUpdateId;
-    private final ArrayList<OrderDetails> orderDetailsBids;
-    private final ArrayList<OrderDetails> orderDetailsAsks;
+    private final ArrayList<BookOrderDetails> orderDetailsBids;
+    private final ArrayList<BookOrderDetails> orderDetailsAsks;
     private final String symbol;
 
     public OrderBook(long lastUpdateId, JSONObject jsonObject, String symbol) {
@@ -29,13 +29,13 @@ public class OrderBook {
     /** Method to get load list of order details
      * @param #jsonArray: obtained from Binance request
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#order-book
-     * return order details list as ArrayList<OrderDetails> object
+     * return order details list as ArrayList<BookOrderDetails> object
      * **/
-    private ArrayList<OrderDetails> loadOrderDetails(JSONArray jsonArray){
-        ArrayList<OrderDetails> orderDetails = new ArrayList<>();
+    private ArrayList<BookOrderDetails> loadOrderDetails(JSONArray jsonArray){
+        ArrayList<BookOrderDetails> orderDetails = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
             JSONArray details = jsonArray.getJSONArray(j);
-            orderDetails.add(new OrderDetails(details.getDouble(0),
+            orderDetails.add(new BookOrderDetails(details.getDouble(0),
                     details.getDouble(1)));
         }
         return orderDetails;
@@ -45,11 +45,11 @@ public class OrderBook {
         return lastUpdateId;
     }
 
-    public ArrayList<OrderDetails> getOrderDetailsBids() {
+    public ArrayList<BookOrderDetails> getOrderDetailsBids() {
         return orderDetailsBids;
     }
 
-    public ArrayList<OrderDetails> getOrderDetailsAsks() {
+    public ArrayList<BookOrderDetails> getOrderDetailsAsks() {
         return orderDetailsAsks;
     }
 
@@ -58,16 +58,16 @@ public class OrderBook {
     }
 
     /**
-     * The {@code OrderDetails} class is useful to obtain and format OrderDetails object
+     * The {@code BookOrderDetails} class is useful to obtain and format BookOrderDetails object
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#order-book
      * **/
 
-    public static class OrderDetails {
+    public static class BookOrderDetails {
 
         private final double price;
         private final double quantity;
 
-        public OrderDetails(double price, double quantity) {
+        public BookOrderDetails(double price, double quantity) {
             this.price = price;
             this.quantity = quantity;
         }

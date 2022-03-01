@@ -3,12 +3,12 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.SpotOrder;
 
 /**
- *  The {@code OrderStatus} class is useful to format an OrderStatus object
+ *  The {@code SpotOrderStatus} class is useful to format an SpotOrderStatus object
  *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
-public class OrderSpotStatus extends SpotOrder {
+public class SpotOrderStatus extends SpotOrder {
 
     private final double price;
     private final double origQty;
@@ -25,7 +25,7 @@ public class OrderSpotStatus extends SpotOrder {
     private final boolean isWorking;
     private final double origQuoteOrderQty;
 
-    public OrderSpotStatus(String symbol, long orderId, long orderListId, String clientOrderId, double price, double origQty,
+    public SpotOrderStatus(String symbol, long orderId, long orderListId, String clientOrderId, double price, double origQty,
                            double executedQty, double cummulativeQuoteQty, String status, String timeInForce, String type,
                            String side, double stopPrice, double icebergQty, long time, long updateTime, boolean isWorking,
                            double origQuoteOrderQty) {

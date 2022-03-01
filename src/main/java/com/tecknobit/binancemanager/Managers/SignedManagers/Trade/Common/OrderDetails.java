@@ -1,17 +1,11 @@
-package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders;
+package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-/**
- *  The {@code BaseOrderDetails} class is useful to format BaseOrderDetails object
- *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#spot-account-trade
- *  @author N7ghtm4r3 - Tecknobit
- * **/
-
-public class BaseOrderDetails {
+public class OrderDetails {
 
     private final long orderListId;
     private final String contingencyType;
@@ -20,10 +14,10 @@ public class BaseOrderDetails {
     private final String listClientOrderId;
     private final long transactionTime;
     private final String symbol;
-    private ArrayList<ComposedOrderDetails.SpotOrderDetails> spotOrderDetails;
+    private ArrayList<OrderValues> orderValues;
 
-    public BaseOrderDetails(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
-                            String listClientOrderId, long transactionTime, String symbol, JSONObject jsonObject) {
+    public OrderDetails(long orderListId, String contingencyType, String listStatusType,String listOrderStatus,
+                        String listClientOrderId, long transactionTime, String symbol,JSONObject jsonObject) {
         this.orderListId = orderListId;
         this.contingencyType = contingencyType;
         this.listStatusType = listStatusType;
@@ -34,15 +28,15 @@ public class BaseOrderDetails {
         loadOrderDetails(jsonObject.getJSONArray("orders"));
     }
 
-    /** Method to load SpotOrderDetails list
+    /** Method to load OrderValues list
      * @param #list: obtained from Binance's request
-     * return an ArrayList<SpotOrderDetails> with response data
+     * return an ArrayList<OrderValues> with response data
      * **/
     private void loadOrderDetails(JSONArray list){
-        spotOrderDetails = new ArrayList<>();
+        orderValues = new ArrayList<>();
         for (int j=0; j < list.length(); j++){
             JSONObject item = list.getJSONObject(j);
-            spotOrderDetails.add(new ComposedOrderDetails.SpotOrderDetails(item.getString("symbol"),
+            orderValues.add(new OrderValues(item.getString("symbol"),
                     item.getLong("orderId"),
                     item.getString("clientOrderId")
             ));
@@ -77,26 +71,26 @@ public class BaseOrderDetails {
         return symbol;
     }
 
-    public ArrayList<ComposedOrderDetails.SpotOrderDetails> getSpotOrderDetails() {
-        return spotOrderDetails;
+    public ArrayList<OrderValues> getOrderValuesList() {
+        return orderValues;
     }
 
-    public ComposedOrderDetails.SpotOrderDetails getSpotOrderDetail(int index){
-        return spotOrderDetails.get(index);
+    public OrderValues getOrderValue(int index){
+        return orderValues.get(index);
     }
 
     /**
-     * The {@code SpotOrderDetails} class is useful to obtain and format SpotOrderDetails object
+     * The {@code OrderValues} class is useful to obtain and format OrderValues object
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade
      * **/
 
-    public static class SpotOrderDetails {
+    public static class OrderValues {
 
         private final String symbol;
         private final long orderId;
         private final String clientOrderId;
 
-        public SpotOrderDetails(String symbol, long orderId, String clientOrderId) {
+        public OrderValues(String symbol, long orderId, String clientOrderId) {
             this.symbol = symbol;
             this.orderId = orderId;
             this.clientOrderId = clientOrderId;

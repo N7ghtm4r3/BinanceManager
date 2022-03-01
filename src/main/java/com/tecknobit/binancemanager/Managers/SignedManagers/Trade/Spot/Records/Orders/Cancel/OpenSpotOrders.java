@@ -1,21 +1,19 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel;
 
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.ComposedOrderDetails;
-
 import java.util.ArrayList;
 
 /**
- * The {@code OpenOrders} class is useful to format a OpenOrders object
+ * The {@code OpenSpotOrders} class is useful to format a OpenSpotOrders object
  * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade
  * @author N7ghtm4r3 - Tecknobit
  * **/
 
-public class OpenOrders {
+public class OpenSpotOrders {
 
     private final ArrayList<CancelSpotOrder> cancelSingleOrders;
-    private final ArrayList<ComposedOrderDetails> cancelOrderComposeds;
+    private final ArrayList<ComposedSpotOrderDetails> cancelOrderComposeds;
 
-    public OpenOrders(ArrayList<CancelSpotOrder> singleOrders, ArrayList<ComposedOrderDetails> cancelOrderComposeds) {
+    public OpenSpotOrders(ArrayList<CancelSpotOrder> singleOrders, ArrayList<ComposedSpotOrderDetails> cancelOrderComposeds) {
         this.cancelSingleOrders = singleOrders;
         this.cancelOrderComposeds = cancelOrderComposeds;
     }
@@ -28,11 +26,11 @@ public class OpenOrders {
         return cancelSingleOrders.get(index);
     }
 
-    public ArrayList<ComposedOrderDetails> getCancelOrderComposeds() {
+    public ArrayList<ComposedSpotOrderDetails> getCancelOrderComposeds() {
         return cancelOrderComposeds;
     }
 
-    public ComposedOrderDetails getComposedCancelOrder(int index){
+    public ComposedSpotOrderDetails getComposedCancelOrder(int index){
         return cancelOrderComposeds.get(index);
     }
 

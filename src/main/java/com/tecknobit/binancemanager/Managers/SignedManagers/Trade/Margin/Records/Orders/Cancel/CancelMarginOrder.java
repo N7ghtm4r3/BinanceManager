@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Cancel;
 
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.Order;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class CancelMarginOrder extends Order {
@@ -74,8 +75,50 @@ public class CancelMarginOrder extends Order {
         return side;
     }
 
-    public JSONObject getJsonObject() {
-        return jsonObject;
+    /** Method to get stopPrice
+     * any params requirde
+     * return stopPrice as double, if is a null field will return -1
+     * **/
+    public double getStopPrice(){
+        return getDoubleValue("stopPrice");
+    }
+
+    /** Method to get icebergQty
+     * any params requirde
+     * return icebergQty as double, if is a null field will return -1
+     * **/
+    public double getIcebergQty(){
+        return getDoubleValue("icebergQty");
+    }
+
+    /** Method to assemble a CancelSpotOrder object
+     * @param #key: field to fetch a double value in {@link #jsonObject}
+     * return an CancelSpotOrder object with response data
+     * **/
+    private double getDoubleValue(String key){
+        try {
+            return jsonObject.getDouble(key);
+        }catch (JSONException e){
+            return -1;
+        }
+    }
+
+    public static CancelMarginOrder assembleCancelMarginOrderObject(JSONObject cancelMarginOrder){
+        return new CancelMarginOrder(cancelMarginOrder.getString("symbol"),
+                cancelMarginOrder.getLong("orderId"),
+                cancelMarginOrder.getString("clientOrderId"),
+                cancelMarginOrder.getBoolean("isIsolated"),
+                cancelMarginOrder.getString("origClientOrderId"),
+                cancelMarginOrder.getDouble("price"),
+                cancelMarginOrder.getDouble("origQty"),
+                cancelMarginOrder.getDouble("executedQty"),
+                cancelMarginOrder.getDouble("cummulativeQuoteQty"),
+                cancelMarginOrder.getString("status"),
+                cancelMarginOrder.getString("timeInForce"),
+                cancelMarginOrder.getString("type"),
+                cancelMarginOrder.getString("side"),
+                cancelMarginOrder
+        );
     }
 
 }
