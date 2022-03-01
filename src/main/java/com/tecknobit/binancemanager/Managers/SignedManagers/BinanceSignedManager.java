@@ -27,7 +27,7 @@ public class BinanceSignedManager extends BinanceManager {
         this.secretKey = secretKey;
     }
 
-    /** Method to execute an Order request and get response of that
+    /** Method to execute an SpotOrder request and get response of that
      * @param #endpoint: endpoint to request
      * @param #params: params HTTP for the request
      * @param #method: method HTTP for the request

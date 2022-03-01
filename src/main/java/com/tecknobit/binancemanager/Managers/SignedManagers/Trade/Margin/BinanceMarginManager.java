@@ -15,6 +15,8 @@ import java.util.HashMap;
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.GET_METHOD;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.POST_METHOD;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Constants.TradeConstants.LIMIT;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Constants.TradeConstants.MARKET;
 
 /**
  *  The {@code BinanceMarginManager} class is useful to manage all Binance Margin Endpoints
@@ -224,5 +226,24 @@ public class BinanceMarginManager extends BinanceSignedManager {
                 jsonObject.getString("symbol")
         );
     }
+
+    public String sendNewMarginOrder(String symbol, String side, String type, HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendSignedRequest(SEND_NEW_MARGIN_ORDER_ENDPOINT,params,POST_METHOD);
+    }
+
+    public JSONObject sendJSONNewMarginOrder(String symbol, String side, String type, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(sendNewMarginOrder(symbol, side, type, extraParams));
+    }
+
+    public JSONObject sendObjectNewMarginOrder(String symbol, String side, String type, HashMap<String, Object> extraParams) throws Exception {
+        jsonObject = new JSONObject(sendJSONNewMarginOrder(symbol, side, type, extraParams));
+        if(type.equals(LIMIT) || type.equals(MARKET))
+            return null;
+        else
+            return null;
+    }
+
 
 }

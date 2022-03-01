@@ -1,6 +1,6 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response;
 
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Order;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.SpotOrder;
 
 /**
  *  The {@code OrderStatus} class is useful to format an OrderStatus object
@@ -8,7 +8,7 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.O
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
-public class OrderStatus extends Order {
+public class OrderStatus extends SpotOrder {
 
     private final double price;
     private final double origQty;

@@ -1,6 +1,6 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel;
 
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Order;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.SpotOrder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,7 +10,7 @@ import org.json.JSONObject;
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
-public class CancelOrder extends Order {
+public class CancelOrder extends SpotOrder {
 
     private final String origClientOrderId;
     private final double price;

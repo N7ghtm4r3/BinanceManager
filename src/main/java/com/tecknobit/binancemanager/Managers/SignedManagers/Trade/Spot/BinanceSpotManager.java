@@ -7,8 +7,8 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.A
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account.SpotAccountTradeList;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.BaseOrderDetails;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.CancelOrder;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.ComposedOrderDetails;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.OpenOrders;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.ComposedOrderDetails;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ACKOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.FullOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.OrderStatus;
@@ -23,7 +23,7 @@ import java.util.HashMap;
 
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.*;
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Order.*;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Constants.TradeConstants.*;
 
 /**
  *  The {@code BinanceSpotManager} class is useful to manage all Binance Spot Endpoints
@@ -240,7 +240,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
         );
     }
 
-    /** Request to cancel an Order
+    /** Request to cancel an SpotOrder
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #orderId: identifier of the order es. 1232065
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
@@ -251,7 +251,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return sendSignedRequest(ORDER_ENDPOINT,params,DELETE_METHOD);
     }
 
-    /** Request to cancel an Order
+    /** Request to cancel an SpotOrder
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #orderId: identifier of the order es. 1232065
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
@@ -261,7 +261,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
        return new JSONObject(cancelOrder(symbol, orderId));
     }
 
-    /** Request to cancel an Order
+    /** Request to cancel an SpotOrder
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #orderId: identifier of the order es. 1232065
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
@@ -271,7 +271,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return CancelOrder.assembleCancelOrderObject(new JSONObject(cancelOrderJSON(symbol, orderId)));
     }
 
-    /** Request to cancel an Order
+    /** Request to cancel an SpotOrder
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #origClientOrderId: identifier of the client order es. myOrder1
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
@@ -282,7 +282,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return sendSignedRequest(ORDER_ENDPOINT,params,DELETE_METHOD);
     }
 
-    /** Request to cancel an Order
+    /** Request to cancel an SpotOrder
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #origClientOrderId: identifier of the client order es. myOrder1
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
@@ -292,7 +292,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return new JSONObject(cancelOrder(symbol, origClientOrderId));
     }
 
-    /** Request to cancel an Order
+    /** Request to cancel an SpotOrder
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #origClientOrderId: identifier of the client order es. myOrder1
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
@@ -302,7 +302,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return CancelOrder.assembleCancelOrderObject( new JSONObject(cancelOrderJSON(symbol, origClientOrderId)));
     }
 
-    /** Request to cancel an Order
+    /** Request to cancel an SpotOrder
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #orderId: identifier of the order es. 1232065
      * @param #extraParams: extra params of the request
@@ -316,7 +316,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return sendSignedRequest(ORDER_ENDPOINT, params, DELETE_METHOD);
     }
 
-    /** Request to cancel an Order
+    /** Request to cancel an SpotOrder
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #orderId: identifier of the order es. 1232065
      * @param #extraParams: extra params of the request
@@ -328,7 +328,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return new JSONObject(cancelOrder(symbol, orderId, extraParams));
     }
 
-    /** Request to cancel an Order
+    /** Request to cancel an SpotOrder
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #orderId: identifier of the order es. 1232065
      * @param #extraParams: extra params of the request
@@ -340,7 +340,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return CancelOrder.assembleCancelOrderObject(new JSONObject(cancelOrderJSON(symbol, orderId, extraParams)));
     }
 
-    /** Request to cancel an Order
+    /** Request to cancel an SpotOrder
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #origClientOrderId: identifier of the client order es. myOrder1
      * @param #extraParams: extra params of the request
@@ -354,7 +354,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return sendSignedRequest(ORDER_ENDPOINT, params, DELETE_METHOD);
     }
 
-    /** Request to cancel an Order
+    /** Request to cancel an SpotOrder
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #origClientOrderId: identifier of the client order es. myOrder1
      * @param #extraParams: extra params of the request
@@ -366,7 +366,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return new JSONObject(cancelOrder(symbol, origClientOrderId, extraParams));
     }
 
-    /** Request to cancel an Order
+    /** Request to cancel an SpotOrder
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #origClientOrderId: identifier of the client order es. myOrder1
      * @param #extraParams: extra params of the request

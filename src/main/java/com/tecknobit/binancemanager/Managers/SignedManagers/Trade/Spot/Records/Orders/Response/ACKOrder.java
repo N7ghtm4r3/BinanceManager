@@ -1,14 +1,14 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response;
 
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Order;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.SpotOrder;
 
 /**
- *  The {@code ACKOrder} class is useful to format all Order Binance request in ACK format
+ *  The {@code ACKOrder} class is useful to format all SpotOrder Binance request in ACK format
  *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-order-trade
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
-public class ACKOrder extends Order {
+public class ACKOrder extends SpotOrder {
 
     private final long transactTime;
 
