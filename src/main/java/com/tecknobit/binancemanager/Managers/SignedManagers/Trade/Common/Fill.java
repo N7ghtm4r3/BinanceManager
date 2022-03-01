@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.SignedManagers.Trade;
+package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common;
 
 /**
  *  The {@code FillSpot} class is useful to obtain and format FillSpot object

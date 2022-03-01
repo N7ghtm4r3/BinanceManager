@@ -1,6 +1,6 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response;
 
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Fill;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.Fill;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

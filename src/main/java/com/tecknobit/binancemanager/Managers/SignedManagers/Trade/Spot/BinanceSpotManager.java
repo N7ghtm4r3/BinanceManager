@@ -205,9 +205,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
         }
     }
 
-    /** Method to assemble an ACKOrder object
+    /** Method to assemble an ACKSpotOrder object
      * @param #response: obtained from Binance's request
-     * return an ACKOrder object with response data
+     * return an ACKSpotOrder object with response data
      * **/
     private ACKSpotOrder getACKResponse(JSONObject response){
         return new ACKSpotOrder(response.getString("symbol"),
@@ -220,7 +220,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
 
     /** Method to assemble an FullOrder object
      * @param #response: obtained from Binance's request
-     * return an FullOrder object with response data
+     * return a FullOrder object with response data
      * **/
     private FullSpotOrder getFullOrderResponse(JSONObject response){
         return new FullSpotOrder(response.getString("symbol"),

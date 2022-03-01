@@ -5,6 +5,9 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginAsset;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginPair;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginPriceIndex;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.ACKMarginOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.FullMarginOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.ResultMarginOrder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,8 +18,7 @@ import java.util.HashMap;
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.GET_METHOD;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.POST_METHOD;
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Constants.TradeConstants.LIMIT;
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Constants.TradeConstants.MARKET;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Constants.TradeConstants.*;
 
 /**
  *  The {@code BinanceMarginManager} class is useful to manage all Binance Margin Endpoints
@@ -237,13 +239,87 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return new JSONObject(sendNewMarginOrder(symbol, side, type, extraParams));
     }
 
-    public JSONObject sendObjectNewMarginOrder(String symbol, String side, String type, HashMap<String, Object> extraParams) throws Exception {
+    public ACKMarginOrder sendObjectNewMarginOrder(String symbol, String side, String type,
+                                                   HashMap<String, Object> extraParams) throws Exception {
         jsonObject = new JSONObject(sendJSONNewMarginOrder(symbol, side, type, extraParams));
         if(type.equals(LIMIT) || type.equals(MARKET))
-            return null;
+            return getFullOrderResponse(jsonObject);
         else
-            return null;
+            return getACKResponse(jsonObject);
     }
 
+    public String sendNewMarginOrder(String symbol, String side, String type, HashMap<String, Object> extraParams,
+                                     String newOrderRespType) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type+"&newOrderRespType="+newOrderRespType;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendSignedRequest(SEND_NEW_MARGIN_ORDER_ENDPOINT,params,POST_METHOD);
+    }
+
+    public JSONObject sendJSONNewMarginOrder(String symbol, String side, String type, HashMap<String, Object> extraParams,
+                                             String newOrderRespType) throws Exception {
+        return new JSONObject(sendNewMarginOrder(symbol, side, type, extraParams, newOrderRespType));
+    }
+
+    public ACKMarginOrder sendObjectNewMarginOrder(String symbol, String side, String type,HashMap<String, Object> extraParams,
+                                                   String newOrderRespType) throws Exception {
+        jsonObject = new JSONObject(sendJSONNewMarginOrder(symbol, side, type, extraParams, newOrderRespType));
+        switch (newOrderRespType){
+            case NEW_ORDER_RESP_TYPE_RESULT:
+                return new ResultMarginOrder(jsonObject.getString("symbol"),
+                        jsonObject.getLong("orderId"),
+                        jsonObject.getString("clientOrderId"),
+                        jsonObject.getLong("transactTime"),
+                        jsonObject.getBoolean("isIsolated"),
+                        jsonObject.getDouble("price"),
+                        jsonObject.getDouble("origQty"),
+                        jsonObject.getDouble("executedQty"),
+                        jsonObject.getDouble("cummulativeQuoteQty"),
+                        jsonObject.getString("status"),
+                        jsonObject.getString("timeInForce"),
+                        jsonObject.getString("type"),
+                        jsonObject.getString("side")
+                );
+            case NEW_ORDER_RESP_TYPE_FULL:
+                return getFullOrderResponse(jsonObject);
+            default:
+                return getACKResponse(jsonObject);
+        }
+    }
+
+    /** Method to assemble an ACKMarginOrder object
+     * @param #response: obtained from Binance's request
+     * return an ACKMarginOrder object with response data
+     * **/
+    private ACKMarginOrder getACKResponse(JSONObject response){
+        return new ACKMarginOrder(response.getString("symbol"),
+                response.getLong("orderId"),
+                response.getString("clientOrderId"),
+                response.getLong("transactTime"),
+                response.getBoolean("isIsolated")
+        );
+    }
+
+    /** Method to assemble an FullMarginOrder object
+     * @param #response: obtained from Binance's request
+     * return a FullMarginOrder object with response data
+     * **/
+    private FullMarginOrder getFullOrderResponse(JSONObject response){
+        return new FullMarginOrder(response.getString("symbol"),
+                response.getLong("orderId"),
+                response.getString("clientOrderId"),
+                response.getLong("transactTime"),
+                response.getBoolean("isIsolated"),
+                response.getDouble("price"),
+                response.getDouble("origQty"),
+                response.getDouble("executedQty"),
+                response.getDouble("cummulativeQuoteQty"),
+                response.getString("status"),
+                response.getString("timeInForce"),
+                response.getString("type"),
+                response.getString("side"),
+                response.getJSONArray("fills")
+
+        );
+    }
 
 }

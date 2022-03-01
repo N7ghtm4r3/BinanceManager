@@ -1,6 +1,6 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders;
 
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Commons.Order;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.Order;
 
 public class MarginOrder extends Order {
 
