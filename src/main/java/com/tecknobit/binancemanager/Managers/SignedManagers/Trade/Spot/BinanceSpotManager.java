@@ -32,7 +32,7 @@ import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Re
  * **/
 
 public class BinanceSpotManager extends BinanceSignedManager {
-    
+
     /** Constructor to init BinanceSpotManager
      * @param #baseEndpoint base endpoint to work on
      * @param #apiKey your api key

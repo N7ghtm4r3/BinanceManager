@@ -59,4 +59,9 @@ public class EndpointsList {
     public static final String SPOT_ACCOUNT_TRADE_LIST_ENDPOINT = "/api/v3/myTrades";
     public static final String SPOT_ACCOUNT_CURRENT_ORDER_COUNT_USAGE = "/api/v3/rateLimit/order";
 
+    /**Margin manager endpoint urls**/
+    public static final String CROSS_MARGIN_ACCOUNT_TRANSFER_ENDPOINT = "/sapi/v1/margin/transfer";
+    public static final String MARGIN_ACCOUNT_BORROW_ENDPOINT = "/sapi/v1/margin/loan";
+    public static final String MARGIN_ACCOUNT_REPAY_ENDPOINT = "/sapi/v1/margin/repay";
+
 }
