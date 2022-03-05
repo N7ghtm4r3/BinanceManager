@@ -70,5 +70,7 @@ public class EndpointsList {
     public static final String MARGIN_PRICE_INDEX_ENDPOINT = "/sapi/v1/margin/priceIndex";
     public static final String MARGIN_ORDER_ENDPOINT = "/sapi/v1/margin/order";
     public static final String MARGIN_ALL_ORDERS_ENDPOINT = "/sapi/v1/margin/openOrders";
+    public static final String CROSS_MARGIN_TRANSFERS_HISTORY_ENDPOINT = "/sapi/v1/margin/transfer";
+    public static final String MARGIN_QUERY_LOAN_RECORD_ENDPOINT = "/sapi/v1/margin/loan";
 
 }
