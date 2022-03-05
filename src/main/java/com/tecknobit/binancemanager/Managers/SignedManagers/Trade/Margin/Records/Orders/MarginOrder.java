@@ -2,6 +2,11 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Record
 
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.Order;
 
+/**
+ * The {@code MarginOrder} class is useful to format all MarginOrders of BinanceMarginManager
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade
+ * **/
+
 public class MarginOrder extends Order {
 
     private final long transactTime;

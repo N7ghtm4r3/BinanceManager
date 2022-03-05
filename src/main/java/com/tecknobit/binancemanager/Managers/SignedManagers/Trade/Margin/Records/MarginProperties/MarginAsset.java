@@ -1,5 +1,11 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties;
 
+/**
+ *  The {@code MarginAsset} class is useful to format Binance Get All Margin Assets request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-all-margin-assets-market_data
+ *  @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class MarginAsset {
 
     private final String assetFullName;

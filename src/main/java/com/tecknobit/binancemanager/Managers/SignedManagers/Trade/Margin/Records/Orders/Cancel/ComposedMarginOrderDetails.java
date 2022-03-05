@@ -6,6 +6,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ *  The {@code ComposedMarginOrderDetails} class is useful to format Binance Margin Account Cancel all Open Orders on a Symbol request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade
+ *  @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class ComposedMarginOrderDetails extends OrderDetails {
 
     private ArrayList<CancelMarginOrder> cancelMarginOrders;

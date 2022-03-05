@@ -5,6 +5,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * The {@code OrderDetails} class is useful to manage and format all Binance OrderDetails request
+ * @implNote used by BinanceSpotManager, BinanceMarginManager
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#introduction
+ * **/
+
 public class OrderDetails {
 
     private final long orderListId;

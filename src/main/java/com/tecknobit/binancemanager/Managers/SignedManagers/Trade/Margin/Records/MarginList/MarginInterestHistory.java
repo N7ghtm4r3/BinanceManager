@@ -5,6 +5,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ *  The {@code MarginInterestHistory} class is useful to format Binance Margin Interest History request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data
+ *  @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class MarginInterestHistory {
 
     private final int total;
@@ -16,6 +22,10 @@ public class MarginInterestHistory {
         loadMarginInterestAssets(jsonArray);
     }
 
+    /** Method to load InterestAssets list
+     * @param #jsonArray: obtained from Binance's request
+     * any return
+     * **/
     private void loadMarginInterestAssets(JSONArray jsonArray) {
         marginInterestAssets = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
@@ -42,6 +52,11 @@ public class MarginInterestHistory {
     public MarginInterestAsset getMarginInterestAsset(int index) {
         return marginInterestAssets.get(index);
     }
+
+    /**
+     * The {@code MarginInterestAsset} class is useful to obtain and format MarginInterestAsset object
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data
+     * **/
 
     public static class MarginInterestAsset {
 

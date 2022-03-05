@@ -2,6 +2,12 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Record
 
 import java.util.ArrayList;
 
+/**
+ *  The {@code OpenMarginOrders} class is useful to asseble Binance Margin Account Cancel all Open Orders on a Symbol request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade
+ *  @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class OpenMarginOrders {
 
     private final ArrayList<CancelMarginOrder> cancelMarginOrders;

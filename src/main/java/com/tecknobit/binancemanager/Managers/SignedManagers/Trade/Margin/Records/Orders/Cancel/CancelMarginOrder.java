@@ -4,6 +4,12 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.Order;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ *  The {@code CancelMarginOrder} class is useful to format Binance Margin Account Cancel Order request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade
+ *  @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class CancelMarginOrder extends Order {
 
     private final boolean isIsolated;
@@ -103,6 +109,10 @@ public class CancelMarginOrder extends Order {
         }
     }
 
+    /** Method to assemble a CancelMarginOrder
+     * @param #cancelMarginOrder: obtained from Binance's request
+     * retrun CancelMarginOrder object
+     * **/
     public static CancelMarginOrder assembleCancelMarginOrderObject(JSONObject cancelMarginOrder){
         return new CancelMarginOrder(cancelMarginOrder.getString("symbol"),
                 cancelMarginOrder.getLong("orderId"),

@@ -1,5 +1,10 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response;
 
+/**
+ * The {@code ResultMarginOrder} class is useful to format ResultMarginOrder object of Binance's request Margin Account New Order
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade
+ * **/
+
 public class ResultMarginOrder extends ACKMarginOrder{
 
     private final double price;

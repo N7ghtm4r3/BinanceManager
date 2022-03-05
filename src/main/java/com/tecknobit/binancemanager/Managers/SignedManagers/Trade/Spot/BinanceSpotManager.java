@@ -442,9 +442,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * return an OpenSpotOrders object with response data
      * **/
     private OpenSpotOrders cancelAllOpenOrdersObject(JSONArray jsonArray){
-        ArrayList<CancelSpotOrder> cancelOrders = new ArrayList<>();
         ArrayList<ComposedSpotOrderDetails> cancelOrderComposeds = new ArrayList<>();
-        for (int j=0; j < jsonArray.length(); j++){
+        ArrayList<CancelSpotOrder> cancelOrders = new ArrayList<>();
+        for (int j = 0; j < jsonArray.length(); j++){
             JSONObject order = jsonArray.getJSONObject(j);
             try {
                 String contingencyType = order.getString("contingencyType");

@@ -5,6 +5,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ *  The {@code MarginForceLiquidation} class is useful to format Binance Margin Force Liquidation request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data
+ *  @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class MarginForceLiquidation {
 
     private final int total;
@@ -16,6 +22,10 @@ public class MarginForceLiquidation {
         loadForceLiquidationAssets(jsonArray);
     }
 
+    /** Method to load ForceLiquidationAssets list
+     * @param #jsonArray: obtained from Binance's request
+     * any return
+     * **/
     private void loadForceLiquidationAssets(JSONArray jsonArray) {
         forceLiquidationAssets = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
@@ -45,6 +55,11 @@ public class MarginForceLiquidation {
     public ForceLiquidationAsset getForceLiquidationAsset(int index){
         return forceLiquidationAssets.get(index);
     }
+
+    /**
+     * The {@code ForceLiquidationAsset} class is useful to obtain and format ForceLiquidationAsset object
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data
+     * **/
 
     public static class ForceLiquidationAsset {
 

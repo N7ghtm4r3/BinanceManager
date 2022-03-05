@@ -5,6 +5,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ *  The {@code MarginLoan} class is useful to format Binance Margin Query Loan repay request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data
+ *  @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class MarginLoan {
 
     private final int total;
@@ -16,6 +22,10 @@ public class MarginLoan {
         loadMarginLoanAssets(jsonArray);
     }
 
+    /** Method to load LoanAssets list
+     * @param #jsonArray: obtained from Binance's request
+     * any return
+     * **/
     private void loadMarginLoanAssets(JSONArray jsonArray) {
         marginLoanAssets = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
@@ -41,6 +51,11 @@ public class MarginLoan {
     public MarginLoanAsset getMarginLoanAsset(int index) {
         return marginLoanAssets.get(index);
     }
+
+    /**
+     * The {@code MarginLoanAsset} class is useful to obtain and format MarginLoanAsset object
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data
+     * **/
 
     public static class MarginLoanAsset extends MarginAssetList {
 

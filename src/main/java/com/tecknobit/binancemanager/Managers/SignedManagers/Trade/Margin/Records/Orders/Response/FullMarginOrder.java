@@ -6,6 +6,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * The {@code FullMarginOrder} class is useful to format FullMarginOrder object of Binance's request Margin Account New Order
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade
+ * **/
+
 public class FullMarginOrder extends ResultMarginOrder{
 
     private ArrayList<Fill> fillMargins;
@@ -18,6 +23,10 @@ public class FullMarginOrder extends ResultMarginOrder{
         loadFillMargins(jsonArray);
     }
 
+    /** Method to load FillMargins list
+     * @param #jsonArray: obtained from Binance's request
+     * any return
+     * **/
     private void loadFillMargins(JSONArray jsonArray) {
         fillMargins = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++) {
