@@ -491,11 +491,11 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     public JSONObject getJSONRepayRecord(String asset) throws Exception {
-        return new JSONObject(getQueryLoanRecord(asset));
+        return new JSONObject(getQueryRepayRecord(asset));
     }
 
     public MarginRepay getObjectRepayRecord(String asset) throws Exception {
-        return new MarginRepay(new JSONObject(getQueryLoanRecord(asset)));
+        return new MarginRepay(new JSONObject(getQueryRepayRecord(asset)));
     }
 
     public String getQueryRepayRecord(String asset, HashMap<String,Object> extraParams) throws Exception {
@@ -505,11 +505,11 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     public JSONObject getJSONRepayRecord(String asset, HashMap<String,Object> extraParams) throws Exception {
-        return new JSONObject(getQueryLoanRecord(asset, extraParams));
+        return new JSONObject(getQueryRepayRecord(asset, extraParams));
     }
 
     public MarginRepay getObjectRepayRecord(String asset, HashMap<String,Object> extraParams) throws Exception {
-        return new MarginRepay(new JSONObject(getQueryLoanRecord(asset, extraParams)));
+        return new MarginRepay(new JSONObject(getQueryRepayRecord(asset, extraParams)));
     }
 
     public String getInterestHistory() throws Exception {
@@ -517,11 +517,11 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     public JSONObject getJSONInterestHistory() throws Exception {
-        return new JSONObject(getCrossMarginTransferHistory());
+        return new JSONObject(getInterestHistory());
     }
 
     public MarginInterestHistory getObjectInterestHistory() throws Exception {
-        return new MarginInterestHistory(new JSONObject(getCrossMarginTransferHistory()));
+        return new MarginInterestHistory(new JSONObject(getInterestHistory()));
     }
 
     public String getInterestHistory(HashMap<String,Object> extraParams) throws Exception {
@@ -530,11 +530,11 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     public JSONObject getJSONInterestHistory(HashMap<String,Object> extraParams) throws Exception {
-        return new JSONObject(getCrossMarginTransferHistory(extraParams));
+        return new JSONObject(getInterestHistory(extraParams));
     }
 
     public MarginInterestHistory getObjectInterestHistory(HashMap<String,Object> extraParams) throws Exception {
-        return new MarginInterestHistory(new JSONObject(getCrossMarginTransferHistory(extraParams)));
+        return new MarginInterestHistory(new JSONObject(getInterestHistory(extraParams)));
     }
 
     public String getInterestHistory(String asset) throws Exception {
@@ -543,11 +543,11 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     public JSONObject getJSONInterestHistory(String asset) throws Exception {
-        return new JSONObject(getCrossMarginTransferHistory(asset));
+        return new JSONObject(getInterestHistory(asset));
     }
 
     public MarginInterestHistory getObjectInterestHistory(String asset) throws Exception {
-        return new MarginInterestHistory(new JSONObject(getCrossMarginTransferHistory(asset)));
+        return new MarginInterestHistory(new JSONObject(getInterestHistory(asset)));
     }
 
     public String getInterestHistory(String asset,HashMap<String,Object> extraParams) throws Exception {
@@ -557,15 +557,37 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     public JSONObject getJSONInterestHistory(String asset,HashMap<String,Object> extraParams) throws Exception {
-        return new JSONObject(getCrossMarginTransferHistory(asset,extraParams));
+        return new JSONObject(getInterestHistory(asset,extraParams));
     }
 
     public MarginInterestHistory getObjectInterestHistory(String asset,HashMap<String,Object> extraParams)
             throws Exception {
-        return new MarginInterestHistory(new JSONObject(getCrossMarginTransferHistory(asset,extraParams)));
+        return new MarginInterestHistory(new JSONObject(getInterestHistory(asset,extraParams)));
     }
 
-    
+    public String getMarginForceLiquidation() throws Exception {
+        return sendSignedRequest(MARGIN_FORCE_LIQUIDATION_ENDPOINT,getParamTimestamp(),GET_METHOD);
+    }
 
+    public JSONObject getJSONMarginForceLiquidation() throws Exception {
+        return new JSONObject(getMarginForceLiquidation());
+    }
+
+    public MarginTransferHistory getObjectMarginForceLiquidation() throws Exception {
+        return new MarginTransferHistory(new JSONObject(getMarginForceLiquidation()));
+    }
+
+    public String getMarginForceLiquidation(HashMap<String,Object> extraParams) throws Exception {
+        return sendSignedRequest(MARGIN_FORCE_LIQUIDATION_ENDPOINT,
+                requestManager.assembleExtraParams(getParamTimestamp(),extraParams),GET_METHOD);
+    }
+
+    public JSONObject getJSONMarginForceLiquidation(HashMap<String,Object> extraParams) throws Exception {
+        return new JSONObject(getMarginForceLiquidation(extraParams));
+    }
+
+    public MarginTransferHistory getObjectMarginForceLiquidation(HashMap<String,Object> extraParams) throws Exception {
+        return new MarginTransferHistory(new JSONObject(getMarginForceLiquidation(extraParams)));
+    }
 }
 
