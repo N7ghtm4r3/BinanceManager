@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.MarginList;
+package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginList;
 
 public class MarginAssetList {
 

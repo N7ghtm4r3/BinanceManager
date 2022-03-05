@@ -23,7 +23,7 @@ import java.util.HashMap;
 
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.*;
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Constants.TradeConstants.*;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.TradeConstants.*;
 
 /**
  *  The {@code BinanceSpotManager} class is useful to manage all Binance Spot Endpoints

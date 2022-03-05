@@ -60,9 +60,9 @@ public class EndpointsList {
     public static final String SPOT_ACCOUNT_CURRENT_ORDER_COUNT_USAGE = "/api/v3/rateLimit/order";
 
     /**Margin manager endpoint urls**/
-    public static final String CROSS_MARGIN_ACCOUNT_TRANSFER_ENDPOINT = "/sapi/v1/margin/transfer";
-    public static final String MARGIN_ACCOUNT_BORROW_ENDPOINT = "/sapi/v1/margin/loan";
-    public static final String MARGIN_ACCOUNT_REPAY_ENDPOINT = "/sapi/v1/margin/repay";
+    public static final String CROSS_MARGIN_TRANSFERS_ENDPOINT = "/sapi/v1/margin/transfer";
+    public static final String MARGIN_LOAN_ENDPOINT = "/sapi/v1/margin/loan";
+    public static final String MARGIN_REPAY_ENDPOINT = "/sapi/v1/margin/repay";
     public static final String QUERY_MARGIN_ASSET_ENDPOINT = "/sapi/v1/margin/asset";
     public static final String QUERY_ALL_MARGIN_ASSETS_ENDPOINT = "/sapi/v1/margin/allAssets";
     public static final String QUERY_CROSS_MARGIN_PAIR_ENDPOINT = "/sapi/v1/margin/pair";
@@ -70,7 +70,7 @@ public class EndpointsList {
     public static final String MARGIN_PRICE_INDEX_ENDPOINT = "/sapi/v1/margin/priceIndex";
     public static final String MARGIN_ORDER_ENDPOINT = "/sapi/v1/margin/order";
     public static final String MARGIN_ALL_ORDERS_ENDPOINT = "/sapi/v1/margin/openOrders";
-    public static final String CROSS_MARGIN_TRANSFERS_HISTORY_ENDPOINT = "/sapi/v1/margin/transfer";
-    public static final String MARGIN_QUERY_LOAN_RECORD_ENDPOINT = "/sapi/v1/margin/loan";
+    public static final String MARGIN_INTERST_HISTORY_ENDPOINT = "/sapi/v1/margin/interestHistory";
+    public static final String MARGIN_FORCE_LIQUIDATION_ENDPOINT = "/sapi/v1/margin/forceLiquidationRec";
 
 }
