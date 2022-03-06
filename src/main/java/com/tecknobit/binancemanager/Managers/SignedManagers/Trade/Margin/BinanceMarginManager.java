@@ -494,7 +494,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param #extraParams: extraParams of the request
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-order-trade
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade
      * return result of the order as AckOrder (next to cast in base at type used)
      * @implNote if type LIMIT or MARKET will be must cast in {@link FullMarginOrder} object
      * @implNote with other types will be an {@link ACKMarginOrder} object
