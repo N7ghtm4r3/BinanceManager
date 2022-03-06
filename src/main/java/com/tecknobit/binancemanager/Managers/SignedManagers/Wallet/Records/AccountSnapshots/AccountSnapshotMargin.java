@@ -55,7 +55,7 @@ public class AccountSnapshotMargin extends AccountSnapshot{
                           totalLiabilityOfBtc,
                           totalNetAssetOfBtc,
                           updateTime,
-                          getUserAssetsList(dataRow.getJSONArray("userAssets"))
+                          assembleUserMarginAssetsList(dataRow.getJSONArray("userAssets"))
                   ));
             }
         }
@@ -67,18 +67,10 @@ public class AccountSnapshotMargin extends AccountSnapshot{
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
      * return userAssetMargin list as ArrayList<UserAssetMargin>
      * **/
-    private ArrayList<UserAssetMargin> getUserAssetsList(JSONArray jsonArray) {
+    public static ArrayList<UserAssetMargin> assembleUserMarginAssetsList(JSONArray jsonArray) {
         ArrayList<UserAssetMargin> userAssetMargins = new ArrayList<>();
-        for (int j=0; j < jsonArray.length(); j++){
-            JSONObject userAsset = jsonArray.getJSONObject(j);
-            userAssetMargins.add(new UserAssetMargin(userAsset.getString("asset"),
-                    userAsset.getDouble("borrowed"),
-                    userAsset.getDouble("free"),
-                    userAsset.getDouble("interest"),
-                    userAsset.getDouble("locked"),
-                    userAsset.getDouble("netAsset")
-            ));
-        }
+        for (int j=0; j < jsonArray.length(); j++)
+            userAssetMargins.add(UserAssetMargin.assembleUserMarginAsset(jsonArray.getJSONObject(j)));
         return userAssetMargins;
     }
 
@@ -130,8 +122,12 @@ public class AccountSnapshotMargin extends AccountSnapshot{
             return updateTime;
         }
 
-        public ArrayList<UserAssetMargin> getUserAssetMargins() {
+        public ArrayList<UserAssetMargin> getUserAssetMarginsList() {
             return userAssetMargins;
+        }
+
+        public UserAssetMargin getUserAssetMargin(int index) {
+            return userAssetMargins.get(index);
         }
 
     }
@@ -157,6 +153,16 @@ public class AccountSnapshotMargin extends AccountSnapshot{
             this.interest = interest;
             this.locked = locked;
             this.netAsset = netAsset;
+        }
+
+        public static UserAssetMargin assembleUserMarginAsset(JSONObject userAsset){
+            return new UserAssetMargin(userAsset.getString("asset"),
+                    userAsset.getDouble("borrowed"),
+                    userAsset.getDouble("free"),
+                    userAsset.getDouble("interest"),
+                    userAsset.getDouble("locked"),
+                    userAsset.getDouble("netAsset")
+            );
         }
 
         public String getAsset() {

@@ -95,7 +95,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String sendNewOrder(String symbol, String side, String type, HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type;
-        return sendSignedRequest(ORDER_ENDPOINT,requestManager.assembleExtraParams(params,extraParams),POST_METHOD);
+        return sendSignedRequest(SPOT_ORDER_ENDPOINT,requestManager.assembleExtraParams(params,extraParams),POST_METHOD);
     }
 
     /** Request to send a spot order
@@ -146,7 +146,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     public String sendNewOrder(String symbol, String side, String type, String newOrderRespType,
                                HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type+"&newOrderRespType="+newOrderRespType;
-        return sendSignedRequest(ORDER_ENDPOINT,requestManager.assembleExtraParams(params,extraParams),POST_METHOD);
+        return sendSignedRequest(SPOT_ORDER_ENDPOINT,requestManager.assembleExtraParams(params,extraParams),POST_METHOD);
     }
 
     /** Request to send a spot order
@@ -248,7 +248,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String cancelOrder(String symbol, long orderId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderId="+orderId;
-        return sendSignedRequest(ORDER_ENDPOINT,params,DELETE_METHOD);
+        return sendSignedRequest(SPOT_ORDER_ENDPOINT,params,DELETE_METHOD);
     }
 
     /** Request to cancel an SpotOrder
@@ -279,7 +279,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String cancelOrder(String symbol, String origClientOrderId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId ;
-        return sendSignedRequest(ORDER_ENDPOINT,params,DELETE_METHOD);
+        return sendSignedRequest(SPOT_ORDER_ENDPOINT,params,DELETE_METHOD);
     }
 
     /** Request to cancel an SpotOrder
@@ -313,7 +313,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     public String cancelOrder(String symbol, long orderId, HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderId="+orderId;
         params = requestManager.assembleExtraParams(params, extraParams);
-        return sendSignedRequest(ORDER_ENDPOINT, params, DELETE_METHOD);
+        return sendSignedRequest(SPOT_ORDER_ENDPOINT, params, DELETE_METHOD);
     }
 
     /** Request to cancel an SpotOrder
@@ -351,7 +351,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     public String cancelOrder(String symbol, String origClientOrderId, HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId ="+origClientOrderId;
         params = requestManager.assembleExtraParams(params, extraParams);
-        return sendSignedRequest(ORDER_ENDPOINT, params, DELETE_METHOD);
+        return sendSignedRequest(SPOT_ORDER_ENDPOINT, params, DELETE_METHOD);
     }
 
     /** Request to cancel an SpotOrder
@@ -385,7 +385,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String cancelAllOpenOrders(String symbol) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
-        return sendSignedRequest(OPEN_ORDERS_ENDPOINT,params,DELETE_METHOD);
+        return sendSignedRequest(SPOT_OPEN_ORDERS_ENDPOINT,params,DELETE_METHOD);
     }
 
     /** Request to cancel all open orders on a symbol
@@ -414,7 +414,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String cancelAllOpenOrders(String symbol, long recvWindow) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&recvWindow="+recvWindow;
-        return sendSignedRequest(OPEN_ORDERS_ENDPOINT,params,DELETE_METHOD);
+        return sendSignedRequest(SPOT_OPEN_ORDERS_ENDPOINT,params,DELETE_METHOD);
     }
 
     /** Request to cancel all open orders on a symbol
@@ -464,7 +464,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String getOrderStatus(String symbol, long orderId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderId="+orderId;
-        return sendSignedRequest(ORDER_ENDPOINT,params,GET_METHOD);
+        return sendSignedRequest(SPOT_ORDER_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get status of an order
@@ -495,7 +495,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String getOrderStatus(String symbol, String origClientOrderId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId ;
-        return sendSignedRequest(ORDER_ENDPOINT,params,GET_METHOD);
+        return sendSignedRequest(SPOT_ORDER_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get status of an order
@@ -527,7 +527,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String getOrderStatus(String symbol, long orderId, long recvWindow) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderId="+orderId+"&recvWindow="+recvWindow;
-        return sendSignedRequest(ORDER_ENDPOINT,params,GET_METHOD);
+        return sendSignedRequest(SPOT_ORDER_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get status of an order
@@ -561,7 +561,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String getOrderStatus(String symbol, String origClientOrderId, long recvWindow) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId+"&recvWindow="+recvWindow;
-        return sendSignedRequest(ORDER_ENDPOINT,params,GET_METHOD);
+        return sendSignedRequest(SPOT_ORDER_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get status of an order
@@ -592,7 +592,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * return current open orders list as String
      * **/
     public String getCurrentOpenOrders() throws Exception {
-        return sendSignedRequest(OPEN_ORDERS_ENDPOINT,getParamTimestamp(),GET_METHOD);
+        return sendSignedRequest(SPOT_OPEN_ORDERS_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
     /** Request to get current open orders list
@@ -601,7 +601,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * return current open orders list as JsonArray
      * **/
     public JSONArray getJSONCurrentOpenOrders() throws Exception {
-        return new JSONArray(sendSignedRequest(OPEN_ORDERS_ENDPOINT,getParamTimestamp(),GET_METHOD));
+        return new JSONArray(sendSignedRequest(SPOT_OPEN_ORDERS_ENDPOINT,getParamTimestamp(),GET_METHOD));
     }
 
     /** Request to get current open orders list
@@ -610,7 +610,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * return current open orders list as ArrayList<OrderStatus>
      * **/
     public ArrayList<SpotOrderStatus> getCurrentOpenOrdersList() throws Exception {
-        return assembleOrderStatusList(new JSONArray(sendSignedRequest(OPEN_ORDERS_ENDPOINT,getParamTimestamp(),GET_METHOD)));
+        return assembleOrderStatusList(new JSONArray(sendSignedRequest(SPOT_OPEN_ORDERS_ENDPOINT,getParamTimestamp(),GET_METHOD)));
     }
 
     /** Request to get current open orders list
@@ -622,7 +622,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     public String getCurrentOpenOrders(HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp();
         params = requestManager.assembleExtraParams(params,extraParams);
-        return sendSignedRequest(OPEN_ORDERS_ENDPOINT,params,GET_METHOD);
+        return sendSignedRequest(SPOT_OPEN_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get current open orders list

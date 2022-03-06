@@ -48,8 +48,8 @@ public class EndpointsList {
 
     /**Spot manager endpoint urls**/
     public static final String TEST_NEW_ORDER_ENDPOINT = "/api/v3/order/test";
-    public static final String ORDER_ENDPOINT = "/api/v3/order";
-    public static final String OPEN_ORDERS_ENDPOINT = "/api/v3/openOrders";
+    public static final String SPOT_ORDER_ENDPOINT = "/api/v3/order";
+    public static final String SPOT_OPEN_ORDERS_ENDPOINT = "/api/v3/openOrders";
     public static final String ALL_ORDERS_LIST_ENDPOINT = "/api/v3/allOrders";
     public static final String OCO_ORDER_ENDPOINT = "/api/v3/order/oco";
     public static final String OCO_ORDER_LIST_ENDPOINT = "/api/v3/orderList";
@@ -69,8 +69,10 @@ public class EndpointsList {
     public static final String QUERY_ALL_CROSS_MARGIN_PAIRS_ENDPOINT = "/sapi/v1/margin/allPairs";
     public static final String MARGIN_PRICE_INDEX_ENDPOINT = "/sapi/v1/margin/priceIndex";
     public static final String MARGIN_ORDER_ENDPOINT = "/sapi/v1/margin/order";
-    public static final String MARGIN_ALL_ORDERS_ENDPOINT = "/sapi/v1/margin/openOrders";
+    public static final String MARGIN_OPEN_ORDERS_ENDPOINT = "/sapi/v1/margin/openOrders";
     public static final String MARGIN_INTERST_HISTORY_ENDPOINT = "/sapi/v1/margin/interestHistory";
     public static final String MARGIN_FORCE_LIQUIDATION_ENDPOINT = "/sapi/v1/margin/forceLiquidationRec";
+    public static final String CROSS_MARGIN_ACCOUNT_DETAILS_ENDPOINT = "/sapi/v1/margin/account";
+    public static final String MARGIN_ALL_ORDERS_ENDPOINT = "/sapi/v1/margin/allOrders";
 
 }

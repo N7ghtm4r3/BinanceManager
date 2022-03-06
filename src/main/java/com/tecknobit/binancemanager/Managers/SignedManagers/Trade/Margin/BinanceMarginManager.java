@@ -2,6 +2,7 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin;
 
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.CrossMarginAccountDetails;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginList.*;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties.MarginAsset;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties.MarginPair;
@@ -11,6 +12,7 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Cancel.OpenMarginOrders;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.ACKMarginOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.FullMarginOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.MarginOrderStatus;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.ResultMarginOrder;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -685,7 +687,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String cancelAllMarginOrders(String symbol) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
-        return sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT,params,DELETE_METHOD);
+        return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT,params,DELETE_METHOD);
     }
 
     /** Request to get cancel all a margin orders
@@ -716,7 +718,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     public String cancelAllMarginOrders(String symbol, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
         params = requestManager.assembleExtraParams(params,extraParams);
-        return sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT,params,DELETE_METHOD);
+        return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT,params,DELETE_METHOD);
     }
 
     /** Request to get cancel all a margin orders
@@ -1195,5 +1197,176 @@ public class BinanceMarginManager extends BinanceSignedManager {
     public MarginForceLiquidation getObjectMarginForceLiquidation(HashMap<String,Object> extraParams) throws Exception {
         return new MarginForceLiquidation(new JSONObject(getMarginForceLiquidation(extraParams)));
     }
+
+    public String getCrossMarginAccountDetails() throws Exception {
+        return sendSignedRequest(CROSS_MARGIN_ACCOUNT_DETAILS_ENDPOINT,getParamTimestamp(),GET_METHOD);
+    }
+
+    public JSONObject getJSONCrossMarginAccountDetails() throws Exception {
+        return new JSONObject(getCrossMarginAccountDetails());
+    }
+
+    public CrossMarginAccountDetails getObjectCrossMarginAccountDetails() throws Exception {
+        return assembleCrossMarginAccountDetails(new JSONObject(getCrossMarginAccountDetails()));
+    }
+
+    public String getCrossMarginAccountDetails(long recvWindow) throws Exception {
+        String params = getParamTimestamp()+"&recvWindow="+recvWindow;
+        return sendSignedRequest(CROSS_MARGIN_ACCOUNT_DETAILS_ENDPOINT,getParamTimestamp(),GET_METHOD);
+    }
+
+    public JSONObject getJSONCrossMarginAccountDetails(long recvWindow) throws Exception {
+        return new JSONObject(getCrossMarginAccountDetails(recvWindow));
+    }
+
+    public CrossMarginAccountDetails getObjectCrossMarginAccountDetails(long recvWindow) throws Exception {
+        return assembleCrossMarginAccountDetails(new JSONObject(getCrossMarginAccountDetails(recvWindow)));
+    }
+
+    private CrossMarginAccountDetails assembleCrossMarginAccountDetails(JSONObject jsonObject){
+        return new CrossMarginAccountDetails(jsonObject.getBoolean("borrowEnabled"),
+                jsonObject.getDouble("marginLevel"),
+                jsonObject.getDouble("totalAssetOfBtc"),
+                jsonObject.getDouble("totalLiabilityOfBtc"),
+                jsonObject.getDouble("totalNetAssetOfBtc"),
+                jsonObject.getBoolean("tradeEnabled"),
+                jsonObject.getBoolean("transferEnabled"),
+                jsonObject.getJSONArray("userAssets")
+        );
+    }
+
+    public String getMarginOrderStatus(String symbol) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol;
+        return sendSignedRequest(MARGIN_ORDER_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONMarginOrderStatus(String symbol) throws Exception {
+        return new JSONObject(getMarginOrderStatus(symbol));
+    }
+
+    public MarginOrderStatus getObjectMarginOrderStatus(String symbol) throws Exception {
+        return assembleMarginOrderStatus(new JSONObject(getMarginOrderStatus(symbol)));
+    }
+
+    public String getMarginOrderStatus(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendSignedRequest(MARGIN_ORDER_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONMarginOrderStatus(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(getMarginOrderStatus(symbol,extraParams));
+    }
+
+    public MarginOrderStatus getObjectMarginOrderStatus(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        return assembleMarginOrderStatus(new JSONObject(getMarginOrderStatus(symbol,extraParams)));
+    }
+
+    public String getAllMarginOpenOrders() throws Exception {
+        return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT,getParamTimestamp(),GET_METHOD);
+    }
+
+    public JSONArray getJSONAllMarginOpenOrders() throws Exception {
+        return new JSONArray(getAllMarginOpenOrders());
+    }
+
+    public ArrayList<MarginOrderStatus> getAllMarginOpenOrdersList() throws Exception {
+        return assembleMarginOrdersList(new JSONArray(getAllMarginOpenOrders()));
+    }
+
+    public String getAllMarginOpenOrders(String symbol) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&isIsolated=true";
+        return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONAllMarginOpenOrders(String symbol) throws Exception {
+        return new JSONArray(getAllMarginOpenOrders(symbol));
+    }
+
+    public ArrayList<MarginOrderStatus> getAllMarginOpenOrdersList(String symbol) throws Exception {
+        return assembleMarginOrdersList(new JSONArray(getAllMarginOpenOrders(symbol)));
+    }
+
+    public String getAllMarginOpenOrders(HashMap<String, Object> extraParams) throws Exception {
+        String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
+        return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONAllMarginOpenOrders(HashMap<String, Object> extraParams) throws Exception {
+        return new JSONArray(getAllMarginOpenOrders(extraParams));
+    }
+
+    public ArrayList<MarginOrderStatus> getAllMarginOpenOrdersList(HashMap<String, Object> extraParams) throws Exception {
+        return assembleMarginOrdersList(new JSONArray(getAllMarginOpenOrders(extraParams)));
+    }
+
+    public String getAllMarginOpenOrders(String symbol, long recvWindow) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&isIsolated=true"+"&recvWindow";
+        return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONAllMarginOpenOrders(String symbol, long recvWindow) throws Exception {
+        return new JSONArray(getAllMarginOpenOrders(symbol, recvWindow));
+    }
+
+    public ArrayList<MarginOrderStatus> getAllMarginOpenOrdersList(String symbol, long recvWindow) throws Exception {
+        return assembleMarginOrdersList(new JSONArray(getAllMarginOpenOrders(symbol, recvWindow)));
+    }
+
+    public String getAllMarginOrders(String symbol) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol;
+        return sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONAllMarginOrders(String symbol) throws Exception {
+        return new JSONArray(getAllMarginOrders(symbol));
+    }
+
+    public ArrayList<MarginOrderStatus> getAllMarginOrdersList(String symbol) throws Exception {
+        return assembleMarginOrdersList(new JSONArray(getAllMarginOrders(symbol)));
+    }
+
+    public String getAllMarginOrders(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONAllMarginOrders(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONArray(getAllMarginOrders(symbol, extraParams));
+    }
+
+    public ArrayList<MarginOrderStatus> getAllMarginOrdersList(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        return assembleMarginOrdersList(new JSONArray(getAllMarginOrders(symbol, extraParams)));
+    }
+
+    private ArrayList<MarginOrderStatus> assembleMarginOrdersList(JSONArray jsonArray) {
+        ArrayList<MarginOrderStatus> marginOrderStatus = new ArrayList<>();
+        for (int j=0; j < jsonArray.length(); j++)
+            marginOrderStatus.add(assembleMarginOrderStatus(jsonArray.getJSONObject(j)));
+        return marginOrderStatus;
+    }
+
+    private MarginOrderStatus assembleMarginOrderStatus(JSONObject jsonObject){
+        return new MarginOrderStatus(jsonObject.getString("symbol"),
+                jsonObject.getLong("orderId"),
+                jsonObject.getString("clientOrderId"),
+                jsonObject.getLong("updateTime"),
+                jsonObject.getBoolean("isIsolated"),
+                jsonObject.getDouble("price"),
+                jsonObject.getDouble("origQty"),
+                jsonObject.getDouble("executedQty"),
+                jsonObject.getDouble("cummulativeQuoteQty"),
+                jsonObject.getString("status"),
+                jsonObject.getString("timeInForce"),
+                jsonObject.getString("type"),
+                jsonObject.getString("side"),
+                jsonObject.getDouble("icebergQty"),
+                jsonObject.getBoolean("isWorking"),
+                jsonObject.getDouble("stopPrice"),
+                jsonObject.getLong("time")
+        );
+    }
+
 }
 
