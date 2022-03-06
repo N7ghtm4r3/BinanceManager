@@ -55,112 +55,281 @@ public class BinanceMarginManager extends BinanceSignedManager {
         super(null, apiKey, secretKey);
     }
 
+    /** Request to execute a transfer
+     * @param #asset: asset used in the request es. BTC
+     * @param #amount: the amount to be transferred
+     * @param #type: {@link #MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT} or {@link #CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT}
+     * it defines type of transfer
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cross-margin-account-transfer-margin
+     * return result transfer as String
+     * **/
     public String executeCrossMarginAccountTransfer(String asset, double amount, int type) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset+"&amount="+asset+"&type="+type;
         return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT,params,POST_METHOD);
     }
 
+    /** Request to execute a transfer
+     * @param #asset: asset used in the request es. BTC
+     * @param #amount: the amount to be transferred
+     * @param #type: {@link #MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT} or {@link #CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT}
+     * it defines type of transfer
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cross-margin-account-transfer-margin
+     * return result transfer as JsonObject
+     * **/
     public JSONObject executeJSONCrossMarginAccountTransfer(String asset, double amount, int type) throws Exception {
         return new JSONObject(executeCrossMarginAccountTransfer(asset, amount, type));
     }
 
-    public double getExecuteCrossMarginAccountTransfer(String asset, double amount, int type) throws Exception {
+    /** Request to execute a transfer
+     * @param #asset: asset used in the request es. BTC
+     * @param #amount: the amount to be transferred
+     * @param #type: {@link #MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT} or {@link #CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT}
+     * it defines type of transfer
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cross-margin-account-transfer-margin
+     * return result transfer's tranId as long
+     * **/
+    public long getExecuteCrossMarginAccountTransfer(String asset, double amount, int type) throws Exception {
         return getTransactionId(executeCrossMarginAccountTransfer(asset,amount,type));
     }
 
+    /** Request to execute a transfer
+     * @param #asset: asset used in the request es. BTC
+     * @param #amount: the amount to be transferred
+     * @param #type: {@link #MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT} or {@link #CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT}
+     * it defines type of transfer
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cross-margin-account-transfer-margin
+     * return result transfer as String
+     * **/
     public String executeCrossMarginAccountTransfer(String asset, double amount, int type, long recvWindow) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset+"&amount="+asset+"&type="+type+"&recvWindow="+recvWindow;
         return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT,params,POST_METHOD);
     }
 
+    /** Request to execute a transfer
+     * @param #asset: asset used in the request es. BTC
+     * @param #amount: the amount to be transferred
+     * @param #type: {@link #MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT} or {@link #CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT}
+     * it defines type of transfer
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cross-margin-account-transfer-margin
+     * return result transfer as JsonObject
+     * **/
     public JSONObject executeJSONCrossMarginAccountTransfer(String asset, double amount, int type, long recvWindow) throws Exception {
         return new JSONObject(executeCrossMarginAccountTransfer(asset, amount, type, recvWindow));
     }
 
-    public double getExecuteCrossMarginAccountTransfer(String asset, double amount, int type, long recvWindow) throws Exception {
+    /** Request to execute a transfer
+     * @param #asset: asset used in the request es. BTC
+     * @param #amount: the amount to be transferred
+     * @param #type: {@link #MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT} or {@link #CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT}
+     * it defines type of transfer
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cross-margin-account-transfer-margin
+     * return result transfer's tranId as long
+     * **/
+    public long getExecuteCrossMarginAccountTransfer(String asset, double amount, int type, long recvWindow) throws Exception {
         return getTransactionId(executeCrossMarginAccountTransfer(asset, amount, type, recvWindow));
     }
 
+    /** Request to execute a margin account borrow
+     * @param #asset: asset used in the request es. BTC
+     * @param #amount: the amount borrowed
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin
+     * return result of margin account borrow request as String
+     * **/
     public String applyMarginAccountBorrow(String asset, double amount) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset+"&amount="+amount;
         return sendSignedRequest(MARGIN_LOAN_ENDPOINT,params,POST_METHOD);
     }
 
+    /** Request to execute a margin account borrow
+     * @param #asset: asset used in the request es. BTC
+     * @param #amount: the amount borrowed
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin
+     * return result of account borrow request as JsonObject
+     * **/
     public JSONObject applyJSONMarginAccountBorrow(String asset, double amount) throws Exception {
         return new JSONObject(applyMarginAccountBorrow(asset, amount));
     }
 
-    public double getApplyMarginAccountBorrow(String asset, double amount) throws Exception {
+    /** Request to execute a margin account borrow
+     * @param #asset: asset used in the request es. BTC
+     * @param #amount: the amount borrowed
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin
+     * return result account borrow's tranId as long
+     * **/
+    public long getApplyMarginAccountBorrow(String asset, double amount) throws Exception {
         return getTransactionId(applyMarginAccountBorrow(asset, amount));
     }
 
+    /** Request to execute a margin account borrow
+     * @param #asset: asset used in the request es. BTC
+     * @param #amount: the amount borrowed
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,symbol,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin
+     * return result of margin account borrow request as String
+     * **/
     public String applyMarginAccountBorrow(String asset, double amount, HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset+"&amount="+amount;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(MARGIN_LOAN_ENDPOINT,params,POST_METHOD);
     }
 
+    /** Request to execute a margin account borrow
+     * @param #asset: asset used in the request es. BTC
+     * @param #amount: the amount borrowed
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,symbol,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin
+     * return result of margin account borrow request as JsonObject
+     * **/
     public JSONObject applyJSONMarginAccountBorrow(String asset, double amount, HashMap<String,Object> extraParams) throws Exception {
         return new JSONObject(applyMarginAccountBorrow(asset, amount, extraParams));
     }
 
-    public double getApplyMarginAccountBorrow(String asset, double amount, HashMap<String,Object> extraParams) throws Exception {
+    /** Request to execute a margin account borrow
+     * @param #asset: asset used in the request es. BTC
+     * @param #amount: the amount borrowed
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,symbol,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin
+     * return result account borrow's tranId as long
+     * **/
+    public long getApplyMarginAccountBorrow(String asset, double amount, HashMap<String,Object> extraParams) throws Exception {
         return getTransactionId(applyMarginAccountBorrow(asset, amount, extraParams));
     }
 
-    public String repeayMarginAccountLoan(String asset, double amount) throws Exception {
+    /** Request to execute an repay margin account request
+     * @param #asset: asset used in the request es. BTC
+     * @param #amount: the amount repaied
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin
+     * return result of repay margin account request as String
+     * **/
+    public String repeayMarginAccount(String asset, double amount) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset+"&amount="+amount;
         return sendSignedRequest(MARGIN_REPAY_ENDPOINT,params,POST_METHOD);
     }
 
-    public JSONObject repeayJSONMarginAccountLoan(String asset, double amount) throws Exception {
-        return new JSONObject(repeayMarginAccountLoan(asset, amount));
+    /** Request to execute an repay margin account request
+     * @param #asset: asset used in the request es. BTC
+     * @param #amount: the amount repaied
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin
+     * return result of repay margin account request as JsonObject
+     * **/
+    public JSONObject repeayJSONMarginAccount(String asset, double amount) throws Exception {
+        return new JSONObject(repeayMarginAccount(asset, amount));
     }
 
-    public double getRepeayMarginAccountLoan(String asset, double amount) throws Exception {
-        return getTransactionId(repeayMarginAccountLoan(asset, amount));
+    /** Request to execute an repay margin account request
+     * @param #asset: asset used in the request es. BTC
+     * @param #amount: the amount repaied
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin
+     * return result margin repeay's tranId as long
+     * **/
+    public long getRepeayMarginAccount(String asset, double amount) throws Exception {
+        return getTransactionId(repeayMarginAccount(asset, amount));
     }
 
-    public String repeayMarginAccountLoan(String asset, double amount, HashMap<String, Object> extraParams) throws Exception {
+    /** Request to execute an repay margin account request
+     * @param #asset: asset used in the request es. BTC
+     * @param #amount: the amount repaied
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,symbol,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin
+     * return result of repay margin account request as String
+     * **/
+    public String repeayMarginAccount(String asset, double amount, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset+"&amount="+amount;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(MARGIN_REPAY_ENDPOINT,params,POST_METHOD);
     }
 
-    public JSONObject repeayJSONMarginAccountLoan(String asset, double amount, HashMap<String, Object> extraParams) throws Exception {
-        return new JSONObject(repeayMarginAccountLoan(asset, amount, extraParams));
+    /** Request to execute an repay margin account request
+     * @param #asset: asset used in the request es. BTC
+     * @param #amount: the amount repaied
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,symbol,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin
+     * return result of repay margin account request as JsonObject
+     * **/
+    public JSONObject repeayJSONMarginAccount(String asset, double amount, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(repeayMarginAccount(asset, amount, extraParams));
     }
 
-    public double getRepeayMarginAccountLoan(String asset, double amount, HashMap<String, Object> extraParams) throws Exception {
-        return getTransactionId(repeayMarginAccountLoan(asset, amount, extraParams));
+    /** Request to execute an repay margin account request
+     * @param #asset: asset used in the request es. BTC
+     * @param #amount: the amount repaied
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,symbol,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin
+     * return result margin repeay's tranId as long
+     * **/
+    public long getRepeayMarginAccount(String asset, double amount, HashMap<String, Object> extraParams) throws Exception {
+        return getTransactionId(repeayMarginAccount(asset, amount, extraParams));
     }
 
-    private double getTransactionId(String stringSource){
+    /** Method to get tranId value
+     * @param #stringSource: obtained from Binance's request
+     * return tranId value as long
+     * **/
+    private long getTransactionId(String stringSource){
         jsonObject = new JSONObject(stringSource);
-        return jsonObject.getDouble("tranId");
+        return jsonObject.getLong("tranId");
     }
 
+    /** Request to get margin asset details
+     * @param #asset: asset used in the request es. BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-asset-market_data
+     * return detail's asset as String
+     * **/
     public String queryMarginAsset(String asset) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
         return sendSignedRequest(QUERY_MARGIN_ASSET_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get margin asset details
+     * @param #asset: asset used in the request es. BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-asset-market_data
+     * return detail's asset as JsonObject
+     * **/
     public JSONObject queryJSONMarginAsset(String asset) throws Exception {
         return new JSONObject(queryMarginAsset(asset));
     }
 
+    /** Request to get margin asset details
+     * @param #asset: asset used in the request es. BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-asset-market_data
+     * return detail's asset as {@link MarginAsset} object
+     * **/
     public MarginAsset queryObjectMarginAsset(String asset) throws Exception {
         return assembleMarginAssetObject(new JSONObject(queryMarginAsset(asset)));
     }
 
+    /** Request to get all margin asset details
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-all-margin-assets-market_data
+     * return all asset details as String
+     * **/
     public String queryAllMarginAssets() throws Exception {
         return sendSignedRequest(QUERY_ALL_MARGIN_ASSETS_ENDPOINT,"",GET_METHOD);
     }
 
+    /** Request to get all margin asset details
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-all-margin-assets-market_data
+     * return all asset details as JsonArray
+     * **/
     public JSONArray queryJSONAllMarginAssets() throws Exception {
         return new JSONArray(queryAllMarginAssets());
     }
 
+    /** Request to get margin asset details
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-all-margin-assets-market_data
+     * return detail's asset as ArrayList<{@link MarginAsset}>
+     * **/
     public ArrayList<MarginAsset> queryAllMarginAssetsList() throws Exception {
         ArrayList<MarginAsset> marginAssets = new ArrayList<>();
         jsonArray = new JSONArray(queryAllMarginAssets());
@@ -169,6 +338,10 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return marginAssets;
     }
 
+    /** Method to assemble an MarginAsset object
+     * @param #jsonObject: obtained from Binance's request
+     * return a MarginAsset object
+     * **/
     private MarginAsset assembleMarginAssetObject(JSONObject jsonObject){
         return new MarginAsset(jsonObject.getString("assetFullName"),
                 jsonObject.getString("assetName"),
@@ -179,27 +352,57 @@ public class BinanceMarginManager extends BinanceSignedManager {
         );
     }
 
+    /** Request to get cross margin pair details
+     * @param #asset: asset used in the request es. BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-pair-market_data
+     * return cross margin pair as String
+     * **/
     public String queryCrossMarginPair(String asset) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
         return sendSignedRequest(QUERY_CROSS_MARGIN_PAIR_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get cross margin pair details
+     * @param #asset: asset used in the request es. BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-pair-market_data
+     * return cross margin pair as JsonObject
+     * **/
     public JSONObject queryJSONCrossMarginPair(String asset) throws Exception {
         return new JSONObject(queryCrossMarginPair(asset));
     }
 
+    /** Request to get cross margin pair details
+     * @param #asset: asset used in the request es. BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-pair-market_data
+     * return cross margin pair as {@link MarginPair} object
+     * **/
     public MarginPair queryObjectCrossMarginPair(String asset) throws Exception {
         return assembleMarginPairObject(new JSONObject(queryCrossMarginPair(asset)));
     }
 
+    /** Request to get all cross margin pair details
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-all-cross-margin-pairs-market_data
+     * return all cross margin pair as String
+     * **/
     public String queryAllMarginPairs() throws Exception {
         return sendSignedRequest(QUERY_ALL_CROSS_MARGIN_PAIRS_ENDPOINT,"",GET_METHOD);
     }
 
+    /** Request to get all cross margin pair details
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-all-cross-margin-pairs-market_data
+     * return all cross margin pair as JsonArray
+     * **/
     public JSONArray queryJSONAllMarginPairs() throws Exception {
         return new JSONArray(queryAllMarginPairs());
     }
 
+    /** Request to get all cross margin pair details
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-all-cross-margin-pairs-market_data
+     * return all cross margin pair as ArrayList<{@link MarginPair}>
+     * **/
     public ArrayList<MarginPair> queryAllMarginPairsList() throws Exception {
         ArrayList<MarginPair> marginAssets = new ArrayList<>();
         jsonArray = new JSONArray(queryAllMarginPairs());
@@ -208,6 +411,10 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return marginAssets;
     }
 
+    /** Method to assemble an MarginPair object
+     * @param #jsonObject: obtained from Binance's request
+     * return a MarginPair object
+     * **/
     private MarginPair assembleMarginPairObject(JSONObject jsonObject){
         return new MarginPair(jsonObject.getLong("id"),
                 jsonObject.getString("symbol"),
@@ -219,14 +426,29 @@ public class BinanceMarginManager extends BinanceSignedManager {
         );
     }
 
+    /** Request to get priceIndex of a symbol
+     * @param #symbol: symbol used to get price index
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-priceindex-market_data
+     * return priceIndex of a symbol as String
+     * **/
     public String getMarginPriceIndex(String symbol) throws Exception {
         return sendSignedRequest(MARGIN_PRICE_INDEX_ENDPOINT,"?symbol="+symbol,GET_METHOD);
     }
 
+    /** Request to get priceIndex of a symbol
+     * @param #symbol: symbol used to get price index
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-priceindex-market_data
+     * return priceIndex of a symbol as JsonObject
+     * **/
     public JSONObject getJSONMarginPriceIndex(String symbol) throws Exception {
         return new JSONObject(getMarginPriceIndex(symbol));
     }
 
+    /** Request to get priceIndex of a symbol
+     * @param #symbol: symbol used to get price index
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-priceindex-market_data
+     * return priceIndex of a symbol as {@link MarginPriceIndex} object
+     * **/
     public MarginPriceIndex getObjectMarginPriceIndex(String symbol) throws Exception {
         jsonObject = new JSONObject(getMarginPriceIndex(symbol));
         return new MarginPriceIndex(jsonObject.getLong("calcTime"),
