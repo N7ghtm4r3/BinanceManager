@@ -457,16 +457,48 @@ public class BinanceMarginManager extends BinanceSignedManager {
         );
     }
 
+    /** Request to send a new margin order
+     * @param #symbol: symbol used to the order es. BTCBUSD
+     * @param #side: BUY or SELL order
+     * @param #type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
+     * @param #extraParams: extraParams of the request
+     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
+     * newOrderRespType,sideEffectType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade
+     * return result of the order as String
+     * **/
     public String sendNewMarginOrder(String symbol, String side, String type, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(MARGIN_ORDER_ENDPOINT,params,POST_METHOD);
     }
 
+    /** Request to send a new margin order
+     * @param #symbol: symbol used to the order es. BTCBUSD
+     * @param #side: BUY or SELL order
+     * @param #type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
+     * @param #extraParams: extraParams of the request
+     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
+     * newOrderRespType,sideEffectType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade
+     * return result of the order as JsonObject
+     * **/
     public JSONObject sendJSONNewMarginOrder(String symbol, String side, String type, HashMap<String, Object> extraParams) throws Exception {
         return new JSONObject(sendNewMarginOrder(symbol, side, type, extraParams));
     }
 
+    /** Request to send a spot order
+     * @param #symbol: symbol used in the request es. BTCBUSD
+     * @param #side: BUY or SELL order
+     * @param #type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
+     * @param #extraParams: extraParams of the request
+     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
+     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-order-trade
+     * return result of the order as AckOrder (next to cast in base at type used)
+     * @implNote if type LIMIT or MARKET will be must cast in {@link FullMarginOrder} object
+     * @implNote with other types will be an {@link ACKMarginOrder} object
+     * **/
     public ACKMarginOrder sendObjectNewMarginOrder(String symbol, String side, String type,
                                                    HashMap<String, Object> extraParams) throws Exception {
         jsonObject = new JSONObject(sendJSONNewMarginOrder(symbol, side, type, extraParams));
