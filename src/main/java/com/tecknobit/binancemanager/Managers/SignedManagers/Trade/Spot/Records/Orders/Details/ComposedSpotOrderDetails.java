@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel;
+package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Details;
 
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.OrderDetails;
 import org.json.JSONArray;
@@ -14,30 +14,30 @@ import java.util.ArrayList;
 
 public class ComposedSpotOrderDetails extends OrderDetails {
 
-    private ArrayList<CancelSpotOrder> cancelSpotOrders;
+    private ArrayList<DetailSpotOrder> orderReports;
 
     public ComposedSpotOrderDetails(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
                                     String listClientOrderId, long transactionTime, String symbol, JSONObject jsonObject) {
         super(orderListId, contingencyType, listStatusType, listOrderStatus, listClientOrderId, transactionTime, symbol, jsonObject);
-        loadCancelOrders(jsonObject.getJSONArray("orderReports"));
+        loadOrderReports(jsonObject.getJSONArray("orderReports"));
     }
 
-    /** Method to load CancelSpotOrder list
+    /** Method to load DetailSpotOrder list
      * @param #list: obtained from Binance's request
-     * return an ArrayList<CancelSpotOrder> with response data
+     * return an ArrayList<DetailSpotOrder> with response data
      * **/
-    private void loadCancelOrders(JSONArray list){
-        cancelSpotOrders = new ArrayList<>();
+    private void loadOrderReports(JSONArray list){
+        orderReports = new ArrayList<>();
         for (int j=0; j < list.length(); j++)
-            cancelSpotOrders.add(CancelSpotOrder.assembleCancelOrderObject(list.getJSONObject(j)));
+            orderReports.add(DetailSpotOrder.assembleDetailSpotOrderObject(list.getJSONObject(j)));
     }
 
-    public ArrayList<CancelSpotOrder> getCancelSpotOrders() {
-        return cancelSpotOrders;
+    public ArrayList<DetailSpotOrder> getOrderReports() {
+        return orderReports;
     }
 
-    public CancelSpotOrder getCancelOrder(int index){
-        return cancelSpotOrders.get(index);
+    public DetailSpotOrder getOrderReport(int index){
+        return orderReports.get(index);
     }
 
 }

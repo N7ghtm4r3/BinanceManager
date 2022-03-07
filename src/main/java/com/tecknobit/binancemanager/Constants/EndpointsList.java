@@ -47,14 +47,14 @@ public class EndpointsList {
     public static final String BOOK_TICKER_ENDPOINT = "/api/v3/ticker/bookTicker";
 
     /**Spot manager endpoint urls**/
-    public static final String TEST_NEW_ORDER_ENDPOINT = "/api/v3/order/test";
+    public static final String SPOT_TEST_NEW_ORDER_ENDPOINT = "/api/v3/order/test";
     public static final String SPOT_ORDER_ENDPOINT = "/api/v3/order";
     public static final String SPOT_OPEN_ORDERS_ENDPOINT = "/api/v3/openOrders";
-    public static final String ALL_ORDERS_LIST_ENDPOINT = "/api/v3/allOrders";
-    public static final String OCO_ORDER_ENDPOINT = "/api/v3/order/oco";
-    public static final String OCO_ORDER_LIST_ENDPOINT = "/api/v3/orderList";
-    public static final String OCO_ORDER_LIST_STATUS_ENDPOINT = "/api/v3/allOrderList";
-    public static final String OCO_OPEN_ORDER_LIST_ENDPOINT = "/api/v3/openOrderList";
+    public static final String SPOT_ALL_ORDERS_LIST_ENDPOINT = "/api/v3/allOrders";
+    public static final String SPOT_OCO_ORDER_ENDPOINT = "/api/v3/order/oco";
+    public static final String SPOT_OCO_ORDER_LIST_ENDPOINT = "/api/v3/orderList";
+    public static final String SPOT_OCO_ORDER_LIST_STATUS_ENDPOINT = "/api/v3/allOrderList";
+    public static final String SPOT_OCO_OPEN_ORDER_LIST_ENDPOINT = "/api/v3/openOrderList";
     public static final String SPOT_ACCOUNT_INFORMATION_ENDPOINT = "/api/v3/account";
     public static final String SPOT_ACCOUNT_TRADE_LIST_ENDPOINT = "/api/v3/myTrades";
     public static final String SPOT_ACCOUNT_CURRENT_ORDER_COUNT_USAGE = "/api/v3/rateLimit/order";
@@ -74,5 +74,6 @@ public class EndpointsList {
     public static final String MARGIN_FORCE_LIQUIDATION_ENDPOINT = "/sapi/v1/margin/forceLiquidationRec";
     public static final String CROSS_MARGIN_ACCOUNT_DETAILS_ENDPOINT = "/sapi/v1/margin/account";
     public static final String MARGIN_ALL_ORDERS_ENDPOINT = "/sapi/v1/margin/allOrders";
+    public static final String MARGIN_OCO_ORDER_ENDPOINT = "/sapi/v1/margin/order/oco";
 
 }

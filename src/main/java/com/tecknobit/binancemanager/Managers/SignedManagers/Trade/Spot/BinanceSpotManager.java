@@ -6,9 +6,9 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.OrderDe
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account.OrderCountUsage;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account.SpotAccountInformation;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account.SpotAccountTradeList;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.CancelSpotOrder;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.ComposedSpotOrderDetails;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Cancel.OpenSpotOrders;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Details.DetailSpotOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Details.ComposedSpotOrderDetails;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Details.OpenSpotOrders;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ACKSpotOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.FullSpotOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ResultSpotOrder;
@@ -63,7 +63,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String testNewOrder(String symbol, String side, String type,HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type;
-        return sendSignedRequest(TEST_NEW_ORDER_ENDPOINT,requestManager.assembleExtraParams(params,extraParams),POST_METHOD);
+        return sendSignedRequest(SPOT_TEST_NEW_ORDER_ENDPOINT,requestManager.assembleExtraParams(params,extraParams),POST_METHOD);
     }
 
     /** Request to test a spot order
@@ -80,7 +80,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     public String testNewOrder(String symbol, String side, String type, String newOrderRespType,
                                HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type+"&newOrderRespType="+newOrderRespType;
-        return sendSignedRequest(TEST_NEW_ORDER_ENDPOINT,requestManager.assembleExtraParams(params,extraParams),POST_METHOD);
+        return sendSignedRequest(SPOT_TEST_NEW_ORDER_ENDPOINT,requestManager.assembleExtraParams(params,extraParams),POST_METHOD);
     }
 
     /** Request to send a spot order
@@ -244,7 +244,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #orderId: identifier of the order es. 1232065
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelSpotOrder operation as String
+     * return result of DetailSpotOrder operation as String
      * **/
     public String cancelOrder(String symbol, long orderId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderId="+orderId;
@@ -255,7 +255,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #orderId: identifier of the order es. 1232065
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelSpotOrder operation as JsonObject
+     * return result of DetailSpotOrder operation as JsonObject
      * **/
     public JSONObject cancelOrderJSON(String symbol, long orderId) throws Exception {
        return new JSONObject(cancelOrder(symbol, orderId));
@@ -265,17 +265,17 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #orderId: identifier of the order es. 1232065
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelSpotOrder operation as {@link CancelSpotOrder} object
+     * return result of DetailSpotOrder operation as {@link DetailSpotOrder} object
      * **/
-    public CancelSpotOrder cancelOrderObject(String symbol, long orderId) throws Exception {
-        return CancelSpotOrder.assembleCancelOrderObject(new JSONObject(cancelOrderJSON(symbol, orderId)));
+    public DetailSpotOrder cancelOrderObject(String symbol, long orderId) throws Exception {
+        return DetailSpotOrder.assembleDetailSpotOrderObject(new JSONObject(cancelOrderJSON(symbol, orderId)));
     }
 
     /** Request to cancel an SpotOrder
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #origClientOrderId: identifier of the client order es. myOrder1
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelSpotOrder operation as String
+     * return result of DetailSpotOrder operation as String
      * **/
     public String cancelOrder(String symbol, String origClientOrderId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId ;
@@ -286,7 +286,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #origClientOrderId: identifier of the client order es. myOrder1
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelSpotOrder operation as JsonObject
+     * return result of DetailSpotOrder operation as JsonObject
      * **/
     public JSONObject cancelOrderJSON(String symbol, String origClientOrderId) throws Exception {
         return new JSONObject(cancelOrder(symbol, origClientOrderId));
@@ -296,10 +296,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used in the request es. BTCBUSD
      * @param #origClientOrderId: identifier of the client order es. myOrder1
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelSpotOrder operation as {@link CancelSpotOrder} object
+     * return result of DetailSpotOrder operation as {@link DetailSpotOrder} object
      * **/
-    public CancelSpotOrder cancelOrderObject(String symbol, String origClientOrderId) throws Exception {
-        return CancelSpotOrder.assembleCancelOrderObject( new JSONObject(cancelOrderJSON(symbol, origClientOrderId)));
+    public DetailSpotOrder cancelOrderObject(String symbol, String origClientOrderId) throws Exception {
+        return DetailSpotOrder.assembleDetailSpotOrderObject( new JSONObject(cancelOrderJSON(symbol, origClientOrderId)));
     }
 
     /** Request to cancel an SpotOrder
@@ -308,7 +308,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelSpotOrder operation as String
+     * return result of DetailSpotOrder operation as String
      * **/
     public String cancelOrder(String symbol, long orderId, HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderId="+orderId;
@@ -322,7 +322,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelSpotOrder operation as JsonObject
+     * return result of DetailSpotOrder operation as JsonObject
      * **/
     public JSONObject cancelOrderJSON(String symbol, long orderId, HashMap<String,Object> extraParams) throws Exception {
         return new JSONObject(cancelOrder(symbol, orderId, extraParams));
@@ -334,10 +334,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelSpotOrder operation as {@link CancelSpotOrder} object
+     * return result of DetailSpotOrder operation as {@link DetailSpotOrder} object
      * **/
-    public CancelSpotOrder cancelOrderObject(String symbol, long orderId, HashMap<String,Object> extraParams) throws Exception {
-        return CancelSpotOrder.assembleCancelOrderObject(new JSONObject(cancelOrderJSON(symbol, orderId, extraParams)));
+    public DetailSpotOrder cancelOrderObject(String symbol, long orderId, HashMap<String,Object> extraParams) throws Exception {
+        return DetailSpotOrder.assembleDetailSpotOrderObject(new JSONObject(cancelOrderJSON(symbol, orderId, extraParams)));
     }
 
     /** Request to cancel an SpotOrder
@@ -346,7 +346,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelSpotOrder operation as String
+     * return result of DetailSpotOrder operation as String
      * **/
     public String cancelOrder(String symbol, String origClientOrderId, HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId ="+origClientOrderId;
@@ -360,7 +360,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelSpotOrder operation as JsonObject
+     * return result of DetailSpotOrder operation as JsonObject
      * **/
     public JSONObject cancelOrderJSON(String symbol, String origClientOrderId, HashMap<String,Object> extraParams) throws Exception {
         return new JSONObject(cancelOrder(symbol, origClientOrderId, extraParams));
@@ -372,10 +372,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
-     * return result of CancelSpotOrder operation as {@link CancelSpotOrder} object
+     * return result of DetailSpotOrder operation as {@link DetailSpotOrder} object
      * **/
-    public CancelSpotOrder cancelOrderObject(String symbol, String origClientOrderId, HashMap<String,Object> extraParams) throws Exception {
-        return CancelSpotOrder.assembleCancelOrderObject(new JSONObject(cancelOrderJSON(symbol, origClientOrderId, extraParams)));
+    public DetailSpotOrder cancelOrderObject(String symbol, String origClientOrderId, HashMap<String,Object> extraParams) throws Exception {
+        return DetailSpotOrder.assembleDetailSpotOrderObject(new JSONObject(cancelOrderJSON(symbol, origClientOrderId, extraParams)));
     }
 
     /** Request to cancel all open orders on a symbol
@@ -443,14 +443,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     private OpenSpotOrders cancelAllOpenOrdersObject(JSONArray jsonArray){
         ArrayList<ComposedSpotOrderDetails> cancelOrderComposeds = new ArrayList<>();
-        ArrayList<CancelSpotOrder> cancelOrders = new ArrayList<>();
+        ArrayList<DetailSpotOrder> cancelOrders = new ArrayList<>();
         for (int j = 0; j < jsonArray.length(); j++){
             JSONObject order = jsonArray.getJSONObject(j);
             try {
                 String contingencyType = order.getString("contingencyType");
                 cancelOrderComposeds.add(assembleComposedOrderDetails(order));
             }catch (JSONException e){
-                cancelOrders.add(CancelSpotOrder.assembleCancelOrderObject(order));
+                cancelOrders.add(DetailSpotOrder.assembleDetailSpotOrderObject(order));
             }
         }
         return new OpenSpotOrders(cancelOrders,cancelOrderComposeds);
@@ -652,7 +652,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String getAllOrdersList(String symbol) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
-        return sendSignedRequest(ALL_ORDERS_LIST_ENDPOINT,params,GET_METHOD);
+        return sendSignedRequest(SPOT_ALL_ORDERS_LIST_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get all orders list
@@ -682,7 +682,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     public String getAllOrdersList(String symbol,HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
         params = requestManager.assembleExtraParams(params,extraParams);
-        return sendSignedRequest(ALL_ORDERS_LIST_ENDPOINT,params,GET_METHOD);
+        return sendSignedRequest(SPOT_ALL_ORDERS_LIST_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get all orders list
@@ -752,7 +752,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String sendNewOcoOrder(String symbol, String side, double price, double stopPrice) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&price="+price+"&stopPrice="+stopPrice;
-        return sendSignedRequest(OCO_ORDER_ENDPOINT,params,POST_METHOD);
+        return sendSignedRequest(SPOT_OCO_ORDER_ENDPOINT,params,POST_METHOD);
     }
 
     /** Request to send new oco order
@@ -793,7 +793,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
                                   String stopLimitTimeInForce) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&price="+price+"&stopPrice="+stopPrice
                 +"&stopLimitPrice="+stopLimitPrice+"&stopLimitTimeInForce="+stopLimitTimeInForce;
-        return sendSignedRequest(OCO_ORDER_ENDPOINT,params,POST_METHOD);
+        return sendSignedRequest(SPOT_OCO_ORDER_ENDPOINT,params,POST_METHOD);
     }
 
     /** Request to send new oco order
@@ -842,7 +842,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
                                   HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&price="+price+"&stopPrice="+stopPrice;
         params = requestManager.assembleExtraParams(params,extraParams);
-        return sendSignedRequest(OCO_ORDER_ENDPOINT,params,POST_METHOD);
+        return sendSignedRequest(SPOT_OCO_ORDER_ENDPOINT,params,POST_METHOD);
     }
 
     /** Request to send new oco order
@@ -895,7 +895,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&price="+price+"&stopPrice="+stopPrice
                 +"&stopLimitPrice="+stopLimitPrice+"&stopLimitTimeInForce="+stopLimitTimeInForce;
         params = requestManager.assembleExtraParams(params,extraParams);
-        return sendSignedRequest(OCO_ORDER_ENDPOINT,params,POST_METHOD);
+        return sendSignedRequest(SPOT_OCO_ORDER_ENDPOINT,params,POST_METHOD);
     }
 
     /** Request to send new oco order
@@ -944,7 +944,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String cancelAllOcoOrders(String symbol, long orderListId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId;
-        return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,DELETE_METHOD);
+        return sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,params,DELETE_METHOD);
     }
 
     /** Request to cancel all OcoOrders
@@ -975,7 +975,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String cancelAllOcoOrders(String symbol, String listClientOrderId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&listClientOrderId="+listClientOrderId;
-        return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,DELETE_METHOD);
+        return sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,params,DELETE_METHOD);
     }
 
     /** Request to cancel all OcoOrders
@@ -1009,7 +1009,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     public String cancelAllOcoOrders(String symbol, long orderListId, HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId;
         params = requestManager.assembleExtraParams(params,extraParams);
-        return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,DELETE_METHOD);
+        return sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,params,DELETE_METHOD);
     }
 
     /** Request to cancel all OcoOrders
@@ -1048,7 +1048,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     public String cancelAllOcoOrders(String symbol, String listClientOrderId,  HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&listClientOrderId="+listClientOrderId;
         params = requestManager.assembleExtraParams(params,extraParams);
-        return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,DELETE_METHOD);
+        return sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,params,DELETE_METHOD);
     }
 
     /** Request to cancel all OcoOrders
@@ -1100,7 +1100,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String getOcoOrderStatus(String symbol, long orderListId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId;
-        return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
+        return sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get OCO order status
@@ -1132,7 +1132,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String getOcoOrderStatus(String symbol, long orderListId, long recvWindow) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId+"&recvWindow="+recvWindow;
-        return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
+        return sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get OCO order status
@@ -1165,7 +1165,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String getOcoOrderStatus(String symbol, String listClientOrderId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&listClientOrderId="+listClientOrderId;
-        return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
+        return sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get OCO order status
@@ -1197,7 +1197,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String getOcoOrderStatus(String symbol, String listClientOrderId, long recvWindow) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&listClientOrderId="+listClientOrderId+"&recvWindow="+recvWindow;
-        return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
+        return sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get OCO order status
@@ -1228,7 +1228,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * return OCO order status list response as String
      * **/
     public String getOcoOrderStatusList() throws Exception {
-        return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,getParamTimestamp(),GET_METHOD);
+        return sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
     /** Request to get OCO order status list
@@ -1258,7 +1258,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String getOcoOrderStatusList(long fromId, String timeParam, long timeParamValue) throws Exception {
         String params = getParamTimestamp()+"&fromId="+fromId+"&"+timeParam+"="+timeParamValue;
-        return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
+        return sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get OCO order status list
@@ -1291,7 +1291,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String getOcoOrderStatusList(HashMap<String, Object> extraParams) throws Exception {
         String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
-        return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
+        return sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get OCO order status list
@@ -1327,7 +1327,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
                                         HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&fromId="+fromId+"&"+timeParam+"="+timeParamValue;
         params = requestManager.assembleExtraParams(params,extraParams);
-        return sendSignedRequest(OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
+        return sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get OCO order status list
@@ -1364,7 +1364,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * return open OCO order list response as String
      * **/
     public String getOpenOcoOrderList() throws Exception {
-        return sendSignedRequest(OCO_OPEN_ORDER_LIST_ENDPOINT,getParamTimestamp(),GET_METHOD);
+        return sendSignedRequest(SPOT_OCO_OPEN_ORDER_LIST_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
     /** Request to get open OCO order list
@@ -1392,7 +1392,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String getOpenOcoOrderList(long recvWindow) throws Exception {
         String params = getParamTimestamp()+"&recvWindow="+recvWindow;
-        return sendSignedRequest(OCO_OPEN_ORDER_LIST_ENDPOINT,params,GET_METHOD);
+        return sendSignedRequest(SPOT_OCO_OPEN_ORDER_LIST_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get open OCO order list

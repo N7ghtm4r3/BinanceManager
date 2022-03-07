@@ -7,9 +7,10 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties.MarginAsset;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties.MarginPair;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties.MarginPriceIndex;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Cancel.CancelMarginOrder;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Cancel.ComposedMarginOrderDetails;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Cancel.OpenMarginOrders;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.DetailMarginOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.ComposedMarginOrderDetails;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.OCOMarginOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.OpenMarginOrders;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.ACKMarginOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.FullMarginOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.MarginOrderStatus;
@@ -24,6 +25,8 @@ import java.util.HashMap;
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.TradeConstants.*;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.ComposedMarginOrderDetails.*;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.OCOMarginOrder.assembleOCOMarginOrder;
 
 /**
  *  The {@code BinanceMarginManager} class is useful to manage all Binance Margin Endpoints
@@ -639,10 +642,10 @@ public class BinanceMarginManager extends BinanceSignedManager {
     /** Request to get cancel a margin order
      * @param #symbol: symbol used in the order es. BTCBUSD
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade
-     * return cancel a margin order response as {@link CancelMarginOrder} object
+     * return cancel a margin order response as {@link DetailMarginOrder} object
      * **/
-    public CancelMarginOrder cancelObjectMarginOrder(String symbol) throws Exception {
-        return CancelMarginOrder.assembleCancelMarginOrderObject(new JSONObject(cancelMarginOrder(symbol)));
+    public DetailMarginOrder cancelObjectMarginOrder(String symbol) throws Exception {
+        return DetailMarginOrder.assembleDetailMarginOrderObject(new JSONObject(cancelMarginOrder(symbol)));
     }
 
     /** Request to get cancel a margin order
@@ -674,10 +677,10 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted are isIsolated,orderId,origClientOrderId,newClientOrderId,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade
-     * return cancel a margin order response as {@link CancelMarginOrder} object
+     * return cancel a margin order response as {@link DetailMarginOrder} object
      * **/
-    public CancelMarginOrder cancelObjectMarginOrder(String symbol, HashMap<String, Object> extraParams) throws Exception {
-        return CancelMarginOrder.assembleCancelMarginOrderObject(new JSONObject(cancelMarginOrder(symbol,extraParams)));
+    public DetailMarginOrder cancelObjectMarginOrder(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        return DetailMarginOrder.assembleDetailMarginOrderObject(new JSONObject(cancelMarginOrder(symbol,extraParams)));
     }
 
     /** Request to get cancel all a margin orders
@@ -748,26 +751,16 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * return a {@link OpenMarginOrders} list as ArrayList
      * **/
     private OpenMarginOrders assembleOpenMarginOrdersObject(JSONArray jsonArray){
-        ArrayList<CancelMarginOrder> cancelMarginOrders = new ArrayList<>();
+        ArrayList<DetailMarginOrder> detailMarginOrders = new ArrayList<>();
         ArrayList<ComposedMarginOrderDetails> composedMarginOrderDetails = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
             JSONObject openMarginOrder = jsonArray.getJSONObject(j);
-            if(!openMarginOrder.getString("contingencyType").isEmpty()) {
-                composedMarginOrderDetails.add(new ComposedMarginOrderDetails(openMarginOrder.getLong("orderListId"),
-                        openMarginOrder.getString("contingencyType"),
-                        openMarginOrder.getString("listStatusType"),
-                        openMarginOrder.getString("listOrderStatus"),
-                        openMarginOrder.getString("listClientOrderId"),
-                        openMarginOrder.getLong("transactionTime"),
-                        openMarginOrder.getString("symbol"),
-                        openMarginOrder.getBoolean("isIsolated"),
-                        openMarginOrder
-                ));
-            }else
-                CancelMarginOrder.assembleCancelMarginOrderObject(openMarginOrder);
-
+            if(!openMarginOrder.getString("contingencyType").isEmpty())
+                composedMarginOrderDetails.add(assembleComposedMarginOrderDetails(openMarginOrder));
+            else
+                detailMarginOrders.add(DetailMarginOrder.assembleDetailMarginOrderObject(openMarginOrder));
         }
-        return new OpenMarginOrders(cancelMarginOrders,composedMarginOrderDetails);
+        return new OpenMarginOrders(detailMarginOrders,composedMarginOrderDetails);
     }
 
     /** Request to get cross margin transfer history
@@ -1367,6 +1360,86 @@ public class BinanceMarginManager extends BinanceSignedManager {
                 jsonObject.getLong("time")
         );
     }
+
+    public String sendNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&quantity="+quantity+"&price="+price+
+                "&stopPrice="+stopPrice;
+        return sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT,params,POST_METHOD);
+    }
+
+    public JSONObject sendJSONNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice) throws Exception {
+        return new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice));
+    }
+
+    public OCOMarginOrder sendObjectNewOCOMarginOrder(String symbol, String side, double quantity, double price,
+                                                                  double stopPrice) throws Exception {
+        return assembleOCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice)));
+    }
+
+    public String sendNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice,
+                                        HashMap<String, Object> extraParams ) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&quantity="+quantity+"&price="+price+
+                "&stopPrice="+stopPrice;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT,params,POST_METHOD);
+    }
+
+    public JSONObject sendJSONNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice,
+                                                HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice, extraParams));
+    }
+
+    public OCOMarginOrder sendObjectNewOCOMarginOrder(String symbol, String side, double quantity, double price,
+                                                      double stopPrice, HashMap<String, Object> extraParams) throws Exception {
+        return assembleOCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice,extraParams)));
+    }
+
+    public String sendNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice,
+                                        double stopLimitPrice, String stopLimitTimeInForce) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&quantity="+quantity+"&price="+price+
+                "&stopPrice="+stopPrice+"&stopLimitPrice="+stopLimitPrice+"&stopLimitTimeInForce="+stopLimitTimeInForce;
+        return sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT,params,POST_METHOD);
+    }
+
+    public JSONObject sendJSONNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice,
+                                                double stopLimitPrice, String stopLimitTimeInForce) throws Exception {
+        return new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice, stopLimitPrice, stopLimitTimeInForce));
+    }
+
+    public OCOMarginOrder sendObjectNewOCOMarginOrder(String symbol, String side, double quantity, double price,
+                                                                  double stopPrice, double stopLimitPrice,
+                                                                  String stopLimitTimeInForce) throws Exception {
+        return assembleOCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice,
+                stopLimitPrice, stopLimitTimeInForce)));
+    }
+
+    public String sendNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice,
+                                        double stopLimitPrice, String stopLimitTimeInForce,
+                                        HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&quantity="+quantity+"&price="+price+
+                "&stopPrice="+stopPrice+"&stopLimitPrice="+stopLimitPrice+"&stopLimitTimeInForce="+stopLimitTimeInForce;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT,params,POST_METHOD);
+    }
+
+    public JSONObject sendJSONNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice,
+                                                double stopLimitPrice, String stopLimitTimeInForce,
+                                                HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice, stopLimitPrice,
+                stopLimitTimeInForce, extraParams));
+    }
+
+    public OCOMarginOrder sendObjectNewOCOMarginOrder(String symbol, String side, double quantity, double price,
+                                                      double stopPrice, double stopLimitPrice,
+                                                      String stopLimitTimeInForce, HashMap<String, Object> extraParams) throws Exception {
+        return assembleOCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice,
+                stopLimitPrice, stopLimitTimeInForce, extraParams)));
+    }
+
+    public String cancelOCOMarginOrder(){
+        return null;
+    }
+
 
 }
 

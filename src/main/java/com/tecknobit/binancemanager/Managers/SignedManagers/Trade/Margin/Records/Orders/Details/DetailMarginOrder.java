@@ -1,16 +1,16 @@
-package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Cancel;
+package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details;
 
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.Order;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- *  The {@code CancelMarginOrder} class is useful to format Binance Margin Account Cancel Order request
+ *  The {@code DetailMarginOrder} class is useful to format Binance Margin Account Cancel Order request
  *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
-public class CancelMarginOrder extends Order {
+public class DetailMarginOrder extends Order {
 
     private final boolean isIsolated;
     private final String origClientOrderId;
@@ -24,7 +24,7 @@ public class CancelMarginOrder extends Order {
     private final String side;
     private final JSONObject jsonObject;
 
-    public CancelMarginOrder(String symbol, double orderId, String clientOrderId, boolean isIsolated, String origClientOrderId, double price,
+    public DetailMarginOrder(String symbol, double orderId, String clientOrderId, boolean isIsolated, String origClientOrderId, double price,
                              double origQty, double executedQty, double cummulativeQuoteQty, String status, String timeInForce,
                              String type, String side, JSONObject jsonObject) {
         super(symbol, orderId, clientOrderId);
@@ -97,9 +97,9 @@ public class CancelMarginOrder extends Order {
         return getDoubleValue("icebergQty");
     }
 
-    /** Method to assemble a CancelSpotOrder object
+    /** Method to assemble a DetailSpotOrder object
      * @param #key: field to fetch a double value in {@link #jsonObject}
-     * return an CancelSpotOrder object with response data
+     * return an DetailSpotOrder object with response data
      * **/
     private double getDoubleValue(String key){
         try {
@@ -109,12 +109,12 @@ public class CancelMarginOrder extends Order {
         }
     }
 
-    /** Method to assemble a CancelMarginOrder
+    /** Method to assemble a DetailMarginOrder
      * @param #cancelMarginOrder: obtained from Binance's request
-     * retrun CancelMarginOrder object
+     * retrun DetailMarginOrder object
      * **/
-    public static CancelMarginOrder assembleCancelMarginOrderObject(JSONObject cancelMarginOrder){
-        return new CancelMarginOrder(cancelMarginOrder.getString("symbol"),
+    public static DetailMarginOrder assembleDetailMarginOrderObject(JSONObject cancelMarginOrder){
+        return new DetailMarginOrder(cancelMarginOrder.getString("symbol"),
                 cancelMarginOrder.getLong("orderId"),
                 cancelMarginOrder.getString("clientOrderId"),
                 cancelMarginOrder.getBoolean("isIsolated"),

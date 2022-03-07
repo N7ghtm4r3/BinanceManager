@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Cancel;
+package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details;
 
 import java.util.ArrayList;
 
@@ -10,21 +10,21 @@ import java.util.ArrayList;
 
 public class OpenMarginOrders {
 
-    private final ArrayList<CancelMarginOrder> cancelMarginOrders;
+    private final ArrayList<DetailMarginOrder> detailMarginOrders;
     private final ArrayList<ComposedMarginOrderDetails> composedMarginOrderDetails;
 
-    public OpenMarginOrders(ArrayList<CancelMarginOrder> cancelMarginOrders,
+    public OpenMarginOrders(ArrayList<DetailMarginOrder> detailMarginOrders,
                             ArrayList<ComposedMarginOrderDetails> composedMarginOrderDetails) {
-        this.cancelMarginOrders = cancelMarginOrders;
+        this.detailMarginOrders = detailMarginOrders;
         this.composedMarginOrderDetails = composedMarginOrderDetails;
     }
 
-    public ArrayList<CancelMarginOrder> getCancelMarginOrdersList() {
-        return cancelMarginOrders;
+    public ArrayList<DetailMarginOrder> getCancelMarginOrdersList() {
+        return detailMarginOrders;
     }
 
-    public CancelMarginOrder getCancelMarginOrder(int index){
-        return cancelMarginOrders.get(index);
+    public DetailMarginOrder getCancelMarginOrder(int index){
+        return detailMarginOrders.get(index);
     }
 
     public ArrayList<ComposedMarginOrderDetails> getComposedMarginOrderDetails() {
