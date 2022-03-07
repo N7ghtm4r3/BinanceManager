@@ -75,6 +75,8 @@ public class EndpointsList {
     public static final String CROSS_MARGIN_ACCOUNT_DETAILS_ENDPOINT = "/sapi/v1/margin/account";
     public static final String MARGIN_ALL_ORDERS_ENDPOINT = "/sapi/v1/margin/allOrders";
     public static final String MARGIN_OCO_ORDER_ENDPOINT = "/sapi/v1/margin/order/oco";
-    public static final String MARGIN_OCO_ALL_ORDERS_ENDPOINT = "/sapi/v1/margin/orderList";
+    public static final String MARGIN_OCO_ORDERS_ENDPOINT = "/sapi/v1/margin/orderList";
+    public static final String MARGIN_OCO_ALL_ORDERS_ENDPOINT = "/sapi/v1/margin/allOrderList";
+    public static final String MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT = "/sapi/v1/margin/openOrderList";
 
 }
