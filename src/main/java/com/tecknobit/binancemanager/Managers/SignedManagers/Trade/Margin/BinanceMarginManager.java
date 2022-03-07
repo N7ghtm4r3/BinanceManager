@@ -7,10 +7,7 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties.MarginAsset;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties.MarginPair;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties.MarginPriceIndex;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.DetailMarginOrder;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.ComposedMarginOrderDetails;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.OCOMarginOrder;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.OpenMarginOrders;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.*;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.ACKMarginOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.FullMarginOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.MarginOrderStatus;
@@ -1438,7 +1435,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
 
     public String cancelOCOMarginOrder(String symbol, long orderListId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId;
-        return sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT,params,DELETE_METHOD);
+        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,DELETE_METHOD);
     }
 
     public JSONObject cancelJSONOCOMarginOrder(String symbol, long orderListId) throws Exception {
@@ -1451,7 +1448,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
 
     public String cancelOCOMarginOrder(String symbol, String listClientOrderId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&listClientOrderId="+listClientOrderId;
-        return sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT,params,DELETE_METHOD);
+        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,DELETE_METHOD);
     }
 
     public JSONObject cancelJSONOCOMarginOrder(String symbol, String listClientOrderId) throws Exception {
@@ -1465,7 +1462,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     public String cancelOCOMarginOrder(String symbol, long orderListId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId;
         params = requestManager.assembleExtraParams(params,extraParams);
-        return sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT,params,DELETE_METHOD);
+        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,DELETE_METHOD);
     }
 
     public JSONObject cancelJSONOCOMarginOrder(String symbol, long orderListId, HashMap<String, Object> extraParams) throws Exception {
@@ -1480,7 +1477,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     public String cancelOCOMarginOrder(String symbol, String listClientOrderId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&listClientOrderId="+listClientOrderId;
         params = requestManager.assembleExtraParams(params,extraParams);
-        return sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT,params,DELETE_METHOD);
+        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,DELETE_METHOD);
     }
 
     public JSONObject cancelJSONOCOMarginOrder(String symbol, String listClientOrderId, HashMap<String, Object> extraParams) throws Exception {
@@ -1492,6 +1489,129 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return assembleComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, listClientOrderId, extraParams)));
     }
 
+    public String getOCOMarginOrderStatus(String symbol, long orderListId) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId+"&isIsolated="+true;
+        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONOCOMarginOrderStatus(String symbol, long orderListId) throws Exception {
+       return new JSONObject(getOCOMarginOrderStatus(symbol, orderListId));
+    }
+
+    public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String symbol, long orderListId) throws Exception {
+        return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, orderListId)));
+    }
+
+    public String getOCOMarginOrderStatus(String symbol, String origClientOrderId) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId +"&isIsolated="+true;
+        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONOCOMarginOrderStatus(String symbol, String origClientOrderId) throws Exception {
+        return new JSONObject(getOCOMarginOrderStatus(symbol, origClientOrderId));
+    }
+
+    public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String symbol, String origClientOrderId) throws Exception {
+        return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, origClientOrderId)));
+    }
+
+    public String getOCOMarginOrderStatus(long orderListId) throws Exception {
+        String params = getParamTimestamp()+"&orderListId="+orderListId;
+        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONOCOMarginOrderStatus(long orderListId) throws Exception {
+        return new JSONObject(getOCOMarginOrderStatus(orderListId));
+    }
+
+    public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(long orderListId) throws Exception {
+        return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(orderListId)));
+    }
+
+    public String getOCOMarginOrderStatus(String origClientOrderId) throws Exception {
+        String params = getParamTimestamp()+"&origClientOrderId="+origClientOrderId;
+        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONOCOMarginOrderStatus(String origClientOrderId) throws Exception {
+        return new JSONObject(getOCOMarginOrderStatus(origClientOrderId));
+    }
+
+    public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String origClientOrderId) throws Exception {
+        return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(origClientOrderId)));
+    }
+
+    public String getOCOMarginOrderStatus(String symbol, long orderListId, HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId+"&isIsolated="+true;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONOCOMarginOrderStatus(String symbol, long orderListId, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(getOCOMarginOrderStatus(symbol, orderListId, extraParams));
+    }
+
+    public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String symbol, long orderListId,
+                                                                  HashMap<String, Object> extraParams) throws Exception {
+        return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, orderListId, extraParams)));
+    }
+
+    public String getOCOMarginOrderStatus(String symbol, String origClientOrderId,HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId +"&isIsolated="+true;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONOCOMarginOrderStatus(String symbol, String origClientOrderId, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(getOCOMarginOrderStatus(symbol, origClientOrderId, extraParams));
+    }
+
+    public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String symbol, String origClientOrderId,
+                                                                  HashMap<String, Object> extraParams) throws Exception {
+        return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, origClientOrderId, extraParams)));
+    }
+
+    public String getOCOMarginOrderStatus(long orderListId, HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&orderListId="+orderListId;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONOCOMarginOrderStatus(long orderListId, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(getOCOMarginOrderStatus(orderListId, extraParams));
+    }
+
+    public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(long orderListId, HashMap<String, Object> extraParams) throws Exception {
+        return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(orderListId, extraParams)));
+    }
+
+    public String getOCOMarginOrderStatus(String origClientOrderId, HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&origClientOrderId="+origClientOrderId;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONOCOMarginOrderStatus(String origClientOrderId, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(getOCOMarginOrderStatus(origClientOrderId, extraParams));
+    }
+
+    public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String origClientOrderId,
+                                                                  HashMap<String, Object> extraParams) throws Exception {
+        return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(origClientOrderId, extraParams)));
+    }
+
+    private MarginOrderStatusDetails assembleMarginOrderStatusDetails(JSONObject marginOrder){
+        return new MarginOrderStatusDetails(marginOrder.getLong("orderListId"),
+                marginOrder.getString("contingencyType"),
+                marginOrder.getString("listStatusType"),
+                marginOrder.getString("listOrderStatus"),
+                marginOrder.getString("listClientOrderId"),
+                marginOrder.getLong("transactionTime"),
+                marginOrder.getString("symbol"),
+                marginOrder,
+                marginOrder.getBoolean("isIsolated")
+        );
+    }
 
 }
 

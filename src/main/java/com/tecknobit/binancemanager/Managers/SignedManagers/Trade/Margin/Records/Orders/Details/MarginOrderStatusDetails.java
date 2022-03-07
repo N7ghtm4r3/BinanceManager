@@ -3,13 +3,13 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Record
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.OrderDetails;
 import org.json.JSONObject;
 
-public class MarginOrderStatus extends OrderDetails {
+public class MarginOrderStatusDetails extends OrderDetails {
 
     private final boolean isIsolated;
 
-    public MarginOrderStatus(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
-                             String listClientOrderId, long transactionTime, String symbol, JSONObject jsonObject,
-                             boolean isIsolated) {
+    public MarginOrderStatusDetails(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
+                                    String listClientOrderId, long transactionTime, String symbol, JSONObject jsonObject,
+                                    boolean isIsolated) {
         super(orderListId, contingencyType, listStatusType, listOrderStatus, listClientOrderId, transactionTime, symbol, jsonObject);
         this.isIsolated = isIsolated;
     }
