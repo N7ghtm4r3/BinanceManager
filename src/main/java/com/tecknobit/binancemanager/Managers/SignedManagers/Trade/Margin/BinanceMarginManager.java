@@ -1436,8 +1436,60 @@ public class BinanceMarginManager extends BinanceSignedManager {
                 stopLimitPrice, stopLimitTimeInForce, extraParams)));
     }
 
-    public String cancelOCOMarginOrder(){
-        return null;
+    public String cancelOCOMarginOrder(String symbol, long orderListId) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId;
+        return sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT,params,DELETE_METHOD);
+    }
+
+    public JSONObject cancelJSONOCOMarginOrder(String symbol, long orderListId) throws Exception {
+        return new JSONObject(cancelOCOMarginOrder(symbol, orderListId));
+    }
+
+    public ComposedMarginOrderDetails cancelObjectOCOMarginOrder(String symbol, long orderListId) throws Exception {
+        return assembleComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, orderListId)));
+    }
+
+    public String cancelOCOMarginOrder(String symbol, String listClientOrderId) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&listClientOrderId="+listClientOrderId;
+        return sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT,params,DELETE_METHOD);
+    }
+
+    public JSONObject cancelJSONOCOMarginOrder(String symbol, String listClientOrderId) throws Exception {
+        return new JSONObject(cancelOCOMarginOrder(symbol, listClientOrderId));
+    }
+
+    public ComposedMarginOrderDetails cancelObjectOCOMarginOrder(String symbol, String listClientOrderId ) throws Exception {
+        return assembleComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, listClientOrderId)));
+    }
+
+    public String cancelOCOMarginOrder(String symbol, long orderListId, HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT,params,DELETE_METHOD);
+    }
+
+    public JSONObject cancelJSONOCOMarginOrder(String symbol, long orderListId, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(cancelOCOMarginOrder(symbol, orderListId, extraParams));
+    }
+
+    public ComposedMarginOrderDetails cancelObjectOCOMarginOrder(String symbol, long orderListId,
+                                                                 HashMap<String, Object> extraParams) throws Exception {
+        return assembleComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, orderListId, extraParams)));
+    }
+
+    public String cancelOCOMarginOrder(String symbol, String listClientOrderId, HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&listClientOrderId="+listClientOrderId;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT,params,DELETE_METHOD);
+    }
+
+    public JSONObject cancelJSONOCOMarginOrder(String symbol, String listClientOrderId, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(cancelOCOMarginOrder(symbol, listClientOrderId, extraParams));
+    }
+
+    public ComposedMarginOrderDetails cancelObjectOCOMarginOrder(String symbol, String listClientOrderId,
+                                                                 HashMap<String, Object> extraParams) throws Exception {
+        return assembleComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, listClientOrderId, extraParams)));
     }
 
 

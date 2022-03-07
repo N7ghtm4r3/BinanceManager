@@ -1514,7 +1514,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     /** Request to get Account Trade List
-     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #symbol: symbol used in AccountTradeList es. BTCBUSD
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data
      * return Account Trade List response as String
      * **/
@@ -1524,7 +1524,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     /** Request to get Account Trade List
-     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #symbol: symbol used in AccountTradeList es. BTCBUSD
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data
      * return Account Trade List response as JsonArray
      * **/
@@ -1533,7 +1533,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     /** Request to get Account Trade List
-     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #symbol: symbol used in AccountTradeList es. BTCBUSD
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data
      * return Account Trade List response as ArrayList<SpotAccountTradeList>
      * **/
@@ -1542,7 +1542,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     /** Request to get Account Trade List
-     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #symbol: symbol used in AccountTradeList es. BTCBUSD
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted orderId,startTime,endTime,fromId,limit,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data
@@ -1555,7 +1555,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     /** Request to get Account Trade List
-     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #symbol: symbol used in AccountTradeList es. BTCBUSD
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted orderId,startTime,endTime,fromId,limit,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data
@@ -1566,7 +1566,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     /** Request to get Account Trade List
-     * @param #symbol: symbol used in cancel oco order es. BTCBUSD
+     * @param #symbol: symbol used in AccountTradeList es. BTCBUSD
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted orderId,startTime,endTime,fromId,limit,recvWindow)
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data

@@ -23,7 +23,7 @@ public class OrderDetails {
     private ArrayList<OrderValues> orderValues;
 
     public OrderDetails(long orderListId, String contingencyType, String listStatusType,String listOrderStatus,
-                        String listClientOrderId, long transactionTime, String symbol,JSONObject jsonObject) {
+                        String listClientOrderId, long transactionTime, String symbol, JSONObject jsonObject) {
         this.orderListId = orderListId;
         this.contingencyType = contingencyType;
         this.listStatusType = listStatusType;

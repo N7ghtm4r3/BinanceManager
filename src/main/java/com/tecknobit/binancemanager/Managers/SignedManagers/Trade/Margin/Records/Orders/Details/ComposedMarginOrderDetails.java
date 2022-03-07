@@ -20,7 +20,7 @@ public class ComposedMarginOrderDetails extends OrderDetails {
     public ComposedMarginOrderDetails(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
                                       String listClientOrderId, long transactionTime, String symbol, boolean isIsolated,
                                       JSONObject jsonObject) {
-        super(orderListId, contingencyType, listStatusType, listOrderStatus, listClientOrderId, transactionTime, symbol,jsonObject);
+        super(orderListId, contingencyType, listStatusType, listOrderStatus, listClientOrderId, transactionTime, symbol, jsonObject);
         this.isIsolated = isIsolated;
         loadOrderReport(jsonObject.getJSONArray("orderReports"));
     }
