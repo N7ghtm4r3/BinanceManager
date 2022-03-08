@@ -81,5 +81,6 @@ public class EndpointsList {
     public static final String MARGIN_TRADES_LIST_ENDPOINT = "/sapi/v1/margin/myTrades";
     public static final String GET_MAX_MARGIN_BORROW_ENDPOINT = "/sapi/v1/margin/maxBorrowable";
     public static final String ISOLATED_MARGIN_TRANSFER_ENDPOINT = "/sapi/v1/margin/isolated/transfer";
+    public static final String ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT = "/sapi/v1/margin/isolated/account";
 
 }

@@ -3094,5 +3094,13 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return new MarginIsolatedTransferHistory(new JSONObject(getMarginIsolatedTransferHistory(symbol, extraParams)));
     }
 
+    public String getMarginIsolatedAccountInfo() throws Exception {
+        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT,getParamTimestamp(),GET_METHOD);
+    }
+
+    public JSONObject getJSONMarginIsolatedAccountInfo() throws Exception {
+        return new JSONObject(getMarginIsolatedAccountInfo());
+    }
+
 }
 
