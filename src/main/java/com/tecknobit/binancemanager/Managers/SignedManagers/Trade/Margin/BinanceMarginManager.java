@@ -1538,14 +1538,14 @@ public class BinanceMarginManager extends BinanceSignedManager {
         );
     }
 
-    /** Request to send new oco margin order
+    /** Request to send new OCO margin order
      * @param #symbol: used in the order es. BTCBUSD
      * @param #side: BUY or SELL
      * @param #quantity: used in the order es. 0.00542
      * @param #price: used in the order, price of symbol es. BTC = {39016.21} BUSD
      * @param #stopPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade
-     * @return new oco margin order response as String
+     * @return new OCO margin order response as String
      * **/
     public String sendNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&quantity="+quantity+"&price="+price+
@@ -1553,34 +1553,34 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT,params,POST_METHOD);
     }
 
-    /** Request to send new oco margin order
+    /** Request to send new OCO margin order
      * @param #symbol: used in the order es. BTCBUSD
      * @param #side: BUY or SELL
      * @param #quantity: used in the order es. 0.00542
      * @param #price: used in the order, price of symbol es. BTC = {39016.21} BUSD
      * @param #stopPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade
-     * @return new oco margin order response as JSONObject
+     * @return new OCO margin order response as JSONObject
      * **/
     public JSONObject sendJSONNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice) throws Exception {
         return new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice));
     }
 
-    /** Request to send new oco margin order
+    /** Request to send new OCO margin order
      * @param #symbol: used in the order es. BTCBUSD
      * @param #side: BUY or SELL
      * @param #quantity: used in the order es. 0.00542
      * @param #price: used in the order, price of symbol es. BTC = {39016.21} BUSD
      * @param #stopPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade
-     * @return new oco margin order response as {@link OCOMarginOrder} object
+     * @return new OCO margin order response as {@link OCOMarginOrder} object
      * **/
     public OCOMarginOrder sendObjectNewOCOMarginOrder(String symbol, String side, double quantity, double price,
                                                                   double stopPrice) throws Exception {
         return assembleOCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice)));
     }
 
-    /** Request to send new oco margin order
+    /** Request to send new OCO margin order
      * @param #symbol: used in the order es. BTCBUSD
      * @param #side: BUY or SELL
      * @param #quantity: used in the order es. 0.00542
@@ -1591,7 +1591,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * stopLimitPrice,stopIcebergQty,stopLimitTimeInForce,newOrderRespType,sideEffectType,recvWindow),
      * see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade
-     * @return new oco margin order response as String
+     * @return new OCO margin order response as String
      * **/
     public String sendNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice,
                                         HashMap<String, Object> extraParams ) throws Exception {
@@ -1601,7 +1601,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT,params,POST_METHOD);
     }
 
-    /** Request to send new oco margin order
+    /** Request to send new OCO margin order
      * @param #symbol: used in the order es. BTCBUSD
      * @param #side: BUY or SELL
      * @param #quantity: used in the order es. 0.00542
@@ -1612,14 +1612,14 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * stopLimitPrice,stopIcebergQty,stopLimitTimeInForce,newOrderRespType,sideEffectType,recvWindow),
      * see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade
-     * @return new oco margin order response as JSONObject
+     * @return new OCO margin order response as JSONObject
      * **/
     public JSONObject sendJSONNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice,
                                                 HashMap<String, Object> extraParams) throws Exception {
         return new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice, extraParams));
     }
 
-    /** Request to send new oco margin order
+    /** Request to send new OCO margin order
      * @param #symbol: used in the order es. BTCBUSD
      * @param #side: BUY or SELL
      * @param #quantity: used in the order es. 0.00542
@@ -1630,14 +1630,14 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * stopLimitPrice,stopIcebergQty,stopLimitTimeInForce,newOrderRespType,sideEffectType,recvWindow),
      * see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade
-     * @return new oco margin order response as {@link OCOMarginOrder} object
+     * @return new OCO margin order response as {@link OCOMarginOrder} object
      * **/
     public OCOMarginOrder sendObjectNewOCOMarginOrder(String symbol, String side, double quantity, double price,
                                                       double stopPrice, HashMap<String, Object> extraParams) throws Exception {
         return assembleOCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice,extraParams)));
     }
 
-    /** Request to send new oco margin order
+    /** Request to send new OCO margin order
      * @param #symbol: used in the order es. BTCBUSD
      * @param #side: BUY or SELL
      * @param #quantity: used in the order es. 0.00542
@@ -1646,7 +1646,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param #stopLimitPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD (limit)
      * @param #stopLimitTimeInForce: GTC, FOK or IOC
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade
-     * @return new oco margin order response as String
+     * @return new OCO margin order response as String
      * **/
     public String sendNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice,
                                         double stopLimitPrice, String stopLimitTimeInForce) throws Exception {
@@ -1655,7 +1655,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT,params,POST_METHOD);
     }
 
-    /** Request to send new oco margin order
+    /** Request to send new OCO margin order
      * @param #symbol: used in the order es. BTCBUSD
      * @param #side: BUY or SELL
      * @param #quantity: used in the order es. 0.00542
@@ -1664,14 +1664,14 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param #stopLimitPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD (limit)
      * @param #stopLimitTimeInForce: GTC, FOK or IOC
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade
-     * @return new oco margin order response as JSONObject
+     * @return new OCO margin order response as JSONObject
      * **/
     public JSONObject sendJSONNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice,
                                                 double stopLimitPrice, String stopLimitTimeInForce) throws Exception {
         return new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice, stopLimitPrice, stopLimitTimeInForce));
     }
 
-    /** Request to send new oco margin order
+    /** Request to send new OCO margin order
      * @param #symbol: used in the order es. BTCBUSD
      * @param #side: BUY or SELL
      * @param #quantity: used in the order es. 0.00542
@@ -1680,7 +1680,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param #stopLimitPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD (limit)
      * @param #stopLimitTimeInForce: GTC, FOK or IOC
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade
-     * @return new oco margin order response as {@link OCOMarginOrder} object
+     * @return new OCO margin order response as {@link OCOMarginOrder} object
      * **/
     public OCOMarginOrder sendObjectNewOCOMarginOrder(String symbol, String side, double quantity, double price,
                                                                   double stopPrice, double stopLimitPrice,
@@ -1689,7 +1689,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
                 stopLimitPrice, stopLimitTimeInForce)));
     }
 
-    /** Request to send new oco margin order
+    /** Request to send new OCO margin order
      * @param #symbol: used in the order es. BTCBUSD
      * @param #side: BUY or SELL
      * @param #quantity: used in the order es. 0.00542
@@ -1702,7 +1702,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * stopIcebergQty,newOrderRespType,sideEffectType,recvWindow),
      * see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade
-     * @return new oco margin order response as String
+     * @return new OCO margin order response as String
      * **/
     public String sendNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice,
                                         double stopLimitPrice, String stopLimitTimeInForce,
@@ -1713,7 +1713,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT,params,POST_METHOD);
     }
 
-    /** Request to send new oco margin order
+    /** Request to send new OCO margin order
      * @param #symbol: used in the order es. BTCBUSD
      * @param #side: BUY or SELL
      * @param #quantity: used in the order es. 0.00542
@@ -1726,7 +1726,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * stopIcebergQty,newOrderRespType,sideEffectType,recvWindow),
      * see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade
-     * @return new oco margin order response as JSONObject
+     * @return new OCO margin order response as JSONObject
      * **/
     public JSONObject sendJSONNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice,
                                                 double stopLimitPrice, String stopLimitTimeInForce,
@@ -1735,7 +1735,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
                 stopLimitTimeInForce, extraParams));
     }
 
-    /** Request to send new oco margin order
+    /** Request to send new OCO margin order
      * @param #symbol: used in the order es. BTCBUSD
      * @param #side: BUY or SELL
      * @param #quantity: used in the order es. 0.00542
@@ -1745,10 +1745,9 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param #stopLimitTimeInForce: GTC, FOK or IOC
      * @param #extraParams: extra params of the request
      * @implSpec (keys accepted are isIsolated,listClientOrderId,limitClientOrderId,limitIcebergQty,stopClientOrderId,
-     * stopIcebergQty,newOrderRespType,sideEffectType,recvWindow),
-     * see official Binance's documentation to implement in the right combination
+     * stopIcebergQty,newOrderRespType,sideEffectType,recvWindow),see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade
-     * @return new oco margin order response as {@link OCOMarginOrder} object
+     * @return new OCO margin order response as {@link OCOMarginOrder} object
      * **/
     public OCOMarginOrder sendObjectNewOCOMarginOrder(String symbol, String side, double quantity, double price,
                                                       double stopPrice, double stopLimitPrice,
@@ -1757,168 +1756,408 @@ public class BinanceMarginManager extends BinanceSignedManager {
                 stopLimitPrice, stopLimitTimeInForce, extraParams)));
     }
 
+    /** Request to cancel OCO margin order
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade
+     * @return cancel OCO margin order response as String
+     * **/
     public String cancelOCOMarginOrder(String symbol, long orderListId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId;
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,DELETE_METHOD);
     }
 
+    /** Request to cancel OCO margin order
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade
+     * @return cancel OCO margin order response as JSONObject
+     * **/
     public JSONObject cancelJSONOCOMarginOrder(String symbol, long orderListId) throws Exception {
         return new JSONObject(cancelOCOMarginOrder(symbol, orderListId));
     }
 
+    /** Request to cancel OCO margin order
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade
+     * @return cancel OCO margin order response as {@link ComposedMarginOrderDetails} object
+     * **/
     public ComposedMarginOrderDetails cancelObjectOCOMarginOrder(String symbol, long orderListId) throws Exception {
         return assembleComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, orderListId)));
     }
 
+    /** Request to cancel OCO margin order
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade
+     * @return cancel OCO margin order response as String
+     * **/
     public String cancelOCOMarginOrder(String symbol, String listClientOrderId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&listClientOrderId="+listClientOrderId;
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,DELETE_METHOD);
     }
 
+    /** Request to cancel OCO margin order
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade
+     * @return cancel OCO margin order response as JSONObject
+     * **/
     public JSONObject cancelJSONOCOMarginOrder(String symbol, String listClientOrderId) throws Exception {
         return new JSONObject(cancelOCOMarginOrder(symbol, listClientOrderId));
     }
 
+    /** Request to cancel OCO margin order
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade
+     * @return cancel OCO margin order response as {@link ComposedMarginOrderDetails} object
+     * **/
     public ComposedMarginOrderDetails cancelObjectOCOMarginOrder(String symbol, String listClientOrderId ) throws Exception {
         return assembleComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, listClientOrderId)));
     }
 
+    /** Request to cancel OCO margin order
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,listClientOrderId,newClientOrderId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade
+     * @return cancel OCO margin order response as String
+     * **/
     public String cancelOCOMarginOrder(String symbol, long orderListId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,DELETE_METHOD);
     }
 
+    /** Request to cancel OCO margin order
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,listClientOrderId,newClientOrderId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade
+     * @return cancel OCO margin order response as JSONObject
+     * **/
     public JSONObject cancelJSONOCOMarginOrder(String symbol, long orderListId, HashMap<String, Object> extraParams) throws Exception {
         return new JSONObject(cancelOCOMarginOrder(symbol, orderListId, extraParams));
     }
 
+    /** Request to cancel OCO margin order
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,listClientOrderId,newClientOrderId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade
+     * @return cancel OCO margin order response as {@link ComposedMarginOrderDetails} object
+     * **/
     public ComposedMarginOrderDetails cancelObjectOCOMarginOrder(String symbol, long orderListId,
                                                                  HashMap<String, Object> extraParams) throws Exception {
         return assembleComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, orderListId, extraParams)));
     }
 
+    /** Request to cancel OCO margin order
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,orderListId,newClientOrderId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade
+     * @return cancel OCO margin order response as String
+     * **/
     public String cancelOCOMarginOrder(String symbol, String listClientOrderId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&listClientOrderId="+listClientOrderId;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,DELETE_METHOD);
     }
 
+    /** Request to cancel OCO margin order
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,orderListId,newClientOrderId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade
+     * @return cancel OCO margin order response as JSONObject
+     * **/
     public JSONObject cancelJSONOCOMarginOrder(String symbol, String listClientOrderId, HashMap<String, Object> extraParams) throws Exception {
         return new JSONObject(cancelOCOMarginOrder(symbol, listClientOrderId, extraParams));
     }
 
+    /** Request to cancel OCO margin order
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,orderListId,newClientOrderId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade
+     * @return cancel OCO margin order response as {@link ComposedMarginOrderDetails} object
+     * **/
     public ComposedMarginOrderDetails cancelObjectOCOMarginOrder(String symbol, String listClientOrderId,
                                                                  HashMap<String, Object> extraParams) throws Exception {
         return assembleComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, listClientOrderId, extraParams)));
     }
 
+    /** Request to get OCO margin order status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as String
+     * **/
     public String getOCOMarginOrderStatus(String symbol, long orderListId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId+"&isIsolated="+true;
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get OCO margin order status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as JSONObject
+     * **/
     public JSONObject getJSONOCOMarginOrderStatus(String symbol, long orderListId) throws Exception {
        return new JSONObject(getOCOMarginOrderStatus(symbol, orderListId));
     }
 
+    /** Request to get OCO margin order status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
+     * **/
     public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String symbol, long orderListId) throws Exception {
         return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, orderListId)));
     }
 
+    /** Request to get OCO margin order status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as String
+     * **/
     public String getOCOMarginOrderStatus(String symbol, String origClientOrderId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId +"&isIsolated="+true;
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get OCO margin order status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as JSONObject
+     * **/
     public JSONObject getJSONOCOMarginOrderStatus(String symbol, String origClientOrderId) throws Exception {
         return new JSONObject(getOCOMarginOrderStatus(symbol, origClientOrderId));
     }
 
+    /** Request to get OCO margin order status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
+     * **/
     public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String symbol, String origClientOrderId) throws Exception {
         return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, origClientOrderId)));
     }
 
+    /** Request to get OCO margin order status
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as String
+     * **/
     public String getOCOMarginOrderStatus(long orderListId) throws Exception {
         String params = getParamTimestamp()+"&orderListId="+orderListId;
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get OCO margin order status
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as JSONObject
+     * **/
     public JSONObject getJSONOCOMarginOrderStatus(long orderListId) throws Exception {
         return new JSONObject(getOCOMarginOrderStatus(orderListId));
     }
 
+    /** Request to get OCO margin order status
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
+     * **/
     public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(long orderListId) throws Exception {
         return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(orderListId)));
     }
 
+    /** Request to get OCO margin order status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as String
+     * **/
     public String getOCOMarginOrderStatus(String origClientOrderId) throws Exception {
         String params = getParamTimestamp()+"&origClientOrderId="+origClientOrderId;
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get OCO margin order status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as JSONObject
+     * **/
     public JSONObject getJSONOCOMarginOrderStatus(String origClientOrderId) throws Exception {
         return new JSONObject(getOCOMarginOrderStatus(origClientOrderId));
     }
 
+    /** Request to get OCO margin order status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
+     * **/
     public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String origClientOrderId) throws Exception {
         return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(origClientOrderId)));
     }
 
+    /** Request to get OCO margin order status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,origClientOrderId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as String
+     * **/
     public String getOCOMarginOrderStatus(String symbol, long orderListId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId+"&isIsolated="+true;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get OCO margin order status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,origClientOrderId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as JSONObject
+     * **/
     public JSONObject getJSONOCOMarginOrderStatus(String symbol, long orderListId, HashMap<String, Object> extraParams) throws Exception {
         return new JSONObject(getOCOMarginOrderStatus(symbol, orderListId, extraParams));
     }
 
+    /** Request to get OCO margin order status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,origClientOrderId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
+     * **/
     public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String symbol, long orderListId,
                                                                   HashMap<String, Object> extraParams) throws Exception {
         return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, orderListId, extraParams)));
     }
 
+    /** Request to get OCO margin order status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,orderListId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as String
+     * **/
     public String getOCOMarginOrderStatus(String symbol, String origClientOrderId,HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId +"&isIsolated="+true;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get OCO margin order status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,orderListId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as JSONObject
+     * **/
     public JSONObject getJSONOCOMarginOrderStatus(String symbol, String origClientOrderId, HashMap<String, Object> extraParams) throws Exception {
         return new JSONObject(getOCOMarginOrderStatus(symbol, origClientOrderId, extraParams));
     }
 
+    /** Request to get OCO margin order status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,orderListId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
+     * **/
     public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String symbol, String origClientOrderId,
                                                                   HashMap<String, Object> extraParams) throws Exception {
         return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, origClientOrderId, extraParams)));
     }
 
+    /** Request to get OCO margin order status
+     * @param #orderListId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,origClientOrderId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as String
+     * **/
     public String getOCOMarginOrderStatus(long orderListId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&orderListId="+orderListId;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get OCO margin order status
+     * @param #orderListId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,origClientOrderId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as JSONObject
+     * **/
     public JSONObject getJSONOCOMarginOrderStatus(long orderListId, HashMap<String, Object> extraParams) throws Exception {
         return new JSONObject(getOCOMarginOrderStatus(orderListId, extraParams));
     }
 
+    /** Request to get OCO margin order status
+     * @param #orderListId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,origClientOrderId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
+     * **/
     public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(long orderListId, HashMap<String, Object> extraParams) throws Exception {
         return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(orderListId, extraParams)));
     }
 
+    /** Request to get OCO margin order status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,orderListId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as String
+     * **/
     public String getOCOMarginOrderStatus(String origClientOrderId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&origClientOrderId="+origClientOrderId;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get OCO margin order status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,orderListId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as JSONObject
+     * **/
     public JSONObject getJSONOCOMarginOrderStatus(String origClientOrderId, HashMap<String, Object> extraParams) throws Exception {
         return new JSONObject(getOCOMarginOrderStatus(origClientOrderId, extraParams));
     }
 
+    /** Request to get OCO margin order status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,orderListId,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data
+     * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
+     * **/
     public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String origClientOrderId,
                                                                   HashMap<String, Object> extraParams) throws Exception {
         return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(origClientOrderId, extraParams)));
@@ -1941,48 +2180,120 @@ public class BinanceMarginManager extends BinanceSignedManager {
         );
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as String
+     * **/
     public String getAllOCOMarginOrders(String symbol, long orderListId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId+"&isIsolated="+true;
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as JSONArray
+     * **/
     public JSONArray getJSONAllOCOMarginOrders(String symbol, long orderListId) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(symbol, orderListId));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, long orderListId) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(symbol, orderListId)));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as String
+     * **/
     public String getAllOCOMarginOrders(String symbol, String origClientOrderId) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId+"&isIsolated="+true;
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as JSONArray
+     * **/
     public JSONArray getJSONAllOCOMarginOrders(String symbol, String origClientOrderId) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(symbol, origClientOrderId));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, String origClientOrderId) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(symbol, origClientOrderId)));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as String
+     * **/
     public String getAllOCOMarginOrders(String symbol, long orderListId, long fromId, String keyTime, long valueTime) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId+"&isIsolated="+true+
                 "&"+keyTime+"="+valueTime+"&fromId="+fromId;
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as JSONArray
+     * **/
     public JSONArray getJSONAllOCOMarginOrders(String symbol, long orderListId, long fromId, String keyTime, long valueTime) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(symbol, orderListId, fromId, keyTime, valueTime));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, long orderListId, long fromId,
                                                                          String keyTime, long valueTime) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(symbol, orderListId,
                 fromId, keyTime, valueTime)));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as String
+     * **/
     public String getAllOCOMarginOrders(String symbol, String origClientOrderId, long fromId, String keyTime,
                                         long valueTime) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId+"&isIsolated="+true+
@@ -1990,60 +2301,140 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as JSONArray
+     * **/
     public JSONArray getJSONAllOCOMarginOrders(String symbol, String origClientOrderId, long fromId, String keyTime,
                                                long valueTime) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(symbol, origClientOrderId, fromId, keyTime, valueTime));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, String origClientOrderId,
                                                                          long fromId, String keyTime, long valueTime) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(symbol, origClientOrderId,
                 fromId, keyTime, valueTime)));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as String
+     * **/
     public String getAllOCOMarginOrders(long orderListId) throws Exception {
         String params = getParamTimestamp()+"&orderListId="+orderListId;
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as JSONArray
+     * **/
     public JSONArray getJSONAllOCOMarginOrders(long orderListId) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(orderListId));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(long orderListId) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(orderListId)));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as String
+     * **/
     public String getAllOCOMarginOrders(String origClientOrderId) throws Exception {
         String params = getParamTimestamp()+"&origClientOrderId="+origClientOrderId;
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as JSONArray
+     * **/
     public JSONArray getJSONAllOCOMarginOrders(String origClientOrderId) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(origClientOrderId));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String origClientOrderId) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(origClientOrderId)));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #orderListId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as String
+     * **/
     public String getAllOCOMarginOrders(long orderListId, long fromId, String keyTime,
                                         long valueTime) throws Exception {
         String params = getParamTimestamp()+"&orderListId="+orderListId+"&"+keyTime+"="+valueTime+"&fromId="+fromId;
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #orderListId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as JSONArray
+     * **/
     public JSONArray getJSONAllOCOMarginOrders(long orderListId, long fromId, String keyTime,
                                                long valueTime) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(orderListId, fromId, keyTime, valueTime));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #orderListId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(long orderListId, long fromId, String keyTime,
                                                                          long valueTime) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(orderListId, fromId, keyTime,
                 valueTime)));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as String
+     * **/
     public String getAllOCOMarginOrders(String origClientOrderId, long fromId, String keyTime,
                                         long valueTime) throws Exception {
         String params = getParamTimestamp()+"&origClientOrderId="+origClientOrderId+
@@ -2051,48 +2442,123 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as JSONArray
+     * **/
     public JSONArray getJSONAllOCOMarginOrders(String origClientOrderId, long fromId, String keyTime,
                                                long valueTime) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(origClientOrderId, fromId, keyTime, valueTime));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String origClientOrderId, long fromId, String keyTime,
                                                                          long valueTime) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(origClientOrderId, fromId,
                 keyTime, valueTime)));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,fromId,origClientOrderId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as String
+     * **/
     public String getAllOCOMarginOrders(String symbol, long orderListId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId+"&isIsolated="+true;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,fromId,origClientOrderId.startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as JSONArray
+     * **/
     public JSONArray getJSONAllOCOMarginOrders(String symbol, long orderListId, HashMap<String, Object> extraParams) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(symbol, orderListId, extraParams));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,fromId,orderListId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, long orderListId,
                                                                          HashMap<String, Object> extraParams) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(symbol, orderListId, extraParams)));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,fromId,orderListId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as String
+     * **/
     public String getAllOCOMarginOrders(String symbol, String origClientOrderId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId+"&isIsolated="+true;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,fromId,orderListId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as JSONArray
+     * **/
     public JSONArray getJSONAllOCOMarginOrders(String symbol, String origClientOrderId, HashMap<String, Object> extraParams) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(symbol, origClientOrderId, extraParams));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,fromId,orderListId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, String origClientOrderId,
                                                                          HashMap<String, Object> extraParams) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(symbol, origClientOrderId,
                 extraParams)));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,origClientOrderId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as String
+     * **/
     public String getAllOCOMarginOrders(String symbol, long orderListId, long fromId, String keyTime, long valueTime,
                                         HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId+"&isIsolated="+true+
@@ -2101,11 +2567,33 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,origClientOrderId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as JSONArray
+     * **/
     public JSONArray getJSONAllOCOMarginOrders(String symbol, long orderListId, long fromId, String keyTime, long valueTime,
                                                HashMap<String, Object> extraParams) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(symbol, orderListId, fromId, keyTime, valueTime));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,origClientOrderId,fromId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, long orderListId, long fromId,
                                                                          String keyTime, long valueTime,
                                                                          HashMap<String, Object> extraParams) throws Exception {
@@ -2113,6 +2601,17 @@ public class BinanceMarginManager extends BinanceSignedManager {
                 fromId, keyTime, valueTime)));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,orderListId,fromId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as String
+     * **/
     public String getAllOCOMarginOrders(String symbol, String origClientOrderId, long fromId, String keyTime,
                                         long valueTime, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId+"&isIsolated="+true+
@@ -2121,11 +2620,33 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,orderListId,fromId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as JSONArray
+     * **/
     public JSONArray getJSONAllOCOMarginOrders(String symbol, String origClientOrderId, long fromId, String keyTime,
                                                long valueTime, HashMap<String, Object> extraParams) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(symbol, origClientOrderId, fromId, keyTime, valueTime));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,orderListId,fromId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, String origClientOrderId,
                                                                          long fromId, String keyTime, long valueTime,
                                                                          HashMap<String, Object> extraParams) throws Exception {
@@ -2133,35 +2654,87 @@ public class BinanceMarginManager extends BinanceSignedManager {
                 fromId, keyTime, valueTime)));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #orderListId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are symbol,isIsolated,fromId,origClientOrderId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as String
+     * **/
     public String getAllOCOMarginOrders(long orderListId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&orderListId="+orderListId;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #orderListId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are symbol,isIsolated,fromId,origClientOrderId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as JSONArray
+     * **/
     public JSONArray getJSONAllOCOMarginOrders(long orderListId, HashMap<String, Object> extraParams) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(orderListId));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #orderListId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are symbol,isIsolated,fromId,origClientOrderId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(long orderListId, HashMap<String, Object> extraParams) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(orderListId)));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are symbol,isIsolated,fromId,orderListId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as String
+     * **/
     public String getAllOCOMarginOrders(String origClientOrderId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&origClientOrderId="+origClientOrderId;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are symbol,isIsolated,fromId,orderListId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as JSONArray
+     * **/
     public JSONArray getJSONAllOCOMarginOrders(String origClientOrderId, HashMap<String, Object> extraParams) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(origClientOrderId));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are symbol,isIsolated,fromId,orderListId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String origClientOrderId,
                                                                          HashMap<String, Object> extraParams) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(origClientOrderId)));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #orderListId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are symbol,isIsolated,origClientOrderId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as String
+     * **/
     public String getAllOCOMarginOrders(long orderListId, long fromId, String keyTime,
                                         long valueTime, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&orderListId="+orderListId+"&"+keyTime+"="+valueTime+"&fromId="+fromId;
@@ -2169,17 +2742,47 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #orderListId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are symbol,isIsolated,origClientOrderId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as JSONArray
+     * **/
     public JSONArray getJSONAllOCOMarginOrders(long orderListId, long fromId, String keyTime,
                                                long valueTime, HashMap<String, Object> extraParams) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(orderListId, fromId, keyTime, valueTime));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #orderListId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are symbol,isIsolated,origClientOrderId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(long orderListId, long fromId, String keyTime,
                                                                          long valueTime, HashMap<String, Object> extraParams) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(orderListId, fromId, keyTime,
                 valueTime)));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are symbol,isIsolated,orderListId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as String
+     * **/
     public String getAllOCOMarginOrders(String origClientOrderId, long fromId, String keyTime,
                                         long valueTime, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&origClientOrderId="+origClientOrderId+
@@ -2188,11 +2791,31 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are symbol,isIsolated,orderListId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as JSONArray
+     * **/
     public JSONArray getJSONAllOCOMarginOrders(String origClientOrderId, long fromId, String keyTime,
                                                long valueTime, HashMap<String, Object> extraParams) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(origClientOrderId, fromId, keyTime, valueTime));
     }
 
+    /** Request to get all OCO margin orders status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are symbol,isIsolated,orderListId,startTime,endTime,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data
+     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String origClientOrderId, long fromId, String keyTime,
                                                                          long valueTime, HashMap<String, Object> extraParams) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(origClientOrderId, fromId,
@@ -2210,54 +2833,119 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return marginOrderStatusDetails;
     }
 
+    /** Request to get all open OCO margin orders
+     * @param #symbol: used in the order es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data
+     * @return all open OCO margin orders response as String
+     * **/
     public String getAllOCOMarginOpenOrders(String symbol) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&isIsolated="+true;
         return sendSignedRequest(MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get all open OCO margin orders
+     * @param #symbol: used in the order es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data
+     * @return all open OCO margin orders response as JSONArray
+     * **/
     public JSONArray getJSONAllOCOMarginOpenOrders(String symbol) throws Exception {
         return new JSONArray(getAllOCOMarginOpenOrders(symbol));
     }
 
+    /** Request to get all open OCO margin orders
+     * @param #symbol: used in the order es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data
+     * @return all open OCO margin orders response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOpenOrdersList(String symbol) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOpenOrders(symbol)));
     }
 
+    /** Request to get all open OCO margin orders
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data
+     * @return all open OCO margin orders response as String
+     * **/
     public String getAllOCOMarginOpenOrders() throws Exception {
         return sendSignedRequest(MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
+    /** Request to get all open OCO margin orders
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data
+     * @return all open OCO margin orders response as JSONArray
+     * **/
     public JSONArray getJSONAllOCOMarginOpenOrders() throws Exception {
         return new JSONArray(getAllOCOMarginOpenOrders());
     }
 
+    /** Request to get all open OCO margin orders
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data
+     * @return all open OCO margin orders response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOpenOrdersList() throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOpenOrders()));
     }
 
-    public String getAllOCOMarginOpenOrders(String symbol, HashMap<String, Object> extraParams) throws Exception {
+    /** Request to get all open OCO margin orders
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data
+     * @return all open OCO margin orders response as String
+     * **/
+    public String getAllOCOMarginOpenOrders(String symbol, long recvWindow) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&isIsolated="+true;
-        params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
-    public JSONArray getJSONAllOCOMarginOpenOrders(String symbol, HashMap<String, Object> extraParams) throws Exception {
-        return new JSONArray(getAllOCOMarginOpenOrders(symbol, extraParams));
+    /** Request to get all open OCO margin orders
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data
+     * @return all open OCO margin orders response as JSONArray
+     * **/
+    public JSONArray getJSONAllOCOMarginOpenOrders(String symbol, long recvWindow) throws Exception {
+        return new JSONArray(getAllOCOMarginOpenOrders(symbol, recvWindow));
     }
 
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOpenOrdersList(String symbol, HashMap<String, Object> extraParams) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOpenOrders(symbol, extraParams)));
+    /** Request to get all open OCO margin orders
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data
+     * @return all open OCO margin orders response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
+    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOpenOrdersList(String symbol, long recvWindow) throws Exception {
+        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOpenOrders(symbol, recvWindow)));
     }
 
+    /** Request to get all open OCO margin orders
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are symbol,isIsolated,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data
+     * @return all open OCO margin orders response as String
+     * **/
     public String getAllOCOMarginOpenOrders(HashMap<String, Object> extraParams) throws Exception {
         String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get all open OCO margin orders
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are symbol,isIsolated,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data
+     * @return all open OCO margin orders response as JSONArray
+     * **/
     public JSONArray getJSONAllOCOMarginOpenOrders(HashMap<String, Object> extraParams) throws Exception {
         return new JSONArray(getAllOCOMarginOpenOrders(extraParams));
     }
 
+    /** Request to get all open OCO margin orders
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are symbol,isIsolated,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data
+     * @return all open OCO margin orders response as ArrayList<{@link MarginOrderStatusDetails}>
+     * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOpenOrdersList(HashMap<String, Object> extraParams) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOpenOrders(extraParams)));
     }
