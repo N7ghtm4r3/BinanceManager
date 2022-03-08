@@ -65,7 +65,7 @@ public class BinanceManager {
      * **/
     public long getTimestamp(){
         try {
-            requestManager.startConnection(baseEndpoint+ TIMESTAMP_ENDPOINT,GET_METHOD);
+            requestManager.startConnection(baseEndpoint+TIMESTAMP_ENDPOINT,GET_METHOD);
             jsonObject = new JSONObject(requestManager.getResponse());
             return jsonObject.getLong("serverTime");
         } catch (IOException e) {
