@@ -95,6 +95,14 @@ public class RequestManager {
         return paramsBuilder.toString();
     }
 
+    public String assembleSymbolsParams(ArrayList<String> symbols){
+        StringBuilder params = new StringBuilder();
+        for (String symbol : symbols)
+            params.append("%22").append(symbol).append("%22,");
+        params.replace(params.length()-1,params.length(),"");
+        return params.toString();
+    }
+
     /** Method to get error response of an HTTP request
      * any params required
      * @return errorResponse

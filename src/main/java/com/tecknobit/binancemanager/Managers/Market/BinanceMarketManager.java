@@ -116,11 +116,8 @@ public class BinanceMarketManager extends BinanceManager {
      * @return exchange information as String
      * **/
     public String getExchangeInformation(ArrayList<String> symbols) throws Exception {
-        StringBuilder params = new StringBuilder();
-        for (String symbol : symbols)
-            params.append("%22").append(symbol).append("%22,");
-        params.replace(params.length()-1,params.length(),"");
-        return getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT,"?symbols=["+ params +"]",GET_METHOD);
+        return getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT,
+                "?symbols=["+ requestManager.assembleSymbolsParams(symbols) +"]",GET_METHOD);
     }
 
     /** Request to get exchange information

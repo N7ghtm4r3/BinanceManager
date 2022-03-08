@@ -1,6 +1,9 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.IsolatedDetails;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class IsolatedMarginAccountInfo {
 
@@ -51,6 +54,26 @@ public class IsolatedMarginAccountInfo {
                 asset.getBoolean("repayEnabled"),
                 asset.getDouble("totalAsset")
         );
+    }
+
+    public static ArrayList<IsolatedMarginAccountInfo> assembleIsolatedMarginAccountInfoList(JSONArray jsonArray){
+        ArrayList<IsolatedMarginAccountInfo> isolatedMarginAccountInfos = new ArrayList<>();
+        for (int j=0; j < jsonArray.length(); j++){
+            JSONObject isolatedInfo = jsonArray.getJSONObject(j);
+            isolatedMarginAccountInfos.add(new IsolatedMarginAccountInfo(isolatedInfo.getString("asset"),
+                    isolatedInfo.getBoolean("isolatedCreated"),
+                    isolatedInfo.getBoolean("enabled"),
+                    isolatedInfo.getDouble("marginLevel"),
+                    isolatedInfo.getString("marginLevelStatus"),
+                    isolatedInfo.getDouble("marginRatio"),
+                    isolatedInfo.getDouble("indexPrice"),
+                    isolatedInfo.getDouble("liquidatePrice"),
+                    isolatedInfo.getDouble("liquidateRate"),
+                    isolatedInfo.getBoolean("tradeEnabled"),
+                    isolatedInfo
+            ));
+        }
+        return isolatedMarginAccountInfos;
     }
 
     public String getSymbol() {

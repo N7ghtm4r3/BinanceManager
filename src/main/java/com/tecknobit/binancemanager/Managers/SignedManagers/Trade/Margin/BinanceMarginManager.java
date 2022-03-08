@@ -3,6 +3,8 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin;
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.CrossMarginAccountDetails;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.IsolatedDetails.ComposedIMarginAccountInfo;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.IsolatedDetails.IsolatedMarginAccountInfo;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.MarginAccountTrade;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.MarginMaxBorrow;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginList.*;
@@ -19,11 +21,13 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.TradeConstants.*;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.IsolatedDetails.IsolatedMarginAccountInfo.assembleIsolatedMarginAccountInfoList;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.ComposedMarginOrderDetails.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.OCOMarginOrder.assembleOCOMarginOrder;
 
@@ -3100,6 +3104,88 @@ public class BinanceMarginManager extends BinanceSignedManager {
 
     public JSONObject getJSONMarginIsolatedAccountInfo() throws Exception {
         return new JSONObject(getMarginIsolatedAccountInfo());
+    }
+
+    public ComposedIMarginAccountInfo getObjectMarginIsolatedAccount() throws Exception {
+        return assembleComposedIMarginAccountInfoObject(new JSONObject(getMarginIsolatedAccountInfo()));
+    }
+
+    public String getMarginIsolatedAccountInfo(long recvWindow) throws Exception {
+        String params = getParamTimestamp()+"&recvWindow="+recvWindow;
+        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONMarginIsolatedAccountInfo(long recvWindow) throws Exception {
+        return new JSONObject(getMarginIsolatedAccountInfo(recvWindow));
+    }
+
+    public ComposedIMarginAccountInfo getObjectMarginIsolatedAccount(long recvWindow) throws Exception {
+        return assembleComposedIMarginAccountInfoObject(new JSONObject(getMarginIsolatedAccountInfo(recvWindow)));
+    }
+
+    public String getMarginIsolatedAccountInfo(ArrayList<String> symbols) throws Exception {
+        String params = getParamTimestamp()+"&symbols="+requestManager.assembleSymbolsParams(symbols);
+        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONMarginIsolatedAccountInfo(ArrayList<String> symbols) throws Exception {
+        return new JSONObject(getMarginIsolatedAccountInfo(symbols));
+    }
+
+    public ArrayList<IsolatedMarginAccountInfo> getMarginIsolatedAccountList(ArrayList<String> symbols) throws Exception {
+        return assembleIsolatedMarginAccountInfoList(new JSONObject(getMarginIsolatedAccountInfo(symbols))
+                .getJSONArray("assets"));
+    }
+
+    public String getMarginIsolatedAccountInfo(String[] symbols) throws Exception {
+       return getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols)));
+    }
+
+    public JSONObject getJSONMarginIsolatedAccountInfo(String[] symbols) throws Exception {
+        return new JSONObject(getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols))));
+    }
+
+    public ArrayList<IsolatedMarginAccountInfo> getMarginIsolatedAccountList(String[] symbols) throws Exception {
+        jsonArray = new JSONObject(getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols))))
+                .getJSONArray("assets");
+        return assembleIsolatedMarginAccountInfoList(jsonArray);
+    }
+
+    public String getMarginIsolatedAccountInfo(ArrayList<String> symbols, long recvWindow) throws Exception {
+        String params = getParamTimestamp()+"&symbols="+requestManager.assembleSymbolsParams(symbols)+
+                "&recvWindow="+recvWindow;
+        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONMarginIsolatedAccountInfo(ArrayList<String> symbols, long recvWindow) throws Exception {
+        return new JSONObject(getMarginIsolatedAccountInfo(symbols, recvWindow));
+    }
+
+    public ArrayList<IsolatedMarginAccountInfo> getMarginIsolatedAccountList(ArrayList<String> symbols, long recvWindow) throws Exception {
+        jsonArray = new JSONObject(getMarginIsolatedAccountInfo(symbols, recvWindow)).getJSONArray("assets");
+        return assembleIsolatedMarginAccountInfoList(jsonArray);
+    }
+
+    public String getMarginIsolatedAccountInfo(String[] symbols, long recvWindow) throws Exception {
+        return getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols)), recvWindow);
+    }
+
+    public JSONObject getJSONMarginIsolatedAccountInfo(String[] symbols, long recvWindow) throws Exception {
+        return new JSONObject(getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols)), recvWindow));
+    }
+
+    public ArrayList<IsolatedMarginAccountInfo> getMarginIsolatedAccountList(String[] symbols, long recvWindow) throws Exception {
+        jsonArray = new JSONObject(getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols)), recvWindow))
+                .getJSONArray("assets");
+        return assembleIsolatedMarginAccountInfoList(jsonArray);
+    }
+
+    private ComposedIMarginAccountInfo assembleComposedIMarginAccountInfoObject(JSONObject jsonObject){
+        return new ComposedIMarginAccountInfo(jsonObject.getDouble("totalAssetOfBtc"),
+                jsonObject.getDouble("totalLiabilityOfBtc"),
+                jsonObject.getDouble("totalNetAssetOfBtc"),
+                jsonObject.getJSONArray("assets")
+        );
     }
 
 }
