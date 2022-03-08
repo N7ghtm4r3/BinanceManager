@@ -3123,6 +3123,14 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return assembleComposedIMarginAccountInfoObject(new JSONObject(getMarginIsolatedAccountInfo(recvWindow)));
     }
 
+    private ComposedIMarginAccountInfo assembleComposedIMarginAccountInfoObject(JSONObject jsonObject){
+        return new ComposedIMarginAccountInfo(jsonObject.getDouble("totalAssetOfBtc"),
+                jsonObject.getDouble("totalLiabilityOfBtc"),
+                jsonObject.getDouble("totalNetAssetOfBtc"),
+                jsonObject.getJSONArray("assets")
+        );
+    }
+
     public String getMarginIsolatedAccountInfo(ArrayList<String> symbols) throws Exception {
         String params = getParamTimestamp()+"&symbols="+requestManager.assembleSymbolsParams(symbols);
         return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT,params,GET_METHOD);
@@ -3178,14 +3186,6 @@ public class BinanceMarginManager extends BinanceSignedManager {
         jsonArray = new JSONObject(getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols)), recvWindow))
                 .getJSONArray("assets");
         return assembleIsolatedMarginAccountInfoList(jsonArray);
-    }
-
-    private ComposedIMarginAccountInfo assembleComposedIMarginAccountInfoObject(JSONObject jsonObject){
-        return new ComposedIMarginAccountInfo(jsonObject.getDouble("totalAssetOfBtc"),
-                jsonObject.getDouble("totalLiabilityOfBtc"),
-                jsonObject.getDouble("totalNetAssetOfBtc"),
-                jsonObject.getJSONArray("assets")
-        );
     }
 
 }
