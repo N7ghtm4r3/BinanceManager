@@ -1,10 +1,10 @@
-package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.Isolated;
+package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account;
 
 import org.json.JSONArray;
 
 import java.util.ArrayList;
 
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.Isolated.IsolatedMarginAccountInfo.assembleIsolatedMarginAccountInfoList;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account.IsolatedMarginAccountInfo.assembleIsolatedMarginAccountInfoList;
 
 public class ComposedIMarginAccountInfo {
 

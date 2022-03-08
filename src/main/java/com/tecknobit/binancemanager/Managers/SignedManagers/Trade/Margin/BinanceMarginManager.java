@@ -3,9 +3,10 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin;
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.CrossMarginAccountDetails;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.Isolated.ComposedIMarginAccountInfo;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.Isolated.IsolatedMarginAccountInfo;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.Isolated.IsolatedMarginAccountStatus;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account.ComposedIMarginAccountInfo;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account.IsolatedMarginAccountInfo;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account.IsolatedMarginAccountLimit;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account.IsolatedMarginAccountStatus;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.MarginAccountTrade;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.MarginMaxBorrow;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginList.*;
@@ -28,7 +29,7 @@ import java.util.HashMap;
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.TradeConstants.*;
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.Isolated.IsolatedMarginAccountInfo.assembleIsolatedMarginAccountInfoList;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account.IsolatedMarginAccountInfo.assembleIsolatedMarginAccountInfoList;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.ComposedMarginOrderDetails.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.OCOMarginOrder.assembleOCOMarginOrder;
 
@@ -3038,6 +3039,38 @@ public class BinanceMarginManager extends BinanceSignedManager {
         );
     }
 
+    public String getMaxTransferOutAmount(String asset) throws Exception {
+        String params = getParamTimestamp()+"&asset="+asset;
+        return sendSignedRequest(GET_MAX_MARGIN_TRANSFER_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONMaxTransferOutAmount(String asset) throws Exception {
+        return new JSONObject(getMaxTransferOutAmount(asset));
+    }
+
+    public double getMaxTransferOutAmountValue(String asset) throws Exception {
+        return getMaxTransferAmountValue(getMaxTransferOutAmount(asset));
+    }
+
+    public String getMaxTransferOutAmount(String asset, HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&asset="+asset;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendSignedRequest(GET_MAX_MARGIN_TRANSFER_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONMaxTransferOutAmount(String asset, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(getMaxTransferOutAmount(asset, extraParams));
+    }
+
+    public double getMaxTransferOutAmountValue(String asset, HashMap<String, Object> extraParams) throws Exception {
+        return getMaxTransferAmountValue(getMaxTransferOutAmount(asset, extraParams));
+    }
+
+    private double getMaxTransferAmountValue(String stringSource){
+        jsonObject = new JSONObject(stringSource);
+        return jsonObject.getDouble("amount");
+    }
+
     public String getMarginIsolatedTransfer(String asset, String symbol, String transFrom, String transTo,
                                             double amount) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset+"&symbol="+symbol+"&transFrom="+transFrom+"&transTo="+transTo
@@ -3224,6 +3257,37 @@ public class BinanceMarginManager extends BinanceSignedManager {
     private IsolatedMarginAccountStatus assembleIMarginAccountStatusObject(JSONObject jsonObject){
         return new IsolatedMarginAccountStatus(jsonObject.getBoolean("success"),
                 jsonObject.getString("symbol")
+        );
+    }
+
+    public String getIsolateMarginAccountLimit() throws Exception {
+        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_LIMIT_ENDPOINT,getParamTimestamp(),GET_METHOD);
+    }
+
+    public JSONObject getJSONIsolateMarginAccountLimit() throws Exception {
+        return new JSONObject(getIsolateMarginAccountLimit());
+    }
+
+    public IsolatedMarginAccountLimit getObjectIsolateMarginAccountLimit() throws Exception {
+        return assembleIsolatedMarginAccountLimitObject(new JSONObject(getIsolateMarginAccountLimit()));
+    }
+
+    public String getIsolateMarginAccountLimit(long recvWindow) throws Exception {
+        String params = getParamTimestamp()+"&recvWindow="+recvWindow;
+        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_LIMIT_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONIsolateMarginAccountLimit(long recvWindow) throws Exception {
+        return new JSONObject(getIsolateMarginAccountLimit(recvWindow));
+    }
+
+    public IsolatedMarginAccountLimit getObjectIsolateMarginAccountLimit(long recvWindow) throws Exception {
+        return assembleIsolatedMarginAccountLimitObject(new JSONObject(getIsolateMarginAccountLimit(recvWindow)));
+    }
+
+    private IsolatedMarginAccountLimit assembleIsolatedMarginAccountLimitObject(JSONObject accountLimit){
+        return new IsolatedMarginAccountLimit(accountLimit.getInt("enabledAccount"),
+                accountLimit.getInt("maxAccount")
         );
     }
 
