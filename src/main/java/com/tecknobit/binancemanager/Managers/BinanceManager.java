@@ -61,7 +61,7 @@ public class BinanceManager {
 
     /** Request to get server timestamp or your current timestamp
      * any param required
-     * return es. 1566247363776
+     * @return es. 1566247363776
      * **/
     public long getTimestamp(){
         try {
@@ -75,7 +75,7 @@ public class BinanceManager {
 
     /** Method to get timestamp for request
      * any params required
-     * return "?timestamp=" + getTimestamp() return value
+     * @return "?timestamp=" + getTimestamp() return value
      * **/
     protected String getParamTimestamp(){
         return "?timestamp="+getTimestamp();
@@ -86,7 +86,7 @@ public class BinanceManager {
      * @param #params: params HTTP for the request
      * @param #method: method HTTP for the request
      * @param #apiKey: apiKey of the account to perform request
-     * return response of request formatted in Json
+     * @return response of request formatted in Json
      * **/
     protected String getRequestResponse(String endpoint, String params, String method, String apiKey) throws IOException {
         requestManager.startConnection(baseEndpoint+endpoint+params,method,apiKey);
@@ -97,7 +97,7 @@ public class BinanceManager {
      * @param #endpoint: endpoint to request
      * @param #params: params HTTP for the request
      * @param #method: method HTTP for the request
-     * return response of request formatted in Json
+     * @return response of request formatted in Json
      * **/
     protected String getRequestResponse(String endpoint, String params, String method) throws IOException {
         requestManager.startConnection(baseEndpoint+endpoint+params,method);
@@ -106,7 +106,7 @@ public class BinanceManager {
 
     /** Method to get error response of an HTTP request
      * any params required
-     * return requestManager.getErrorReponse();
+     * @return requestManager.getErrorReponse();
      * **/
     public String getErrorResponse(){
         return requestManager.getErrorReponse();

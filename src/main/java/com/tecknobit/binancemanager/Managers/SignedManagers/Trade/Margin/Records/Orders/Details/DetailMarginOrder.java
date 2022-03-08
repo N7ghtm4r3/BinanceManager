@@ -5,8 +5,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- *  The {@code DetailMarginOrder} class is useful to format Binance Margin Account Cancel Order request
- *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade
+ *  The {@code DetailMarginOrder} class is useful to format Binance Margin Cancel Order request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
@@ -83,7 +83,7 @@ public class DetailMarginOrder extends Order {
 
     /** Method to get stopPrice
      * any params requirde
-     * return stopPrice as double, if is a null field will return -1
+     * @return stopPrice as double, if is a null field will return -1
      * **/
     public double getStopPrice(){
         return getDoubleValue("stopPrice");
@@ -91,7 +91,7 @@ public class DetailMarginOrder extends Order {
 
     /** Method to get icebergQty
      * any params requirde
-     * return icebergQty as double, if is a null field will return -1
+     * @return icebergQty as double, if is a null field will return -1
      * **/
     public double getIcebergQty(){
         return getDoubleValue("icebergQty");
@@ -99,7 +99,7 @@ public class DetailMarginOrder extends Order {
 
     /** Method to assemble a DetailSpotOrder object
      * @param #key: field to fetch a double value in {@link #jsonObject}
-     * return an DetailSpotOrder object with response data
+     * @return an DetailSpotOrder object with response data
      * **/
     private double getDoubleValue(String key){
         try {

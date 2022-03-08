@@ -53,7 +53,7 @@ public class RequestManager {
 
     /** Method to get response of an HTTP request
      * any params required
-     * return response of the HTTP request, in case of error return error stream of the HTTP request
+     * @return response of the HTTP request, in case of error return error stream of the HTTP request
      * **/
     public String getResponse() throws IOException {
         BufferedReader bufferedReader;
@@ -74,7 +74,7 @@ public class RequestManager {
     /** Method get params signature of an HTTP request
      * @param #key: secreKey of Binance's account used to signature request
      * @param #data: data to sing
-     * return signature es. c8db66725ae71d6d79447319e617115f4a920f5agcdabcb2838bd6b712b053c4"
+     * @return signature es. c8db66725ae71d6d79447319e617115f4a920f5agcdabcb2838bd6b712b053c4"
      * **/
     public String getSignature(String key, String data) throws Exception {
         Mac sha256 = Mac.getInstance("HmacSHA256");
@@ -85,7 +85,7 @@ public class RequestManager {
     /** Method to get formatted extraParams of an HTTP request
      * @param #params: mandatory params of the request
      * @param #extraParams: extra params of the request
-     * return formatted query params for the HTTP request
+     * @return formatted query params for the HTTP request
      * **/
     public String assembleExtraParams(String params, HashMap<String, Object> extraParams) {
         ArrayList<String> keys = new ArrayList<>(extraParams.keySet());
@@ -97,7 +97,7 @@ public class RequestManager {
 
     /** Method to get error response of an HTTP request
      * any params required
-     * return errorResponse
+     * @return errorResponse
      * **/
     public String getErrorReponse() {
         if(errorReponse == null)
@@ -107,7 +107,7 @@ public class RequestManager {
 
     /** Method to format stream of a response of an HTTP request
      * @param #bufferedReader: object that contain actual stream response
-     * return formatted response of an HTTP request as String
+     * @return formatted response of an HTTP request as String
      * **/
     private String readStream(BufferedReader bufferedReader) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();

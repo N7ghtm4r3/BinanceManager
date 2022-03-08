@@ -26,7 +26,7 @@ public class FullSpotOrder extends ResultSpotOrder {
 
     /** Method to load fills list
      * @param #fillsArray: obtained from Binance's request
-     * return an ArrayList<OrderStatus> with response data
+     * @return an ArrayList<OrderStatus> with response data
      * **/
     private void loadFills(JSONArray fillsArray) {
         fills = new ArrayList<>();

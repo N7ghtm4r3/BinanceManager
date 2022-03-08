@@ -46,7 +46,7 @@ public class Filter {
     /** Method to get order details value formatted in JSON
      * any params required
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#order-book
-     * return JsonObject of key and values of a filter
+     * @return JsonObject of key and values of a filter
      * **/
     public JSONObject getFilterDetails() {
        HashMap<String,HashMap<String,Object>> filterDetails = new HashMap<>();

@@ -51,7 +51,7 @@ public class ExchangeInformation {
     /** Method to assemble a Filters list
      * @param #jsonArray: obtained from Binance request
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
-     * return filters list as ArrayList<Filter> object
+     * @return filters list as ArrayList<Filter> object
      * **/
     private static ArrayList<Filter> assembleFilters(JSONArray jsonArray) {
         ArrayList<Filter> filters = new ArrayList<>();
@@ -206,7 +206,7 @@ public class ExchangeInformation {
         /** Method to assemble a ExchangeEnumValues list
          * @param #jsonArray: obtained from Binance request
          * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
-         * return exchangeEnumValues list as ArrayList<ExchangeEnumValues> object
+         * @return exchangeEnumValues list as ArrayList<ExchangeEnumValues> object
          * **/
         private ArrayList<ExchangeEnumValues> loadEnumsList(JSONArray jsonArray){
             ArrayList<ExchangeEnumValues> enumValues = new ArrayList<>();

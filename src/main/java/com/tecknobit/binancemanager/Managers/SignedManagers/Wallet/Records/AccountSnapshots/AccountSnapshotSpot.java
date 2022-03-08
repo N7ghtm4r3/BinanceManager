@@ -37,7 +37,7 @@ public class AccountSnapshotSpot extends AccountSnapshot{
 
     /** Method to get getAccountSnapshotSpot object
      * any params required
-     * return AccountSnapshotSpot object then to cast
+     * @return AccountSnapshotSpot object then to cast
      * **/
     public AccountSnapshotSpot getAccountSnapshotSpot() {
         assetsSpotData = new ArrayList<>();
@@ -56,7 +56,7 @@ public class AccountSnapshotSpot extends AccountSnapshot{
     /** Method to assemble an BalancesSpot list
      * @param #jsonArray: jsonArray obtain by AccountSnapshot Binance request
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
-     * return BalancesSpot list as ArrayList<BalancesSpot>
+     * @return BalancesSpot list as ArrayList<BalancesSpot>
      * **/
     public static ArrayList<BalancesSpot> getBalancesSpot(JSONArray jsonArray){
         ArrayList<BalancesSpot> balancesSpots = new ArrayList<>();

@@ -27,7 +27,7 @@ public class AccountSnapshot {
 
     /** Method to get specifical AccountSnapshot object
      * any params required
-     * return AccountSnapshot object then to cast
+     * @return AccountSnapshot object then to cast
      * **/
     public AccountSnapshot getAccountSnapshot(){
         switch (type){

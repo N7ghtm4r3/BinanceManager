@@ -77,7 +77,7 @@ public class DetailSpotOrder extends SpotOrder {
 
     /** Method to get stopPrice
      * any params requirde
-     * return stopPrice as double, if is a null field will return -1
+     * @return stopPrice as double, if is a null field will return -1
      * **/
     public double getStopPrice(){
         return getDoubleValue("stopPrice");
@@ -85,7 +85,7 @@ public class DetailSpotOrder extends SpotOrder {
 
     /** Method to get icebergQty
      * any params requirde
-     * return icebergQty as double, if is a null field will return -1
+     * @return icebergQty as double, if is a null field will return -1
      * **/
     public double getIcebergQty(){
         return getDoubleValue("icebergQty");
@@ -93,7 +93,7 @@ public class DetailSpotOrder extends SpotOrder {
 
     /** Method to assemble a DetailSpotOrder object
      * @param #key: field to fetch a double value in {@link #jsonObject}
-     * return an DetailSpotOrder object with response data
+     * @return an DetailSpotOrder object with response data
      * **/
     private double getDoubleValue(String key){
         try {
@@ -105,7 +105,7 @@ public class DetailSpotOrder extends SpotOrder {
 
     /** Method to assemble a DetailSpotOrder object
      * @param #response: obtained from Binance's request
-     * return an DetailSpotOrder object with response data
+     * @return an DetailSpotOrder object with response data
      * **/
     public static DetailSpotOrder assembleDetailSpotOrderObject(JSONObject response){
         return new DetailSpotOrder(response.getString("symbol"),

@@ -37,7 +37,7 @@ public class AccountSnapshotMargin extends AccountSnapshot{
 
     /** Method to get getAccountSnapshotMargin object
      * any params required
-     * return AccountSnapshotMargin object then to cast
+     * @return AccountSnapshotMargin object then to cast
      * **/
     public AccountSnapshotMargin getAccountSnapshotMargin() {
         dataMargins = new ArrayList<>();
@@ -65,7 +65,7 @@ public class AccountSnapshotMargin extends AccountSnapshot{
     /** Method to assemble an UserAssetMargin list
      * @param #jsonArray: jsonArray obtain by AccountSnapshot Binance request
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
-     * return userAssetMargin list as ArrayList<UserAssetMargin>
+     * @return userAssetMargin list as ArrayList<UserAssetMargin>
      * **/
     public static ArrayList<UserAssetMargin> assembleUserMarginAssetsList(JSONArray jsonArray) {
         ArrayList<UserAssetMargin> userAssetMargins = new ArrayList<>();

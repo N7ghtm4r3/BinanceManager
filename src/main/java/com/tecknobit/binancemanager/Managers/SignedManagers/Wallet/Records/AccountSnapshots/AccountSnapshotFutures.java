@@ -36,7 +36,7 @@ public class AccountSnapshotFutures extends AccountSnapshot{
 
     /** Method to get AccountSnapshotFutures object
      * any params required
-     * return AccountSnapshotFutures object then to cast
+     * @return AccountSnapshotFutures object then to cast
      * **/
     public AccountSnapshotFutures getAccountSnapshotFutures() {
         dataFutures = new ArrayList<>();
@@ -56,7 +56,7 @@ public class AccountSnapshotFutures extends AccountSnapshot{
     /** Method to assemble an AssetFutures list
      * @param #assets: jsonArray obtain by AccountSnapshot Binance request
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
-     * return assetFutures list as ArrayList<AssetFutures>
+     * @return assetFutures list as ArrayList<AssetFutures>
      * **/
     private ArrayList<AssetFutures> getAssetsList(JSONArray assets) {
         ArrayList<AssetFutures> assetFutures = new ArrayList<>();
@@ -73,7 +73,7 @@ public class AccountSnapshotFutures extends AccountSnapshot{
     /** Method to assemble an PositionFutures list
      * @param #positions: jsonArray obtain by AccountSnapshot Binance request
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
-     * return positionFutures list as ArrayList<PositionFutures>
+     * @return positionFutures list as ArrayList<PositionFutures>
      * **/
     private ArrayList<PositionFutures> getPositionsList(JSONArray positions) {
         ArrayList<PositionFutures> positionFutures = new ArrayList<>();

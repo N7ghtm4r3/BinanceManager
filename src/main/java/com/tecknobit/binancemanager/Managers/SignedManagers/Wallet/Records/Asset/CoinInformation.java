@@ -164,7 +164,7 @@ public class CoinInformation {
         /** Method to assemble an AssetDribbletsDetails list
          * @param #networkList: jsonArray obtain by AllCoins Binance request
          * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data
-         * return networkItems list as  ArrayList<NetworkItem>
+         * @return networkItems list as  ArrayList<NetworkItem>
          * **/
         public static ArrayList<NetworkItem> getNetworkList(JSONArray networkList) {
             ArrayList<NetworkItem> networkItems = new ArrayList<>();

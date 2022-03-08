@@ -118,7 +118,7 @@ public class DustLog {
         /** Method to assemble an AssetDribbletsDetails list
          * @param #userAssetDribbletDetails: jsonArray obtain by DustLog Binance request
          * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
-         * return assetDribbletsDetails list as ArrayList<AssetDribbletsDetails>
+         * @return assetDribbletsDetails list as ArrayList<AssetDribbletsDetails>
          * **/
         public static ArrayList<AssetDribbletsDetails> getListDribbletsDetails(JSONArray userAssetDribbletDetails) {
             ArrayList<AssetDribbletsDetails> assetDribbletsDetails = new ArrayList<>();

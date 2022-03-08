@@ -29,7 +29,7 @@ public class OrderBook {
     /** Method to get load list of order details
      * @param #jsonArray: obtained from Binance request
      * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#order-book
-     * return order details list as ArrayList<BookOrderDetails> object
+     * @return order details list as ArrayList<BookOrderDetails> object
      * **/
     private ArrayList<BookOrderDetails> loadOrderDetails(JSONArray jsonArray){
         ArrayList<BookOrderDetails> orderDetails = new ArrayList<>();
@@ -83,7 +83,7 @@ public class OrderBook {
         /** Method to get order details value formatted in JSON
          * any params required
          * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#order-book
-         * return JsonObject of {@link #price} and {@link #quantity}
+         * @return JsonObject of {@link #price} and {@link #quantity}
          * **/
         public JSONObject getOrderDetails(){
             HashMap<String,Double> values = new HashMap<>();

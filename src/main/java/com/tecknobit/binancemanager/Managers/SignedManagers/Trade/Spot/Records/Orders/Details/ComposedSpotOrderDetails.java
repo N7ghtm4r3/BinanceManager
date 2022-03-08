@@ -24,7 +24,7 @@ public class ComposedSpotOrderDetails extends OrderDetails {
 
     /** Method to load DetailSpotOrder list
      * @param #list: obtained from Binance's request
-     * return an ArrayList<DetailSpotOrder> with response data
+     * @return an ArrayList<DetailSpotOrder> with response data
      * **/
     private void loadOrderReports(JSONArray list){
         orderReports = new ArrayList<>();
