@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.IsolatedDetails;
+package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.Isolated;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

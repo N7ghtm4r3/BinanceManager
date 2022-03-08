@@ -3,8 +3,9 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin;
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.CrossMarginAccountDetails;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.IsolatedDetails.ComposedIMarginAccountInfo;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.IsolatedDetails.IsolatedMarginAccountInfo;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.Isolated.ComposedIMarginAccountInfo;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.Isolated.IsolatedMarginAccountInfo;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.Isolated.IsolatedMarginAccountStatus;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.MarginAccountTrade;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.MarginMaxBorrow;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginList.*;
@@ -27,7 +28,7 @@ import java.util.HashMap;
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.TradeConstants.*;
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.IsolatedDetails.IsolatedMarginAccountInfo.assembleIsolatedMarginAccountInfoList;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.Isolated.IsolatedMarginAccountInfo.assembleIsolatedMarginAccountInfoList;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.ComposedMarginOrderDetails.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.OCOMarginOrder.assembleOCOMarginOrder;
 
@@ -3186,6 +3187,44 @@ public class BinanceMarginManager extends BinanceSignedManager {
         jsonArray = new JSONObject(getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols)), recvWindow))
                 .getJSONArray("assets");
         return assembleIsolatedMarginAccountInfoList(jsonArray);
+    }
+
+    public String switchIMarginAccountStatus(String symbol, boolean enableIsolated) throws Exception {
+        String method = DELETE_METHOD;
+        if(enableIsolated)
+            method = POST_METHOD;
+        String params = getParamTimestamp()+"&symbol="+symbol;
+        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT,params,method);
+    }
+
+    public JSONObject switchJSONIMarginAccountStatus(String symbol, boolean enableIsolated) throws Exception {
+        return new JSONObject(switchIMarginAccountStatus(symbol, enableIsolated));
+    }
+
+    public IsolatedMarginAccountStatus switchObjectIMarginAccountStatus(String symbol, boolean enableIsolated) throws Exception {
+        return assembleIMarginAccountStatusObject(new JSONObject(switchIMarginAccountStatus(symbol, enableIsolated)));
+    }
+
+    public String switchIMarginAccountStatus(String symbol, long recvWindow, boolean enableIsolated) throws Exception {
+        String method = DELETE_METHOD;
+        if(enableIsolated)
+            method = POST_METHOD;
+        String params = getParamTimestamp()+"&symbol="+symbol+"&recvWindow="+recvWindow;
+        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT,params,method);
+    }
+
+    public JSONObject switchJSONIMarginAccountStatus(String symbol, long recvWindow, boolean enableIsolated) throws Exception {
+        return new JSONObject(switchIMarginAccountStatus(symbol, recvWindow, enableIsolated));
+    }
+
+    public IsolatedMarginAccountStatus switchObjectIMarginAccountStatus(String symbol, long recvWindow, boolean enableIsolated) throws Exception {
+        return assembleIMarginAccountStatusObject(new JSONObject(switchIMarginAccountStatus(symbol, recvWindow, enableIsolated)));
+    }
+
+    private IsolatedMarginAccountStatus assembleIMarginAccountStatusObject(JSONObject jsonObject){
+        return new IsolatedMarginAccountStatus(jsonObject.getBoolean("success"),
+                jsonObject.getString("symbol")
+        );
     }
 
 }
