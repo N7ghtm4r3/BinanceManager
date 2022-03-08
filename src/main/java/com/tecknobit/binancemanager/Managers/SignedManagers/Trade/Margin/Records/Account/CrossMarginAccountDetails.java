@@ -5,6 +5,12 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
+/**
+ *  The {@code CrossMarginAccountDetails} class is useful to format Binance Cross Margin Account Detail response request
+ *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data
+ *  @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class CrossMarginAccountDetails {
 
     private final boolean borrowEnabled;

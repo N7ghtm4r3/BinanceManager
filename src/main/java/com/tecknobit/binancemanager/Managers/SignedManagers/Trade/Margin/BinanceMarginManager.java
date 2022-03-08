@@ -3,6 +3,8 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin;
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.CrossMarginAccountDetails;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.MarginAccountTrade;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.MarginMaxBorrow;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginList.*;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties.MarginAsset;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties.MarginPair;
@@ -2948,6 +2950,148 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOpenOrdersList(HashMap<String, Object> extraParams) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOpenOrders(extraParams)));
+    }
+
+    public String getMarginTradeList(String symbol) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol;
+        return sendSignedRequest(MARGIN_TRADES_LIST_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONMarginTradeList(String symbol) throws Exception {
+        return new JSONArray(getMarginTradeList(symbol));
+    }
+
+    public ArrayList<MarginAccountTrade> getMarginTradesList(String symbol) throws Exception {
+        return assembleMarginTradesList(new JSONArray(getMarginTradeList(symbol)));
+    }
+
+    public String getMarginTradeList(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendSignedRequest(MARGIN_TRADES_LIST_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONMarginTradeList(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONArray(getMarginTradeList(symbol, extraParams));
+    }
+
+    public ArrayList<MarginAccountTrade> getMarginTradesList(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        return assembleMarginTradesList(new JSONArray(getMarginTradeList(symbol, extraParams)));
+    }
+
+    private ArrayList<MarginAccountTrade> assembleMarginTradesList(JSONArray jsonArray) {
+        ArrayList<MarginAccountTrade> marginAccountTrades = new ArrayList<>();
+        for (int j=0; j < jsonArray.length(); j++){
+            JSONObject marginTrade = jsonArray.getJSONObject(j);
+            marginAccountTrades.add(new MarginAccountTrade(marginTrade.getDouble("commission"),
+                    marginTrade.getDouble("commissionAsset"),
+                    marginTrade.getLong("id"),
+                    marginTrade.getBoolean("isBestMatch"),
+                    marginTrade.getBoolean("isBuyer"),
+                    marginTrade.getBoolean("isMaker"),
+                    marginTrade.getLong("orderId"),
+                    marginTrade.getDouble("price"),
+                    marginTrade.getDouble("qty"),
+                    marginTrade.getString("symbol"),
+                    marginTrade.getBoolean("isIsolated"),
+                    marginTrade.getLong("time")
+            ));
+        }
+        return marginAccountTrades;
+    }
+
+    public String getMaxBorrow(String asset) throws Exception {
+        String params = getParamTimestamp()+"&asset="+asset;
+        return sendSignedRequest(GET_MAX_MARGIN_BORROW_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONMaxBorrow(String asset) throws Exception {
+        return new JSONObject(getMaxBorrow(asset));
+    }
+
+    public MarginMaxBorrow getObjectMarginBorrow(String asset) throws Exception {
+        return assembleMarginMaxBorrowObject(new JSONObject(getMaxBorrow(asset)));
+    }
+
+    public String getMaxBorrow(String asset, HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&asset="+asset;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendSignedRequest(GET_MAX_MARGIN_BORROW_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONMaxBorrow(String asset, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(getMaxBorrow(asset, extraParams));
+    }
+
+    public MarginMaxBorrow getObjectMarginBorrow(String asset, HashMap<String, Object> extraParams) throws Exception {
+        return assembleMarginMaxBorrowObject(new JSONObject(getMaxBorrow(asset, extraParams)));
+    }
+
+    private MarginMaxBorrow assembleMarginMaxBorrowObject(JSONObject maxBorrow){
+        return new MarginMaxBorrow(maxBorrow.getDouble("amount"),
+                maxBorrow.getDouble("borrowLimit")
+        );
+    }
+
+    public String getMarginIsolatedTransfer(String asset, String symbol, String transFrom, String transTo,
+                                            double amount) throws Exception {
+        String params = getParamTimestamp()+"&asset="+asset+"&symbol="+symbol+"&transFrom="+transFrom+"&transTo="+transTo
+                +"&amount="+amount;
+        return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT,params,POST_METHOD);
+    }
+
+    public JSONObject getJSONMarginIsolatedTransfer(String asset, String symbol, String transFrom, String transTo,
+                                            double amount) throws Exception {
+        return new JSONObject(getMarginIsolatedTransfer(asset, symbol, transFrom, transTo, amount));
+    }
+
+    public long getMarginIsolatedTransferId(String asset, String symbol, String transFrom, String transTo,
+                                            double amount) throws Exception {
+        return getTransactionId(getMarginIsolatedTransfer(asset, symbol, transFrom, transTo, amount));
+    }
+
+    public String getMarginIsolatedTransfer(String asset, String symbol, String transFrom, String transTo,
+                                             double amount, long recvWindow) throws Exception {
+        String params = getParamTimestamp()+"&asset="+asset+"&symbol="+symbol+"&transFrom="+transFrom+"&transTo="+transTo
+                +"&amount="+amount+"&recvWindow="+recvWindow;
+        return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT,params,POST_METHOD);
+    }
+
+    public JSONObject getJSONMarginIsolatedTransfer(String asset, String symbol, String transFrom, String transTo,
+                                                    double amount, long recvWindow) throws Exception {
+        return new JSONObject(getMarginIsolatedTransfer(asset, symbol, transFrom, transTo, amount, recvWindow));
+    }
+
+    public long getMarginIsolatedTransferId(String asset, String symbol, String transFrom, String transTo,
+                                            double amount, long recvWindow) throws Exception {
+        return getTransactionId(getMarginIsolatedTransfer(asset, symbol, transFrom, transTo, amount, recvWindow));
+    }
+
+    public String getMarginIsolatedTransferHistory(String symbol) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol;
+        return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONMarginIsolatedTransferHistory(String symbol) throws Exception {
+        return new JSONObject(getMarginIsolatedTransferHistory(symbol));
+    }
+
+    public MarginIsolatedTransferHistory getObjectMarginIsolatedTransferHistory(String symbol) throws Exception {
+        return new MarginIsolatedTransferHistory(new JSONObject(getMarginIsolatedTransferHistory(symbol)));
+    }
+
+    public String getMarginIsolatedTransferHistory(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol;
+        params = requestManager.assembleExtraParams(params, extraParams);
+        return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONMarginIsolatedTransferHistory(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(getMarginIsolatedTransferHistory(symbol, extraParams));
+    }
+
+    public MarginIsolatedTransferHistory getObjectMarginIsolatedTransferHistory(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        return new MarginIsolatedTransferHistory(new JSONObject(getMarginIsolatedTransferHistory(symbol, extraParams)));
     }
 
 }

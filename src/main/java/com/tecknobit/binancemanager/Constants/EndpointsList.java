@@ -78,5 +78,8 @@ public class EndpointsList {
     public static final String MARGIN_OCO_ORDERS_ENDPOINT = "/sapi/v1/margin/orderList";
     public static final String MARGIN_OCO_ALL_ORDERS_ENDPOINT = "/sapi/v1/margin/allOrderList";
     public static final String MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT = "/sapi/v1/margin/openOrderList";
+    public static final String MARGIN_TRADES_LIST_ENDPOINT = "/sapi/v1/margin/myTrades";
+    public static final String GET_MAX_MARGIN_BORROW_ENDPOINT = "/sapi/v1/margin/maxBorrowable";
+    public static final String ISOLATED_MARGIN_TRANSFER_ENDPOINT = "/sapi/v1/margin/isolated/transfer";
 
 }
