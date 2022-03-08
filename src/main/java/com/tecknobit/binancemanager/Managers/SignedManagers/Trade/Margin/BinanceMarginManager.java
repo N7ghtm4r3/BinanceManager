@@ -9,6 +9,8 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account.IsolatedMarginAccountStatus;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.MarginAccountTrade;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.MarginMaxBorrow;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Details.BNBBurn;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Details.IsolatedMarginSymbol;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginList.*;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties.MarginAsset;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties.MarginPair;
@@ -3291,5 +3293,130 @@ public class BinanceMarginManager extends BinanceSignedManager {
         );
     }
 
+    public String getIsolatedMarginSymbol(String symbol) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol;
+        return sendSignedRequest(QUERY_ISOLATED_MARGIN_SYMBOL_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONIsolatedMarginSymbol(String symbol) throws Exception {
+        return new JSONObject(getIsolatedMarginSymbol(symbol));
+    }
+
+    public IsolatedMarginSymbol getObjectIsolatedMarginSymbol(String symbol) throws Exception {
+        return assembleIsolatedMarginSymbolObject(new JSONObject(getIsolatedMarginSymbol(symbol)));
+    }
+
+    public String getIsolatedMarginSymbol(String symbol, long recvWindow) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol+"&recvWindow="+recvWindow;
+        return sendSignedRequest(QUERY_ISOLATED_MARGIN_SYMBOL_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONObject getJSONIsolatedMarginSymbol(String symbol, long recvWindow) throws Exception {
+        return new JSONObject(getIsolatedMarginSymbol(symbol, recvWindow));
+    }
+
+    public IsolatedMarginSymbol getObjectIsolatedMarginSymbol(String symbol, long recvWindow) throws Exception {
+        return assembleIsolatedMarginSymbolObject(new JSONObject(getIsolatedMarginSymbol(symbol, recvWindow)));
+    }
+
+    public String getAllIsolatedMarginSymbol() throws Exception {
+        return sendSignedRequest(QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT,getParamTimestamp(),GET_METHOD);
+    }
+
+    public JSONArray getJSONAllIsolatedMarginSymbol() throws Exception {
+        return new JSONArray(getAllIsolatedMarginSymbol());
+    }
+
+    public ArrayList<IsolatedMarginSymbol> getAllIsolatedMarginSymbolList() throws Exception {
+        return assembleAllIMarginSymbolList(new JSONArray(getAllIsolatedMarginSymbol()));
+    }
+
+    public String getAllIsolatedMarginSymbol(long recvWindow) throws Exception {
+        String params = getParamTimestamp()+"&recvWindow="+recvWindow;
+        return sendSignedRequest(QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONAllIsolatedMarginSymbol(long recvWindow) throws Exception {
+        return new JSONArray(getAllIsolatedMarginSymbol(recvWindow));
+    }
+
+    public ArrayList<IsolatedMarginSymbol> getAllIsolatedMarginSymbolList(long recvWindow) throws Exception {
+        return assembleAllIMarginSymbolList(new JSONArray(getAllIsolatedMarginSymbol(recvWindow)));
+    }
+
+    private IsolatedMarginSymbol assembleIsolatedMarginSymbolObject(JSONObject symbol){
+        return new IsolatedMarginSymbol(symbol.getString("symbol"),
+                symbol.getString("base"),
+                symbol.getString("quote"),
+                symbol.getBoolean("isMarginTrade"),
+                symbol.getBoolean("isBuyAllowed"),
+                symbol.getBoolean("isSellAllowed")
+        );
+    }
+
+    private ArrayList<IsolatedMarginSymbol> assembleAllIMarginSymbolList(JSONArray jsonArray){
+        ArrayList<IsolatedMarginSymbol> isolatedMarginSymbols = new ArrayList<>();
+        for (int j=0; j < jsonArray.length(); j++)
+            isolatedMarginSymbols.add(assembleIsolatedMarginSymbolObject(jsonArray.getJSONObject(j)));
+        return isolatedMarginSymbols;
+    }
+
+    public String toggleBNBOnTradeInterest() throws Exception {
+        return sendSignedRequest(MARGIN_BNB_ENDPOINT,getParamTimestamp(),POST_METHOD);
+    }
+
+    public JSONObject toggleJSONBNBOnTradeInterest() throws Exception {
+        return new JSONObject(toggleBNBOnTradeInterest());
+    }
+
+    public BNBBurn toggleObjectBNBOnTradeInterest() throws Exception {
+        return assembleBNBBurnObject(new JSONObject(toggleBNBOnTradeInterest()));
+    }
+
+    public String toggleBNBOnTradeInterest(HashMap<String, Object> extraParams) throws Exception {
+        String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
+        return sendSignedRequest(MARGIN_BNB_ENDPOINT,params,POST_METHOD);
+    }
+
+    public JSONObject toggleJSONBNBOnTradeInterest(HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(toggleBNBOnTradeInterest(extraParams));
+    }
+
+    public BNBBurn toggleObjectBNBOnTradeInterest(HashMap<String, Object> extraParams) throws Exception {
+        return assembleBNBBurnObject(new JSONObject(toggleBNBOnTradeInterest(extraParams)));
+    }
+
+    public String getBNBBurnStatus() throws Exception {
+        return sendSignedRequest(MARGIN_BNB_ENDPOINT,getParamTimestamp(),GET_METHOD);
+    }
+
+    public JSONObject getJSONBNBBurnStatus() throws Exception {
+        return new JSONObject(toggleBNBOnTradeInterest());
+    }
+
+    public BNBBurn getObjectBNBBurnStatus() throws Exception {
+        return assembleBNBBurnObject(new JSONObject(getBNBBurnStatus()));
+    }
+
+    public String getBNBBurnStatus(long recvWindow) throws Exception {
+        String params = getParamTimestamp()+"&recvWindow="+recvWindow;
+        return sendSignedRequest(MARGIN_BNB_ENDPOINT,getParamTimestamp(),GET_METHOD);
+    }
+
+    public JSONObject getJSONBNBBurnStatus(long recvWindow) throws Exception {
+        return new JSONObject(getBNBBurnStatus(recvWindow));
+    }
+
+    public BNBBurn getObjectBNBBurnStatus(long recvWindow) throws Exception {
+        return assembleBNBBurnObject(new JSONObject(getBNBBurnStatus(recvWindow)));
+    }
+
+    private BNBBurn assembleBNBBurnObject(JSONObject jsonObject){
+        return new BNBBurn(jsonObject.getBoolean("spotBNBBurn"),
+                jsonObject.getBoolean("interestBNBBurn")
+        );
+    }
+
 }
+
 

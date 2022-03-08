@@ -84,4 +84,8 @@ public class EndpointsList {
     public static final String ISOLATED_MARGIN_TRANSFER_ENDPOINT = "/sapi/v1/margin/isolated/transfer";
     public static final String ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT = "/sapi/v1/margin/isolated/account";
     public static final String ISOLATED_MARGIN_ACCOUNT_LIMIT_ENDPOINT = "/sapi/v1/margin/isolated/accountLimit";
+    public static final String QUERY_ISOLATED_MARGIN_SYMBOL_ENDPOINT = "/sapi/v1/margin/isolated/pair";
+    public static final String QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT = "/sapi/v1/margin/isolated/allPairs";
+    public static final String MARGIN_BNB_ENDPOINT = "/sapi/v1/bnbBurn";
+
 }
