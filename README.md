@@ -58,6 +58,15 @@ dependencies {
 
 The other endpoints will be gradually released
 
+
+## Usage/Examples
+
+**No-Signed Manager**
+
+```java
+BinanceMarketManager binanceMarketManager = new BinanceMarketManager();
+```
+
 ## 🛠 Skills
 - Java
 
