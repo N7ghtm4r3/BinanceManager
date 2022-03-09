@@ -133,6 +133,16 @@ try {
 }
 ```
 
+- Primitives: some requests will return primitive types like boolean, long, double
+
+```java
+// it return long type es. 151596910325
+try {
+    System.out.println(binanceMarketManager.getTimestamp());
+} catch (SystemException | IOException e) {
+    e.printStackTrace();
+}
+```
 ## 🛠 Skills
 - Java
 
