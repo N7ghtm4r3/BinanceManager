@@ -64,9 +64,17 @@ The other endpoints will be gradually released
 ### No-Signed Manager
 
 ```java
-// for example using BinanceMarketManager
+
+// with automatic research for a workly basepoint
 try {
     BinanceMarketManager binanceMarketManager = new BinanceMarketManager();
+} catch (SystemException | IOException e) {
+    e.printStackTrace();
+}
+
+// choose basepoint manually
+try {
+    BinanceMarketManager binanceMarketManager = new BinanceMarketManager(BinanceManager.BASE_ENDPOINTS.get(0));
 } catch (SystemException | IOException e) {
     e.printStackTrace();
 }
