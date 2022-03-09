@@ -87,5 +87,9 @@ public class EndpointsList {
     public static final String QUERY_ISOLATED_MARGIN_SYMBOL_ENDPOINT = "/sapi/v1/margin/isolated/pair";
     public static final String QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT = "/sapi/v1/margin/isolated/allPairs";
     public static final String MARGIN_BNB_ENDPOINT = "/sapi/v1/bnbBurn";
+    public static final String MARGIN_INTEREST_RATE_HISTORY_ENDPOINT = "/sapi/v1/margin/interestRateHistory";
+    public static final String CROSS_MARGIN_DATA_ENDPOINT = "/sapi/v1/margin/crossMarginData";
+    public static final String ISOLATED_MARGIN_DATA_ENDPOINT = "/sapi/v1/margin/isolatedMarginData";
+    public static final String ISOLATED_MARGIN_TIER_DATA_ENDPOINT = "/sapi/v1/margin/isolatedMarginTier";
 
 }

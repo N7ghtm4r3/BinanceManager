@@ -173,13 +173,13 @@ public class ExchangeInformation {
         private final String quoteAsset;
         private final int quotePrecision;
         private final int quoteAssetPrecision;
-        private final ArrayList<ExchangeEnumValues> orderTypes;
+        private final ArrayList<String> orderTypes;
         private final boolean icebergAllowed;
         private final boolean ocoAllowed;
         private final boolean isSpotTradingAllowed;
         private final boolean isMarginTradingAllowed;
         private final ArrayList<Filter> filters;
-        private final ArrayList<ExchangeEnumValues> permissions;
+        private final ArrayList<String> permissions;
         private final int baseCommissionPrecision;
 
         public Symbol(String symbol, boolean quoteOrderQtyMarketAllowed, String status, String baseAsset, int baseAssetPrecision, String quoteAsset,
@@ -203,15 +203,15 @@ public class ExchangeInformation {
             this.baseCommissionPrecision = baseCommissionPrecision;
         }
 
-        /** Method to assemble a ExchangeEnumValues list
+        /** Method to assemble a EnumValues list
          * @param #jsonArray: obtained from Binance request
          * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
-         * @return exchangeEnumValues list as ArrayList<ExchangeEnumValues> object
+         * @return exchangeEnumValues list as ArrayList<EnumValues> object
          * **/
-        private ArrayList<ExchangeEnumValues> loadEnumsList(JSONArray jsonArray){
-            ArrayList<ExchangeEnumValues> enumValues = new ArrayList<>();
+        private ArrayList<String> loadEnumsList(JSONArray jsonArray){
+            ArrayList<String> enumValues = new ArrayList<>();
             for(int j=0; j < jsonArray.length(); j++)
-                enumValues.add(new ExchangeEnumValues(jsonArray.getString(j)));
+                enumValues.add(jsonArray.getString(j));
             return enumValues;
         }
 
@@ -247,8 +247,12 @@ public class ExchangeInformation {
             return quoteAssetPrecision;
         }
 
-        public ArrayList<ExchangeEnumValues> getOrderTypes() {
+        public ArrayList<String> getOrderTypesList() {
             return orderTypes;
+        }
+
+        public String getOrderType(int index) {
+            return orderTypes.get(index);
         }
 
         public boolean isIcebergAllowed() {
@@ -267,39 +271,24 @@ public class ExchangeInformation {
             return isMarginTradingAllowed;
         }
 
-        public ArrayList<Filter> getFilters() {
+        public ArrayList<Filter> getFiltersList() {
             return filters;
         }
 
-        public ArrayList<ExchangeEnumValues> getPermissions() {
+        public Filter getFilter(int index) {
+            return filters.get(index);
+        }
+
+        public ArrayList<String> getPermissionsList() {
             return permissions;
+        }
+
+        public String getPermission(int index) {
+            return permissions.get(index);
         }
 
         public int getBaseCommissionPrecision() {
             return baseCommissionPrecision;
-        }
-
-        /**
-         * The {@code ExchangeEnumValues} class is useful to contain and format ExchangeEnumValues object
-         * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
-         * **/
-
-        public static class ExchangeEnumValues {
-
-            private final String enumValue;
-
-            public ExchangeEnumValues(String enumValue) {
-                this.enumValue = enumValue;
-            }
-
-            public String getEnumValue() {
-                return enumValue;
-            }
-
-            @Override
-            public String toString() {
-                return enumValue;
-            }
         }
 
     }

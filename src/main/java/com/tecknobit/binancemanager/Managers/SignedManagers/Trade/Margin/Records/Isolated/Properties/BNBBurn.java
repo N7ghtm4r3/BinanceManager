@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Details;
+package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Properties;
 
 public class BNBBurn {
 

@@ -3,18 +3,18 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin;
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.CrossMarginAccountDetails;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.MarginAccountTrade;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.MarginMaxBorrow;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account.ComposedIMarginAccountInfo;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account.IsolatedMarginAccountInfo;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account.IsolatedMarginAccountLimit;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account.IsolatedMarginAccountStatus;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.MarginAccountTrade;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.MarginMaxBorrow;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Details.BNBBurn;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Details.IsolatedMarginSymbol;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Properties.BNBBurn;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Properties.IsolatedMarginFee;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Properties.IsolatedMarginSymbol;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Properties.IsolatedMarginTierData;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginList.*;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties.MarginAsset;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties.MarginPair;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties.MarginPriceIndex;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties.*;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.*;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.ACKMarginOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response.FullMarginOrder;
@@ -32,7 +32,7 @@ import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.TradeConstants.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account.IsolatedMarginAccountInfo.assembleIsolatedMarginAccountInfoList;
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.ComposedMarginOrderDetails.*;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.ComposedMarginOrderDetails.assembleComposedMarginOrderDetails;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.OCOMarginOrder.assembleOCOMarginOrder;
 
 /**
@@ -3417,6 +3417,167 @@ public class BinanceMarginManager extends BinanceSignedManager {
         );
     }
 
+    public String getMarginInterestRateHistory(String asset) throws Exception {
+        String params = getParamTimestamp()+"&asset="+asset;
+        return sendSignedRequest(MARGIN_INTEREST_RATE_HISTORY_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONMarginInterestRateHistory(String asset) throws Exception {
+        return new JSONArray(getMarginInterestRateHistory(asset));
+    }
+
+    public ArrayList<MarginInterestRate> getMarginInterestRateHistoryList(String asset) throws Exception {
+        return assembleMarginIRateHistoryList(new JSONArray(getMarginInterestRateHistory(asset)));
+    }
+
+    public String getMarginInterestRateHistory(String asset, HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&asset="+asset;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendSignedRequest(MARGIN_INTEREST_RATE_HISTORY_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONMarginInterestRateHistory(String asset, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONArray(getMarginInterestRateHistory(asset, extraParams));
+    }
+
+    public ArrayList<MarginInterestRate> getMarginInterestRateHistoryList(String asset, HashMap<String, Object> extraParams) throws Exception {
+        return assembleMarginIRateHistoryList(new JSONArray(getMarginInterestRateHistory(asset, extraParams)));
+    }
+
+    private ArrayList<MarginInterestRate> assembleMarginIRateHistoryList(JSONArray jsonArray) {
+        ArrayList<MarginInterestRate> marginInterestRates = new ArrayList<>();
+        for (int j=0; j < jsonArray.length(); j++) {
+            JSONObject interestRate = jsonArray.getJSONObject(j);
+            marginInterestRates.add(new MarginInterestRate(interestRate.getString("asset"),
+                    interestRate.getDouble("dailyInterestRate"),
+                    interestRate.getLong("timestamp"),
+                    interestRate.getInt("vipLevel")
+            ));
+        }
+        return marginInterestRates;
+    }
+
+    public String getCrossMarginFeeData() throws Exception {
+        return sendSignedRequest(CROSS_MARGIN_DATA_ENDPOINT,getParamTimestamp(),GET_METHOD);
+    }
+
+    public JSONArray getJSONCrossMarginFeeData() throws Exception {
+        return new JSONArray(getCrossMarginFeeData());
+    }
+
+    public ArrayList<CrossMarginFee> getCrossMarginFeesList() throws Exception {
+        return assembleCrossMarginFeesList(new JSONArray(getCrossMarginFeeData()));
+    }
+
+    public String getCrossMarginFeeData(HashMap<String, Object> extraParams) throws Exception {
+        String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
+        return sendSignedRequest(CROSS_MARGIN_DATA_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONCrossMarginFeeData(HashMap<String, Object> extraParams) throws Exception {
+        return new JSONArray(getCrossMarginFeeData(extraParams));
+    }
+
+    public ArrayList<CrossMarginFee> getCrossMarginFeesList(HashMap<String, Object> extraParams) throws Exception {
+        return assembleCrossMarginFeesList(new JSONArray(getCrossMarginFeeData(extraParams)));
+    }
+
+    private ArrayList<CrossMarginFee> assembleCrossMarginFeesList(JSONArray jsonArray) {
+        ArrayList<CrossMarginFee> crossMarginFees = new ArrayList<>();
+        for (int j=0; j < jsonArray.length(); j++) {
+            JSONObject fee = jsonArray.getJSONObject(j);
+            crossMarginFees.add(new CrossMarginFee(fee.getInt("vipLevel"),
+                    fee.getString("coin"),
+                    fee.getBoolean("transferIn"),
+                    fee.getBoolean("borrowable"),
+                    fee.getDouble("dailyInterest"),
+                    fee.getDouble("yearlyInterest"),
+                    fee.getDouble("borrowLimit"),
+                    fee.getJSONArray("marginablePairs")
+            ));
+        }
+        return crossMarginFees;
+    }
+
+    public String getIsolatedMarginFee() throws Exception {
+        return sendSignedRequest(ISOLATED_MARGIN_DATA_ENDPOINT,getParamTimestamp(),GET_METHOD);
+    }
+
+    public JSONArray getJSONIsolatedMarginFee() throws Exception {
+        return new JSONArray(getIsolatedMarginFee());
+    }
+
+    public ArrayList<IsolatedMarginFee> getIsolatedMarginFeesList() throws Exception {
+        return assembleIsolatedMarginFeesList(new JSONArray(getIsolatedMarginFee()));
+    }
+
+    public String getIsolatedMarginFee(HashMap<String, Object> extraParams) throws Exception {
+        String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
+        return sendSignedRequest(ISOLATED_MARGIN_DATA_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONIsolatedMarginFee(HashMap<String, Object> extraParams) throws Exception {
+        return new JSONArray(getIsolatedMarginFee(extraParams));
+    }
+
+    public ArrayList<IsolatedMarginFee> getIsolatedMarginFeesList(HashMap<String, Object> extraParams) throws Exception {
+        return assembleIsolatedMarginFeesList(new JSONArray(getIsolatedMarginFee(extraParams)));
+    }
+
+    private ArrayList<IsolatedMarginFee> assembleIsolatedMarginFeesList(JSONArray jsonArray) {
+        ArrayList<IsolatedMarginFee> isolatedMarginFees = new ArrayList<>();
+        for (int j=0; j < jsonArray.length(); j++) {
+            JSONObject fee = jsonArray.getJSONObject(j);
+            isolatedMarginFees.add(new IsolatedMarginFee(fee.getInt("vipLevel"),
+                    fee.getString("symbol"),
+                    fee.getInt("leverage"),
+                    fee.getJSONArray("data")
+            ));
+        }
+        return isolatedMarginFees;
+    }
+
+    public String getIsolatedMarginTierData(String symbol) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol;
+        return sendSignedRequest(ISOLATED_MARGIN_TIER_DATA_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONIsolatedMarginTierData(String symbol) throws Exception {
+        return new JSONArray(getIsolatedMarginTierData(symbol));
+    }
+
+    public ArrayList<IsolatedMarginTierData> getIsolatedMarginTierDataList(String symbol) throws Exception {
+        return assembleIsolatedMarginTierDataList(new JSONArray(getIsolatedMarginTierData(symbol)));
+    }
+
+    public String getIsolatedMarginTierData(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp()+"&symbol="+symbol;
+        params = requestManager.assembleExtraParams(params,extraParams);
+        return sendSignedRequest(ISOLATED_MARGIN_TIER_DATA_ENDPOINT,params,GET_METHOD);
+    }
+
+    public JSONArray getJSONIsolatedMarginTierData(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONArray(getIsolatedMarginTierData(symbol,extraParams));
+    }
+
+    public ArrayList<IsolatedMarginTierData> getIsolatedMarginTierDataList(String symbol, HashMap<String, Object> extraParams) throws Exception {
+        return assembleIsolatedMarginTierDataList(new JSONArray(getIsolatedMarginTierData(symbol,extraParams)));
+    }
+
+    private ArrayList<IsolatedMarginTierData> assembleIsolatedMarginTierDataList(JSONArray jsonArray) {
+        ArrayList<IsolatedMarginTierData> isolatedMarginTierData = new ArrayList<>();
+        for (int j=0; j < jsonArray.length(); j++) {
+            JSONObject tierData = jsonArray.getJSONObject(j);
+            isolatedMarginTierData.add(new IsolatedMarginTierData(tierData.getString("symbol"),
+                    tierData.getInt("tier"),
+                    tierData.getDouble("effectiveMultiple"),
+                    tierData.getDouble("initialRiskRatio"),
+                    tierData.getDouble("liquidationRiskRatio"),
+                    tierData.getDouble("baseAssetMaxBorrowable"),
+                    tierData.getDouble("quoteAssetMaxBorrowable")
+            ));
+        }
+        return isolatedMarginTierData;
+    }
+
 }
-
-
