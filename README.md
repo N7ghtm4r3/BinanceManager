@@ -15,6 +15,11 @@ Il progetto tratta di un gestore di liste per i libri.
 
 For support, email infotecknobitcompany@gmail.com.
 
+## Donations
+
+If you want support the project and developer
+
+![](https://img.shields.io/badge/Bitcoin-000000?style=for-the-badge&logo=bitcoin&logoColor=white) 38RKEQxUtJUqevaxCWxZ1bgNzFamVJmG1R
 
 ## Badges
 
