@@ -48,6 +48,16 @@ dependencies {
     <version>1.0.0</version>
 </dependency>
 ```
+
+## Endpoints available
+
+- Wallet
+- Market Data
+- Spot Account/Trade
+- Margin Account/Trade
+
+The other endpoints will be gradually released
+
 ## 🛠 Skills
 - Java
 
