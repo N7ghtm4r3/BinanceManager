@@ -153,7 +153,7 @@ try {
     System.out.println(binanceMarketManager.getErrorResponse());
 }
 /* NOTE: if is not a request error will appear: "No HTTP Binance request error, check your code"
-  and you will have to work on your code */
+  and you will have to work on your code to manage error*/
 ```
 ## 🛠 Skills
 - Java
