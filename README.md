@@ -61,9 +61,10 @@ The other endpoints will be gradually released
 
 ## Usage/Examples
 
-**No-Signed Manager**
+### No-Signed Manager
 
 ```java
+// for example using BinanceMarketManager
 try {
     BinanceMarketManager binanceMarketManager = new BinanceMarketManager();
 } catch (SystemException | IOException e) {
@@ -76,7 +77,7 @@ try {
 
 ```java
 try {
-    System.out.println(binanceMarketManager.getPriceTicker());
+    System.out.println(binanceMarketManager.getPriceTicker("BTCBUSD"));
 } catch (IOException e) {
     e.printStackTrace();
 }
@@ -86,12 +87,21 @@ try {
 
 ```java
 try {
-    System.out.println(binanceMarketManager.getJSONPriceTicker());
+    System.out.println(binanceMarketManager.getJSONPriceTicker("BTCBUSD"));
 } catch (IOException e) {
     e.printStackTrace();
 }
 ```
 
+- Custom-object: will return response formatted as custom object provided by library
+
+```java
+try {
+    System.out.println(binanceMarketManager.getObjectPriceTicker("BTCBUSD"));
+} catch (IOException e) {
+    e.printStackTrace();
+}
+```
 
 ## 🛠 Skills
 - Java
