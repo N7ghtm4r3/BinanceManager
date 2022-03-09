@@ -2960,33 +2960,73 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOpenOrders(extraParams)));
     }
 
+    /** Request to get margin trade list
+     * @param #symbol: used in the request es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data
+     * @return margin trade list as String
+     * **/
     public String getMarginTradeList(String symbol) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
         return sendSignedRequest(MARGIN_TRADES_LIST_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get margin trade list
+     * @param #symbol: used in the request es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data
+     * @return margin trade list as JSONArray
+     * **/
     public JSONArray getJSONMarginTradeList(String symbol) throws Exception {
         return new JSONArray(getMarginTradeList(symbol));
     }
 
+    /** Request to get margin trade list
+     * @param #symbol: used in the request es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data
+     * @return margin trade list as ArrayList<{@link MarginAccountTrade}>
+     * **/
     public ArrayList<MarginAccountTrade> getMarginTradesList(String symbol) throws Exception {
         return assembleMarginTradesList(new JSONArray(getMarginTradeList(symbol)));
     }
 
+    /** Request to get margin trade list
+     * @param #symbol: used in the request es. BTCBUSD
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,startTime,endTime,fromId,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data
+     * @return margin trade list as String
+     * **/
     public String getMarginTradeList(String symbol, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(MARGIN_TRADES_LIST_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get margin trade list
+     * @param #symbol: used in the request es. BTCBUSD
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,startTime,endTime,fromId,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data
+     * @return margin trade list as JSONArray
+     * **/
     public JSONArray getJSONMarginTradeList(String symbol, HashMap<String, Object> extraParams) throws Exception {
         return new JSONArray(getMarginTradeList(symbol, extraParams));
     }
 
+    /** Request to get margin trade list
+     * @param #symbol: used in the request es. BTCBUSD
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,startTime,endTime,fromId,limit,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data
+     * @return margin trade list as ArrayList<{@link MarginAccountTrade}>
+     * **/
     public ArrayList<MarginAccountTrade> getMarginTradesList(String symbol, HashMap<String, Object> extraParams) throws Exception {
         return assembleMarginTradesList(new JSONArray(getMarginTradeList(symbol, extraParams)));
     }
 
+    /** Method to assemble a MarginAccountTrade list
+     * @param #jsonArray: obtained from Binance's request
+     * @return a list as ArrayList<{@link MarginAccountTrade}>
+     * **/
     private ArrayList<MarginAccountTrade> assembleMarginTradesList(JSONArray jsonArray) {
         ArrayList<MarginAccountTrade> marginAccountTrades = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
@@ -3008,71 +3048,160 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return marginAccountTrades;
     }
 
+    /** Request to get max borrow
+     * @param #asset: used in the request es. BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data
+     * @return max borrow as String
+     * **/
     public String getMaxBorrow(String asset) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
         return sendSignedRequest(GET_MAX_MARGIN_BORROW_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get max borrow
+     * @param #asset: used in the request es. BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data
+     * @return max borrow as JSONObject
+     * **/
     public JSONObject getJSONMaxBorrow(String asset) throws Exception {
         return new JSONObject(getMaxBorrow(asset));
     }
 
+    /** Request to get max borrow
+     * @param #asset: used in the request es. BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data
+     * @return max borrow as {@link MarginMaxBorrow}
+     * **/
     public MarginMaxBorrow getObjectMarginBorrow(String asset) throws Exception {
         return assembleMarginMaxBorrowObject(new JSONObject(getMaxBorrow(asset)));
     }
 
+    /** Request to get max borrow
+     * @param #asset: used in the request es. BTC
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data
+     * @return max borrow as String
+     * **/
     public String getMaxBorrow(String asset, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(GET_MAX_MARGIN_BORROW_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get max borrow
+     * @param #asset: used in the request es. BTC
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data
+     * @return max borrow as JSONObject
+     * **/
     public JSONObject getJSONMaxBorrow(String asset, HashMap<String, Object> extraParams) throws Exception {
         return new JSONObject(getMaxBorrow(asset, extraParams));
     }
 
+    /** Request to get max borrow
+     * @param #asset: used in the request es. BTC
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data
+     * @return max borrow as {@link MarginMaxBorrow}
+     * **/
     public MarginMaxBorrow getObjectMarginBorrow(String asset, HashMap<String, Object> extraParams) throws Exception {
         return assembleMarginMaxBorrowObject(new JSONObject(getMaxBorrow(asset, extraParams)));
     }
 
+    /** Method to assemble a MarginMaxBorrow object
+     * @param #maxBorrow: obtained from Binance's request
+     * @return a {@link MarginMaxBorrow} object
+     * **/
     private MarginMaxBorrow assembleMarginMaxBorrowObject(JSONObject maxBorrow){
         return new MarginMaxBorrow(maxBorrow.getDouble("amount"),
                 maxBorrow.getDouble("borrowLimit")
         );
     }
 
+    /** Request to get max transfer out amount
+     * @param #asset: used in the request es. BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data
+     * @return max transfer out amount as String
+     * **/
     public String getMaxTransferOutAmount(String asset) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
         return sendSignedRequest(GET_MAX_MARGIN_TRANSFER_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get max transfer out amount
+     * @param #asset: used in the request es. BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data
+     * @return max transfer out amount as JSONObject
+     * **/
     public JSONObject getJSONMaxTransferOutAmount(String asset) throws Exception {
         return new JSONObject(getMaxTransferOutAmount(asset));
     }
 
+    /** Request to get max transfer out amount
+     * @param #asset: used in the request es. BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data
+     * @return max transfer out amount as double
+     * **/
     public double getMaxTransferOutAmountValue(String asset) throws Exception {
         return getMaxTransferAmountValue(getMaxTransferOutAmount(asset));
     }
 
+    /** Request to get max transfer out amount
+     * @param #asset: used in the request es. BTC
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data
+     * @return max transfer out amount as String
+     * **/
     public String getMaxTransferOutAmount(String asset, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(GET_MAX_MARGIN_TRANSFER_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get max transfer out amount
+     * @param #asset: used in the request es. BTC
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data
+     * @return max transfer out amount as JSONObject
+     * **/
     public JSONObject getJSONMaxTransferOutAmount(String asset, HashMap<String, Object> extraParams) throws Exception {
         return new JSONObject(getMaxTransferOutAmount(asset, extraParams));
     }
 
+    /** Request to get max transfer out amount
+     * @param #asset: used in the request es. BTC
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are isIsolated,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data
+     * @return max transfer out amount as double
+     * **/
     public double getMaxTransferOutAmountValue(String asset, HashMap<String, Object> extraParams) throws Exception {
         return getMaxTransferAmountValue(getMaxTransferOutAmount(asset, extraParams));
     }
 
+    /** Method to get amount value
+     * @param #stringSource: obtained from Binance's request
+     * @return amount value as double
+     * **/
     private double getMaxTransferAmountValue(String stringSource){
         jsonObject = new JSONObject(stringSource);
         return jsonObject.getDouble("amount");
     }
 
+    /** Request to get margin isolated transfer
+     * @param #asset: used in the request es. BTC
+     * @param #symbol: used in the request es. BTCBUSD
+     * @param #transFrom: SPOT or ISOLATED_MARGIN
+     * @param #transTo: SPOT or ISOLATED_MARGIN
+     * @param #amount: used in the request to transfer es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin
+     * @return margin isolated transfer as String
+     * **/
     public String getMarginIsolatedTransfer(String asset, String symbol, String transFrom, String transTo,
                                             double amount) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset+"&symbol="+symbol+"&transFrom="+transFrom+"&transTo="+transTo
@@ -3080,16 +3209,44 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT,params,POST_METHOD);
     }
 
+    /** Request to get margin isolated transfer
+     * @param #asset: used in the request es. BTC
+     * @param #symbol: used in the request es. BTCBUSD
+     * @param #transFrom: SPOT or ISOLATED_MARGIN
+     * @param #transTo: SPOT or ISOLATED_MARGIN
+     * @param #amount: used in the request to transfer es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin
+     * @return margin isolated transfer as JSONObject
+     * **/
     public JSONObject getJSONMarginIsolatedTransfer(String asset, String symbol, String transFrom, String transTo,
                                             double amount) throws Exception {
         return new JSONObject(getMarginIsolatedTransfer(asset, symbol, transFrom, transTo, amount));
     }
 
+    /** Request to get margin isolated transfer
+     * @param #asset: used in the request es. BTC
+     * @param #symbol: used in the request es. BTCBUSD
+     * @param #transFrom: SPOT or ISOLATED_MARGIN
+     * @param #transTo: SPOT or ISOLATED_MARGIN
+     * @param #amount: used in the request to transfer es. 1
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin
+     * @return margin isolated transferId as long
+     * **/
     public long getMarginIsolatedTransferId(String asset, String symbol, String transFrom, String transTo,
                                             double amount) throws Exception {
         return getTransactionId(getMarginIsolatedTransfer(asset, symbol, transFrom, transTo, amount));
     }
 
+    /** Request to get margin isolated transfer
+     * @param #asset: used in the request es. BTC
+     * @param #symbol: used in the request es. BTCBUSD
+     * @param #transFrom: SPOT or ISOLATED_MARGIN
+     * @param #transTo: SPOT or ISOLATED_MARGIN
+     * @param #amount: used in the request to transfer es. 1
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin
+     * @return margin isolated transfer as String
+     * **/
     public String getMarginIsolatedTransfer(String asset, String symbol, String transFrom, String transTo,
                                              double amount, long recvWindow) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset+"&symbol="+symbol+"&transFrom="+transFrom+"&transTo="+transTo
@@ -3097,68 +3254,158 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT,params,POST_METHOD);
     }
 
+    /** Request to get margin isolated transfer
+     * @param #asset: used in the request es. BTC
+     * @param #symbol: used in the request es. BTCBUSD
+     * @param #transFrom: SPOT or ISOLATED_MARGIN
+     * @param #transTo: SPOT or ISOLATED_MARGIN
+     * @param #amount: used in the request to transfer es. 1
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin
+     * @return margin isolated transfer as String
+     * **/
     public JSONObject getJSONMarginIsolatedTransfer(String asset, String symbol, String transFrom, String transTo,
                                                     double amount, long recvWindow) throws Exception {
         return new JSONObject(getMarginIsolatedTransfer(asset, symbol, transFrom, transTo, amount, recvWindow));
     }
 
+    /** Request to get margin isolated transfer
+     * @param #asset: used in the request es. BTC
+     * @param #symbol: used in the request es. BTCBUSD
+     * @param #transFrom: SPOT or ISOLATED_MARGIN
+     * @param #transTo: SPOT or ISOLATED_MARGIN
+     * @param #amount: used in the request to transfer es. 1
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin
+     * @return margin isolated transfer as String
+     * **/
     public long getMarginIsolatedTransferId(String asset, String symbol, String transFrom, String transTo,
                                             double amount, long recvWindow) throws Exception {
         return getTransactionId(getMarginIsolatedTransfer(asset, symbol, transFrom, transTo, amount, recvWindow));
     }
 
+    /** Request to get margin isolated transfer history
+     * @param #symbol: used in the request es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data
+     * @return margin isolated transfer history as String
+     * **/
     public String getMarginIsolatedTransferHistory(String symbol) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
         return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get margin isolated transfer history
+     * @param #symbol: used in the request es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data
+     * @return margin isolated transfer history as JSONObject
+     * **/
     public JSONObject getJSONMarginIsolatedTransferHistory(String symbol) throws Exception {
         return new JSONObject(getMarginIsolatedTransferHistory(symbol));
     }
 
+    /** Request to get margin isolated transfer history
+     * @param #symbol: used in the request es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data
+     * @return margin isolated transfer history as {@link MarginIsolatedTransferHistory} object
+     * **/
     public MarginIsolatedTransferHistory getObjectMarginIsolatedTransferHistory(String symbol) throws Exception {
         return new MarginIsolatedTransferHistory(new JSONObject(getMarginIsolatedTransferHistory(symbol)));
     }
 
+    /** Request to get margin isolated transfer history
+     * @param #symbol: used in the request es. BTCBUSD
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are asset,transFrom,transTo,startTime,endTime,current,size,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data
+     * @return margin isolated transfer history as String
+     * **/
     public String getMarginIsolatedTransferHistory(String symbol, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
         params = requestManager.assembleExtraParams(params, extraParams);
         return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get margin isolated transfer history
+     * @param #symbol: used in the request es. BTCBUSD
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are asset,transFrom,transTo,startTime,endTime,current,size,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data
+     * @return margin isolated transfer history as JSONObject
+     * **/
     public JSONObject getJSONMarginIsolatedTransferHistory(String symbol, HashMap<String, Object> extraParams) throws Exception {
         return new JSONObject(getMarginIsolatedTransferHistory(symbol, extraParams));
     }
 
+    /** Request to get margin isolated transfer history
+     * @param #symbol: used in the request es. BTCBUSD
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are asset,transFrom,transTo,startTime,endTime,current,size,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data
+     * @return margin isolated transfer history as {@link MarginIsolatedTransferHistory} object
+     * **/
     public MarginIsolatedTransferHistory getObjectMarginIsolatedTransferHistory(String symbol, HashMap<String, Object> extraParams) throws Exception {
         return new MarginIsolatedTransferHistory(new JSONObject(getMarginIsolatedTransferHistory(symbol, extraParams)));
     }
 
+    /** Request to get margin isolated account info
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+     * @return margin account info as String
+     * **/
     public String getMarginIsolatedAccountInfo() throws Exception {
         return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
+    /** Request to get margin isolated account info
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+     * @return margin account info as JSONObject
+     * **/
     public JSONObject getJSONMarginIsolatedAccountInfo() throws Exception {
         return new JSONObject(getMarginIsolatedAccountInfo());
     }
 
+    /** Request to get margin isolated account info
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+     * @return margin account info as {@link ComposedIMarginAccountInfo} object
+     * **/
     public ComposedIMarginAccountInfo getObjectMarginIsolatedAccount() throws Exception {
         return assembleComposedIMarginAccountInfoObject(new JSONObject(getMarginIsolatedAccountInfo()));
     }
 
+    /** Request to get margin isolated account info
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+     * @return margin account info as String
+     * **/
     public String getMarginIsolatedAccountInfo(long recvWindow) throws Exception {
         String params = getParamTimestamp()+"&recvWindow="+recvWindow;
         return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get margin isolated account info
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+     * @return margin account info as JSONObject
+     * **/
     public JSONObject getJSONMarginIsolatedAccountInfo(long recvWindow) throws Exception {
         return new JSONObject(getMarginIsolatedAccountInfo(recvWindow));
     }
 
+    /** Request to get margin isolated account info
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+     * @return margin account info as {@link ComposedIMarginAccountInfo} object
+     * **/
     public ComposedIMarginAccountInfo getObjectMarginIsolatedAccount(long recvWindow) throws Exception {
         return assembleComposedIMarginAccountInfoObject(new JSONObject(getMarginIsolatedAccountInfo(recvWindow)));
     }
 
+    /** Method to assemble a ComposedIMarginAccountInfo object
+     * @param #jsonObject: obtained from Binance's request
+     * @return a {@link ComposedIMarginAccountInfo} object
+     * **/
     private ComposedIMarginAccountInfo assembleComposedIMarginAccountInfoObject(JSONObject jsonObject){
         return new ComposedIMarginAccountInfo(jsonObject.getDouble("totalAssetOfBtc"),
                 jsonObject.getDouble("totalLiabilityOfBtc"),
@@ -3167,63 +3414,135 @@ public class BinanceMarginManager extends BinanceSignedManager {
         );
     }
 
+    /** Request to get margin isolated account info
+     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+     * @return margin account info as String
+     * **/
     public String getMarginIsolatedAccountInfo(ArrayList<String> symbols) throws Exception {
         String params = getParamTimestamp()+"&symbols="+requestManager.assembleSymbolsParams(symbols);
         return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get margin isolated account info
+     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+     * @return margin account info as JSONObject
+     * **/
     public JSONObject getJSONMarginIsolatedAccountInfo(ArrayList<String> symbols) throws Exception {
         return new JSONObject(getMarginIsolatedAccountInfo(symbols));
     }
 
+    /** Request to get margin isolated account info list
+     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+     * @return margin account info as ArrayList<{@link IsolatedMarginAccountInfo}>
+     * **/
     public ArrayList<IsolatedMarginAccountInfo> getMarginIsolatedAccountList(ArrayList<String> symbols) throws Exception {
         return assembleIsolatedMarginAccountInfoList(new JSONObject(getMarginIsolatedAccountInfo(symbols))
                 .getJSONArray("assets"));
     }
 
+    /** Request to get margin isolated account info
+     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+     * @return margin account info as String
+     * **/
     public String getMarginIsolatedAccountInfo(String[] symbols) throws Exception {
        return getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols)));
     }
 
+    /** Request to get margin isolated account info
+     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+     * @return margin account info as JSONObject
+     * **/
     public JSONObject getJSONMarginIsolatedAccountInfo(String[] symbols) throws Exception {
         return new JSONObject(getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols))));
     }
 
+    /** Request to get margin isolated account info list
+     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+     * @return margin account info as ArrayList<{@link IsolatedMarginAccountInfo}>
+     * **/
     public ArrayList<IsolatedMarginAccountInfo> getMarginIsolatedAccountList(String[] symbols) throws Exception {
         jsonArray = new JSONObject(getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols))))
                 .getJSONArray("assets");
         return assembleIsolatedMarginAccountInfoList(jsonArray);
     }
 
+    /** Request to get margin isolated account info
+     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+     * @return margin account info as String
+     * **/
     public String getMarginIsolatedAccountInfo(ArrayList<String> symbols, long recvWindow) throws Exception {
         String params = getParamTimestamp()+"&symbols="+requestManager.assembleSymbolsParams(symbols)+
                 "&recvWindow="+recvWindow;
         return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get margin isolated account info
+     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+     * @return margin account info as JSONObject
+     * **/
     public JSONObject getJSONMarginIsolatedAccountInfo(ArrayList<String> symbols, long recvWindow) throws Exception {
         return new JSONObject(getMarginIsolatedAccountInfo(symbols, recvWindow));
     }
 
+    /** Request to get margin isolated account info list
+     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+     * @return margin account info as ArrayList<{@link IsolatedMarginAccountInfo}>
+     * **/
     public ArrayList<IsolatedMarginAccountInfo> getMarginIsolatedAccountList(ArrayList<String> symbols, long recvWindow) throws Exception {
         jsonArray = new JSONObject(getMarginIsolatedAccountInfo(symbols, recvWindow)).getJSONArray("assets");
         return assembleIsolatedMarginAccountInfoList(jsonArray);
     }
 
+    /** Request to get margin isolated account info
+     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+     * @return margin account info as String
+     * **/
     public String getMarginIsolatedAccountInfo(String[] symbols, long recvWindow) throws Exception {
         return getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols)), recvWindow);
     }
 
+    /** Request to get margin isolated account info
+     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+     * @return margin account info as JSONObject
+     * **/
     public JSONObject getJSONMarginIsolatedAccountInfo(String[] symbols, long recvWindow) throws Exception {
         return new JSONObject(getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols)), recvWindow));
     }
 
+    /** Request to get margin isolated account info list
+     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+     * @return margin account info as ArrayList<{@link IsolatedMarginAccountInfo}>
+     * **/
     public ArrayList<IsolatedMarginAccountInfo> getMarginIsolatedAccountList(String[] symbols, long recvWindow) throws Exception {
         jsonArray = new JSONObject(getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols)), recvWindow))
                 .getJSONArray("assets");
         return assembleIsolatedMarginAccountInfoList(jsonArray);
     }
 
+    /** Request to enable or disable isolated margin account status
+     * @param #symbol: symbol used in the request es. BTCUSDT
+     * @param #enableIsolated: enable or disable isolated margin account status
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade
+     * @return result of enable or disable isolated margin account status as String
+     * **/
     public String switchIMarginAccountStatus(String symbol, boolean enableIsolated) throws Exception {
         String method = DELETE_METHOD;
         if(enableIsolated)
@@ -3232,14 +3551,33 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT,params,method);
     }
 
+    /** Request to enable or disable isolated margin account status
+     * @param #symbol: symbol used in the request es. BTCUSDT
+     * @param #enableIsolated: enable or disable isolated margin account status
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade
+     * @return result of enable or disable isolated margin account status as JSONObject
+     * **/
     public JSONObject switchJSONIMarginAccountStatus(String symbol, boolean enableIsolated) throws Exception {
         return new JSONObject(switchIMarginAccountStatus(symbol, enableIsolated));
     }
 
+    /** Request to enable or disable isolated margin account status
+     * @param #symbol: symbol used in the request es. BTCUSDT
+     * @param #enableIsolated: enable or disable isolated margin account status
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade
+     * @return result of enable or disable isolated margin account status as {@link IsolatedMarginAccountStatus}
+     * **/
     public IsolatedMarginAccountStatus switchObjectIMarginAccountStatus(String symbol, boolean enableIsolated) throws Exception {
         return assembleIMarginAccountStatusObject(new JSONObject(switchIMarginAccountStatus(symbol, enableIsolated)));
     }
 
+    /** Request to enable or disable isolated margin account status
+     * @param #symbol: symbol used in the request es. BTCUSDT
+     * @param #enableIsolated: enable or disable isolated margin account status
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade
+     * @return result of enable or disable isolated margin account status as String
+     * **/
     public String switchIMarginAccountStatus(String symbol, long recvWindow, boolean enableIsolated) throws Exception {
         String method = DELETE_METHOD;
         if(enableIsolated)
@@ -3248,102 +3586,221 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT,params,method);
     }
 
+    /** Request to enable or disable isolated margin account status
+     * @param #symbol: symbol used in the request es. BTCUSDT
+     * @param #enableIsolated: enable or disable isolated margin account status
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade
+     * @return result of enable or disable isolated margin account status as JSONObject
+     * **/
     public JSONObject switchJSONIMarginAccountStatus(String symbol, long recvWindow, boolean enableIsolated) throws Exception {
         return new JSONObject(switchIMarginAccountStatus(symbol, recvWindow, enableIsolated));
     }
 
+    /** Request to enable or disable isolated margin account status
+     * @param #symbol: symbol used in the request es. BTCUSDT
+     * @param #enableIsolated: enable or disable isolated margin account status
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade
+     * @return result of enable or disable isolated margin account status as {@link IsolatedMarginAccountStatus}
+     * **/
     public IsolatedMarginAccountStatus switchObjectIMarginAccountStatus(String symbol, long recvWindow, boolean enableIsolated) throws Exception {
         return assembleIMarginAccountStatusObject(new JSONObject(switchIMarginAccountStatus(symbol, recvWindow, enableIsolated)));
     }
 
+    /** Method to assemble a IsolatedMarginAccountStatus object
+     * @param #jsonObject: obtained from Binance's request
+     * @return a {@link IsolatedMarginAccountStatus} object
+     * **/
     private IsolatedMarginAccountStatus assembleIMarginAccountStatusObject(JSONObject jsonObject){
         return new IsolatedMarginAccountStatus(jsonObject.getBoolean("success"),
                 jsonObject.getString("symbol")
         );
     }
 
+    /** Request to get isolate margin account limit
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data
+     * @return isolate margin account limit as String
+     * **/
     public String getIsolateMarginAccountLimit() throws Exception {
         return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_LIMIT_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
+    /** Request to get isolate margin account limit
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data
+     * @return isolate margin account limit as JSONObject
+     * **/
     public JSONObject getJSONIsolateMarginAccountLimit() throws Exception {
         return new JSONObject(getIsolateMarginAccountLimit());
     }
 
+    /** Request to get isolate margin account limit
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data
+     * @return isolate margin account limit as {@link IsolatedMarginAccountLimit} object
+     * **/
     public IsolatedMarginAccountLimit getObjectIsolateMarginAccountLimit() throws Exception {
         return assembleIsolatedMarginAccountLimitObject(new JSONObject(getIsolateMarginAccountLimit()));
     }
 
+    /** Request to get isolate margin account limit
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data
+     * @return isolate margin account limit as String
+     * **/
     public String getIsolateMarginAccountLimit(long recvWindow) throws Exception {
         String params = getParamTimestamp()+"&recvWindow="+recvWindow;
         return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_LIMIT_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get isolate margin account limit
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data
+     * @return isolate margin account limit as JSONObject
+     * **/
     public JSONObject getJSONIsolateMarginAccountLimit(long recvWindow) throws Exception {
         return new JSONObject(getIsolateMarginAccountLimit(recvWindow));
     }
 
+    /** Request to get isolate margin account limit
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data
+     * @return isolate margin account limit as {@link IsolatedMarginAccountLimit} object
+     * **/
     public IsolatedMarginAccountLimit getObjectIsolateMarginAccountLimit(long recvWindow) throws Exception {
         return assembleIsolatedMarginAccountLimitObject(new JSONObject(getIsolateMarginAccountLimit(recvWindow)));
     }
 
+    /** Method to assemble a IsolatedMarginAccountLimit object
+     * @param #accountLimit: obtained from Binance's request
+     * @return a {@link IsolatedMarginAccountLimit} object
+     * **/
     private IsolatedMarginAccountLimit assembleIsolatedMarginAccountLimitObject(JSONObject accountLimit){
         return new IsolatedMarginAccountLimit(accountLimit.getInt("enabledAccount"),
                 accountLimit.getInt("maxAccount")
         );
     }
 
+    /** Request to get isolate margin symbol
+     * @param #symbol: symbol used in the request es. BTCUSDT
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data
+     * @return isolate margin symbol as String
+     * **/
     public String getIsolatedMarginSymbol(String symbol) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
         return sendSignedRequest(QUERY_ISOLATED_MARGIN_SYMBOL_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get isolate margin symbol
+     * @param #symbol: symbol used in the request es. BTCUSDT
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data
+     * @return isolate margin symbol as JSONObject
+     * **/
     public JSONObject getJSONIsolatedMarginSymbol(String symbol) throws Exception {
         return new JSONObject(getIsolatedMarginSymbol(symbol));
     }
 
+    /** Request to get isolate margin symbol
+     * @param #symbol: symbol used in the request es. BTCUSDT
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data
+     * @return isolate margin symbol as {@link IsolatedMarginSymbol} object
+     * **/
     public IsolatedMarginSymbol getObjectIsolatedMarginSymbol(String symbol) throws Exception {
         return assembleIsolatedMarginSymbolObject(new JSONObject(getIsolatedMarginSymbol(symbol)));
     }
 
+    /** Request to get isolate margin symbol
+     * @param #symbol: symbol used in the request es. BTCUSDT
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data
+     * @return isolate margin symbol as String
+     * **/
     public String getIsolatedMarginSymbol(String symbol, long recvWindow) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&recvWindow="+recvWindow;
         return sendSignedRequest(QUERY_ISOLATED_MARGIN_SYMBOL_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get isolate margin symbol
+     * @param #symbol: symbol used in the request es. BTCUSDT
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data
+     * @return isolate margin symbol as JSONObject
+     * **/
     public JSONObject getJSONIsolatedMarginSymbol(String symbol, long recvWindow) throws Exception {
         return new JSONObject(getIsolatedMarginSymbol(symbol, recvWindow));
     }
 
+    /** Request to get isolate margin symbol
+     * @param #symbol: symbol used in the request es. BTCUSDT
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data
+     * @return isolate margin symbol as {@link IsolatedMarginSymbol} object
+     * **/
     public IsolatedMarginSymbol getObjectIsolatedMarginSymbol(String symbol, long recvWindow) throws Exception {
         return assembleIsolatedMarginSymbolObject(new JSONObject(getIsolatedMarginSymbol(symbol, recvWindow)));
     }
 
+    /** Request to get all isolate margin symbols
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data
+     * @return all isolate margin symbols as String
+     * **/
     public String getAllIsolatedMarginSymbol() throws Exception {
         return sendSignedRequest(QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
+    /** Request to get all isolate margin symbols
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data
+     * @return all isolate margin symbols as JSONArray
+     * **/
     public JSONArray getJSONAllIsolatedMarginSymbol() throws Exception {
         return new JSONArray(getAllIsolatedMarginSymbol());
     }
 
+    /** Request to get all isolate margin symbols
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data
+     * @return all isolate margin symbols as ArrayList<{@link IsolatedMarginSymbol}>
+     * **/
     public ArrayList<IsolatedMarginSymbol> getAllIsolatedMarginSymbolList() throws Exception {
         return assembleAllIMarginSymbolList(new JSONArray(getAllIsolatedMarginSymbol()));
     }
 
+    /** Request to get all isolate margin symbols
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data
+     * @return all isolate margin symbols as String
+     * **/
     public String getAllIsolatedMarginSymbol(long recvWindow) throws Exception {
         String params = getParamTimestamp()+"&recvWindow="+recvWindow;
         return sendSignedRequest(QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get all isolate margin symbols
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data
+     * @return all isolate margin symbols as JSONArray
+     * **/
     public JSONArray getJSONAllIsolatedMarginSymbol(long recvWindow) throws Exception {
         return new JSONArray(getAllIsolatedMarginSymbol(recvWindow));
     }
 
+    /** Request to get all isolate margin symbols
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data
+     * @return all isolate margin symbols as ArrayList<{@link IsolatedMarginSymbol}>
+     * **/
     public ArrayList<IsolatedMarginSymbol> getAllIsolatedMarginSymbolList(long recvWindow) throws Exception {
         return assembleAllIMarginSymbolList(new JSONArray(getAllIsolatedMarginSymbol(recvWindow)));
     }
 
+    /** Method to assemble a IsolatedMarginSymbol object
+     * @param #symbol: obtained from Binance's request
+     * @return a {@link IsolatedMarginSymbol} object
+     * **/
     private IsolatedMarginSymbol assembleIsolatedMarginSymbolObject(JSONObject symbol){
         return new IsolatedMarginSymbol(symbol.getString("symbol"),
                 symbol.getString("base"),
@@ -3354,6 +3811,10 @@ public class BinanceMarginManager extends BinanceSignedManager {
         );
     }
 
+    /** Method to assemble a IsolatedMarginSymbol list
+     * @param #jsonArray: obtained from Binance's request
+     * @return as ArrayList<{@link IsolatedMarginSymbol}>
+     * **/
     private ArrayList<IsolatedMarginSymbol> assembleAllIMarginSymbolList(JSONArray jsonArray){
         ArrayList<IsolatedMarginSymbol> isolatedMarginSymbols = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++)
@@ -3361,89 +3822,196 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return isolatedMarginSymbols;
     }
 
+    /** Request to get toggle BNB on trade interest
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data
+     * @return toggle BNB on trade interest as String
+     * **/
     public String toggleBNBOnTradeInterest() throws Exception {
         return sendSignedRequest(MARGIN_BNB_ENDPOINT,getParamTimestamp(),POST_METHOD);
     }
 
+    /** Request to get toggle BNB on trade interest
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data
+     * @return toggle BNB on trade interest as JSONObject
+     * **/
     public JSONObject toggleJSONBNBOnTradeInterest() throws Exception {
         return new JSONObject(toggleBNBOnTradeInterest());
     }
 
+    /** Request to get toggle BNB on trade interest
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data
+     * @return toggle BNB on trade interest as {@link BNBBurn} object
+     * **/
     public BNBBurn toggleObjectBNBOnTradeInterest() throws Exception {
         return assembleBNBBurnObject(new JSONObject(toggleBNBOnTradeInterest()));
     }
 
+    /** Request to get toggle BNB on trade interest
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are spotBNBBurn,interestBNBBurn,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data
+     * @return toggle BNB on trade interest as String
+     * **/
     public String toggleBNBOnTradeInterest(HashMap<String, Object> extraParams) throws Exception {
         String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
         return sendSignedRequest(MARGIN_BNB_ENDPOINT,params,POST_METHOD);
     }
 
+    /** Request to get toggle BNB on trade interest
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are spotBNBBurn,interestBNBBurn,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data
+     * @return toggle BNB on trade interest as JSONObject
+     * **/
     public JSONObject toggleJSONBNBOnTradeInterest(HashMap<String, Object> extraParams) throws Exception {
         return new JSONObject(toggleBNBOnTradeInterest(extraParams));
     }
 
+    /** Request to get toggle BNB on trade interest
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are spotBNBBurn,interestBNBBurn,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data
+     * @return toggle BNB on trade interest as {@link BNBBurn} object
+     * **/
     public BNBBurn toggleObjectBNBOnTradeInterest(HashMap<String, Object> extraParams) throws Exception {
         return assembleBNBBurnObject(new JSONObject(toggleBNBOnTradeInterest(extraParams)));
     }
 
+    /** Request to get BNB burn status
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data
+     * @return BNB burn status as String
+     * **/
     public String getBNBBurnStatus() throws Exception {
         return sendSignedRequest(MARGIN_BNB_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
+    /** Request to get BNB burn status
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data
+     * @return BNB burn status as JSONObject
+     * **/
     public JSONObject getJSONBNBBurnStatus() throws Exception {
         return new JSONObject(toggleBNBOnTradeInterest());
     }
 
+    /** Request to get BNB burn status
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data
+     * @return BNB burn status as {@link BNBBurn} object
+     * **/
     public BNBBurn getObjectBNBBurnStatus() throws Exception {
         return assembleBNBBurnObject(new JSONObject(getBNBBurnStatus()));
     }
 
+    /** Request to get BNB burn status
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data
+     * @return BNB burn status as String
+     * **/
     public String getBNBBurnStatus(long recvWindow) throws Exception {
         String params = getParamTimestamp()+"&recvWindow="+recvWindow;
         return sendSignedRequest(MARGIN_BNB_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
+    /** Request to get BNB burn status
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data
+     * @return BNB burn status as JSONObject
+     * **/
     public JSONObject getJSONBNBBurnStatus(long recvWindow) throws Exception {
         return new JSONObject(getBNBBurnStatus(recvWindow));
     }
 
+    /** Request to get BNB burn status
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data
+     * @return BNB burn status as {@link BNBBurn} object
+     * **/
     public BNBBurn getObjectBNBBurnStatus(long recvWindow) throws Exception {
         return assembleBNBBurnObject(new JSONObject(getBNBBurnStatus(recvWindow)));
     }
 
+    /** Method to assemble a BNBBurn object
+     * @param #jsonObject: obtained from Binance's request
+     * @return a {@link BNBBurn} object
+     * **/
     private BNBBurn assembleBNBBurnObject(JSONObject jsonObject){
         return new BNBBurn(jsonObject.getBoolean("spotBNBBurn"),
                 jsonObject.getBoolean("interestBNBBurn")
         );
     }
 
+    /** Request to get margin interest rate history
+     * @param #asset: used in the request es. BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data
+     * @return margin interest rate history as String
+     * **/
     public String getMarginInterestRateHistory(String asset) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
         return sendSignedRequest(MARGIN_INTEREST_RATE_HISTORY_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get margin interest rate history
+     * @param #asset: used in the request es. BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data
+     * @return margin interest rate history as JSONArray
+     * **/
     public JSONArray getJSONMarginInterestRateHistory(String asset) throws Exception {
         return new JSONArray(getMarginInterestRateHistory(asset));
     }
 
+    /** Request to get margin interest rate history list
+     * @param #asset: used in the request es. BTC
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data
+     * @return margin interest rate history as ArrayList<{@link MarginInterestRate}>
+     * **/
     public ArrayList<MarginInterestRate> getMarginInterestRateHistoryList(String asset) throws Exception {
         return assembleMarginIRateHistoryList(new JSONArray(getMarginInterestRateHistory(asset)));
     }
 
+    /** Request to get margin interest rate history
+     * @param #asset: used in the request es. BTC
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are vipLevel,startTime,endTime,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data
+     * @return margin interest rate history as String
+     * **/
     public String getMarginInterestRateHistory(String asset, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(MARGIN_INTEREST_RATE_HISTORY_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get margin interest rate history
+     * @param #asset: used in the request es. BTC
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are vipLevel,startTime,endTime,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data
+     * @return margin interest rate history as JSONArray
+     * **/
     public JSONArray getJSONMarginInterestRateHistory(String asset, HashMap<String, Object> extraParams) throws Exception {
         return new JSONArray(getMarginInterestRateHistory(asset, extraParams));
     }
 
+    /** Request to get margin interest rate history
+     * @param #asset: used in the request es. BTC
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are vipLevel,startTime,endTime,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data
+     * @return margin interest rate history as ArrayList<{@link MarginInterestRate}>
+     * **/
     public ArrayList<MarginInterestRate> getMarginInterestRateHistoryList(String asset, HashMap<String, Object> extraParams) throws Exception {
         return assembleMarginIRateHistoryList(new JSONArray(getMarginInterestRateHistory(asset, extraParams)));
     }
 
+    /** Method to assemble a MarginInterestRate list
+     * @param #jsonArray: obtained from Binance's request
+     * @return as ArrayList<{@link MarginInterestRate}>
+     * **/
     private ArrayList<MarginInterestRate> assembleMarginIRateHistoryList(JSONArray jsonArray) {
         ArrayList<MarginInterestRate> marginInterestRates = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++) {
@@ -3457,31 +4025,68 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return marginInterestRates;
     }
 
+    /** Request to get cross margin fee data
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data
+     * @return cross margin fee data as String
+     * **/
     public String getCrossMarginFeeData() throws Exception {
         return sendSignedRequest(CROSS_MARGIN_DATA_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
+    /** Request to get cross margin fee data
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data
+     * @return cross margin fee data as JSONArray
+     * **/
     public JSONArray getJSONCrossMarginFeeData() throws Exception {
         return new JSONArray(getCrossMarginFeeData());
     }
 
+    /** Request to get cross margin fee data list
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data
+     * @return cross margin fee data as ArrayList<{@link CrossMarginFee}>
+     * **/
     public ArrayList<CrossMarginFee> getCrossMarginFeesList() throws Exception {
         return assembleCrossMarginFeesList(new JSONArray(getCrossMarginFeeData()));
     }
 
+    /** Request to get cross margin fee data
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are vipLevel,coin,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data
+     * @return cross margin fee data as String
+     * **/
     public String getCrossMarginFeeData(HashMap<String, Object> extraParams) throws Exception {
         String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
         return sendSignedRequest(CROSS_MARGIN_DATA_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get cross margin fee data
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are vipLevel,coin,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data
+     * @return cross margin fee data as JSONArray
+     * **/
     public JSONArray getJSONCrossMarginFeeData(HashMap<String, Object> extraParams) throws Exception {
         return new JSONArray(getCrossMarginFeeData(extraParams));
     }
 
+    /** Request to get cross margin fee data list
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are vipLevel,coin,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data
+     * @return cross margin fee data as ArrayList<{@link CrossMarginFee}>
+     * **/
     public ArrayList<CrossMarginFee> getCrossMarginFeesList(HashMap<String, Object> extraParams) throws Exception {
         return assembleCrossMarginFeesList(new JSONArray(getCrossMarginFeeData(extraParams)));
     }
 
+    /** Method to assemble a CrossMarginFee list
+     * @param #jsonArray: obtained from Binance's request
+     * @return as ArrayList<{@link CrossMarginFee}>
+     * **/
     private ArrayList<CrossMarginFee> assembleCrossMarginFeesList(JSONArray jsonArray) {
         ArrayList<CrossMarginFee> crossMarginFees = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++) {
@@ -3499,31 +4104,68 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return crossMarginFees;
     }
 
+    /** Request to get isolated margin fee data
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data
+     * @return isolated margin fee data as String
+     * **/
     public String getIsolatedMarginFee() throws Exception {
         return sendSignedRequest(ISOLATED_MARGIN_DATA_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
+    /** Request to get isolated margin fee data
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data
+     * @return isolated margin fee data as JSONArray
+     * **/
     public JSONArray getJSONIsolatedMarginFee() throws Exception {
         return new JSONArray(getIsolatedMarginFee());
     }
 
+    /** Request to get isolated margin fee data list
+     * any params required
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data
+     * @return isolated margin fee data as ArrayList<{@link IsolatedMarginFee}>
+     * **/
     public ArrayList<IsolatedMarginFee> getIsolatedMarginFeesList() throws Exception {
         return assembleIsolatedMarginFeesList(new JSONArray(getIsolatedMarginFee()));
     }
 
+    /** Request to get isolated margin fee data
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are vipLevel,symbol,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data
+     * @return isolated margin fee data as String
+     * **/
     public String getIsolatedMarginFee(HashMap<String, Object> extraParams) throws Exception {
         String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
         return sendSignedRequest(ISOLATED_MARGIN_DATA_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get isolated margin fee data
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are vipLevel,symbol,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data
+     * @return isolated margin fee data as JSONArray
+     * **/
     public JSONArray getJSONIsolatedMarginFee(HashMap<String, Object> extraParams) throws Exception {
         return new JSONArray(getIsolatedMarginFee(extraParams));
     }
 
+    /** Request to get isolated margin fee data list
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are vipLevel,symbol,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data
+     * @return isolated margin fee data as ArrayList<{@link IsolatedMarginFee}>
+     * **/
     public ArrayList<IsolatedMarginFee> getIsolatedMarginFeesList(HashMap<String, Object> extraParams) throws Exception {
         return assembleIsolatedMarginFeesList(new JSONArray(getIsolatedMarginFee(extraParams)));
     }
 
+    /** Method to assemble a IsolatedMarginFee list
+     * @param #jsonArray: obtained from Binance's request
+     * @return IsolatedMarginFee as ArrayList<{@link IsolatedMarginFee}>
+     * **/
     private ArrayList<IsolatedMarginFee> assembleIsolatedMarginFeesList(JSONArray jsonArray) {
         ArrayList<IsolatedMarginFee> isolatedMarginFees = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++) {
@@ -3537,33 +4179,73 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return isolatedMarginFees;
     }
 
+    /** Request to get isolated margin tier data
+     * @param #symbol: used in the request es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data
+     * @return isolated margin tier data as String
+     * **/
     public String getIsolatedMarginTierData(String symbol) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
         return sendSignedRequest(ISOLATED_MARGIN_TIER_DATA_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get isolated margin tier data
+     * @param #symbol: used in the request es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data
+     * @return isolated margin tier data as JSONArray
+     * **/
     public JSONArray getJSONIsolatedMarginTierData(String symbol) throws Exception {
         return new JSONArray(getIsolatedMarginTierData(symbol));
     }
 
+    /** Request to get isolated margin tier data list
+     * @param #symbol: used in the request es. BTCBUSD
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data
+     * @return isolated margin tier data as ArrayList<{@link IsolatedMarginTierData}>
+     * **/
     public ArrayList<IsolatedMarginTierData> getIsolatedMarginTierDataList(String symbol) throws Exception {
         return assembleIsolatedMarginTierDataList(new JSONArray(getIsolatedMarginTierData(symbol)));
     }
 
+    /** Request to get isolated margin tier data
+     * @param #symbol: used in the request es. BTCBUSD
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are tier,symbol,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data
+     * @return isolated margin tier data as String
+     * **/
     public String getIsolatedMarginTierData(String symbol, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
         params = requestManager.assembleExtraParams(params,extraParams);
         return sendSignedRequest(ISOLATED_MARGIN_TIER_DATA_ENDPOINT,params,GET_METHOD);
     }
 
+    /** Request to get isolated margin tier data
+     * @param #symbol: used in the request es. BTCBUSD
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are tier,symbol,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data
+     * @return isolated margin tier data as JSONArray
+     * **/
     public JSONArray getJSONIsolatedMarginTierData(String symbol, HashMap<String, Object> extraParams) throws Exception {
         return new JSONArray(getIsolatedMarginTierData(symbol,extraParams));
     }
 
+    /** Request to get isolated margin tier data list
+     * @param #symbol: used in the request es. BTCBUSD
+     * @param #extraParams: extra params of the request
+     * @implSpec (keys accepted are tier,symbol,recvWindow)
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data
+     * @return isolated margin tier data as ArrayList<{@link IsolatedMarginTierData}>
+     * **/
     public ArrayList<IsolatedMarginTierData> getIsolatedMarginTierDataList(String symbol, HashMap<String, Object> extraParams) throws Exception {
         return assembleIsolatedMarginTierDataList(new JSONArray(getIsolatedMarginTierData(symbol,extraParams)));
     }
 
+    /** Method to assemble a IsolatedMarginTierData list
+     * @param #jsonArray: obtained from Binance's request
+     * @return as ArrayList<{@link IsolatedMarginTierData}>
+     * **/
     private ArrayList<IsolatedMarginTierData> assembleIsolatedMarginTierDataList(JSONArray jsonArray) {
         ArrayList<IsolatedMarginTierData> isolatedMarginTierData = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++) {
