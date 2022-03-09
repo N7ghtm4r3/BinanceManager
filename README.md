@@ -71,7 +71,10 @@ try {
     e.printStackTrace();
 }
 ```
-**Responses**
+
+### Responses
+
+In this example manager is NO signed type manager, but is same for signed type managers
 
 - String: will return response formatted as String object
 
