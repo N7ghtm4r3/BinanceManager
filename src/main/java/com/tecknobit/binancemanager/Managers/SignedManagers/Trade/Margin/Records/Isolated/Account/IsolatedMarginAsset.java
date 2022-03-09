@@ -1,5 +1,10 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account;
 
+/**
+ * The {@code IsolatedMarginAsset} class is useful to format IsolatedMarginAsset object of Binance Isolated Margin Asset
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+ * **/
+
 public class IsolatedMarginAsset {
 
     private final String asset;

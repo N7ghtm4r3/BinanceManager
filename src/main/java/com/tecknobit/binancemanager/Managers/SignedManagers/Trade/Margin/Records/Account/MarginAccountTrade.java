@@ -1,5 +1,11 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account;
 
+/**
+ * The {@code MarginAccountTrade} class is useful to format Binance Margin Account Trade request response
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#enable-isolated-margin-account-trade
+ * @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class MarginAccountTrade {
 
     private final double commission;

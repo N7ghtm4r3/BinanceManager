@@ -5,6 +5,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * The {@code IsolatedMarginFee} class is useful to format Binance Isolated Margin Fee request response
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data
+ * @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class IsolatedMarginFee {
 
     private final int vipLevel;
@@ -19,6 +25,10 @@ public class IsolatedMarginFee {
         loadIsolatedData(jsonArray);
     }
 
+    /** Method to assemble a IsolatedData list
+     * @param #jsonArray: obtained from Binance's request
+     * any return
+     * **/
     private void loadIsolatedData(JSONArray jsonArray) {
         isolatedData = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++) {
@@ -49,6 +59,11 @@ public class IsolatedMarginFee {
     public IsolatedData getIsolatedData(int index) {
         return isolatedData.get(index);
     }
+
+    /**
+     * The {@code IsolatedData} class is useful to obtain and format IsolatedData object
+     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data
+     * **/
 
     public static class IsolatedData {
 

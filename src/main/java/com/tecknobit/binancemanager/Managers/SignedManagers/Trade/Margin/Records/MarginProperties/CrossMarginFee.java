@@ -4,6 +4,11 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
+/**
+ * The {@code CrossMarginFee} class is useful to format Binance Cross Margin Fee request response
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data
+ * **/
+
 public class CrossMarginFee {
 
     private final int vipLevel;

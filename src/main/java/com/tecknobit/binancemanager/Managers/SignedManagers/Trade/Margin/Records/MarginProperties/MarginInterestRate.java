@@ -1,5 +1,10 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties;
 
+/**
+ * The {@code MarginInterestRate} class is useful to format Binance Margin Interest Rate request response
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data
+ * **/
+
 public class MarginInterestRate {
 
     private final String asset;

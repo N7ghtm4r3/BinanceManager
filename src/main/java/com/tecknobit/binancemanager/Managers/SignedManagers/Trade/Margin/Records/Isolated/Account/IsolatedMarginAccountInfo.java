@@ -5,6 +5,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * The {@code IsolatedMarginAccountInfo} class is useful to format Binance Isolated Margin Account Info request response
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+ * @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class IsolatedMarginAccountInfo {
 
     public static final String MARGIN_LEVEL_STATUS_EXCESSIVE = "EXCESSIVE";
@@ -42,6 +48,10 @@ public class IsolatedMarginAccountInfo {
         quoteAsset = loadIsolatedMarginAsset(jsonObject.getJSONObject("quoteAsset"));
     }
 
+    /** Method to assemble a IsolatedMarginAsset object
+     * @param #asset: obtained from Binance's request
+     * @return {@link IsolatedMarginAsset} assembled
+     * **/
     private IsolatedMarginAsset loadIsolatedMarginAsset(JSONObject asset) {
         return new IsolatedMarginAsset(asset.getString("asset"),
                 asset.getBoolean("borrowEnabled"),
@@ -56,6 +66,10 @@ public class IsolatedMarginAccountInfo {
         );
     }
 
+    /** Method to assemble a IsolatedMarginAccountInfo list
+     * @param #jsonArray: obtained from Binance's request
+     * @return a list as ArrayList<IsolatedMarginAccountInfo>
+     * **/
     public static ArrayList<IsolatedMarginAccountInfo> assembleIsolatedMarginAccountInfoList(JSONArray jsonArray){
         ArrayList<IsolatedMarginAccountInfo> isolatedMarginAccountInfos = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){

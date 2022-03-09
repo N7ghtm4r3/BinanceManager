@@ -6,6 +6,12 @@ import java.util.ArrayList;
 
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account.IsolatedMarginAccountInfo.assembleIsolatedMarginAccountInfoList;
 
+/**
+ * The {@code ComposedIMarginAccountInfo} class is useful to format Binance Isolated Margin Account Status request response
+ * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade
+ * @author N7ghtm4r3 - Tecknobit
+ * **/
+
 public class ComposedIMarginAccountInfo {
 
     private final ArrayList<IsolatedMarginAccountInfo> isolatedMarginAccountInfos;
