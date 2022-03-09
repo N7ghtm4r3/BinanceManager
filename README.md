@@ -61,7 +61,7 @@ The other endpoints will be gradually released
 
 ## Usage/Examples
 
-### No-Signed Manager
+### No-Signed Managers
 
 ```java
 
@@ -80,7 +80,7 @@ try {
 }
 ```
 
-### Signed Manager (requests with apiKey)
+### Signed Managers (requests with apiKey)
 
 ```java
 
@@ -93,7 +93,7 @@ try {
 
 // choose basepoint manually
 try {
-    BinanceSpotManager binanceSpotManager = new BinanceSpotManager("yourApiKey","yourSecretKey",BinanceManager.BASE_ENDPOINTS.get(0));
+    BinanceSpotManager binanceSpotManager = new BinanceSpotManager(BinanceManager.BASE_ENDPOINTS.get(0),"yourApiKey","yourSecretKey");
 } catch (SystemException | IOException e) {
     e.printStackTrace();
 }
