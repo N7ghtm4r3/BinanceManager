@@ -176,12 +176,10 @@ For support, email infotecknobitcompany@gmail.com.
 
 ## Donations 
 
-*If you want support project and developer*
+If you want support project and developer: **0x5f63cc6d13b16dcf39cd8083f21d50151efea60e**
 
 ![](https://img.shields.io/badge/Bitcoin-000000?style=for-the-badge&logo=bitcoin&logoColor=white) 
 ![](https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=Ethereum&logoColor=white)
-
-**0x5f63cc6d13b16dcf39cd8083f21d50151efea60e**
 
 
 Copyright © 2022 Tecknobit
