@@ -80,6 +80,25 @@ try {
 }
 ```
 
+### Signed Manager (requests with apiKey)
+
+```java
+
+// with automatic research for a workly basepoint
+try {
+    BinanceSpotManager binanceSpotManager = new BinanceSpotManager("yourApiKey","yourSecretKey");
+} catch (SystemException | IOException e) {
+    e.printStackTrace();
+}
+
+// choose basepoint manually
+try {
+    BinanceSpotManager binanceSpotManager = new BinanceSpotManager("yourApiKey","yourSecretKey",BinanceManager.BASE_ENDPOINTS.get(0));
+} catch (SystemException | IOException e) {
+    e.printStackTrace();
+}
+```
+
 ### Responses
 
 In this example manager is NO signed type manager, but is same for signed type managers
