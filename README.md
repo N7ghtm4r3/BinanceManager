@@ -19,7 +19,10 @@ For support, email infotecknobitcompany@gmail.com.
 
 If you want support the project and developer
 
-![](https://img.shields.io/badge/Bitcoin-000000?style=for-the-badge&logo=bitcoin&logoColor=white) 38RKEQxUtJUqevaxCWxZ1bgNzFamVJmG1R
+![](https://img.shields.io/badge/Bitcoin-000000?style=for-the-badge&logo=bitcoin&logoColor=white) 
+38FFmAhBSuWg7tcVbbmya8W4bbRpGGb4jb
+![](https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=Ethereum&logoColor=white)
+0x50820d99b026006A8F621aa2507a4b6167877D94
 
 ## Badges
 
