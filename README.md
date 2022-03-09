@@ -64,8 +64,34 @@ The other endpoints will be gradually released
 **No-Signed Manager**
 
 ```java
-BinanceMarketManager binanceMarketManager = new BinanceMarketManager();
+try {
+    BinanceMarketManager binanceMarketManager = new BinanceMarketManager();
+} catch (SystemException | IOException e) {
+    e.printStackTrace();
+}
 ```
+**Responses**
+
+- String: will return response formatted as String object
+
+```java
+try {
+    System.out.println(binanceMarketManager.getPriceTicker());
+} catch (IOException e) {
+    e.printStackTrace();
+}
+```
+
+- JSON: will return response formatted as JSON (JSONObject or JSONArray)
+
+```java
+try {
+    System.out.println(binanceMarketManager.getJSONPriceTicker());
+} catch (IOException e) {
+    e.printStackTrace();
+}
+```
+
 
 ## 🛠 Skills
 - Java
