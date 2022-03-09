@@ -72,7 +72,7 @@ try {
     e.printStackTrace();
 }
 
-// choose basepoint manually
+// choose basepoint manually (index from 0 to 3)
 try {
     BinanceMarketManager binanceMarketManager = new BinanceMarketManager(BinanceManager.BASE_ENDPOINTS.get(0));
 } catch (SystemException | IOException e) {
@@ -91,7 +91,7 @@ try {
     e.printStackTrace();
 }
 
-// choose basepoint manually
+// choose basepoint manually (index from 0 to 3)
 try {
     BinanceSpotManager binanceSpotManager = new BinanceSpotManager(BinanceManager.BASE_ENDPOINTS.get(0),"yourApiKey","yourSecretKey");
 } catch (SystemException | IOException e) {
