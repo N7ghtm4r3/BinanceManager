@@ -1,12 +1,56 @@
 # BinanceManager
-Questo progetto ha come obbiettivo quello di interneconnettere tra loro differenti ambienti:
-- Lato server
-- Applicazione Android
-- Applicazione Web
+**v1.0.0**
 
-Il progetto tratta di un gestore di liste per i libri.
+This is a Java Based library useful to work with Binance's API service.
+
+## Implementation
+
+Add the JitPack repository to your build file
+
+### Gradle
+
+- Add it in your root build.gradle at the end of repositories
+
+```gradle
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+- Add the dependency
+
+```gradle
+dependencies {
+	implementation 'com.github.N7ghtm4r3:BinanceManager:1.0.0'
+}
+```
+
+### Maven
+
+- Add it in your root build.gradle at the end of repositories
+
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+```
+- Add the dependency
+
+```xml
+<dependency>
+    <groupId>com.github.N7ghtm4r3</groupId>
+    <artifactId>BinanceManager</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
 ## 🛠 Skills
 - Java
+
 ## Authors
 
 - [@N7ghtm4r3](https://www.github.com/N7ghtm4r3)
