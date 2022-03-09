@@ -15,16 +15,6 @@ Il progetto tratta di un gestore di liste per i libri.
 
 For support, email infotecknobitcompany@gmail.com.
 
-## Donations
-
-If you want support the project and developer
-
-![](https://img.shields.io/badge/Bitcoin-000000?style=for-the-badge&logo=bitcoin&logoColor=white) 
-38FFmAhBSuWg7tcVbbmya8W4bbRpGGb4jb
-
-![](https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=Ethereum&logoColor=white)
-0x50820d99b026006A8F621aa2507a4b6167877D94
-
 ## Badges
 
 [![](https://img.shields.io/badge/Google_Play-414141?style=for-the-badge&logo=google-play&logoColor=white)](https://play.google.com/store/apps/developer?id=Tecknobit)
