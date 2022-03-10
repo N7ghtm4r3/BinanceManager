@@ -49,7 +49,7 @@ dependencies {
 </dependency>
 ```
 
-## Endpoints available
+## Managers endpoints available
 
 - Wallet **(Signed manager)**
 - Market Data **(NO-Signed manager)**
