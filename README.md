@@ -51,10 +51,10 @@ dependencies {
 
 ## Endpoints available
 
-- Wallet
-- Market Data
-- Spot Account/Trade
-- Margin Account/Trade
+- Wallet **Signed**
+- Market Data **NO-Signed**
+- Spot Account/Trade **Signed**
+- Margin Account/Trade **Signed**
 
 The other endpoints will be gradually released
 
