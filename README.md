@@ -56,7 +56,7 @@ dependencies {
 - Spot Account/Trade **(Signed manager)**
 - Margin Account/Trade **(Signed manager)**
 
-The other Dndpoints managers will be gradually released
+The other endpoints managers will be gradually released
 
 
 ## Usage/Examples
