@@ -49,14 +49,14 @@ dependencies {
 </dependency>
 ```
 
-## Managers endpoints available
+## Endpoints managers available
 
 - Wallet **(Signed manager)**
 - Market Data **(NO-Signed manager)**
 - Spot Account/Trade **(Signed manager)**
 - Margin Account/Trade **(Signed manager)**
 
-The other endpoints will be gradually released
+The other Dndpoints managers will be gradually released
 
 
 ## Usage/Examples
