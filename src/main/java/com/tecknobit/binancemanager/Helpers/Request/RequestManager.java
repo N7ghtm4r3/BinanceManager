@@ -20,7 +20,7 @@ import static org.apache.commons.codec.binary.Hex.encodeHexString;
 public class RequestManager {
 
     private HttpURLConnection httpURLConnection;
-    private String errorReponse;
+    private String errorResponse;
     public static final String GET_METHOD = "GET";
     public static final String POST_METHOD = "POST";
     public static final String DELETE_METHOD = "DELETE";
@@ -31,9 +31,7 @@ public class RequestManager {
      * any return
      * **/
     public void startConnection(String url, String method) throws IOException {
-        httpURLConnection = (HttpURLConnection) new URL(url).openConnection();
-        httpURLConnection.setRequestMethod(method);
-        httpURLConnection.setConnectTimeout(10000);
+        setConnection(url,method);
         httpURLConnection.connect();
     }
 
@@ -44,11 +42,20 @@ public class RequestManager {
      * any return
      * **/
     public void startConnection(String url, String method, String apiKey) throws IOException {
+        setConnection(url,method);
+        httpURLConnection.setRequestProperty("X-MBX-APIKEY",apiKey);
+        httpURLConnection.connect();
+    }
+
+    /** Method to set up connection by an endpoint
+     * @param #url: url used to make HTTP request
+     * @param #method: method used to make HTTP request
+     * any return
+     * **/
+    private void setConnection(String url, String method) throws IOException{
         httpURLConnection = (HttpURLConnection) new URL(url).openConnection();
         httpURLConnection.setRequestMethod(method);
         httpURLConnection.setConnectTimeout(10000);
-        httpURLConnection.setRequestProperty("X-MBX-APIKEY",apiKey);
-        httpURLConnection.connect();
     }
 
     /** Method to get response of an HTTP request
@@ -67,7 +74,7 @@ public class RequestManager {
         }
         response = readStream(bufferedReader);
         if(isInError)
-            errorReponse = response;
+            errorResponse = response;
         return response;
     }
 
@@ -107,10 +114,10 @@ public class RequestManager {
      * any params required
      * @return errorResponse
      * **/
-    public String getErrorReponse() {
-        if(errorReponse == null)
+    public String getErrorResponse() {
+        if(errorResponse == null)
             return "No HTTP Binance request error, check your code";
-        return errorReponse;
+        return errorResponse;
     }
 
     /** Method to format stream of a response of an HTTP request

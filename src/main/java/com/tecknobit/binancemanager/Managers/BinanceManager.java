@@ -106,10 +106,10 @@ public class BinanceManager {
 
     /** Method to get error response of an HTTP request
      * any params required
-     * @return requestManager.getErrorReponse();
+     * @return requestManager.getErrorResponse();
      * **/
     public String getErrorResponse(){
-        return requestManager.getErrorReponse();
+        return requestManager.getErrorResponse();
     }
 
 }
