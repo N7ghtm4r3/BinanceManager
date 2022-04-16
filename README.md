@@ -101,7 +101,7 @@ try {
 
 ### Responses
 
-In this example manager is NO signed type manager, but is same for signed type managers
+In this example manager is NO signed type manager, but is the same for signed type managers
 
 - String: will return response formatted as String object
 
