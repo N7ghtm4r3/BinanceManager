@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
-import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.GET_METHOD;
+import static com.tecknobit.binancemanager.Helpers.RequestManager.GET_METHOD;
 
 /**
  * The {@code BinanceMarketManager} class is useful to manage all Binance Market Endpoints
@@ -363,7 +363,7 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     public String getOldTrade(String symbol, String apiKey, HashMap<String,Object> extraParams) throws IOException {
         String params = "?symbol="+symbol;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return getRequestResponse(OLD_TRADE_LOOKUP_ENDPOINT,params,GET_METHOD,apiKey);
     }
 
@@ -431,7 +431,7 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     public String getCompressedTradeList(String symbol, HashMap<String,Object> extraParams) throws IOException {
         String params = "?symbol="+symbol;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return getRequestResponse(COMPRESSED_TRADE_LIST_ENDPOINT,params,GET_METHOD);
     }
 
@@ -519,7 +519,7 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     public String getCandlestickData(String symbol, String interval, HashMap<String,Object> extraParams) throws IOException {
         String params = "?symbol="+symbol+"&interval="+interval;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return getRequestResponse(CANDLESTICK_DATA_ENDPOINT,params,GET_METHOD);
     }
 

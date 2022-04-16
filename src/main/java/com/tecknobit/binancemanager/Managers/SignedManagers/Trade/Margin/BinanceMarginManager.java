@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
-import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.*;
+import static com.tecknobit.binancemanager.Helpers.RequestManager.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.TradeConstants.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account.IsolatedMarginAccountInfo.assembleIsolatedMarginAccountInfoList;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.ComposedMarginOrderDetails.assembleComposedMarginOrderDetails;
@@ -182,7 +182,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String applyMarginAccountBorrow(String asset, double amount, HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset+"&amount="+amount;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_LOAN_ENDPOINT,params,POST_METHOD);
     }
 
@@ -251,7 +251,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String repeayMarginAccount(String asset, double amount, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset+"&amount="+amount;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_REPAY_ENDPOINT,params,POST_METHOD);
     }
 
@@ -478,7 +478,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String sendNewMarginOrder(String symbol, String side, String type, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_ORDER_ENDPOINT,params,POST_METHOD);
     }
 
@@ -531,7 +531,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     public String sendNewMarginOrder(String symbol, String side, String type,String newOrderRespType,
                                      HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&type="+type+"&newOrderRespType="+newOrderRespType;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_ORDER_ENDPOINT,params,POST_METHOD);
     }
 
@@ -664,7 +664,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String cancelMarginOrder(String symbol, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_ORDER_ENDPOINT,params,DELETE_METHOD);
     }
 
@@ -727,7 +727,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String cancelAllMarginOrders(String symbol, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT,params,DELETE_METHOD);
     }
 
@@ -805,7 +805,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getCrossMarginTransferHistory(HashMap<String,Object> extraParams) throws Exception {
         return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT,
-                requestManager.assembleExtraParams(getParamTimestamp(),extraParams),GET_METHOD);
+                requestManager.assembleAdditionalParams(getParamTimestamp(),extraParams),GET_METHOD);
     }
 
     /** Request to get cross margin transfer history
@@ -865,7 +865,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getCrossMarginTransferHistory(String asset,HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT,params,GET_METHOD);
     }
 
@@ -929,7 +929,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getQueryLoanRecord(String asset, HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_LOAN_ENDPOINT,params,GET_METHOD);
     }
 
@@ -992,7 +992,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getQueryRepayRecord(String asset, HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_REPAY_ENDPOINT,params,GET_METHOD);
     }
 
@@ -1053,7 +1053,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getInterestHistory(HashMap<String,Object> extraParams) throws Exception {
         return sendSignedRequest(MARGIN_INTERST_HISTORY_ENDPOINT,
-                requestManager.assembleExtraParams(getParamTimestamp(),extraParams),GET_METHOD);
+                requestManager.assembleAdditionalParams(getParamTimestamp(),extraParams),GET_METHOD);
     }
 
     /** Request to get interest history
@@ -1113,7 +1113,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getInterestHistory(String asset,HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_INTERST_HISTORY_ENDPOINT,params,GET_METHOD);
     }
 
@@ -1175,7 +1175,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getMarginForceLiquidation(HashMap<String,Object> extraParams) throws Exception {
         return sendSignedRequest(MARGIN_FORCE_LIQUIDATION_ENDPOINT,
-                requestManager.assembleExtraParams(getParamTimestamp(),extraParams),GET_METHOD);
+                requestManager.assembleAdditionalParams(getParamTimestamp(),extraParams),GET_METHOD);
     }
 
     /** Request to get margin force liquidation
@@ -1306,7 +1306,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getMarginOrderStatus(String symbol, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_ORDER_ENDPOINT,params,GET_METHOD);
     }
 
@@ -1394,7 +1394,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all margin open orders as String
      * **/
     public String getAllMarginOpenOrders(HashMap<String, Object> extraParams) throws Exception {
-        String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
+        String params = requestManager.assembleAdditionalParams(getParamTimestamp(),extraParams);
         return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
@@ -1486,7 +1486,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getAllMarginOrders(String symbol, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
@@ -1607,7 +1607,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
                                         HashMap<String, Object> extraParams ) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&quantity="+quantity+"&price="+price+
                 "&stopPrice="+stopPrice;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT,params,POST_METHOD);
     }
 
@@ -1719,7 +1719,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
                                         HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&side="+side+"&quantity="+quantity+"&price="+price+
                 "&stopPrice="+stopPrice+"&stopLimitPrice="+stopLimitPrice+"&stopLimitTimeInForce="+stopLimitTimeInForce;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT,params,POST_METHOD);
     }
 
@@ -1838,7 +1838,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String cancelOCOMarginOrder(String symbol, long orderListId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,DELETE_METHOD);
     }
 
@@ -1877,7 +1877,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String cancelOCOMarginOrder(String symbol, String listClientOrderId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&listClientOrderId="+listClientOrderId;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,DELETE_METHOD);
     }
 
@@ -2034,7 +2034,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getOCOMarginOrderStatus(String symbol, long orderListId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId+"&isIsolated="+true;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
@@ -2073,7 +2073,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getOCOMarginOrderStatus(String symbol, String origClientOrderId,HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId +"&isIsolated="+true;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
@@ -2111,7 +2111,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getOCOMarginOrderStatus(long orderListId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&orderListId="+orderListId;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
@@ -2146,7 +2146,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getOCOMarginOrderStatus(String origClientOrderId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&origClientOrderId="+origClientOrderId;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
@@ -2489,7 +2489,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getAllOCOMarginOrders(String symbol, long orderListId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId+"&isIsolated="+true;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
@@ -2528,7 +2528,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getAllOCOMarginOrders(String symbol, String origClientOrderId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId+"&isIsolated="+true;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
@@ -2573,7 +2573,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
                                         HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&orderListId="+orderListId+"&isIsolated="+true+
                 "&"+keyTime+"="+valueTime+"&fromId="+fromId;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
@@ -2626,7 +2626,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
                                         long valueTime, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol+"&origClientOrderId="+origClientOrderId+"&isIsolated="+true+
                 "&"+keyTime+"="+valueTime+"&fromId="+fromId;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
@@ -2673,7 +2673,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getAllOCOMarginOrders(long orderListId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&orderListId="+orderListId;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
@@ -2708,7 +2708,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getAllOCOMarginOrders(String origClientOrderId, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&origClientOrderId="+origClientOrderId;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
@@ -2748,7 +2748,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     public String getAllOCOMarginOrders(long orderListId, long fromId, String keyTime,
                                         long valueTime, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&orderListId="+orderListId+"&"+keyTime+"="+valueTime+"&fromId="+fromId;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
@@ -2797,7 +2797,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
                                         long valueTime, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&origClientOrderId="+origClientOrderId+
                 "&"+keyTime+"="+valueTime+"&fromId="+fromId;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
@@ -2936,7 +2936,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all open OCO margin orders response as String
      * **/
     public String getAllOCOMarginOpenOrders(HashMap<String, Object> extraParams) throws Exception {
-        String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
+        String params = requestManager.assembleAdditionalParams(getParamTimestamp(),extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
@@ -2997,7 +2997,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getMarginTradeList(String symbol, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_TRADES_LIST_ENDPOINT,params,GET_METHOD);
     }
 
@@ -3085,7 +3085,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getMaxBorrow(String asset, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(GET_MAX_MARGIN_BORROW_ENDPOINT,params,GET_METHOD);
     }
 
@@ -3158,7 +3158,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getMaxTransferOutAmount(String asset, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(GET_MAX_MARGIN_TRANSFER_ENDPOINT,params,GET_METHOD);
     }
 
@@ -3321,7 +3321,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getMarginIsolatedTransferHistory(String symbol, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
-        params = requestManager.assembleExtraParams(params, extraParams);
+        params = requestManager.assembleAdditionalParams(params, extraParams);
         return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT,params,GET_METHOD);
     }
 
@@ -3856,7 +3856,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return toggle BNB on trade interest as String
      * **/
     public String toggleBNBOnTradeInterest(HashMap<String, Object> extraParams) throws Exception {
-        String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
+        String params = requestManager.assembleAdditionalParams(getParamTimestamp(),extraParams);
         return sendSignedRequest(MARGIN_BNB_ENDPOINT,params,POST_METHOD);
     }
 
@@ -3982,7 +3982,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getMarginInterestRateHistory(String asset, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(MARGIN_INTEREST_RATE_HISTORY_ENDPOINT,params,GET_METHOD);
     }
 
@@ -4059,7 +4059,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cross margin fee data as String
      * **/
     public String getCrossMarginFeeData(HashMap<String, Object> extraParams) throws Exception {
-        String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
+        String params = requestManager.assembleAdditionalParams(getParamTimestamp(),extraParams);
         return sendSignedRequest(CROSS_MARGIN_DATA_ENDPOINT,params,GET_METHOD);
     }
 
@@ -4138,7 +4138,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return isolated margin fee data as String
      * **/
     public String getIsolatedMarginFee(HashMap<String, Object> extraParams) throws Exception {
-        String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
+        String params = requestManager.assembleAdditionalParams(getParamTimestamp(), extraParams);
         return sendSignedRequest(ISOLATED_MARGIN_DATA_ENDPOINT,params,GET_METHOD);
     }
 
@@ -4216,7 +4216,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getIsolatedMarginTierData(String symbol, HashMap<String, Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return sendSignedRequest(ISOLATED_MARGIN_TIER_DATA_ENDPOINT,params,GET_METHOD);
     }
 

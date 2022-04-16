@@ -26,8 +26,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
-import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.GET_METHOD;
-import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.POST_METHOD;
+import static com.tecknobit.binancemanager.Helpers.RequestManager.GET_METHOD;
+import static com.tecknobit.binancemanager.Helpers.RequestManager.POST_METHOD;
 
 /**
  *  The {@code BinanceWalletManager} class is useful to manage all Binance Wallet Endpoints
@@ -139,7 +139,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @return account snapshot as String
      * **/
     public String getAccountSnapshot(String type, HashMap<String,Object> extraParams) throws Exception {
-        String params = requestManager.assembleExtraParams(getParamTimestamp()+"&type="+type,extraParams);
+        String params = requestManager.assembleAdditionalParams(getParamTimestamp()+"&type="+type,extraParams);
         return sendSignedRequest(DAILY_ACCOUNT_SNAPSHOT_ENDPOINT,params,GET_METHOD);
     }
 
@@ -235,7 +235,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
     public String submitWithdraw(String coinSymbol, String address, double amount,
                                  HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&coin="+coinSymbol+"&address="+address+"&amount="+amount;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return submitWithdraw(params);
     }
 
@@ -278,7 +278,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @return list of deposits as ArrayList<Deposit>
      * **/
     public ArrayList<Deposit> getDepositHistory(HashMap<String,Object> extraParams) throws Exception {
-        String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
+        String params = requestManager.assembleAdditionalParams(getParamTimestamp(),extraParams);
         return getDepositHistory(params);
     }
 
@@ -324,7 +324,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @return list of withdraws as ArrayList<Withdraw>
      * **/
     public ArrayList<Withdraw> getWithdrawHistory(HashMap<String,Object> extraParams) throws Exception {
-        String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
+        String params = requestManager.assembleAdditionalParams(getParamTimestamp(),extraParams);
         return getWithdrawHistory(params);
     }
 
@@ -480,7 +480,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @return dust log information as String
      * **/
     public String getDustLog(HashMap<String,Object> extraParams) throws Exception {
-        String params = requestManager.assembleExtraParams(getParamTimestamp(),extraParams);
+        String params = requestManager.assembleAdditionalParams(getParamTimestamp(),extraParams);
         return sendSignedRequest(DUST_LOG_ENDPOINT,params,GET_METHOD);
     }
 
@@ -659,7 +659,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @return  get asset dividend as String
      * **/
     public String getAssetDividend(HashMap<String,Object> extraParams) throws Exception {
-        return sendSignedRequest(ASSET_DIVIDEND_ENDPOINT,requestManager.assembleExtraParams(getParamTimestamp(),
+        return sendSignedRequest(ASSET_DIVIDEND_ENDPOINT,requestManager.assembleAdditionalParams(getParamTimestamp(),
                 extraParams),GET_METHOD);
     }
 
@@ -899,7 +899,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @return universal transfer as String
      * **/
     public String getUniversalTransfer(String type,String asset,double amount, HashMap<String,Object> extraParams) throws Exception {
-        return sendSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT,requestManager.assembleExtraParams(getParamTimestamp(),extraParams),
+        return sendSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT,requestManager.assembleAdditionalParams(getParamTimestamp(),extraParams),
                 POST_METHOD);
     }
 
@@ -937,7 +937,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * **/
     public ArrayList<UniversalTransfer> getUniversalTransferHistory(String type, HashMap<String,Object> extraParams){
         String params = getParamTimestamp()+"&type="+type;
-        params = requestManager.assembleExtraParams(params,extraParams);
+        params = requestManager.assembleAdditionalParams(params,extraParams);
         return getUniversalTransferHistorySender(params);
     }
 
@@ -982,7 +982,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @return funding wallet as ArrayList<FundingWallet>
      * **/
     public ArrayList<FundingWallet> getFundingWallet(HashMap<String,Object> extraParams) throws Exception {
-        return getFundingWallet(requestManager.assembleExtraParams(getParamTimestamp(),extraParams));
+        return getFundingWallet(requestManager.assembleAdditionalParams(getParamTimestamp(),extraParams));
     }
 
     /** Method to submit get funding wallet request

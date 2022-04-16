@@ -1,7 +1,7 @@
 package com.tecknobit.binancemanager.Managers;
 
 import com.tecknobit.binancemanager.Exceptions.SystemException;
-import com.tecknobit.binancemanager.Helpers.Request.RequestManager;
+import com.tecknobit.binancemanager.Helpers.RequestManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
-import static com.tecknobit.binancemanager.Helpers.Request.RequestManager.GET_METHOD;
+import static com.tecknobit.binancemanager.Helpers.RequestManager.GET_METHOD;
 import static java.lang.System.currentTimeMillis;
 import static java.util.Arrays.asList;
 
@@ -33,7 +33,7 @@ public class BinanceManager {
      * @param #baseEndpoint base endpoint to work on
      * **/
     public BinanceManager(String baseEndpoint) throws SystemException, IOException {
-        this.requestManager = new RequestManager();
+        requestManager = new RequestManager();
         if(baseEndpoint != null)
             this.baseEndpoint = baseEndpoint;
         else
@@ -54,8 +54,8 @@ public class BinanceManager {
      * @param #baseEndpoint endpoint to request status
      * **/
     public boolean isSystemAvailable(String baseEndpoint) throws IOException {
-        requestManager.startConnection(baseEndpoint+ SYSTEM_STATUS_ENDPOINT,GET_METHOD);
-        jsonObject = new JSONObject(requestManager.getResponse());
+        requestManager.sendAPIRequest(baseEndpoint+ SYSTEM_STATUS_ENDPOINT,GET_METHOD);
+        jsonObject = (JSONObject) requestManager.getJSONResponse();
         return jsonObject.getInt("status") == 0;
     }
 
@@ -65,10 +65,10 @@ public class BinanceManager {
      * **/
     public long getTimestamp(){
         try {
-            requestManager.startConnection(baseEndpoint+TIMESTAMP_ENDPOINT,GET_METHOD);
-            jsonObject = new JSONObject(requestManager.getResponse());
+            requestManager.sendAPIRequest(baseEndpoint+TIMESTAMP_ENDPOINT,GET_METHOD);
+            jsonObject = (JSONObject) requestManager.getJSONResponse();
             return jsonObject.getLong("serverTime");
-        } catch (IOException e) {
+        } catch (Exception e) {
             return currentTimeMillis();
         }
     }
@@ -89,7 +89,7 @@ public class BinanceManager {
      * @return response of request formatted in Json
      * **/
     protected String getRequestResponse(String endpoint, String params, String method, String apiKey) throws IOException {
-        requestManager.startConnection(baseEndpoint+endpoint+params,method,apiKey);
+        requestManager.sendAPIRequest(baseEndpoint+endpoint+params,method,"X-MBX-APIKEY",apiKey);
         return requestManager.getResponse();
     }
 
@@ -100,7 +100,7 @@ public class BinanceManager {
      * @return response of request formatted in Json
      * **/
     protected String getRequestResponse(String endpoint, String params, String method) throws IOException {
-        requestManager.startConnection(baseEndpoint+endpoint+params,method);
+        requestManager.sendAPIRequest(baseEndpoint+endpoint+params,method);
         return requestManager.getResponse();
     }
 
@@ -108,7 +108,7 @@ public class BinanceManager {
      * any params required
      * @return requestManager.getErrorResponse();
      * **/
-    public String getErrorResponse(){
+    public String getErrorResponse() {
         return requestManager.getErrorResponse();
     }
 
