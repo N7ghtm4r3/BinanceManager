@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.Managers;
 
+import com.tecknobit.apimanager.Tools.Trading.TradingTools;
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Helpers.RequestManager;
 import org.json.JSONArray;
@@ -28,12 +29,14 @@ public class BinanceManager {
     protected JSONObject jsonObject;
     protected JSONArray jsonArray;
     protected final String baseEndpoint;
+    protected final TradingTools tradingTools;
 
     /** Constructor to init a Binance manager
      * @param #baseEndpoint base endpoint to work on
      * **/
     public BinanceManager(String baseEndpoint) throws SystemException, IOException {
         requestManager = new RequestManager();
+        tradingTools = new TradingTools();
         if(baseEndpoint != null)
             this.baseEndpoint = baseEndpoint;
         else
@@ -110,6 +113,10 @@ public class BinanceManager {
      * **/
     public String getErrorResponse() {
         return requestManager.getErrorResponse();
+    }
+
+    public TradingTools getTradingTools() {
+        return tradingTools;
     }
 
 }

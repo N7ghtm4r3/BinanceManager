@@ -842,5 +842,19 @@ public class BinanceMarketManager extends BinanceManager {
         );
     }
 
+    public double getSymbolForecast(String symbol, String candlestickInterval, int intervalDays,
+                                    int toleranceValue) throws IOException {
+        ArrayList<Double> historicalValues = new ArrayList<>();
+        for (Candlestick candlestick : getCandlestickDataList(symbol, candlestickInterval))
+            historicalValues.add(candlestick.getHigh());
+        return tradingTools.computeTPTOPAsset(historicalValues, getCurrentAveragePriceValue(symbol),
+                intervalDays,toleranceValue);
+    }
+
+    public double getSymbolForecast(String symbol, String candlestickInterval, int intervalDays,
+                                    int toleranceValue, int decimalDigits) throws IOException {
+        return tradingTools.roundValue(getSymbolForecast(symbol, candlestickInterval, intervalDays, toleranceValue), decimalDigits);
+    }
+
 }
 
