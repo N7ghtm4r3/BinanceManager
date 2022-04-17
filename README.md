@@ -23,7 +23,7 @@ allprojects {
 
 ```gradle
 dependencies {
-	implementation 'com.github.N7ghtm4r3:BinanceManager:1.0.0'
+	implementation 'com.github.N7ghtm4r3:BinanceManager:1.0.1'
 }
 ```
 
@@ -45,7 +45,7 @@ dependencies {
 <dependency>
     <groupId>com.github.N7ghtm4r3</groupId>
     <artifactId>BinanceManager</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
