@@ -842,6 +842,14 @@ public class BinanceMarketManager extends BinanceManager {
         );
     }
 
+    /** Method to get prevision of a cryptocurrency in base of days's gap inserted
+     * @param #symbol: symbol to calculate forecast es. BTCBUSD
+     * @param #candlestickInterval: temporal interval of data for the forecast
+     * @param #intervalDays: days gap for the prevision range
+     * @param #toleranceValue: tolerance for select similar value compared to lastValue inserted
+     * @return prevision value as a double es. 8 or -8
+     * @throws IllegalArgumentException if lastValue is negative or intervalDays are less or equal to 0
+     * **/
     public double getSymbolForecast(String symbol, String candlestickInterval, int intervalDays,
                                     int toleranceValue) throws IOException {
         ArrayList<Double> historicalValues = new ArrayList<>();
@@ -851,6 +859,15 @@ public class BinanceMarketManager extends BinanceManager {
                 intervalDays,toleranceValue);
     }
 
+    /** Method to get prevision of a cryptocurrency in base of days's gap inserted
+     * @param #symbol: symbol to calculate forecast es. BTCBUSD
+     * @param #candlestickInterval: temporal interval of data for the forecast
+     * @param #intervalDays: days gap for the prevision range
+     * @param #toleranceValue: tolerance for select similar value compared to lastValue inserted
+     * @param #decimalDigits: number of digits to round final forecast value
+     * @return forecast value as a double es. 8 or -8
+     * @throws IllegalArgumentException if lastValue is negative or intervalDays are less or equal to 0
+     * **/
     public double getSymbolForecast(String symbol, String candlestickInterval, int intervalDays,
                                     int toleranceValue, int decimalDigits) throws IOException {
         return tradingTools.roundValue(getSymbolForecast(symbol, candlestickInterval, intervalDays, toleranceValue), decimalDigits);
