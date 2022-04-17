@@ -1,5 +1,5 @@
 # BinanceManager
-**v1.0.0**
+**v1.0.1**
 
 This is a Java Based library useful to work with Binance's API service.
 
