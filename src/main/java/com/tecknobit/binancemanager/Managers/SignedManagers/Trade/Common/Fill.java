@@ -8,9 +8,9 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common;
 
 public class Fill {
 
-    private final double price;
-    private final double qty;
-    private final double commission;
+    private double price;
+    private double qty;
+    private double commission;
     private final String commissionAsset;
 
     public Fill(double price, double qty, double commission, String commissionAsset) {
@@ -24,12 +24,30 @@ public class Fill {
         return price;
     }
 
+    public void setPrice(double price) {
+        if(price < 0)
+            throw new IllegalArgumentException("Price value cannot be less than 0");
+        this.price = price;
+    }
+
     public double getQty() {
         return qty;
     }
 
+    public void setQty(double qty) {
+        if(qty < 0)
+            throw new IllegalArgumentException("Quantity value cannot be less than 0");
+        this.qty = qty;
+    }
+
     public double getCommission() {
         return commission;
+    }
+
+    public void setCommission(double commission) {
+        if(commission < 0)
+            throw new IllegalArgumentException("Commission value cannot be less than 0");
+        this.commission = commission;
     }
 
     public String getCommissionAsset() {

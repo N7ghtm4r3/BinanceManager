@@ -7,16 +7,16 @@ import java.util.ArrayList;
 
 /**
  * The {@code IsolatedMarginFee} class is useful to format Binance Isolated Margin Fee request response
- * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class IsolatedMarginFee {
 
-    private final int vipLevel;
+    private int vipLevel;
     private final String symbol;
-    private final int leverage;
-    private ArrayList<IsolatedData> isolatedData;
+    private int leverage;
+    private ArrayList<IsolatedData> isolatedDataList;
 
     public IsolatedMarginFee(int vipLevel, String symbol, int leverage, JSONArray jsonArray) {
         this.vipLevel = vipLevel;
@@ -30,10 +30,10 @@ public class IsolatedMarginFee {
      * any return
      * **/
     private void loadIsolatedData(JSONArray jsonArray) {
-        isolatedData = new ArrayList<>();
+        isolatedDataList = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++) {
             JSONObject data = jsonArray.getJSONObject(j);
-            isolatedData.add(new IsolatedData(data.getString("coin"),
+            isolatedDataList.add(new IsolatedData(data.getString("coin"),
                     data.getDouble("dailyInterest"),
                     data.getDouble("borrowLimit")
             ));
@@ -44,6 +44,12 @@ public class IsolatedMarginFee {
         return vipLevel;
     }
 
+    public void setVipLevel(int vipLevel) {
+        if(vipLevel < 0)
+            throw new IllegalArgumentException("Vip level value cannot be less than 0");
+        this.vipLevel = vipLevel;
+    }
+
     public String getSymbol() {
         return symbol;
     }
@@ -52,24 +58,43 @@ public class IsolatedMarginFee {
         return leverage;
     }
 
+    public void setLeverage(int leverage) {
+        if(leverage < 0)
+            throw new IllegalArgumentException("Leverage value cannot be less than 0");
+        this.leverage = leverage;
+    }
+
     public ArrayList<IsolatedData> getIsolatedDataList() {
-        return isolatedData;
+        return isolatedDataList;
+    }
+
+    public void setIsolatedDataList(ArrayList<IsolatedData> isolatedDataList) {
+        this.isolatedDataList = isolatedDataList;
+    }
+
+    public void insertIsolatedData(IsolatedData isolatedData){
+        if(!isolatedDataList.contains(isolatedData))
+            isolatedDataList.add(isolatedData);
+    }
+
+    public boolean removeIsolatedData(IsolatedData isolatedData){
+        return isolatedDataList.remove(isolatedData);
     }
 
     public IsolatedData getIsolatedData(int index) {
-        return isolatedData.get(index);
+        return isolatedDataList.get(index);
     }
 
     /**
      * The {@code IsolatedData} class is useful to obtain and format IsolatedData object
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data</a>
      * **/
 
     public static class IsolatedData {
 
         private final String coin;
-        private final double dailyInterest;
-        private final double borrowLimit;
+        private double dailyInterest;
+        private double borrowLimit;
 
         public IsolatedData(String coin, double dailyInterest, double borrowLimit) {
             this.coin = coin;
@@ -85,8 +110,20 @@ public class IsolatedMarginFee {
             return dailyInterest;
         }
 
+        public void setDailyInterest(double dailyInterest) {
+            if(dailyInterest < 0)
+                throw new IllegalArgumentException("Daily interest value cannot be less than 0");
+            this.dailyInterest = dailyInterest;
+        }
+
         public double getBorrowLimit() {
             return borrowLimit;
+        }
+
+        public void setBorrowLimit(double borrowLimit) {
+            if(borrowLimit < 0)
+                throw new IllegalArgumentException("Borrow limit value cannot be less than 0");
+            this.borrowLimit = borrowLimit;
         }
 
     }

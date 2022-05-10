@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * The {@code OrderDetails} class is useful to manage and format all Binance OrderDetails request
  * @implNote used by BinanceSpotManager, BinanceMarginManager
- * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#introduction
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
  * **/
 
 public class OrderDetails {
@@ -87,7 +87,7 @@ public class OrderDetails {
 
     /**
      * The {@code OrderValues} class is useful to obtain and format OrderValues object
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade">https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade</a>
      * **/
 
     public static class OrderValues {

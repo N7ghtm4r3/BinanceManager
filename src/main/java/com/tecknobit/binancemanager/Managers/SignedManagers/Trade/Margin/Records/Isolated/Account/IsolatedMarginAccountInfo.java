@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * The {@code IsolatedMarginAccountInfo} class is useful to format Binance Isolated Margin Account Info request response
- * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/
 
@@ -19,15 +19,15 @@ public class IsolatedMarginAccountInfo {
     public static final String MARGIN_LEVEL_STATUS_PRE_LIQUIDATION = "PRE_LIQUIDATION";
     public static final String MARGIN_LEVEL_STATUS_FORCE_LIQUIDATION = "FORCE_LIQUIDATION";
     private final String symbol;
-    private final boolean isolatedCreated;
-    private final boolean enabled;
-    private final double marginLevel;
-    private final String marginLevelStatus;
-    private final double marginRatio;
-    private final double indexPrice;
-    private final double liquidatePrice;
-    private final double liquidateRate;
-    private final boolean tradeEnabled;
+    private boolean isolatedCreated;
+    private boolean enabled;
+    private double marginLevel;
+    private String marginLevelStatus;
+    private double marginRatio;
+    private double indexPrice;
+    private double liquidatePrice;
+    private double liquidateRate;
+    private boolean tradeEnabled;
     private final IsolatedMarginAsset baseAsset;
     private final IsolatedMarginAsset quoteAsset;
 
@@ -98,36 +98,89 @@ public class IsolatedMarginAccountInfo {
         return isolatedCreated;
     }
 
+    public void setIsolatedCreated(boolean isolatedCreated) {
+        this.isolatedCreated = isolatedCreated;
+    }
+
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public double getMarginLevel() {
         return marginLevel;
     }
 
+    public void setMarginLevel(double marginLevel) {
+        this.marginLevel = marginLevel;
+    }
+
     public String getMarginLevelStatus() {
         return marginLevelStatus;
+    }
+
+    public void setMarginLevelStatus(String marginLevelStatus) {
+        if(marginLevelStatus.equals(MARGIN_LEVEL_STATUS_EXCESSIVE) ||
+                marginLevelStatus.equals(MARGIN_LEVEL_STATUS_NORMAL) ||
+                marginLevelStatus.equals(MARGIN_LEVEL_STATUS_FORCE_LIQUIDATION) ||
+                marginLevelStatus.equals(MARGIN_LEVEL_STATUS_PRE_LIQUIDATION) ||
+                marginLevelStatus.equals(MARGIN_LEVEL_STATUS_MARGIN_CALL)) {
+            this.marginLevelStatus = marginLevelStatus;
+        }else {
+            throw new IllegalArgumentException("Margin level status can only be EXCESSIVE, NORMAL, MARGIN_CALL, " +
+                    "PRE_LIQUIDATION or FORCE_LIQUIDATION");
+        }
     }
 
     public double getMarginRatio() {
         return marginRatio;
     }
 
+    public void setMarginRatio(double marginRatio) {
+        if(marginRatio < 0)
+            throw new IllegalArgumentException("Margin ratio value cannot be less than 0");
+        this.marginRatio = marginRatio;
+    }
+
     public double getIndexPrice() {
         return indexPrice;
+    }
+
+    public void setIndexPrice(double indexPrice) {
+        if(indexPrice < 0)
+            throw new IllegalArgumentException("Index price value cannot be less than 0");
+        this.indexPrice = indexPrice;
     }
 
     public double getLiquidatePrice() {
         return liquidatePrice;
     }
 
+    public void setLiquidatePrice(double liquidatePrice) {
+        if(liquidatePrice < 0)
+            throw new IllegalArgumentException("Liquidate price value cannot be less than 0");
+        this.liquidatePrice = liquidatePrice;
+    }
+
     public double getLiquidateRate() {
         return liquidateRate;
     }
 
+    public void setLiquidateRate(double liquidateRate) {
+        if(liquidateRate < 0)
+            throw new IllegalArgumentException("Liquidate rate value cannot be less than 0");
+        this.liquidateRate = liquidateRate;
+    }
+
     public boolean isTradeEnabled() {
         return tradeEnabled;
+    }
+
+    public void setTradeEnabled(boolean tradeEnabled) {
+        this.tradeEnabled = tradeEnabled;
     }
 
     public IsolatedMarginAsset getBaseAsset() {
