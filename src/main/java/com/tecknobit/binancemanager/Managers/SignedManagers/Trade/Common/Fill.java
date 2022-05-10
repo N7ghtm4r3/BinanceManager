@@ -3,7 +3,7 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common;
 /**
  *  The {@code FillSpot} class is useful to obtain and format FillSpot object
  *  @implNote used by BinanceSpotManager, BinanceMarginManager
- *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#introduction
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
  * **/
 
 public class Fill {

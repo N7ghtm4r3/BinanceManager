@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  *  The {@code ExchangeInformation} class is useful to manage ExchangeInformation Binance request
- *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
@@ -32,7 +32,7 @@ public class ExchangeInformation {
 
     /** Method to assemble an RateLimits list
      * any params required
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
      * any return
      * **/
     private void assembleRateLimits() {
@@ -50,7 +50,7 @@ public class ExchangeInformation {
 
     /** Method to assemble a Filters list
      * @param #jsonArray: obtained from Binance request
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
      * @return filters list as ArrayList<Filter> object
      * **/
     private static ArrayList<Filter> assembleFilters(JSONArray jsonArray) {
@@ -68,7 +68,7 @@ public class ExchangeInformation {
 
     /** Method to assemble a Symbols list
      * any params required
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
      * any return
      * **/
     private void assembleSymbols() {
@@ -116,7 +116,7 @@ public class ExchangeInformation {
 
     /**
      * The {@code RateLimit} class is useful to obtain and format RateLimit object
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
      * **/
 
     public static class RateLimit {
@@ -160,7 +160,7 @@ public class ExchangeInformation {
 
     /**
      * The {@code Symbol} class is useful to obtain and format Symbol object
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
      * **/
 
     public static class Symbol {
@@ -205,7 +205,7 @@ public class ExchangeInformation {
 
         /** Method to assemble a EnumValues list
          * @param #jsonArray: obtained from Binance request
-         * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#exchange-information
+         * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
          * @return exchangeEnumValues list as ArrayList<EnumValues> object
          * **/
         private ArrayList<String> loadEnumsList(JSONArray jsonArray){

@@ -2,7 +2,7 @@ package com.tecknobit.binancemanager.Managers.Market.Records.Tickers;
 
 /**
  * The {@code OrderBookTicker} class is useful to manage OrderBookTicker requests
- * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker">https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/
 

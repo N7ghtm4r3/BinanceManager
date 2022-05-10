@@ -6,7 +6,6 @@ package com.tecknobit.binancemanager.Managers.Market.Records.Stats;
  * @author N7ghtm4r3 - Tecknobit
  * **/
 
-
 public class Candlestick {
 
     public static final String INTERVAL_1m = "1m";

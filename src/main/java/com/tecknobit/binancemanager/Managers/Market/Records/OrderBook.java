@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 /**
  * The {@code OrderBook} class is useful to format Binance OrderBook request
- * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#order-book
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">https://binance-docs.github.io/apidocs/spot/en/#order-book</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/
 
@@ -28,7 +28,7 @@ public class OrderBook {
 
     /** Method to get load list of order details
      * @param #jsonArray: obtained from Binance request
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#order-book
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">https://binance-docs.github.io/apidocs/spot/en/#order-book</a>
      * @return order details list as ArrayList<BookOrderDetails> object
      * **/
     private ArrayList<BookOrderDetails> loadOrderDetails(JSONArray jsonArray){
@@ -59,7 +59,7 @@ public class OrderBook {
 
     /**
      * The {@code BookOrderDetails} class is useful to obtain and format BookOrderDetails object
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#order-book
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">https://binance-docs.github.io/apidocs/spot/en/#order-book</a>
      * **/
 
     public static class BookOrderDetails {
@@ -82,7 +82,7 @@ public class OrderBook {
 
         /** Method to get order details value formatted in JSON
          * any params required
-         * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#order-book
+         * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">https://binance-docs.github.io/apidocs/spot/en/#order-book</a>
          * @return JsonObject of {@link #price} and {@link #quantity}
          * **/
         public JSONObject getOrderDetails(){
