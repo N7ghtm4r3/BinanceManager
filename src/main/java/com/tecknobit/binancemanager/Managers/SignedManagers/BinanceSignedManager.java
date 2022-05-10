@@ -7,7 +7,7 @@ import java.io.IOException;
 
 /**
  * The {@code BinanceSignedManager} class is useful to manage all signed binance requests
- * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#introduction
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/
 

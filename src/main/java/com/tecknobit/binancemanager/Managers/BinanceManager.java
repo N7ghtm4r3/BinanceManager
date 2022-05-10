@@ -17,7 +17,7 @@ import static java.util.Arrays.asList;
 /**
  *  The {@code BinanceManager} class is useful to manage all Binance Endpoints
  *  giving basics methods for others Binance managers and basics endpoints for API request
- *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#introduction
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
@@ -80,7 +80,7 @@ public class BinanceManager {
      * any params required
      * @return "?timestamp=" + getTimestamp() return value
      * **/
-    protected String getParamTimestamp(){
+    public String getParamTimestamp(){
         return "?timestamp="+getTimestamp();
     }
 
@@ -91,7 +91,7 @@ public class BinanceManager {
      * @param #apiKey: apiKey of the account to perform request
      * @return response of request formatted in Json
      * **/
-    protected String getRequestResponse(String endpoint, String params, String method, String apiKey) throws IOException {
+    public String getRequestResponse(String endpoint, String params, String method, String apiKey) throws IOException {
         requestManager.sendAPIRequest(baseEndpoint+endpoint+params,method,"X-MBX-APIKEY",apiKey);
         return requestManager.getResponse();
     }
@@ -102,9 +102,17 @@ public class BinanceManager {
      * @param #method: method HTTP for the request
      * @return response of request formatted in Json
      * **/
-    protected String getRequestResponse(String endpoint, String params, String method) throws IOException {
+    public String getRequestResponse(String endpoint, String params, String method) throws IOException {
         requestManager.sendAPIRequest(baseEndpoint+endpoint+params,method);
         return requestManager.getResponse();
+    }
+
+    /** Method to get status code of request response
+     * any params required
+     * @return status code of request response
+     * **/
+    public int getStatusResponse(){
+        return requestManager.getResponseStatusCode();
     }
 
     /** Method to get error response of an HTTP request
