@@ -1024,7 +1024,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return interest history response as String
      * **/
     public String getInterestHistory() throws Exception {
-        return sendSignedRequest(MARGIN_INTERST_HISTORY_ENDPOINT,getParamTimestamp(),GET_METHOD);
+        return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
     /** Request to get interest history
@@ -1052,7 +1052,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return interest history response as String
      * **/
     public String getInterestHistory(HashMap<String,Object> extraParams) throws Exception {
-        return sendSignedRequest(MARGIN_INTERST_HISTORY_ENDPOINT,
+        return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT,
                 requestManager.assembleAdditionalParams(getParamTimestamp(),extraParams),GET_METHOD);
     }
 
@@ -1083,7 +1083,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getInterestHistory(String asset) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
-        return sendSignedRequest(MARGIN_INTERST_HISTORY_ENDPOINT,params,GET_METHOD);
+        return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get interest history
@@ -1114,7 +1114,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     public String getInterestHistory(String asset,HashMap<String,Object> extraParams) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
         params = requestManager.assembleAdditionalParams(params,extraParams);
-        return sendSignedRequest(MARGIN_INTERST_HISTORY_ENDPOINT,params,GET_METHOD);
+        return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get interest history

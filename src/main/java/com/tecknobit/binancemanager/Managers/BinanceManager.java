@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.Managers;
 
+import com.tecknobit.apimanager.Tools.Readers.JsonHelper;
 import com.tecknobit.apimanager.Tools.Trading.TradingTools;
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Helpers.RequestManager;
@@ -28,6 +29,7 @@ public class BinanceManager {
     protected RequestManager requestManager;
     protected JSONObject jsonObject;
     protected JSONArray jsonArray;
+    protected JsonHelper jsonHelper;
     protected final String baseEndpoint;
     protected final TradingTools tradingTools;
 

@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet;
 
+import com.tecknobit.apimanager.Tools.Readers.JsonHelper;
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.API.APIPermission;
@@ -28,6 +29,7 @@ import java.util.HashMap;
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Helpers.RequestManager.GET_METHOD;
 import static com.tecknobit.binancemanager.Helpers.RequestManager.POST_METHOD;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Asset.CoinInformation.NetworkItem.getNetworkList;
 
 /**
  *  The {@code BinanceWalletManager} class is useful to manage all Binance Wallet Endpoints
@@ -82,25 +84,27 @@ public class BinanceWalletManager extends BinanceSignedManager {
     public ArrayList<CoinInformation> getObjectAllCoins() throws Exception {
         jsonArray = new JSONArray(getAllCoins());
         ArrayList<CoinInformation> coinInformationList = new ArrayList<>();
-        for (int j=0; j < jsonArray.length(); j++){
-            JSONObject coin = jsonArray.getJSONObject(j);
-            coinInformationList.add(new CoinInformation(coin.getString("coin"),
-                    coin.getBoolean("depositAllEnable"),
-                    coin.getDouble("free"),
-                    coin.getDouble("freeze"),
-                    coin.getDouble("ipoable"),
-                    coin.getDouble("ipoing"),
-                    coin.getBoolean("isLegalMoney"),
-                    coin.getDouble("locked"),
-                    coin.getString("name"),
-                    CoinInformation.NetworkItem.getNetworkList(coin.getJSONArray("networkList")),
-                    coin.getDouble("storage"),
-                    coin.getBoolean("trading"),
-                    coin.getBoolean("withdrawAllEnable"),
-                    coin.getDouble("withdrawing")
-            ));
-        }
+        for (int j=0; j < jsonArray.length(); j++)
+            coinInformationList.add(assembleCoinInformationObject(jsonArray.getJSONObject(j)));
         return coinInformationList;
+    }
+
+    private CoinInformation assembleCoinInformationObject(JSONObject coin){
+        return new CoinInformation(coin.getString("coin"),
+                coin.getBoolean("depositAllEnable"),
+                coin.getDouble("free"),
+                coin.getDouble("freeze"),
+                coin.getDouble("ipoable"),
+                coin.getDouble("ipoing"),
+                coin.getBoolean("isLegalMoney"),
+                coin.getDouble("locked"),
+                coin.getString("name"),
+                getNetworkList(new JsonHelper(coin).getJSONArray("networkList")),
+                coin.getDouble("storage"),
+                coin.getBoolean("trading"),
+                coin.getBoolean("withdrawAllEnable"),
+                coin.getDouble("withdrawing")
+        );
     }
 
     /** Request to get your daily account snapshot

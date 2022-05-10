@@ -5,7 +5,6 @@ package com.tecknobit.binancemanager.Exceptions;
  *  it throws an exception if service is not working.
  * **/
 
-
 public class SystemException extends Exception{
 
     public SystemException() {

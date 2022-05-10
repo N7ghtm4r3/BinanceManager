@@ -2,7 +2,7 @@ package com.tecknobit.binancemanager.Managers.Market.Records.Stats;
 
 /**
  * The {@code Candlestick} class is useful to manage Candlestick requests
- * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data">https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/
 
