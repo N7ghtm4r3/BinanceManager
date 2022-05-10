@@ -2,7 +2,7 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common;
 
 /**
  * The {@code TradeConstants} class contains all Binance's Trade Constants to do trade's request
- * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#introduction
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
  * **/
 
 public class TradeConstants {

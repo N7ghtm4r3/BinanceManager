@@ -8,6 +8,10 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common;
 
 public class Order {
 
+    /**Statuses for an order**/
+    public static final String STATUS_CONFIRMED = "CONFIRMED";
+    public static final String STATUS_PENDING = "PENDING";
+    public static final String STATUS_FAILED = "FAILED";
     private final String symbol;
     private final double orderId;
     private final String clientOrderId;

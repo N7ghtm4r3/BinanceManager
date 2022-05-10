@@ -54,7 +54,7 @@ public class MarginLoan {
 
     /**
      * The {@code MarginLoanAsset} class is useful to obtain and format MarginLoanAsset object
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
      * **/
 
     public static class MarginLoanAsset extends MarginAssetList {

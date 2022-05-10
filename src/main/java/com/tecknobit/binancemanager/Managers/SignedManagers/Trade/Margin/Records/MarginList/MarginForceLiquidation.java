@@ -7,14 +7,14 @@ import java.util.ArrayList;
 
 /**
  *  The {@code MarginForceLiquidation} class is useful to format Binance Margin Force Liquidation request
- *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class MarginForceLiquidation {
 
-    private final int total;
-    private ArrayList<ForceLiquidationAsset> forceLiquidationAssets;
+    private int total;
+    private ArrayList<ForceLiquidationAsset> forceLiquidationAssetsList;
 
     public MarginForceLiquidation(JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("rows");
@@ -27,10 +27,10 @@ public class MarginForceLiquidation {
      * any return
      * **/
     private void loadForceLiquidationAssets(JSONArray jsonArray) {
-        forceLiquidationAssets = new ArrayList<>();
+        forceLiquidationAssetsList = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
             JSONObject jsonObject = jsonArray.getJSONObject(j);
-            forceLiquidationAssets.add(new ForceLiquidationAsset(jsonObject.getDouble("avgPrice"),
+            forceLiquidationAssetsList.add(new ForceLiquidationAsset(jsonObject.getDouble("avgPrice"),
                     jsonObject.getDouble("executedQty"),
                     jsonObject.getLong("orderId"),
                     jsonObject.getDouble("price"),
@@ -48,17 +48,41 @@ public class MarginForceLiquidation {
         return total;
     }
 
+    public void setTotal(int total) {
+        if(total < 0)
+            throw new IllegalArgumentException("Total value cannot be less than 0");
+        this.total = total;
+    }
+
     public ArrayList<ForceLiquidationAsset> getForceLiquidationAssetsList() {
-        return forceLiquidationAssets;
+        return forceLiquidationAssetsList;
+    }
+
+    public void setForceLiquidationAssetsList(ArrayList<ForceLiquidationAsset> forceLiquidationAssetsList) {
+        this.forceLiquidationAssetsList = forceLiquidationAssetsList;
+        setTotal(forceLiquidationAssetsList.size());
+    }
+
+    public void insertForceLiquidationAsset(ForceLiquidationAsset forceLiquidationAsset){
+        if(!forceLiquidationAssetsList.contains(forceLiquidationAsset))
+            forceLiquidationAssetsList.add(forceLiquidationAsset);
+        setTotal(total + 1);
+    }
+
+    public boolean removeForceLiquidationAsset(ForceLiquidationAsset forceLiquidationAsset){
+        boolean removed = forceLiquidationAssetsList.remove(forceLiquidationAsset);
+        if(removed)
+            setTotal(total - 1);
+        return removed;
     }
 
     public ForceLiquidationAsset getForceLiquidationAsset(int index){
-        return forceLiquidationAssets.get(index);
+        return forceLiquidationAssetsList.get(index);
     }
 
     /**
      * The {@code ForceLiquidationAsset} class is useful to obtain and format ForceLiquidationAsset object
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
      * **/
 
     public static class ForceLiquidationAsset {
@@ -129,4 +153,5 @@ public class MarginForceLiquidation {
         }
 
     }
+
 }
