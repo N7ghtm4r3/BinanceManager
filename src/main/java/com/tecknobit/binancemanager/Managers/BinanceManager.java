@@ -191,4 +191,12 @@ public class BinanceManager {
         return tradingTools;
     }
 
+    /** Method get jsonHelper object
+     * any params required
+     * @return {@link JsonHelper} object
+     * **/
+    public JsonHelper getJsonHelper() {
+        return jsonHelper;
+    }
+
 }

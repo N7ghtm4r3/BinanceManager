@@ -45,7 +45,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param #baseEndpoint base endpoint choose from BASE_ENDPOINTS array
      * **/
     public BinanceWalletManager(String apiKey, String secretKey, String baseEndpoint) throws IOException, SystemException {
-        super(baseEndpoint,apiKey,secretKey);
+        super(baseEndpoint, apiKey, secretKey);
         if(!isSystemAvailable(baseEndpoint))
             throw new SystemException();
     }
@@ -55,7 +55,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param #secretKey your secret key
      * **/
     public BinanceWalletManager(String apiKey, String secretKey) throws SystemException, IOException {
-        super(null,apiKey,secretKey);
+        super(null, apiKey, secretKey);
     }
 
     /** Request to get information of your coins available for deposit and withdraw
@@ -64,7 +64,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @return all coin information as String
      * **/
     public String getAllCoins() throws Exception {
-        return sendSignedRequest(ALL_COINS_ENDPOINT,getParamTimestamp(),GET_METHOD);
+        return sendSignedRequest(ALL_COINS_ENDPOINT, getParamTimestamp(), GET_METHOD);
     }
 
     /** Request to get information of your coins available for deposit and withdraw
@@ -81,7 +81,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
      * @return all coin information as ArrayList<CoinInformation>
      * **/
-    public ArrayList<CoinInformation> getObjectAllCoins() throws Exception {
+    public ArrayList<CoinInformation> getAllCoinsList() throws Exception {
         jsonArray = new JSONArray(getAllCoins());
         ArrayList<CoinInformation> coinInformationList = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++)
@@ -89,6 +89,81 @@ public class BinanceWalletManager extends BinanceSignedManager {
         return coinInformationList;
     }
 
+    /** Custom request to get information of your coin available for deposit and withdraw
+     * @param #coin: identifier of coin to fetch es. BTC
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
+     * @return single coin information as {@link String}
+     * **/
+    public String getSingleCoin(String coin) throws Exception {
+        return getSingleCoin(coin, "coin").toString();
+    }
+
+    /** Custom request to get information of your coin available for deposit and withdraw
+     * @param #coin: identifier of coin to fetch es. BTC
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
+     * @return single coin information as {@link JSONObject}
+     * **/
+    public JSONObject getSingleCoinJSON(String coin) throws Exception {
+        return getSingleCoin(coin, "coin");
+    }
+
+    /** Custom request to get information of your coin available for deposit and withdraw
+     * @param #coin: identifier of coin to fetch es. BTC
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
+     * @return single coin information as {@link CoinInformation} object
+     * **/
+    public CoinInformation getSingleCoinObject(String coin) throws Exception {
+        return assembleCoinInformationObject(getSingleCoin(coin, "coin"));
+    }
+
+    /** Custom request to get information of your coin available for deposit and withdraw
+     * @param #name: identifier of coin to fetch by name es. Bitcoin
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
+     * @return single coin information as {@link String}
+     * **/
+    public String getSingleCoinByName(String name) throws Exception {
+        return getSingleCoin(name, "name").toString();
+    }
+
+    /** Custom request to get information of your coin available for deposit and withdraw
+     * @param #name: identifier of coin to fetch by name es. Bitcoin
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
+     * @return single coin information as {@link JSONObject}
+     * **/
+    public JSONObject getSingleCoinByNameJSON(String name) throws Exception {
+        return getSingleCoin(name, "name");
+    }
+
+    /** Custom request to get information of your coin available for deposit and withdraw
+     * @param #name: identifier of coin to fetch by name es. Bitcoin
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
+     * @return single coin information as {@link CoinInformation} object
+     * **/
+    public CoinInformation getSingleCoinByNameObject(String name) throws Exception {
+        return assembleCoinInformationObject(getSingleCoin(name, "name"));
+    }
+
+    /** Method to get information of your coin available
+     * @param #keyValue: name or coin es Bitcoin or BTC
+     * @param #keySearch: name or coin param
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
+     * @return coin corresponding to params as {@link JSONObject}
+     * **/
+    private JSONObject getSingleCoin(String keyValue, String keySearch) throws Exception {
+        jsonArray = getJSONAllCoins();
+        keyValue = keyValue.toUpperCase();
+        for (int j=0; j < jsonArray.length(); j++) {
+            JSONObject coin = jsonArray.getJSONObject(j);
+            if(coin.getString(keySearch).toUpperCase().equals(keyValue))
+                return coin;
+        }
+        throw new IllegalArgumentException("No coin found with this property");
+    }
+
+    /** Method to assemble an CoinInformation object
+     * @param #coin: obtained from Binance's request
+     * @return a CoinInformation object with response data as {@link CoinInformation} object
+     * **/
     private CoinInformation assembleCoinInformationObject(JSONObject coin){
         return new CoinInformation(coin.getString("coin"),
                 coin.getBoolean("depositAllEnable"),

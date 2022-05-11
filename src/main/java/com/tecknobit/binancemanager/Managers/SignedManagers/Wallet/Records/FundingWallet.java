@@ -33,6 +33,8 @@ public class FundingWallet {
     }
 
     public void setFree(double free) {
+        if(free < 0)
+            throw new IllegalArgumentException("Free value cannot be less than 0");
         this.free = free;
     }
 
@@ -41,6 +43,8 @@ public class FundingWallet {
     }
 
     public void setLocked(double locked) {
+        if(locked < 0)
+            throw new IllegalArgumentException("Locked value cannot be less than 0");
         this.locked = locked;
     }
 
@@ -49,6 +53,8 @@ public class FundingWallet {
     }
 
     public void setFreeze(double freeze) {
+        if(freeze < 0)
+            throw new IllegalArgumentException("Freeze value cannot be less than 0");
         this.freeze = freeze;
     }
 
@@ -57,6 +63,8 @@ public class FundingWallet {
     }
 
     public void setWithdrawing(int withdrawing) {
+        if(withdrawing < 0)
+            throw new IllegalArgumentException("Withdrawing value cannot be less than 0");
         this.withdrawing = withdrawing;
     }
 
@@ -65,6 +73,8 @@ public class FundingWallet {
     }
 
     public void setBtcValuation(double btcValuation) {
+        if(btcValuation < 0)
+            throw new IllegalArgumentException("BTC valuation value cannot be less than 0");
         this.btcValuation = btcValuation;
     }
 

@@ -1,8 +1,8 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Asset;
 
+import com.tecknobit.apimanager.Tools.Readers.JsonHelper;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -244,7 +244,7 @@ public class CoinInformation {
         public static ArrayList<NetworkItem> getNetworkList(JSONArray networkList) {
             ArrayList<NetworkItem> networkItems = new ArrayList<>();
             for (int j=0; j < networkList.length(); j++){
-                JSONObject networkItem = networkList.getJSONObject(j);
+                JsonHelper networkItem = new JsonHelper(networkList.getJSONObject(j));
                 String specialTips;
                 try {
                     specialTips = networkItem.getString("specialTips");
