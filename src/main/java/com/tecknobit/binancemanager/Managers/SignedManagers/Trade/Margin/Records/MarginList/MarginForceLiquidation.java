@@ -5,6 +5,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.TradeConstants.*;
+
 /**
  *  The {@code MarginForceLiquidation} class is useful to format Binance Margin Force Liquidation request
  *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
@@ -64,9 +66,10 @@ public class MarginForceLiquidation {
     }
 
     public void insertForceLiquidationAsset(ForceLiquidationAsset forceLiquidationAsset){
-        if(!forceLiquidationAssetsList.contains(forceLiquidationAsset))
+        if(!forceLiquidationAssetsList.contains(forceLiquidationAsset)) {
             forceLiquidationAssetsList.add(forceLiquidationAsset);
-        setTotal(total + 1);
+            setTotal(total + 1);
+        }
     }
 
     public boolean removeForceLiquidationAsset(ForceLiquidationAsset forceLiquidationAsset){
@@ -77,7 +80,11 @@ public class MarginForceLiquidation {
     }
 
     public ForceLiquidationAsset getForceLiquidationAsset(int index){
-        return forceLiquidationAssetsList.get(index);
+        try{
+            return forceLiquidationAssetsList.get(index);
+        }catch (IndexOutOfBoundsException e){
+            throw new IndexOutOfBoundsException(index);
+        }
     }
 
     /**
@@ -87,16 +94,16 @@ public class MarginForceLiquidation {
 
     public static class ForceLiquidationAsset {
 
-        private final double avgPrice;
-        private final double executedQty;
+        private double avgPrice;
+        private double executedQty;
         private final long orderId;
-        private final double price;
-        private final double qty;
-        private final String side;
+        private double price;
+        private double qty;
+        private String side;
         private final String symbol;
-        private final String timeInForce;
-        private final boolean isIsolated;
-        private final long updatedTime;
+        private String timeInForce;
+        private boolean isIsolated;
+        private long updatedTime;
 
         public ForceLiquidationAsset(double avgPrice, double executedQty, long orderId, double price, double qty,
                                      String side, String symbol, String timeInForce, boolean isIsolated, long updatedTime) {
@@ -116,8 +123,20 @@ public class MarginForceLiquidation {
             return avgPrice;
         }
 
+        public void setAvgPrice(double avgPrice) {
+            if(avgPrice < 0)
+                throw new IllegalArgumentException("Average price value cannot be less than 0");
+            this.avgPrice = avgPrice;
+        }
+
         public double getExecutedQty() {
             return executedQty;
+        }
+
+        public void setExecutedQty(double executedQty) {
+            if(executedQty < 0)
+                throw new IllegalArgumentException("Executed quantity value cannot be less than 0");
+            this.executedQty = executedQty;
         }
 
         public long getOrderId() {
@@ -128,12 +147,28 @@ public class MarginForceLiquidation {
             return price;
         }
 
+        public void setPrice(double price) {
+            if(price < 0)
+                throw new IllegalArgumentException("Price value cannot be less than 0");
+            this.price = price;
+        }
+
         public double getQty() {
             return qty;
         }
 
+        public void setQty(double qty) {
+            if(qty < 0)
+                throw new IllegalArgumentException("Quantity value cannot be less than 0");
+            this.qty = qty;
+        }
+
         public String getSide() {
             return side;
+        }
+
+        public void setSide(String side) {
+            this.side = side;
         }
 
         public String getSymbol() {
@@ -144,12 +179,30 @@ public class MarginForceLiquidation {
             return timeInForce;
         }
 
+        public void setTimeInForce(String timeInForce) {
+            if(timeInForce.equals(TIME_IN_FORCE_FOK) || timeInForce.equals(TIME_IN_FORCE_GTC)
+                    || timeInForce.equals(TIME_IN_FORCE_IOC)) {
+                this.timeInForce = timeInForce;
+            }else
+                throw new IllegalArgumentException("Time in force value can only be FOK,GTC or IOC");
+        }
+
         public boolean isIsolated() {
             return isIsolated;
         }
 
+        public void setIsolated(boolean isolated) {
+            isIsolated = isolated;
+        }
+
         public long getUpdatedTime() {
             return updatedTime;
+        }
+
+        public void setUpdatedTime(long updatedTime) {
+            if(updatedTime < 0)
+                throw new IllegalArgumentException("Updated time value cannot be less than 0");
+            this.updatedTime = updatedTime;
         }
 
     }

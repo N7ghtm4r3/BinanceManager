@@ -8,12 +8,12 @@ import java.util.ArrayList;
 
 /**
  * The {@code FullMarginOrder} class is useful to format FullMarginOrder object of Binance's request Margin Account New Order
- * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
  * **/
 
 public class FullMarginOrder extends ResultMarginOrder{
 
-    private ArrayList<Fill> fillMargins;
+    private ArrayList<Fill> fillMarginsList;
 
     public FullMarginOrder(String symbol, double orderId, String clientOrderId, long transactTime, boolean isIsolated,
                            double price, double origQty, double executedQty, double cummulativeQuoteQty, String status,
@@ -28,10 +28,10 @@ public class FullMarginOrder extends ResultMarginOrder{
      * any return
      * **/
     private void loadFillMargins(JSONArray jsonArray) {
-        fillMargins = new ArrayList<>();
+        fillMarginsList = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++) {
             JSONObject fill = jsonArray.getJSONObject(j);
-            fillMargins.add(new Fill(fill.getDouble("price"),
+            fillMarginsList.add(new Fill(fill.getDouble("price"),
                     fill.getDouble("qty"),
                     fill.getDouble("commission"),
                     fill.getString("commissionAsset")
@@ -39,12 +39,29 @@ public class FullMarginOrder extends ResultMarginOrder{
         }
     }
 
-    public ArrayList<Fill> getFillMargins() {
-        return fillMargins;
+    public ArrayList<Fill> getFillMarginsList() {
+        return fillMarginsList;
+    }
+
+    public void setFillMarginsList(ArrayList<Fill> fillMarginsList) {
+        this.fillMarginsList = fillMarginsList;
+    }
+
+    public void insertFill(Fill fill){
+        if(!fillMarginsList.contains(fill))
+            fillMarginsList.add(fill);
+    }
+
+    public boolean removeFill(Fill fill){
+        return fillMarginsList.remove(fill);
     }
 
     public Fill getFillMargin(int index){
-        return fillMargins.get(index);
+        try{
+            return fillMarginsList.get(index);
+        }catch (IndexOutOfBoundsException e){
+            throw new IndexOutOfBoundsException(index);
+        }
     }
 
 }

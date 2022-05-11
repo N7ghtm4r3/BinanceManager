@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 /**
  *  The {@code OCOMarginOrder} class is useful to format all Binance Margin OCO Order request
- *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 

@@ -4,7 +4,7 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.Order;
 
 /**
  * The {@code MarginOrder} class is useful to format all MarginOrders of BinanceMarginManager
- * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade</a>
  * **/
 
 public class MarginOrder extends Order {

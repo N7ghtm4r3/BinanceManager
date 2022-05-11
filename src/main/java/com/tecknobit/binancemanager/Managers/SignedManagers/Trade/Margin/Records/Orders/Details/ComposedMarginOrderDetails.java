@@ -8,13 +8,13 @@ import java.util.ArrayList;
 
 /**
  *  The {@code ComposedMarginOrderDetails} class is useful to format Binance Margin Account Cancel all Open Orders on a Symbol request
- *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class ComposedMarginOrderDetails extends OrderDetails {
 
-    private ArrayList<DetailMarginOrder> detailMarginOrders;
+    private ArrayList<DetailMarginOrder> detailMarginOrdersList;
     private final boolean isIsolated;
 
     public ComposedMarginOrderDetails(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
@@ -26,17 +26,34 @@ public class ComposedMarginOrderDetails extends OrderDetails {
     }
 
     private void loadOrderReport(JSONArray orderReports) {
-        detailMarginOrders = new ArrayList<>();
+        detailMarginOrdersList = new ArrayList<>();
         for (int j=0; j < orderReports.length(); j++)
-            detailMarginOrders.add(DetailMarginOrder.assembleDetailMarginOrderObject(orderReports.getJSONObject(j)));
+            detailMarginOrdersList.add(DetailMarginOrder.assembleDetailMarginOrderObject(orderReports.getJSONObject(j)));
     }
 
     public ArrayList<DetailMarginOrder> getCancelMarginOrdersList() {
-        return detailMarginOrders;
+        return detailMarginOrdersList;
+    }
+
+    public void setDetailMarginOrdersList(ArrayList<DetailMarginOrder> detailMarginOrdersList) {
+        this.detailMarginOrdersList = detailMarginOrdersList;
+    }
+
+    public void insertDetailMarginOrder(DetailMarginOrder detailMarginOrder){
+        if(!detailMarginOrdersList.contains(detailMarginOrder))
+            detailMarginOrdersList.add(detailMarginOrder);
+    }
+
+    public boolean removeDetailMarginOrder(DetailMarginOrder detailMarginOrder){
+        return detailMarginOrdersList.remove(detailMarginOrder);
     }
 
     public DetailMarginOrder getCancelMarginOrder(int index){
-        return detailMarginOrders.get(index);
+        try{
+            return detailMarginOrdersList.get(index);
+        }catch (IndexOutOfBoundsException e){
+            throw new IndexOutOfBoundsException(index);
+        }
     }
 
     public boolean isIsolated() {

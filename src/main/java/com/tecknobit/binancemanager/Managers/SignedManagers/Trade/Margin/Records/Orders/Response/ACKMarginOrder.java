@@ -4,7 +4,7 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records
 
 /**
  * The {@code ACKMarginOrder} class is useful to format ACKMarginOrder object of Binance's request Margin Account New Order
- * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
  * **/
 
 public class ACKMarginOrder extends MarginOrder {

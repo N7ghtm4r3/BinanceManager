@@ -12,6 +12,16 @@ public class Order {
     public static final String STATUS_CONFIRMED = "CONFIRMED";
     public static final String STATUS_PENDING = "PENDING";
     public static final String STATUS_FAILED = "FAILED";
+    public static final String STATUS_NEW = "NEW";
+    public static final String STATUS_PARTIALLY_FILLED = "PARTIALLY_FILLED";
+    public static final String STATUS_FILLED = "FILLED";
+    public static final String STATUS_CANCELED = "CANCELED";
+    public static final String STATUS_PENDING_CANCELED = "PENDING_CANCELED";
+    public static final String STATUS_REJECTED = "REJECTED";
+    public static final String STATUS_EXPIRED = "EXPIRED";
+    public static final String STATUS_EXECUTING = "EXECUTING";
+    public static final String STATUS_ALL_DONE = "ALL_DONE";
+    public static final String STATUS_REJECT = "REJECT";
     private final String symbol;
     private final double orderId;
     private final String clientOrderId;

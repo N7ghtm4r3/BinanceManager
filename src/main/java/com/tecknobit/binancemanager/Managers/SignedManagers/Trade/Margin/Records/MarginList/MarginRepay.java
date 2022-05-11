@@ -7,14 +7,14 @@ import java.util.ArrayList;
 
 /**
  *  The {@code MarginRepay} class is useful to format Binance Margin Query Repay record request
- *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class MarginRepay {
 
-    private final int total;
-    private ArrayList<MarginRepayAsset> marginRepayAssets;
+    private int total;
+    private ArrayList<MarginRepayAsset> marginRepayAssetsList;
 
     public MarginRepay(JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("rows");
@@ -27,10 +27,10 @@ public class MarginRepay {
      * any return
      * **/
     private void loadMarginRepayAssets(JSONArray jsonArray) {
-        marginRepayAssets = new ArrayList<>();
+        marginRepayAssetsList = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
             JSONObject jsonObject = jsonArray.getJSONObject(j);
-            marginRepayAssets.add(new MarginRepayAsset(jsonObject.getString("asset"),
+            marginRepayAssetsList.add(new MarginRepayAsset(jsonObject.getString("asset"),
                     jsonObject.getLong("txId"),
                     jsonObject.getLong("timestamp"),
                     jsonObject.getString("status"),
@@ -46,23 +46,51 @@ public class MarginRepay {
         return total;
     }
 
+    public void setTotal(int total) {
+        if(total < 0)
+            throw new IllegalArgumentException("Total value cannot be less than 0");
+        this.total = total;
+    }
+
     public ArrayList<MarginRepayAsset> getMarginRepayAssetsList() {
-        return marginRepayAssets;
+        return marginRepayAssetsList;
+    }
+
+    public void setMarginRepayAssetsList(ArrayList<MarginRepayAsset> marginRepayAssetsList) {
+        this.marginRepayAssetsList = marginRepayAssetsList;
+    }
+
+    public void insertMarginRepayAsset(MarginRepayAsset marginRepayAsset){
+        if(!marginRepayAssetsList.contains(marginRepayAsset)){
+            marginRepayAssetsList.add(marginRepayAsset);
+            setTotal(total + 1);
+        }
+    }
+
+    public boolean removeMarginRepayAsset(MarginRepayAsset marginRepayAsset){
+        boolean removed = marginRepayAssetsList.remove(marginRepayAsset);
+        if(removed)
+            setTotal(total - 1);
+        return removed;
     }
 
     public MarginRepayAsset getMarginRepayAsset(int index) {
-        return marginRepayAssets.get(index);
+        try{
+            return marginRepayAssetsList.get(index);
+        }catch (IndexOutOfBoundsException e){
+            throw new IndexOutOfBoundsException(index);
+        }
     }
 
     /**
      * The {@code MarginRepayAsset} class is useful to obtain and format MarginRepayAsset object
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
      * **/
 
     public static class MarginRepayAsset extends MarginLoan.MarginLoanAsset {
 
-        private final double amount;
-        private final double interest;
+        private double amount;
+        private double interest;
 
         public MarginRepayAsset(String asset, long txId, long timestamp, String status, String isolatedSymbol,
                                 double principal, double amount, double interest) {
@@ -75,8 +103,20 @@ public class MarginRepay {
             return amount;
         }
 
+        public void setAmount(double amount) {
+            if(amount < 0)
+                throw new IllegalArgumentException("Amount value cannot be less than 0");
+            this.amount = amount;
+        }
+
         public double getInterest() {
             return interest;
+        }
+
+        public void setInterest(double interest) {
+            if(interest < 0)
+                throw new IllegalArgumentException("Interest value cannot be less than 0");
+            this.interest = interest;
         }
 
     }

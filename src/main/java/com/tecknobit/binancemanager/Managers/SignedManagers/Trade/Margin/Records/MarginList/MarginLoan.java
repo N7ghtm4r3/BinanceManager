@@ -7,14 +7,14 @@ import java.util.ArrayList;
 
 /**
  *  The {@code MarginLoan} class is useful to format Binance Margin Query Loan repay request
- *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class MarginLoan {
 
-    private final int total;
-    private ArrayList<MarginLoanAsset> marginLoanAssets;
+    private int total;
+    private ArrayList<MarginLoanAsset> marginLoanAssetsList;
 
     public MarginLoan(JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("rows");
@@ -27,10 +27,10 @@ public class MarginLoan {
      * any return
      * **/
     private void loadMarginLoanAssets(JSONArray jsonArray) {
-        marginLoanAssets = new ArrayList<>();
+        marginLoanAssetsList = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
             JSONObject jsonObject = jsonArray.getJSONObject(j);
-            marginLoanAssets.add(new MarginLoanAsset(jsonObject.getString("asset"),
+            marginLoanAssetsList.add(new MarginLoanAsset(jsonObject.getString("asset"),
                     jsonObject.getLong("txId"),
                     jsonObject.getLong("timestamp"),
                     jsonObject.getString("status"),
@@ -44,12 +44,40 @@ public class MarginLoan {
         return total;
     }
 
+    public void setTotal(int total) {
+        if(total < 0)
+            throw new IllegalArgumentException("Total value cannot be less than 0");
+        this.total = total;
+    }
+
     public ArrayList<MarginLoanAsset> getMarginLoanAssetsList() {
-        return marginLoanAssets;
+        return marginLoanAssetsList;
+    }
+
+    public void setMarginLoanAssetsList(ArrayList<MarginLoanAsset> marginLoanAssetsList) {
+        this.marginLoanAssetsList = marginLoanAssetsList;
+    }
+
+    public void insertMarginIsolatedTransfer(MarginLoanAsset marginLoanAsset){
+        if(!marginLoanAssetsList.contains(marginLoanAsset)){
+            marginLoanAssetsList.add(marginLoanAsset);
+            setTotal(total + 1);
+        }
+    }
+
+    public boolean removeMarginIsolatedTransfer(MarginLoanAsset marginLoanAsset){
+        boolean removed = marginLoanAssetsList.remove(marginLoanAsset);
+        if(removed)
+            setTotal(total - 1);
+        return removed;
     }
 
     public MarginLoanAsset getMarginLoanAsset(int index) {
-        return marginLoanAssets.get(index);
+        try{
+            return marginLoanAssetsList.get(index);
+        }catch (IndexOutOfBoundsException e){
+            throw new IndexOutOfBoundsException(index);
+        }
     }
 
     /**

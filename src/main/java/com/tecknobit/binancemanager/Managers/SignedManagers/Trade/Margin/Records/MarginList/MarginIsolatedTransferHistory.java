@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * The {@code MarginIsolatedTransferHistory} class is useful to format Binance Isolated Transfer History request response
- * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/
 
@@ -15,8 +15,8 @@ public class MarginIsolatedTransferHistory {
 
     public static final String TRANSFER_SPOT = "SPOT";
     public static final String TRANSFER_ISOLATED_MARGIN = "ISOLATED_MARGIN";
-    private final int total;
-    private ArrayList<MarginIsolatedTransfer> marginIsolatedTransfers;
+    private int total;
+    private ArrayList<MarginIsolatedTransfer> marginIsolatedTransfersList;
 
     public MarginIsolatedTransferHistory(JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("rows");
@@ -29,10 +29,10 @@ public class MarginIsolatedTransferHistory {
      * any return
      * **/
     private void loadIsolatedTransfersList(JSONArray jsonArray) {
-        marginIsolatedTransfers = new ArrayList<>();
+        marginIsolatedTransfersList = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
             JSONObject isolatedTransfer = jsonArray.getJSONObject(j);
-            marginIsolatedTransfers.add(new MarginIsolatedTransfer(isolatedTransfer.getString("asset"),
+            marginIsolatedTransfersList.add(new MarginIsolatedTransfer(isolatedTransfer.getString("asset"),
                     isolatedTransfer.getLong("txId"),
                     isolatedTransfer.getLong("timestamp"),
                     isolatedTransfer.getString("status"),
@@ -47,17 +47,45 @@ public class MarginIsolatedTransferHistory {
         return total;
     }
 
+    public void setTotal(int total) {
+        if(total < 0)
+            throw new IllegalArgumentException("Total value cannot be less than 0");
+        this.total = total;
+    }
+
     public ArrayList<MarginIsolatedTransfer> getMarginIsolatedTransfersList() {
-        return marginIsolatedTransfers;
+        return marginIsolatedTransfersList;
+    }
+
+    public void setMarginIsolatedTransfersList(ArrayList<MarginIsolatedTransfer> marginIsolatedTransfersList) {
+        this.marginIsolatedTransfersList = marginIsolatedTransfersList;
+    }
+
+    public void insertMarginIsolatedTransfer(MarginIsolatedTransfer marginIsolatedTransfer){
+        if(!marginIsolatedTransfersList.contains(marginIsolatedTransfer)){
+            marginIsolatedTransfersList.add(marginIsolatedTransfer);
+            setTotal(total + 1);
+        }
+    }
+
+    public boolean removeMarginIsolatedTransfer(MarginIsolatedTransfer marginIsolatedTransfer){
+        boolean removed = marginIsolatedTransfersList.remove(marginIsolatedTransfer);
+        if(removed)
+            setTotal(total - 1);
+        return removed;
     }
 
     public MarginIsolatedTransfer getMarginIsolatedTransfer(int index) {
-        return marginIsolatedTransfers.get(index);
+        try{
+            return marginIsolatedTransfersList.get(index);
+        }catch (IndexOutOfBoundsException e){
+            throw new IndexOutOfBoundsException(index);
+        }
     }
 
     /**
      * The {@code MarginIsolatedTransfer} class is useful to obtain and format IsolatedData object
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
      * **/
 
     public static class MarginIsolatedTransfer extends MarginAssetList {
