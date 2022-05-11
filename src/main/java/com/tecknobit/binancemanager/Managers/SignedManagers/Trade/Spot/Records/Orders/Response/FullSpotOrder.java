@@ -8,13 +8,13 @@ import java.util.ArrayList;
 
 /**
  *  The {@code FullOrder} class is useful to format all SpotOrder Binance request in FullOrder format
- *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#new-order-trade
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class FullSpotOrder extends ResultSpotOrder {
 
-    private ArrayList<FillSpot> fills;
+    private ArrayList<FillSpot> fillsList;
 
     public FullSpotOrder(String symbol, long orderId, long orderListId, String clientOrderId, long transactTime, double price,
                          double origQty, double executedQty, double cummulativeQuoteQty, String status, String timeInForce,
@@ -24,15 +24,15 @@ public class FullSpotOrder extends ResultSpotOrder {
         loadFills(fills);
     }
 
-    /** Method to load fills list
+    /** Method to load fillsList list
      * @param #fillsArray: obtained from Binance's request
-     * @return an ArrayList<OrderStatus> with response data
+     * any return
      * **/
     private void loadFills(JSONArray fillsArray) {
-        fills = new ArrayList<>();
+        fillsList = new ArrayList<>();
         for(int j=0; j < fillsArray.length(); j++){
             JSONObject fill = fillsArray.getJSONObject(j);
-            fills.add(new FillSpot(fill.getDouble("price"),
+            fillsList.add(new FillSpot(fill.getDouble("price"),
                     fill.getDouble("qty"),
                     fill.getDouble("commission"),
                     fill.getString("commissionAsset"),
@@ -41,12 +41,29 @@ public class FullSpotOrder extends ResultSpotOrder {
         }
     }
 
-    public ArrayList<FillSpot> getFills() {
-        return fills;
+    public ArrayList<FillSpot> getFillsList() {
+        return fillsList;
+    }
+
+    public void setFillsList(ArrayList<FillSpot> fillsList) {
+        this.fillsList = fillsList;
+    }
+
+    public void insertFill(FillSpot fillSpot){
+        if(!fillsList.contains(fillSpot))
+            fillsList.add(fillSpot);
+    }
+
+    public boolean removeFill(FillSpot fillSpot){
+        return fillsList.remove(fillSpot);
     }
 
     public FillSpot getFill(int index){
-        return fills.get(index);
+        try{
+            return fillsList.get(index);
+        }catch (IndexOutOfBoundsException e){
+            throw new IndexOutOfBoundsException(index);
+        }
     }
 
     public static class FillSpot extends Fill {

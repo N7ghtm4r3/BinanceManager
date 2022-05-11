@@ -4,34 +4,68 @@ import java.util.ArrayList;
 
 /**
  * The {@code OpenSpotOrders} class is useful to format a OpenSpotOrders object
- * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade">https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class OpenSpotOrders {
 
-    private final ArrayList<DetailSpotOrder> detailSpotOrders;
-    private final ArrayList<ComposedSpotOrderDetails> composedSpotOrderDetails;
+    private ArrayList<DetailSpotOrder> detailSpotOrdersList;
+    private ArrayList<ComposedSpotOrderDetails> composedSpotOrderDetailsList;
 
     public OpenSpotOrders(ArrayList<DetailSpotOrder> singleOrders, ArrayList<ComposedSpotOrderDetails> cancelOrderComposeds) {
-        this.detailSpotOrders = singleOrders;
-        this.composedSpotOrderDetails = cancelOrderComposeds;
+        this.detailSpotOrdersList = singleOrders;
+        this.composedSpotOrderDetailsList = cancelOrderComposeds;
     }
 
     public ArrayList<DetailSpotOrder> getDetailSpotOrdersList() {
-        return detailSpotOrders;
+        return detailSpotOrdersList;
+    }
+
+    public void setDetailSpotOrdersList(ArrayList<DetailSpotOrder> detailSpotOrdersList) {
+        this.detailSpotOrdersList = detailSpotOrdersList;
+    }
+
+    public void insertDetailSpotOrder(DetailSpotOrder detailSpotOrder){
+        if(!detailSpotOrdersList.contains(detailSpotOrder))
+            detailSpotOrdersList.add(detailSpotOrder);
+    }
+
+    public boolean removeDetailSpotOrder(DetailSpotOrder detailSpotOrder){
+        return detailSpotOrdersList.remove(detailSpotOrder);
     }
 
     public DetailSpotOrder getDetailsSpotOrder(int index){
-        return detailSpotOrders.get(index);
+        try{
+            return detailSpotOrdersList.get(index);
+        }catch (IndexOutOfBoundsException e){
+            throw new IndexOutOfBoundsException(index);
+        }
     }
 
     public ArrayList<ComposedSpotOrderDetails> getComposedSpotOrderDetailsList() {
-        return composedSpotOrderDetails;
+        return composedSpotOrderDetailsList;
+    }
+
+    public void setComposedSpotOrderDetailsList(ArrayList<ComposedSpotOrderDetails> composedSpotOrderDetailsList) {
+        this.composedSpotOrderDetailsList = composedSpotOrderDetailsList;
+    }
+
+    public void insertComposedSpotOrderDetail(ComposedSpotOrderDetails composedSpotOrderDetails){
+        if(!composedSpotOrderDetailsList.contains(composedSpotOrderDetails))
+            composedSpotOrderDetailsList.add(composedSpotOrderDetails);
+    }
+
+    public boolean removeComposedSpotOrderDetail(ComposedSpotOrderDetails composedSpotOrderDetails){
+        return composedSpotOrderDetailsList.remove(composedSpotOrderDetails);
     }
 
     public ComposedSpotOrderDetails getComposedSpotOrderDetails(int index){
-        return composedSpotOrderDetails.get(index);
+        try{
+            return composedSpotOrderDetailsList.get(index);
+        }catch (IndexOutOfBoundsException e){
+            throw new IndexOutOfBoundsException(index);
+        }
     }
 
 }

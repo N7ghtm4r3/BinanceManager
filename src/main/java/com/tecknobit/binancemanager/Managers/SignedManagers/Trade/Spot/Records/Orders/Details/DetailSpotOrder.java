@@ -1,12 +1,12 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Details;
 
+import com.tecknobit.apimanager.Tools.Readers.JsonHelper;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.SpotOrder;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  *  The {@code DetailSpotOrder} class is useful to format all DetailSpotOrder Binance request in DetailSpotOrder format
- *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
@@ -21,7 +21,7 @@ public class DetailSpotOrder extends SpotOrder {
     private final String timeInForce;
     private final String type;
     private final String side;
-    private final JSONObject jsonObject;
+    private final JsonHelper jsonHelper;
 
     public DetailSpotOrder(String symbol, long orderId, long orderListId, String clientOrderId, String origClientOrderId,
                            double price, double origQty, double executedQty, double cummulativeQuoteQty, String status,
@@ -36,7 +36,7 @@ public class DetailSpotOrder extends SpotOrder {
         this.timeInForce = timeInForce;
         this.type = type;
         this.side = side;
-        this.jsonObject = jsonObject;
+        jsonHelper = new JsonHelper(jsonObject);
     }
 
     public String getOrigClientOrderId() {
@@ -76,31 +76,19 @@ public class DetailSpotOrder extends SpotOrder {
     }
 
     /** Method to get stopPrice
-     * any params requirde
+     * any params required
      * @return stopPrice as double, if is a null field will return -1
      * **/
     public double getStopPrice(){
-        return getDoubleValue("stopPrice");
+        return jsonHelper.getDouble("stopPrice");
     }
 
     /** Method to get icebergQty
-     * any params requirde
+     * any params required
      * @return icebergQty as double, if is a null field will return -1
      * **/
     public double getIcebergQty(){
-        return getDoubleValue("icebergQty");
-    }
-
-    /** Method to assemble a DetailSpotOrder object
-     * @param #key: field to fetch a double value in {@link #jsonObject}
-     * @return an DetailSpotOrder object with response data
-     * **/
-    private double getDoubleValue(String key){
-        try {
-            return jsonObject.getDouble(key);
-        }catch (JSONException e){
-            return -1;
-        }
+        return jsonHelper.getDouble("icebergQty");
     }
 
     /** Method to assemble a DetailSpotOrder object
