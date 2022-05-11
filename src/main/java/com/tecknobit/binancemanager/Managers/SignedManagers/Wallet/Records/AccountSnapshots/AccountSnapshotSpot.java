@@ -125,7 +125,7 @@ public class AccountSnapshotSpot extends AccountSnapshot{
             try{
                 return balanceSpotList.get(index);
             }catch (IndexOutOfBoundsException e){
-                throw new IndexOutOfBoundsException(index);
+                throw new IndexOutOfBoundsException(" "+ index);
             }
         }
 

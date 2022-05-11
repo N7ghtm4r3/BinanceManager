@@ -119,7 +119,7 @@ public class CrossMarginFee {
         try{
             return marginablePairsList.get(index);
         }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(index);
+            throw new IndexOutOfBoundsException(" "+ index);
         }
     }
 

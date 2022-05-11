@@ -150,7 +150,7 @@ public class SpotAccountInformation {
         try{
             return balanceSpotsList.get(index);
         }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(index);
+            throw new IndexOutOfBoundsException(" "+ index);
         }
     }
 
@@ -175,7 +175,7 @@ public class SpotAccountInformation {
         try{
             return permissionsList.get(index);
         }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(index);
+            throw new IndexOutOfBoundsException(" "+ index);
         }
     }
 

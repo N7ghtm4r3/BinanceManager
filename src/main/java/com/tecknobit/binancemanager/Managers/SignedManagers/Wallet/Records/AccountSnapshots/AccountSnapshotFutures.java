@@ -100,7 +100,7 @@ public class AccountSnapshotFutures extends AccountSnapshot{
         try{
             return dataFuturesList.get(index);
         }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(index);
+            throw new IndexOutOfBoundsException(" "+ index);
         }
     }
 
@@ -146,7 +146,7 @@ public class AccountSnapshotFutures extends AccountSnapshot{
             try{
                 return assetFuturesList.get(index);
             }catch (IndexOutOfBoundsException e){
-                throw new IndexOutOfBoundsException(index);
+                throw new IndexOutOfBoundsException(" "+ index);
             }
         }
 
@@ -171,7 +171,7 @@ public class AccountSnapshotFutures extends AccountSnapshot{
             try{
                 return positionFuturesList.get(index);
             }catch (IndexOutOfBoundsException e){
-                throw new IndexOutOfBoundsException(index);
+                throw new IndexOutOfBoundsException(" "+ index);
             }
         }
 

@@ -43,7 +43,7 @@ public class ConvertibleBNBAssets {
         try{
             return assetsDetailsList.get(index);
         }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(index);
+            throw new IndexOutOfBoundsException(" "+ index);
         }
     }
 

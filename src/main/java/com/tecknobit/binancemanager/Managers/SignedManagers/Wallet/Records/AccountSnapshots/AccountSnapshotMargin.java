@@ -162,7 +162,7 @@ public class AccountSnapshotMargin extends AccountSnapshot{
             try{
                 return userAssetMarginsList.get(index);
             }catch (IndexOutOfBoundsException e){
-                throw new IndexOutOfBoundsException(index);
+                throw new IndexOutOfBoundsException(" "+ index);
             }
         }
 

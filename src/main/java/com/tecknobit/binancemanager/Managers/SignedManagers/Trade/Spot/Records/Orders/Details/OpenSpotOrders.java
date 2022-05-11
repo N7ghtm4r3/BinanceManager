@@ -39,7 +39,7 @@ public class OpenSpotOrders {
         try{
             return detailSpotOrdersList.get(index);
         }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(index);
+            throw new IndexOutOfBoundsException(" "+ index);
         }
     }
 
@@ -64,7 +64,7 @@ public class OpenSpotOrders {
         try{
             return composedSpotOrderDetailsList.get(index);
         }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(index);
+            throw new IndexOutOfBoundsException(" "+ index);
         }
     }
 

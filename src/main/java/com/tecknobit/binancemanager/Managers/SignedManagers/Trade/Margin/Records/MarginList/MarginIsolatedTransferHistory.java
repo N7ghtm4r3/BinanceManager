@@ -79,7 +79,7 @@ public class MarginIsolatedTransferHistory {
         try{
             return marginIsolatedTransfersList.get(index);
         }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(index);
+            throw new IndexOutOfBoundsException(" "+ index);
         }
     }
 

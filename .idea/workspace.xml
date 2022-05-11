@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="24c31f43-703f-43c2-b6a1-81b04a165e9d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/BinanceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/BinanceManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Wallet/BinanceWalletManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Wallet/BinanceWalletManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Wallet/Records/Asset/CoinInformation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Wallet/Records/Asset/CoinInformation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Wallet/Records/FundingWallet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Wallet/Records/FundingWallet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,13 +107,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1644858734218</updated>
-    </task>
-    <task id="LOCAL-00133" summary="Load first files">
-      <created>1646252745752</created>
-      <option name="number" value="00133" />
-      <option name="presentableId" value="LOCAL-00133" />
-      <option name="project" value="LOCAL" />
-      <updated>1646252745753</updated>
     </task>
     <task id="LOCAL-00134" summary="Load first files">
       <created>1646483268598</created>
@@ -455,7 +444,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652265007188</updated>
     </task>
-    <option name="localTasksCounter" value="182" />
+    <task id="LOCAL-00182" summary="Adding setter methods to some custom objects&#10;Added get single coin detail custom request in BinanceWalletManager">
+      <created>1652269255253</created>
+      <option name="number" value="00182" />
+      <option name="presentableId" value="LOCAL-00182" />
+      <option name="project" value="LOCAL" />
+      <updated>1652269255253</updated>
+    </task>
+    <option name="localTasksCounter" value="183" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -475,6 +471,7 @@
     <MESSAGE value="Fix some code snippets and added tools class" />
     <MESSAGE value="Fix some code snippets" />
     <MESSAGE value="Adding setter methods to some custom objects" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding setter methods to some custom objects" />
+    <MESSAGE value="Adding setter methods to some custom objects&#10;Added get single coin detail custom request in BinanceWalletManager" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding setter methods to some custom objects&#10;Added get single coin detail custom request in BinanceWalletManager" />
   </component>
 </project>

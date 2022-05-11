@@ -256,7 +256,7 @@ public class ExchangeInformation {
             try{
                 return orderTypes.get(index);
             }catch (IndexOutOfBoundsException e){
-                throw new IndexOutOfBoundsException(index);
+                throw new IndexOutOfBoundsException(" "+ index);
             }
         }
 
@@ -284,7 +284,7 @@ public class ExchangeInformation {
             try{
                 return filters.get(index);
             }catch (IndexOutOfBoundsException e){
-                throw new IndexOutOfBoundsException(index);
+                throw new IndexOutOfBoundsException(" "+ index);
             }
         }
 
@@ -296,7 +296,7 @@ public class ExchangeInformation {
             try{
                 return permissions.get(index);
             }catch (IndexOutOfBoundsException e){
-                throw new IndexOutOfBoundsException(index);
+                throw new IndexOutOfBoundsException(" "+ index);
             }
         }
 

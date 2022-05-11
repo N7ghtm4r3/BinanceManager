@@ -52,7 +52,7 @@ public class ComposedMarginOrderDetails extends OrderDetails {
         try{
             return detailMarginOrdersList.get(index);
         }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(index);
+            throw new IndexOutOfBoundsException(" "+ index);
         }
     }
 

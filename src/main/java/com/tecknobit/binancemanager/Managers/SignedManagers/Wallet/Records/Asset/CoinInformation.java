@@ -142,7 +142,7 @@ public class CoinInformation {
         try{
             return networkItemsList.get(index);
         }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(index);
+            throw new IndexOutOfBoundsException(" "+ index);
         }
     }
 

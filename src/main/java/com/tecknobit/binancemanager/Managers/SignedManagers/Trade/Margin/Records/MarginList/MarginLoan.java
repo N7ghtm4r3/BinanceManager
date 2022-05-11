@@ -76,7 +76,7 @@ public class MarginLoan {
         try{
             return marginLoanAssetsList.get(index);
         }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(index);
+            throw new IndexOutOfBoundsException(" "+ index);
         }
     }
 

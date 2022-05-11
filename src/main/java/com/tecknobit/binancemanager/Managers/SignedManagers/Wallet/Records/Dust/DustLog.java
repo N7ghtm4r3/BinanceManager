@@ -51,7 +51,7 @@ public class DustLog {
         try{
             return userAssetDribbletlList.get(index);
         }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(index);
+            throw new IndexOutOfBoundsException(" "+ index);
         }
     }
 
@@ -114,7 +114,7 @@ public class DustLog {
             try {
                 return assetDribbletsDetailsList.get(index);
             }catch (IndexOutOfBoundsException e){
-                throw new IndexOutOfBoundsException(index);
+                throw new IndexOutOfBoundsException(" "+ index);
             }
         }
 

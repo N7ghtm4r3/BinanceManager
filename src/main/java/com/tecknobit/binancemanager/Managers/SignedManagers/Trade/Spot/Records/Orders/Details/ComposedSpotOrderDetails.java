@@ -53,7 +53,7 @@ public class ComposedSpotOrderDetails extends OrderDetails {
         try{
             return orderReportsList.get(index);
         }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(index);
+            throw new IndexOutOfBoundsException(" "+ index);
         }
     }
 

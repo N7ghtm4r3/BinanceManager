@@ -40,7 +40,7 @@ public class OpenMarginOrders {
         try{
             return detailMarginOrdersList.get(index);
         }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(index);
+            throw new IndexOutOfBoundsException(" "+ index);
         }
     }
 
@@ -65,7 +65,7 @@ public class OpenMarginOrders {
         try{
             return composedMarginOrderDetailsList.get(index);
         }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(index);
+            throw new IndexOutOfBoundsException(" "+ index);
         }
     }
 

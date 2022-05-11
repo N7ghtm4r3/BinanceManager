@@ -81,7 +81,7 @@ public class MarginInterestHistory {
         try{
             return marginInterestAssetsList.get(index);
         }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(index);
+            throw new IndexOutOfBoundsException(" "+ index);
         }
     }
 
