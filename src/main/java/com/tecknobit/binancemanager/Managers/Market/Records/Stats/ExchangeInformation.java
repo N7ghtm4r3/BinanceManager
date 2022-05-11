@@ -121,6 +121,7 @@ public class ExchangeInformation {
 
     public static class RateLimit {
 
+        /**Constants for ratelimit objects and requests**/
         public static final String RATE_TYPE_REQUEST_WEIGHT = "REQUEST_WEIGHT";
         public static final String RATE_TYPE_ORDERS = "ORDERS";
         public static final String RATE_TYPE_RAW_REQUESTS = "RAW_REQUESTS";
@@ -252,7 +253,11 @@ public class ExchangeInformation {
         }
 
         public String getOrderType(int index) {
-            return orderTypes.get(index);
+            try{
+                return orderTypes.get(index);
+            }catch (IndexOutOfBoundsException e){
+                throw new IndexOutOfBoundsException(index);
+            }
         }
 
         public boolean isIcebergAllowed() {
@@ -276,7 +281,11 @@ public class ExchangeInformation {
         }
 
         public Filter getFilter(int index) {
-            return filters.get(index);
+            try{
+                return filters.get(index);
+            }catch (IndexOutOfBoundsException e){
+                throw new IndexOutOfBoundsException(index);
+            }
         }
 
         public ArrayList<String> getPermissionsList() {
@@ -284,7 +293,11 @@ public class ExchangeInformation {
         }
 
         public String getPermission(int index) {
-            return permissions.get(index);
+            try{
+                return permissions.get(index);
+            }catch (IndexOutOfBoundsException e){
+                throw new IndexOutOfBoundsException(index);
+            }
         }
 
         public int getBaseCommissionPrecision() {

@@ -8,6 +8,7 @@ package com.tecknobit.binancemanager.Managers.Market.Records.Stats;
 
 public class Candlestick {
 
+    /**Constants intervals for candlestick requests**/
     public static final String INTERVAL_1m = "1m";
     public static final String INTERVAL_3m = "3m";
     public static final String INTERVAL_5m = "5m";

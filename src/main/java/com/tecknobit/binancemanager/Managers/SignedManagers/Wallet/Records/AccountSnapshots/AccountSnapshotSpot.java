@@ -7,32 +7,21 @@ import java.util.ArrayList;
 
 /**
  * The {@code AccountSnapshotSpot} class is useful to obtain and format AccountSnapshotSpot object
- * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class AccountSnapshotSpot extends AccountSnapshot{
 
-    private final int code;
-    private final String msg;
-    private final String type;
     private ArrayList<DataSpot> assetsSpotData;
-    private JSONArray jsonArray;
 
     public AccountSnapshotSpot(int code, String msg, String type, JSONArray jsonArray) {
         super(code, msg, type, jsonArray);
-        this.code = code;
-        this.msg = msg;
-        this.type = type;
     }
 
     public AccountSnapshotSpot(int code, String msg, String type, JSONArray jsonArray, ArrayList<DataSpot> assetsData) {
         super(code, msg, type, jsonArray);
-        this.code = code;
-        this.msg = msg;
-        this.type = type;
         this.assetsSpotData = assetsData;
-        this.jsonArray = jsonArray;
     }
 
     /** Method to get getAccountSnapshotSpot object
@@ -53,21 +42,21 @@ public class AccountSnapshotSpot extends AccountSnapshot{
         return new AccountSnapshotSpot(code,msg,type,jsonArray,assetsSpotData);
     }
 
-    /** Method to assemble an BalancesSpot list
+    /** Method to assemble an BalanceSpot list
      * @param #jsonArray: jsonArray obtain by AccountSnapshot Binance request
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
-     * @return BalancesSpot list as ArrayList<BalancesSpot>
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
+     * @return BalanceSpot list as ArrayList<BalanceSpot>
      * **/
-    public static ArrayList<BalancesSpot> getBalancesSpot(JSONArray jsonArray){
-        ArrayList<BalancesSpot> balancesSpots = new ArrayList<>();
+    public static ArrayList<BalanceSpot> getBalancesSpot(JSONArray jsonArray){
+        ArrayList<BalanceSpot> balanceSpots = new ArrayList<>();
         for (int j=0; j < jsonArray.length(); j++){
             JSONObject balance = jsonArray.getJSONObject(j);
-            balancesSpots.add(new BalancesSpot(balance.getString("asset"),
+            balanceSpots.add(new BalanceSpot(balance.getString("asset"),
                     balance.getDouble("free"),
                     balance.getDouble("locked")
             ));
         }
-        return balancesSpots;
+        return balanceSpots;
     }
 
     public ArrayList<DataSpot> getAssetsSpotData() {
@@ -80,47 +69,80 @@ public class AccountSnapshotSpot extends AccountSnapshot{
 
     /**
      *  The {@code DataSpot} class is useful to obtain and format DataSpot object
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * **/
 
     public static class DataSpot {
 
-        private final double totalAssetOfBtc;
-        private final double updateTime;
-        private final ArrayList<BalancesSpot> balancesSpots;
+        private double totalAssetOfBtc;
+        private double updateTime;
+        private ArrayList<BalanceSpot> balanceSpotList;
 
-        public DataSpot(double totalAssetOfBtc, double updateTime, ArrayList<BalancesSpot> balancesSpots) {
+        public DataSpot(double totalAssetOfBtc, double updateTime, ArrayList<BalanceSpot> balanceSpot) {
             this.totalAssetOfBtc = totalAssetOfBtc;
             this.updateTime = updateTime;
-            this.balancesSpots = balancesSpots;
+            this.balanceSpotList = balanceSpot;
         }
 
         public double getTotalAssetOfBtc() {
             return totalAssetOfBtc;
         }
 
-        public ArrayList<BalancesSpot> getBalancesSpots() {
-            return balancesSpots;
+        public void setTotalAssetOfBtc(double totalAssetOfBtc) {
+            if(totalAssetOfBtc < 0)
+                throw new IllegalArgumentException("Total asset of BTC value cannot be less than 0");
+            this.totalAssetOfBtc = totalAssetOfBtc;
         }
 
         public double getUpdateTime() {
             return updateTime;
         }
 
+        public void setUpdateTime(double updateTime) {
+            if(updateTime < 0)
+                throw new IllegalArgumentException("Update time value cannot be less than 0");
+            this.updateTime = updateTime;
+        }
+
+        public ArrayList<BalanceSpot> getBalancesSpotList() {
+            return balanceSpotList;
+        }
+
+        public void setBalancesSpotList(ArrayList<BalanceSpot> balanceSpotList) {
+            this.balanceSpotList = balanceSpotList;
+        }
+
+        public void insertBalanceSpot(BalanceSpot balanceSpot){
+            if(!balanceSpotList.contains(balanceSpot))
+                balanceSpotList.add(balanceSpot);
+        }
+
+        public boolean removeBalanceSpot(BalanceSpot balanceSpot){
+            return balanceSpotList.remove(balanceSpot);
+        }
+
+        public BalanceSpot getBalanceSpot(int index){
+            try{
+                return balanceSpotList.get(index);
+            }catch (IndexOutOfBoundsException e){
+                throw new IndexOutOfBoundsException(index);
+            }
+        }
+
     }
 
     /**
-     *  The {@code BalancesSpot} class is useful to obtain and format BalancesSpot object
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+     *  The {@code BalanceSpot} class is useful to obtain and format BalanceSpot object
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * **/
 
-    public static class BalancesSpot {
+    public static class BalanceSpot {
 
         private final String asset;
-        private final double free;
-        private final double locked;
+        private double free;
+        private double locked;
 
-        public BalancesSpot(String asset, double free, double locked) {
+        public BalanceSpot(String asset, double free, double locked) {
             this.asset = asset;
             this.free = free;
             this.locked = locked;
@@ -134,8 +156,20 @@ public class AccountSnapshotSpot extends AccountSnapshot{
             return free;
         }
 
+        public void setFree(double free) {
+            if(free < 0)
+                throw new IllegalArgumentException("Free value cannot be less than 0");
+            this.free = free;
+        }
+
         public double getLocked() {
             return locked;
+        }
+
+        public void setLocked(double locked) {
+            if(locked < 0)
+                throw new IllegalArgumentException("Locked value cannot be less than 0");
+            this.locked = locked;
         }
 
     }

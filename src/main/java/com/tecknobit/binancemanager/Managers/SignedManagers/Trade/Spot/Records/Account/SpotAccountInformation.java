@@ -1,11 +1,12 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account;
 
+import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.AccountSnapshotSpot;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.AccountSnapshotSpot.BalancesSpot;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.AccountSnapshotSpot.BalanceSpot;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.AccountSnapshotSpot.getBalancesSpot;
 
 /**
@@ -25,7 +26,7 @@ public class SpotAccountInformation {
     private boolean canDeposit;
     private long updateTime;
     private final String accountType;
-    private ArrayList<BalancesSpot> balancesSpotsList;
+    private ArrayList<BalanceSpot> balanceSpotsList;
     private ArrayList<Permission> permissionsList;
 
     public SpotAccountInformation(double makerCommission, double takerCommission, double buyerCommission, double sellerCommission,
@@ -40,7 +41,7 @@ public class SpotAccountInformation {
         this.canDeposit = canDeposit;
         this.updateTime = updateTime;
         this.accountType = accountType;
-        balancesSpotsList = getBalancesSpot(jsonObject.getJSONArray("balances"));
+        balanceSpotsList = getBalancesSpot(jsonObject.getJSONArray("balances"));
         loadPermissionList(jsonObject.getJSONArray("permissionsList"));
     }
 
@@ -128,26 +129,26 @@ public class SpotAccountInformation {
         return accountType;
     }
 
-    public ArrayList<BalancesSpot> getBalancesSpotsList() {
-        return balancesSpotsList;
+    public ArrayList<AccountSnapshotSpot.BalanceSpot> getBalancesSpotsList() {
+        return balanceSpotsList;
     }
 
-    public void setBalancesSpotsList(ArrayList<BalancesSpot> balancesSpotsList) {
-        this.balancesSpotsList = balancesSpotsList;
+    public void setBalancesSpotsList(ArrayList<AccountSnapshotSpot.BalanceSpot> balanceSpotsList) {
+        this.balanceSpotsList = balanceSpotsList;
     }
 
-    public void insertBalanceSpot(BalancesSpot balancesSpot){
-        if(!balancesSpotsList.contains(balancesSpot))
-            balancesSpotsList.add(balancesSpot);
+    public void insertBalanceSpot(AccountSnapshotSpot.BalanceSpot balanceSpot){
+        if(!balanceSpotsList.contains(balanceSpot))
+            balanceSpotsList.add(balanceSpot);
     }
 
-    public boolean removeBalanceSpot(BalancesSpot balancesSpot){
-        return balancesSpotsList.remove(balancesSpot);
+    public boolean removeBalanceSpot(AccountSnapshotSpot.BalanceSpot balanceSpot){
+        return balanceSpotsList.remove(balanceSpot);
     }
 
-    public BalancesSpot getBalanceSpot(int index){
+    public AccountSnapshotSpot.BalanceSpot getBalanceSpot(int index){
         try{
-            return balancesSpotsList.get(index);
+            return balanceSpotsList.get(index);
         }catch (IndexOutOfBoundsException e){
             throw new IndexOutOfBoundsException(index);
         }

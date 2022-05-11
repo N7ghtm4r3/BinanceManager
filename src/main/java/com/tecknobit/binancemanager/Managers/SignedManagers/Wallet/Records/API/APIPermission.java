@@ -2,23 +2,23 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.API;
 
 /**
  *  The {@code APIPermission} class is useful to manage APIPermission Binance request
- *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class APIPermission {
 
-    private final boolean ipRestrict;
+    private boolean ipRestrict;
     private final long createTime;
-    private final boolean enableWithdrawals;
-    private final boolean enableInternalTransfer;
-    private final boolean permitsUniversalTransfer;
-    private final boolean enableVanillaOptions;
-    private final boolean enableReading;
-    private final boolean enableFutures;
-    private final boolean enableMargin;
-    private final boolean enableSpotAndMarginTrading;
-    private final long tradingAuthorityExpirationTime;
+    private boolean enableWithdrawals;
+    private boolean enableInternalTransfer;
+    private boolean permitsUniversalTransfer;
+    private boolean enableVanillaOptions;
+    private boolean enableReading;
+    private boolean enableFutures;
+    private boolean enableMargin;
+    private boolean enableSpotAndMarginTrading;
+    private long tradingAuthorityExpirationTime;
 
     public APIPermission(boolean ipRestrict, long createTime, boolean enableWithdrawals, boolean enableInternalTransfer,
                          boolean permitsUniversalTransfer, boolean enableVanillaOptions, boolean enableReading,
@@ -37,48 +37,88 @@ public class APIPermission {
         this.tradingAuthorityExpirationTime = tradingAuthorityExpirationTime;
     }
 
-    public boolean ipRestrict() {
+    public boolean isIpRestrict() {
         return ipRestrict;
     }
 
-    public long createTime() {
+    public void setIpRestrict(boolean ipRestrict) {
+        this.ipRestrict = ipRestrict;
+    }
+
+    public long getCreateTime() {
         return createTime;
     }
 
-    public boolean enableWithdrawals() {
+    public boolean isEnableWithdrawals() {
         return enableWithdrawals;
     }
 
-    public boolean enableInternalTransfer() {
+    public void setEnableWithdrawals(boolean enableWithdrawals) {
+        this.enableWithdrawals = enableWithdrawals;
+    }
+
+    public boolean isEnableInternalTransfer() {
         return enableInternalTransfer;
     }
 
-    public boolean permitsUniversalTransfer() {
+    public void setEnableInternalTransfer(boolean enableInternalTransfer) {
+        this.enableInternalTransfer = enableInternalTransfer;
+    }
+
+    public boolean isPermitsUniversalTransfer() {
         return permitsUniversalTransfer;
     }
 
-    public boolean enableVanillaOptions() {
+    public void setPermitsUniversalTransfer(boolean permitsUniversalTransfer) {
+        this.permitsUniversalTransfer = permitsUniversalTransfer;
+    }
+
+    public boolean isEnableVanillaOptions() {
         return enableVanillaOptions;
     }
 
-    public boolean enableReading() {
+    public void setEnableVanillaOptions(boolean enableVanillaOptions) {
+        this.enableVanillaOptions = enableVanillaOptions;
+    }
+
+    public boolean isEnableReading() {
         return enableReading;
     }
 
-    public boolean enableFutures() {
+    public void setEnableReading(boolean enableReading) {
+        this.enableReading = enableReading;
+    }
+
+    public boolean isEnableFutures() {
         return enableFutures;
     }
 
-    public boolean enableMargin() {
+    public void setEnableFutures(boolean enableFutures) {
+        this.enableFutures = enableFutures;
+    }
+
+    public boolean isEnableMargin() {
         return enableMargin;
     }
 
-    public boolean enableSpotAndMarginTrading() {
+    public void setEnableMargin(boolean enableMargin) {
+        this.enableMargin = enableMargin;
+    }
+
+    public boolean isEnableSpotAndMarginTrading() {
         return enableSpotAndMarginTrading;
     }
 
-    public long tradingAuthorityExpirationTime() {
+    public void setEnableSpotAndMarginTrading(boolean enableSpotAndMarginTrading) {
+        this.enableSpotAndMarginTrading = enableSpotAndMarginTrading;
+    }
+
+    public long getTradingAuthorityExpirationTime() {
         return tradingAuthorityExpirationTime;
+    }
+
+    public void setTradingAuthorityExpirationTime(long tradingAuthorityExpirationTime) {
+        this.tradingAuthorityExpirationTime = tradingAuthorityExpirationTime;
     }
 
 }

@@ -7,31 +7,21 @@ import java.util.ArrayList;
 
 /**
  * The {@code AccountSnapshotFutures} class is useful to obtain and format AccountSnapshotFutures object
- * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class AccountSnapshotFutures extends AccountSnapshot{
 
-    private final int code;
-    private final String msg;
-    private final String type;
-    private JSONArray jsonArray;
-    private ArrayList<DataFutures> dataFutures;
+    private ArrayList<DataFutures> dataFuturesList;
 
     public AccountSnapshotFutures(int code, String msg, String type, JSONArray jsonArray) {
         super(code, msg, type, jsonArray);
-        this.code = code;
-        this.msg = msg;
-        this.type = type;
     }
 
     public AccountSnapshotFutures(int code, String msg, String type, JSONArray jsonArray, ArrayList<DataFutures> dataFutures) {
         super(code, msg, type, jsonArray);
-        this.code = code;
-        this.msg = msg;
-        this.type = type;
-        this.dataFutures = dataFutures;
+        this.dataFuturesList = dataFutures;
     }
 
     /** Method to get AccountSnapshotFutures object
@@ -39,24 +29,24 @@ public class AccountSnapshotFutures extends AccountSnapshot{
      * @return AccountSnapshotFutures object then to cast
      * **/
     public AccountSnapshotFutures getAccountSnapshotFutures() {
-        dataFutures = new ArrayList<>();
+        dataFuturesList = new ArrayList<>();
         if(jsonArray != null){
             for (int j=0; j < jsonArray.length(); j++){
                 JSONObject dataRow = jsonArray.getJSONObject(j);
                 long updateTime = dataRow.getLong("updateTime");
-                dataFutures.add(new DataFutures(updateTime,
+                dataFuturesList.add(new DataFutures(updateTime,
                             getAssetsList(dataRow.getJSONArray("assets")),
                             getPositionsList(dataRow.getJSONArray("position"))
                         ));
             }
         }
-        return new AccountSnapshotFutures(code,msg,type,jsonArray,dataFutures);
+        return new AccountSnapshotFutures(code, msg, type, jsonArray, dataFuturesList);
     }
 
     /** Method to assemble an AssetFutures list
      * @param #assets: jsonArray obtain by AccountSnapshot Binance request
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
-     * @return assetFutures list as ArrayList<AssetFutures>
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
+     * @return assetFuturesList list as ArrayList<AssetFutures>
      * **/
     private ArrayList<AssetFutures> getAssetsList(JSONArray assets) {
         ArrayList<AssetFutures> assetFutures = new ArrayList<>();
@@ -72,8 +62,8 @@ public class AccountSnapshotFutures extends AccountSnapshot{
 
     /** Method to assemble an PositionFutures list
      * @param #positions: jsonArray obtain by AccountSnapshot Binance request
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
-     * @return positionFutures list as ArrayList<PositionFutures>
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
+     * @return positionFuturesList list as ArrayList<PositionFutures>
      * **/
     private ArrayList<PositionFutures> getPositionsList(JSONArray positions) {
         ArrayList<PositionFutures> positionFutures = new ArrayList<>();
@@ -83,57 +73,120 @@ public class AccountSnapshotFutures extends AccountSnapshot{
                     position.getDouble("markPrice"),
                     position.getDouble("positionAmt"),
                     position.getString("symbol"),
-                    position.getDouble("1.24029054")
+                    position.getDouble("unRealizedProfit")
             ));
         }
         return positionFutures;
     }
 
-    public ArrayList<DataFutures> getDataFutures() {
-        return dataFutures;
+    public ArrayList<DataFutures> getDataFuturesList() {
+        return dataFuturesList;
+    }
+
+    public void setDataFuturesList(ArrayList<DataFutures> dataFuturesList) {
+        this.dataFuturesList = dataFuturesList;
+    }
+
+    public void insertDataFuture(DataFutures dataFutures){
+        if(!dataFuturesList.contains(dataFutures))
+            dataFuturesList.add(dataFutures);
+    }
+
+    public boolean removeDataFuture(DataFutures dataFutures){
+        return dataFuturesList.remove(dataFutures);
+    }
+
+    public DataFutures getDataFuture(int index){
+        try{
+            return dataFuturesList.get(index);
+        }catch (IndexOutOfBoundsException e){
+            throw new IndexOutOfBoundsException(index);
+        }
     }
 
     /**
      *  The {@code DataFutures} class is useful to obtain and format DataFutures object
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * **/
 
     public static class DataFutures {
 
         private final long updateTime;
-        private final ArrayList<AssetFutures> assetFutures;
-        private final ArrayList<PositionFutures> positionFutures;
+        private ArrayList<AssetFutures> assetFuturesList;
+        private ArrayList<PositionFutures> positionFuturesList;
 
         public DataFutures(long updateTime, ArrayList<AssetFutures> assetFutures, ArrayList<PositionFutures> positionFutures) {
             this.updateTime = updateTime;
-            this.assetFutures = assetFutures;
-            this.positionFutures = positionFutures;
+            this.assetFuturesList = assetFutures;
+            this.positionFuturesList = positionFutures;
         }
 
         public long getUpdateTime() {
             return updateTime;
         }
 
-        public ArrayList<AssetFutures> getAssetFutures() {
-            return assetFutures;
+        public ArrayList<AssetFutures> getAssetFuturesList() {
+            return assetFuturesList;
         }
 
-        public ArrayList<PositionFutures> getPositionFutures() {
-            return positionFutures;
+        public void setAssetFuturesList(ArrayList<AssetFutures> assetFuturesList) {
+            this.assetFuturesList = assetFuturesList;
+        }
+
+        public void insertAssetFuture(AssetFutures assetFutures){
+            if(!assetFuturesList.contains(assetFutures))
+                assetFuturesList.add(assetFutures);
+        }
+
+        public boolean removeAssetFuture(AssetFutures assetFutures){
+            return assetFuturesList.remove(assetFutures);
+        }
+
+        public AssetFutures getAssetFutures(int index){
+            try{
+                return assetFuturesList.get(index);
+            }catch (IndexOutOfBoundsException e){
+                throw new IndexOutOfBoundsException(index);
+            }
+        }
+
+        public ArrayList<PositionFutures> getPositionFuturesList() {
+            return positionFuturesList;
+        }
+
+        public void setPositionFuturesList(ArrayList<PositionFutures> positionFuturesList) {
+            this.positionFuturesList = positionFuturesList;
+        }
+
+        public void insertAssetFuture(PositionFutures positionFutures){
+            if(!positionFuturesList.contains(positionFutures))
+                positionFuturesList.add(positionFutures);
+        }
+
+        public boolean removeAssetFuture(PositionFutures positionFutures){
+            return positionFuturesList.remove(positionFutures);
+        }
+
+        public PositionFutures getPositionFuturesList(int index){
+            try{
+                return positionFuturesList.get(index);
+            }catch (IndexOutOfBoundsException e){
+                throw new IndexOutOfBoundsException(index);
+            }
         }
 
     }
 
     /**
      *  The {@code AssetFutures} class is useful to obtain and format AssetFutures object
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * **/
 
     public static class AssetFutures {
 
         private final String asset;
-        private final double marginBalance;
-        private final double walletBalance;
+        private double marginBalance;
+        private double walletBalance;
 
         public AssetFutures(String asset, double marginBalance, double walletBalance) {
             this.asset = asset;
@@ -149,24 +202,36 @@ public class AccountSnapshotFutures extends AccountSnapshot{
             return marginBalance;
         }
 
+        public void setMarginBalance(double marginBalance) {
+            if(marginBalance < 0)
+                throw new IllegalArgumentException("Margin balance value cannot be less than 0");
+            this.marginBalance = marginBalance;
+        }
+
         public double getWalletBalance() {
             return walletBalance;
+        }
+
+        public void setWalletBalance(double walletBalance) {
+            if(walletBalance < 0)
+                throw new IllegalArgumentException("Wallet balance value cannot be less than 0");
+            this.walletBalance = walletBalance;
         }
 
     }
 
     /**
      *  The {@code PositionFutures} class is useful to obtain and format PositionFutures object
-     * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * **/
 
     public static class PositionFutures {
 
-        private final double entryPrice;
-        private final double markPrice;
-        private final double positionAmt;
+        private double entryPrice;
+        private double markPrice;
+        private double positionAmt;
         private final String symbol;
-        private final double unRealizedProfit;
+        private double unRealizedProfit;
 
         public PositionFutures(double entryPrice, double markPrice, double positionAmt, String symbol, double unRealizedProfit) {
             this.entryPrice = entryPrice;
@@ -180,12 +245,30 @@ public class AccountSnapshotFutures extends AccountSnapshot{
             return entryPrice;
         }
 
+        public void setEntryPrice(double entryPrice) {
+            if(entryPrice < 0)
+                throw new IllegalArgumentException("Entry price value cannot be less than 0");
+            this.entryPrice = entryPrice;
+        }
+
         public double getMarkPrice() {
             return markPrice;
         }
 
+        public void setMarkPrice(double markPrice) {
+            if(markPrice < 0)
+                throw new IllegalArgumentException("Mark price value cannot be less than 0");
+            this.markPrice = markPrice;
+        }
+
         public double getPositionAmt() {
             return positionAmt;
+        }
+
+        public void setPositionAmt(double positionAmt) {
+            if(positionAmt < 0)
+                throw new IllegalArgumentException("Position amt value cannot be less than 0");
+            this.positionAmt = positionAmt;
         }
 
         public String getSymbol() {
@@ -194,6 +277,12 @@ public class AccountSnapshotFutures extends AccountSnapshot{
 
         public double getUnRealizedProfit() {
             return unRealizedProfit;
+        }
+
+        public void setUnRealizedProfit(double unRealizedProfit) {
+            if(unRealizedProfit < 0)
+                throw new IllegalArgumentException("Unrealize profit value cannot be less than 0");
+            this.unRealizedProfit = unRealizedProfit;
         }
 
     }

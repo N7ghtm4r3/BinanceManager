@@ -4,7 +4,7 @@ import org.json.JSONArray;
 
 /**
  *  The {@code AccountSnapshot} class is useful to manage AccountSnapshot Binance request
- *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
@@ -13,10 +13,10 @@ public class AccountSnapshot {
     public static final String SPOT = "SPOT";
     public static final String MARGIN = "MARGIN";
     public static final String FUTURES = "FUTURES";
-    private final int code;
-    private final String msg;
-    private final String type;
-    private final JSONArray jsonArray;
+    protected int code;
+    protected String msg;
+    protected final String type;
+    protected final JSONArray jsonArray;
 
     public AccountSnapshot(int code, String msg, String type, JSONArray jsonArray) {
         this.code = code;
@@ -25,7 +25,7 @@ public class AccountSnapshot {
         this.jsonArray = jsonArray;
     }
 
-    /** Method to get specifical AccountSnapshot object
+    /** Method to get specific AccountSnapshot object
      * any params required
      * @return AccountSnapshot object then to cast
      * **/
@@ -44,8 +44,18 @@ public class AccountSnapshot {
         return code;
     }
 
+    public void setCode(int code) {
+        if(code < 0)
+            throw new IllegalArgumentException("Code value cannot be less than 0");
+        this.code = code;
+    }
+
     public String getMsg() {
         return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public String getType() {

@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 /**
  * The {@code AssetDividend} class is useful to manage AssetDividend Binance request
- * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
  * **/
 
 public class AssetDividend {
 
-    private final int total;
+    private int total;
     private final ArrayList<AssetDividendDetails> assetDividendDetails;
 
     public AssetDividend(int total, ArrayList<AssetDividendDetails> assetDividendDetails) {
@@ -21,13 +21,19 @@ public class AssetDividend {
         return total;
     }
 
+    public void setTotal(int total) {
+        if(total < 0)
+            throw new IllegalArgumentException("Total value cannot be less than 0");
+        this.total = total;
+    }
+
     public ArrayList<AssetDividendDetails> assetDividendDetails() {
         return assetDividendDetails;
     }
 
     /**
      *  The {@code AssetDividendDetails} class is useful to obtain and format AssetDividendDetails object
-     *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
+     *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
      * **/
 
     public static final class AssetDividendDetails {
