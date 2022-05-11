@@ -1,5 +1,5 @@
 # BinanceManager
-**v1.0.2**
+**v1.0.3**
 
 This is a Java Based library useful to work with Binance's API service.
 
@@ -45,7 +45,7 @@ dependencies {
 <dependency>
     <groupId>com.github.N7ghtm4r3</groupId>
     <artifactId>BinanceManager</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 
