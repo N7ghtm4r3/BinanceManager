@@ -4,19 +4,19 @@ import java.util.ArrayList;
 
 /**
  *  The {@code DustTransfer} class is useful to manage DustTransfer Binance request
- *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
  * **/
 
 public class DustTransfer {
 
     private final double totalServiceCharge;
     private final double totalTransfered;
-    private final ArrayList<TransferResult> transferResults;
+    private ArrayList<TransferResult> transferResultsList;
 
     public DustTransfer(double totalServiceCharge, double totalTransfered, ArrayList<TransferResult> transferResults) {
         this.totalServiceCharge = totalServiceCharge;
         this.totalTransfered = totalTransfered;
-        this.transferResults = transferResults;
+        this.transferResultsList = transferResults;
     }
 
     public double totalServiceCharge() {
@@ -28,12 +28,33 @@ public class DustTransfer {
     }
 
     public ArrayList<TransferResult> transferResults() {
-        return transferResults;
+        return transferResultsList;
+    }
+
+    public void setTransferResultsList(ArrayList<TransferResult> transferResultsList) {
+        this.transferResultsList = transferResultsList;
+    }
+
+    public void insertTransferResult(TransferResult transferResult){
+        if(!transferResultsList.contains(transferResult))
+            transferResultsList.add(transferResult);
+    }
+
+    public boolean removeTransferResult(TransferResult transferResult){
+        return transferResultsList.remove(transferResult);
+    }
+
+    public TransferResult getAssetDribbletDetails(int index){
+        try {
+            return transferResultsList.get(index);
+        }catch (IndexOutOfBoundsException e){
+            throw new IndexOutOfBoundsException(index);
+        }
     }
 
     /**
      *  The {@code TransferResult} class is useful to obtain and format TransferResult object
-     *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data
+     *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
      * **/
 
     public static class TransferResult {

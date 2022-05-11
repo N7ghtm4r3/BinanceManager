@@ -7,26 +7,58 @@ import java.util.ArrayList;
 
 /**
  *  The {@code DustLog} class is useful to manage DustLog Binance request
- *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
  * **/
 
 public class DustLog {
 
-    private final int total;
-    private final ArrayList<AssetDribblets> userAssetDribblets;
+    private int total;
+    private ArrayList<AssetDribblets> userAssetDribbletlList;
 
     public DustLog(int total, ArrayList<AssetDribblets> userAssetDribblets) {
         this.total = total;
-        this.userAssetDribblets = userAssetDribblets;
+        this.userAssetDribbletlList = userAssetDribblets;
     }
 
     public int total() {
         return total;
     }
 
-    public ArrayList<AssetDribblets> userAssetDribblets() {
-        return userAssetDribblets;
+    public void setTotal(int total) {
+        if(total < 0)
+            throw new IllegalArgumentException("Total value cannot be less than 0");
+        this.total = total;
     }
+
+    public ArrayList<AssetDribblets> userAssetDribblets() {
+        return userAssetDribbletlList;
+    }
+
+    public void setUserAssetDribbletlList(ArrayList<AssetDribblets> userAssetDribbletlList) {
+        this.userAssetDribbletlList = userAssetDribbletlList;
+    }
+
+    public void insertAssetDribblet(AssetDribblets assetDribblets){
+        if(!userAssetDribbletlList.contains(assetDribblets))
+            userAssetDribbletlList.add(assetDribblets);
+    }
+
+    public boolean removeAssetDribblet(AssetDribblets assetDribblets){
+        return userAssetDribbletlList.remove(assetDribblets);
+    }
+
+    public AssetDribblets getAssetDribblets(int index){
+        try{
+            return userAssetDribbletlList.get(index);
+        }catch (IndexOutOfBoundsException e){
+            throw new IndexOutOfBoundsException(index);
+        }
+    }
+
+    /**
+     *  The {@code AssetDribblets} class is useful to obtain and format AssetDribblets object
+     *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
+     * **/
 
     public static class AssetDribblets {
 
@@ -34,7 +66,7 @@ public class DustLog {
         private final double totalTransferedAmount;
         private final double totalServiceChargeAmount;
         private final long transId;
-        private final ArrayList<AssetDribbletsDetails> assetDribbletsDetails;
+        private final ArrayList<AssetDribbletsDetails> assetDribbletsDetailsList;
 
         public AssetDribblets(long operateTime, double totalTransferedAmount, double totalServiceChargeAmount,
                               long transId, ArrayList<AssetDribbletsDetails> assetDribbletsDetails) {
@@ -42,7 +74,7 @@ public class DustLog {
             this.totalTransferedAmount = totalTransferedAmount;
             this.totalServiceChargeAmount = totalServiceChargeAmount;
             this.transId = transId;
-            this.assetDribbletsDetails = assetDribbletsDetails;
+            this.assetDribbletsDetailsList = assetDribbletsDetails;
         }
 
         public long operateTime() {
@@ -62,14 +94,35 @@ public class DustLog {
         }
 
         public ArrayList<AssetDribbletsDetails> assetDribbletsDetails() {
-            return assetDribbletsDetails;
+            return assetDribbletsDetailsList;
+        }
+
+        public ArrayList<AssetDribbletsDetails> getAssetDribbletsDetailsList() {
+            return assetDribbletsDetailsList;
+        }
+
+        public void insertAssetDribbletDetails(AssetDribbletsDetails assetDribbletsDetails){
+            if(!assetDribbletsDetailsList.contains(assetDribbletsDetails))
+                assetDribbletsDetailsList.add(assetDribbletsDetails);
+        }
+
+        public boolean removeAssetDribbletDetails(AssetDribbletsDetails assetDribbletsDetails){
+            return assetDribbletsDetailsList.remove(assetDribbletsDetails);
+        }
+
+        public AssetDribbletsDetails getAssetDribbletDetails(int index){
+            try {
+                return assetDribbletsDetailsList.get(index);
+            }catch (IndexOutOfBoundsException e){
+                throw new IndexOutOfBoundsException(index);
+            }
         }
 
     }
 
     /**
      *  The {@code AssetDribbletsDetails} class is useful to obtain and format AssetDribbletsDetails object
-     *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
+     *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
      * **/
 
     public static class AssetDribbletsDetails {
@@ -117,8 +170,8 @@ public class DustLog {
 
         /** Method to assemble an AssetDribbletsDetails list
          * @param #userAssetDribbletDetails: jsonArray obtain by DustLog Binance request
-         * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data
-         * @return assetDribbletsDetails list as ArrayList<AssetDribbletsDetails>
+         * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
+         * @return assetDribbletsDetailsList list as ArrayList<AssetDribbletsDetails>
          * **/
         public static ArrayList<AssetDribbletsDetails> getListDribbletsDetails(JSONArray userAssetDribbletDetails) {
             ArrayList<AssetDribbletsDetails> assetDribbletsDetails = new ArrayList<>();

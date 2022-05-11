@@ -10,11 +10,11 @@ import java.util.ArrayList;
 public class AssetDividend {
 
     private int total;
-    private final ArrayList<AssetDividendDetails> assetDividendDetails;
+    private ArrayList<AssetDividendDetails> assetDividendDetailsList;
 
     public AssetDividend(int total, ArrayList<AssetDividendDetails> assetDividendDetails) {
         this.total = total;
-        this.assetDividendDetails = assetDividendDetails;
+        this.assetDividendDetailsList = assetDividendDetails;
     }
 
     public int total() {
@@ -27,8 +27,34 @@ public class AssetDividend {
         this.total = total;
     }
 
-    public ArrayList<AssetDividendDetails> assetDividendDetails() {
-        return assetDividendDetails;
+    public ArrayList<AssetDividendDetails> getAssetDividendDetailsList() {
+        return assetDividendDetailsList;
+    }
+
+    public void setAssetDividendDetailsList(ArrayList<AssetDividendDetails> assetDividendDetailsList) {
+        this.assetDividendDetailsList = assetDividendDetailsList;
+    }
+
+    public void insertAssetDividendDetails(AssetDividendDetails assetDividendDetails){
+        if(!assetDividendDetailsList.contains(assetDividendDetails)) {
+            assetDividendDetailsList.add(assetDividendDetails);
+            setTotal(total + 1);
+        }
+    }
+
+    public boolean removeAssetDividendDetails(AssetDividendDetails assetDividendDetails){
+        boolean removed = assetDividendDetailsList.remove(assetDividendDetails);
+        if(removed)
+            setTotal(total - 1);
+        return removed;
+    }
+
+    public AssetDividendDetails getAssetDividendDetails(int index){
+        try{
+            return assetDividendDetailsList.get(index);
+        }catch (IndexOutOfBoundsException e){
+            throw new IndexOutOfBoundsException(index);
+        }
     }
 
     /**

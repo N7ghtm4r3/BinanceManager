@@ -8,25 +8,25 @@ import java.util.ArrayList;
 
 /**
  *  The {@code CoinInformation} class is useful to manage AllCoins Binance request
- *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
  * **/
 
 public class CoinInformation {
 
     private final String coin;
-    private final boolean depositAllEnable;
-    private final double free;
-    private final double freeze;
-    private final double ipoable;
-    private final double ipoing;
-    private final boolean isLegalMoney;
-    private final double locked;
+    private boolean depositAllEnable;
+    private double free;
+    private double freeze;
+    private double ipoable;
+    private double ipoing;
+    private boolean isLegalMoney;
+    private double locked;
     private final String name;
-    private ArrayList<NetworkItem> networkItems;
-    private final double storage;
-    private final boolean trading;
-    private final boolean withdrawAllEnable;
-    private final double withdrawing;
+    private ArrayList<NetworkItem> networkItemsList;
+    private double storage;
+    private boolean trading;
+    private boolean withdrawAllEnable;
+    private double withdrawing;
 
     public CoinInformation(String coin, boolean depositAllEnable, double free, double freeze, double ipoable,
                            double ipoing, boolean isLegalMoney, double locked, String name, ArrayList<NetworkItem> networkItems,
@@ -40,7 +40,7 @@ public class CoinInformation {
         this.isLegalMoney = isLegalMoney;
         this.locked = locked;
         this.name = name;
-        this.networkItems = networkItems;
+        this.networkItemsList = networkItems;
         this.storage = storage;
         this.trading = trading;
         this.withdrawAllEnable = withdrawAllEnable;
@@ -55,61 +55,136 @@ public class CoinInformation {
         return depositAllEnable;
     }
 
+    public void setDepositAllEnable(boolean depositAllEnable) {
+        this.depositAllEnable = depositAllEnable;
+    }
+
     public double getFree() {
         return free;
+    }
+
+    public void setFree(double free) {
+        if(free < 0)
+            throw new IllegalArgumentException("Free value cannot be less than 0");
+        this.free = free;
     }
 
     public double getFreeze() {
         return freeze;
     }
 
+    public void setFreeze(double freeze) {
+        if(freeze < 0)
+            throw new IllegalArgumentException("Freeze value cannot be less than 0");
+        this.freeze = freeze;
+    }
+
     public double getIpoable() {
         return ipoable;
+    }
+
+    public void setIpoable(double ipoable) {
+        if(ipoable < 0)
+            throw new IllegalArgumentException("Ipoable value cannot be less than 0");
+        this.ipoable = ipoable;
     }
 
     public double getIpoing() {
         return ipoing;
     }
 
+    public void setIpoing(double ipoing) {
+        if(ipoing < 0)
+            throw new IllegalArgumentException("Ipoing value cannot be less than 0");
+        this.ipoing = ipoing;
+    }
+
     public boolean isLegalMoney() {
         return isLegalMoney;
+    }
+
+    public void setLegalMoney(boolean legalMoney) {
+        isLegalMoney = legalMoney;
     }
 
     public double getLocked() {
         return locked;
     }
 
+    public void setLocked(double locked) {
+        if(locked < 0)
+            throw new IllegalArgumentException("Locked value cannot be less than 0");
+        this.locked = locked;
+    }
+
     public String getName() {
         return name;
     }
 
-    public void setNetworkItems(ArrayList<NetworkItem> networkItems) {
-        this.networkItems = networkItems;
+    public ArrayList<NetworkItem> getNetworkItemsList() {
+        return networkItemsList;
     }
 
-    public ArrayList<NetworkItem> getNetworkItems() {
-        return networkItems;
+    public void setNetworkItemsList(ArrayList<NetworkItem> networkItemsList) {
+        this.networkItemsList = networkItemsList;
+    }
+
+    public void insertNetworkItem(NetworkItem networkItem){
+        if(!networkItemsList.contains(networkItem))
+            networkItemsList.add(networkItem);
+    }
+
+    public boolean removeNetworkItem(NetworkItem networkItem){
+        return networkItemsList.remove(networkItem);
+    }
+
+    public NetworkItem getNetWorkItem(int index){
+        try{
+            return networkItemsList.get(index);
+        }catch (IndexOutOfBoundsException e){
+            throw new IndexOutOfBoundsException(index);
+        }
     }
 
     public double getStorage() {
         return storage;
     }
 
+    public void setStorage(double storage) {
+        if(storage < 0)
+            throw new IllegalArgumentException("Storage value cannot be less than 0");
+        this.storage = storage;
+    }
+
     public boolean isTrading() {
         return trading;
+    }
+
+    public void setTrading(boolean trading) {
+        this.trading = trading;
     }
 
     public boolean isWithdrawAllEnable() {
         return withdrawAllEnable;
     }
 
+    public void setWithdrawAllEnable(boolean withdrawAllEnable) {
+        this.withdrawAllEnable = withdrawAllEnable;
+    }
+
     public double getWithdrawing() {
         return withdrawing;
     }
 
+    public void setWithdrawing(double withdrawing) {
+        if(withdrawing < 0)
+            throw new IllegalArgumentException("Withdrawing value cannot be less than 0");
+        this.withdrawing = withdrawing;
+    }
+
     /**
      *  The {@code NetworkItem} class is useful to obtain and format NetworkItem object
-     *  @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data
+     *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
      * **/
 
     public static class NetworkItem {
@@ -163,8 +238,8 @@ public class CoinInformation {
 
         /** Method to assemble an AssetDribbletsDetails list
          * @param #networkList: jsonArray obtain by AllCoins Binance request
-         * @apiNote see official documentation at: https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data
-         * @return networkItems list as  ArrayList<NetworkItem>
+         * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
+         * @return networkItemsList list as  ArrayList<NetworkItem>
          * **/
         public static ArrayList<NetworkItem> getNetworkList(JSONArray networkList) {
             ArrayList<NetworkItem> networkItems = new ArrayList<>();
