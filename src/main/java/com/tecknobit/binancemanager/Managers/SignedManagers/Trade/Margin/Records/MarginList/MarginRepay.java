@@ -75,11 +75,7 @@ public class MarginRepay {
     }
 
     public MarginRepayAsset getMarginRepayAsset(int index) {
-        try{
-            return marginRepayAssetsList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return marginRepayAssetsList.get(index);
     }
 
     /**

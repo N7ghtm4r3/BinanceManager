@@ -50,11 +50,7 @@ public class AssetDividend {
     }
 
     public AssetDividendDetails getAssetDividendDetails(int index){
-        try{
-            return assetDividendDetailsList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return assetDividendDetailsList.get(index);
     }
 
     /**

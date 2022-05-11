@@ -49,11 +49,7 @@ public class ComposedMarginOrderDetails extends OrderDetails {
     }
 
     public DetailMarginOrder getCancelMarginOrder(int index){
-        try{
-            return detailMarginOrdersList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return detailMarginOrdersList.get(index);
     }
 
     public boolean isIsolated() {

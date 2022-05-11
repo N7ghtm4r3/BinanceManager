@@ -139,11 +139,7 @@ public class CoinInformation {
     }
 
     public NetworkItem getNetWorkItem(int index){
-        try{
-            return networkItemsList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return networkItemsList.get(index);
     }
 
     public double getStorage() {

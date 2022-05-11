@@ -48,11 +48,7 @@ public class DustLog {
     }
 
     public AssetDribblets getAssetDribblets(int index){
-        try{
-            return userAssetDribbletlList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return userAssetDribbletlList.get(index);
     }
 
     /**
@@ -111,11 +107,7 @@ public class DustLog {
         }
 
         public AssetDribbletsDetails getAssetDribbletDetails(int index){
-            try {
-                return assetDribbletsDetailsList.get(index);
-            }catch (IndexOutOfBoundsException e){
-                throw new IndexOutOfBoundsException(" "+ index);
-            }
+            return assetDribbletsDetailsList.get(index);
         }
 
     }

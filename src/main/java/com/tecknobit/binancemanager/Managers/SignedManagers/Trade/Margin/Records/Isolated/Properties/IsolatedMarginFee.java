@@ -82,11 +82,7 @@ public class IsolatedMarginFee {
     }
 
     public IsolatedData getIsolatedData(int index) {
-        try{
-            return isolatedDataList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return isolatedDataList.get(index);
     }
 
     /**

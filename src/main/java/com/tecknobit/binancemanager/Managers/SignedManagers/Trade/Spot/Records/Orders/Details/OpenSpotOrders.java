@@ -36,11 +36,7 @@ public class OpenSpotOrders {
     }
 
     public DetailSpotOrder getDetailsSpotOrder(int index){
-        try{
-            return detailSpotOrdersList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return detailSpotOrdersList.get(index);
     }
 
     public ArrayList<ComposedSpotOrderDetails> getComposedSpotOrderDetailsList() {
@@ -61,11 +57,7 @@ public class OpenSpotOrders {
     }
 
     public ComposedSpotOrderDetails getComposedSpotOrderDetails(int index){
-        try{
-            return composedSpotOrderDetailsList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return composedSpotOrderDetailsList.get(index);
     }
 
 }

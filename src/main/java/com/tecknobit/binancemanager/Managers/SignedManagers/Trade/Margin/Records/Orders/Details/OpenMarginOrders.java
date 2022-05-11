@@ -37,11 +37,7 @@ public class OpenMarginOrders {
     }
 
     public DetailMarginOrder getCancelMarginOrder(int index){
-        try{
-            return detailMarginOrdersList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return detailMarginOrdersList.get(index);
     }
 
     public ArrayList<ComposedMarginOrderDetails> getComposedMarginOrderDetailsList() {
@@ -62,11 +58,7 @@ public class OpenMarginOrders {
     }
 
     public ComposedMarginOrderDetails getComposedMarginOrderDetails(int index){
-        try{
-            return composedMarginOrderDetailsList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return composedMarginOrderDetailsList.get(index);
     }
 
 }

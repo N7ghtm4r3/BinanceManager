@@ -76,11 +76,7 @@ public class MarginIsolatedTransferHistory {
     }
 
     public MarginIsolatedTransfer getMarginIsolatedTransfer(int index) {
-        try{
-            return marginIsolatedTransfersList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return marginIsolatedTransfersList.get(index);
     }
 
     /**

@@ -59,11 +59,7 @@ public class FullSpotOrder extends ResultSpotOrder {
     }
 
     public FillSpot getFill(int index){
-        try{
-            return fillsList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return fillsList.get(index);
     }
 
     public static class FillSpot extends Fill {

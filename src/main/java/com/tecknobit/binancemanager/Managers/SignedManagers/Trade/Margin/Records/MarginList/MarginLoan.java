@@ -73,11 +73,7 @@ public class MarginLoan {
     }
 
     public MarginLoanAsset getMarginLoanAsset(int index) {
-        try{
-            return marginLoanAssetsList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return marginLoanAssetsList.get(index);
     }
 
     /**

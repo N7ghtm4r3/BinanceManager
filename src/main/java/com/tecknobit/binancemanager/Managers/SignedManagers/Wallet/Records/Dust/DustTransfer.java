@@ -45,11 +45,7 @@ public class DustTransfer {
     }
 
     public TransferResult getAssetDribbletDetails(int index){
-        try {
-            return transferResultsList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return transferResultsList.get(index);
     }
 
     /**

@@ -80,11 +80,7 @@ public class MarginForceLiquidation {
     }
 
     public ForceLiquidationAsset getForceLiquidationAsset(int index){
-        try{
-            return forceLiquidationAssetsList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return forceLiquidationAssetsList.get(index);
     }
 
     /**

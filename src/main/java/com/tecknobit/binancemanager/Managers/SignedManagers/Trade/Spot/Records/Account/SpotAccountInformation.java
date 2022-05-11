@@ -1,6 +1,6 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account;
 
-import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.AccountSnapshotSpot;
+import com.tecknobit.apimanager.Tools.Readers.JsonHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -41,14 +41,16 @@ public class SpotAccountInformation {
         this.canDeposit = canDeposit;
         this.updateTime = updateTime;
         this.accountType = accountType;
-        balanceSpotsList = getBalancesSpot(jsonObject.getJSONArray("balances"));
-        loadPermissionList(jsonObject.getJSONArray("permissionsList"));
+        JsonHelper jsonHelper = new JsonHelper(jsonObject);
+        balanceSpotsList = getBalancesSpot(jsonHelper.getJSONArray("balances"));
+        loadPermissionList(jsonHelper.getJSONArray("permissionsList"));
     }
 
     private void loadPermissionList(JSONArray jsonArray){
         permissionsList = new ArrayList<>();
-        for (int j=0; j < jsonArray.length(); j++)
-            permissionsList.add(new Permission(jsonArray.getString(j)));
+        if(jsonArray != null)
+            for (int j=0; j < jsonArray.length(); j++)
+                permissionsList.add(new Permission(jsonArray.getString(j)));
     }
 
     public double getMakerCommission() {
@@ -129,29 +131,25 @@ public class SpotAccountInformation {
         return accountType;
     }
 
-    public ArrayList<AccountSnapshotSpot.BalanceSpot> getBalancesSpotsList() {
+    public ArrayList<BalanceSpot> getBalancesSpotsList() {
         return balanceSpotsList;
     }
 
-    public void setBalancesSpotsList(ArrayList<AccountSnapshotSpot.BalanceSpot> balanceSpotsList) {
+    public void setBalancesSpotsList(ArrayList<BalanceSpot> balanceSpotsList) {
         this.balanceSpotsList = balanceSpotsList;
     }
 
-    public void insertBalanceSpot(AccountSnapshotSpot.BalanceSpot balanceSpot){
+    public void insertBalanceSpot(BalanceSpot balanceSpot){
         if(!balanceSpotsList.contains(balanceSpot))
             balanceSpotsList.add(balanceSpot);
     }
 
-    public boolean removeBalanceSpot(AccountSnapshotSpot.BalanceSpot balanceSpot){
+    public boolean removeBalanceSpot(BalanceSpot balanceSpot){
         return balanceSpotsList.remove(balanceSpot);
     }
 
-    public AccountSnapshotSpot.BalanceSpot getBalanceSpot(int index){
-        try{
-            return balanceSpotsList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+    public BalanceSpot getBalanceSpot(int index){
+        return balanceSpotsList.get(index);
     }
 
     public ArrayList<Permission> getPermissionsList() {
@@ -172,11 +170,7 @@ public class SpotAccountInformation {
     }
 
     public Permission getPermission(int index){
-        try{
-            return permissionsList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return permissionsList.get(index);
     }
 
     /**

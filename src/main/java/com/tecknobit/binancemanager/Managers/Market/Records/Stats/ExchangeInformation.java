@@ -253,11 +253,7 @@ public class ExchangeInformation {
         }
 
         public String getOrderType(int index) {
-            try{
-                return orderTypes.get(index);
-            }catch (IndexOutOfBoundsException e){
-                throw new IndexOutOfBoundsException(" "+ index);
-            }
+            return orderTypes.get(index);
         }
 
         public boolean isIcebergAllowed() {
@@ -281,11 +277,7 @@ public class ExchangeInformation {
         }
 
         public Filter getFilter(int index) {
-            try{
-                return filters.get(index);
-            }catch (IndexOutOfBoundsException e){
-                throw new IndexOutOfBoundsException(" "+ index);
-            }
+            return filters.get(index);
         }
 
         public ArrayList<String> getPermissionsList() {
@@ -293,11 +285,7 @@ public class ExchangeInformation {
         }
 
         public String getPermission(int index) {
-            try{
-                return permissions.get(index);
-            }catch (IndexOutOfBoundsException e){
-                throw new IndexOutOfBoundsException(" "+ index);
-            }
+            return permissions.get(index);
         }
 
         public int getBaseCommissionPrecision() {

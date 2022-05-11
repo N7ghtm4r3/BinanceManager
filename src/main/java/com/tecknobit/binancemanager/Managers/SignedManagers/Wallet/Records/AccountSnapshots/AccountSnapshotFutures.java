@@ -97,11 +97,7 @@ public class AccountSnapshotFutures extends AccountSnapshot{
     }
 
     public DataFutures getDataFuture(int index){
-        try{
-            return dataFuturesList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return dataFuturesList.get(index);
     }
 
     /**
@@ -143,11 +139,7 @@ public class AccountSnapshotFutures extends AccountSnapshot{
         }
 
         public AssetFutures getAssetFutures(int index){
-            try{
-                return assetFuturesList.get(index);
-            }catch (IndexOutOfBoundsException e){
-                throw new IndexOutOfBoundsException(" "+ index);
-            }
+            return assetFuturesList.get(index);
         }
 
         public ArrayList<PositionFutures> getPositionFuturesList() {
@@ -168,11 +160,7 @@ public class AccountSnapshotFutures extends AccountSnapshot{
         }
 
         public PositionFutures getPositionFuturesList(int index){
-            try{
-                return positionFuturesList.get(index);
-            }catch (IndexOutOfBoundsException e){
-                throw new IndexOutOfBoundsException(" "+ index);
-            }
+            return positionFuturesList.get(index);
         }
 
     }

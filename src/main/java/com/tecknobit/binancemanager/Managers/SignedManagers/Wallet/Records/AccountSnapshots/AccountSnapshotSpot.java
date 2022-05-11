@@ -122,11 +122,7 @@ public class AccountSnapshotSpot extends AccountSnapshot{
         }
 
         public BalanceSpot getBalanceSpot(int index){
-            try{
-                return balanceSpotList.get(index);
-            }catch (IndexOutOfBoundsException e){
-                throw new IndexOutOfBoundsException(" "+ index);
-            }
+            return balanceSpotList.get(index);
         }
 
     }

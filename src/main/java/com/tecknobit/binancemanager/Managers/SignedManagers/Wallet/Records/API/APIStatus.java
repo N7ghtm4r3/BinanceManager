@@ -62,11 +62,7 @@ public class APIStatus {
     }
 
     public String getTriggerConditionKey(int index) {
-        try{
-            return keys.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return keys.get(index);
     }
 
     public Integer getTriggerConditionValue(String key) {
@@ -74,11 +70,7 @@ public class APIStatus {
     }
 
     public Integer getTriggerConditionValue(int index) {
-        try{
-            return values.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return values.get(index);
     }
 
     public long updateTime() {

@@ -40,11 +40,7 @@ public class ConvertibleBNBAssets {
     }
 
     public AssetDetails getAssetDetails(int index){
-        try{
-            return assetsDetailsList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return assetsDetailsList.get(index);
     }
 
     public double getTotalTransferBtc() {

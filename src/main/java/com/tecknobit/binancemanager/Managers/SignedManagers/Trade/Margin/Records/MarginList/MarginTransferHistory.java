@@ -75,11 +75,7 @@ public class MarginTransferHistory {
     }
 
     public MarginTransferAsset getMarginTransferAsset(int index) {
-        try{
-            return marginTransferAssetsList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return marginTransferAssetsList.get(index);
     }
 
     /**

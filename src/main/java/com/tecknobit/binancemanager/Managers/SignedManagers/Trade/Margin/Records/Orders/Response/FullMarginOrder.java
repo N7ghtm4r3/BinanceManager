@@ -57,11 +57,7 @@ public class FullMarginOrder extends ResultMarginOrder{
     }
 
     public Fill getFillMargin(int index){
-        try{
-            return fillMarginsList.get(index);
-        }catch (IndexOutOfBoundsException e){
-            throw new IndexOutOfBoundsException(" "+ index);
-        }
+        return fillMarginsList.get(index);
     }
 
 }
