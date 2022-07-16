@@ -6,17 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="24c31f43-703f-43c2-b6a1-81b04a165e9d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Constants/EndpointsList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Constants/EndpointsList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Exceptions/SystemException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Exceptions/SystemException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Helpers/RequestManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Helpers/RequestManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/BinanceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/BinanceManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/Market/Records/Stats/Candlestick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/Market/Records/Stats/Candlestick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Common/Fill.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Common/Fill.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Common/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Common/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Common/OrderDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Common/OrderDetails.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Common/TradeConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Common/TradeConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/BinanceMarginManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/BinanceMarginManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Wallet/BinanceWalletManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Wallet/BinanceWalletManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/Records/Account/CrossMarginAccountDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/Records/Account/CrossMarginAccountDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/Records/Account/MarginAccountTrade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/Records/Account/MarginAccountTrade.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,13 +106,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1644858734218</updated>
-    </task>
-    <task id="LOCAL-00137" summary="Load first files">
-      <created>1646491637476</created>
-      <option name="number" value="00137" />
-      <option name="presentableId" value="LOCAL-00137" />
-      <option name="project" value="LOCAL" />
-      <updated>1646491637476</updated>
     </task>
     <task id="LOCAL-00138" summary="Load first files">
       <created>1646503284350</created>
@@ -459,7 +443,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657968953447</updated>
     </task>
-    <option name="localTasksCounter" value="186" />
+    <task id="LOCAL-00186" summary="Adding setter methods to some custom objects&#10;Added get single coin detail custom request in BinanceWalletManager">
+      <created>1657985791703</created>
+      <option name="number" value="00186" />
+      <option name="presentableId" value="LOCAL-00186" />
+      <option name="project" value="LOCAL" />
+      <updated>1657985791703</updated>
+    </task>
+    <option name="localTasksCounter" value="187" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

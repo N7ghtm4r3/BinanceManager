@@ -1,6 +1,6 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet;
 
-import com.tecknobit.apimanager.Tools.Readers.JsonHelper;
+import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.API.APIPermission;
