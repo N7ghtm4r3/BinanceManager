@@ -3279,7 +3279,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
         for (int j = 0; j < jsonMarginTrade.length(); j++){
             JSONObject marginTrade = jsonMarginTrade.getJSONObject(j);
             marginAccountTrades.add(new MarginAccountTrade(marginTrade.getDouble("commission"),
-                    marginTrade.getDouble("commissionAsset"),
+                    marginTrade.getString("commissionAsset"),
                     marginTrade.getLong("id"),
                     marginTrade.getBoolean("isBestMatch"),
                     marginTrade.getBoolean("isBuyer"),

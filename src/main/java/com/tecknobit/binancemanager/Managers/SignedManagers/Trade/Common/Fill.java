@@ -27,7 +27,7 @@ public class Fill {
     /**
      * {@code commissionAsset} is instance that memorizes commission asset of a fill
      * **/
-    protected final String commissionAsset;
+    protected String commissionAsset;
 
     /** Constructor to init {@link Fill} object
      * @param price: price of a fill
@@ -36,9 +36,18 @@ public class Fill {
      * @param commissionAsset: commission asset of a fill
      * **/
     public Fill(double price, double qty, double commission, String commissionAsset) {
-        this.price = price;
-        this.qty = qty;
-        this.commission = commission;
+        if(price < 0)
+            throw new IllegalArgumentException("Price value cannot be less than 0");
+        else
+            this.price = price;
+        if(qty < 0)
+            throw new IllegalArgumentException("Quantity value cannot be less than 0");
+        else
+            this.qty = qty;
+        if(commission < 0)
+            throw new IllegalArgumentException("Commission value cannot be less than 0");
+        else
+            this.commission = commission;
         this.commissionAsset = commissionAsset;
     }
 

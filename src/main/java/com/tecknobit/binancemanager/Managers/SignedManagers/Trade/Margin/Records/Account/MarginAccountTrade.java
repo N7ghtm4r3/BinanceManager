@@ -1,5 +1,7 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account;
 
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.Fill;
+
 /**
  * The {@code MarginAccountTrade} class is useful to format Binance Margin Account Trade request response
  * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-isolated-margin-account-trade">
@@ -7,56 +9,74 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Record
  * @author N7ghtm4r3 - Tecknobit
  * **/
 
-public class MarginAccountTrade {
+public class MarginAccountTrade extends Fill {
 
-    private double commission;
-    private double commissionAsset;
+    /**
+     * {@code id} is instance that memorizes identifier of margin account trade
+     * **/
     private final long id;
+
+    /**
+     * {@code isBestMatch} is instance that memorizes if is best match of the margin account trade
+     * **/
     private boolean isBestMatch;
+
+    /**
+     * {@code isBuyer} is instance that memorizes if is buyer of margin account trade
+     * **/
     private boolean isBuyer;
+
+    /**
+     * {@code isMaker} is instance that memorizes if is maker of margin account trade
+     * **/
     private boolean isMaker;
+
+    /**
+     * {@code orderId} is instance that memorizes identifier of trade
+     * **/
     private final long orderId;
-    private double price;
-    private double qty;
+
+    /**
+     * {@code symbol} is instance that memorizes symbol of trade
+     * **/
     private final String symbol;
+
+    /**
+     * {@code symbol} is instance that memorizes if is isolated trade
+     * **/
     private boolean isIsolated;
+
+    /**
+     * {@code time} is instance that memorizes time of order trade
+     * **/
     private final long time;
 
-    public MarginAccountTrade(double commission, double commissionAsset, long id, boolean isBestMatch, boolean isBuyer,
+    /** Constructor to init {@link MarginAccountTrade} object
+     * @param commission: commission of margin account trade
+     * @param commissionAsset: commission asset of margin account trade
+     * @param id: identifier of margin account trade
+     * @param isBuyer: buyer of margin account trade
+     * @param isMaker: maker of margin account trade
+     * @param orderId: identifier of trade
+     * @param price: price of order trade
+     * @param qty: quantity of order trade
+     * @param symbol: symbol of trade
+     * @param isIsolated: if is isolated trade
+     * @param time: time of order trade
+     * @throws IllegalArgumentException if parameters range is not respected
+     * **/
+    public MarginAccountTrade(double commission, String commissionAsset, long id, boolean isBestMatch, boolean isBuyer,
                               boolean isMaker, long orderId, double price, double qty, String symbol, boolean isIsolated,
                               long time) {
-        this.commission = commission;
-        this.commissionAsset = commissionAsset;
+        super(price, qty, commission, commissionAsset);
         this.id = id;
         this.isBestMatch = isBestMatch;
         this.isBuyer = isBuyer;
         this.isMaker = isMaker;
         this.orderId = orderId;
-        this.price = price;
-        this.qty = qty;
         this.symbol = symbol;
         this.isIsolated = isIsolated;
         this.time = time;
-    }
-
-    public double getCommission() {
-        return commission;
-    }
-
-    public void setCommission(double commission) {
-        if(commissionAsset < 0)
-            throw new IllegalArgumentException("Commission value cannot be less than 0");
-        this.commission = commission;
-    }
-
-    public double getCommissionAsset() {
-        return commissionAsset;
-    }
-
-    public void setCommissionAsset(double commissionAsset) {
-        if(commissionAsset < 0)
-            throw new IllegalArgumentException("Commission asset value cannot be less than 0");
-        this.commissionAsset = commissionAsset;
     }
 
     public long getId() {
@@ -89,26 +109,6 @@ public class MarginAccountTrade {
 
     public long getOrderId() {
         return orderId;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        if(price < 0)
-            throw new IllegalArgumentException("Price value cannot be less than 0");
-        this.price = price;
-    }
-
-    public double getQty() {
-        return qty;
-    }
-
-    public void setQty(double qty) {
-        if(qty < 0)
-            throw new IllegalArgumentException("Quantity value cannot be less than 0");
-        this.qty = qty;
     }
 
     public String getSymbol() {

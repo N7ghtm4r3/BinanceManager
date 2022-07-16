@@ -29,7 +29,7 @@ public class Order {
     public static final String STATUS_NEW = "NEW";
 
     /**
-     * {@code STATUS_PARTIALLY_FILLED} is constant for status partially filled status
+     * {@code STATUS_PARTIALLY_FILLED} is constant for status partially filled
      * **/
     public static final String STATUS_PARTIALLY_FILLED = "PARTIALLY_FILLED";
 

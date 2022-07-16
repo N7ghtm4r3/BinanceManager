@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
-public class CrossMarginAccountDetails {
+public class CrossMarginAccountDetails extends MarginAccount{
 
     /**
      * {@code borrowEnabled} is instance that memorizes if borrow is enable
@@ -24,21 +24,6 @@ public class CrossMarginAccountDetails {
      * {@code marginLevel} is instance that memorizes margin level
      * **/
     private double marginLevel;
-
-    /**
-     * {@code totalAssetOfBtc} is instance that memorizes total asset of Bitcoin
-     * **/
-    private double totalAssetOfBtc;
-
-    /**
-     * {@code totalLiabilityOfBtc} is instance that memorizes total liability of Bitcoin
-     * **/
-    private double totalLiabilityOfBtc;
-
-    /**
-     * {@code totalLiabilityOfBtc} is instance that memorizes total net asset of Bitcoin
-     * **/
-    private double totalNetAssetOfBtc;
 
     /**
      * {@code tradeEnabled} is instance that memorizes if trade is enable
@@ -64,15 +49,17 @@ public class CrossMarginAccountDetails {
      * @param tradeEnabled: trade is enable
      * @param transferEnabled: transfer is enable
      * @param jsonDetails: margin account details in JSON format
+     * @throws IllegalArgumentException if parameters range is not respected
      * **/
     public CrossMarginAccountDetails(boolean borrowEnabled, double marginLevel, double totalAssetOfBtc,
                                      double totalLiabilityOfBtc, double totalNetAssetOfBtc, boolean tradeEnabled,
                                      boolean transferEnabled, JSONArray jsonDetails) {
+        super(totalAssetOfBtc, totalLiabilityOfBtc, totalNetAssetOfBtc);
         this.borrowEnabled = borrowEnabled;
-        this.marginLevel = marginLevel;
-        this.totalAssetOfBtc = totalAssetOfBtc;
-        this.totalLiabilityOfBtc = totalLiabilityOfBtc;
-        this.totalNetAssetOfBtc = totalNetAssetOfBtc;
+        if(marginLevel < 0)
+            throw new IllegalArgumentException("Margin level value cannot be less than 0");
+        else
+            this.marginLevel = marginLevel;
         this.tradeEnabled = tradeEnabled;
         this.transferEnabled = transferEnabled;
         userAssetMargins = AccountSnapshotMargin.assembleUserMarginAssetsList(jsonDetails);
@@ -90,50 +77,18 @@ public class CrossMarginAccountDetails {
         return marginLevel;
     }
 
+    /** Method to set {@link #marginLevel}
+     * @param marginLevel: margin level
+     * @throws IllegalArgumentException when margin level value is less than 0
+     * **/
     public void setMarginLevel(double marginLevel) {
+        if(marginLevel < 0)
+            throw new IllegalArgumentException("Margin level value cannot be less than 0");
         this.marginLevel = marginLevel;
     }
 
     public double getTotalAssetOfBtc() {
         return totalAssetOfBtc;
-    }
-
-    /** Method to set {@link #totalAssetOfBtc}
-     * @param totalAssetOfBtc: total asset of Bitcoin
-     * @throws IllegalArgumentException when number value is less than 0
-     * **/
-    public void setTotalAssetOfBtc(double totalAssetOfBtc) {
-        if(totalAssetOfBtc < 0)
-            throw new IllegalArgumentException("Total asset of BTC value cannot be less than 0");
-        this.totalAssetOfBtc = totalAssetOfBtc;
-    }
-
-    public double getTotalLiabilityOfBtc() {
-        return totalLiabilityOfBtc;
-    }
-
-    /** Method to set {@link #totalLiabilityOfBtc}
-     * @param totalLiabilityOfBtc: total liability of Bitcoin
-     * @throws IllegalArgumentException when number value is less than 0
-     * **/
-    public void setTotalLiabilityOfBtc(double totalLiabilityOfBtc) {
-        if(totalLiabilityOfBtc < 0)
-            throw new IllegalArgumentException("Total liability asset of BTC value cannot be less than 0");
-        this.totalLiabilityOfBtc = totalLiabilityOfBtc;
-    }
-
-    public double getTotalNetAssetOfBtc() {
-        return totalNetAssetOfBtc;
-    }
-
-    /** Method to set {@link #totalNetAssetOfBtc}
-     * @param totalNetAssetOfBtc: total net asset of Bitcoin
-     * @throws IllegalArgumentException when number value is less than 0
-     * **/
-    public void setTotalNetAssetOfBtc(double totalNetAssetOfBtc) {
-        if(totalNetAssetOfBtc < 0)
-            throw new IllegalArgumentException("Total net asset of BTC value cannot be less than 0");
-        this.totalNetAssetOfBtc = totalNetAssetOfBtc;
     }
 
     public boolean isTradeEnabled() {

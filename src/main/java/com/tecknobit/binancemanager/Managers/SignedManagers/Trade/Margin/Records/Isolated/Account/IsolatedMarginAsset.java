@@ -7,29 +7,102 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Record
 
 public class IsolatedMarginAsset {
 
+    /**
+     * {@code asset} is instance that memorizes asset
+     * **/
     private final String asset;
+
+    /**
+     * {@code borrowEnabled} is instance if borrow is enabled for asset
+     * **/
     private boolean borrowEnabled;
+
+    /**
+     * {@code borrowed} is instance that memorizes amount of borrow from asset
+     * **/
     private double borrowed;
+
+    /**
+     * {@code free} is instance that memorizes free amount of asset
+     * **/
     private double free;
+
+    /**
+     * {@code interest} is instance that memorizes amount of interest in asset
+     * **/
     private double interest;
+
+    /**
+     * {@code locked} is instance that memorizes amount locked for asset
+     * **/
     private double locked;
+
+    /**
+     * {@code netAsset} is instance that memorizes net asset
+     * **/
     private double netAsset;
+
+    /**
+     * {@code netAssetOfBtc} is instance that memorizes net asset of Bitcoin
+     * **/
     private double netAssetOfBtc;
+
+    /**
+     * {@code repayEnabled} is instance if repay is enabled for asset
+     * **/
     private boolean repayEnabled;
+
+    /**
+     * {@code totalAsset} is instance that memorizes total asset amount
+     * **/
     private double totalAsset;
 
+    /** Constructor to init {@link IsolatedMarginAsset} object
+     * @param asset: asset
+     * @param borrowEnabled: borrow is enabled for asset
+     * @param borrowed: amount of borrow from asset
+     * @param free: free amount of asset
+     * @param interest: amount of interest in asset
+     * @param locked: amount locked for asset
+     * @param netAsset: net asset
+     * @param netAssetOfBtc: net asset of Bitcoin
+     * @param repayEnabled: repay is enabled for asset
+     * @param totalAsset: total asset amount
+     * @throws IllegalArgumentException if parameters range is not respected
+     * **/
     public IsolatedMarginAsset(String asset, boolean borrowEnabled, double borrowed, double free, double interest,
                                double locked, double netAsset, double netAssetOfBtc, boolean repayEnabled, double totalAsset) {
         this.asset = asset;
         this.borrowEnabled = borrowEnabled;
-        this.borrowed = borrowed;
-        this.free = free;
-        this.interest = interest;
-        this.locked = locked;
-        this.netAsset = netAsset;
-        this.netAssetOfBtc = netAssetOfBtc;
+        if(borrowed < 0)
+            throw new IllegalArgumentException("Borrowed value cannot be less than 0");
+        else
+            this.borrowed = borrowed;
+        if(free < 0)
+            throw new IllegalArgumentException("Free value cannot be less than 0");
+        else
+            this.free = free;
+        if(interest < 0)
+            throw new IllegalArgumentException("Interest value cannot be less than 0");
+        else
+            this.interest = interest;
+        if(locked < 0)
+            throw new IllegalArgumentException("Locked value cannot be less than 0");
+        else
+            this.locked = locked;
+        if(netAsset < 0)
+            throw new IllegalArgumentException("Net asset value cannot be less than 0");
+        else
+            this.netAsset = netAsset;
+        if(netAssetOfBtc < 0)
+            throw new IllegalArgumentException("Net asset of BTC value cannot be less than 0");
+        else
+            this.netAssetOfBtc = netAssetOfBtc;
         this.repayEnabled = repayEnabled;
-        this.totalAsset = totalAsset;
+        if(totalAsset < 0)
+            throw new IllegalArgumentException("Total asset value cannot be less than 0");
+        else
+            this.totalAsset = totalAsset;
     }
 
     public String getAsset() {
