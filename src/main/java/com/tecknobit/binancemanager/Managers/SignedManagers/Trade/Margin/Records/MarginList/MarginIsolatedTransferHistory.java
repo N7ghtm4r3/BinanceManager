@@ -25,7 +25,7 @@ public class MarginIsolatedTransferHistory {
     }
 
     /** Method to assemble a MarginIsolatedTransfer list
-     * @param #jsonArray: obtained from Binance's request
+     * @param jsonArray: obtained from Binance's request
      * any return
      * **/
     private void loadIsolatedTransfersList(JSONArray jsonArray) {

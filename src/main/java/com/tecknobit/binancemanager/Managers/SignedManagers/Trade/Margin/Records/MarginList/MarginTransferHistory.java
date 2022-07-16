@@ -25,7 +25,7 @@ public class MarginTransferHistory {
     }
 
     /** Method to load MarginTransferAssets list
-     * @param #jsonArray: obtained from Binance's request
+     * @param jsonArray: obtained from Binance's request
      * any return
      * **/
     private void loadMarginTransferAssets(JSONArray jsonArray) {

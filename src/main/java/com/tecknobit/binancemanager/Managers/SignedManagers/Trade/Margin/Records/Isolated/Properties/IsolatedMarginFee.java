@@ -26,7 +26,7 @@ public class IsolatedMarginFee {
     }
 
     /** Method to assemble a IsolatedData list
-     * @param #jsonArray: obtained from Binance's request
+     * @param jsonArray: obtained from Binance's request
      * any return
      * **/
     private void loadIsolatedData(JSONArray jsonArray) {

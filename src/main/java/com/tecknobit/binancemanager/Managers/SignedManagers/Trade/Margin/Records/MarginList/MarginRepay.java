@@ -23,7 +23,7 @@ public class MarginRepay {
     }
 
     /** Method to load RepayAssets list
-     * @param #jsonArray: obtained from Binance's request
+     * @param jsonArray: obtained from Binance's request
      * any return
      * **/
     private void loadMarginRepayAssets(JSONArray jsonArray) {

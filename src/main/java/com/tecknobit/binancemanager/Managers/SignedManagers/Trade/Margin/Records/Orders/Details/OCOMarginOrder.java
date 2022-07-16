@@ -34,7 +34,7 @@ public class OCOMarginOrder extends ComposedMarginOrderDetails {
     }
 
     /** Method to assemble a OCOMarginOrder
-     * @param #ocoOrder: obtained from Binance's request
+     * @param ocoOrder: obtained from Binance's request
      * retrun OCOMarginOrder object
      * **/
     public static OCOMarginOrder assembleOCOMarginOrder(JSONObject ocoOrder){

@@ -92,7 +92,7 @@ public class DetailSpotOrder extends SpotOrder {
     }
 
     /** Method to assemble a DetailSpotOrder object
-     * @param #response: obtained from Binance's request
+     * @param response: obtained from Binance's request
      * @return an DetailSpotOrder object with response data
      * **/
     public static DetailSpotOrder assembleDetailSpotOrderObject(JSONObject response){

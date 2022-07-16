@@ -25,7 +25,7 @@ public class MarginForceLiquidation {
     }
 
     /** Method to load ForceLiquidationAssets list
-     * @param #jsonArray: obtained from Binance's request
+     * @param jsonArray: obtained from Binance's request
      * any return
      * **/
     private void loadForceLiquidationAssets(JSONArray jsonArray) {

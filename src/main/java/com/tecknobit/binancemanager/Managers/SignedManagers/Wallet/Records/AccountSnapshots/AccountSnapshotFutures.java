@@ -44,7 +44,7 @@ public class AccountSnapshotFutures extends AccountSnapshot{
     }
 
     /** Method to assemble an AssetFutures list
-     * @param #assets: jsonArray obtain by AccountSnapshot Binance request
+     * @param assets: jsonArray obtain by AccountSnapshot Binance request
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * @return assetFuturesList list as ArrayList<AssetFutures>
      * **/
@@ -61,7 +61,7 @@ public class AccountSnapshotFutures extends AccountSnapshot{
     }
 
     /** Method to assemble an PositionFutures list
-     * @param #positions: jsonArray obtain by AccountSnapshot Binance request
+     * @param positions: jsonArray obtain by AccountSnapshot Binance request
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * @return positionFuturesList list as ArrayList<PositionFutures>
      * **/

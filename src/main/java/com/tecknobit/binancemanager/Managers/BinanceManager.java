@@ -1,6 +1,6 @@
 package com.tecknobit.binancemanager.Managers;
 
-import com.tecknobit.apimanager.Tools.Readers.JsonHelper;
+import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
 import com.tecknobit.apimanager.Tools.Trading.TradingTools;
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Helpers.RequestManager;
@@ -10,7 +10,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
+import static com.tecknobit.binancemanager.Constants.EndpointsList.SYSTEM_STATUS_ENDPOINT;
+import static com.tecknobit.binancemanager.Constants.EndpointsList.TIMESTAMP_ENDPOINT;
 import static com.tecknobit.binancemanager.Helpers.RequestManager.GET_METHOD;
 import static java.lang.System.currentTimeMillis;
 import static java.util.Arrays.asList;
@@ -34,7 +35,7 @@ public class BinanceManager {
     protected final TradingTools tradingTools;
 
     /** Constructor to init a Binance manager
-     * @param #baseEndpoint base endpoint to work on
+     * @param baseEndpoint base endpoint to work on
      * **/
     public BinanceManager(String baseEndpoint) throws SystemException, IOException {
         requestManager = new RequestManager();
@@ -56,7 +57,7 @@ public class BinanceManager {
     }
 
     /** Request to get system status
-     * @param #baseEndpoint endpoint to request status
+     * @param baseEndpoint endpoint to request status
      * **/
     public boolean isSystemAvailable(String baseEndpoint) throws IOException {
         requestManager.sendAPIRequest(baseEndpoint+ SYSTEM_STATUS_ENDPOINT,GET_METHOD);
@@ -87,10 +88,10 @@ public class BinanceManager {
     }
 
     /** Method to execute and get response of a request
-     * @param #endpoint: endpoint to request
-     * @param #params: params HTTP for the request
-     * @param #method: method HTTP for the request
-     * @param #apiKey: apiKey of the account to perform request
+     * @param endpoint: endpoint to request
+     * @param params: params HTTP for the request
+     * @param method: method HTTP for the request
+     * @param apiKey: apiKey of the account to perform request
      * @return response of request formatted in Json
      * **/
     public String getRequestResponse(String endpoint, String params, String method, String apiKey) throws IOException {
@@ -99,9 +100,9 @@ public class BinanceManager {
     }
 
     /** Method to execute and get response of a request
-     * @param #endpoint: endpoint to request
-     * @param #params: params HTTP for the request
-     * @param #method: method HTTP for the request
+     * @param endpoint: endpoint to request
+     * @param params: params HTTP for the request
+     * @param method: method HTTP for the request
      * @return response of request formatted in Json
      * **/
     public String getRequestResponse(String endpoint, String params, String method) throws IOException {
@@ -126,8 +127,8 @@ public class BinanceManager {
     }
 
     /** Method to round a value
-     * @param #value: value to round
-     * @param #decimalDigits: number of digits to round final value
+     * @param value: value to round
+     * @param decimalDigits: number of digits to round final value
      * @return value rounded with decimalDigits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
      * **/
@@ -136,8 +137,8 @@ public class BinanceManager {
     }
 
     /** Method to get percent between two values
-     * @param #startValue: first value to make compare
-     * @param #finalValue: last value to compare and get percent by first value
+     * @param startValue: first value to make compare
+     * @param finalValue: last value to compare and get percent by first value
      * @return percent value as double es. 8 or -8
      * @throws IllegalArgumentException if startValue or lastValue are negative
      * **/
@@ -146,9 +147,9 @@ public class BinanceManager {
     }
 
     /** Method to get percent between two values and round it
-     * @param #startValue: first value to make compare
-     * @param #finalValue: last value to compare and get percent by first value
-     * @param #decimalDigits: number of digits to round final percent value
+     * @param startValue: first value to make compare
+     * @param finalValue: last value to compare and get percent by first value
+     * @param decimalDigits: number of digits to round final percent value
      * @return percent value as double es. 8 or -8
      * @throws IllegalArgumentException if startValue or lastValue are negative
      * **/
@@ -157,7 +158,7 @@ public class BinanceManager {
     }
 
     /** Method to format percent between two values and textualize it
-     * @param #percent: value to format
+     * @param percent: value to format
      * @return percent value formatted es. +8% or -8% as {@link String}
      * **/
     public String getTextTrendPercent(double percent){
@@ -165,8 +166,8 @@ public class BinanceManager {
     }
 
     /** Method to get percent between two values and textualize it
-     * @param #startValue: first value to make compare
-     * @param #finalValue: last value to compare and get percent by first value
+     * @param startValue: first value to make compare
+     * @param finalValue: last value to compare and get percent by first value
      * @return percent value es. +8% or -8% as {@link String}
      * **/
     public String getTextTrendPercent(double startValue, double finalValue){
@@ -174,9 +175,9 @@ public class BinanceManager {
     }
 
     /** Method to get percent between two values and textualize it
-     * @param #startValue: first value to make compare
-     * @param #finalValue: last value to compare and get percent by first value
-     * @param #decimalDigits: number of digits to round final percent value
+     * @param startValue: first value to make compare
+     * @param finalValue: last value to compare and get percent by first value
+     * @param decimalDigits: number of digits to round final percent value
      * @return percent value es. +8% or -8% as {@link String}
      * **/
     public String getTextTrendPercent(double startValue, double finalValue, int decimalDigits){

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class RequestManager extends APIRequest {
 
     /** Method to get formatted symbols string for the HTTP request
-     * @param #symbols: symbols to concatenate
+     * @param symbols: symbols to concatenate
      * @return formatted symbols string for the HTTP request
      * **/
     public String assembleSymbolsParams(ArrayList<String> symbols){

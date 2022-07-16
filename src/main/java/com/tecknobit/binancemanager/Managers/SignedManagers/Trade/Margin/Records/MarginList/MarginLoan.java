@@ -23,7 +23,7 @@ public class MarginLoan {
     }
 
     /** Method to load LoanAssets list
-     * @param #jsonArray: obtained from Binance's request
+     * @param jsonArray: obtained from Binance's request
      * any return
      * **/
     private void loadMarginLoanAssets(JSONArray jsonArray) {

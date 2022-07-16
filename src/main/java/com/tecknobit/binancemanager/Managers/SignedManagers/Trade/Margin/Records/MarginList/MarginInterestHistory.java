@@ -27,7 +27,7 @@ public class MarginInterestHistory {
     }
 
     /** Method to load InterestAssets list
-     * @param #jsonArray: obtained from Binance's request
+     * @param jsonArray: obtained from Binance's request
      * any return
      * **/
     private void loadMarginInterestAssets(JSONArray jsonArray) {

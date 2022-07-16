@@ -52,7 +52,7 @@ public class AccountSnapshotMargin extends AccountSnapshot{
     }
 
     /** Method to assemble an UserAssetMargin list
-     * @param #jsonArray: jsonArray obtain by AccountSnapshot Binance request
+     * @param jsonArray: jsonArray obtain by AccountSnapshot Binance request
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * @return userAssetMargin list as ArrayList<UserAssetMargin>
      * **/

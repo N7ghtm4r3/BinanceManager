@@ -98,7 +98,7 @@ public class DetailMarginOrder extends Order {
     }
 
     /** Method to assemble a DetailMarginOrder
-     * @param #cancelMarginOrder: obtained from Binance's request
+     * @param cancelMarginOrder: obtained from Binance's request
      * retrun DetailMarginOrder object
      * **/
     public static DetailMarginOrder assembleDetailMarginOrderObject(JSONObject cancelMarginOrder){

@@ -24,7 +24,7 @@ public class FullMarginOrder extends ResultMarginOrder{
     }
 
     /** Method to load FillMargins list
-     * @param #jsonArray: obtained from Binance's request
+     * @param jsonArray: obtained from Binance's request
      * any return
      * **/
     private void loadFillMargins(JSONArray jsonArray) {

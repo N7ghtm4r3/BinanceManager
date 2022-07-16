@@ -47,17 +47,17 @@ public class BinanceMarginManager extends BinanceSignedManager {
     public static final int CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT = 2;
 
     /** Constructor to init BinanceMarginManager
-     * @param #baseEndpoint base endpoint to work on
-     * @param #apiKey your api key
-     * @param #secretKey your secret key
+     * @param baseEndpoint base endpoint to work on
+     * @param apiKey your api key
+     * @param secretKey your secret key
      * **/
     public BinanceMarginManager(String baseEndpoint, String apiKey, String secretKey) throws SystemException, IOException {
         super(baseEndpoint, apiKey, secretKey);
     }
 
     /** Constructor to init BinanceMarginManager
-     * @param #apiKey your api key
-     * @param #secretKey your secret key
+     * @param apiKey your api key
+     * @param secretKey your secret key
      * automatically set a working endpoint
      * **/
     public BinanceMarginManager(String apiKey, String secretKey) throws SystemException, IOException {
@@ -65,9 +65,9 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to execute a transfer
-     * @param #asset: asset used in the request es. BTC
-     * @param #amount: the amount to be transferred
-     * @param #type: {@link #MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT} or {@link #CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT}
+     * @param asset: asset used in the request es. BTC
+     * @param amount: the amount to be transferred
+     * @param type: {@link MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT} or {@link CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT}
      * it defines type of transfer
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-margin-account-transfer-margin">https://binance-docs.github.io/apidocs/spot/en/#cross-margin-account-transfer-margin</a>
      * @return result transfer as String
@@ -78,9 +78,9 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to execute a transfer
-     * @param #asset: asset used in the request es. BTC
-     * @param #amount: the amount to be transferred
-     * @param #type: {@link #MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT} or {@link #CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT}
+     * @param asset: asset used in the request es. BTC
+     * @param amount: the amount to be transferred
+     * @param type: {@link MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT} or {@link CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT}
      * it defines type of transfer
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-margin-account-transfer-margin">https://binance-docs.github.io/apidocs/spot/en/#cross-margin-account-transfer-margin</a>
      * @return result transfer as JsonObject
@@ -90,9 +90,9 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to execute a transfer
-     * @param #asset: asset used in the request es. BTC
-     * @param #amount: the amount to be transferred
-     * @param #type: {@link #MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT} or {@link #CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT}
+     * @param asset: asset used in the request es. BTC
+     * @param amount: the amount to be transferred
+     * @param type: {@link MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT} or {@link CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT}
      * it defines type of transfer
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-margin-account-transfer-margin">https://binance-docs.github.io/apidocs/spot/en/#cross-margin-account-transfer-margin</a>
      * @return result transfer's tranId as long
@@ -102,11 +102,11 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to execute a transfer
-     * @param #asset: asset used in the request es. BTC
-     * @param #amount: the amount to be transferred
-     * @param #type: {@link #MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT} or {@link #CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT}
+     * @param asset: asset used in the request es. BTC
+     * @param amount: the amount to be transferred
+     * @param type: {@link MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT} or {@link CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT}
      * it defines type of transfer
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @param recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-margin-account-transfer-margin">https://binance-docs.github.io/apidocs/spot/en/#cross-margin-account-transfer-margin</a>
      * @return result transfer as String
      * **/
@@ -116,11 +116,11 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to execute a transfer
-     * @param #asset: asset used in the request es. BTC
-     * @param #amount: the amount to be transferred
-     * @param #type: {@link #MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT} or {@link #CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT}
+     * @param asset: asset used in the request es. BTC
+     * @param amount: the amount to be transferred
+     * @param type: {@link MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT} or {@link CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT}
      * it defines type of transfer
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @param recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-margin-account-transfer-margin">https://binance-docs.github.io/apidocs/spot/en/#cross-margin-account-transfer-margin</a>
      * @return result transfer as JsonObject
      * **/
@@ -129,11 +129,11 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to execute a transfer
-     * @param #asset: asset used in the request es. BTC
-     * @param #amount: the amount to be transferred
-     * @param #type: {@link #MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT} or {@link #CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT}
+     * @param asset: asset used in the request es. BTC
+     * @param amount: the amount to be transferred
+     * @param type: {@link MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT} or {@link CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT}
      * it defines type of transfer
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @param recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-margin-account-transfer-margin">https://binance-docs.github.io/apidocs/spot/en/#cross-margin-account-transfer-margin</a>
      * @return result transfer's tranId as long
      * **/
@@ -142,8 +142,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to execute a margin account borrow
-     * @param #asset: asset used in the request es. BTC
-     * @param #amount: the amount borrowed
+     * @param asset: asset used in the request es. BTC
+     * @param amount: the amount borrowed
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin">https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin</a>
      * @return result of margin account borrow request as String
      * **/
@@ -153,8 +153,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to execute a margin account borrow
-     * @param #asset: asset used in the request es. BTC
-     * @param #amount: the amount borrowed
+     * @param asset: asset used in the request es. BTC
+     * @param amount: the amount borrowed
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin">https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin</a>
      * @return result of account borrow request as JsonObject
      * **/
@@ -163,8 +163,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to execute a margin account borrow
-     * @param #asset: asset used in the request es. BTC
-     * @param #amount: the amount borrowed
+     * @param asset: asset used in the request es. BTC
+     * @param amount: the amount borrowed
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin">https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin</a>
      * @return result account borrow's tranId as long
      * **/
@@ -173,9 +173,9 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to execute a margin account borrow
-     * @param #asset: asset used in the request es. BTC
-     * @param #amount: the amount borrowed
-     * @param #extraParams: extra params of the request
+     * @param asset: asset used in the request es. BTC
+     * @param amount: the amount borrowed
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isIsolated,symbol,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin">https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin</a>
      * @return result of margin account borrow request as String
@@ -187,9 +187,9 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to execute a margin account borrow
-     * @param #asset: asset used in the request es. BTC
-     * @param #amount: the amount borrowed
-     * @param #extraParams: extra params of the request
+     * @param asset: asset used in the request es. BTC
+     * @param amount: the amount borrowed
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isIsolated,symbol,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin">https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin</a>
      * @return result of margin account borrow request as JsonObject
@@ -199,9 +199,9 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to execute a margin account borrow
-     * @param #asset: asset used in the request es. BTC
-     * @param #amount: the amount borrowed
-     * @param #extraParams: extra params of the request
+     * @param asset: asset used in the request es. BTC
+     * @param amount: the amount borrowed
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isIsolated,symbol,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin">https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin</a>
      * @return result account borrow's tranId as long
@@ -211,8 +211,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to execute an repay margin account request
-     * @param #asset: asset used in the request es. BTC
-     * @param #amount: the amount repaied
+     * @param asset: asset used in the request es. BTC
+     * @param amount: the amount repaied
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin">https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin</a>
      * @return result of repay margin account request as String
      * **/
@@ -222,8 +222,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to execute an repay margin account request
-     * @param #asset: asset used in the request es. BTC
-     * @param #amount: the amount repaied
+     * @param asset: asset used in the request es. BTC
+     * @param amount: the amount repaied
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin">https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin</a>
      * @return result of repay margin account request as JsonObject
      * **/
@@ -232,8 +232,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to execute an repay margin account request
-     * @param #asset: asset used in the request es. BTC
-     * @param #amount: the amount repaied
+     * @param asset: asset used in the request es. BTC
+     * @param amount: the amount repaied
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin">https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin</a>
      * @return result margin repay's tranId as long
      * **/
@@ -242,9 +242,9 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to execute an repay margin account request
-     * @param #asset: asset used in the request es. BTC
-     * @param #amount: the amount repaied
-     * @param #extraParams: extra params of the request
+     * @param asset: asset used in the request es. BTC
+     * @param amount: the amount repaied
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isIsolated,symbol,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin">https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin</a>
      * @return result of repay margin account request as String
@@ -256,9 +256,9 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to execute an repay margin account request
-     * @param #asset: asset used in the request es. BTC
-     * @param #amount: the amount repaied
-     * @param #extraParams: extra params of the request
+     * @param asset: asset used in the request es. BTC
+     * @param amount: the amount repaied
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isIsolated,symbol,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin">https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin</a>
      * @return result of repay margin account request as JsonObject
@@ -268,9 +268,9 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to execute an repay margin account request
-     * @param #asset: asset used in the request es. BTC
-     * @param #amount: the amount repaied
-     * @param #extraParams: extra params of the request
+     * @param asset: asset used in the request es. BTC
+     * @param amount: the amount repaied
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isIsolated,symbol,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin">https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin</a>
      * @return result margin repay's tranId as long
@@ -280,7 +280,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Method to get tranId value
-     * @param #stringSource: obtained from Binance's request
+     * @param stringSource: obtained from Binance's request
      * @return tranId value as long
      * **/
     private long getTransactionId(String stringSource){
@@ -289,7 +289,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get margin asset details
-     * @param #asset: asset used in the request es. BTC
+     * @param asset: asset used in the request es. BTC
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-asset-market_data">https://binance-docs.github.io/apidocs/spot/en/#query-margin-asset-market_data</a>
      * @return detail's asset as String
      * **/
@@ -299,7 +299,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get margin asset details
-     * @param #asset: asset used in the request es. BTC
+     * @param asset: asset used in the request es. BTC
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-asset-market_data">https://binance-docs.github.io/apidocs/spot/en/#query-margin-asset-market_data</a>
      * @return detail's asset as JsonObject
      * **/
@@ -308,7 +308,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get margin asset details
-     * @param #asset: asset used in the request es. BTC
+     * @param asset: asset used in the request es. BTC
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-asset-market_data">https://binance-docs.github.io/apidocs/spot/en/#query-margin-asset-market_data</a>
      * @return detail's asset as {@link MarginAsset} object
      * **/
@@ -348,7 +348,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Method to assemble an MarginAsset object
-     * @param #jsonObject: obtained from Binance's request
+     * @param jsonObject: obtained from Binance's request
      * @return a MarginAsset object
      * **/
     private MarginAsset assembleMarginAssetObject(JSONObject jsonObject){
@@ -362,7 +362,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cross margin pair details
-     * @param #asset: asset used in the request es. BTC
+     * @param asset: asset used in the request es. BTC
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-pair-market_data">https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-pair-market_data</a>
      * @return cross margin pair as String
      * **/
@@ -372,7 +372,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cross margin pair details
-     * @param #asset: asset used in the request es. BTC
+     * @param asset: asset used in the request es. BTC
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-pair-market_data">https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-pair-market_data</a>
      * @return cross margin pair as JsonObject
      * **/
@@ -381,7 +381,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cross margin pair details
-     * @param #asset: asset used in the request es. BTC
+     * @param asset: asset used in the request es. BTC
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-pair-market_data">https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-pair-market_data</a>
      * @return cross margin pair as {@link MarginPair} object
      * **/
@@ -421,7 +421,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Method to assemble an MarginPair object
-     * @param #jsonObject: obtained from Binance's request
+     * @param jsonObject: obtained from Binance's request
      * @return a MarginPair object
      * **/
     private MarginPair assembleMarginPairObject(JSONObject jsonObject){
@@ -436,7 +436,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get priceIndex of a symbol
-     * @param #symbol: symbol used to get price index
+     * @param symbol: symbol used to get price index
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-priceindex-market_data">https://binance-docs.github.io/apidocs/spot/en/#query-margin-priceindex-market_data</a>
      * @return priceIndex of a symbol as String
      * **/
@@ -445,7 +445,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get priceIndex of a symbol
-     * @param #symbol: symbol used to get price index
+     * @param symbol: symbol used to get price index
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-priceindex-market_data">https://binance-docs.github.io/apidocs/spot/en/#query-margin-priceindex-market_data</a>
      * @return priceIndex of a symbol as JsonObject
      * **/
@@ -454,7 +454,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get priceIndex of a symbol
-     * @param #symbol: symbol used to get price index
+     * @param symbol: symbol used to get price index
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-priceindex-market_data">https://binance-docs.github.io/apidocs/spot/en/#query-margin-priceindex-market_data</a>
      * @return priceIndex of a symbol as {@link MarginPriceIndex} object
      * **/
@@ -467,10 +467,10 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to send a new margin order
-     * @param #symbol: symbol used to the order es. BTCBUSD
-     * @param #side: BUY or SELL order
-     * @param #type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
-     * @param #extraParams: extraParams of the request
+     * @param symbol: symbol used to the order es. BTCBUSD
+     * @param side: BUY or SELL order
+     * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
+     * @param extraParams: extraParams of the request
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,sideEffectType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
@@ -483,10 +483,10 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to send a new margin order
-     * @param #symbol: symbol used to the order es. BTCBUSD
-     * @param #side: BUY or SELL order
-     * @param #type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
-     * @param #extraParams: extraParams of the request
+     * @param symbol: symbol used to the order es. BTCBUSD
+     * @param side: BUY or SELL order
+     * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
+     * @param extraParams: extraParams of the request
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,sideEffectType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
@@ -497,10 +497,10 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to send a spot order
-     * @param #symbol: symbol used in the request es. BTCBUSD
-     * @param #side: BUY or SELL order
-     * @param #type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
-     * @param #extraParams: extraParams of the request
+     * @param symbol: symbol used in the request es. BTCBUSD
+     * @param side: BUY or SELL order
+     * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
+     * @param extraParams: extraParams of the request
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
@@ -518,11 +518,11 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to send a new margin order
-     * @param #symbol: symbol used to the order es. BTCBUSD
-     * @param #side: BUY or SELL order
-     * @param #type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
-     * @param #newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param #extraParams: extraParams of the request
+     * @param symbol: symbol used to the order es. BTCBUSD
+     * @param side: BUY or SELL order
+     * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
+     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param extraParams: extraParams of the request
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,sideEffectType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
@@ -536,11 +536,11 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to send a new margin order
-     * @param #symbol: symbol used to the order es. BTCBUSD
-     * @param #side: BUY or SELL order
-     * @param #type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
-     * @param #newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param #extraParams: extraParams of the request
+     * @param symbol: symbol used to the order es. BTCBUSD
+     * @param side: BUY or SELL order
+     * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
+     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param extraParams: extraParams of the request
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,sideEffectType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
@@ -552,11 +552,11 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to send a new margin order
-     * @param #symbol: symbol used to the order es. BTCBUSD
-     * @param #side: BUY or SELL order
-     * @param #type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
-     * @param #newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param #extraParams: extraParams of the request
+     * @param symbol: symbol used to the order es. BTCBUSD
+     * @param side: BUY or SELL order
+     * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
+     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param extraParams: extraParams of the request
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,sideEffectType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
@@ -592,7 +592,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Method to assemble an ACKMarginOrder object
-     * @param #response: obtained from Binance's request
+     * @param response: obtained from Binance's request
      * @return an ACKMarginOrder object with response data
      * **/
     private ACKMarginOrder getACKResponse(JSONObject response){
@@ -605,7 +605,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Method to assemble an FullMarginOrder object
-     * @param #response: obtained from Binance's request
+     * @param response: obtained from Binance's request
      * @return a FullMarginOrder object with response data
      * **/
     private FullMarginOrder getFullOrderResponse(JSONObject response){
@@ -628,7 +628,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cancel a margin order
-     * @param #symbol: symbol used in the order es. BTCBUSD
+     * @param symbol: symbol used in the order es. BTCBUSD
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
      * @return cancel a margin order response as String
      * **/
@@ -638,7 +638,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cancel a margin order
-     * @param #symbol: symbol used in the order es. BTCBUSD
+     * @param symbol: symbol used in the order es. BTCBUSD
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
      * @return cancel a margin order response as JsonObject
      * **/
@@ -647,7 +647,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cancel a margin order
-     * @param #symbol: symbol used in the order es. BTCBUSD
+     * @param symbol: symbol used in the order es. BTCBUSD
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
      * @return cancel a margin order response as {@link DetailMarginOrder} object
      * **/
@@ -656,8 +656,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cancel a margin order
-     * @param #symbol: symbol used in the order es. BTCBUSD
-     * @param #extraParams: extra params of the request
+     * @param symbol: symbol used in the order es. BTCBUSD
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isIsolated,orderId,origClientOrderId,newClientOrderId,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
      * @return cancel a margin order response as String
@@ -669,8 +669,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cancel a margin order
-     * @param #symbol: symbol used in the order es. BTCBUSD
-     * @param #extraParams: extra params of the request
+     * @param symbol: symbol used in the order es. BTCBUSD
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isIsolated,orderId,origClientOrderId,newClientOrderId,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
      * @return cancel a margin order response as JsonObject
@@ -680,8 +680,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cancel a margin order
-     * @param #symbol: symbol used in the order es. BTCBUSD
-     * @param #extraParams: extra params of the request
+     * @param symbol: symbol used in the order es. BTCBUSD
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isIsolated,orderId,origClientOrderId,newClientOrderId,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
      * @return cancel a margin order response as {@link DetailMarginOrder} object
@@ -691,7 +691,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cancel all a margin orders
-     * @param #symbol: symbol used in the orders es. BTCBUSD
+     * @param symbol: symbol used in the orders es. BTCBUSD
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
      * @return cancel all margin order response as String
      * **/
@@ -701,7 +701,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cancel all a margin orders
-     * @param #symbol: symbol used in the orders es. BTCBUSD
+     * @param symbol: symbol used in the orders es. BTCBUSD
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
      * @return cancel all margin order response as JsonArray
      * **/
@@ -710,7 +710,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cancel all a margin orders
-     * @param #symbol: symbol used in the orders es. BTCBUSD
+     * @param symbol: symbol used in the orders es. BTCBUSD
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
      * @return cancel all margin order response as {@link OpenMarginOrders} object
      * **/
@@ -719,8 +719,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cancel all a margin orders
-     * @param #symbol: symbol used in the orders es. BTCBUSD
-     * @param #extraParams: extra params of the request
+     * @param symbol: symbol used in the orders es. BTCBUSD
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isIsolated,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
      * @return cancel all margin order response as String
@@ -732,8 +732,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cancel all a margin orders
-     * @param #symbol: symbol used in the orders es. BTCBUSD
-     * @param #extraParams: extra params of the request
+     * @param symbol: symbol used in the orders es. BTCBUSD
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isIsolated,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
      * @return cancel all margin order response as JsonObject
@@ -743,8 +743,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cancel all a margin orders
-     * @param #symbol: symbol used in the orders es. BTCBUSD
-     * @param #extraParams: extra params of the request
+     * @param symbol: symbol used in the orders es. BTCBUSD
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isIsolated,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
      * @return cancel all margin order response as ArrayList<{@link OpenMarginOrders}>
@@ -754,7 +754,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Method to assemble an {@link OpenMarginOrders} object
-     * @param #jsonArray: obtained from Binance's request
+     * @param jsonArray: obtained from Binance's request
      * @return a {@link OpenMarginOrders} list as ArrayList
      * **/
     private OpenMarginOrders assembleOpenMarginOrdersObject(JSONArray jsonArray){
@@ -798,7 +798,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cross margin transfer history
-     * @param #extraParams: extra params of the request
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are asset,type,startTime,endTime,current,size,archived,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as String
@@ -809,7 +809,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cross margin transfer history
-     * @param #extraParams: extra params of the request
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are asset,type,startTime,endTime,current,size,archived,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as JsonObject
@@ -819,7 +819,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cross margin transfer history
-     * @param #extraParams: extra params of the request
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are asset,type,startTime,endTime,current,size,archived,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as {@link MarginTransferHistory} object
@@ -829,7 +829,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cross margin transfer history
-     * @param #asset: asset used to request es BTC
+     * @param asset: asset used to request es BTC
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as String
      * **/
@@ -839,7 +839,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cross margin transfer history
-     * @param #asset: asset used to request es BTC
+     * @param asset: asset used to request es BTC
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as JsonObject
      * **/
@@ -848,7 +848,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cross margin transfer history
-     * @param #asset: asset used to request es BTC
+     * @param asset: asset used to request es BTC
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as {@link MarginTransferHistory} object
      * **/
@@ -857,8 +857,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cross margin transfer history
-     * @param #asset: asset used to request es BTC
-     * @param #extraParams: extra params of the request
+     * @param asset: asset used to request es BTC
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are asset,type,startTime,endTime,current,size,archived,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as String
@@ -870,8 +870,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cross margin transfer history
-     * @param #asset: asset used to request es BTC
-     * @param #extraParams: extra params of the request
+     * @param asset: asset used to request es BTC
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are asset,type,startTime,endTime,current,size,archived,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as JsonObject
@@ -881,8 +881,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cross margin transfer history
-     * @param #asset: asset used to request es BTC
-     * @param #extraParams: extra params of the request
+     * @param asset: asset used to request es BTC
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are asset,type,startTime,endTime,current,size,archived,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as {@link MarginTransferHistory} object
@@ -893,7 +893,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get query loan record
-     * @param #asset: asset used to request es BTC
+     * @param asset: asset used to request es BTC
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
      * @return query loan record as String
      * **/
@@ -903,7 +903,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get query loan record
-     * @param #asset: asset used to request es BTC
+     * @param asset: asset used to request es BTC
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
      * @return query loan record as JsonObject
      * **/
@@ -912,7 +912,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get query loan record
-     * @param #asset: asset used to request es BTC
+     * @param asset: asset used to request es BTC
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
      * @return query loan record as {@link MarginLoan} object
      * **/
@@ -921,8 +921,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get query loan record
-     * @param #asset: asset used to request es BTC
-     * @param #extraParams: extra params of the request
+     * @param asset: asset used to request es BTC
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
      * @return query loan record as String
@@ -934,8 +934,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get query loan record
-     * @param #asset: asset used to request es BTC
-     * @param #extraParams: extra params of the request
+     * @param asset: asset used to request es BTC
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
      * @return query loan record as JsonObject
@@ -945,8 +945,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get query loan record
-     * @param #asset: asset used to request es BTC
-     * @param #extraParams: extra params of the request
+     * @param asset: asset used to request es BTC
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
      * @return query loan record as {@link MarginLoan} object
@@ -956,7 +956,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get query repay record
-     * @param #asset: asset used to request es BTC
+     * @param asset: asset used to request es BTC
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
      * @return query repay record as String
      * **/
@@ -966,7 +966,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get query repay record
-     * @param #asset: asset used to request es BTC
+     * @param asset: asset used to request es BTC
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
      * @return query repay record as JsonObject
      * **/
@@ -975,7 +975,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get query repay record
-     * @param #asset: asset used to request es BTC
+     * @param asset: asset used to request es BTC
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
      * @return query repay record as {@link MarginRepay} object
      * **/
@@ -984,8 +984,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get query repay record
-     * @param #asset: asset used to request es BTC
-     * @param #extraParams: extra params of the request
+     * @param asset: asset used to request es BTC
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
      * @return query repay record as String
@@ -997,8 +997,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get query repay record
-     * @param #asset: asset used to request es BTC
-     * @param #extraParams: extra params of the request
+     * @param asset: asset used to request es BTC
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
      * @return query repay record as JsonObject
@@ -1008,8 +1008,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get query repay record
-     * @param #asset: asset used to request es BTC
-     * @param #extraParams: extra params of the request
+     * @param asset: asset used to request es BTC
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
      * @return query repay record as {@link MarginRepay} object
@@ -1046,7 +1046,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get interest history
-     * @param #extraParams: extra params of the request
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are asset,isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as String
@@ -1057,7 +1057,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get interest history
-     * @param #extraParams: extra params of the request
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are asset,isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as JsonObject
@@ -1067,7 +1067,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get interest history
-     * @param #extraParams: extra params of the request
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are asset,isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as {@link MarginInterestHistory} object
@@ -1077,7 +1077,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get interest history
-     * @param #asset: asset used to request es BTC
+     * @param asset: asset used to request es BTC
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as String
      * **/
@@ -1087,7 +1087,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get interest history
-     * @param #asset: asset used to request es BTC
+     * @param asset: asset used to request es BTC
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as JsonObject
      * **/
@@ -1096,7 +1096,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get interest history
-     * @param #asset: asset used to request es BTC
+     * @param asset: asset used to request es BTC
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as {@link MarginInterestHistory} object
      * **/
@@ -1105,8 +1105,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get interest history
-     * @param #asset: asset used to request es BTC
-     * @param #extraParams: extra params of the request
+     * @param asset: asset used to request es BTC
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are asset,isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as String
@@ -1118,8 +1118,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get interest history
-     * @param #asset: asset used to request es BTC
-     * @param #extraParams: extra params of the request
+     * @param asset: asset used to request es BTC
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are asset,isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as String
@@ -1129,8 +1129,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get interest history
-     * @param #asset: asset used to request es BTC
-     * @param #extraParams: extra params of the request
+     * @param asset: asset used to request es BTC
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are asset,isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as {@link MarginInterestHistory} object
@@ -1168,7 +1168,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get margin force liquidation
-     * @param #extraParams: extra params of the request
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isolatedSymbol,startTime,endTime,current,size,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
      * @return margin force liquidation response as String
@@ -1179,7 +1179,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get margin force liquidation
-     * @param #extraParams: extra params of the request
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isolatedSymbol,startTime,endTime,current,size,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
      * @return margin force liquidation response as JsonObject
@@ -1189,7 +1189,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get margin force liquidation
-     * @param #extraParams: extra params of the request
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isolatedSymbol,startTime,endTime,current,size,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
      * @return margin force liquidation response as {@link MarginForceLiquidation} object
@@ -1226,7 +1226,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cross margin account details
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @param recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
      * @return cross margin account details response as String
      * **/
@@ -1236,7 +1236,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cross margin account details
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @param recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
      * @return cross margin account details response as JSONObject
      * **/
@@ -1245,7 +1245,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get cross margin account details
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @param recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
      * @return cross margin account details response as {@link CrossMarginAccountDetails} object
      * **/
@@ -1254,7 +1254,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Method to assemble a CrossMarginAccountDetails object
-     * @param #jsonObject: obtained from Binance's request
+     * @param jsonObject: obtained from Binance's request
      * @return a CrossMarginAccountDetails object
      * **/
     private CrossMarginAccountDetails assembleCrossMarginAccountDetails(JSONObject jsonObject){
@@ -1270,7 +1270,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get margin status order
-     * @param #symbol: used in the order es. BTCBUSD
+     * @param symbol: used in the order es. BTCBUSD
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data</a>
      * @return margin status order response as String
      * **/
@@ -1280,7 +1280,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get margin status order
-     * @param #symbol: used in the order es. BTCBUSD
+     * @param symbol: used in the order es. BTCBUSD
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data</a>
      * @return margin status order response as JSONObject
      * **/
@@ -1289,7 +1289,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get margin status order
-     * @param #symbol: used in the order es. BTCBUSD
+     * @param symbol: used in the order es. BTCBUSD
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data</a>
      * @return margin status order response as {@link MarginOrderStatus} object
      * **/
@@ -1298,8 +1298,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get margin status order
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #extraParams: extra params of the request
+     * @param symbol: used in the order es. BTCBUSD
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isIsolated,orderId,origClientOrderId,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data</a>
      * @return margin status order response as String
@@ -1311,8 +1311,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get margin status order
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #extraParams: extra params of the request
+     * @param symbol: used in the order es. BTCBUSD
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isIsolated,orderId,origClientOrderId,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data</a>
      * @return margin status order response as JSONObject
@@ -1322,8 +1322,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Request to get margin status order
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #extraParams: extra params of the request
+     * @param symbol: used in the order es. BTCBUSD
+     * @param extraParams: extra params of the request
      * @implSpec (keys accepted are isIsolated,orderId,origClientOrderId,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data</a>
      * @return margin status order response as {@link MarginOrderStatus} object

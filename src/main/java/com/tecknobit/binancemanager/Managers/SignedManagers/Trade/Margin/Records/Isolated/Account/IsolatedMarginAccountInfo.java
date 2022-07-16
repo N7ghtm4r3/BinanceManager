@@ -49,7 +49,7 @@ public class IsolatedMarginAccountInfo {
     }
 
     /** Method to assemble a IsolatedMarginAsset object
-     * @param #asset: obtained from Binance's request
+     * @param asset: obtained from Binance's request
      * @return {@link IsolatedMarginAsset} assembled
      * **/
     private IsolatedMarginAsset loadIsolatedMarginAsset(JSONObject asset) {
@@ -67,7 +67,7 @@ public class IsolatedMarginAccountInfo {
     }
 
     /** Method to assemble a IsolatedMarginAccountInfo list
-     * @param #jsonArray: obtained from Binance's request
+     * @param jsonArray: obtained from Binance's request
      * @return a list as ArrayList<IsolatedMarginAccountInfo>
      * **/
     public static ArrayList<IsolatedMarginAccountInfo> assembleIsolatedMarginAccountInfoList(JSONArray jsonArray){

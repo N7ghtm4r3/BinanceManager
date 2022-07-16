@@ -35,7 +35,7 @@ public class OrderDetails {
     }
 
     /** Method to load OrderValues list
-     * @param #list: obtained from Binance's request
+     * @param list: obtained from Binance's request
      * load list with response data as ArrayList<OrderValues>
      * **/
     private void loadOrderDetails(JSONArray list){

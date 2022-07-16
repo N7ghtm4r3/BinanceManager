@@ -7,8 +7,14 @@ package com.tecknobit.binancemanager.Managers.Market.Records.Tickers;
 
 public class Ticker {
 
-    private final String symbol;
+    /**
+     * {@code symbol} is instance that contains symbol of the ticker
+     * **/
+    protected final String symbol;
 
+    /** Constructor to init {@link Ticker} object
+     * @param symbol: symbol of the ticker
+     * **/
     public Ticker(String symbol) {
         this.symbol = symbol;
     }
