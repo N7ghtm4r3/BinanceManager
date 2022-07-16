@@ -45,12 +45,12 @@ public class IsolatedMarginAccountInfo {
     private final String symbol;
 
     /**
-     * {@code isolatedCreated} is instance that if isolated has been created
+     * {@code isolatedCreated} is instance that memorizes if isolated has been created
      * **/
     private boolean isolatedCreated;
 
     /**
-     * {@code enabled} is instance that if order has been enabled
+     * {@code enabled} is instance that memorizes f order has been enabled
      * **/
     private boolean enabled;
 
@@ -245,7 +245,7 @@ public class IsolatedMarginAccountInfo {
 
     /** Method to check {@link #marginLevelStatus} validity
      * @param marginLevelStatus: margin status level
-     * @throws IllegalArgumentException when margin level status is not valid
+     * @return validity of margin level status as boolean
      * **/
     private boolean marginLevelStatusIsValid(String marginLevelStatus){
         return marginLevelStatus.equals(MARGIN_LEVEL_STATUS_EXCESSIVE) ||

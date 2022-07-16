@@ -121,6 +121,10 @@ public class IsolatedMarginAsset {
         return borrowed;
     }
 
+    /** Method to set {@link #borrowed}
+     * @param borrowed: amount of borrow from asset
+     * @throws IllegalArgumentException when borrowed is less than 0
+     * **/
     public void setBorrowed(double borrowed) {
         if(borrowed < 0)
             throw new IllegalArgumentException("Borrowed value cannot be less than 0");
@@ -131,6 +135,10 @@ public class IsolatedMarginAsset {
         return free;
     }
 
+    /** Method to set {@link #free}
+     * @param free: free amount of asset
+     * @throws IllegalArgumentException when free value is less than 0
+     * **/
     public void setFree(double free) {
         if(free < 0)
             throw new IllegalArgumentException("Free value cannot be less than 0");
@@ -141,6 +149,10 @@ public class IsolatedMarginAsset {
         return interest;
     }
 
+    /** Method to set {@link #interest}
+     * @param interest: amount of interest in asset
+     * @throws IllegalArgumentException when interest value is less than 0
+     * **/
     public void setInterest(double interest) {
         if(interest < 0)
             throw new IllegalArgumentException("Interest value cannot be less than 0");
@@ -151,6 +163,10 @@ public class IsolatedMarginAsset {
         return locked;
     }
 
+    /** Method to set {@link #locked}
+     * @param locked: amount locked for asset
+     * @throws IllegalArgumentException when amount locked value is less than 0
+     * **/
     public void setLocked(double locked) {
         if(locked < 0)
             throw new IllegalArgumentException("Locked value cannot be less than 0");
@@ -161,6 +177,10 @@ public class IsolatedMarginAsset {
         return netAsset;
     }
 
+    /** Method to set {@link #netAsset}
+     * @param netAsset: net asset
+     * @throws IllegalArgumentException when net asset value is less than 0
+     * **/
     public void setNetAsset(double netAsset) {
         if(netAsset < 0)
             throw new IllegalArgumentException("Net asset value cannot be less than 0");
@@ -171,6 +191,10 @@ public class IsolatedMarginAsset {
         return netAssetOfBtc;
     }
 
+    /** Method to set {@link #netAssetOfBtc}
+     * @param netAssetOfBtc: net asset of Bitcoin
+     * @throws IllegalArgumentException when net asset of Bitcoin value is less than 0
+     * **/
     public void setNetAssetOfBtc(double netAssetOfBtc) {
         if(netAssetOfBtc < 0)
             throw new IllegalArgumentException("Net asset of BTC value cannot be less than 0");
@@ -189,6 +213,10 @@ public class IsolatedMarginAsset {
         return totalAsset;
     }
 
+    /** Method to set {@link #totalAsset}
+     * @param totalAsset: total asset amount
+     * @throws IllegalArgumentException when total asset amount value is less than 0
+     * **/
     public void setTotalAsset(double totalAsset) {
         if(totalAsset < 0)
             throw new IllegalArgumentException("Total asset value cannot be less than 0");

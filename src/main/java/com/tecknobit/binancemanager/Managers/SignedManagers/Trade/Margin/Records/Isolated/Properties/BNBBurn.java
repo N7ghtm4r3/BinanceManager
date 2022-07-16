@@ -9,9 +9,20 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Record
 
 public class BNBBurn {
 
+    /**
+     * {@code spotBNBBurn} is instance that memorizes if is BNB spot burn
+     * **/
     private boolean spotBNBBurn;
+
+    /**
+     * {@code interestBNBBurn} is instance that memorizes is BNB interest burn
+     * **/
     private boolean interestBNBBurn;
 
+    /** Constructor to init {@link BNBBurn} object
+     * @param spotBNBBurn: is BNB spot burn
+     * @param interestBNBBurn: is BNB interest burn
+     * **/
     public BNBBurn(boolean spotBNBBurn, boolean interestBNBBurn) {
         this.spotBNBBurn = spotBNBBurn;
         this.interestBNBBurn = interestBNBBurn;
