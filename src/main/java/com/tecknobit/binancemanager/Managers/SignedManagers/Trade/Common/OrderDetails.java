@@ -13,17 +13,58 @@ import java.util.ArrayList;
 
 public class OrderDetails {
 
-    private final long orderListId;
-    private final String contingencyType;
-    private final String listStatusType;
-    private final String listOrderStatus;
-    private final String listClientOrderId;
-    private final long transactionTime;
-    private final String symbol;
-    private ArrayList<OrderValues> orderValues;
+    /**
+     * {@code orderListId} is instance that memorizes list order identifier
+     * **/
+    protected final long orderListId;
 
-    public OrderDetails(long orderListId, String contingencyType, String listStatusType,String listOrderStatus,
-                        String listClientOrderId, long transactionTime, String symbol, JSONObject jsonObject) {
+    /**
+     * {@code contingencyType} is instance that memorizes contingency type of the order
+     * **/
+    protected final String contingencyType;
+
+    /**
+     * {@code listStatusType} is instance that memorizes list status type of the order
+     * **/
+    protected final String listStatusType;
+
+    /**
+     * {@code listOrderStatus} is instance that memorizes list order status
+     * **/
+    protected final String listOrderStatus;
+
+    /**
+     * {@code listClientOrderId} is instance that list client order id
+     * **/
+    protected final String listClientOrderId;
+
+    /**
+     * {@code transactionTime} is instance that memorizes transaction time of the order
+     * **/
+    protected final long transactionTime;
+
+    /**
+     * {@code symbol} is instance that memorizes symbol used in the order
+     * **/
+    protected final String symbol;
+
+    /**
+     * {@code orderValues} is instance that memorizes order values
+     * **/
+    protected ArrayList<OrderValues> orderValues;
+
+    /** Constructor to init {@link OrderDetails} object
+     * @param orderListId: list order identifier
+     * @param contingencyType: contingency type of the order
+     * @param listStatusType: list status type of the order
+     * @param listOrderStatus: list order status
+     * @param listClientOrderId: list client order id
+     * @param transactionTime: transaction time of the order
+     * @param symbol: symbol used in the order
+     * @param jsonOrder: order details in JSON format
+     * **/
+    public OrderDetails(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
+                        String listClientOrderId, long transactionTime, String symbol, JSONObject jsonOrder) {
         this.orderListId = orderListId;
         this.contingencyType = contingencyType;
         this.listStatusType = listStatusType;
@@ -31,7 +72,7 @@ public class OrderDetails {
         this.listClientOrderId = listClientOrderId;
         this.transactionTime = transactionTime;
         this.symbol = symbol;
-        loadOrderDetails(jsonObject.getJSONArray("orders"));
+        loadOrderDetails(jsonOrder.getJSONArray("orders"));
     }
 
     /** Method to load OrderValues list
@@ -87,15 +128,32 @@ public class OrderDetails {
 
     /**
      * The {@code OrderValues} class is useful to obtain and format OrderValues object
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade">https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade</a>
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade">
+     *     https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade</a>
      * **/
 
     public static class OrderValues {
 
+        /**
+         * {@code symbol} is instance that memorizes symbol used in the order
+         * **/
         private final String symbol;
+
+        /**
+         * {@code orderId} is instance that memorizes order identifier
+         * **/
         private final long orderId;
+
+        /**
+         * {@code orderId} is instance that memorizes client order identifier
+         * **/
         private final String clientOrderId;
 
+        /** Constructor to init {@link OrderValues} object
+         * @param symbol: symbol used in the order
+         * @param orderId: order identifier
+         * @param clientOrderId: client order identifier
+         * **/
         public OrderValues(String symbol, long orderId, String clientOrderId) {
             this.symbol = symbol;
             this.orderId = orderId;

@@ -788,7 +788,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @return asset detail as String
      * **/
     public String getAssetDetail() throws Exception {
-        return sendSignedRequest(ASSET_DETAIL_ENPOINT,getParamTimestamp(),GET_METHOD);
+        return sendSignedRequest(ASSET_DETAIL_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
     /** Request to get asset detail
@@ -828,7 +828,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * **/
     public String getAssetDetail(String asset) throws Exception {
         String params = getParamTimestamp()+"&asset="+asset;
-        return sendSignedRequest(ASSET_DETAIL_ENPOINT,params,GET_METHOD);
+        return sendSignedRequest(ASSET_DETAIL_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get asset detail
@@ -874,7 +874,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @return asset trade fee as String
      * **/
     public String getTradeFee() throws Exception {
-        return sendSignedRequest(TRADE_FEE_ENPOINT,getParamTimestamp(),GET_METHOD);
+        return sendSignedRequest(TRADE_FEE_ENDPOINT,getParamTimestamp(),GET_METHOD);
     }
 
     /** Request to get asset trade fee
@@ -911,7 +911,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * **/
     public String getTradeFee(String symbol) throws Exception {
         String params = getParamTimestamp()+"&symbol="+symbol;
-        return sendSignedRequest(TRADE_FEE_ENPOINT,params,GET_METHOD);
+        return sendSignedRequest(TRADE_FEE_ENDPOINT,params,GET_METHOD);
     }
 
     /** Request to get asset trade fee

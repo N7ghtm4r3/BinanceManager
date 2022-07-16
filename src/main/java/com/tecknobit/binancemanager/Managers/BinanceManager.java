@@ -8,30 +8,56 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import static com.tecknobit.binancemanager.Constants.EndpointsList.SYSTEM_STATUS_ENDPOINT;
 import static com.tecknobit.binancemanager.Constants.EndpointsList.TIMESTAMP_ENDPOINT;
 import static com.tecknobit.binancemanager.Helpers.RequestManager.GET_METHOD;
 import static java.lang.System.currentTimeMillis;
-import static java.util.Arrays.asList;
 
 /**
  *  The {@code BinanceManager} class is useful to manage all Binance Endpoints
  *  giving basics methods for others Binance managers and basics endpoints for API request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
+ *      https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class BinanceManager {
 
-    public static final ArrayList<String> BASE_ENDPOINTS = new ArrayList<>(asList("https://api.binance.com",
-            "https://api1.binance.com","https://api2.binance.com","https://api3.binance.com"));
+    /**
+     * {@code BASE_ENDPOINTS} is a list constant that contains list of Binance's main endpoints
+     * **/
+    public static final String[] BASE_ENDPOINTS = new String[]{"https://api.binance.com", "https://api1.binance.com",
+            "https://api2.binance.com", "https://api3.binance.com"};
+
+    /**
+     * {@code requestManager} is instance that contains list of Binance's main endpoints
+     * **/
     protected RequestManager requestManager;
+
+    /**
+     * {@code jsonObject} is instance that help to format api response when they are {@link JSONObject}
+     * **/
     protected JSONObject jsonObject;
+
+    /**
+     * {@code jsonArray} is instance that help to format api response when they are {@link JSONArray}
+     * **/
     protected JSONArray jsonArray;
+
+    /**
+     * {@code jsonHelper} is instance that help to format api response when they are JSON format type
+     * **/
     protected JsonHelper jsonHelper;
+
+    /**
+     * {@code baseEndpoint} is instance that  memorizes main endpoint where {@link BinanceManager}'s managers work on
+     * **/
     protected final String baseEndpoint;
+
+    /**
+     * {@code tradingTools} is instance that  memorizes {@link TradingTools} object
+     * **/
     protected final TradingTools tradingTools;
 
     /** Constructor to init a Binance manager
@@ -61,7 +87,7 @@ public class BinanceManager {
      * **/
     public boolean isSystemAvailable(String baseEndpoint) throws IOException {
         requestManager.sendAPIRequest(baseEndpoint+ SYSTEM_STATUS_ENDPOINT,GET_METHOD);
-        jsonObject = (JSONObject) requestManager.getJSONResponse();
+        jsonObject = requestManager.getJSONResponse();
         return jsonObject.getInt("status") == 0;
     }
 
@@ -72,7 +98,7 @@ public class BinanceManager {
     public long getTimestamp(){
         try {
             requestManager.sendAPIRequest(baseEndpoint+TIMESTAMP_ENDPOINT,GET_METHOD);
-            jsonObject = (JSONObject) requestManager.getJSONResponse();
+            jsonObject = requestManager.getJSONResponse();
             return jsonObject.getLong("serverTime");
         } catch (Exception e) {
             return currentTimeMillis();

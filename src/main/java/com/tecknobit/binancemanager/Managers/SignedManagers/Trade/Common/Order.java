@@ -8,24 +8,91 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common;
 
 public class Order {
 
-    /**Statuses for an order**/
+    /**
+     * {@code STATUS_CONFIRMED} is constant for confirmed status
+     * **/
     public static final String STATUS_CONFIRMED = "CONFIRMED";
-    public static final String STATUS_PENDING = "PENDING";
-    public static final String STATUS_FAILED = "FAILED";
-    public static final String STATUS_NEW = "NEW";
-    public static final String STATUS_PARTIALLY_FILLED = "PARTIALLY_FILLED";
-    public static final String STATUS_FILLED = "FILLED";
-    public static final String STATUS_CANCELED = "CANCELED";
-    public static final String STATUS_PENDING_CANCELED = "PENDING_CANCELED";
-    public static final String STATUS_REJECTED = "REJECTED";
-    public static final String STATUS_EXPIRED = "EXPIRED";
-    public static final String STATUS_EXECUTING = "EXECUTING";
-    public static final String STATUS_ALL_DONE = "ALL_DONE";
-    public static final String STATUS_REJECT = "REJECT";
-    private final String symbol;
-    private final double orderId;
-    private final String clientOrderId;
 
+    /**
+     * {@code STATUS_PENDING} is constant for pending status
+     * **/
+    public static final String STATUS_PENDING = "PENDING";
+
+    /**
+     * {@code STATUS_FAILED} is constant for failed status
+     * **/
+    public static final String STATUS_FAILED = "FAILED";
+
+    /**
+     * {@code STATUS_NEW} is constant for new status
+     * **/
+    public static final String STATUS_NEW = "NEW";
+
+    /**
+     * {@code STATUS_PARTIALLY_FILLED} is constant for status partially filled status
+     * **/
+    public static final String STATUS_PARTIALLY_FILLED = "PARTIALLY_FILLED";
+
+    /**
+     * {@code STATUS_FILLED} is constant for filled status
+     * **/
+    public static final String STATUS_FILLED = "FILLED";
+
+    /**
+     * {@code STATUS_CANCELED} is constant for canceled status
+     * **/
+    public static final String STATUS_CANCELED = "CANCELED";
+
+    /**
+     * {@code STATUS_PENDING_CANCELED} is constant for pending canceled status
+     * **/
+    public static final String STATUS_PENDING_CANCELED = "PENDING_CANCELED";
+
+    /**
+     * {@code STATUS_REJECTED} is constant for rejected status
+     * **/
+    public static final String STATUS_REJECTED = "REJECTED";
+
+    /**
+     * {@code STATUS_EXPIRED} is constant for expired status
+     * **/
+    public static final String STATUS_EXPIRED = "EXPIRED";
+
+    /**
+     * {@code STATUS_EXECUTING} is constant for executing status
+     * **/
+    public static final String STATUS_EXECUTING = "EXECUTING";
+
+    /**
+     * {@code STATUS_ALL_DONE} is constant for all done status
+     * **/
+    public static final String STATUS_ALL_DONE = "ALL_DONE";
+
+    /**
+     * {@code REJECT} is constant for reject status
+     * **/
+    public static final String STATUS_REJECT = "REJECT";
+
+    /**
+     * {@code symbol} is instance that memorizes symbol used in the order
+     * **/
+    protected final String symbol;
+
+    /**
+     * {@code orderId} is instance that memorizes order identifier
+     * **/
+    protected final double orderId;
+
+    /**
+     * {@code clientOrderId} is instance that memorizes client order identifier
+     * **/
+    protected final String clientOrderId;
+
+    /** Constructor to init {@link Order} object
+     * @param symbol: symbol used in the order
+     * @param orderId: order identifier
+     * @param clientOrderId: client order identifier
+     * **/
     public Order(String symbol, double orderId, String clientOrderId) {
         this.symbol = symbol;
         this.orderId = orderId;

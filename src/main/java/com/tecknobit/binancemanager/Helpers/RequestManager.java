@@ -5,7 +5,8 @@ import com.tecknobit.apimanager.Manager.APIRequest;
 import java.util.ArrayList;
 
 /**
- *  The {@code RequestManager} class is useful to manage all request to fecth data from Binance API
+ *  The {@code RequestManager} class is useful to manage all request to fetch data from Binance API
+ *  @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class RequestManager extends APIRequest {
