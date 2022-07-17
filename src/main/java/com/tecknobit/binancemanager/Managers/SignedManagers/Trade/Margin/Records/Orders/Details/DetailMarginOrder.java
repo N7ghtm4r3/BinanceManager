@@ -1,32 +1,92 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details;
 
-import com.tecknobit.apimanager.Tools.Readers.JsonHelper;
+import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.Order;
 import org.json.JSONObject;
 
 /**
  *  The {@code DetailMarginOrder} class is useful to format Binance Margin Cancel Order request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
+ *      https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class DetailMarginOrder extends Order {
 
+    /**
+     * {@code isIsolated} is instance that memorizes if is isolated
+     * **/
     private final boolean isIsolated;
+
+    /**
+     * {@code origClientOrderId} is instance that memorizes origin client order id
+     * **/
     private final String origClientOrderId;
+
+    /**
+     * {@code price} is instance that memorizes price in the order
+     * **/
     private final double price;
+
+    /**
+     * {@code origQty} is instance that memorizes origin quantity in the order
+     * **/
     private final double origQty;
+
+    /**
+     * {@code executedQty} is instance that memorizes executed quantity in the order
+     * **/
     private final double executedQty;
+
+    /**
+     * {@code cummulativeQuoteQty} is instance that memorizes cummulative quote quantity in the order
+     * **/
     private final double cummulativeQuoteQty;
+
+    /**
+     * {@code status} is instance that memorizes status of the order
+     * **/
     private final String status;
+
+    /**
+     * {@code timeInForce} is instance that memorizes time in force of the order
+     * **/
     private final String timeInForce;
+
+    /**
+     * {@code type} is instance that memorizes type of the order
+     * **/
     private final String type;
+
+    /**
+     * {@code side} is instance that memorizes side of the order
+     * **/
     private final String side;
+
+    /**
+     * {@code jsonHelper} is instance that memorizes {@link JsonHelper} tool
+     * **/
     private final JsonHelper jsonHelper;
 
-    public DetailMarginOrder(String symbol, double orderId, String clientOrderId, boolean isIsolated, String origClientOrderId, double price,
-                             double origQty, double executedQty, double cummulativeQuoteQty, String status, String timeInForce,
-                             String type, String side, JSONObject jsonObject) {
+    /** Constructor to init {@link DetailMarginOrder} object
+     * @param symbol: symbol used in the order
+     * @param orderId: order identifier
+     * @param clientOrderId: client order identifier
+     * @param isIsolated: is isolated
+     * @param origClientOrderId: origin client order id
+     * @param price: price in the order
+     * @param origQty: origin quantity in the order
+     * @param executedQty: executed quantity in the order
+     * @param cummulativeQuoteQty: cummulative quote quantity in the order
+     * @param status: status of the order
+     * @param timeInForce: time in force of the order
+     * @param type: type of the order
+     * @param side: side of the order
+     * @param jsonOrder: order details in JSON format
+     * **/
+    public DetailMarginOrder(String symbol, double orderId, String clientOrderId, boolean isIsolated, String origClientOrderId,
+                             double price, double origQty, double executedQty, double cummulativeQuoteQty, String status,
+                             String timeInForce, String type, String side, JSONObject jsonOrder) {
         super(symbol, orderId, clientOrderId);
         this.isIsolated = isIsolated;
         this.origClientOrderId = origClientOrderId;
@@ -38,7 +98,7 @@ public class DetailMarginOrder extends Order {
         this.timeInForce = timeInForce;
         this.type = type;
         this.side = side;
-        jsonHelper = new JsonHelper(jsonObject);
+        jsonHelper = new JsonHelper(jsonOrder);
     }
 
     public boolean isIsolated() {

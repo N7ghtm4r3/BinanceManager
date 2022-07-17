@@ -4,15 +4,27 @@ import java.util.ArrayList;
 
 /**
  *  The {@code OpenMarginOrders} class is useful to asseble Binance Margin Account Cancel all Open Orders on a Symbol request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">
+ *      https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class OpenMarginOrders {
 
+    /**
+     * {@code detailMarginOrdersList} is instance that memorizes details margin orders data list
+     * **/
     private ArrayList<DetailMarginOrder> detailMarginOrdersList;
+
+    /**
+     * {@code composedMarginOrderDetailsList} is instance that memorizes composed margin orders data list
+     * **/
     private ArrayList<ComposedMarginOrderDetails> composedMarginOrderDetailsList;
 
+    /** Constructor to init {@link OpenMarginOrders} object
+     * @param detailMarginOrders: margin orders data list
+     * @param composedMarginOrderDetails: composed margin orders data list
+     * **/
     public OpenMarginOrders(ArrayList<DetailMarginOrder> detailMarginOrders,
                             ArrayList<ComposedMarginOrderDetails> composedMarginOrderDetails) {
         this.detailMarginOrdersList = detailMarginOrders;

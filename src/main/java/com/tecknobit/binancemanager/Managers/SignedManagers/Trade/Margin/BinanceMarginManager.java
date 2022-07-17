@@ -380,7 +380,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return marginAssets;
     }
 
-    /** Method to assemble an MarginAsset object
+    /** Method to assemble a {@link MarginAsset} object
      * @param jsonMarginAsset: obtained from Binance's request
      * @return a MarginAsset object
      * **/
