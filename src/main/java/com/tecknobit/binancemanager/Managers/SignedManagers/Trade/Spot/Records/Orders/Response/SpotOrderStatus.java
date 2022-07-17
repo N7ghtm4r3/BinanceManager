@@ -1,81 +1,65 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response;
 
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.SpotOrder;
-
 /**
  *  The {@code SpotOrderStatus} class is useful to format an SpotOrderStatus object
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data</a>
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data">
+ *      https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
-public class SpotOrderStatus extends SpotOrder {
+public class SpotOrderStatus extends ResultSpotOrder {
 
-    private final double price;
-    private final double origQty;
-    private final double executedQty;
-    private final double cummulativeQuoteQty;
-    private final String status;
-    private final String timeInForce;
-    private final String type;
-    private final String side;
+    /**
+     * {@code stopPrice} is instance that memorizes stop price value
+     * **/
     private final double stopPrice;
+
+    /**
+     * {@code icebergQty} is instance that memorizes iceberg quantity value
+     * **/
     private final double icebergQty;
+
+    /**
+     * {@code time} is instance that memorizes time value
+     * **/
     private final long time;
-    private final long updateTime;
+
+    /**
+     * {@code isWorking} is instance that memorizes if is working
+     * **/
     private final boolean isWorking;
+
+    /**
+     * {@code origQuoteOrderQty} is instance that memorizes origin quote quantity value
+     * **/
     private final double origQuoteOrderQty;
 
+    /** Constructor to init {@link SpotOrderStatus} object
+     * @param symbol: symbol used in the order
+     * @param orderId: order identifier
+     * @param clientOrderId: client order identifier
+     * @param orderListId: list order identifier
+     * @param updateTime: update time
+     * @param price: price in order
+     * @param origQty: origin quantity in order
+     * @param executedQty: executed quantity in order
+     * @param cummulativeQuoteQty: cummulative quote quantity
+     * @param status: status of the order
+     * @param timeInForce: time in force of the order
+     * @param type: type of the order
+     * @param side: side of the order
+     * **/
     public SpotOrderStatus(String symbol, long orderId, long orderListId, String clientOrderId, double price, double origQty,
                            double executedQty, double cummulativeQuoteQty, String status, String timeInForce, String type,
                            String side, double stopPrice, double icebergQty, long time, long updateTime, boolean isWorking,
                            double origQuoteOrderQty) {
-        super(symbol, orderId, orderListId, clientOrderId);
-        this.price = price;
-        this.origQty = origQty;
-        this.executedQty = executedQty;
-        this.cummulativeQuoteQty = cummulativeQuoteQty;
-        this.status = status;
-        this.timeInForce = timeInForce;
-        this.type = type;
-        this.side = side;
+        super(symbol, orderId, orderListId, clientOrderId, updateTime, price, origQty, executedQty, cummulativeQuoteQty,
+                status, timeInForce, type, side);
         this.stopPrice = stopPrice;
         this.icebergQty = icebergQty;
         this.time = time;
-        this.updateTime = updateTime;
         this.isWorking = isWorking;
         this.origQuoteOrderQty = origQuoteOrderQty;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public double getOrigQty() {
-        return origQty;
-    }
-
-    public double getExecutedQty() {
-        return executedQty;
-    }
-
-    public double getCummulativeQuoteQty() {
-        return cummulativeQuoteQty;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getTimeInForce() {
-        return timeInForce;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getSide() {
-        return side;
     }
 
     public double getStopPrice() {
@@ -91,7 +75,7 @@ public class SpotOrderStatus extends SpotOrder {
     }
 
     public long getUpdateTime() {
-        return updateTime;
+        return transactTime;
     }
 
     public boolean isWorking() {

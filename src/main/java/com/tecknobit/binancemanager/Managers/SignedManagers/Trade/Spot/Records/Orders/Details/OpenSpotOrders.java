@@ -1,18 +1,32 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Details;
 
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.OpenMarginOrders;
+
 import java.util.ArrayList;
 
 /**
  * The {@code OpenSpotOrders} class is useful to format a OpenSpotOrders object
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade">https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade</a>
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade">
+ *     https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class OpenSpotOrders {
 
+    /**
+     * {@code detailSpotOrdersList} is instance that memorizes spot orders data list
+     * **/
     private ArrayList<DetailSpotOrder> detailSpotOrdersList;
+
+    /**
+     * {@code composedSpotOrderDetailsList} is instance that memorizes composed spot orders data list
+     * **/
     private ArrayList<ComposedSpotOrderDetails> composedSpotOrderDetailsList;
 
+    /** Constructor to init {@link OpenMarginOrders} object
+     * @param singleOrders: spot orders data list
+     * @param cancelOrderComposeds: composed spot orders data list
+     * **/
     public OpenSpotOrders(ArrayList<DetailSpotOrder> singleOrders, ArrayList<ComposedSpotOrderDetails> cancelOrderComposeds) {
         this.detailSpotOrdersList = singleOrders;
         this.composedSpotOrderDetailsList = cancelOrderComposeds;

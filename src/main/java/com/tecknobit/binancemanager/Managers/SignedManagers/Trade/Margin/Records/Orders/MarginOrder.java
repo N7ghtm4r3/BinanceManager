@@ -4,13 +4,23 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.Order;
 
 /**
  * The {@code MarginOrder} class is useful to format all MarginOrders of BinanceMarginManager
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade</a>
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade">
+ *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade</a>
  * **/
 
 public class MarginOrder extends Order {
 
-    private final long transactTime;
+    /**
+     * {@code transactTime} is instance that memorizes transaction time
+     * **/
+    protected final long transactTime;
 
+    /** Constructor to init {@link MarginOrder} object
+     * @param symbol: symbol used in the order
+     * @param orderId: order identifier
+     * @param clientOrderId: client order identifier
+     * @param transactTime: transaction time
+     * **/
     public MarginOrder(String symbol, double orderId, String clientOrderId, long transactTime) {
         super(symbol, orderId, clientOrderId);
         this.transactTime = transactTime;

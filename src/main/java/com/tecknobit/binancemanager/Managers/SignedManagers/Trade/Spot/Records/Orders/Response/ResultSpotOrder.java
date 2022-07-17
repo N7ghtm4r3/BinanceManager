@@ -2,21 +2,68 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.
 
 /**
  *  The {@code FullOrder} class is useful to format all SpotOrder Binance request in ResultOrder format
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
+ *      https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class ResultSpotOrder extends ACKSpotOrder {
 
-    private final double price;
-    private final double origQty;
-    private final double executedQty;
-    private final double cummulativeQuoteQty;
-    private final String status;
-    private final String timeInForce;
-    private final String type;
-    private final String side;
+    /**
+     * {@code price} is instance that memorizes price in the order
+     * **/
+    protected final double price;
 
+    /**
+     * {@code origQty} is instance that memorizes origin quantity in the order
+     * **/
+    protected final double origQty;
+
+    /**
+     * {@code executedQty} is instance that memorizes executed quantity in the order
+     * **/
+    protected final double executedQty;
+
+    /**
+     * {@code cummulativeQuoteQty} is instance that memorizes cummulative quantity in the order
+     * **/
+    protected final double cummulativeQuoteQty;
+
+    /**
+     * {@code status} is instance that memorizes status of the order
+     * **/
+    protected final String status;
+
+    /**
+     * {@code timeInForce} is instance that memorizes time in force of the order
+     * **/
+    protected final String timeInForce;
+
+    /**
+     * {@code type} is instance that memorizes type of the order
+     * **/
+    protected final String type;
+
+    /**
+     * {@code side} is instance that memorizes side of the order
+     * **/
+    protected final String side;
+
+    /** Constructor to init {@link ResultSpotOrder} object
+     * @param symbol: symbol used in the order
+     * @param orderId: order identifier
+     * @param clientOrderId: client order identifier
+     * @param orderListId: list order identifier
+     * @param transactTime: transaction time
+     * @param price: price in order
+     * @param origQty: origin quantity in order
+     * @param executedQty: executed quantity in order
+     * @param cummulativeQuoteQty: cummulative quote quantity
+     * @param status: status of the order
+     * @param timeInForce: time in force of the order
+     * @param type: type of the order
+     * @param side: side of the order
+     * **/
     public ResultSpotOrder(String symbol, long orderId, long orderListId, String clientOrderId,
                            long transactTime, double price, double origQty, double executedQty, double cummulativeQuoteQty,
                            String status, String timeInForce, String type, String side) {

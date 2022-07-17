@@ -2,20 +2,67 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Record
 
 /**
  * The {@code ResultMarginOrder} class is useful to format ResultMarginOrder object of Binance's request Margin Account New Order
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+ *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
  * **/
 
 public class ResultMarginOrder extends ACKMarginOrder{
 
-    private final double price;
-    private final double origQty;
-    private final double executedQty;
-    private final double cummulativeQuoteQty;
-    private final String status;
-    private final String timeInForce;
-    private final String type;
-    private final String side;
+    /**
+     * {@code price} is instance that memorizes price in order
+     * **/
+    protected final double price;
 
+    /**
+     * {@code origQty} is instance that memorizes origin quantity in order
+     * **/
+    protected final double origQty;
+
+    /**
+     * {@code executedQty} is instance that memorizes executed quantity in order
+     * **/
+    protected final double executedQty;
+
+    /**
+     * {@code cummulativeQuoteQty} is instance that memorizes cummulative quote quantity in order
+     * **/
+    protected final double cummulativeQuoteQty;
+
+    /**
+     * {@code status} is instance that memorizes status of the order
+     * **/
+    protected final String status;
+
+    /**
+     * {@code timeInForce} is instance that memorizes time in force of the order
+     * **/
+    protected final String timeInForce;
+
+    /**
+     * {@code type} is instance that memorizes type of the order
+     * **/
+    protected final String type;
+
+    /**
+     * {@code type} is instance that memorizes side of the order
+     * **/
+    protected final String side;
+
+    /** Constructor to init {@link ResultMarginOrder} object
+     * @param symbol: symbol used in the order
+     * @param orderId: order identifier
+     * @param clientOrderId: client order identifier
+     * @param transactTime: transaction time
+     * @param isIsolated: is isolated
+     * @param price: price in order
+     * @param origQty: origin quantity in order
+     * @param executedQty: executed quantity in order
+     * @param cummulativeQuoteQty: cummulative quote quantity
+     * @param status: status of the order
+     * @param timeInForce: time in force of the order
+     * @param type: type of the order
+     * @param side: side of the order
+     * **/
     public ResultMarginOrder(String symbol, double orderId, String clientOrderId, long transactTime, boolean isIsolated,
                              double price, double origQty, double executedQty, double cummulativeQuoteQty, String status,
                              String timeInForce, String type, String side) {
