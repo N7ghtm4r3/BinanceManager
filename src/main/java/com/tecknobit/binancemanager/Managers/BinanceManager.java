@@ -86,7 +86,7 @@ public class BinanceManager {
      * @param baseEndpoint endpoint to request status
      * **/
     public boolean isSystemAvailable(String baseEndpoint) throws IOException {
-        requestManager.sendAPIRequest(baseEndpoint+ SYSTEM_STATUS_ENDPOINT,GET_METHOD);
+        requestManager.sendAPIRequest(baseEndpoint + SYSTEM_STATUS_ENDPOINT, GET_METHOD);
         jsonObject = requestManager.getJSONResponse();
         return jsonObject.getInt("status") == 0;
     }
@@ -97,7 +97,7 @@ public class BinanceManager {
      * **/
     public long getTimestamp(){
         try {
-            requestManager.sendAPIRequest(baseEndpoint+TIMESTAMP_ENDPOINT,GET_METHOD);
+            requestManager.sendAPIRequest(baseEndpoint + TIMESTAMP_ENDPOINT, GET_METHOD);
             jsonObject = requestManager.getJSONResponse();
             return jsonObject.getLong("serverTime");
         } catch (Exception e) {
@@ -110,7 +110,7 @@ public class BinanceManager {
      * @return "?timestamp=" + getTimestamp() return value
      * **/
     public String getParamTimestamp(){
-        return "?timestamp="+getTimestamp();
+        return "?timestamp=" + getTimestamp();
     }
 
     /** Method to execute and get response of a request
@@ -121,7 +121,7 @@ public class BinanceManager {
      * @return response of request formatted in Json
      * **/
     public String getRequestResponse(String endpoint, String params, String method, String apiKey) throws IOException {
-        requestManager.sendAPIRequest(baseEndpoint+endpoint+params,method,"X-MBX-APIKEY",apiKey);
+        requestManager.sendAPIRequest(baseEndpoint + endpoint + params, method, "X-MBX-APIKEY", apiKey);
         return requestManager.getResponse();
     }
 
@@ -132,7 +132,7 @@ public class BinanceManager {
      * @return response of request formatted in Json
      * **/
     public String getRequestResponse(String endpoint, String params, String method) throws IOException {
-        requestManager.sendAPIRequest(baseEndpoint+endpoint+params,method);
+        requestManager.sendAPIRequest(baseEndpoint + endpoint + params, method);
         return requestManager.getResponse();
     }
 

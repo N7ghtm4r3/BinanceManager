@@ -553,7 +553,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @implNote if type LIMIT or MARKET will be must cast in {@link FullMarginOrder} object
      * @implNote with other types will be an {@link ACKMarginOrder} object
      * **/
-    // TODO: 16/07/2022 CHECK T
+    // TODO: 17/07/2022 CHECK T PARAMETER
     public ACKMarginOrder sendObjectNewMarginOrder(String symbol, String side, String type,
                                                    HashMap<String, Object> extraParams) throws Exception {
         jsonObject = new JSONObject(sendJSONNewMarginOrder(symbol, side, type, extraParams));

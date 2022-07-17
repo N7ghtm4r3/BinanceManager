@@ -5,25 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="24c31f43-703f-43c2-b6a1-81b04a165e9d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Common/Fill.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Common/Fill.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/Records/Orders/MarginOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/Records/Orders/MarginOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/Records/Orders/Response/ACKMarginOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/Records/Orders/Response/ACKMarginOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/Records/Orders/Response/FullMarginOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/Records/Orders/Response/FullMarginOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/Records/Orders/Response/MarginOrderStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/Records/Orders/Response/MarginOrderStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/Records/Orders/Response/ResultMarginOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/Records/Orders/Response/ResultMarginOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/BinanceSpotManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/BinanceSpotManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Account/OrderCountUsage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Account/OrderCountUsage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Account/SpotAccountInformation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Account/SpotAccountInformation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Account/SpotAccountTradeList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Account/SpotAccountTradeList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Orders/Details/ComposedSpotOrderDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Orders/Details/ComposedSpotOrderDetails.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Orders/Details/DetailSpotOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Orders/Details/DetailSpotOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Orders/Details/OpenSpotOrders.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Orders/Details/OpenSpotOrders.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Orders/Response/ACKSpotOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Orders/Response/ACKSpotOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Orders/Response/FullSpotOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Orders/Response/FullSpotOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Orders/Response/ResultSpotOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Orders/Response/ResultSpotOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Orders/Response/SpotOrderStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Orders/Response/SpotOrderStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Orders/SpotOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Spot/Records/Orders/SpotOrder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/BinanceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/BinanceManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/BinanceSignedManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/BinanceSignedManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/BinanceMarginManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/BinanceMarginManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Wallet/BinanceWalletManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Wallet/BinanceWalletManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,13 +108,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1644858734218</updated>
-    </task>
-    <task id="LOCAL-00143" summary="Load first files">
-      <created>1646581849257</created>
-      <option name="number" value="00143" />
-      <option name="presentableId" value="LOCAL-00143" />
-      <option name="project" value="LOCAL" />
-      <updated>1646581849257</updated>
     </task>
     <task id="LOCAL-00144" summary="Load first files">
       <created>1646674951119</created>
@@ -467,7 +445,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658055454483</updated>
     </task>
-    <option name="localTasksCounter" value="192" />
+    <task id="LOCAL-00192" summary="Fix docu strings">
+      <created>1658065273847</created>
+      <option name="number" value="00192" />
+      <option name="presentableId" value="LOCAL-00192" />
+      <option name="project" value="LOCAL" />
+      <updated>1658065273847</updated>
+    </task>
+    <option name="localTasksCounter" value="193" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -495,15 +480,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/BinanceMarginManager.java</url>
-          <line>556</line>
-          <properties class="com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.BinanceMarginManager" method="sendObjectNewMarginOrder">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/Managers/SignedManagers/Trade/Margin/BinanceMarginManager.java</url>
           <line>618</line>

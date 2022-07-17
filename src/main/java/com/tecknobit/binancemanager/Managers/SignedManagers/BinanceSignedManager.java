@@ -7,13 +7,21 @@ import java.io.IOException;
 
 /**
  * The {@code BinanceSignedManager} class is useful to manage all signed binance requests
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
+ *     https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class BinanceSignedManager extends BinanceManager {
 
+    /**
+     * {@code apiKey} is instance that contains api key of Binance's account
+     * **/
     protected final String apiKey;
+
+    /**
+     * {@code secretKey} is instance that contains secret key of Binance's account
+     * **/
     protected final String secretKey;
 
     /** Constructor to init BinanceSignedManager
@@ -34,7 +42,7 @@ public class BinanceSignedManager extends BinanceManager {
      * @return response of the request
      * **/
     protected String sendSignedRequest(String endpoint, String params, String method) throws Exception {
-        return getRequestResponse(endpoint,params+getSignature(params),method,apiKey);
+        return getRequestResponse(endpoint,params + getSignature(params), method, apiKey);
     }
 
     /** Method to get signature of request
@@ -42,7 +50,7 @@ public class BinanceSignedManager extends BinanceManager {
      * @return es."&signature=c8db66725ae71d6d79447319e617115f4a920f5agcdabcb2838bd6b712b053c4"
      * **/
     protected String getSignature(String params) throws Exception {
-        return "&signature="+ requestManager.getSignature(secretKey,params);
+        return "&signature=" + requestManager.getSignature(secretKey, params);
     }
 
     /** Method to get apiKey used
