@@ -4,25 +4,59 @@ import org.json.JSONArray;
 
 /**
  *  The {@code AccountSnapshot} class is useful to manage AccountSnapshot Binance request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+ *      https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class AccountSnapshot {
 
+    /**
+     * {@code SPOT} is constant for spot type account
+     * **/
     public static final String SPOT = "SPOT";
-    public static final String MARGIN = "MARGIN";
-    public static final String FUTURES = "FUTURES";
-    protected int code;
-    protected String msg;
-    protected final String type;
-    protected final JSONArray jsonArray;
 
-    public AccountSnapshot(int code, String msg, String type, JSONArray jsonArray) {
+    /**
+     * {@code MARGIN} is constant for margin type account
+     * **/
+    public static final String MARGIN = "MARGIN";
+
+    /**
+     * {@code FUTURES} is constant for futures type account
+     * **/
+    public static final String FUTURES = "FUTURES";
+
+    /**
+     * {@code code} is instance that memorizes code of response
+     * **/
+    protected int code;
+
+    /**
+     * {@code msg} is instance that memorizes message of response
+     * **/
+    protected String msg;
+
+    /**
+     * {@code type} is instance that memorizes type of account
+     * **/
+    protected final String type;
+
+    /**
+     * {@code accountDetails} is instance that memorizes account details in JSON format
+     * **/
+    protected final JSONArray accountDetails;
+
+    /** Constructor to init {@link AccountSnapshot} object
+     * @param code: code of response
+     * @param msg: message of response
+     * @param type: type of account
+     * @param accountDetails: details in JSON format
+     * **/
+    public AccountSnapshot(int code, String msg, String type, JSONArray accountDetails) {
         this.code = code;
         this.msg = msg;
         this.type = type;
-        this.jsonArray = jsonArray;
+        this.accountDetails = accountDetails;
     }
 
     /** Method to get specific AccountSnapshot object
@@ -32,11 +66,11 @@ public class AccountSnapshot {
     public AccountSnapshot getAccountSnapshot(){
         switch (type){
             case SPOT:
-                return new AccountSnapshotSpot(code,msg,type,jsonArray).getAccountSnapshotSpot();
+                return new AccountSnapshotSpot(code, msg, type, accountDetails).getAccountSnapshotSpot();
             case MARGIN:
-                return new AccountSnapshotMargin(code,msg,type,jsonArray).getAccountSnapshotMargin();
+                return new AccountSnapshotMargin(code, msg, type, accountDetails).getAccountSnapshotMargin();
             default:
-                return new AccountSnapshotFutures(code,msg,type,jsonArray).getAccountSnapshotFutures();
+                return new AccountSnapshotFutures(code, msg, type, accountDetails).getAccountSnapshotFutures();
         }
     }
 
@@ -45,8 +79,6 @@ public class AccountSnapshot {
     }
 
     public void setCode(int code) {
-        if(code < 0)
-            throw new IllegalArgumentException("Code value cannot be less than 0");
         this.code = code;
     }
 
@@ -62,8 +94,8 @@ public class AccountSnapshot {
         return type;
     }
 
-    public JSONArray getJsonArray() {
-        return jsonArray;
+    public JSONArray getAccountDetails() {
+        return accountDetails;
     }
 
 }

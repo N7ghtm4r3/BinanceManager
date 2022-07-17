@@ -41,7 +41,7 @@ public class BinanceManager {
     protected JSONObject jsonObject;
 
     /**
-     * {@code jsonArray} is instance that help to format api response when they are {@link JSONArray}
+     * {@code accountDetails} is instance that help to format api response when they are {@link JSONArray}
      * **/
     protected JSONArray jsonArray;
 

@@ -4,14 +4,26 @@ import java.util.ArrayList;
 
 /**
  * The {@code AssetDividend} class is useful to manage AssetDividend Binance request
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
+ * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
+ *     https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
  * **/
 
 public class AssetDividend {
 
+    /**
+     * {@code total} is instance that memorizes total size of {@link #assetDividendDetailsList}
+     * **/
     private int total;
+
+    /**
+     * {@code assetDividendDetailsList} is instance that memorizes list of {@link AssetDividendDetails}
+     * **/
     private ArrayList<AssetDividendDetails> assetDividendDetailsList;
 
+    /** Constructor to init {@link AssetDividend} object
+     * @param total: total size of {@link #assetDividendDetailsList}
+     * @param assetDividendDetails: list of {@link AssetDividendDetails}
+     * **/
     public AssetDividend(int total, ArrayList<AssetDividendDetails> assetDividendDetails) {
         this.total = total;
         this.assetDividendDetailsList = assetDividendDetails;
@@ -21,31 +33,26 @@ public class AssetDividend {
         return total;
     }
 
-    public void setTotal(int total) {
-        if(total < 0)
-            throw new IllegalArgumentException("Total value cannot be less than 0");
-        this.total = total;
-    }
-
     public ArrayList<AssetDividendDetails> getAssetDividendDetailsList() {
         return assetDividendDetailsList;
     }
 
     public void setAssetDividendDetailsList(ArrayList<AssetDividendDetails> assetDividendDetailsList) {
         this.assetDividendDetailsList = assetDividendDetailsList;
+        total = assetDividendDetailsList.size();
     }
 
     public void insertAssetDividendDetails(AssetDividendDetails assetDividendDetails){
         if(!assetDividendDetailsList.contains(assetDividendDetails)) {
             assetDividendDetailsList.add(assetDividendDetails);
-            setTotal(total + 1);
+            total += 1;
         }
     }
 
     public boolean removeAssetDividendDetails(AssetDividendDetails assetDividendDetails){
         boolean removed = assetDividendDetailsList.remove(assetDividendDetails);
         if(removed)
-            setTotal(total - 1);
+            total -= 1;
         return removed;
     }
 
@@ -55,18 +62,51 @@ public class AssetDividend {
 
     /**
      *  The {@code AssetDividendDetails} class is useful to obtain and format AssetDividendDetails object
-     *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
+     *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
+     *      https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
      * **/
 
     public static final class AssetDividendDetails {
 
+        /**
+         * {@code id} is instance that memorizes asset dividend details identifier
+         * **/
         private final long id;
+
+        /**
+         * {@code id} is instance that memorizes amount value
+         * **/
         private final double amount;
+
+        /**
+         * {@code asset} is instance that memorizes asset value
+         * **/
         private final String asset;
+
+        /**
+         * {@code divTime} is instance that memorizes division time value
+         * **/
         private final long divTime;
+
+        /**
+         * {@code enInfo} is instance that memorizes en info value
+         * **/
         private final String enInfo;
+
+        /**
+         * {@code tranId} is instance that memorizes transaction identifier
+         * **/
         private final long tranId;
 
+        /** Constructor to init {@link AssetDividendDetails} object
+         * @param id: total size of {@link #assetDividendDetailsList}
+         * @param amount: asset dividend details identifier
+         * @param asset: asset value
+         * @param divTime: division time value
+         * @param enInfo: en info value
+         * @param tranId: transaction identifier
+         * @throws IllegalArgumentException if parameters range is not respected
+         * **/
         public AssetDividendDetails(long id, double amount, String asset, long divTime, String enInfo, long tranId) {
             this.id = id;
             this.amount = amount;

@@ -2,24 +2,82 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.API;
 
 /**
  *  The {@code APIPermission} class is useful to manage APIPermission Binance request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data">https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data</a>
+ *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data">
+ *      https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class APIPermission {
 
+    /**
+     * {@code ipRestrict} is instance that memorizes if api has ip restriction
+     * **/
     private boolean ipRestrict;
+
+    /**
+     * {@code createTime} is instance that memorizes api creation time
+     * **/
     private final long createTime;
+
+    /**
+     * {@code enableWithdrawals} is instance that memorizes api has withdrawals enabled
+     * **/
     private boolean enableWithdrawals;
+
+    /**
+     * {@code enableInternalTransfer} is instance that memorizes api has internal transfer enabled
+     * **/
     private boolean enableInternalTransfer;
+
+    /**
+     * {@code permitsUniversalTransfer} is instance that memorizes api permits universal transfer
+     * **/
     private boolean permitsUniversalTransfer;
+
+    /**
+     * {@code enableVanillaOptions} is instance that memorizes api has vanilla options enabled
+     * **/
     private boolean enableVanillaOptions;
+
+    /**
+     * {@code enableReading} is instance that memorizes api has reading option enabled
+     * **/
     private boolean enableReading;
+
+    /**
+     * {@code enableFutures} is instance that memorizes api has futures option enabled
+     * **/
     private boolean enableFutures;
+
+    /**
+     * {@code enableMargin} is instance that memorizes api has margin option enabled
+     * **/
     private boolean enableMargin;
+
+    /**
+     * {@code enableSpotAndMarginTrading} is instance that memorizes api is allowed to spot and margin trading
+     * **/
     private boolean enableSpotAndMarginTrading;
+
+    /**
+     * {@code tradingAuthorityExpirationTime} is instance that memorizes api trading authority expiration value
+     * **/
     private long tradingAuthorityExpirationTime;
 
+    /** Constructor to init {@link APIPermission} object
+     * @param ipRestrict: api has ip restriction
+     * @param createTime: api creation time
+     * @param enableWithdrawals: api has withdrawals enabled
+     * @param enableInternalTransfer: api has internal transfer enabled
+     * @param permitsUniversalTransfer: api permits universal transfer
+     * @param enableVanillaOptions: api has vanilla options enabled
+     * @param enableReading: api has reading option enabled
+     * @param enableFutures: api has futures option enabled
+     * @param enableMargin: api has margin option enabled
+     * @param enableSpotAndMarginTrading: api is allowed to spot and margin trading
+     * @param tradingAuthorityExpirationTime: api trading authority expiration value
+     * @throws IllegalArgumentException if parameters range is not respected
+     * **/
     public APIPermission(boolean ipRestrict, long createTime, boolean enableWithdrawals, boolean enableInternalTransfer,
                          boolean permitsUniversalTransfer, boolean enableVanillaOptions, boolean enableReading,
                          boolean enableFutures, boolean enableMargin, boolean enableSpotAndMarginTrading,
@@ -34,7 +92,10 @@ public class APIPermission {
         this.enableFutures = enableFutures;
         this.enableMargin = enableMargin;
         this.enableSpotAndMarginTrading = enableSpotAndMarginTrading;
-        this.tradingAuthorityExpirationTime = tradingAuthorityExpirationTime;
+        if(tradingAuthorityExpirationTime < 0)
+            throw new IllegalArgumentException("Api trading authority expiration value cannot be less than 0");
+        else
+            this.tradingAuthorityExpirationTime = tradingAuthorityExpirationTime;
     }
 
     public boolean isIpRestrict() {
@@ -117,7 +178,13 @@ public class APIPermission {
         return tradingAuthorityExpirationTime;
     }
 
+    /** Method to set {@link #tradingAuthorityExpirationTime}
+     * @param tradingAuthorityExpirationTime: api trading authority expiration value
+     * @throws IllegalArgumentException when api trading authority expiration value is less than 0
+     * **/
     public void setTradingAuthorityExpirationTime(long tradingAuthorityExpirationTime) {
+        if(tradingAuthorityExpirationTime < 0)
+            throw new IllegalArgumentException("Api trading authority expiration value cannot be less than 0");
         this.tradingAuthorityExpirationTime = tradingAuthorityExpirationTime;
     }
 

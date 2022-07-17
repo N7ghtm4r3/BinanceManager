@@ -34,6 +34,7 @@ public class Fill {
      * @param qty: quantity of a fill
      * @param commission: commission of a fill
      * @param commissionAsset: commission asset of a fill
+     * @throws IllegalArgumentException if parameters range is not respected
      * **/
     public Fill(double price, double qty, double commission, String commissionAsset) {
         if(price < 0)

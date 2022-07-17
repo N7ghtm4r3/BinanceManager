@@ -40,55 +40,55 @@ public class Withdraw {
         this.txId = txId;
     }
 
-    public String address() {
+    public String getAddress() {
         return address;
     }
 
-    public double amount() {
+    public double getAmount() {
         return amount;
     }
 
-    public String applyTime() {
+    public String getApplyTime() {
         return applyTime;
     }
 
-    public String coin() {
+    public String getCoin() {
         return coin;
     }
 
-    public String id() {
+    public String getId() {
         return id;
     }
 
-    public String withdrawOrderId() {
+    public String getWithdrawOrderId() {
         return withdrawOrderId;
     }
 
-    public String network() {
+    public String getNetwork() {
         return network;
     }
 
-    public int transferType() {
+    public int getTransferType() {
         return transferType;
     }
 
-    public int status() {
+    public int getStatus() {
         return status;
     }
 
-    public double transactionFee() {
+    public double getTransactionFee() {
         return transactionFee;
     }
 
-    public int confirmNo() {
+    public int getConfirmNo() {
         return confirmNo;
     }
 
-    public String info() {
+    public String getInfo() {
         return info;
     }
 
-    public String txId() {
+    public String getTxId() {
         return txId;
     }
 
