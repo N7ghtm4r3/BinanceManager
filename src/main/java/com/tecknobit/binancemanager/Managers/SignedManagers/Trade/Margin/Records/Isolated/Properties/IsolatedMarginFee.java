@@ -132,17 +132,17 @@ public class IsolatedMarginFee {
         /**
          * {@code coin} is instance that memorizes coin
          * **/
-        private final String coin;
+        protected final String coin;
 
         /**
          * {@code dailyInterest} is instance that memorizes value of daily interest
          * **/
-        private double dailyInterest;
+        protected double dailyInterest;
 
         /**
          * {@code borrowLimit} is instance that memorizes value of limit for borrow
          * **/
-        private double borrowLimit;
+        protected double borrowLimit;
 
         /** Constructor to init {@link IsolatedData} object
          * @param coin: coin

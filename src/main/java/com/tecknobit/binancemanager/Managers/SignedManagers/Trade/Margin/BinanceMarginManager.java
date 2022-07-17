@@ -44,7 +44,14 @@ import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.
 
 public class BinanceMarginManager extends BinanceSignedManager {
 
+    /**
+     * {@code MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT} is constant for transfer from main account to cross margin account
+     * **/
     public static final int MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT = 1;
+
+    /**
+     * {@code CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT} is constant for transfer from cross margin account to main account
+     * **/
     public static final int CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT = 2;
 
     /** Constructor to init BinanceMarginManager

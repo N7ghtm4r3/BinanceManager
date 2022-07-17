@@ -65,36 +65,26 @@ public class MarginForceLiquidation {
         return total;
     }
 
-    /** Method to set {@link #total}
-     * @param total: total size of force liquidations
-     * @throws IllegalArgumentException when  total size value is less than 0
-     * **/
-    public void setTotal(int total) {
-        if(total < 0)
-            throw new IllegalArgumentException("Total value cannot be less than 0");
-        this.total = total;
-    }
-
     public ArrayList<ForceLiquidationAsset> getForceLiquidationAssetsList() {
         return forceLiquidationAssetsList;
     }
 
     public void setForceLiquidationAssetsList(ArrayList<ForceLiquidationAsset> forceLiquidationAssetsList) {
         this.forceLiquidationAssetsList = forceLiquidationAssetsList;
-        setTotal(forceLiquidationAssetsList.size());
+        total = forceLiquidationAssetsList.size();
     }
 
     public void insertForceLiquidationAsset(ForceLiquidationAsset forceLiquidationAsset){
         if(!forceLiquidationAssetsList.contains(forceLiquidationAsset)) {
             forceLiquidationAssetsList.add(forceLiquidationAsset);
-            setTotal(total + 1);
+            total += 1;
         }
     }
 
     public boolean removeForceLiquidationAsset(ForceLiquidationAsset forceLiquidationAsset){
         boolean removed = forceLiquidationAssetsList.remove(forceLiquidationAsset);
         if(removed)
-            setTotal(total - 1);
+            total -= 1;
         return removed;
     }
 
