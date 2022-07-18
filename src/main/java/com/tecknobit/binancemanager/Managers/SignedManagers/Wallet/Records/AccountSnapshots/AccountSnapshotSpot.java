@@ -27,6 +27,16 @@ public class AccountSnapshotSpot extends AccountSnapshot{
      * **/
     public AccountSnapshotSpot(int code, String msg, String type, JSONArray accountDetails) {
         super(code, msg, type, accountDetails);
+        assetsSpotData = new ArrayList<>();
+        if(accountDetails != null){
+            for (int j = 0; j < accountDetails.length(); j++){
+                JSONObject dataSpotRow = accountDetails.getJSONObject(j);
+                double updateTime = dataSpotRow.getLong("updateTime");
+                dataSpotRow = dataSpotRow.getJSONObject("data");
+                double totalAssetOfBtc = dataSpotRow.getDouble("totalAssetOfBtc");
+                assetsSpotData.add(new DataSpot(totalAssetOfBtc, updateTime, getBalancesSpot(dataSpotRow.getJSONArray("balances"))));
+            }
+        }
     }
 
     /** Constructor to init {@link AccountSnapshotMargin} object
@@ -39,24 +49,6 @@ public class AccountSnapshotSpot extends AccountSnapshot{
     public AccountSnapshotSpot(int code, String msg, String type, JSONArray accountDetails, ArrayList<DataSpot> assetsSpotData) {
         super(code, msg, type, accountDetails);
         this.assetsSpotData = assetsSpotData;
-    }
-
-    /** Method to get getAccountSnapshotSpot object
-     * any params required
-     * @return AccountSnapshotSpot object then to cast
-     * **/
-    public AccountSnapshotSpot getAccountSnapshotSpot() {
-        assetsSpotData = new ArrayList<>();
-        if(accountDetails != null){
-            for (int j = 0; j < accountDetails.length(); j++){
-                JSONObject dataSpotRow = accountDetails.getJSONObject(j);
-                double updateTime = dataSpotRow.getLong("updateTime");
-                dataSpotRow = dataSpotRow.getJSONObject("data");
-                double totalAssetOfBtc = dataSpotRow.getDouble("totalAssetOfBtc");
-                assetsSpotData.add(new DataSpot(totalAssetOfBtc, updateTime, getBalancesSpot(dataSpotRow.getJSONArray("balances"))));
-            }
-        }
-        return new AccountSnapshotSpot(code,msg,type, accountDetails,assetsSpotData);
     }
 
     /** Method to assemble an BalanceSpot list
@@ -79,6 +71,10 @@ public class AccountSnapshotSpot extends AccountSnapshot{
 
     public ArrayList<DataSpot> getAssetsSpotData() {
         return assetsSpotData;
+    }
+
+    public void setAssetsSpotData(ArrayList<DataSpot> assetsSpotData) {
+        this.assetsSpotData = assetsSpotData;
     }
 
     public DataSpot getAssetSpotData(int index){

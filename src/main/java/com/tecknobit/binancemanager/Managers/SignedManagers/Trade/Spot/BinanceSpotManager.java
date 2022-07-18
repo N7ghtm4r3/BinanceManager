@@ -131,7 +131,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     * @return result of the order as AckOrder (next to cast in base at type used)
+     * @return result of the order as AckOrder
      * @implNote if type LIMIT or MARKET will be must cast in {@link FullSpotOrder} object
      * @implNote with other types will be an {@link ACKSpotOrder} object
      * **/
@@ -191,18 +191,17 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     * @return result of the order as AckOrder (next to cast in base at newOrderRespType used)
+     * @return result of the order
      * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_RESULT object will be {@link ResultSpotOrder}
      * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_FULL object will be {@link FullSpotOrder}
      * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_ACK object will be {@link ACKSpotOrder}
      * **/
-    // TODO: 17/07/2022 CHECK T PARAMETER
-    public ACKSpotOrder sendNewOrderObject(String symbol, String side, String type, String newOrderRespType,
+    public <T extends ACKSpotOrder> T sendNewOrderObject(String symbol, String side, String type, String newOrderRespType,
                                            HashMap<String, Object> extraParams) throws Exception {
         jsonObject = new JSONObject(sendNewOrder(symbol, side, type, newOrderRespType, extraParams));
         switch (newOrderRespType){
             case NEW_ORDER_RESP_TYPE_RESULT:
-                return new ResultSpotOrder(jsonObject.getString("symbol"),
+                return (T) new ResultSpotOrder(jsonObject.getString("symbol"),
                         jsonObject.getLong("orderId"),
                         jsonObject.getLong("orderListId"),
                         jsonObject.getString("clientOrderId"),
@@ -217,17 +216,16 @@ public class BinanceSpotManager extends BinanceSignedManager {
                         jsonObject.getString("side")
                 );
             case NEW_ORDER_RESP_TYPE_FULL:
-                return getFullOrderResponse(jsonObject);
+                return (T) getFullOrderResponse(jsonObject);
             default:
-                return getACKResponse(jsonObject);
+                return (T) getACKResponse(jsonObject);
         }
     }
 
     /** Method to assemble an ACKSpotOrder object
      * @param response: obtained from Binance's request
-     * @return an ACKSpotOrder object with response data
+     * @return an {@link ACKSpotOrder} object with response data
      * **/
-    // TODO: 17/07/2022 CHECK T PARAMETER
     private ACKSpotOrder getACKResponse(JSONObject response){
         return new ACKSpotOrder(response.getString("symbol"),
                 response.getLong("orderId"),
@@ -239,9 +237,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
 
     /** Method to assemble an FullOrder object
      * @param response: obtained from Binance's request
-     * @return a FullOrder object with response data
+     * @return a {@link FullSpotOrder} object with response data
      * **/
-    // TODO: 17/07/2022 CHECK T PARAMETER
     private FullSpotOrder getFullOrderResponse(JSONObject response){
         return new FullSpotOrder(response.getString("symbol"),
                 response.getLong("orderId"),

@@ -63,14 +63,14 @@ public class AccountSnapshot {
      * any params required
      * @return AccountSnapshot object then to cast
      * **/
-    public AccountSnapshot getAccountSnapshot(){
+    public <T extends AccountSnapshot> T getAccountSnapshot(){
         switch (type){
             case SPOT:
-                return new AccountSnapshotSpot(code, msg, type, accountDetails).getAccountSnapshotSpot();
+                return (T) new AccountSnapshotSpot(code, msg, type, accountDetails);
             case MARGIN:
-                return new AccountSnapshotMargin(code, msg, type, accountDetails).getAccountSnapshotMargin();
+                return (T) new AccountSnapshotMargin(code, msg, type, accountDetails);
             default:
-                return new AccountSnapshotFutures(code, msg, type, accountDetails).getAccountSnapshotFutures();
+                return (T) new AccountSnapshotFutures(code, msg, type, accountDetails);
         }
     }
 

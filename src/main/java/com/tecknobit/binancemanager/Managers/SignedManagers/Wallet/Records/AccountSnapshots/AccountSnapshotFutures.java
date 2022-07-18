@@ -27,6 +27,17 @@ public class AccountSnapshotFutures extends AccountSnapshot{
      * **/
     public AccountSnapshotFutures(int code, String msg, String type, JSONArray accountDetails) {
         super(code, msg, type, accountDetails);
+        dataFuturesList = new ArrayList<>();
+        if(accountDetails != null){
+            for (int j = 0; j < accountDetails.length(); j++){
+                JSONObject dataRow = accountDetails.getJSONObject(j);
+                long updateTime = dataRow.getLong("updateTime");
+                dataFuturesList.add(new DataFutures(updateTime,
+                        getAssetsList(dataRow.getJSONArray("assets")),
+                        getPositionsList(dataRow.getJSONArray("position"))
+                ));
+            }
+        }
     }
 
     /** Constructor to init {@link AccountSnapshotFutures} object
@@ -39,25 +50,6 @@ public class AccountSnapshotFutures extends AccountSnapshot{
     public AccountSnapshotFutures(int code, String msg, String type, JSONArray accountDetails, ArrayList<DataFutures> dataFutures) {
         super(code, msg, type, accountDetails);
         this.dataFuturesList = dataFutures;
-    }
-
-    /** Method to get AccountSnapshotFutures object
-     * any params required
-     * @return AccountSnapshotFutures object then to cast
-     * **/
-    public AccountSnapshotFutures getAccountSnapshotFutures() {
-        dataFuturesList = new ArrayList<>();
-        if(accountDetails != null){
-            for (int j = 0; j < accountDetails.length(); j++){
-                JSONObject dataRow = accountDetails.getJSONObject(j);
-                long updateTime = dataRow.getLong("updateTime");
-                dataFuturesList.add(new DataFutures(updateTime,
-                            getAssetsList(dataRow.getJSONArray("assets")),
-                            getPositionsList(dataRow.getJSONArray("position"))
-                        ));
-            }
-        }
-        return new AccountSnapshotFutures(code, msg, type, accountDetails, dataFuturesList);
     }
 
     /** Method to assemble an AssetFutures list

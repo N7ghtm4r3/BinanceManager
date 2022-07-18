@@ -549,18 +549,17 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
-     * @return result of the order as AckOrder (next to cast in base at type used)
+     * @return result of the order
      * @implNote if type LIMIT or MARKET will be must cast in {@link FullMarginOrder} object
      * @implNote with other types will be an {@link ACKMarginOrder} object
      * **/
-    // TODO: 17/07/2022 CHECK T PARAMETER
-    public ACKMarginOrder sendObjectNewMarginOrder(String symbol, String side, String type,
+    public <T extends ACKMarginOrder> T sendObjectNewMarginOrder(String symbol, String side, String type,
                                                    HashMap<String, Object> extraParams) throws Exception {
         jsonObject = new JSONObject(sendJSONNewMarginOrder(symbol, side, type, extraParams));
         if(type.equals(LIMIT) || type.equals(MARKET))
-            return getFullOrderResponse(jsonObject);
+            return (T) getFullOrderResponse(jsonObject);
         else
-            return getACKResponse(jsonObject);
+            return (T) getACKResponse(jsonObject);
     }
 
     /** Request to send a new margin order
@@ -610,18 +609,18 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * newOrderRespType,sideEffectType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
-     * @return result of the order as AckOrder (next to cast in base at newOrderRespType used)
+     * @return result of the order
      * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_RESULT object will be {@link ResultMarginOrder}
      * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_FULL object will be {@link FullMarginOrder}
      * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_ACK object will be {@link ACKMarginOrder}
      * **/
-    // TODO: 16/07/2022 CHECK T
-    public ACKMarginOrder sendObjectNewMarginOrder(String symbol, String side, String type,HashMap<String, Object> extraParams,
-                                                   String newOrderRespType) throws Exception {
+    public <T extends ACKMarginOrder> T sendObjectNewMarginOrder(String symbol, String side, String type,
+                                                                 HashMap<String, Object> extraParams,
+                                                                 String newOrderRespType) throws Exception {
         jsonObject = new JSONObject(sendJSONNewMarginOrder(symbol, side, type, extraParams, newOrderRespType));
         switch (newOrderRespType){
             case NEW_ORDER_RESP_TYPE_RESULT:
-                return new ResultMarginOrder(jsonObject.getString("symbol"),
+                return (T) new ResultMarginOrder(jsonObject.getString("symbol"),
                         jsonObject.getLong("orderId"),
                         jsonObject.getString("clientOrderId"),
                         jsonObject.getLong("transactTime"),
@@ -636,15 +635,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
                         jsonObject.getString("side")
                 );
             case NEW_ORDER_RESP_TYPE_FULL:
-                return getFullOrderResponse(jsonObject);
+                return (T) getFullOrderResponse(jsonObject);
             default:
-                return getACKResponse(jsonObject);
+                return (T) getACKResponse(jsonObject);
         }
     }
 
     /** Method to assemble an ACKMarginOrder object
      * @param jsonResponse: obtained from Binance's request
-     * @return an ACKMarginOrder object with jsonResponse data
+     * @return an {@link ACKMarginOrder} object with jsonResponse data
      * **/
     private ACKMarginOrder getACKResponse(JSONObject jsonResponse){
         return new ACKMarginOrder(jsonResponse.getString("symbol"),
@@ -657,7 +656,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
 
     /** Method to assemble an FullMarginOrder object
      * @param jsonResponse: obtained from Binance's request
-     * @return a FullMarginOrder object with response data
+     * @return a {@link FullMarginOrder} object with response data
      * **/
     private FullMarginOrder getFullOrderResponse(JSONObject jsonResponse){
         return new FullMarginOrder(jsonResponse.getString("symbol"),

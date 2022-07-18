@@ -28,6 +28,25 @@ public class AccountSnapshotMargin extends AccountSnapshot{
      * **/
     public AccountSnapshotMargin(int code, String msg, String type, JSONArray accountDetails) {
         super(code, msg, type, accountDetails);
+        dataMarginsList = new ArrayList<>();
+        if(accountDetails != null) {
+            for (int j = 0; j < accountDetails.length(); j++){
+                JSONObject dataRow = accountDetails.getJSONObject(j);
+                long updateTime = dataRow.getLong("updateTime");
+                dataRow = dataRow.getJSONObject("data");
+                double marginLevel = dataRow.getDouble("marginLevel");;
+                double totalAssetOfBtc = dataRow.getDouble("totalAssetOfBtc");;
+                double totalLiabilityOfBtc = dataRow.getDouble("totalLiabilityOfBtc");;
+                double totalNetAssetOfBtc = dataRow.getDouble("totalNetAssetOfBtc");
+                dataMarginsList.add(new DataMargin(marginLevel,
+                        totalAssetOfBtc,
+                        totalLiabilityOfBtc,
+                        totalNetAssetOfBtc,
+                        updateTime,
+                        assembleUserMarginAssetsList(dataRow.getJSONArray("userAssets"))
+                ));
+            }
+        }
     }
 
     /** Constructor to init {@link AccountSnapshotMargin} object
@@ -40,33 +59,6 @@ public class AccountSnapshotMargin extends AccountSnapshot{
     public AccountSnapshotMargin(int code, String msg, String type, JSONArray accountDetails, ArrayList<DataMargin> dataMargins) {
         super(code, msg, type, accountDetails);
         this.dataMarginsList = dataMargins;
-    }
-
-    /** Method to get getAccountSnapshotMargin object
-     * any params required
-     * @return AccountSnapshotMargin object then to cast
-     * **/
-    public AccountSnapshotMargin getAccountSnapshotMargin() {
-        dataMarginsList = new ArrayList<>();
-        if(accountDetails != null) {
-            for (int j = 0; j < accountDetails.length(); j++){
-                  JSONObject dataRow = accountDetails.getJSONObject(j);
-                  long updateTime = dataRow.getLong("updateTime");
-                  dataRow = dataRow.getJSONObject("data");
-                  double marginLevel = dataRow.getDouble("marginLevel");;
-                  double totalAssetOfBtc = dataRow.getDouble("totalAssetOfBtc");;
-                  double totalLiabilityOfBtc = dataRow.getDouble("totalLiabilityOfBtc");;
-                  double totalNetAssetOfBtc = dataRow.getDouble("totalNetAssetOfBtc");
-                  dataMarginsList.add(new DataMargin(marginLevel,
-                          totalAssetOfBtc,
-                          totalLiabilityOfBtc,
-                          totalNetAssetOfBtc,
-                          updateTime,
-                          assembleUserMarginAssetsList(dataRow.getJSONArray("userAssets"))
-                  ));
-            }
-        }
-        return new AccountSnapshotMargin(code, msg, type, accountDetails, dataMarginsList);
     }
 
     /** Method to assemble an UserAssetMargin list
@@ -84,6 +76,10 @@ public class AccountSnapshotMargin extends AccountSnapshot{
 
     public ArrayList<DataMargin> getDataMarginsList() {
         return dataMarginsList;
+    }
+
+    public void setDataMarginsList(ArrayList<DataMargin> dataMarginsList) {
+        this.dataMarginsList = dataMarginsList;
     }
 
     /**

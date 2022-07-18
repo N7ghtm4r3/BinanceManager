@@ -220,10 +220,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param type: SPOT,MARGIN OR FUTURES
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
-     * @return account snapshot as AccountSnapshot object.
-     * @implNote you need to cast return object in: AccountSnapshotSpot or AccountSnapshotMargin or AccountSnapshotFutures
+     * @return account snapshot as AccountSnapshot - {type} object.
      * **/
-    public AccountSnapshot getObjectAccountSnapshot(String type) throws Exception {
+    public <T extends AccountSnapshot> T getObjectAccountSnapshot(String type) throws Exception {
         return getObjectAccountSnapshot(type,new JSONObject(getAccountSnapshot(type)));
     }
 
@@ -256,34 +255,26 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
-     * @return account snapshot as AccountSnapshot object.
-     * @implNote you need to cast return object in: AccountSnapshotSpot or AccountSnapshotMargin or AccountSnapshotFutures
-     * in base of the type used
+     * @return account snapshot as AccountSnapshot - {type} object.
      * **/
-    public AccountSnapshot getObjectAccountSnapshot(String type, HashMap<String,Object> extraParams) throws Exception {
+    public <T extends AccountSnapshot> T getObjectAccountSnapshot(String type, HashMap<String,Object> extraParams) throws Exception {
         return getObjectAccountSnapshot(type, new JSONObject(getAccountSnapshot(type, extraParams)));
     }
 
     /** Method to get your daily account snapshot
      * @param type: SPOT,MARGIN OR FUTURES
-     * @param jsonObject: obtain by request to binance
+     * @param jsonAccount: obtain by request to binance
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
-     * @return account snapshot as AccountSnapshot object.
-     * @implNote you need to cast return object in: AccountSnapshotSpot or AccountSnapshotMargin or AccountSnapshotFutures
-     * in base of the type used
+     * @return account snapshot as AccountSnapshot - {type} object.
      * **/
-    // TODO: 17/07/2022 CHECK T PARAMETER
-    private AccountSnapshot getObjectAccountSnapshot(String type, JSONObject jsonObject){
+    private <T extends AccountSnapshot> T getObjectAccountSnapshot(String type, JSONObject jsonAccount){
         try {
-            jsonArray = jsonObject.getJSONArray("snapshotVos");
+            jsonArray = jsonAccount.getJSONArray("snapshotVos");
         }catch (JSONException jsonException){
             jsonArray = null;
         }
-        return new AccountSnapshot(
-                jsonObject.getInt("code"),
-                jsonObject.getString("msg"),
-                type,
+        return new AccountSnapshot(jsonAccount.getInt("code"), jsonAccount.getString("msg"), type,
                 jsonArray).getAccountSnapshot();
     }
 
