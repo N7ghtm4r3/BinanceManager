@@ -12,6 +12,7 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Asset
 import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Asset.ConvertibleBNBAssets;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Deposit.Deposit;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Deposit.DepositAddress;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Dust.DustItem;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Dust.DustLog;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Dust.DustTransfer;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Dust.UniversalTransfer;
@@ -30,6 +31,7 @@ import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Helpers.RequestManager.GET_METHOD;
 import static com.tecknobit.binancemanager.Helpers.RequestManager.POST_METHOD;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Asset.CoinInformation.NetworkItem.getNetworkList;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Dust.DustItem.getListDribbletsDetails;
 
 /**
  *  The {@code BinanceWalletManager} class is useful to manage all Binance Wallet Endpoints
@@ -643,10 +645,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
             for (int j = 0; j < jsonArrayDribblets.length(); j++){
                 JSONObject jsonObjectDribblets = jsonArrayDribblets.getJSONObject(j);
                 assetDribblets.add(new DustLog.AssetDribblets(jsonObjectDribblets.getLong("operateTime"),
-                        jsonObjectDribblets.getDouble("jsonArrayDribblets"),
+                        jsonObjectDribblets.getDouble("totalTransferedAmount"),
                         jsonObjectDribblets.getDouble("totalServiceChargeAmount"),
                         jsonObjectDribblets.getLong("transId"),
-                        DustLog.AssetDribbletsDetails.getListDribbletsDetails(jsonObjectDribblets
+                        getListDribbletsDetails(jsonObjectDribblets
                                 .getJSONArray("userAssetDribbletDetails"))
                 ));
             }
@@ -732,24 +734,14 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * **/
     public DustTransfer getObjectDustTransfer(ArrayList<String> assets) throws Exception {
         jsonObject = new JSONObject(getDustTransfer(assets));
-        ArrayList<DustTransfer.TransferResult> transferResults = new ArrayList<>();
         double totalServiceCharge = 0,totalTransfered = 0;
+        ArrayList<DustItem> transferResults = new ArrayList<>();
         try {
             totalServiceCharge = jsonObject.getDouble("totalServiceCharge");
             totalTransfered = jsonObject.getDouble("totalTransfered");
-            jsonArray = jsonObject.getJSONArray("transferResult");
-            for(int j = 0; j < jsonArray.length(); j++){
-                JSONObject transferResult = jsonArray.getJSONObject(j);
-                transferResults.add(new DustTransfer.TransferResult(transferResult.getDouble("amount"),
-                        transferResult.getString("fromAsset"),
-                        transferResult.getLong("operateTime"),
-                        transferResult.getDouble("serviceChargeAmount"),
-                        transferResult.getLong("tranId"),
-                        transferResult.getDouble("transferedAmount")
-                ));
-            }
+            transferResults = getListDribbletsDetails(jsonObject.getJSONArray("transferResult"));
         }catch (JSONException ignored){}
-        return new DustTransfer(totalServiceCharge,totalTransfered,transferResults);
+        return new DustTransfer(totalServiceCharge, totalTransfered, transferResults);
     }
 
     /** Request to get asset dividend
