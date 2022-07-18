@@ -6,8 +6,8 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.OrderDe
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account.OrderCountUsage;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account.SpotAccountInformation;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account.SpotAccountTradeList;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Details.DetailSpotOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Details.ComposedSpotOrderDetails;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Details.DetailSpotOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Details.OpenSpotOrders;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ACKSpotOrder;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.FullSpotOrder;
@@ -24,7 +24,8 @@ import java.util.HashMap;
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Helpers.RequestManager.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.TradeConstants.*;
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Details.DetailSpotOrder.*;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Details.DetailSpotOrder.assembleDetailSpotOrderObject;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.SpotOrder.*;
 
 /**
  *  The {@code BinanceSpotManager} class is useful to manage all Binance Spot Endpoints
@@ -99,14 +100,217 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     * @return result of the order as String
+     * @deprecated will be deleted in next library update
+     * @return result of the order as JsonObject
      * **/
-    public String sendNewOrder(String symbol, String side, String type, HashMap<String, Object> extraParams) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&side=" + side + "&type=" + type;
-        return sendSignedRequest(SPOT_ORDER_ENDPOINT, requestManager.assembleAdditionalParams(params, extraParams),
-                POST_METHOD);
+    public JSONObject sendNewOrderJSON(String symbol, String side, String type,
+                                       HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(sendNewOrder(symbol, side, type, extraParams));
     }
 
+    public String sendLimitOrder(String symbol, String side, String timeInForce, double quantity,
+                                 double price, HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrder(symbol, side, LIMIT, getLimitPayload(timeInForce, quantity, price, extraParams));
+    }
+
+    public JSONObject sendLimitOrderJSON(String symbol, String side, String timeInForce, double quantity,
+                                         double price, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(sendLimitOrder(symbol, side, timeInForce, quantity, price, extraParams));
+    }
+
+    public <T extends ACKSpotOrder> T sendLimitOrderObject(String symbol, String side, String timeInForce, double quantity,
+                                                           double price, HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrderObject(symbol, side, LIMIT, getLimitPayload(timeInForce, quantity, price, extraParams));
+    }
+
+    public String sendMarketOrderQty(String symbol, String side, double quantity,
+                                     HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrder(symbol, side, MARKET, getMarketPayload("quantity", quantity, extraParams));
+    }
+
+    public JSONObject sendMarketOrderQtyJSON(String symbol, String side, double quantity,
+                                             HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(sendMarketOrderQty(symbol, side, quantity, extraParams));
+    }
+
+    public <T extends ACKSpotOrder> T sendMarketOrderQtyObject(String symbol, String side, double quantity,
+                                                               HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrderObject(symbol, side, MARKET, getMarketPayload("quantity", quantity, extraParams));
+    }
+
+    public String sendMarketOrderQuoteQty(String symbol, String side, double quoteQuantity,
+                                          HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrder(symbol, side, MARKET, getMarketPayload("quoteOrderQty", quoteQuantity, extraParams));
+    }
+
+    public JSONObject sendMarketOrderQuoteQtyJSON(String symbol, String side, double quoteQuantity,
+                                                  HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(sendMarketOrderQuoteQty(symbol, side, quoteQuantity, extraParams));
+    }
+
+    public <T extends ACKSpotOrder> T sendMarketOrderQuoteQtyObject(String symbol, String side, double quoteQuantity,
+                                                                    HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrderObject(symbol, side, MARKET, getMarketPayload("quoteOrderQty", quoteQuantity,
+                extraParams));
+    }
+
+    public String sendStopLossOrderPrice(String symbol, String side, double quantity, double stopPrice,
+                                         HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrder(symbol, side, STOP_LOSS, getLevelPayload(quantity, "stopPrice", stopPrice,
+                extraParams));
+    }
+
+    public JSONObject sendStopLossOrderPriceJSON(String symbol, String side, double quantity, double stopPrice,
+                                                 HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(sendStopLossOrderPrice(symbol, side, quantity, stopPrice, extraParams));
+    }
+
+    public <T extends ACKSpotOrder> T sendStopLossOrderPriceObject(String symbol, String side, double quantity, double stopPrice,
+                                                                   HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrderObject(symbol, side, STOP_LOSS, getLevelPayload(quantity, "stopPrice", stopPrice,
+                extraParams));
+    }
+
+    public String sendStopLossOrderDelta(String symbol, String side, double quantity, double trailingDelta,
+                                         HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrder(symbol, side, STOP_LOSS, getLevelPayload(quantity, "trailingDelta", trailingDelta,
+                extraParams));
+    }
+
+    public JSONObject sendStopLossOrderDeltaJSON(String symbol, String side, double quantity, double trailingDelta,
+                                                 HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(sendStopLossOrderDelta(symbol, side, quantity, trailingDelta, extraParams));
+    }
+
+    public <T extends ACKSpotOrder> T sendStopLossOrderDeltaObject(String symbol, String side, double quantity,
+                                                                   double trailingDelta,
+                                                                   HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrderObject(symbol, side, STOP_LOSS, getLevelPayload(quantity, "trailingDelta",
+                trailingDelta, extraParams));
+    }
+
+    public String sendStopLossLimitOrderPrice(String symbol, String side, String timeInForce, double quantity,
+                                              double price, double stopPrice, HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrder(symbol, side, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
+                "stopPrice", stopPrice, extraParams));
+    }
+
+    public JSONObject sendStopLossLimitOrderPriceJSON(String symbol, String side, String timeInForce, double quantity,
+                                                      double price, double stopPrice, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(sendStopLossLimitOrderPrice(symbol, side, timeInForce, quantity, price, stopPrice, extraParams));
+    }
+
+    public <T extends ACKSpotOrder> T sendStopLossLimitOrderPriceObject(String symbol, String side, String timeInForce,
+                                                                        double quantity, double price, double stopPrice,
+                                                                        HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrderObject(symbol, side, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
+                "stopPrice", stopPrice, extraParams));
+    }
+
+    public String sendStopLossLimitOrderDelta(String symbol, String side, String timeInForce, double quantity,
+                                              double price, double trailingDelta, HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrder(symbol, side, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce, quantity, trailingDelta,
+                "trailingDelta", trailingDelta, extraParams));
+    }
+
+    public JSONObject sendStopLossLimitOrderDeltaJSON(String symbol, String side, String timeInForce, double quantity,
+                                                      double price, double trailingDelta, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(sendStopLossLimitOrderDelta(symbol, side, timeInForce, quantity, price, trailingDelta, extraParams));
+    }
+
+    public <T extends ACKSpotOrder> T sendStopLossLimitOrderDeltaObject(String symbol, String side, String timeInForce,
+                                                                        double quantity, double price, double trailingDelta,
+                                                                        HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrderObject(symbol, side, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
+                "trailingDelta", trailingDelta, extraParams));
+    }
+
+    public String sendTakeProfitOrderPrice(String symbol, String side, double quantity, double stopPrice,
+                                           HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrder(symbol, side, TAKE_PROFIT, getLevelPayload(quantity, "stopPrice", stopPrice,
+                extraParams));
+    }
+
+    public JSONObject sendTakeProfitOrderPriceJSON(String symbol, String side, double quantity, double stopPrice,
+                                                   HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(sendTakeProfitOrderPrice(symbol, side, quantity, stopPrice, extraParams));
+    }
+
+    public <T extends ACKSpotOrder> T sendTakeProfitOrderPriceObject(String symbol, String side, double quantity,
+                                                                     double stopPrice, HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrderObject(symbol, side, TAKE_PROFIT, getLevelPayload(quantity, "stopPrice", stopPrice,
+                extraParams));
+    }
+
+    public String sendTakeProfitOrderDelta(String symbol, String side, double quantity, double trailingDelta,
+                                           HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrder(symbol, side, TAKE_PROFIT, getLevelPayload(quantity, "trailingDelta", trailingDelta,
+                extraParams));
+    }
+
+    public JSONObject sendTakeProfitOrderDeltaJSON(String symbol, String side, double quantity, double trailingDelta,
+                                                   HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(sendTakeProfitOrderDelta(symbol, side, quantity, trailingDelta, extraParams));
+    }
+
+    public <T extends ACKSpotOrder> T sendTakeProfitOrderDeltaObject(String symbol, String side, double quantity,
+                                                                     double trailingDelta,
+                                                                     HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrderObject(symbol, side, TAKE_PROFIT, getLevelPayload(quantity, "trailingDelta",
+                trailingDelta, extraParams));
+    }
+
+    public String sendTakeProfitLimitOrderPrice(String symbol, String side, String timeInForce, double quantity,
+                                                double price, double stopPrice, HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrder(symbol, side, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
+                "stopPrice", stopPrice, extraParams));
+    }
+
+    public JSONObject sendTakeProfitLimitOrderPriceJSON(String symbol, String side, String timeInForce, double quantity,
+                                                        double price, double stopPrice, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(sendStopLossLimitOrderPrice(symbol, side, timeInForce, quantity, price, stopPrice, extraParams));
+    }
+
+    public <T extends ACKSpotOrder> T sendTakeProfitLimitOrderPriceObject(String symbol, String side, String timeInForce,
+                                                                          double quantity, double price, double stopPrice,
+                                                                          HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrderObject(symbol, side, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
+                "stopPrice", stopPrice, extraParams));
+    }
+
+    public String sendTakeProfitLimitOrderDelta(String symbol, String side, String timeInForce, double quantity,
+                                                double price, double trailingDelta, HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrder(symbol, side, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce, quantity, trailingDelta,
+                "trailingDelta", trailingDelta, extraParams));
+    }
+
+    public JSONObject sendTakeProfitLimitOrderDeltaJSON(String symbol, String side, String timeInForce, double quantity,
+                                                        double price, double trailingDelta, HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(sendTakeProfitLimitOrderDelta(symbol, side, timeInForce, quantity, price, trailingDelta, extraParams));
+    }
+
+    public <T extends ACKSpotOrder> T sendTakeProfitLimitOrderDeltaObject(String symbol, String side, String timeInForce,
+                                                                          double quantity, double price, double trailingDelta,
+                                                                          HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrderObject(symbol, side, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
+                "trailingDelta", trailingDelta, extraParams));
+    }
+
+    public String sendLimitMakerOrder(String symbol, String side, double quantity, double price,
+                                      HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrder(symbol, side, LIMIT_MAKER, getLimitMakerPayload(quantity, price, extraParams));
+    }
+
+    public JSONObject sendLimitMakerOrderJSON(String symbol, String side, double quantity, double price,
+                                              HashMap<String, Object> extraParams) throws Exception {
+        return new JSONObject(sendLimitMakerOrder(symbol, side, quantity, price, extraParams));
+    }
+
+    public <T extends ACKSpotOrder> T sendLimitMakerOrderObject(String symbol, String side, double quantity, double price,
+                                                                HashMap<String, Object> extraParams) throws Exception {
+        return sendNewOrderObject(symbol, side, LIMIT_MAKER, getLimitMakerPayload(quantity, price, extraParams));
+    }
+    
     /** Request to send a spot order
      * @param symbol: symbol used in the request es. BTCBUSD
      * @param side: BUY or SELL order
@@ -116,10 +320,12 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     * @return result of the order as JsonObject
+     * @return result of the order as String
      * **/
-    public JSONObject sendNewOrderJSON(String symbol, String side, String type, HashMap<String, Object> extraParams) throws Exception {
-        return new JSONObject(sendNewOrder(symbol, side, type, extraParams));
+    private String sendNewOrder(String symbol, String side, String type, HashMap<String, Object> extraParams) throws Exception {
+        String params = getParamTimestamp() + "&symbol=" + symbol + "&side=" + side + "&type=" + type;
+        return sendSignedRequest(SPOT_ORDER_ENDPOINT, requestManager.assembleAdditionalParams(params, extraParams),
+                POST_METHOD);
     }
 
     /** Request to send a spot order
@@ -135,8 +341,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @implNote if type LIMIT or MARKET will be must cast in {@link FullSpotOrder} object
      * @implNote with other types will be an {@link ACKSpotOrder} object
      * **/
-    public <T extends ACKSpotOrder> T sendNewOrderObject(String symbol, String side, String type,
-                                           HashMap<String, Object> extraParams) throws Exception {
+    private <T extends ACKSpotOrder> T sendNewOrderObject(String symbol, String side, String type,
+                                                          HashMap<String, Object> extraParams) throws Exception {
         jsonObject = new JSONObject(sendNewOrder(symbol, side, type, extraParams));
         if(type.equals(LIMIT) || type.equals(MARKET))
             return (T) getFullOrderResponse(jsonObject);
