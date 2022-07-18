@@ -35,6 +35,17 @@ public class SpotOrder extends Order {
         return orderListId;
     }
 
+    /** Method to assemble a payload for limit order request
+     * @param timeInForce: time in force for the order
+     * @param quantity: quantity value in the order
+     * @param price: price value in the order
+     * @param extraParams:  extraParams of the request
+     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
+     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
+     *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
+     * @return payload request as {@link HashMap}
+     * **/
     public static HashMap<String, Object> getLimitPayload(String timeInForce, double quantity, double price,
                                                           HashMap<String, Object> extraParams){
         HashMap<String, Object> payload = new HashMap<>();
@@ -46,6 +57,16 @@ public class SpotOrder extends Order {
         return payload;
     }
 
+    /** Method to assemble a payload for market order request
+     * @param keyQty: key for qty value (quantity or quoteOrderQty)
+     * @param qty: quantity value in the order
+     * @param extraParams:  extraParams of the request
+     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
+     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
+     *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
+     * @return payload request as {@link HashMap}
+     * **/
     public static HashMap<String, Object> getMarketPayload(String keyQty, double qty, HashMap<String, Object> extraParams){
         HashMap<String, Object> payload = new HashMap<>();
         payload.put(keyQty, sNotationParse(8, qty));
@@ -54,6 +75,17 @@ public class SpotOrder extends Order {
         return payload;
     }
 
+    /** Method to assemble a payload for take profit and stop loss order request
+     * @param quantity: quantity value in the order
+     * @param key: key for value (stopPrice or trailingDelta)
+     * @param value: level indicator value
+     * @param extraParams:  extraParams of the request
+     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
+     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
+     *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
+     * @return payload request as {@link HashMap}
+     * **/
     public static HashMap<String, Object> getLevelPayload(double quantity, String key, double value,
                                                           HashMap<String, Object> extraParams){
         HashMap<String, Object> payload = new HashMap<>();
@@ -64,6 +96,19 @@ public class SpotOrder extends Order {
         return payload;
     }
 
+    /** Method to assemble a payload for take profit limit and stop loss limit order request
+     * @param timeInForce: time in force for the order
+     * @param quantity: quantity value in the order
+     * @param price: price value in the order
+     * @param key: key for value (stopPrice or trailingDelta)
+     * @param value: level indicator value
+     * @param extraParams:  extraParams of the request
+     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
+     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
+     *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
+     * @return payload request as {@link HashMap}
+     * **/
     public static HashMap<String, Object> getLevelLimitPayload(String timeInForce, double quantity, double price,
                                                                String key, double value,
                                                                HashMap<String, Object> extraParams){
@@ -72,6 +117,16 @@ public class SpotOrder extends Order {
         return payload;
     }
 
+    /** Method to assemble a payload for limit maker order request
+     * @param quantity: quantity value in the order
+     * @param price: price value in the order
+     * @param extraParams:  extraParams of the request
+     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
+     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
+     *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
+     * @return payload request as {@link HashMap}
+     * **/
     public static HashMap<String, Object> getLimitMakerPayload(double quantity, double price,
                                                                HashMap<String, Object> extraParams){
         HashMap<String, Object> payload = new HashMap<>();
