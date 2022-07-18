@@ -135,13 +135,13 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @implNote if type LIMIT or MARKET will be must cast in {@link FullSpotOrder} object
      * @implNote with other types will be an {@link ACKSpotOrder} object
      * **/
-    public ACKSpotOrder sendNewOrderObject(String symbol, String side, String type,
+    public <T extends ACKSpotOrder> T sendNewOrderObject(String symbol, String side, String type,
                                            HashMap<String, Object> extraParams) throws Exception {
         jsonObject = new JSONObject(sendNewOrder(symbol, side, type, extraParams));
         if(type.equals(LIMIT) || type.equals(MARKET))
-            return getFullOrderResponse(jsonObject);
+            return (T) getFullOrderResponse(jsonObject);
         else
-            return getACKResponse(jsonObject);
+            return (T) getACKResponse(jsonObject);
     }
 
     /** Request to send a spot order
