@@ -439,7 +439,8 @@ public class BinanceMarketManager extends BinanceManager {
 
     /** Request to get compressed trade list
      * @param symbol: symbol to fetch compressed trade es. BTCBUSD
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list">https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list</a>
+     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list">
+     *     https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list</a>
      * @return compressed trade list as JsonArray
      * **/
     public JSONArray getJSONCompressedTradeList(String symbol) throws IOException {
@@ -490,8 +491,7 @@ public class BinanceMarketManager extends BinanceManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list</a>
      * @return compressed trade list as ArrayList<CompressedTrade>
      * **/
-    public ArrayList<CompressedTrade> getObjectCompressedTradeList(String symbol,
-                                                                   HashMap<String, Object> extraParams) throws IOException {
+    public ArrayList<CompressedTrade> getObjectCompressedTradeList(String symbol, HashMap<String, Object> extraParams) throws IOException {
         return getObjectCompressedTradeList(new JSONArray(getCompressedTradeList(symbol, extraParams)));
     }
 

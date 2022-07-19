@@ -152,6 +152,13 @@ public class BinanceManager {
         return requestManager.getErrorResponse();
     }
 
+    /** Method to print error response of an HTTP request <br>
+     * Any params required
+     * **/
+    public void printErrorResponse() {
+        System.out.println(requestManager.getErrorResponse());
+    }
+
     /** Method to round a value
      * @param value: value to round
      * @param decimalDigits: number of digits to round final value
