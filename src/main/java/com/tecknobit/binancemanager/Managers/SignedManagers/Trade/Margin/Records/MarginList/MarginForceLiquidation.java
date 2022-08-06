@@ -92,6 +92,14 @@ public class MarginForceLiquidation {
         return forceLiquidationAssetsList.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "MarginForceLiquidation{" +
+                "total=" + total +
+                ", forceLiquidationAssetsList=" + forceLiquidationAssetsList +
+                '}';
+    }
+
     /**
      * The {@code ForceLiquidationAsset} class is useful to obtain and format ForceLiquidationAsset object
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
@@ -337,6 +345,22 @@ public class MarginForceLiquidation {
             if(updatedTime < 0)
                 throw new IllegalArgumentException("Updated time value cannot be less than 0");
             this.updatedTime = updatedTime;
+        }
+
+        @Override
+        public String toString() {
+            return "ForceLiquidationAsset{" +
+                    "avgPrice=" + avgPrice +
+                    ", executedQty=" + executedQty +
+                    ", orderId=" + orderId +
+                    ", price=" + price +
+                    ", qty=" + qty +
+                    ", side='" + side + '\'' +
+                    ", symbol='" + symbol + '\'' +
+                    ", timeInForce='" + timeInForce + '\'' +
+                    ", isIsolated=" + isIsolated +
+                    ", updatedTime=" + updatedTime +
+                    '}';
         }
 
     }

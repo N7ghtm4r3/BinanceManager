@@ -69,4 +69,15 @@ public class OrderCountUsage {
         return count;
     }
 
+    @Override
+    public String toString() {
+        return "OrderCountUsage{" +
+                "rateLimitType='" + rateLimitType + '\'' +
+                ", interval='" + interval + '\'' +
+                ", intervalNum=" + intervalNum +
+                ", limit=" + limit +
+                ", count=" + count +
+                '}';
+    }
+
 }

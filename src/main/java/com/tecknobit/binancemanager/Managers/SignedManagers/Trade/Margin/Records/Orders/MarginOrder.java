@@ -30,4 +30,14 @@ public class MarginOrder extends Order {
         return transactTime;
     }
 
+    @Override
+    public String toString() {
+        return "MarginOrder{" +
+                "transactTime=" + transactTime +
+                ", symbol='" + symbol + '\'' +
+                ", orderId=" + orderId +
+                ", clientOrderId='" + clientOrderId + '\'' +
+                '}';
+    }
+
 }

@@ -106,4 +106,16 @@ public class DustItem {
         return dustItems;
     }
 
+    @Override
+    public String toString() {
+        return "DustItem{" +
+                "transId=" + transId +
+                ", serviceChargeAmount=" + serviceChargeAmount +
+                ", amount=" + amount +
+                ", operateTime=" + operateTime +
+                ", transferedAmount=" + transferedAmount +
+                ", fromAsset='" + fromAsset + '\'' +
+                '}';
+    }
+
 }

@@ -81,6 +81,17 @@ public class AccountSnapshotSpot extends AccountSnapshot{
         return assetsSpotData.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "AccountSnapshotSpot{" +
+                "assetsSpotData=" + assetsSpotData +
+                ", code=" + code +
+                ", msg='" + msg + '\'' +
+                ", type='" + type + '\'' +
+                ", accountDetails=" + accountDetails +
+                '}';
+    }
+
     /**
      *  The {@code DataSpot} class is useful to obtain and format DataSpot object
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
@@ -171,6 +182,15 @@ public class AccountSnapshotSpot extends AccountSnapshot{
             return balanceSpotList.get(index);
         }
 
+        @Override
+        public String toString() {
+            return "DataSpot{" +
+                    "totalAssetOfBtc=" + totalAssetOfBtc +
+                    ", updateTime=" + updateTime +
+                    ", balanceSpotList=" + balanceSpotList +
+                    '}';
+        }
+
     }
 
     /**
@@ -240,6 +260,15 @@ public class AccountSnapshotSpot extends AccountSnapshot{
             if(locked < 0)
                 throw new IllegalArgumentException("Locked value cannot be less than 0");
             this.locked = locked;
+        }
+
+        @Override
+        public String toString() {
+            return "BalanceSpot{" +
+                    "asset='" + asset + '\'' +
+                    ", free=" + free +
+                    ", locked=" + locked +
+                    '}';
         }
 
     }

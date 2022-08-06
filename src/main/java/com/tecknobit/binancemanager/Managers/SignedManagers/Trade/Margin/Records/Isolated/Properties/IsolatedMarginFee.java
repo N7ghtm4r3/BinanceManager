@@ -121,6 +121,16 @@ public class IsolatedMarginFee {
         return isolatedDataList.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "IsolatedMarginFee{" +
+                "vipLevel=" + vipLevel +
+                ", symbol='" + symbol + '\'' +
+                ", leverage=" + leverage +
+                ", isolatedDataList=" + isolatedDataList +
+                '}';
+    }
+
     /**
      * The {@code IsolatedData} class is useful to obtain and format IsolatedData object
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
@@ -192,6 +202,15 @@ public class IsolatedMarginFee {
             if(borrowLimit < 0)
                 throw new IllegalArgumentException("Borrow limit value cannot be less than 0");
             this.borrowLimit = borrowLimit;
+        }
+
+        @Override
+        public String toString() {
+            return "IsolatedData{" +
+                    "coin='" + coin + '\'' +
+                    ", dailyInterest=" + dailyInterest +
+                    ", borrowLimit=" + borrowLimit +
+                    '}';
         }
 
     }

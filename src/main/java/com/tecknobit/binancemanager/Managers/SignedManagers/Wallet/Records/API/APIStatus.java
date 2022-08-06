@@ -136,4 +136,16 @@ public class APIStatus {
         values = new ArrayList<>(triggerCondition.values());
     }
 
+    @Override
+    public String toString() {
+        return "APIStatus{" +
+                "isLocked=" + isLocked +
+                ", plannedRecoverTime=" + plannedRecoverTime +
+                ", triggerCondition=" + triggerCondition +
+                ", updateTime=" + updateTime +
+                ", keys=" + keys +
+                ", values=" + values +
+                '}';
+    }
+
 }

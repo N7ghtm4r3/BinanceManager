@@ -98,4 +98,14 @@ public class AccountSnapshot {
         return accountDetails;
     }
 
+    @Override
+    public String toString() {
+        return "AccountSnapshot{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", type='" + type + '\'' +
+                ", accountDetails=" + accountDetails +
+                '}';
+    }
+
 }

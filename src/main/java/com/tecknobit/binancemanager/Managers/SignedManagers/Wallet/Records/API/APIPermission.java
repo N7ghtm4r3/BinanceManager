@@ -188,4 +188,21 @@ public class APIPermission {
         this.tradingAuthorityExpirationTime = tradingAuthorityExpirationTime;
     }
 
+    @Override
+    public String toString() {
+        return "APIPermission{" +
+                "ipRestrict=" + ipRestrict +
+                ", createTime=" + createTime +
+                ", enableWithdrawals=" + enableWithdrawals +
+                ", enableInternalTransfer=" + enableInternalTransfer +
+                ", permitsUniversalTransfer=" + permitsUniversalTransfer +
+                ", enableVanillaOptions=" + enableVanillaOptions +
+                ", enableReading=" + enableReading +
+                ", enableFutures=" + enableFutures +
+                ", enableMargin=" + enableMargin +
+                ", enableSpotAndMarginTrading=" + enableSpotAndMarginTrading +
+                ", tradingAuthorityExpirationTime=" + tradingAuthorityExpirationTime +
+                '}';
+    }
+
 }

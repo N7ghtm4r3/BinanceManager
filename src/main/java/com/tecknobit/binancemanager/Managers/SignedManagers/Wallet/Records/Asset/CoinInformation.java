@@ -300,6 +300,26 @@ public class CoinInformation {
         this.withdrawing = withdrawing;
     }
 
+    @Override
+    public String toString() {
+        return "CoinInformation{" +
+                "coin='" + coin + '\'' +
+                ", depositAllEnable=" + depositAllEnable +
+                ", free=" + free +
+                ", freeze=" + freeze +
+                ", ipoable=" + ipoable +
+                ", ipoing=" + ipoing +
+                ", isLegalMoney=" + isLegalMoney +
+                ", locked=" + locked +
+                ", name='" + name + '\'' +
+                ", networkItemsList=" + networkItemsList +
+                ", storage=" + storage +
+                ", trading=" + trading +
+                ", withdrawAllEnable=" + withdrawAllEnable +
+                ", withdrawing=" + withdrawing +
+                '}';
+    }
+
     /**
      *  The {@code NetworkItem} class is useful to obtain and format NetworkItem object
      *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
@@ -564,6 +584,31 @@ public class CoinInformation {
 
         public boolean isSameAddress() {
             return sameAddress;
+        }
+
+        @Override
+        public String toString() {
+            return "NetworkItem{" +
+                    "addressRegex='" + addressRegex + '\'' +
+                    ", coin='" + coin + '\'' +
+                    ", depositDesc='" + depositDesc + '\'' +
+                    ", depositEnable=" + depositEnable +
+                    ", isDefault=" + isDefault +
+                    ", memoRegex='" + memoRegex + '\'' +
+                    ", minConfirm=" + minConfirm +
+                    ", name='" + name + '\'' +
+                    ", network='" + network + '\'' +
+                    ", resetAddressStatus=" + resetAddressStatus +
+                    ", specialTips='" + specialTips + '\'' +
+                    ", unLockConfirm=" + unLockConfirm +
+                    ", withdrawDesc='" + withdrawDesc + '\'' +
+                    ", withdrawEnable=" + withdrawEnable +
+                    ", withdrawFee=" + withdrawFee +
+                    ", withdrawIntegerMultiple=" + withdrawIntegerMultiple +
+                    ", withdrawMax=" + withdrawMax +
+                    ", withdrawMin=" + withdrawMin +
+                    ", sameAddress=" + sameAddress +
+                    '}';
         }
 
     }

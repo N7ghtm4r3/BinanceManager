@@ -108,6 +108,16 @@ public class ConvertibleBNBAssets {
         this.dribbletPercentage = dribbletPercentage;
     }
 
+    @Override
+    public String toString() {
+        return "ConvertibleBNBAssets{" +
+                "assetsDetailsList=" + assetsDetailsList +
+                ", totalTransferBtc=" + totalTransferBtc +
+                ", totalTransferBNB=" + totalTransferBNB +
+                ", dribbletPercentage=" + dribbletPercentage +
+                '}';
+    }
+
     /**
      *  The {@code AssetDetail} class is useful to obtain and format AssetDetail object
      *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
@@ -263,6 +273,19 @@ public class ConvertibleBNBAssets {
             if(exchange < 0)
                 throw new IllegalArgumentException("Exchange value cannot be less than 0");
             this.exchange = exchange;
+        }
+
+        @Override
+        public String toString() {
+            return "AssetDetails{" +
+                    "asset='" + asset + '\'' +
+                    ", assetFullName='" + assetFullName + '\'' +
+                    ", amountFree=" + amountFree +
+                    ", toBTC=" + toBTC +
+                    ", toBNB=" + toBNB +
+                    ", toBNBOffExchange=" + toBNBOffExchange +
+                    ", exchange=" + exchange +
+                    '}';
         }
 
     }

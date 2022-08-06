@@ -127,4 +127,22 @@ public class MarginAccountTrade extends Fill {
         return time;
     }
 
+    @Override
+    public String toString() {
+        return "MarginAccountTrade{" +
+                "id=" + id +
+                ", isBestMatch=" + isBestMatch +
+                ", isBuyer=" + isBuyer +
+                ", isMaker=" + isMaker +
+                ", orderId=" + orderId +
+                ", symbol='" + symbol + '\'' +
+                ", isIsolated=" + isIsolated +
+                ", time=" + time +
+                ", price=" + price +
+                ", qty=" + qty +
+                ", commission=" + commission +
+                ", commissionAsset='" + commissionAsset + '\'' +
+                '}';
+    }
+
 }

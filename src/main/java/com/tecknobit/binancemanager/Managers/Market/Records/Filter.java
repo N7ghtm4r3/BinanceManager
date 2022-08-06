@@ -99,12 +99,21 @@ public class Filter {
      * @return JsonObject of key and values of a filter
      * **/
     public JSONObject getFilterDetails() {
-       HashMap<String,HashMap<String,Object>> filterDetails = new HashMap<>();
-       HashMap<String,Object> filterValues = new HashMap<>();
+       HashMap<String, HashMap<String,Object>> filterDetails = new HashMap<>();
+       HashMap<String, Object> filterValues = new HashMap<>();
        for (int j=0; j < keys.size(); j++)
            filterValues.put(keys.get(j),values.get(j));
        filterDetails.put(filterType, filterValues);
        return new JSONObject(filterDetails);
+    }
+
+    @Override
+    public String toString() {
+        return "Filter{" +
+                "keys=" + keys +
+                ", values=" + values +
+                ", filterType='" + filterType + '\'' +
+                '}';
     }
 
     /**
@@ -140,6 +149,14 @@ public class Filter {
 
         public Object getValue() {
             return value;
+        }
+
+        @Override
+        public String toString() {
+            return "FilterDetails{" +
+                    "key='" + key + '\'' +
+                    ", value=" + value +
+                    '}';
         }
 
     }

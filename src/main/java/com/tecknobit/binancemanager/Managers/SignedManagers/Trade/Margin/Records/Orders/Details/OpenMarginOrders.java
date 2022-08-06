@@ -73,4 +73,12 @@ public class OpenMarginOrders {
         return composedMarginOrderDetailsList.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "OpenMarginOrders{" +
+                "detailMarginOrdersList=" + detailMarginOrdersList +
+                ", composedMarginOrderDetailsList=" + composedMarginOrderDetailsList +
+                '}';
+    }
+
 }

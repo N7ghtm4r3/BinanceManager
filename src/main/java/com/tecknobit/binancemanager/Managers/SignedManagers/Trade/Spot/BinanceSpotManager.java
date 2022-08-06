@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot;
 
 import com.tecknobit.binancemanager.Exceptions.SystemException;
+import com.tecknobit.binancemanager.Managers.BinanceManager;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.OrderDetails;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account.OrderCountUsage;
@@ -19,10 +20,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
+import static com.tecknobit.apimanager.Manager.APIRequest.*;
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
-import static com.tecknobit.binancemanager.Helpers.RequestManager.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.TradeConstants.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Details.DetailSpotOrder.assembleDetailSpotOrderObject;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.SpotOrder.*;
@@ -58,16 +58,16 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param symbol: symbol used in the request es. BTCBUSD
      * @param side: BUY or SELL order
      * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
-     * @param extraParams: extraParams of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
      * @return result of the order WITHOUT buy or sell nothing, if is correct return "{}" else error of the request
      * **/
-    public String testNewOrder(String symbol, String side, String type, HashMap<String, Object> extraParams) throws Exception {
+    public String testNewOrder(String symbol, String side, String type, BinanceManager.Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&side=" + side + "&type=" + type;
-        return sendSignedRequest(SPOT_TEST_NEW_ORDER_ENDPOINT, requestManager.assembleAdditionalParams(params, extraParams),
+        return sendSignedRequest(SPOT_TEST_NEW_ORDER_ENDPOINT, apiRequest.encodeAdditionalParams(params, extraParams),
                 POST_METHOD);
     }
 
@@ -76,7 +76,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param extraParams: extraParams of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
@@ -84,10 +84,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order WITHOUT buy or sell nothing, if is correct return "{}" else error of the request
      * **/
     public String testNewOrder(String symbol, String side, String type, String newOrderRespType,
-                               HashMap<String,Object> extraParams) throws Exception {
+                               BinanceManager.Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&side=" + side + "&type=" + type
                  + "&newOrderRespType=" + newOrderRespType;
-        return sendSignedRequest(SPOT_TEST_NEW_ORDER_ENDPOINT, requestManager.assembleAdditionalParams(params, extraParams),
+        return sendSignedRequest(SPOT_TEST_NEW_ORDER_ENDPOINT, apiRequest.encodeAdditionalParams(params, extraParams),
                 POST_METHOD);
     }
 
@@ -95,7 +95,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param symbol: symbol used in the request es. BTCBUSD
      * @param side: BUY or SELL order
      * @param price: price value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -103,7 +103,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendLimitOrder(String symbol, String side, String timeInForce, double quantity,
-                                 double price, HashMap<String, Object> extraParams) throws Exception {
+                                 double price, BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, LIMIT, getLimitPayload(timeInForce, quantity, price, extraParams));
     }
 
@@ -111,7 +111,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param symbol: symbol used in the request es. BTCBUSD
      * @param side: BUY or SELL order
      * @param price: price value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -119,7 +119,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendLimitOrderJSON(String symbol, String side, String timeInForce, double quantity,
-                                         double price, HashMap<String, Object> extraParams) throws Exception {
+                                         double price, BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendLimitOrder(symbol, side, timeInForce, quantity, price, extraParams));
     }
 
@@ -127,7 +127,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param symbol: symbol used in the request es. BTCBUSD
      * @param side: BUY or SELL order
      * @param price: price value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -135,7 +135,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link ACKSpotOrder}
      * **/
     public <T extends ACKSpotOrder> T sendLimitOrderObject(String symbol, String side, String timeInForce, double quantity,
-                                                           double price, HashMap<String, Object> extraParams) throws Exception {
+                                                           double price, BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, LIMIT, getLimitPayload(timeInForce, quantity, price, extraParams));
     }
 
@@ -143,7 +143,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param symbol: symbol used in the request es. BTCBUSD
      * @param side: BUY or SELL order
      * @param quantity: quantity value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -151,7 +151,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendMarketOrderQty(String symbol, String side, double quantity,
-                                     HashMap<String, Object> extraParams) throws Exception {
+                                     BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, MARKET, getMarketPayload("quantity", quantity, extraParams));
     }
 
@@ -159,7 +159,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param symbol: symbol used in the request es. BTCBUSD
      * @param side: BUY or SELL order
      * @param quantity: quantity value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -167,7 +167,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendMarketOrderQtyJSON(String symbol, String side, double quantity,
-                                             HashMap<String, Object> extraParams) throws Exception {
+                                             BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendMarketOrderQty(symbol, side, quantity, extraParams));
     }
 
@@ -175,7 +175,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param symbol: symbol used in the request es. BTCBUSD
      * @param side: BUY or SELL order
      * @param quantity: quantity value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -183,7 +183,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link ACKSpotOrder}
      * **/
     public <T extends ACKSpotOrder> T sendMarketOrderQtyObject(String symbol, String side, double quantity,
-                                                               HashMap<String, Object> extraParams) throws Exception {
+                                                               BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, MARKET, getMarketPayload("quantity", quantity, extraParams));
     }
 
@@ -191,7 +191,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param symbol: symbol used in the request es. BTCBUSD
      * @param side: BUY or SELL order
      * @param quoteQuantity: quote quantity value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -199,7 +199,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendMarketOrderQuoteQty(String symbol, String side, double quoteQuantity,
-                                          HashMap<String, Object> extraParams) throws Exception {
+                                          BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, MARKET, getMarketPayload("quoteOrderQty", quoteQuantity, extraParams));
     }
 
@@ -207,7 +207,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param symbol: symbol used in the request es. BTCBUSD
      * @param side: BUY or SELL order
      * @param quoteQuantity: quote quantity value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -215,7 +215,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendMarketOrderQuoteQtyJSON(String symbol, String side, double quoteQuantity,
-                                                  HashMap<String, Object> extraParams) throws Exception {
+                                                  BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendMarketOrderQuoteQty(symbol, side, quoteQuantity, extraParams));
     }
 
@@ -223,7 +223,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param symbol: symbol used in the request es. BTCBUSD
      * @param side: BUY or SELL order
      * @param quoteQuantity: quote quantity value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -231,7 +231,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link ACKSpotOrder}
      * **/
     public <T extends ACKSpotOrder> T sendMarketOrderQuoteQtyObject(String symbol, String side, double quoteQuantity,
-                                                                    HashMap<String, Object> extraParams) throws Exception {
+                                                                    BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, MARKET, getMarketPayload("quoteOrderQty", quoteQuantity,
                 extraParams));
     }
@@ -241,7 +241,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param quantity: quantity value in the order
      * @param stopPrice: stop price value for the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -249,7 +249,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendStopLossOrderPrice(String symbol, String side, double quantity, double stopPrice,
-                                         HashMap<String, Object> extraParams) throws Exception {
+                                         BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, STOP_LOSS, getLevelPayload(quantity, "stopPrice", stopPrice,
                 extraParams));
     }
@@ -259,7 +259,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param quantity: quantity value in the order
      * @param stopPrice: stop price value for the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -267,7 +267,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendStopLossOrderPriceJSON(String symbol, String side, double quantity, double stopPrice,
-                                                 HashMap<String, Object> extraParams) throws Exception {
+                                                 BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendStopLossOrderPrice(symbol, side, quantity, stopPrice, extraParams));
     }
 
@@ -276,7 +276,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param quantity: quantity value in the order
      * @param stopPrice: stop price value for the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -284,7 +284,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link ACKSpotOrder}
      * **/
     public <T extends ACKSpotOrder> T sendStopLossOrderPriceObject(String symbol, String side, double quantity, double stopPrice,
-                                                                   HashMap<String, Object> extraParams) throws Exception {
+                                                                   BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, STOP_LOSS, getLevelPayload(quantity, "stopPrice", stopPrice,
                 extraParams));
     }
@@ -294,7 +294,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param quantity: quantity value in the order
      * @param trailingDelta: stop price value for the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -302,7 +302,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendStopLossOrderDelta(String symbol, String side, double quantity, double trailingDelta,
-                                         HashMap<String, Object> extraParams) throws Exception {
+                                         BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, STOP_LOSS, getLevelPayload(quantity, "trailingDelta", trailingDelta,
                 extraParams));
     }
@@ -312,7 +312,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param quantity: quantity value in the order
      * @param trailingDelta: stop price value for the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -320,7 +320,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendStopLossOrderDeltaJSON(String symbol, String side, double quantity, double trailingDelta,
-                                                 HashMap<String, Object> extraParams) throws Exception {
+                                                 BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendStopLossOrderDelta(symbol, side, quantity, trailingDelta, extraParams));
     }
 
@@ -329,7 +329,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param quantity: quantity value in the order
      * @param trailingDelta: stop price value for the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -338,7 +338,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public <T extends ACKSpotOrder> T sendStopLossOrderDeltaObject(String symbol, String side, double quantity,
                                                                    double trailingDelta,
-                                                                   HashMap<String, Object> extraParams) throws Exception {
+                                                                   BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, STOP_LOSS, getLevelPayload(quantity, "trailingDelta",
                 trailingDelta, extraParams));
     }
@@ -350,7 +350,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param stopPrice: stop price value for the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -358,7 +358,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendStopLossLimitOrderPrice(String symbol, String side, String timeInForce, double quantity,
-                                              double price, double stopPrice, HashMap<String, Object> extraParams) throws Exception {
+                                              double price, double stopPrice, BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
                 "stopPrice", stopPrice, extraParams));
     }
@@ -370,7 +370,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param stopPrice: stop price value for the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -378,7 +378,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendStopLossLimitOrderPriceJSON(String symbol, String side, String timeInForce, double quantity,
-                                                      double price, double stopPrice, HashMap<String, Object> extraParams) throws Exception {
+                                                      double price, double stopPrice, BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendStopLossLimitOrderPrice(symbol, side, timeInForce, quantity, price, stopPrice, extraParams));
     }
 
@@ -389,7 +389,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param stopPrice: stop price value for the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -398,7 +398,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public <T extends ACKSpotOrder> T sendStopLossLimitOrderPriceObject(String symbol, String side, String timeInForce,
                                                                         double quantity, double price, double stopPrice,
-                                                                        HashMap<String, Object> extraParams) throws Exception {
+                                                                        BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
                 "stopPrice", stopPrice, extraParams));
     }
@@ -410,7 +410,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param trailingDelta: trailing delta value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -418,7 +418,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendStopLossLimitOrderDelta(String symbol, String side, String timeInForce, double quantity,
-                                              double price, double trailingDelta, HashMap<String, Object> extraParams) throws Exception {
+                                              double price, double trailingDelta, BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce, quantity, trailingDelta,
                 "trailingDelta", trailingDelta, extraParams));
     }
@@ -430,7 +430,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param trailingDelta: trailing delta value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -438,7 +438,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendStopLossLimitOrderDeltaJSON(String symbol, String side, String timeInForce, double quantity,
-                                                      double price, double trailingDelta, HashMap<String, Object> extraParams) throws Exception {
+                                                      double price, double trailingDelta, BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendStopLossLimitOrderDelta(symbol, side, timeInForce, quantity, price, trailingDelta, extraParams));
     }
 
@@ -449,7 +449,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param trailingDelta: trailing delta value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -458,7 +458,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public <T extends ACKSpotOrder> T sendStopLossLimitOrderDeltaObject(String symbol, String side, String timeInForce,
                                                                         double quantity, double price, double trailingDelta,
-                                                                        HashMap<String, Object> extraParams) throws Exception {
+                                                                        BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
                 "trailingDelta", trailingDelta, extraParams));
     }
@@ -468,7 +468,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param quantity: quantity value in the order
      * @param stopPrice: stop price value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -476,7 +476,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendTakeProfitOrderPrice(String symbol, String side, double quantity, double stopPrice,
-                                           HashMap<String, Object> extraParams) throws Exception {
+                                           BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, TAKE_PROFIT, getLevelPayload(quantity, "stopPrice", stopPrice,
                 extraParams));
     }
@@ -486,7 +486,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param quantity: quantity value in the order
      * @param stopPrice: stop price value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -494,7 +494,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendTakeProfitOrderPriceJSON(String symbol, String side, double quantity, double stopPrice,
-                                                   HashMap<String, Object> extraParams) throws Exception {
+                                                   BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendTakeProfitOrderPrice(symbol, side, quantity, stopPrice, extraParams));
     }
 
@@ -503,7 +503,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param quantity: quantity value in the order
      * @param stopPrice: stop price value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -511,7 +511,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link ACKSpotOrder}
      * **/
     public <T extends ACKSpotOrder> T sendTakeProfitOrderPriceObject(String symbol, String side, double quantity,
-                                                                     double stopPrice, HashMap<String, Object> extraParams) throws Exception {
+                                                                     double stopPrice, BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, TAKE_PROFIT, getLevelPayload(quantity, "stopPrice", stopPrice,
                 extraParams));
     }
@@ -521,7 +521,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param quantity: quantity value in the order
      * @param trailingDelta: trailing delta value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -529,7 +529,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendTakeProfitOrderDelta(String symbol, String side, double quantity, double trailingDelta,
-                                           HashMap<String, Object> extraParams) throws Exception {
+                                           BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, TAKE_PROFIT, getLevelPayload(quantity, "trailingDelta", trailingDelta,
                 extraParams));
     }
@@ -539,7 +539,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param quantity: quantity value in the order
      * @param trailingDelta: trailing delta value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -547,7 +547,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendTakeProfitOrderDeltaJSON(String symbol, String side, double quantity, double trailingDelta,
-                                                   HashMap<String, Object> extraParams) throws Exception {
+                                                   BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendTakeProfitOrderDelta(symbol, side, quantity, trailingDelta, extraParams));
     }
 
@@ -556,7 +556,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param quantity: quantity value in the order
      * @param trailingDelta: trailing delta value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -565,7 +565,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public <T extends ACKSpotOrder> T sendTakeProfitOrderDeltaObject(String symbol, String side, double quantity,
                                                                      double trailingDelta,
-                                                                     HashMap<String, Object> extraParams) throws Exception {
+                                                                     BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, TAKE_PROFIT, getLevelPayload(quantity, "trailingDelta",
                 trailingDelta, extraParams));
     }
@@ -577,7 +577,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param stopPrice: stop price value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -585,7 +585,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendTakeProfitLimitOrderPrice(String symbol, String side, String timeInForce, double quantity,
-                                                double price, double stopPrice, HashMap<String, Object> extraParams) throws Exception {
+                                                double price, double stopPrice, BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
                 "stopPrice", stopPrice, extraParams));
     }
@@ -597,7 +597,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param stopPrice: stop price value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -605,7 +605,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendTakeProfitLimitOrderPriceJSON(String symbol, String side, String timeInForce, double quantity,
-                                                        double price, double stopPrice, HashMap<String, Object> extraParams) throws Exception {
+                                                        double price, double stopPrice, BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendStopLossLimitOrderPrice(symbol, side, timeInForce, quantity, price, stopPrice, extraParams));
     }
 
@@ -616,7 +616,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param stopPrice: stop price value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -625,7 +625,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public <T extends ACKSpotOrder> T sendTakeProfitLimitOrderPriceObject(String symbol, String side, String timeInForce,
                                                                           double quantity, double price, double stopPrice,
-                                                                          HashMap<String, Object> extraParams) throws Exception {
+                                                                          BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
                 "stopPrice", stopPrice, extraParams));
     }
@@ -637,7 +637,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param trailingDelta: trailing delta value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -645,7 +645,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendTakeProfitLimitOrderDelta(String symbol, String side, String timeInForce, double quantity,
-                                                double price, double trailingDelta, HashMap<String, Object> extraParams) throws Exception {
+                                                double price, double trailingDelta, BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce, quantity, trailingDelta,
                 "trailingDelta", trailingDelta, extraParams));
     }
@@ -657,7 +657,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param trailingDelta: trailing delta value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -665,7 +665,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendTakeProfitLimitOrderDeltaJSON(String symbol, String side, String timeInForce, double quantity,
-                                                        double price, double trailingDelta, HashMap<String, Object> extraParams) throws Exception {
+                                                        double price, double trailingDelta, BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendTakeProfitLimitOrderDelta(symbol, side, timeInForce, quantity, price, trailingDelta, extraParams));
     }
 
@@ -676,7 +676,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param trailingDelta: trailing delta value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -685,7 +685,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public <T extends ACKSpotOrder> T sendTakeProfitLimitOrderDeltaObject(String symbol, String side, String timeInForce,
                                                                           double quantity, double price, double trailingDelta,
-                                                                          HashMap<String, Object> extraParams) throws Exception {
+                                                                          BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
                 "trailingDelta", trailingDelta, extraParams));
     }
@@ -695,7 +695,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param quantity: quantity value in the order
      * @param price: price value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -703,7 +703,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendLimitMakerOrder(String symbol, String side, double quantity, double price,
-                                      HashMap<String, Object> extraParams) throws Exception {
+                                      BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, LIMIT_MAKER, getLimitMakerPayload(quantity, price, extraParams));
     }
 
@@ -712,7 +712,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param quantity: quantity value in the order
      * @param price: price value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -720,7 +720,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendLimitMakerOrderJSON(String symbol, String side, double quantity, double price,
-                                              HashMap<String, Object> extraParams) throws Exception {
+                                              BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendLimitMakerOrder(symbol, side, quantity, price, extraParams));
     }
 
@@ -729,7 +729,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param quantity: quantity value in the order
      * @param price: price value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -737,7 +737,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link ACKSpotOrder}
      * **/
     public <T extends ACKSpotOrder> T sendLimitMakerOrderObject(String symbol, String side, double quantity, double price,
-                                                                HashMap<String, Object> extraParams) throws Exception {
+                                                                BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, LIMIT_MAKER, getLimitMakerPayload(quantity, price, extraParams));
     }
 
@@ -745,16 +745,16 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param symbol: symbol used in the request es. BTCBUSD
      * @param side: BUY or SELL order
      * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as String
      * **/
-    private String sendNewOrder(String symbol, String side, String type, HashMap<String, Object> extraParams) throws Exception {
+    private String sendNewOrder(String symbol, String side, String type, BinanceManager.Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&side=" + side + "&type=" + type;
-        return sendSignedRequest(SPOT_ORDER_ENDPOINT, requestManager.assembleAdditionalParams(params, extraParams),
+        return sendSignedRequest(SPOT_ORDER_ENDPOINT, apiRequest.encodeAdditionalParams(params, extraParams),
                 POST_METHOD);
     }
 
@@ -762,7 +762,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param symbol: symbol used in the request es. BTCBUSD
      * @param side: BUY or SELL order
      * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
-     * @param extraParams: extraParams of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -772,12 +772,12 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @implNote with other types will be an {@link ACKSpotOrder} object
      * **/
     private <T extends ACKSpotOrder> T sendNewOrderObject(String symbol, String side, String type,
-                                                          HashMap<String, Object> extraParams) throws Exception {
-        jsonObject = new JSONObject(sendNewOrder(symbol, side, type, extraParams));
+                                                          BinanceManager.Params extraParams) throws Exception {
+        JSONObject spotOrder = new JSONObject(sendNewOrder(symbol, side, type, extraParams));
         if(type.equals(LIMIT) || type.equals(MARKET))
-            return (T) getFullOrderResponse(jsonObject);
+            return (T) getFullOrderResponse(spotOrder);
         else
-            return (T) getACKResponse(jsonObject);
+            return (T) getACKResponse(spotOrder);
     }
 
     /** Request to send a limit spot order
@@ -785,7 +785,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param price: price value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -793,7 +793,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendLimitOrder(String symbol, String side, String newOrderRespType, String timeInForce, double quantity,
-                                 double price, HashMap<String, Object> extraParams) throws Exception {
+                                 double price, BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, newOrderRespType, LIMIT, getLimitPayload(timeInForce, quantity, price, extraParams));
     }
 
@@ -802,7 +802,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param price: price value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -810,7 +810,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendLimitOrderJSON(String symbol, String side, String newOrderRespType, String timeInForce, double quantity,
-                                         double price, HashMap<String, Object> extraParams) throws Exception {
+                                         double price, BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendLimitOrder(symbol, side, newOrderRespType, timeInForce, quantity, price, extraParams));
     }
 
@@ -819,7 +819,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param price: price value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -828,7 +828,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public <T extends ACKSpotOrder> T sendLimitOrderObject(String symbol, String side, String newOrderRespType,
                                                            String timeInForce, double quantity, double price,
-                                                           HashMap<String, Object> extraParams) throws Exception {
+                                                           BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, newOrderRespType, LIMIT, getLimitPayload(timeInForce, quantity, price,
                 extraParams));
     }
@@ -838,7 +838,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quantity: quantity value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -846,7 +846,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendMarketOrderQty(String symbol, String side, String newOrderRespType, double quantity,
-                                     HashMap<String, Object> extraParams) throws Exception {
+                                     BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, newOrderRespType, MARKET, getMarketPayload("quantity", quantity,
                 extraParams));
     }
@@ -856,7 +856,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quantity: quantity value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -864,7 +864,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendMarketOrderQtyJSON(String symbol, String side, String newOrderRespType, double quantity,
-                                             HashMap<String, Object> extraParams) throws Exception {
+                                             BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendMarketOrderQty(symbol, side, newOrderRespType, quantity, extraParams));
     }
 
@@ -873,7 +873,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quantity: quantity value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -881,7 +881,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link ACKSpotOrder}
      * **/
     public <T extends ACKSpotOrder> T sendMarketOrderQtyObject(String symbol, String side, String newOrderRespType,
-                                                               double quantity, HashMap<String, Object> extraParams) throws Exception {
+                                                               double quantity, BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, newOrderRespType, MARKET, getMarketPayload("quantity", quantity,
                 extraParams));
     }
@@ -891,7 +891,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quoteQuantity: quote quantity value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -899,7 +899,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendMarketOrderQuoteQty(String symbol, String side, String newOrderRespType, double quoteQuantity,
-                                          HashMap<String, Object> extraParams) throws Exception {
+                                          BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, newOrderRespType, MARKET, getMarketPayload("quoteOrderQty", quoteQuantity,
                 extraParams));
     }
@@ -909,7 +909,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quoteQuantity: quote quantity value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -917,7 +917,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendMarketOrderQuoteQtyJSON(String symbol, String side, String newOrderRespType, double quoteQuantity,
-                                                  HashMap<String, Object> extraParams) throws Exception {
+                                                  BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendMarketOrderQuoteQty(symbol, side, newOrderRespType, quoteQuantity, extraParams));
     }
 
@@ -926,7 +926,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quoteQuantity: quote quantity value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -934,7 +934,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link ACKSpotOrder}
      * **/
     public <T extends ACKSpotOrder> T sendMarketOrderQuoteQtyObject(String symbol, String side, String newOrderRespType,
-                                                                    double quoteQuantity, HashMap<String, Object> extraParams) throws Exception {
+                                                                    double quoteQuantity, BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, newOrderRespType, MARKET, getMarketPayload("quoteOrderQty",
                 quoteQuantity, extraParams));
     }
@@ -945,7 +945,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quantity: quantity value in the order
      * @param stopPrice: stop price value for the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -953,7 +953,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendStopLossOrderPrice(String symbol, String side, String newOrderRespType, double quantity, double stopPrice,
-                                         HashMap<String, Object> extraParams) throws Exception {
+                                         BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, newOrderRespType, STOP_LOSS, getLevelPayload(quantity, "stopPrice", stopPrice,
                 extraParams));
     }
@@ -964,7 +964,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quantity: quantity value in the order
      * @param stopPrice: stop price value for the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -972,7 +972,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendStopLossOrderPriceJSON(String symbol, String side, String newOrderRespType, double quantity,
-                                                 double stopPrice, HashMap<String, Object> extraParams) throws Exception {
+                                                 double stopPrice, BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendStopLossOrderPrice(symbol, side, newOrderRespType, quantity, stopPrice, extraParams));
     }
 
@@ -982,7 +982,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quantity: quantity value in the order
      * @param stopPrice: stop price value for the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -991,7 +991,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public <T extends ACKSpotOrder> T sendStopLossOrderPriceObject(String symbol, String side, String newOrderRespType,
                                                                    double quantity, double stopPrice,
-                                                                   HashMap<String, Object> extraParams) throws Exception {
+                                                                   BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, newOrderRespType, STOP_LOSS, getLevelPayload(quantity, "stopPrice",
                 stopPrice, extraParams));
     }
@@ -1002,7 +1002,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quantity: quantity value in the order
      * @param trailingDelta: stop price value for the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1010,7 +1010,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendStopLossOrderDelta(String symbol, String side, String newOrderRespType, double quantity,
-                                         double trailingDelta, HashMap<String, Object> extraParams) throws Exception {
+                                         double trailingDelta, BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, newOrderRespType, STOP_LOSS, getLevelPayload(quantity, "trailingDelta",
                 trailingDelta, extraParams));
     }
@@ -1021,7 +1021,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quantity: quantity value in the order
      * @param trailingDelta: stop price value for the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1029,7 +1029,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendStopLossOrderDeltaJSON(String symbol, String side, String newOrderRespType, double quantity,
-                                                 double trailingDelta, HashMap<String, Object> extraParams) throws Exception {
+                                                 double trailingDelta, BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendStopLossOrderDelta(symbol, side, newOrderRespType, quantity, trailingDelta, extraParams));
     }
 
@@ -1039,7 +1039,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quantity: quantity value in the order
      * @param trailingDelta: stop price value for the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1048,7 +1048,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public <T extends ACKSpotOrder> T sendStopLossOrderDeltaObject(String symbol, String side, String newOrderRespType,
                                                                    double quantity, double trailingDelta,
-                                                                   HashMap<String, Object> extraParams) throws Exception {
+                                                                   BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, newOrderRespType, STOP_LOSS, getLevelPayload(quantity, "trailingDelta",
                 trailingDelta, extraParams));
     }
@@ -1061,7 +1061,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param stopPrice: stop price value for the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1070,7 +1070,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String sendStopLossLimitOrderPrice(String symbol, String side, String newOrderRespType, String timeInForce,
                                               double quantity, double price, double stopPrice,
-                                              HashMap<String, Object> extraParams) throws Exception {
+                                              BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, newOrderRespType, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce, quantity,
                 price, "stopPrice", stopPrice, extraParams));
     }
@@ -1083,7 +1083,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param stopPrice: stop price value for the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1092,7 +1092,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public JSONObject sendStopLossLimitOrderPriceJSON(String symbol, String side, String newOrderRespType, String timeInForce,
                                                       double quantity, double price, double stopPrice,
-                                                      HashMap<String, Object> extraParams) throws Exception {
+                                                      BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendStopLossLimitOrderPrice(symbol, side, newOrderRespType, timeInForce, quantity, price,
                 stopPrice, extraParams));
     }
@@ -1105,7 +1105,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param stopPrice: stop price value for the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1114,8 +1114,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public <T extends ACKSpotOrder> T sendStopLossLimitOrderPriceObject(String symbol, String side, String newOrderRespType,
                                                                         String timeInForce, double quantity, double price,
-                                                                        double stopPrice,
-                                                                        HashMap<String, Object> extraParams) throws Exception {
+                                                                        double stopPrice, BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, newOrderRespType, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce,
                 quantity, price, "stopPrice", stopPrice, extraParams));
     }
@@ -1128,7 +1127,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param trailingDelta: trailing delta value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1137,7 +1136,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String sendStopLossLimitOrderDelta(String symbol, String side, String newOrderRespType, String timeInForce,
                                               double quantity, double price, double trailingDelta,
-                                              HashMap<String, Object> extraParams) throws Exception {
+                                              BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, newOrderRespType, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce, quantity,
                 trailingDelta, "trailingDelta", trailingDelta, extraParams));
     }
@@ -1150,7 +1149,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param trailingDelta: trailing delta value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1159,7 +1158,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public JSONObject sendStopLossLimitOrderDeltaJSON(String symbol, String side, String newOrderRespType, String timeInForce,
                                                       double quantity, double price, double trailingDelta,
-                                                      HashMap<String, Object> extraParams) throws Exception {
+                                                      BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendStopLossLimitOrderDelta(symbol, side, newOrderRespType, timeInForce, quantity, price,
                 trailingDelta, extraParams));
     }
@@ -1172,7 +1171,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param trailingDelta: trailing delta value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1182,7 +1181,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     public <T extends ACKSpotOrder> T sendStopLossLimitOrderDeltaObject(String symbol, String side, String newOrderRespType,
                                                                         String timeInForce, double quantity, double price,
                                                                         double trailingDelta,
-                                                                        HashMap<String, Object> extraParams) throws Exception {
+                                                                        BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, newOrderRespType, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce,
                 quantity, price, "trailingDelta", trailingDelta, extraParams));
     }
@@ -1193,7 +1192,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quantity: quantity value in the order
      * @param stopPrice: stop price value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1201,7 +1200,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendTakeProfitOrderPrice(String symbol, String side, String newOrderRespType, double quantity,
-                                           double stopPrice, HashMap<String, Object> extraParams) throws Exception {
+                                           double stopPrice, BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, newOrderRespType, TAKE_PROFIT, getLevelPayload(quantity, "stopPrice", stopPrice,
                 extraParams));
     }
@@ -1212,7 +1211,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quantity: quantity value in the order
      * @param stopPrice: stop price value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1220,7 +1219,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendTakeProfitOrderPriceJSON(String symbol, String side, String newOrderRespType, double quantity,
-                                                   double stopPrice, HashMap<String, Object> extraParams) throws Exception {
+                                                   double stopPrice, BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendTakeProfitOrderPrice(symbol, side, newOrderRespType, quantity, stopPrice, extraParams));
     }
 
@@ -1230,7 +1229,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quantity: quantity value in the order
      * @param stopPrice: stop price value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1239,7 +1238,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public <T extends ACKSpotOrder> T sendTakeProfitOrderPriceObject(String symbol, String side, String newOrderRespType,
                                                                      double quantity, double stopPrice,
-                                                                     HashMap<String, Object> extraParams) throws Exception {
+                                                                     BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, newOrderRespType, TAKE_PROFIT, getLevelPayload(quantity, "stopPrice",
                 stopPrice, extraParams));
     }
@@ -1250,7 +1249,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quantity: quantity value in the order
      * @param trailingDelta: trailing delta value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1258,7 +1257,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendTakeProfitOrderDelta(String symbol, String side, String newOrderRespType, double quantity,
-                                           double trailingDelta, HashMap<String, Object> extraParams) throws Exception {
+                                           double trailingDelta, BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, newOrderRespType, TAKE_PROFIT, getLevelPayload(quantity, "trailingDelta",
                 trailingDelta, extraParams));
     }
@@ -1269,7 +1268,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quantity: quantity value in the order
      * @param trailingDelta: trailing delta value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1277,7 +1276,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendTakeProfitOrderDeltaJSON(String symbol, String side, String newOrderRespType, double quantity,
-                                                   double trailingDelta, HashMap<String, Object> extraParams) throws Exception {
+                                                   double trailingDelta, BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendTakeProfitOrderDelta(symbol, side, newOrderRespType, quantity, trailingDelta, extraParams));
     }
 
@@ -1287,7 +1286,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quantity: quantity value in the order
      * @param trailingDelta: trailing delta value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1296,7 +1295,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public <T extends ACKSpotOrder> T sendTakeProfitOrderDeltaObject(String symbol, String side, String newOrderRespType,
                                                                      double quantity, double trailingDelta,
-                                                                     HashMap<String, Object> extraParams) throws Exception {
+                                                                     BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, newOrderRespType, TAKE_PROFIT, getLevelPayload(quantity, "trailingDelta",
                 trailingDelta, extraParams));
     }
@@ -1309,7 +1308,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param stopPrice: stop price value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1318,7 +1317,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String sendTakeProfitLimitOrderPrice(String symbol, String side, String newOrderRespType, String timeInForce,
                                                 double quantity, double price, double stopPrice,
-                                                HashMap<String, Object> extraParams) throws Exception {
+                                                BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, newOrderRespType, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce, quantity,
                 price, "stopPrice", stopPrice, extraParams));
     }
@@ -1331,7 +1330,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param stopPrice: stop price value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1340,7 +1339,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public JSONObject sendTakeProfitLimitOrderPriceJSON(String symbol, String side, String newOrderRespType,
                                                         String timeInForce, double quantity, double price, double stopPrice,
-                                                        HashMap<String, Object> extraParams) throws Exception {
+                                                        BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendStopLossLimitOrderPrice(symbol, side, newOrderRespType, timeInForce, quantity, price,
                 stopPrice, extraParams));
     }
@@ -1353,7 +1352,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param stopPrice: stop price value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1363,7 +1362,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     public <T extends ACKSpotOrder> T sendTakeProfitLimitOrderPriceObject(String symbol, String side, String newOrderRespType,
                                                                           String timeInForce, double quantity, double price,
                                                                           double stopPrice,
-                                                                          HashMap<String, Object> extraParams) throws Exception {
+                                                                          BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, newOrderRespType, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce,
                 quantity, price, "stopPrice", stopPrice, extraParams));
     }
@@ -1376,7 +1375,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param trailingDelta: trailing delta value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1385,7 +1384,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public String sendTakeProfitLimitOrderDelta(String symbol, String side, String newOrderRespType, String timeInForce,
                                                 double quantity, double price, double trailingDelta,
-                                                HashMap<String, Object> extraParams) throws Exception {
+                                                BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, newOrderRespType, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce, quantity,
                 trailingDelta, "trailingDelta", trailingDelta, extraParams));
     }
@@ -1398,7 +1397,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param trailingDelta: trailing delta value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1407,7 +1406,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public JSONObject sendTakeProfitLimitOrderDeltaJSON(String symbol, String side, String newOrderRespType,
                                                         String timeInForce, double quantity, double price, double trailingDelta,
-                                                        HashMap<String, Object> extraParams) throws Exception {
+                                                        BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendTakeProfitLimitOrderDelta(symbol, side, newOrderRespType, timeInForce, quantity, price,
                 trailingDelta, extraParams));
     }
@@ -1420,7 +1419,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param trailingDelta: trailing delta value
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1430,7 +1429,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     public <T extends ACKSpotOrder> T sendTakeProfitLimitOrderDeltaObject(String symbol, String side, String newOrderRespType,
                                                                           String timeInForce, double quantity, double price,
                                                                           double trailingDelta,
-                                                                          HashMap<String, Object> extraParams) throws Exception {
+                                                                          BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, newOrderRespType, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce,
                 quantity, price, "trailingDelta", trailingDelta, extraParams));
     }
@@ -1441,7 +1440,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quantity: quantity value in the order
      * @param price: price value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1449,7 +1448,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendLimitMakerOrder(String symbol, String side, String newOrderRespType, double quantity, double price,
-                                      HashMap<String, Object> extraParams) throws Exception {
+                                      BinanceManager.Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, newOrderRespType, LIMIT_MAKER, getLimitMakerPayload(quantity, price, extraParams));
     }
 
@@ -1459,7 +1458,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quantity: quantity value in the order
      * @param price: price value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1467,7 +1466,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendLimitMakerOrderJSON(String symbol, String side, String newOrderRespType, double quantity,
-                                              double price, HashMap<String, Object> extraParams) throws Exception {
+                                              double price, BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendLimitMakerOrder(symbol, side, quantity, price, extraParams));
     }
 
@@ -1477,7 +1476,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quantity: quantity value in the order
      * @param price: price value in the order
-     * @param extraParams: extraParams of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1486,7 +1485,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public <T extends ACKSpotOrder> T sendLimitMakerOrderObject(String symbol, String side, String newOrderRespType,
                                                                 double quantity, double price,
-                                                                HashMap<String, Object> extraParams) throws Exception {
+                                                                BinanceManager.Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, LIMIT_MAKER, newOrderRespType, getLimitMakerPayload(quantity, price,
                 extraParams));
     }
@@ -1496,7 +1495,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param extraParams: extraParams of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1504,10 +1503,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as String
      * **/
     private String sendNewOrder(String symbol, String side, String type, String newOrderRespType,
-                               HashMap<String, Object> extraParams) throws Exception {
+                               BinanceManager.Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&side=" + side + "&type=" + type
                  + "&newOrderRespType=" + newOrderRespType;
-        return sendSignedRequest(SPOT_ORDER_ENDPOINT, requestManager.assembleAdditionalParams(params, extraParams),
+        return sendSignedRequest(SPOT_ORDER_ENDPOINT, apiRequest.encodeAdditionalParams(params, extraParams),
                 POST_METHOD);
     }
 
@@ -1516,7 +1515,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param extraParams: extraParams of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -1529,29 +1528,29 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * </ul>
      * @return result of the order
      * **/
-    private <T extends ACKSpotOrder> T sendNewOrderObject(String symbol, String side, String type, String newOrderRespType,
-                                                         HashMap<String, Object> extraParams) throws Exception {
-        jsonObject = new JSONObject(sendNewOrder(symbol, side, type, newOrderRespType, extraParams));
+    private <T extends ACKSpotOrder> T sendNewOrderObject(String symbol, String side, String type, String newOrderRespType, 
+                                                          BinanceManager.Params extraParams) throws Exception {
+        JSONObject order = new JSONObject(sendNewOrder(symbol, side, type, newOrderRespType, extraParams));
         switch (newOrderRespType){
             case NEW_ORDER_RESP_TYPE_RESULT:
-                return (T) new ResultSpotOrder(jsonObject.getString("symbol"),
-                        jsonObject.getLong("orderId"),
-                        jsonObject.getLong("orderListId"),
-                        jsonObject.getString("clientOrderId"),
-                        jsonObject.getLong("transactTime"),
-                        jsonObject.getDouble("price"),
-                        jsonObject.getDouble("origQty"),
-                        jsonObject.getDouble("executedQty"),
-                        jsonObject.getDouble("cummulativeQuoteQty"),
-                        jsonObject.getString("status"),
-                        jsonObject.getString("timeInForce"),
-                        jsonObject.getString("type"),
-                        jsonObject.getString("side")
+                return (T) new ResultSpotOrder(order.getString("symbol"),
+                        order.getLong("orderId"),
+                        order.getLong("orderListId"),
+                        order.getString("clientOrderId"),
+                        order.getLong("transactTime"),
+                        order.getDouble("price"),
+                        order.getDouble("origQty"),
+                        order.getDouble("executedQty"),
+                        order.getDouble("cummulativeQuoteQty"),
+                        order.getString("status"),
+                        order.getString("timeInForce"),
+                        order.getString("type"),
+                        order.getString("side")
                 );
             case NEW_ORDER_RESP_TYPE_FULL:
-                return (T) getFullOrderResponse(jsonObject);
+                return (T) getFullOrderResponse(order);
             default:
-                return (T) getACKResponse(jsonObject);
+                return (T) getACKResponse(order);
         }
     }
 
@@ -1661,15 +1660,15 @@ public class BinanceSpotManager extends BinanceSignedManager {
     /** Request to cancel an SpotOrder
      * @param symbol: symbol used in the request es. BTCBUSD
      * @param orderId: identifier of the order es. 1232065
-     * @param extraParams: extra params of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
      * @return result of DetailSpotOrder operation as String
      * **/
-    public String cancelOrder(String symbol, long orderId, HashMap<String,Object> extraParams) throws Exception {
+    public String cancelOrder(String symbol, long orderId, BinanceManager.Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&orderId=" + orderId;
-        params = requestManager.assembleAdditionalParams(params, extraParams);
+        params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(SPOT_ORDER_ENDPOINT, params, DELETE_METHOD);
     }
 
@@ -1682,7 +1681,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
      * @return result of DetailSpotOrder operation as JsonObject
      * **/
-    public JSONObject cancelOrderJSON(String symbol, long orderId, HashMap<String,Object> extraParams) throws Exception {
+    public JSONObject cancelOrderJSON(String symbol, long orderId, BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(cancelOrder(symbol, orderId, extraParams));
     }
 
@@ -1695,7 +1694,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
      * @return result of DetailSpotOrder operation as {@link DetailSpotOrder} object
      * **/
-    public DetailSpotOrder cancelOrderObject(String symbol, long orderId, HashMap<String, Object> extraParams) throws Exception {
+    public DetailSpotOrder cancelOrderObject(String symbol, long orderId, BinanceManager.Params extraParams) throws Exception {
         return assembleDetailSpotOrderObject(new JSONObject(cancelOrderJSON(symbol, orderId, extraParams)));
     }
 
@@ -1708,9 +1707,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
      * @return result of DetailSpotOrder operation as String
      * **/
-    public String cancelOrder(String symbol, String origClientOrderId, HashMap<String, Object> extraParams) throws Exception {
+    public String cancelOrder(String symbol, String origClientOrderId, BinanceManager.Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId;
-        params = requestManager.assembleAdditionalParams(params, extraParams);
+        params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(SPOT_ORDER_ENDPOINT, params, DELETE_METHOD);
     }
 
@@ -1723,7 +1722,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
      * @return result of DetailSpotOrder operation as JsonObject
      * **/
-    public JSONObject cancelOrderJSON(String symbol, String origClientOrderId, HashMap<String, Object> extraParams) throws Exception {
+    public JSONObject cancelOrderJSON(String symbol, String origClientOrderId, BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(cancelOrder(symbol, origClientOrderId, extraParams));
     }
 
@@ -1737,7 +1736,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of DetailSpotOrder operation as {@link DetailSpotOrder} object
      * **/
     public DetailSpotOrder cancelOrderObject(String symbol, String origClientOrderId,
-                                             HashMap<String, Object> extraParams) throws Exception {
+                                             BinanceManager.Params extraParams) throws Exception {
         return assembleDetailSpotOrderObject(new JSONObject(cancelOrderJSON(symbol, origClientOrderId, extraParams)));
     }
 
@@ -2006,8 +2005,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#current-open-orders-user_data</a>
      * @return current open orders list as String
      * **/
-    public String getCurrentOpenOrders(HashMap<String, Object> extraParams) throws Exception {
-        String params = requestManager.assembleAdditionalParams(getParamTimestamp(), extraParams);
+    public String getCurrentOpenOrders(BinanceManager.Params extraParams) throws Exception {
+        String params = apiRequest.encodeAdditionalParams(getParamTimestamp(), extraParams);
         return sendSignedRequest(SPOT_OPEN_ORDERS_ENDPOINT, params, GET_METHOD);
     }
 
@@ -2018,7 +2017,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#current-open-orders-user_data</a>
      * @return current open orders list as JsonArray
      * **/
-    public JSONArray getJSONCurrentOpenOrders(HashMap<String, Object> extraParams) throws Exception {
+    public JSONArray getJSONCurrentOpenOrders(BinanceManager.Params extraParams) throws Exception {
         return new JSONArray(getCurrentOpenOrders(extraParams));
     }
 
@@ -2029,7 +2028,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#current-open-orders-user_data</a>
      * @return current open orders list as ArrayList<OrderStatus>
      * **/
-    public ArrayList<SpotOrderStatus> getCurrentOpenOrdersList(HashMap<String, Object> extraParams) throws Exception {
+    public ArrayList<SpotOrderStatus> getCurrentOpenOrdersList(BinanceManager.Params extraParams) throws Exception {
         return assembleOrderStatusList(new JSONArray(getCurrentOpenOrders(extraParams)));
     }
 
@@ -2071,9 +2070,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#all-orders-user_data</a>
      * @return all orders list as String
      * **/
-    public String getAllOrdersList(String symbol,HashMap<String, Object> extraParams) throws Exception {
+    public String getAllOrdersList(String symbol,BinanceManager.Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol;
-        params = requestManager.assembleAdditionalParams(params, extraParams);
+        params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(SPOT_ALL_ORDERS_LIST_ENDPOINT, params, GET_METHOD);
     }
 
@@ -2084,7 +2083,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#all-orders-user_data</a>
      * @return all orders list as JsonArray
      * **/
-    public JSONArray getJSONAllOrdersList(String symbol,HashMap<String, Object> extraParams) throws Exception {
+    public JSONArray getJSONAllOrdersList(String symbol,BinanceManager.Params extraParams) throws Exception {
         return new JSONArray(getAllOrdersList(symbol, extraParams));
     }
 
@@ -2095,7 +2094,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#all-orders-user_data</a>
      * @return all orders list as ArrayList<OrderStatus>
      * **/
-    public ArrayList<SpotOrderStatus> getObjectAllOrdersList(String symbol, HashMap<String, Object> extraParams) throws Exception {
+    public ArrayList<SpotOrderStatus> getObjectAllOrdersList(String symbol, BinanceManager.Params extraParams) throws Exception {
         return assembleOrderStatusList(new JSONArray(getAllOrdersList(symbol, extraParams)));
     }
 
@@ -2241,10 +2240,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return oco order response as String
      * **/
     public String sendNewOcoOrder(String symbol, String side, double price, double stopPrice,
-                                  HashMap<String, Object> extraParams) throws Exception {
+                                  BinanceManager.Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&side=" + side + "&price=" + price + "&stopPrice="
                 + stopPrice;
-        params = requestManager.assembleAdditionalParams(params, extraParams);
+        params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(SPOT_OCO_ORDER_ENDPOINT, params, POST_METHOD);
     }
 
@@ -2261,7 +2260,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return oco order response as JsonObject
      * **/
     public JSONObject sendNewOcoOrderJSON(String symbol, String side, double price, double stopPrice,
-                                          HashMap<String, Object> extraParams) throws Exception {
+                                          BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice, extraParams));
     }
 
@@ -2278,7 +2277,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return oco order response as ComposedSpotOrderDetails object
      * **/
     public ComposedSpotOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice,
-                                                          HashMap<String, Object> extraParams) throws Exception {
+                                                          BinanceManager.Params extraParams) throws Exception {
         return assembleComposedOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice, extraParams)));
     }
 
@@ -2297,10 +2296,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return oco order response as String
      * **/
     public String sendNewOcoOrder(String symbol, String side, double price, double stopPrice, double stopLimitPrice,
-                                  String stopLimitTimeInForce, HashMap<String, Object> extraParams) throws Exception {
+                                  String stopLimitTimeInForce, BinanceManager.Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&side=" + side + "&price=" + price + "&stopPrice="
                 + stopPrice + "&stopLimitPrice=" + stopLimitPrice + "&stopLimitTimeInForce=" + stopLimitTimeInForce;
-        params = requestManager.assembleAdditionalParams(params, extraParams);
+        params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(SPOT_OCO_ORDER_ENDPOINT, params, POST_METHOD);
     }
 
@@ -2319,7 +2318,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return oco order response as JsonObject
      * **/
     public JSONObject sendNewOcoOrderJSON(String symbol, String side, double price, double stopPrice, double stopLimitPrice,
-                                          String stopLimitTimeInForce, HashMap<String, Object> extraParams) throws Exception {
+                                          String stopLimitTimeInForce, BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice, stopLimitPrice, stopLimitTimeInForce,
                 extraParams));
     }
@@ -2340,7 +2339,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public ComposedSpotOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice,
                                                           double stopLimitPrice, String stopLimitTimeInForce,
-                                                          HashMap<String, Object> extraParams) throws Exception {
+                                                          BinanceManager.Params extraParams) throws Exception {
         return assembleComposedOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice,
                 stopLimitPrice, stopLimitTimeInForce, extraParams)));
     }
@@ -2416,84 +2415,84 @@ public class BinanceSpotManager extends BinanceSignedManager {
     /** Request to cancel all OcoOrders
      * @param #symbol: symbol used in cancel oco order es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
-     * @param #extraParams: extra params of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted orderListId,listClientOrderId,newClientOrderId,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade</a>
      * @return cancel all OcoOrders response as String
      * **/
-    public String cancelAllOcoOrders(String symbol, long orderListId, HashMap<String, Object> extraParams) throws Exception {
+    public String cancelAllOcoOrders(String symbol, long orderListId, BinanceManager.Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&orderListId=" + orderListId;
-        params = requestManager.assembleAdditionalParams(params, extraParams);
+        params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, params, DELETE_METHOD);
     }
 
     /** Request to cancel all OcoOrders
      * @param #symbol: symbol used in cancel oco order es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
-     * @param #extraParams: extra params of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted orderListId,listClientOrderId,newClientOrderId,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade</a>
      * @return cancel all OcoOrders response as JsonObject
      * **/
-    public JSONObject cancelAllOcoOrdersJSON(String symbol, long orderListId, HashMap<String, Object> extraParams) throws Exception {
+    public JSONObject cancelAllOcoOrdersJSON(String symbol, long orderListId, BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(cancelOrderJSON(symbol, orderListId, extraParams));
     }
 
     /** Request to cancel all OcoOrders
      * @param #symbol: symbol used in cancel oco order es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
-     * @param #extraParams: extra params of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted orderListId,listClientOrderId,newClientOrderId,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade</a>
      * @return cancel all OcoOrders response as ComposedSpotOrderDetails object
      * **/
     public ComposedSpotOrderDetails cancelAllOcoOrdersObject(String symbol, long orderListId,
-                                                             HashMap<String, Object> extraParams) throws Exception {
+                                                             BinanceManager.Params extraParams) throws Exception {
         return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, orderListId, extraParams)));
     }
 
     /** Request to cancel all OcoOrders
      * @param #symbol: symbol used in cancel oco order es. BTCBUSD
      * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
-     * @param #extraParams: extra params of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted orderListId,listClientOrderId,newClientOrderId,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade</a>
      * @return cancel all OcoOrders response as String
      * **/
-    public String cancelAllOcoOrders(String symbol, String listClientOrderId, HashMap<String, Object> extraParams) throws Exception {
+    public String cancelAllOcoOrders(String symbol, String listClientOrderId, BinanceManager.Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&listClientOrderId=" + listClientOrderId;
-        params = requestManager.assembleAdditionalParams(params, extraParams);
+        params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, params, DELETE_METHOD);
     }
 
     /** Request to cancel all OcoOrders
      * @param #symbol: symbol used in cancel oco order es. BTCBUSD
      * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
-     * @param #extraParams: extra params of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted orderListId,listClientOrderId,newClientOrderId,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade</a>
      * @return cancel all OcoOrders response as JsonObject
      * **/
-    public JSONObject cancelAllOcoOrdersJSON(String symbol, String listClientOrderId, HashMap<String, Object> extraParams) throws Exception {
+    public JSONObject cancelAllOcoOrdersJSON(String symbol, String listClientOrderId, BinanceManager.Params extraParams) throws Exception {
         return new JSONObject(cancelOrderJSON(symbol, listClientOrderId, extraParams));
     }
 
     /** Request to cancel all OcoOrders
      * @param #symbol: symbol used in cancel oco order es. BTCBUSD
      * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
-     * @param #extraParams: extra params of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted orderListId,listClientOrderId,newClientOrderId,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade</a>
      * @return cancel all OcoOrders response as ComposedSpotOrderDetails object
      * **/
     public ComposedSpotOrderDetails cancelAllOcoOrdersObject(String symbol, String listClientOrderId,
-                                                             HashMap<String, Object> extraParams) throws Exception {
+                                                             BinanceManager.Params extraParams) throws Exception {
         return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, listClientOrderId, extraParams)));
     }
 
@@ -2725,36 +2724,36 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     /** Request to get OCO order status list
-     * @param #extraParams: extra params of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-all-oco-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#query-all-oco-user_data</a>
      * @return OCO order status list response as String
      * **/
-    public String getOcoOrderStatusList(HashMap<String, Object> extraParams) throws Exception {
-        String params = requestManager.assembleAdditionalParams(getParamTimestamp(), extraParams);
+    public String getOcoOrderStatusList(BinanceManager.Params extraParams) throws Exception {
+        String params = apiRequest.encodeAdditionalParams(getParamTimestamp(), extraParams);
         return sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, params, GET_METHOD);
     }
 
     /** Request to get OCO order status list
-     * @param #extraParams: extra params of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-all-oco-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#query-all-oco-user_data</a>
      * @return OCO order status list response as JsonArray
      * **/
-    public JSONArray getJSONOcoOrderStatusList(HashMap<String, Object> extraParams) throws Exception {
+    public JSONArray getJSONOcoOrderStatusList(BinanceManager.Params extraParams) throws Exception {
         return new JSONArray(getOcoOrderStatusList(extraParams));
     }
 
     /** Request to get OCO order status list
-     * @param #extraParams: extra params of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-all-oco-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#query-all-oco-user_data</a>
      * @return OCO order status list response as ArrayList<OrderValues>
      * **/
-    public ArrayList<OrderDetails> getObjectOcoOrderStatusList(HashMap<String, Object> extraParams) throws Exception {
+    public ArrayList<OrderDetails> getObjectOcoOrderStatusList(BinanceManager.Params extraParams) throws Exception {
         return assembleBaseOrderDetails(new JSONArray(getOcoOrderStatusList(extraParams)));
     }
 
@@ -2762,16 +2761,16 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #fromId: identifier of origin
      * @param #timeParam: startTime or endTime;
      * @param #timeParamValue: value of #timeParam
-     * @param #extraParams: extra params of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-all-oco-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#query-all-oco-user_data</a>
      * @return OCO order status list response as String
      * **/
     public String getOcoOrderStatusList(long fromId, String timeParam, long timeParamValue,
-                                        HashMap<String, Object> extraParams) throws Exception {
+                                        BinanceManager.Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&fromId=" + fromId + "&" + timeParam + "=" + timeParamValue;
-        params = requestManager.assembleAdditionalParams(params, extraParams);
+        params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, params, GET_METHOD);
     }
 
@@ -2779,14 +2778,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #fromId: identifier of origin
      * @param #timeParam: startTime or endTime;
      * @param #timeParamValue: value of #timeParam
-     * @param #extraParams: extra params of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-all-oco-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#query-all-oco-user_data</a>
      * @return OCO order status list response as JsonArray
      * **/
     public JSONArray getJSONOcoOrderStatusList(long fromId, String timeParam, long timeParamValue,
-                                               HashMap<String, Object> extraParams) throws Exception {
+                                               BinanceManager.Params extraParams) throws Exception {
         return new JSONArray(getOcoOrderStatusList(fromId, timeParam, timeParamValue, extraParams));
     }
 
@@ -2794,14 +2793,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #fromId: identifier of origin
      * @param #timeParam: startTime or endTime;
      * @param #timeParamValue: value of #timeParam
-     * @param #extraParams: extra params of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-all-oco-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#query-all-oco-user_data</a>
      * @return OCO order status list response as ArrayList<OrderValues>
      * **/
     public ArrayList<OrderDetails> getObjectOcoOrderStatusList(long fromId, String timeParam, long timeParamValue,
-                                                               HashMap<String, Object> extraParams) throws Exception {
+                                                               BinanceManager.Params extraParams) throws Exception {
         return assembleBaseOrderDetails(new JSONArray(getOcoOrderStatusList(fromId, timeParam, timeParamValue, extraParams)));
     }
 
@@ -3005,39 +3004,39 @@ public class BinanceSpotManager extends BinanceSignedManager {
 
     /** Request to get Account Trade List
      * @param #symbol: symbol used in AccountTradeList es. BTCBUSD
-     * @param #extraParams: extra params of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted orderId,startTime,endTime,fromId,limit,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data</a>
      * @return Account Trade List response as String
      * **/
-    public String getAccountTradeList(String symbol, HashMap<String, Object> extraParams) throws Exception {
+    public String getAccountTradeList(String symbol, BinanceManager.Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol;
-        params = requestManager.assembleAdditionalParams(params, extraParams);
+        params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(SPOT_ACCOUNT_TRADE_LIST_ENDPOINT, params, GET_METHOD);
     }
 
     /** Request to get Account Trade List
      * @param #symbol: symbol used in AccountTradeList es. BTCBUSD
-     * @param #extraParams: extra params of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted orderId,startTime,endTime,fromId,limit,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data</a>
      * @return Account Trade List response as JsonArray
      * **/
-    public JSONArray getJSONAccountTradeList(String symbol, HashMap<String, Object> extraParams) throws Exception {
+    public JSONArray getJSONAccountTradeList(String symbol, BinanceManager.Params extraParams) throws Exception {
         return new JSONArray(getAccountTradeList(symbol, extraParams));
     }
 
     /** Request to get Account Trade List
      * @param #symbol: symbol used in AccountTradeList es. BTCBUSD
-     * @param #extraParams: extra params of the request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted orderId,startTime,endTime,fromId,limit,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data</a>
      * @return Account Trade List response as ArrayList<SpotAccountTradeList>
      * **/
-    public ArrayList<SpotAccountTradeList> getObjectAccountTradeList(String symbol, HashMap<String, Object> extraParams)
+    public ArrayList<SpotAccountTradeList> getObjectAccountTradeList(String symbol, BinanceManager.Params extraParams)
             throws Exception {
         return assembleSpotAccountTradeList(new JSONArray(getAccountTradeList(symbol,extraParams)));
     }

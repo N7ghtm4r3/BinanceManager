@@ -98,6 +98,14 @@ public class MarginIsolatedTransferHistory {
         return marginIsolatedTransfersList.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "MarginIsolatedTransferHistory{" +
+                "total=" + total +
+                ", marginIsolatedTransfersList=" + marginIsolatedTransfersList +
+                '}';
+    }
+
     /**
      * The {@code MarginIsolatedTransfer} class is useful to obtain and format IsolatedData object
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
@@ -149,6 +157,19 @@ public class MarginIsolatedTransferHistory {
 
         public String getTransTo() {
             return transTo;
+        }
+
+        @Override
+        public String toString() {
+            return "MarginIsolatedTransfer{" +
+                    "amount=" + amount +
+                    ", transFrom='" + transFrom + '\'' +
+                    ", transTo='" + transTo + '\'' +
+                    ", asset='" + asset + '\'' +
+                    ", txId=" + txId +
+                    ", timestamp=" + timestamp +
+                    ", status='" + status + '\'' +
+                    '}';
         }
 
     }

@@ -136,4 +136,18 @@ public class CrossMarginFee extends IsolatedMarginFee.IsolatedData {
         return marginablePairsList.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "CrossMarginFee{" +
+                "vipLevel=" + vipLevel +
+                ", transferIn=" + transferIn +
+                ", borrowable=" + borrowable +
+                ", yearlyInterest=" + yearlyInterest +
+                ", marginablePairsList=" + marginablePairsList +
+                ", coin='" + coin + '\'' +
+                ", dailyInterest=" + dailyInterest +
+                ", borrowLimit=" + borrowLimit +
+                '}';
+    }
+
 }

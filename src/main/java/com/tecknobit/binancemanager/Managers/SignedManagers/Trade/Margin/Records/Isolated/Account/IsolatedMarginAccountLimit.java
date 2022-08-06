@@ -63,4 +63,12 @@ public class IsolatedMarginAccountLimit {
         this.maxAccount = maxAccount;
     }
 
+    @Override
+    public String toString() {
+        return "IsolatedMarginAccountLimit{" +
+                "enabledAccount=" + enabledAccount +
+                ", maxAccount=" + maxAccount +
+                '}';
+    }
+
 }

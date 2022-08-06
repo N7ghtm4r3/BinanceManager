@@ -63,4 +63,12 @@ public class MarginMaxBorrow {
         this.borrowLimit = borrowLimit;
     }
 
+    @Override
+    public String toString() {
+        return "MarginMaxBorrow{" +
+                "amount=" + amount +
+                ", borrowLimit=" + borrowLimit +
+                '}';
+    }
+
 }

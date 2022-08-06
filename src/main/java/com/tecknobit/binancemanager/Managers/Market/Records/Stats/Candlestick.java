@@ -223,4 +223,22 @@ public class Candlestick {
         return valueToIgnore;
     }
 
+    @Override
+    public String toString() {
+        return "Candlestick{" +
+                "openTime=" + openTime +
+                ", open=" + open +
+                ", high=" + high +
+                ", low=" + low +
+                ", close=" + close +
+                ", volume=" + volume +
+                ", closeTime=" + closeTime +
+                ", quoteAssetVolume=" + quoteAssetVolume +
+                ", numberOfTrades=" + numberOfTrades +
+                ", takerBuyBaseAssetVolume=" + takerBuyBaseAssetVolume +
+                ", takerBuyQuoteAssetVolume=" + takerBuyQuoteAssetVolume +
+                ", valueToIgnore=" + valueToIgnore +
+                '}';
+    }
+
 }

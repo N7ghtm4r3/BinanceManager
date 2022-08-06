@@ -86,4 +86,28 @@ public class SpotOrderStatus extends ResultSpotOrder {
         return origQuoteOrderQty;
     }
 
+    @Override
+    public String toString() {
+        return "SpotOrderStatus{" +
+                "stopPrice=" + stopPrice +
+                ", icebergQty=" + icebergQty +
+                ", time=" + time +
+                ", isWorking=" + isWorking +
+                ", origQuoteOrderQty=" + origQuoteOrderQty +
+                ", price=" + price +
+                ", origQty=" + origQty +
+                ", executedQty=" + executedQty +
+                ", cummulativeQuoteQty=" + cummulativeQuoteQty +
+                ", status='" + status + '\'' +
+                ", timeInForce='" + timeInForce + '\'' +
+                ", type='" + type + '\'' +
+                ", side='" + side + '\'' +
+                ", transactTime=" + transactTime +
+                ", orderListId=" + orderListId +
+                ", symbol='" + symbol + '\'' +
+                ", orderId=" + orderId +
+                ", clientOrderId='" + clientOrderId + '\'' +
+                '}';
+    }
+
 }

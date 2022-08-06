@@ -269,6 +269,23 @@ public class SpotAccountInformation {
         return permissionsList.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "SpotAccountInformation{" +
+                "makerCommission=" + makerCommission +
+                ", takerCommission=" + takerCommission +
+                ", buyerCommission=" + buyerCommission +
+                ", sellerCommission=" + sellerCommission +
+                ", canTrade=" + canTrade +
+                ", canWithdraw=" + canWithdraw +
+                ", canDeposit=" + canDeposit +
+                ", updateTime=" + updateTime +
+                ", accountType='" + accountType + '\'' +
+                ", balanceSpotsList=" + balanceSpotsList +
+                ", permissionsList=" + permissionsList +
+                '}';
+    }
+
     /**
      * The {@code Permission} class is useful to obtain and format Permission object
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data">
@@ -291,6 +308,13 @@ public class SpotAccountInformation {
 
         public String getPermission() {
             return permission;
+        }
+
+        @Override
+        public String toString() {
+            return "Permission{" +
+                    "permission='" + permission + '\'' +
+                    '}';
         }
 
     }

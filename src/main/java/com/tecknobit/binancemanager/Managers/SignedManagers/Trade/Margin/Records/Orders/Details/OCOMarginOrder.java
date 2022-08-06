@@ -85,4 +85,20 @@ public class OCOMarginOrder extends ComposedMarginOrderDetails {
         );
     }
 
+    @Override
+    public String toString() {
+        return "OCOMarginOrder{" +
+                "marginBuyBorrowAmount=" + marginBuyBorrowAmount +
+                ", marginBuyBorrowAsset='" + marginBuyBorrowAsset + '\'' +
+                ", orderListId=" + orderListId +
+                ", contingencyType='" + contingencyType + '\'' +
+                ", listStatusType='" + listStatusType + '\'' +
+                ", listOrderStatus='" + listOrderStatus + '\'' +
+                ", listClientOrderId='" + listClientOrderId + '\'' +
+                ", transactionTime=" + transactionTime +
+                ", symbol='" + symbol + '\'' +
+                ", orderValues=" + orderValues +
+                '}';
+    }
+
 }

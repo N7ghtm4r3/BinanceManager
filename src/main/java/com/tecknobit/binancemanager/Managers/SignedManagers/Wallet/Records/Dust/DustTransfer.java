@@ -65,4 +65,13 @@ public class DustTransfer {
         return transferResultsList.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "DustTransfer{" +
+                "totalServiceCharge=" + totalServiceCharge +
+                ", totalTransfered=" + totalTransfered +
+                ", transferResultsList=" + transferResultsList +
+                '}';
+    }
+
 }

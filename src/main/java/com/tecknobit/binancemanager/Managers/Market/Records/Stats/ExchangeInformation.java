@@ -144,6 +144,18 @@ public class ExchangeInformation {
         return symbols;
     }
 
+    @Override
+    public String toString() {
+        return "ExchangeInformation{" +
+                "timezone='" + timezone + '\'' +
+                ", serverTime=" + serverTime +
+                ", jsonInformation=" + jsonInformation +
+                ", rateLimits=" + rateLimits +
+                ", exchangeFilters=" + exchangeFilters +
+                ", symbols=" + symbols +
+                '}';
+    }
+
     /**
      * The {@code RateLimit} class is useful to obtain and format RateLimit object
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
@@ -234,6 +246,16 @@ public class ExchangeInformation {
 
         public String getRateLimitType() {
             return rateLimitType;
+        }
+
+        @Override
+        public String toString() {
+            return "RateLimit{" +
+                    "intervalNum=" + intervalNum +
+                    ", limit=" + limit +
+                    ", interval='" + interval + '\'' +
+                    ", rateLimitType='" + rateLimitType + '\'' +
+                    '}';
         }
 
     }
@@ -451,6 +473,28 @@ public class ExchangeInformation {
 
         public int getBaseCommissionPrecision() {
             return baseCommissionPrecision;
+        }
+
+        @Override
+        public String toString() {
+            return "Symbol{" +
+                    "symbol='" + symbol + '\'' +
+                    ", quoteOrderQtyMarketAllowed=" + quoteOrderQtyMarketAllowed +
+                    ", status='" + status + '\'' +
+                    ", baseAsset='" + baseAsset + '\'' +
+                    ", baseAssetPrecision=" + baseAssetPrecision +
+                    ", quoteAsset='" + quoteAsset + '\'' +
+                    ", quotePrecision=" + quotePrecision +
+                    ", quoteAssetPrecision=" + quoteAssetPrecision +
+                    ", orderTypes=" + orderTypes +
+                    ", icebergAllowed=" + icebergAllowed +
+                    ", ocoAllowed=" + ocoAllowed +
+                    ", isSpotTradingAllowed=" + isSpotTradingAllowed +
+                    ", isMarginTradingAllowed=" + isMarginTradingAllowed +
+                    ", filters=" + filters +
+                    ", permissions=" + permissions +
+                    ", baseCommissionPrecision=" + baseCommissionPrecision +
+                    '}';
         }
 
     }

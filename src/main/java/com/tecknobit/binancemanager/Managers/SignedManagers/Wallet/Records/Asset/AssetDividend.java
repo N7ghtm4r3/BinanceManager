@@ -60,6 +60,14 @@ public class AssetDividend {
         return assetDividendDetailsList.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "AssetDividend{" +
+                "total=" + total +
+                ", assetDividendDetailsList=" + assetDividendDetailsList +
+                '}';
+    }
+
     /**
      *  The {@code AssetDividendDetails} class is useful to obtain and format AssetDividendDetails object
      *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
@@ -138,6 +146,18 @@ public class AssetDividend {
 
         public long tranId() {
             return tranId;
+        }
+
+        @Override
+        public String toString() {
+            return "AssetDividendDetails{" +
+                    "id=" + id +
+                    ", amount=" + amount +
+                    ", asset='" + asset + '\'' +
+                    ", divTime=" + divTime +
+                    ", enInfo='" + enInfo + '\'' +
+                    ", tranId=" + tranId +
+                    '}';
         }
 
     }

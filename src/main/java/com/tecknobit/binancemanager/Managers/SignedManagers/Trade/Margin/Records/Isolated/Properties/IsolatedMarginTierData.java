@@ -171,4 +171,17 @@ public class IsolatedMarginTierData {
         this.quoteAssetMaxBorrowable = quoteAssetMaxBorrowable;
     }
 
+    @Override
+    public String toString() {
+        return "IsolatedMarginTierData{" +
+                "symbol='" + symbol + '\'' +
+                ", tier=" + tier +
+                ", effectiveMultiple=" + effectiveMultiple +
+                ", initialRiskRatio=" + initialRiskRatio +
+                ", liquidationRiskRatio=" + liquidationRiskRatio +
+                ", baseAssetMaxBorrowable=" + baseAssetMaxBorrowable +
+                ", quoteAssetMaxBorrowable=" + quoteAssetMaxBorrowable +
+                '}';
+    }
+
 }

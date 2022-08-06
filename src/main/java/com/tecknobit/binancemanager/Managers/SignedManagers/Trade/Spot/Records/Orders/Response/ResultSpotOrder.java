@@ -110,4 +110,23 @@ public class ResultSpotOrder extends ACKSpotOrder {
         return side;
     }
 
+    @Override
+    public String toString() {
+        return "ResultSpotOrder{" +
+                "price=" + price +
+                ", origQty=" + origQty +
+                ", executedQty=" + executedQty +
+                ", cummulativeQuoteQty=" + cummulativeQuoteQty +
+                ", status='" + status + '\'' +
+                ", timeInForce='" + timeInForce + '\'' +
+                ", type='" + type + '\'' +
+                ", side='" + side + '\'' +
+                ", transactTime=" + transactTime +
+                ", orderListId=" + orderListId +
+                ", symbol='" + symbol + '\'' +
+                ", orderId=" + orderId +
+                ", clientOrderId='" + clientOrderId + '\'' +
+                '}';
+    }
+
 }

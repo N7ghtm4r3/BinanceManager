@@ -184,4 +184,16 @@ public class UniversalTransfer {
         return timestamp;
     }
 
+    @Override
+    public String toString() {
+        return "UniversalTransfer{" +
+                "asset='" + asset + '\'' +
+                ", amount=" + amount +
+                ", type='" + type + '\'' +
+                ", status='" + status + '\'' +
+                ", tranId=" + tranId +
+                ", timestamp=" + timestamp +
+                '}';
+    }
+
 }

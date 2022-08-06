@@ -82,6 +82,26 @@ public class FullSpotOrder extends ResultSpotOrder {
         return fillsList.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "FullSpotOrder{" +
+                "fillsList=" + fillsList +
+                ", price=" + price +
+                ", origQty=" + origQty +
+                ", executedQty=" + executedQty +
+                ", cummulativeQuoteQty=" + cummulativeQuoteQty +
+                ", status='" + status + '\'' +
+                ", timeInForce='" + timeInForce + '\'' +
+                ", type='" + type + '\'' +
+                ", side='" + side + '\'' +
+                ", transactTime=" + transactTime +
+                ", orderListId=" + orderListId +
+                ", symbol='" + symbol + '\'' +
+                ", orderId=" + orderId +
+                ", clientOrderId='" + clientOrderId + '\'' +
+                '}';
+    }
+
     /**
      * The {@code FillSpot} class is useful to obtain and format FillSpot object
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -108,6 +128,17 @@ public class FullSpotOrder extends ResultSpotOrder {
 
         public long getTradeId() {
             return tradeId;
+        }
+
+        @Override
+        public String toString() {
+            return "FillSpot{" +
+                    "tradeId=" + tradeId +
+                    ", price=" + price +
+                    ", qty=" + qty +
+                    ", commission=" + commission +
+                    ", commissionAsset='" + commissionAsset + '\'' +
+                    '}';
         }
 
     }

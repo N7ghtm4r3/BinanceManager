@@ -128,4 +128,18 @@ public class CrossMarginAccountDetails extends MarginAccount{
         return userAssetMargins.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "CrossMarginAccountDetails{" +
+                "borrowEnabled=" + borrowEnabled +
+                ", marginLevel=" + marginLevel +
+                ", tradeEnabled=" + tradeEnabled +
+                ", transferEnabled=" + transferEnabled +
+                ", userAssetMargins=" + userAssetMargins +
+                ", totalAssetOfBtc=" + totalAssetOfBtc +
+                ", totalLiabilityOfBtc=" + totalLiabilityOfBtc +
+                ", totalNetAssetOfBtc=" + totalNetAssetOfBtc +
+                '}';
+    }
+
 }

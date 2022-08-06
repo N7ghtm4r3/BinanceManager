@@ -200,5 +200,32 @@ public class TickerPriceChange extends OrderBookTicker{
         return count;
     }
 
+    @Override
+    public String toString() {
+        return "TickerPriceChange{" +
+                "priceChange=" + priceChange +
+                ", priceChangePercent=" + priceChangePercent +
+                ", weightedAvgPrice=" + weightedAvgPrice +
+                ", prevClosePrice=" + prevClosePrice +
+                ", lastPrice=" + lastPrice +
+                ", lastQty=" + lastQty +
+                ", openPrice=" + openPrice +
+                ", highPrice=" + highPrice +
+                ", lowPrice=" + lowPrice +
+                ", volume=" + volume +
+                ", quoteVolume=" + quoteVolume +
+                ", openTime=" + openTime +
+                ", closeTime=" + closeTime +
+                ", firstId=" + firstId +
+                ", lastId=" + lastId +
+                ", count=" + count +
+                ", bidPrice=" + bidPrice +
+                ", bidQty=" + bidQty +
+                ", askPrice=" + askPrice +
+                ", askQty=" + askQty +
+                ", symbol='" + symbol + '\'' +
+                '}';
+    }
+
 }
 

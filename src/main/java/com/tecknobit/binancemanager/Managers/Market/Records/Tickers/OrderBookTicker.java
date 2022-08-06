@@ -60,4 +60,15 @@ public class OrderBookTicker extends Ticker{
         return askQty;
     }
 
+    @Override
+    public String toString() {
+        return "OrderBookTicker{" +
+                "bidPrice=" + bidPrice +
+                ", bidQty=" + bidQty +
+                ", askPrice=" + askPrice +
+                ", askQty=" + askQty +
+                ", symbol='" + symbol + '\'' +
+                '}';
+    }
+
 }

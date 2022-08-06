@@ -179,4 +179,24 @@ public class DetailMarginOrder extends Order {
         );
     }
 
+    @Override
+    public String toString() {
+        return "DetailMarginOrder{" +
+                "isIsolated=" + isIsolated +
+                ", origClientOrderId='" + origClientOrderId + '\'' +
+                ", price=" + price +
+                ", origQty=" + origQty +
+                ", executedQty=" + executedQty +
+                ", cummulativeQuoteQty=" + cummulativeQuoteQty +
+                ", status='" + status + '\'' +
+                ", timeInForce='" + timeInForce + '\'' +
+                ", type='" + type + '\'' +
+                ", side='" + side + '\'' +
+                ", jsonHelper=" + jsonHelper +
+                ", symbol='" + symbol + '\'' +
+                ", orderId=" + orderId +
+                ", clientOrderId='" + clientOrderId + '\'' +
+                '}';
+    }
+
 }

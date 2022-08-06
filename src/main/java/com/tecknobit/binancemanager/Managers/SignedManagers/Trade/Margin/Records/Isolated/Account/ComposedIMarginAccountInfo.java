@@ -55,4 +55,14 @@ public class ComposedIMarginAccountInfo extends MarginAccount {
         return isolatedMarginAccountInfoList.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "ComposedIMarginAccountInfo{" +
+                "isolatedMarginAccountInfoList=" + isolatedMarginAccountInfoList +
+                ", totalAssetOfBtc=" + totalAssetOfBtc +
+                ", totalLiabilityOfBtc=" + totalLiabilityOfBtc +
+                ", totalNetAssetOfBtc=" + totalNetAssetOfBtc +
+                '}';
+    }
+
 }

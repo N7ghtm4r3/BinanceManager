@@ -83,4 +83,13 @@ public class MarginAccount {
         this.totalNetAssetOfBtc = totalNetAssetOfBtc;
     }
 
+    @Override
+    public String toString() {
+        return "MarginAccount{" +
+                "totalAssetOfBtc=" + totalAssetOfBtc +
+                ", totalLiabilityOfBtc=" + totalLiabilityOfBtc +
+                ", totalNetAssetOfBtc=" + totalNetAssetOfBtc +
+                '}';
+    }
+
 }

@@ -101,4 +101,20 @@ public class IsolatedMarginAsset extends AccountSnapshotMargin.UserAssetMargin {
         this.totalAsset = totalAsset;
     }
 
+    @Override
+    public String toString() {
+        return "IsolatedMarginAsset{" +
+                "borrowEnabled=" + borrowEnabled +
+                ", netAssetOfBtc=" + netAssetOfBtc +
+                ", repayEnabled=" + repayEnabled +
+                ", totalAsset=" + totalAsset +
+                ", borrowed=" + borrowed +
+                ", interest=" + interest +
+                ", netAsset=" + netAsset +
+                ", asset='" + asset + '\'' +
+                ", free=" + free +
+                ", locked=" + locked +
+                '}';
+    }
+
 }

@@ -44,4 +44,12 @@ public class BNBBurn {
         this.interestBNBBurn = interestBNBBurn;
     }
 
+    @Override
+    public String toString() {
+        return "BNBBurn{" +
+                "spotBNBBurn=" + spotBNBBurn +
+                ", interestBNBBurn=" + interestBNBBurn +
+                '}';
+    }
+
 }

@@ -32,4 +32,15 @@ public class ACKSpotOrder extends SpotOrder {
         return transactTime;
     }
 
+    @Override
+    public String toString() {
+        return "ACKSpotOrder{" +
+                "transactTime=" + transactTime +
+                ", orderListId=" + orderListId +
+                ", symbol='" + symbol + '\'' +
+                ", orderId=" + orderId +
+                ", clientOrderId='" + clientOrderId + '\'' +
+                '}';
+    }
+
 }

@@ -98,4 +98,14 @@ public class Fill {
         return commissionAsset;
     }
 
+    @Override
+    public String toString() {
+        return "Fill{" +
+                "price=" + price +
+                ", qty=" + qty +
+                ", commission=" + commission +
+                ", commissionAsset='" + commissionAsset + '\'' +
+                '}';
+    }
+
 }

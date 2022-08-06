@@ -88,6 +88,14 @@ public class MarginRepay {
         return marginRepayAssetsList.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "MarginRepay{" +
+                "total=" + total +
+                ", marginRepayAssetsList=" + marginRepayAssetsList +
+                '}';
+    }
+
     /**
      * The {@code MarginRepayAsset} class is useful to obtain and format MarginRepayAsset object
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
@@ -156,6 +164,18 @@ public class MarginRepay {
             if(interest < 0)
                 throw new IllegalArgumentException("Interest value cannot be less than 0");
             this.interest = interest;
+        }
+
+        @Override
+        public String toString() {
+            return "MarginRepayAsset{" +
+                    "amount=" + amount +
+                    ", interest=" + interest +
+                    ", asset='" + asset + '\'' +
+                    ", txId=" + txId +
+                    ", timestamp=" + timestamp +
+                    ", status='" + status + '\'' +
+                    '}';
         }
 
     }

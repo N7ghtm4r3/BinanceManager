@@ -36,4 +36,12 @@ public class CurrentAveragePrice {
         return price;
     }
 
+    @Override
+    public String toString() {
+        return "CurrentAveragePrice{" +
+                "mins=" + mins +
+                ", price=" + price +
+                '}';
+    }
+
 }

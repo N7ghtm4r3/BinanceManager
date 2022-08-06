@@ -74,4 +74,12 @@ public class OpenSpotOrders {
         return composedSpotOrderDetailsList.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "OpenSpotOrders{" +
+                "detailSpotOrdersList=" + detailSpotOrdersList +
+                ", composedSpotOrderDetailsList=" + composedSpotOrderDetailsList +
+                '}';
+    }
+
 }

@@ -116,4 +116,16 @@ public class MarginAsset {
         this.userMinRepay = userMinRepay;
     }
 
+    @Override
+    public String toString() {
+        return "MarginAsset{" +
+                "assetFullName='" + assetFullName + '\'' +
+                ", assetName='" + assetName + '\'' +
+                ", isBorrowable=" + isBorrowable +
+                ", isMortgageable=" + isMortgageable +
+                ", userMinBorrow=" + userMinBorrow +
+                ", userMinRepay=" + userMinRepay +
+                '}';
+    }
+
 }

@@ -159,4 +159,23 @@ public class Withdraw {
         return txId;
     }
 
+    @Override
+    public String toString() {
+        return "Withdraw{" +
+                "address='" + address + '\'' +
+                ", amount=" + amount +
+                ", applyTime='" + applyTime + '\'' +
+                ", coin='" + coin + '\'' +
+                ", id='" + id + '\'' +
+                ", withdrawOrderId='" + withdrawOrderId + '\'' +
+                ", network='" + network + '\'' +
+                ", transferType=" + transferType +
+                ", status=" + status +
+                ", transactionFee=" + transactionFee +
+                ", confirmNo=" + confirmNo +
+                ", info='" + info + '\'' +
+                ", txId='" + txId + '\'' +
+                '}';
+    }
+
 }

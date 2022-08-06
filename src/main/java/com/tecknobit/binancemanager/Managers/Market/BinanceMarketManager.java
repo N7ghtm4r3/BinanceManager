@@ -2,10 +2,10 @@ package com.tecknobit.binancemanager.Managers.Market;
 
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.BinanceManager;
-import com.tecknobit.binancemanager.Managers.Market.Records.Stats.Candlestick;
 import com.tecknobit.binancemanager.Managers.Market.Records.CurrentAveragePrice;
-import com.tecknobit.binancemanager.Managers.Market.Records.Stats.ExchangeInformation;
 import com.tecknobit.binancemanager.Managers.Market.Records.OrderBook;
+import com.tecknobit.binancemanager.Managers.Market.Records.Stats.Candlestick;
+import com.tecknobit.binancemanager.Managers.Market.Records.Stats.ExchangeInformation;
 import com.tecknobit.binancemanager.Managers.Market.Records.Tickers.OrderBookTicker;
 import com.tecknobit.binancemanager.Managers.Market.Records.Tickers.PriceTicker;
 import com.tecknobit.binancemanager.Managers.Market.Records.Tickers.TickerPriceChange;
@@ -17,10 +17,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
+import static com.tecknobit.apimanager.Manager.APIRequest.GET_METHOD;
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.computeTPTOPAsset;
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
-import static com.tecknobit.binancemanager.Helpers.RequestManager.GET_METHOD;
 
 /**
  * The {@code BinanceMarketManager} class is useful to manage all Binance Market Endpoints
@@ -82,10 +82,10 @@ public class BinanceMarketManager extends BinanceManager {
      * @return exchange information as ExchangeInformation object
      * **/
     public ExchangeInformation getObjectExchangeInformation() throws IOException {
-        jsonObject = new JSONObject(getExchangeInformation());
-        return new ExchangeInformation(jsonObject.getString("timezone"),
-                jsonObject.getLong("serverTime"),
-                jsonObject);
+        JSONObject information = new JSONObject(getExchangeInformation());
+        return new ExchangeInformation(information.getString("timezone"),
+                information.getLong("serverTime"),
+                information);
     }
 
     /** Request to get exchange information
@@ -125,8 +125,8 @@ public class BinanceMarketManager extends BinanceManager {
      * @return exchange information as String
      * **/
     public String getExchangeInformation(ArrayList<String> symbols) throws Exception {
-        return getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT,
-                "?symbols=["+ requestManager.assembleSymbolsParams(symbols) +"]", GET_METHOD);
+        return getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT, "?symbols=["+ apiRequest.assembleParamsList("%22",
+                        "%22 ", symbols) +"]", GET_METHOD);
     }
 
     /** Request to get exchange information
@@ -218,8 +218,8 @@ public class BinanceMarketManager extends BinanceManager {
      * @return order book as OrderBook object
      * **/
     public OrderBook getObjectOrderBook(String symbol) throws IOException {
-        jsonObject = new JSONObject(getOrderBook(symbol));
-        return new OrderBook(jsonObject.getLong("lastUpdateId"), jsonObject, symbol);
+        JSONObject book = new JSONObject(getOrderBook(symbol));
+        return new OrderBook(book.getLong("lastUpdateId"), book, symbol);
     }
 
     /** Request to get order book
@@ -255,8 +255,8 @@ public class BinanceMarketManager extends BinanceManager {
      * @return order book as OrderBook object
      * **/
     public OrderBook getObjectOrderBook(String symbol, int limit) throws IOException {
-        jsonObject = new JSONObject(getOrderBook(symbol, limit));
-        return new OrderBook(jsonObject.getLong("lastUpdateId"), jsonObject, symbol);
+        JSONObject book = new JSONObject(getOrderBook(symbol, limit));
+        return new OrderBook(book.getLong("lastUpdateId"), book, symbol);
     }
 
     /** Request to get recent trade
@@ -383,7 +383,7 @@ public class BinanceMarketManager extends BinanceManager {
     /** Request to get old trade
      * @param symbol: symbol to fetch exchange information es. BTCBUSD
      * @param apiKey: apiKey of your Binance account
-     * @param extraParams: extraParams of request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted are limit,fromId,recvWindow)
      * @implNote limit: valid limits are default 500 and max 1000
      * @implNote fromId: to insert it correctly ad L at the end of long number es 1499865549590 + L = 1499865549590L
@@ -391,16 +391,16 @@ public class BinanceMarketManager extends BinanceManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data</a>
      * @return old trade as String
      * **/
-    public String getOldTrade(String symbol, String apiKey, HashMap<String, Object> extraParams) throws IOException {
+    public String getOldTrade(String symbol, String apiKey, BinanceManager.Params extraParams) throws IOException {
         String params = "?symbol=" + symbol;
-        params = requestManager.assembleAdditionalParams(params, extraParams);
+        params = apiRequest.encodeAdditionalParams(params, extraParams);
         return getRequestResponse(OLD_TRADE_LOOKUP_ENDPOINT, params, GET_METHOD, apiKey);
     }
 
     /** Request to get old trade
      * @param symbol: symbol to fetch exchange information es. BTCBUSD
      * @param apiKey: apiKey of your Binance account
-     * @param extraParams: extraParams of request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted are limit,fromId,recvWindow)
      * @implNote limit: valid limits are default 500 and max 1000
      * @implNote fromId: to insert it correctly ad L at the end of long number es 1499865549590 + L = 1499865549590L
@@ -408,14 +408,14 @@ public class BinanceMarketManager extends BinanceManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data</a>
      * @return old trade as JsonArray
      * **/
-    public JSONArray getJSONOldTrade(String symbol, String apiKey, HashMap<String, Object> extraParams) throws IOException {
+    public JSONArray getJSONOldTrade(String symbol, String apiKey, BinanceManager.Params extraParams) throws IOException {
         return new JSONArray(getOldTrade(symbol, apiKey, extraParams));
     }
 
     /** Request to get old trade
      * @param symbol: symbol to fetch exchange information es. BTCBUSD
      * @param apiKey: apiKey of your Binance account
-     * @param extraParams: extraParams of request
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted are limit,fromId,recvWindow)
      * @implNote limit: valid limits are default 500 and max 1000
      * @implNote fromId: to insert it correctly ad L at the end of long number es 1499865549590 + L = 1499865549590L
@@ -423,7 +423,7 @@ public class BinanceMarketManager extends BinanceManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data</a>
      * @return old trade as ArrayList<Trade>
      * **/
-    public ArrayList<Trade> getOldTradeList(String symbol, String apiKey, HashMap<String, Object> extraParams) throws IOException {
+    public ArrayList<Trade> getOldTradeList(String symbol, String apiKey, BinanceManager.Params extraParams) throws IOException {
         return getTradeList(new JSONArray(getOldTrade(symbol, apiKey, extraParams)));
     }
 
@@ -459,39 +459,39 @@ public class BinanceMarketManager extends BinanceManager {
 
     /** Request to get compressed trade list
      * @param symbol: symbol to fetch compressed trade es. BTCBUSD
-     * @param extraParams: hashmap composed by extraParams
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted are fromId,startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list">
      *     https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list</a>
      * @return compressed trade list as String
      * **/
-    public String getCompressedTradeList(String symbol, HashMap<String, Object> extraParams) throws IOException {
+    public String getCompressedTradeList(String symbol, BinanceManager.Params extraParams) throws IOException {
         String params = "?symbol=" + symbol;
-        params = requestManager.assembleAdditionalParams(params, extraParams);
+        params = apiRequest.encodeAdditionalParams(params, extraParams);
         return getRequestResponse(COMPRESSED_TRADE_LIST_ENDPOINT, params, GET_METHOD);
     }
 
     /** Request to get compressed trade list
      * @param symbol: symbol to fetch compressed trade es. BTCBUSD
-     * @param extraParams: hashmap composed by extraParams
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted are fromId,startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list">
      *     https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list</a>
      * @return compressed trade list as JsonArray
      * **/
-    public JSONArray getJSONCompressedTradeList(String symbol, HashMap<String, Object> extraParams) throws IOException {
+    public JSONArray getJSONCompressedTradeList(String symbol, BinanceManager.Params extraParams) throws IOException {
         return new JSONArray(getCompressedTradeList(symbol, extraParams));
     }
 
     /** Request to get compressed trade list
      * @param symbol: symbol to fetch compressed trade es. BTCBUSD
-     * @param extraParams: hashmap composed by extraParams
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted are fromId,startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list">
      *     https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list</a>
      * @return compressed trade list as ArrayList<CompressedTrade>
      * **/
-    public ArrayList<CompressedTrade> getObjectCompressedTradeList(String symbol, HashMap<String, Object> extraParams) throws IOException {
+    public ArrayList<CompressedTrade> getObjectCompressedTradeList(String symbol, BinanceManager.Params extraParams) throws IOException {
         return getObjectCompressedTradeList(new JSONArray(getCompressedTradeList(symbol, extraParams)));
     }
 
@@ -554,42 +554,42 @@ public class BinanceMarketManager extends BinanceManager {
     /** Request to get candlestick data
      * @param symbol: symbol to fetch compressed trade es. BTCBUSD
      * @param interval: time period to fetch
-     * @param extraParams: hashmap composed by extraParams
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data">
      *     https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data</a>
      * @return candlestick data as String
      * **/
-    public String getCandlestickData(String symbol, String interval, HashMap<String, Object> extraParams) throws IOException {
+    public String getCandlestickData(String symbol, String interval, BinanceManager.Params extraParams) throws IOException {
         String params = "?symbol=" + symbol + "&interval=" + interval;
-        params = requestManager.assembleAdditionalParams(params, extraParams);
+        params = apiRequest.encodeAdditionalParams(params, extraParams);
         return getRequestResponse(CANDLESTICK_DATA_ENDPOINT, params, GET_METHOD);
     }
 
     /** Request to get candlestick data
      * @param symbol: symbol to fetch compressed trade es. BTCBUSD
      * @param interval: time period to fetch
-     * @param extraParams: hashmap composed by extraParams
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data">
      *     https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data</a>
      * @return candlestick data as JsonArray
      * **/
-    public JSONArray getJSONCandlestickData(String symbol, String interval, HashMap<String, Object> extraParams) throws IOException {
+    public JSONArray getJSONCandlestickData(String symbol, String interval, BinanceManager.Params extraParams) throws IOException {
         return new JSONArray(getCandlestickData(symbol, interval, extraParams));
     }
 
     /** Request to get candlestick data list
      * @param symbol: symbol to fetch compressed trade es. BTCBUSD
      * @param interval: time period to fetch
-     * @param extraParams: hashmap composed by extraParams
+     * @param extraParams: additional params of the request
      * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data">
      *     https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data</a>
      * @return candlestick data as ArrayList<Candlestick>
      * **/
     public ArrayList<Candlestick> getCandlestickDataList(String symbol, String interval,
-                                                         HashMap<String, Object> extraParams) throws IOException {
+                                                         BinanceManager.Params extraParams) throws IOException {
         return getCandlestickDataList(new JSONArray(getCandlestickData(symbol, interval, extraParams)));
     }
 
@@ -627,7 +627,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @return current average price as String
      * **/
     public String getCurrentAveragePrice(String symbol) throws IOException {
-        return getRequestResponse(CURRENT_AVERAGE_PRICE_ENDPOINT,"?symbol="+symbol,GET_METHOD);
+        return getRequestResponse(CURRENT_AVERAGE_PRICE_ENDPOINT,"?symbol=" + symbol, GET_METHOD);
     }
 
     /** Request to get current average price
@@ -647,8 +647,8 @@ public class BinanceMarketManager extends BinanceManager {
      * @return current average price value as double
      * **/
     public double getCurrentAveragePriceValue(String symbol) throws IOException {
-        jsonObject = new JSONObject(getCurrentAveragePrice(symbol));
-        return jsonObject.getDouble("price");
+        JSONObject avgPrice = new JSONObject(getCurrentAveragePrice(symbol));
+        return avgPrice.getDouble("price");
     }
 
     /** Request to get current average price
@@ -658,10 +658,8 @@ public class BinanceMarketManager extends BinanceManager {
      * @return current average price CurrentAveragePrice object
      * **/
     public CurrentAveragePrice getObjectCurrentAveragePrice(String symbol) throws IOException {
-        jsonObject = new JSONObject(getCurrentAveragePrice(symbol));
-        return new CurrentAveragePrice(jsonObject.getInt("mins"),
-                jsonObject.getDouble("price")
-        );
+        JSONObject avgPrice = new JSONObject(getCurrentAveragePrice(symbol));
+        return new CurrentAveragePrice(avgPrice.getInt("mins"), avgPrice.getDouble("price"));
     }
 
     /** Request to get ticker price change
@@ -671,7 +669,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @return ticker price change as String
      * **/
     public String getTickerPriceChange(String symbol) throws IOException {
-        return getRequestResponse(TICKER_PRICE_CHANGE_ENDPOINT,"?symbol="+symbol,GET_METHOD);
+        return getRequestResponse(TICKER_PRICE_CHANGE_ENDPOINT,"?symbol=" + symbol, GET_METHOD);
     }
 
     /** Request to get ticker price change
@@ -701,7 +699,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @return ticker price change list as String
      * **/
     public String getTickerPriceChange() throws IOException {
-        return getRequestResponse(TICKER_PRICE_CHANGE_ENDPOINT,"",GET_METHOD);
+        return getRequestResponse(TICKER_PRICE_CHANGE_ENDPOINT, "", GET_METHOD);
     }
 
     /** Request to get ticker price change list
@@ -722,9 +720,9 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     public ArrayList<TickerPriceChange> getTickerPriceChangeList() throws IOException {
         ArrayList<TickerPriceChange> tickerPriceStatistics = new ArrayList<>();
-        jsonArray = new JSONArray(getTickerPriceChange());
-        for(int j=0; j < jsonArray.length(); j++)
-            tickerPriceStatistics.add(assembleTickerPriceChange(jsonArray.getJSONObject(j)));
+        JSONArray tickers = new JSONArray(getTickerPriceChange());
+        for(int j=0; j < tickers.length(); j++)
+            tickerPriceStatistics.add(assembleTickerPriceChange(tickers.getJSONObject(j)));
         return tickerPriceStatistics;
     }
 
@@ -817,9 +815,9 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     public ArrayList<PriceTicker> getTickerPriceList() throws IOException {
         ArrayList<PriceTicker> tickerPrices = new ArrayList<>();
-        jsonArray = new JSONArray(getPriceTicker());
-        for (int j=0; j < jsonArray.length(); j++)
-            tickerPrices.add(assemblePriceTicker(jsonArray.getJSONObject(j)));
+        JSONArray tickers = new JSONArray(getPriceTicker());
+        for (int j = 0; j < tickers.length(); j++)
+            tickerPrices.add(assemblePriceTicker(tickers.getJSONObject(j)));
         return tickerPrices;
     }
 
@@ -893,9 +891,9 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     public ArrayList<OrderBookTicker> getOrderBookTickerList(String symbol) throws IOException {
         ArrayList<OrderBookTicker> bookTickers = new ArrayList<>();
-        jsonArray = new JSONArray(getOrderBookTicker());
-        for (int j=0; j < jsonArray.length(); j++)
-            bookTickers.add(assembleOrderBookTicker(jsonArray.getJSONObject(j)));
+        JSONArray books = new JSONArray(getOrderBookTicker());
+        for (int j = 0; j < books.length(); j++)
+            bookTickers.add(assembleOrderBookTicker(books.getJSONObject(j)));
         return bookTickers;
     }
 
@@ -914,24 +912,22 @@ public class BinanceMarketManager extends BinanceManager {
         );
     }
 
-    /** Method to get prevision of a cryptocurrency in base of days's gap inserted
+    /** Method to get forecast of a cryptocurrency in base of day's gap inserted
      * @param symbol: symbol to calculate forecast es. BTCBUSD
      * @param candlestickInterval: temporal interval of data for the forecast
      * @param intervalDays: days gap for the prevision range
      * @param toleranceValue: tolerance for select similar value compared to lastValue inserted
-     * @return prevision value as a double es. 8 or -8
+     * @return forecast value as a double es. 8 or -8
      * @throws IllegalArgumentException if lastValue is negative or intervalDays are less or equal to 0
      * **/
-    public double getSymbolForecast(String symbol, String candlestickInterval, int intervalDays,
-                                    int toleranceValue) throws IOException {
+    public double getSymbolForecast(String symbol, String candlestickInterval, int intervalDays, double toleranceValue) throws IOException {
         ArrayList<Double> historicalValues = new ArrayList<>();
         for (Candlestick candlestick : getCandlestickDataList(symbol, candlestickInterval))
             historicalValues.add(candlestick.getHigh());
-        return tradingTools.computeTPTOPAsset(historicalValues, getCurrentAveragePriceValue(symbol),
-                intervalDays,toleranceValue);
+        return computeTPTOPAsset(historicalValues, getCurrentAveragePriceValue(symbol), intervalDays, toleranceValue);
     }
 
-    /** Method to get prevision of a cryptocurrency in base of days's gap inserted
+    /** Method to get forecast of a cryptocurrency in base of day's gap inserted
      * @param symbol: symbol to calculate forecast es. BTCBUSD
      * @param candlestickInterval: temporal interval of data for the forecast
      * @param intervalDays: days gap for the prevision range
@@ -940,9 +936,9 @@ public class BinanceMarketManager extends BinanceManager {
      * @return forecast value as a double es. 8 or -8
      * @throws IllegalArgumentException if lastValue is negative or intervalDays are less or equal to 0
      * **/
-    public double getSymbolForecast(String symbol, String candlestickInterval, int intervalDays,
-                                    int toleranceValue, int decimalDigits) throws IOException {
-        return tradingTools.roundValue(getSymbolForecast(symbol, candlestickInterval, intervalDays, toleranceValue), decimalDigits);
+    public double getSymbolForecast(String symbol, String candlestickInterval, int intervalDays, double toleranceValue,
+                                    int decimalDigits) throws IOException {
+        return roundValue(getSymbolForecast(symbol, candlestickInterval, intervalDays, toleranceValue), decimalDigits);
     }
 
 }

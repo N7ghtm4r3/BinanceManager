@@ -96,6 +96,14 @@ public class MarginTransferHistory {
         return marginTransferAssetsList.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "MarginTransferHistory{" +
+                "total=" + total +
+                ", marginTransferAssetsList=" + marginTransferAssetsList +
+                '}';
+    }
+
     /**
      * The {@code MarginTransferAsset} class is useful to obtain and format MarginTransferAsset object
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
@@ -170,6 +178,18 @@ public class MarginTransferHistory {
          * **/
         private boolean typeIsValid(String type){
             return type.equals(TYPE_ROLL_OUT) || type.equals(TYPE_ROLL_IN);
+        }
+
+        @Override
+        public String toString() {
+            return "MarginTransferAsset{" +
+                    "amount=" + amount +
+                    ", type='" + type + '\'' +
+                    ", asset='" + asset + '\'' +
+                    ", txId=" + txId +
+                    ", timestamp=" + timestamp +
+                    ", status='" + status + '\'' +
+                    '}';
         }
 
     }

@@ -31,4 +31,15 @@ public class ACKMarginOrder extends MarginOrder {
         return isIsolated;
     }
 
+    @Override
+    public String toString() {
+        return "ACKMarginOrder{" +
+                "isIsolated=" + isIsolated +
+                ", transactTime=" + transactTime +
+                ", symbol='" + symbol + '\'' +
+                ", orderId=" + orderId +
+                ", clientOrderId='" + clientOrderId + '\'' +
+                '}';
+    }
+
 }

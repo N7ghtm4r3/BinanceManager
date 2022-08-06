@@ -34,9 +34,9 @@ public class AccountSnapshotMargin extends AccountSnapshot{
                 JSONObject dataRow = accountDetails.getJSONObject(j);
                 long updateTime = dataRow.getLong("updateTime");
                 dataRow = dataRow.getJSONObject("data");
-                double marginLevel = dataRow.getDouble("marginLevel");;
-                double totalAssetOfBtc = dataRow.getDouble("totalAssetOfBtc");;
-                double totalLiabilityOfBtc = dataRow.getDouble("totalLiabilityOfBtc");;
+                double marginLevel = dataRow.getDouble("marginLevel");
+                double totalAssetOfBtc = dataRow.getDouble("totalAssetOfBtc");
+                double totalLiabilityOfBtc = dataRow.getDouble("totalLiabilityOfBtc");
                 double totalNetAssetOfBtc = dataRow.getDouble("totalNetAssetOfBtc");
                 dataMarginsList.add(new DataMargin(marginLevel,
                         totalAssetOfBtc,
@@ -80,6 +80,17 @@ public class AccountSnapshotMargin extends AccountSnapshot{
 
     public void setDataMarginsList(ArrayList<DataMargin> dataMarginsList) {
         this.dataMarginsList = dataMarginsList;
+    }
+
+    @Override
+    public String toString() {
+        return "AccountSnapshotMargin{" +
+                "dataMarginsList=" + dataMarginsList +
+                ", code=" + code +
+                ", msg='" + msg + '\'' +
+                ", type='" + type + '\'' +
+                ", accountDetails=" + accountDetails +
+                '}';
     }
 
     /**
@@ -174,6 +185,18 @@ public class AccountSnapshotMargin extends AccountSnapshot{
 
         public UserAssetMargin getUserAssetMargin(int index) {
             return userAssetMarginsList.get(index);
+        }
+
+        @Override
+        public String toString() {
+            return "DataMargin{" +
+                    "marginLevel=" + marginLevel +
+                    ", updateTime=" + updateTime +
+                    ", userAssetMarginsList=" + userAssetMarginsList +
+                    ", totalAssetOfBtc=" + totalAssetOfBtc +
+                    ", totalLiabilityOfBtc=" + totalLiabilityOfBtc +
+                    ", totalNetAssetOfBtc=" + totalNetAssetOfBtc +
+                    '}';
         }
 
     }
@@ -280,6 +303,18 @@ public class AccountSnapshotMargin extends AccountSnapshot{
             if(netAsset < 0)
                 throw new IllegalArgumentException("Net asset value cannot be less than 0");
             this.netAsset = netAsset;
+        }
+
+        @Override
+        public String toString() {
+            return "UserAssetMargin{" +
+                    "borrowed=" + borrowed +
+                    ", interest=" + interest +
+                    ", netAsset=" + netAsset +
+                    ", asset='" + asset + '\'' +
+                    ", free=" + free +
+                    ", locked=" + locked +
+                    '}';
         }
 
     }

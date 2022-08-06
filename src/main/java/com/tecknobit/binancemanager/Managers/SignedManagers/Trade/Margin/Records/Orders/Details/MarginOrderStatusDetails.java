@@ -40,4 +40,19 @@ public class MarginOrderStatusDetails extends OrderDetails {
         return isIsolated;
     }
 
+    @Override
+    public String toString() {
+        return "MarginOrderStatusDetails{" +
+                "isIsolated=" + isIsolated +
+                ", orderListId=" + orderListId +
+                ", contingencyType='" + contingencyType + '\'' +
+                ", listStatusType='" + listStatusType + '\'' +
+                ", listOrderStatus='" + listOrderStatus + '\'' +
+                ", listClientOrderId='" + listClientOrderId + '\'' +
+                ", transactionTime=" + transactionTime +
+                ", symbol='" + symbol + '\'' +
+                ", orderValues=" + orderValues +
+                '}';
+    }
+
 }

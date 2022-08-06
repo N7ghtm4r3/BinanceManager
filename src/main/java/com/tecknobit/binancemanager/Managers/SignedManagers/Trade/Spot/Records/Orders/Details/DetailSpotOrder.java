@@ -168,4 +168,24 @@ public class DetailSpotOrder extends SpotOrder {
                 response);
     }
 
+    @Override
+    public String toString() {
+        return "DetailSpotOrder{" +
+                "origClientOrderId='" + origClientOrderId + '\'' +
+                ", price=" + price +
+                ", origQty=" + origQty +
+                ", executedQty=" + executedQty +
+                ", cummulativeQuoteQty=" + cummulativeQuoteQty +
+                ", status='" + status + '\'' +
+                ", timeInForce='" + timeInForce + '\'' +
+                ", type='" + type + '\'' +
+                ", side='" + side + '\'' +
+                ", jsonHelper=" + jsonHelper +
+                ", orderListId=" + orderListId +
+                ", symbol='" + symbol + '\'' +
+                ", orderId=" + orderId +
+                ", clientOrderId='" + clientOrderId + '\'' +
+                '}';
+    }
+
 }

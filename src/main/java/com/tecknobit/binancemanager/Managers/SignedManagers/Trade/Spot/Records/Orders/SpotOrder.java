@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders;
 
+import com.tecknobit.binancemanager.Managers.BinanceManager;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.Order;
 
 import java.util.HashMap;
@@ -46,14 +47,14 @@ public class SpotOrder extends Order {
      *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
      * @return payload request as {@link HashMap}
      * **/
-    public static HashMap<String, Object> getLimitPayload(String timeInForce, double quantity, double price,
-                                                          HashMap<String, Object> extraParams){
-        HashMap<String, Object> payload = new HashMap<>();
-        payload.put("timeInForce", timeInForce);
-        payload.put("quantity", sNotationParse(8, quantity));
-        payload.put("price", price);
+    public static BinanceManager.Params getLimitPayload(String timeInForce, double quantity, double price,
+                                                        BinanceManager.Params extraParams){
+        BinanceManager.Params payload = new BinanceManager.Params();
+        payload.addParam("timeInForce", timeInForce);
+        payload.addParam("quantity", sNotationParse(8, quantity));
+        payload.addParam("price", price);
         if(extraParams != null)
-            payload.putAll(extraParams);
+            payload.mergeParams(extraParams);
         return payload;
     }
 
@@ -67,11 +68,11 @@ public class SpotOrder extends Order {
      *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
      * @return payload request as {@link HashMap}
      * **/
-    public static HashMap<String, Object> getMarketPayload(String keyQty, double qty, HashMap<String, Object> extraParams){
-        HashMap<String, Object> payload = new HashMap<>();
-        payload.put(keyQty, sNotationParse(8, qty));
+    public static BinanceManager.Params getMarketPayload(String keyQty, double qty, BinanceManager.Params extraParams){
+        BinanceManager.Params payload = new BinanceManager.Params();
+        payload.addParam(keyQty, sNotationParse(8, qty));
         if(extraParams != null)
-            payload.putAll(extraParams);
+            payload.mergeParams(extraParams);
         return payload;
     }
 
@@ -86,13 +87,13 @@ public class SpotOrder extends Order {
      *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
      * @return payload request as {@link HashMap}
      * **/
-    public static HashMap<String, Object> getLevelPayload(double quantity, String key, double value,
-                                                          HashMap<String, Object> extraParams){
-        HashMap<String, Object> payload = new HashMap<>();
-        payload.put("quantity", sNotationParse(8, quantity));
-        payload.put(key, value);
+    public static BinanceManager.Params getLevelPayload(double quantity, String key, double value,
+                                                          BinanceManager.Params extraParams){
+        BinanceManager.Params payload = new BinanceManager.Params();
+        payload.addParam("quantity", sNotationParse(8, quantity));
+        payload.addParam(key, value);
         if(extraParams != null)
-            payload.putAll(extraParams);
+            payload.mergeParams(extraParams);
         return payload;
     }
 
@@ -109,11 +110,10 @@ public class SpotOrder extends Order {
      *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
      * @return payload request as {@link HashMap}
      * **/
-    public static HashMap<String, Object> getLevelLimitPayload(String timeInForce, double quantity, double price,
-                                                               String key, double value,
-                                                               HashMap<String, Object> extraParams){
-        HashMap<String, Object> payload = getLimitPayload(timeInForce, quantity, price, extraParams);
-        payload.put(key, value);
+    public static BinanceManager.Params getLevelLimitPayload(String timeInForce, double quantity, double price,
+                                                             String key, double value, BinanceManager.Params extraParams){
+        BinanceManager.Params payload = getLimitPayload(timeInForce, quantity, price, extraParams);
+        payload.addParam(key, value);
         return payload;
     }
 
@@ -127,14 +127,24 @@ public class SpotOrder extends Order {
      *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
      * @return payload request as {@link HashMap}
      * **/
-    public static HashMap<String, Object> getLimitMakerPayload(double quantity, double price,
-                                                               HashMap<String, Object> extraParams){
-        HashMap<String, Object> payload = new HashMap<>();
-        payload.put("quantity", sNotationParse(8, quantity));
-        payload.put("price", price);
+    public static BinanceManager.Params getLimitMakerPayload(double quantity, double price,
+                                                               BinanceManager.Params extraParams){
+        BinanceManager.Params payload = new BinanceManager.Params();
+        payload.addParam("quantity", sNotationParse(8, quantity));
+        payload.addParam("price", price);
         if(extraParams != null)
-            payload.putAll(extraParams);
+            payload.mergeParams(extraParams);
         return payload;
+    }
+
+    @Override
+    public String toString() {
+        return "SpotOrder{" +
+                "orderListId=" + orderListId +
+                ", symbol='" + symbol + '\'' +
+                ", orderId=" + orderId +
+                ", clientOrderId='" + clientOrderId + '\'' +
+                '}';
     }
 
 }

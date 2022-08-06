@@ -67,4 +67,19 @@ public class ComposedSpotOrderDetails extends OrderDetails {
         return orderReportsList.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "ComposedSpotOrderDetails{" +
+                "orderReportsList=" + orderReportsList +
+                ", orderListId=" + orderListId +
+                ", contingencyType='" + contingencyType + '\'' +
+                ", listStatusType='" + listStatusType + '\'' +
+                ", listOrderStatus='" + listOrderStatus + '\'' +
+                ", listClientOrderId='" + listClientOrderId + '\'' +
+                ", transactionTime=" + transactionTime +
+                ", symbol='" + symbol + '\'' +
+                ", orderValues=" + orderValues +
+                '}';
+    }
+
 }

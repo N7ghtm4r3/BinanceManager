@@ -1,17 +1,17 @@
 package com.tecknobit.binancemanager.Managers;
 
-import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
+import com.tecknobit.apimanager.Manager.APIRequest;
 import com.tecknobit.apimanager.Tools.Trading.TradingTools;
 import com.tecknobit.binancemanager.Exceptions.SystemException;
-import com.tecknobit.binancemanager.Helpers.RequestManager;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
+import static com.tecknobit.apimanager.Manager.APIRequest.GET_METHOD;
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.computeAssetPercent;
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.textualizeAssetPercent;
 import static com.tecknobit.binancemanager.Constants.EndpointsList.SYSTEM_STATUS_ENDPOINT;
 import static com.tecknobit.binancemanager.Constants.EndpointsList.TIMESTAMP_ENDPOINT;
-import static com.tecknobit.binancemanager.Helpers.RequestManager.GET_METHOD;
 import static java.lang.System.currentTimeMillis;
 
 /**
@@ -31,41 +31,20 @@ public class BinanceManager {
             "https://api2.binance.com", "https://api3.binance.com"};
 
     /**
-     * {@code requestManager} is instance that contains list of Binance's main endpoints
+     * {@code apiRequest} is instance that contains list of Binance's main endpoints
      * **/
-    protected RequestManager requestManager;
-
-    /**
-     * {@code jsonObject} is instance that help to format api response when they are {@link JSONObject}
-     * **/
-    protected JSONObject jsonObject;
-
-    /**
-     * {@code accountDetails} is instance that help to format api response when they are {@link JSONArray}
-     * **/
-    protected JSONArray jsonArray;
-
-    /**
-     * {@code jsonHelper} is instance that help to format api response when they are JSON format type
-     * **/
-    protected JsonHelper jsonHelper;
+    protected APIRequest apiRequest;
 
     /**
      * {@code baseEndpoint} is instance that  memorizes main endpoint where {@link BinanceManager}'s managers work on
      * **/
     protected final String baseEndpoint;
 
-    /**
-     * {@code tradingTools} is instance that  memorizes {@link TradingTools} object
-     * **/
-    protected final TradingTools tradingTools;
-
     /** Constructor to init a Binance manager
      * @param baseEndpoint base endpoint to work on
      * **/
     public BinanceManager(String baseEndpoint) throws SystemException, IOException {
-        requestManager = new RequestManager();
-        tradingTools = new TradingTools();
+        apiRequest = new APIRequest();
         if(baseEndpoint != null)
             this.baseEndpoint = baseEndpoint;
         else
@@ -86,9 +65,9 @@ public class BinanceManager {
      * @param baseEndpoint endpoint to request status
      * **/
     public boolean isSystemAvailable(String baseEndpoint) throws IOException {
-        requestManager.sendAPIRequest(baseEndpoint + SYSTEM_STATUS_ENDPOINT, GET_METHOD);
-        jsonObject = requestManager.getJSONResponse();
-        return jsonObject.getInt("status") == 0;
+        apiRequest.sendAPIRequest(baseEndpoint + SYSTEM_STATUS_ENDPOINT, GET_METHOD);
+        JSONObject system = apiRequest.getJSONResponse();
+        return system.getInt("status") == 0;
     }
 
     /** Request to get server timestamp or your current timestamp
@@ -97,9 +76,9 @@ public class BinanceManager {
      * **/
     public long getTimestamp(){
         try {
-            requestManager.sendAPIRequest(baseEndpoint + TIMESTAMP_ENDPOINT, GET_METHOD);
-            jsonObject = requestManager.getJSONResponse();
-            return jsonObject.getLong("serverTime");
+            apiRequest.sendAPIRequest(baseEndpoint + TIMESTAMP_ENDPOINT, GET_METHOD);
+            JSONObject timestamp = apiRequest.getJSONResponse();
+            return timestamp.getLong("serverTime");
         } catch (Exception e) {
             return currentTimeMillis();
         }
@@ -121,8 +100,8 @@ public class BinanceManager {
      * @return response of request formatted in Json
      * **/
     public String getRequestResponse(String endpoint, String params, String method, String apiKey) throws IOException {
-        requestManager.sendAPIRequest(baseEndpoint + endpoint + params, method, "X-MBX-APIKEY", apiKey);
-        return requestManager.getResponse();
+        apiRequest.sendAPIRequest(baseEndpoint + endpoint + params, method, "X-MBX-APIKEY", apiKey);
+        return apiRequest.getResponse();
     }
 
     /** Method to execute and get response of a request
@@ -132,8 +111,8 @@ public class BinanceManager {
      * @return response of request formatted in Json
      * **/
     public String getRequestResponse(String endpoint, String params, String method) throws IOException {
-        requestManager.sendAPIRequest(baseEndpoint + endpoint + params, method);
-        return requestManager.getResponse();
+        apiRequest.sendAPIRequest(baseEndpoint + endpoint + params, method);
+        return apiRequest.getResponse();
     }
 
     /** Method to get status code of request response
@@ -141,22 +120,22 @@ public class BinanceManager {
      * @return status code of request response
      * **/
     public int getStatusResponse(){
-        return requestManager.getResponseStatusCode();
+        return apiRequest.getResponseStatusCode();
     }
 
     /** Method to get error response of an HTTP request
      * any params required
-     * @return requestManager.getErrorResponse();
+     * @return apiRequest.getErrorResponse();
      * **/
     public String getErrorResponse() {
-        return requestManager.getErrorResponse();
+        return apiRequest.getErrorResponse();
     }
 
     /** Method to print error response of an HTTP request <br>
      * Any params required
      * **/
     public void printErrorResponse() {
-        System.out.println(requestManager.getErrorResponse());
+        apiRequest.printErrorResponse();
     }
 
     /** Method to round a value
@@ -166,7 +145,7 @@ public class BinanceManager {
      * @throws IllegalArgumentException if decimalDigits is negative
      * **/
     public double roundValue(double value, int decimalDigits){
-        return tradingTools.roundValue(value, decimalDigits);
+        return TradingTools.roundValue(value, decimalDigits);
     }
 
     /** Method to get percent between two values
@@ -176,7 +155,7 @@ public class BinanceManager {
      * @throws IllegalArgumentException if startValue or lastValue are negative
      * **/
     public double getTrendPercent(double startValue, double finalValue){
-        return tradingTools.computeAssetPercent(startValue, finalValue);
+        return computeAssetPercent(startValue, finalValue);
     }
 
     /** Method to get percent between two values and round it
@@ -187,7 +166,7 @@ public class BinanceManager {
      * @throws IllegalArgumentException if startValue or lastValue are negative
      * **/
     public double getTrendPercent(double startValue, double finalValue, int decimalDigits){
-        return tradingTools.computeAssetPercent(startValue, finalValue, decimalDigits);
+        return computeAssetPercent(startValue, finalValue, decimalDigits);
     }
 
     /** Method to format percent between two values and textualize it
@@ -195,7 +174,7 @@ public class BinanceManager {
      * @return percent value formatted es. +8% or -8% as {@link String}
      * **/
     public String getTextTrendPercent(double percent){
-        return tradingTools.textualizeAssetPercent(percent);
+        return textualizeAssetPercent(percent);
     }
 
     /** Method to get percent between two values and textualize it
@@ -204,7 +183,7 @@ public class BinanceManager {
      * @return percent value es. +8% or -8% as {@link String}
      * **/
     public String getTextTrendPercent(double startValue, double finalValue){
-        return tradingTools.textualizeAssetPercent(startValue, finalValue);
+        return textualizeAssetPercent(startValue, finalValue);
     }
 
     /** Method to get percent between two values and textualize it
@@ -214,23 +193,26 @@ public class BinanceManager {
      * @return percent value es. +8% or -8% as {@link String}
      * **/
     public String getTextTrendPercent(double startValue, double finalValue, int decimalDigits){
-        return tradingTools.textualizeAssetPercent(startValue, finalValue, decimalDigits);
+        return textualizeAssetPercent(startValue, finalValue, decimalDigits);
     }
 
-    /** Method get tradingTools object
-     * any params required
-     * @return {@link TradingTools} object
+    /**
+     * The {@code Params} class is useful to assemble params values for the request
+     * @implNote this class can be used to assemble body payload or query request params
+     * @implSpec look this library <a href="https://github.com/N7ghtm4r3/APIManager">here</a>
+     * @see com.tecknobit.apimanager.Manager.APIRequest.Params
      * **/
-    public TradingTools getTradingTools() {
-        return tradingTools;
-    }
 
-    /** Method get jsonHelper object
-     * any params required
-     * @return {@link JsonHelper} object
-     * **/
-    public JsonHelper getJsonHelper() {
-        return jsonHelper;
+    public static class Params extends APIRequest.Params {
+
+        /** Method to merge another params value in the same object
+         * @param params: params to merge
+         * **/
+        public void mergeParams(Params params){
+            for (String key : params.getParamsKeys())
+                addParam(key, params.getParam(key));
+        }
+
     }
 
 }

@@ -47,6 +47,15 @@ public class TradeFee {
         return takerCommission;
     }
 
+    @Override
+    public String toString() {
+        return "TradeFee{" +
+                "symbol='" + symbol + '\'' +
+                ", makerCommission=" + makerCommission +
+                ", takerCommission=" + takerCommission +
+                '}';
+    }
+
 }
 
 

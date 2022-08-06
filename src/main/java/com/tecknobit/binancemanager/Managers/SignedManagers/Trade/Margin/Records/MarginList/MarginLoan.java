@@ -86,6 +86,14 @@ public class MarginLoan {
         return marginLoanAssetsList.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "MarginLoan{" +
+                "total=" + total +
+                ", marginLoanAssetsList=" + marginLoanAssetsList +
+                '}';
+    }
+
     /**
      * The {@code MarginLoanAsset} class is useful to obtain and format MarginLoanAsset object
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
@@ -139,6 +147,18 @@ public class MarginLoan {
             if(principal < 0)
                 throw new IllegalArgumentException("Principal value cannot be less than 0");
             this.principal = principal;
+        }
+
+        @Override
+        public String toString() {
+            return "MarginLoanAsset{" +
+                    "isolatedSymbol='" + isolatedSymbol + '\'' +
+                    ", principal=" + principal +
+                    ", asset='" + asset + '\'' +
+                    ", txId=" + txId +
+                    ", timestamp=" + timestamp +
+                    ", status='" + status + '\'' +
+                    '}';
         }
 
     }

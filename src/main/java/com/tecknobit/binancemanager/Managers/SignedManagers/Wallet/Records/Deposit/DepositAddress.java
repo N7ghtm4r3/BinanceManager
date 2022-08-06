@@ -58,4 +58,14 @@ public class DepositAddress {
         return url;
     }
 
+    @Override
+    public String toString() {
+        return "DepositAddress{" +
+                "address='" + address + '\'' +
+                ", coin='" + coin + '\'' +
+                ", tag='" + tag + '\'' +
+                ", url='" + url + '\'' +
+                '}';
+    }
+
 }

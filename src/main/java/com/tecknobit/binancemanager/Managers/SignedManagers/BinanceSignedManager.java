@@ -1,9 +1,12 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers;
 
+import com.tecknobit.apimanager.Manager.APIRequest;
 import com.tecknobit.binancemanager.Exceptions.SystemException;
 import com.tecknobit.binancemanager.Managers.BinanceManager;
 
 import java.io.IOException;
+
+import static com.tecknobit.apimanager.Manager.APIRequest.SHA256_ALGORITHM;
 
 /**
  * The {@code BinanceSignedManager} class is useful to manage all signed binance requests
@@ -50,7 +53,7 @@ public class BinanceSignedManager extends BinanceManager {
      * @return es."&signature=c8db66725ae71d6d79447319e617115f4a920f5agcdabcb2838bd6b712b053c4"
      * **/
     protected String getSignature(String params) throws Exception {
-        return "&signature=" + requestManager.getSignature(secretKey, params);
+        return "&signature=" + APIRequest.getSignature(secretKey, params, SHA256_ALGORITHM);
     }
 
     /** Method to get apiKey used

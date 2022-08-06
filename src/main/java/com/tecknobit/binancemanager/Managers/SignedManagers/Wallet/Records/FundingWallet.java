@@ -146,4 +146,16 @@ public class FundingWallet {
         this.btcValuation = btcValuation;
     }
 
+    @Override
+    public String toString() {
+        return "FundingWallet{" +
+                "asset='" + asset + '\'' +
+                ", free=" + free +
+                ", locked=" + locked +
+                ", freeze=" + freeze +
+                ", withdrawing=" + withdrawing +
+                ", btcValuation=" + btcValuation +
+                '}';
+    }
+
 }

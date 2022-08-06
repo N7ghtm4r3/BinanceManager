@@ -79,6 +79,16 @@ public class OrderBook {
         return symbol;
     }
 
+    @Override
+    public String toString() {
+        return "OrderBook{" +
+                "lastUpdateId=" + lastUpdateId +
+                ", orderDetailsBids=" + orderDetailsBids +
+                ", orderDetailsAsks=" + orderDetailsAsks +
+                ", symbol='" + symbol + '\'' +
+                '}';
+    }
+
     /**
      * The {@code BookOrderDetails} class is useful to format order book details
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
@@ -125,6 +135,14 @@ public class OrderBook {
             values.put("quantity", quantity);
             values.put("price", price);
             return new JSONObject(values);
+        }
+
+        @Override
+        public String toString() {
+            return "BookOrderDetails{" +
+                    "price=" + price +
+                    ", quantity=" + quantity +
+                    '}';
         }
 
     }

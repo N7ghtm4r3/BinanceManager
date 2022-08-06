@@ -27,4 +27,12 @@ public class PriceTicker extends Ticker{
         return price;
     }
 
+    @Override
+    public String toString() {
+        return "PriceTicker{" +
+                "price=" + price +
+                ", symbol='" + symbol + '\'' +
+                '}';
+    }
+
 }

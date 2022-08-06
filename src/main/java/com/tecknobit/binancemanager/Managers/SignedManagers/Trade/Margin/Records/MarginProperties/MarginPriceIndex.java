@@ -74,4 +74,13 @@ public class MarginPriceIndex {
         return symbol;
     }
 
+    @Override
+    public String toString() {
+        return "MarginPriceIndex{" +
+                "calcTime=" + calcTime +
+                ", price=" + price +
+                ", symbol='" + symbol + '\'' +
+                '}';
+    }
+
 }

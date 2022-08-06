@@ -81,4 +81,16 @@ public class IsolatedMarginSymbol {
         return isSellAllowed;
     }
 
+    @Override
+    public String toString() {
+        return "IsolatedMarginSymbol{" +
+                "symbol='" + symbol + '\'' +
+                ", base='" + base + '\'' +
+                ", quote='" + quote + '\'' +
+                ", isMarginTrade=" + isMarginTrade +
+                ", isBuyAllowed=" + isBuyAllowed +
+                ", isSellAllowed=" + isSellAllowed +
+                '}';
+    }
+
 }

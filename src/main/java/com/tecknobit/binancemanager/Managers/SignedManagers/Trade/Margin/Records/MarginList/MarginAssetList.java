@@ -95,4 +95,14 @@ public class MarginAssetList {
         return status.equals(STATUS_CONFIRMED) || status.equals(STATUS_PENDING) || status.equals(STATUS_FAILED);
     }
 
+    @Override
+    public String toString() {
+        return "MarginAssetList{" +
+                "asset='" + asset + '\'' +
+                ", txId=" + txId +
+                ", timestamp=" + timestamp +
+                ", status='" + status + '\'' +
+                '}';
+    }
+
 }

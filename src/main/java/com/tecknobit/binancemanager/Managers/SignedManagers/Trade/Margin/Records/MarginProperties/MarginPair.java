@@ -92,4 +92,17 @@ public class MarginPair {
         return isSellAllowed;
     }
 
+    @Override
+    public String toString() {
+        return "MarginPair{" +
+                "id=" + id +
+                ", symbol='" + symbol + '\'' +
+                ", base='" + base + '\'' +
+                ", quote='" + quote + '\'' +
+                ", isMarginTrade=" + isMarginTrade +
+                ", isBuyAllowed=" + isBuyAllowed +
+                ", isSellAllowed=" + isSellAllowed +
+                '}';
+    }
+
 }

@@ -23,4 +23,11 @@ public class Ticker {
         return symbol;
     }
 
+    @Override
+    public String toString() {
+        return "Ticker{" +
+                "symbol='" + symbol + '\'' +
+                '}';
+    }
+
 }

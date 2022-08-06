@@ -111,6 +111,17 @@ public class AccountSnapshotFutures extends AccountSnapshot{
         return dataFuturesList.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "AccountSnapshotFutures{" +
+                "dataFuturesList=" + dataFuturesList +
+                ", code=" + code +
+                ", msg='" + msg + '\'' +
+                ", type='" + type + '\'' +
+                ", accountDetails=" + accountDetails +
+                '}';
+    }
+
     /**
      *  The {@code DataFutures} class is useful to obtain and format DataFutures object
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
@@ -191,6 +202,15 @@ public class AccountSnapshotFutures extends AccountSnapshot{
             return positionFuturesList.get(index);
         }
 
+        @Override
+        public String toString() {
+            return "DataFutures{" +
+                    "updateTime=" + updateTime +
+                    ", assetFuturesList=" + assetFuturesList +
+                    ", positionFuturesList=" + positionFuturesList +
+                    '}';
+        }
+
     }
 
     /**
@@ -264,6 +284,15 @@ public class AccountSnapshotFutures extends AccountSnapshot{
             if(walletBalance < 0)
                 throw new IllegalArgumentException("Wallet balance value cannot be less than 0");
             this.walletBalance = walletBalance;
+        }
+
+        @Override
+        public String toString() {
+            return "AssetFutures{" +
+                    "asset='" + asset + '\'' +
+                    ", marginBalance=" + marginBalance +
+                    ", walletBalance=" + walletBalance +
+                    '}';
         }
 
     }
@@ -375,6 +404,17 @@ public class AccountSnapshotFutures extends AccountSnapshot{
             if(unRealizedProfit < 0)
                 throw new IllegalArgumentException("Unrealize profit value cannot be less than 0");
             this.unRealizedProfit = unRealizedProfit;
+        }
+
+        @Override
+        public String toString() {
+            return "PositionFutures{" +
+                    "entryPrice=" + entryPrice +
+                    ", markPrice=" + markPrice +
+                    ", positionAmt=" + positionAmt +
+                    ", symbol='" + symbol + '\'' +
+                    ", unRealizedProfit=" + unRealizedProfit +
+                    '}';
         }
 
     }

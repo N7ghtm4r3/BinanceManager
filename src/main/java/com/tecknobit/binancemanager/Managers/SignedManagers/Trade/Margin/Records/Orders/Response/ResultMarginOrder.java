@@ -109,4 +109,23 @@ public class ResultMarginOrder extends ACKMarginOrder{
         return side;
     }
 
+    @Override
+    public String toString() {
+        return "ResultMarginOrder{" +
+                "price=" + price +
+                ", origQty=" + origQty +
+                ", executedQty=" + executedQty +
+                ", cummulativeQuoteQty=" + cummulativeQuoteQty +
+                ", status='" + status + '\'' +
+                ", timeInForce='" + timeInForce + '\'' +
+                ", type='" + type + '\'' +
+                ", side='" + side + '\'' +
+                ", isIsolated=" + isIsolated +
+                ", transactTime=" + transactTime +
+                ", symbol='" + symbol + '\'' +
+                ", orderId=" + orderId +
+                ", clientOrderId='" + clientOrderId + '\'' +
+                '}';
+    }
+
 }

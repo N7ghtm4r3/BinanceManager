@@ -111,4 +111,13 @@ public class Order {
         return clientOrderId;
     }
 
+    @Override
+    public String toString() {
+        return "Order{" +
+                "symbol='" + symbol + '\'' +
+                ", orderId=" + orderId +
+                ", clientOrderId='" + clientOrderId + '\'' +
+                '}';
+    }
+
 }

@@ -80,4 +80,24 @@ public class FullMarginOrder extends ResultMarginOrder {
         return fillMarginsList.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "FullMarginOrder{" +
+                "fillMarginsList=" + fillMarginsList +
+                ", price=" + price +
+                ", origQty=" + origQty +
+                ", executedQty=" + executedQty +
+                ", cummulativeQuoteQty=" + cummulativeQuoteQty +
+                ", status='" + status + '\'' +
+                ", timeInForce='" + timeInForce + '\'' +
+                ", type='" + type + '\'' +
+                ", side='" + side + '\'' +
+                ", isIsolated=" + isIsolated +
+                ", transactTime=" + transactTime +
+                ", symbol='" + symbol + '\'' +
+                ", orderId=" + orderId +
+                ", clientOrderId='" + clientOrderId + '\'' +
+                '}';
+    }
+
 }

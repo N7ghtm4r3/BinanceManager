@@ -40,4 +40,12 @@ public class IsolatedMarginAccountStatus {
         return symbol;
     }
 
+    @Override
+    public String toString() {
+        return "IsolatedMarginAccountStatus{" +
+                "success=" + success +
+                ", symbol='" + symbol + '\'' +
+                '}';
+    }
+
 }

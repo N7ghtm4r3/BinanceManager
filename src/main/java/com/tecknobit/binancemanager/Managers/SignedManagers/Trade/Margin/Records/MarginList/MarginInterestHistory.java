@@ -108,6 +108,14 @@ public class MarginInterestHistory {
         return marginInterestAssetsList.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "MarginInterestHistory{" +
+                "total=" + total +
+                ", marginInterestAssetsList=" + marginInterestAssetsList +
+                '}';
+    }
+
     /**
      * The {@code MarginInterestAsset} class is useful to obtain and format MarginInterestAsset object
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
@@ -277,6 +285,19 @@ public class MarginInterestHistory {
         private boolean typeIsValid(String type){
             return type.equals(ON_BORROW) || type.equals(ON_BORROW_CONVERTED) || type.equals(PERIODIC)
                     || type.equals(PERIODIC_CONVERTED);
+        }
+
+        @Override
+        public String toString() {
+            return "MarginInterestAsset{" +
+                    "isolatedSymbol='" + isolatedSymbol + '\'' +
+                    ", asset='" + asset + '\'' +
+                    ", interest=" + interest +
+                    ", interestAccuredTime=" + interestAccuredTime +
+                    ", interestRate=" + interestRate +
+                    ", principal=" + principal +
+                    ", type='" + type + '\'' +
+                    '}';
         }
 
     }

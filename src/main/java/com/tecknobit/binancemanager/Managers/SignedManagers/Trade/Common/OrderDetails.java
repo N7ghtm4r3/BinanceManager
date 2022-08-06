@@ -126,6 +126,20 @@ public class OrderDetails {
         return orderValues.get(index);
     }
 
+    @Override
+    public String toString() {
+        return "OrderDetails{" +
+                "orderListId=" + orderListId +
+                ", contingencyType='" + contingencyType + '\'' +
+                ", listStatusType='" + listStatusType + '\'' +
+                ", listOrderStatus='" + listOrderStatus + '\'' +
+                ", listClientOrderId='" + listClientOrderId + '\'' +
+                ", transactionTime=" + transactionTime +
+                ", symbol='" + symbol + '\'' +
+                ", orderValues=" + orderValues +
+                '}';
+    }
+
     /**
      * The {@code OrderValues} class is useful to obtain and format OrderValues object
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade">
@@ -170,6 +184,15 @@ public class OrderDetails {
 
         public String getClientOrderId() {
             return clientOrderId;
+        }
+
+        @Override
+        public String toString() {
+            return "OrderValues{" +
+                    "symbol='" + symbol + '\'' +
+                    ", orderId=" + orderId +
+                    ", clientOrderId='" + clientOrderId + '\'' +
+                    '}';
         }
 
     }

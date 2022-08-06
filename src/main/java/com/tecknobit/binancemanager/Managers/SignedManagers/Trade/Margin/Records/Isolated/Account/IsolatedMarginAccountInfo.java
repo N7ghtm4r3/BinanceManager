@@ -327,4 +327,22 @@ public class IsolatedMarginAccountInfo {
         return quoteAsset;
     }
 
+    @Override
+    public String toString() {
+        return "IsolatedMarginAccountInfo{" +
+                "symbol='" + symbol + '\'' +
+                ", isolatedCreated=" + isolatedCreated +
+                ", enabled=" + enabled +
+                ", marginLevel=" + marginLevel +
+                ", marginLevelStatus='" + marginLevelStatus + '\'' +
+                ", marginRatio=" + marginRatio +
+                ", indexPrice=" + indexPrice +
+                ", liquidatePrice=" + liquidatePrice +
+                ", liquidateRate=" + liquidateRate +
+                ", tradeEnabled=" + tradeEnabled +
+                ", baseAsset=" + baseAsset +
+                ", quoteAsset=" + quoteAsset +
+                '}';
+    }
+
 }

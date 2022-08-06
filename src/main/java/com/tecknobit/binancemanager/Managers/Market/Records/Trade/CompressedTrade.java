@@ -103,4 +103,18 @@ public class CompressedTrade {
         return isBestMatch;
     }
 
+    @Override
+    public String toString() {
+        return "CompressedTrade{" +
+                "aggregateTradeId=" + aggregateTradeId +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", firstTradeId=" + firstTradeId +
+                ", lastTradeId=" + lastTradeId +
+                ", timestamp=" + timestamp +
+                ", isBuyerMaker=" + isBuyerMaker +
+                ", isBestMatch=" + isBestMatch +
+                '}';
+    }
+
 }

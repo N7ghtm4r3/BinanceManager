@@ -1,5 +1,5 @@
 # BinanceManager
-**v1.0.4**
+**v1.0.5**
 
 This is a Java Based library useful to work with Binance's API service.
 
@@ -23,7 +23,7 @@ allprojects {
 
 ```gradle
 dependencies {
-	implementation 'com.github.N7ghtm4r3:BinanceManager:1.0.4'
+	implementation 'com.github.N7ghtm4r3:BinanceManager:1.0.5'
 }
 ```
 
@@ -45,7 +45,7 @@ dependencies {
 <dependency>
     <groupId>com.github.N7ghtm4r3</groupId>
     <artifactId>BinanceManager</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 </dependency>
 ```
 
@@ -89,14 +89,14 @@ try {
 
 // with automatic research for a workly basepoint
 try {
-    BinanceSpotManager binanceSpotManager = new BinanceSpotManager("yourApiKey","yourSecretKey");
+    BinanceSpotManager binanceSpotManager = new BinanceSpotManager("yourApiKey", "yourSecretKey");
 } catch (SystemException | IOException e) {
     e.printStackTrace();
 }
 
 // choose basepoint manually (index from 0 to 3)
 try {
-    BinanceSpotManager binanceSpotManager = new BinanceSpotManager(BinanceManager.BASE_ENDPOINTS.get(0),"yourApiKey","yourSecretKey");
+    BinanceSpotManager binanceSpotManager = new BinanceSpotManager(BinanceManager.BASE_ENDPOINTS.get(0), "yourApiKey", "yourSecretKey");
 } catch (SystemException | IOException e) {
     e.printStackTrace();
 }
@@ -155,7 +155,7 @@ try {
 } catch (Exception e) {
     System.out.println(binanceMarketManager.getErrorResponse());
 }
-/* NOTE: if is not a request error will appear: "No HTTP Binance request error, check your code"
+/* NOTE: if is not a request error will appear: "Error is not in api request, check out your code"
   and you will have to work on your code to manage error*/
 ```
 

@@ -97,4 +97,14 @@ public class MarginInterestRate {
         this.vipLevel = vipLevel;
     }
 
+    @Override
+    public String toString() {
+        return "MarginInterestRate{" +
+                "asset='" + asset + '\'' +
+                ", dailyInterestRate=" + dailyInterestRate +
+                ", timestamp=" + timestamp +
+                ", vipLevel=" + vipLevel +
+                '}';
+    }
+
 }

@@ -92,4 +92,16 @@ public class SpotAccountTradeList extends Trade {
         return isMaker;
     }
 
+    @Override
+    public String toString() {
+        return "SpotAccountTradeList{" +
+                "symbol='" + symbol + '\'' +
+                ", orderId=" + orderId +
+                ", orderListId=" + orderListId +
+                ", commission=" + commission +
+                ", commissionAsset='" + commissionAsset + '\'' +
+                ", isMaker=" + isMaker +
+                '}';
+    }
+
 }

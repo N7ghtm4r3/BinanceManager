@@ -98,4 +98,20 @@ public class ComposedMarginOrderDetails extends OrderDetails {
         );
     }
 
+    @Override
+    public String toString() {
+        return "ComposedMarginOrderDetails{" +
+                "detailMarginOrdersList=" + detailMarginOrdersList +
+                ", isIsolated=" + isIsolated +
+                ", orderListId=" + orderListId +
+                ", contingencyType='" + contingencyType + '\'' +
+                ", listStatusType='" + listStatusType + '\'' +
+                ", listOrderStatus='" + listOrderStatus + '\'' +
+                ", listClientOrderId='" + listClientOrderId + '\'' +
+                ", transactionTime=" + transactionTime +
+                ", symbol='" + symbol + '\'' +
+                ", orderValues=" + orderValues +
+                '}';
+    }
+
 }
