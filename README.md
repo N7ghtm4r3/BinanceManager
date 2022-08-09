@@ -71,14 +71,14 @@ The other endpoints managers will be gradually released
 // with automatic research for a workly basepoint
 try {
     BinanceMarketManager binanceMarketManager = new BinanceMarketManager();
-} catch (SystemException | IOException e) {
+} catch (Exception e) {
     e.printStackTrace();
 }
 
 // choose basepoint manually (index from 0 to 3)
 try {
     BinanceMarketManager binanceMarketManager = new BinanceMarketManager(BinanceManager.BASE_ENDPOINTS.get(0));
-} catch (SystemException | IOException e) {
+} catch (Exception e) {
     e.printStackTrace();
 }
 ```
@@ -90,14 +90,14 @@ try {
 // with automatic research for a workly basepoint
 try {
     BinanceSpotManager binanceSpotManager = new BinanceSpotManager("yourApiKey", "yourSecretKey");
-} catch (SystemException | IOException e) {
+} catch (Exception e) {
     e.printStackTrace();
 }
 
 // choose basepoint manually (index from 0 to 3)
 try {
     BinanceSpotManager binanceSpotManager = new BinanceSpotManager(BinanceManager.BASE_ENDPOINTS.get(0), "yourApiKey", "yourSecretKey");
-} catch (SystemException | IOException e) {
+} catch (Exception e) {
     e.printStackTrace();
 }
 ```
@@ -111,7 +111,7 @@ In this example manager is NO signed type manager, but is the same for signed ty
 ```java
 try {
     System.out.println(binanceMarketManager.getPriceTicker("BTCBUSD"));
-} catch (IOException e) {
+} catch (Exception e) {
     e.printStackTrace();
 }
 ```
@@ -121,7 +121,7 @@ try {
 ```java
 try {
     System.out.println(binanceMarketManager.getJSONPriceTicker("BTCBUSD"));
-} catch (IOException e) {
+} catch (Exception e) {
     e.printStackTrace();
 }
 ```
@@ -131,7 +131,7 @@ try {
 ```java
 try {
     System.out.println(binanceMarketManager.getObjectPriceTicker("BTCBUSD"));
-} catch (IOException e) {
+} catch (Exception e) {
     e.printStackTrace();
 }
 ```
@@ -142,7 +142,7 @@ try {
 // it return long type es. 151596910325
 try {
     System.out.println(binanceMarketManager.getTimestamp());
-} catch (SystemException | IOException e) {
+} catch (Exception e) {
     e.printStackTrace();
 }
 ```
@@ -154,6 +154,8 @@ try {
     System.out.println(binanceMarketManager.getTimestamp());
 } catch (Exception e) {
     System.out.println(binanceMarketManager.getErrorResponse());
+    //or
+    binanceMarketManager.printErrorResponse(); 
 }
 /* NOTE: if is not a request error will appear: "Error is not in api request, check out your code"
   and you will have to work on your code to manage error*/
