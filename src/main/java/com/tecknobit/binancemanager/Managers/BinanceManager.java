@@ -66,8 +66,7 @@ public class BinanceManager {
      * **/
     public boolean isSystemAvailable(String baseEndpoint) throws IOException {
         apiRequest.sendAPIRequest(baseEndpoint + SYSTEM_STATUS_ENDPOINT, GET_METHOD);
-        JSONObject system = apiRequest.getJSONResponse();
-        return system.getInt("status") == 0;
+        return ((JSONObject) apiRequest.getJSONResponse()).getInt("status") == 0;
     }
 
     /** Request to get server timestamp or your current timestamp
@@ -77,8 +76,7 @@ public class BinanceManager {
     public long getTimestamp(){
         try {
             apiRequest.sendAPIRequest(baseEndpoint + TIMESTAMP_ENDPOINT, GET_METHOD);
-            JSONObject timestamp = apiRequest.getJSONResponse();
-            return timestamp.getLong("serverTime");
+            return ((JSONObject) apiRequest.getJSONResponse()).getLong("serverTime");
         } catch (Exception e) {
             return currentTimeMillis();
         }
@@ -203,16 +201,6 @@ public class BinanceManager {
      * @see com.tecknobit.apimanager.Manager.APIRequest.Params
      * **/
 
-    public static class Params extends APIRequest.Params {
-
-        /** Method to merge another params value in the same object
-         * @param params: params to merge
-         * **/
-        public void mergeParams(Params params){
-            for (String key : params.getParamsKeys())
-                addParam(key, params.getParam(key));
-        }
-
-    }
+    public static class Params extends APIRequest.Params {}
 
 }

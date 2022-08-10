@@ -125,8 +125,8 @@ public class BinanceMarketManager extends BinanceManager {
      * @return exchange information as String
      * **/
     public String getExchangeInformation(ArrayList<String> symbols) throws Exception {
-        return getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT, "?symbols=["+ apiRequest.assembleParamsList("%22",
-                        "%22 ", symbols) +"]", GET_METHOD);
+        return getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT, "?symbols=[" + apiRequest.assembleParamsList("%22",
+                        "%22", symbols) + "]", GET_METHOD);
     }
 
     /** Request to get exchange information
@@ -391,7 +391,7 @@ public class BinanceMarketManager extends BinanceManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data</a>
      * @return old trade as String
      * **/
-    public String getOldTrade(String symbol, String apiKey, BinanceManager.Params extraParams) throws IOException {
+    public String getOldTrade(String symbol, String apiKey, Params extraParams) throws IOException {
         String params = "?symbol=" + symbol;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return getRequestResponse(OLD_TRADE_LOOKUP_ENDPOINT, params, GET_METHOD, apiKey);
@@ -408,7 +408,7 @@ public class BinanceMarketManager extends BinanceManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data</a>
      * @return old trade as JsonArray
      * **/
-    public JSONArray getJSONOldTrade(String symbol, String apiKey, BinanceManager.Params extraParams) throws IOException {
+    public JSONArray getJSONOldTrade(String symbol, String apiKey, Params extraParams) throws IOException {
         return new JSONArray(getOldTrade(symbol, apiKey, extraParams));
     }
 
@@ -423,7 +423,7 @@ public class BinanceMarketManager extends BinanceManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data</a>
      * @return old trade as ArrayList<Trade>
      * **/
-    public ArrayList<Trade> getOldTradeList(String symbol, String apiKey, BinanceManager.Params extraParams) throws IOException {
+    public ArrayList<Trade> getOldTradeList(String symbol, String apiKey, Params extraParams) throws IOException {
         return getTradeList(new JSONArray(getOldTrade(symbol, apiKey, extraParams)));
     }
 
@@ -465,7 +465,7 @@ public class BinanceMarketManager extends BinanceManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list</a>
      * @return compressed trade list as String
      * **/
-    public String getCompressedTradeList(String symbol, BinanceManager.Params extraParams) throws IOException {
+    public String getCompressedTradeList(String symbol, Params extraParams) throws IOException {
         String params = "?symbol=" + symbol;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return getRequestResponse(COMPRESSED_TRADE_LIST_ENDPOINT, params, GET_METHOD);
@@ -479,7 +479,7 @@ public class BinanceMarketManager extends BinanceManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list</a>
      * @return compressed trade list as JsonArray
      * **/
-    public JSONArray getJSONCompressedTradeList(String symbol, BinanceManager.Params extraParams) throws IOException {
+    public JSONArray getJSONCompressedTradeList(String symbol, Params extraParams) throws IOException {
         return new JSONArray(getCompressedTradeList(symbol, extraParams));
     }
 
@@ -491,7 +491,7 @@ public class BinanceMarketManager extends BinanceManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list</a>
      * @return compressed trade list as ArrayList<CompressedTrade>
      * **/
-    public ArrayList<CompressedTrade> getObjectCompressedTradeList(String symbol, BinanceManager.Params extraParams) throws IOException {
+    public ArrayList<CompressedTrade> getObjectCompressedTradeList(String symbol, Params extraParams) throws IOException {
         return getObjectCompressedTradeList(new JSONArray(getCompressedTradeList(symbol, extraParams)));
     }
 
@@ -560,7 +560,7 @@ public class BinanceMarketManager extends BinanceManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data</a>
      * @return candlestick data as String
      * **/
-    public String getCandlestickData(String symbol, String interval, BinanceManager.Params extraParams) throws IOException {
+    public String getCandlestickData(String symbol, String interval, Params extraParams) throws IOException {
         String params = "?symbol=" + symbol + "&interval=" + interval;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return getRequestResponse(CANDLESTICK_DATA_ENDPOINT, params, GET_METHOD);
@@ -575,7 +575,7 @@ public class BinanceMarketManager extends BinanceManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data</a>
      * @return candlestick data as JsonArray
      * **/
-    public JSONArray getJSONCandlestickData(String symbol, String interval, BinanceManager.Params extraParams) throws IOException {
+    public JSONArray getJSONCandlestickData(String symbol, String interval, Params extraParams) throws IOException {
         return new JSONArray(getCandlestickData(symbol, interval, extraParams));
     }
 
@@ -589,7 +589,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @return candlestick data as ArrayList<Candlestick>
      * **/
     public ArrayList<Candlestick> getCandlestickDataList(String symbol, String interval,
-                                                         BinanceManager.Params extraParams) throws IOException {
+                                                         Params extraParams) throws IOException {
         return getCandlestickDataList(new JSONArray(getCandlestickData(symbol, interval, extraParams)));
     }
 

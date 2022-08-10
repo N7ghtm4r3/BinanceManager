@@ -1,9 +1,7 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders;
 
-import com.tecknobit.binancemanager.Managers.BinanceManager;
+import com.tecknobit.binancemanager.Managers.BinanceManager.Params;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.Order;
-
-import java.util.HashMap;
 
 import static com.tecknobit.apimanager.Tools.Formatters.ScientificNotationParser.sNotationParse;
 
@@ -45,11 +43,10 @@ public class SpotOrder extends Order {
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
-     * @return payload request as {@link HashMap}
+     * @return payload request as {@link Params}
      * **/
-    public static BinanceManager.Params getLimitPayload(String timeInForce, double quantity, double price,
-                                                        BinanceManager.Params extraParams){
-        BinanceManager.Params payload = new BinanceManager.Params();
+    public static Params getLimitPayload(String timeInForce, double quantity, double price, Params extraParams){
+        Params payload = new Params();
         payload.addParam("timeInForce", timeInForce);
         payload.addParam("quantity", sNotationParse(8, quantity));
         payload.addParam("price", price);
@@ -66,10 +63,10 @@ public class SpotOrder extends Order {
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
-     * @return payload request as {@link HashMap}
+     * @return payload request as {@link Params}
      * **/
-    public static BinanceManager.Params getMarketPayload(String keyQty, double qty, BinanceManager.Params extraParams){
-        BinanceManager.Params payload = new BinanceManager.Params();
+    public static Params getMarketPayload(String keyQty, double qty, Params extraParams){
+        Params payload = new Params();
         payload.addParam(keyQty, sNotationParse(8, qty));
         if(extraParams != null)
             payload.mergeParams(extraParams);
@@ -85,11 +82,10 @@ public class SpotOrder extends Order {
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
-     * @return payload request as {@link HashMap}
+     * @return payload request as {@link Params}
      * **/
-    public static BinanceManager.Params getLevelPayload(double quantity, String key, double value,
-                                                          BinanceManager.Params extraParams){
-        BinanceManager.Params payload = new BinanceManager.Params();
+    public static Params getLevelPayload(double quantity, String key, double value, Params extraParams){
+        Params payload = new Params();
         payload.addParam("quantity", sNotationParse(8, quantity));
         payload.addParam(key, value);
         if(extraParams != null)
@@ -108,11 +104,11 @@ public class SpotOrder extends Order {
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
-     * @return payload request as {@link HashMap}
+     * @return payload request as {@link Params}
      * **/
-    public static BinanceManager.Params getLevelLimitPayload(String timeInForce, double quantity, double price,
-                                                             String key, double value, BinanceManager.Params extraParams){
-        BinanceManager.Params payload = getLimitPayload(timeInForce, quantity, price, extraParams);
+    public static Params getLevelLimitPayload(String timeInForce, double quantity, double price, String key, double value,
+                                              Params extraParams){
+        Params payload = getLimitPayload(timeInForce, quantity, price, extraParams);
         payload.addParam(key, value);
         return payload;
     }
@@ -125,11 +121,10 @@ public class SpotOrder extends Order {
      * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
-     * @return payload request as {@link HashMap}
+     * @return payload request as {@link Params}
      * **/
-    public static BinanceManager.Params getLimitMakerPayload(double quantity, double price,
-                                                               BinanceManager.Params extraParams){
-        BinanceManager.Params payload = new BinanceManager.Params();
+    public static Params getLimitMakerPayload(double quantity, double price, Params extraParams){
+        Params payload = new Params();
         payload.addParam("quantity", sNotationParse(8, quantity));
         payload.addParam("price", price);
         if(extraParams != null)

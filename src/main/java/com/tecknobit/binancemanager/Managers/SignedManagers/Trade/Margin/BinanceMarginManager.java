@@ -1,7 +1,6 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin;
 
 import com.tecknobit.binancemanager.Exceptions.SystemException;
-import com.tecknobit.binancemanager.Managers.BinanceManager;
 import com.tecknobit.binancemanager.Managers.SignedManagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.CrossMarginAccountDetails;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account.MarginAccountTrade;
@@ -199,7 +198,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin</a>
      * @return result of margin account borrow request as String
      * **/
-    public String applyMarginAccountBorrow(String asset, double amount, BinanceManager.Params extraParams) throws Exception {
+    public String applyMarginAccountBorrow(String asset, double amount, Params extraParams) throws Exception {
         String params = getParamTimestamp()+ "&asset=" + asset + "&amount=" +amount;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_LOAN_ENDPOINT, params, POST_METHOD);
@@ -214,7 +213,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin</a>
      * @return result of margin account borrow request as JsonObject
      * **/
-    public JSONObject applyJSONMarginAccountBorrow(String asset, double amount, BinanceManager.Params extraParams) throws Exception {
+    public JSONObject applyJSONMarginAccountBorrow(String asset, double amount, Params extraParams) throws Exception {
         return new JSONObject(applyMarginAccountBorrow(asset, amount, extraParams));
     }
 
@@ -227,7 +226,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-borrow-margin</a>
      * @return result account borrow's tranId as long
      * **/
-    public long getApplyMarginAccountBorrow(String asset, double amount, BinanceManager.Params extraParams) throws Exception {
+    public long getApplyMarginAccountBorrow(String asset, double amount, Params extraParams) throws Exception {
         return getTransactionId(applyMarginAccountBorrow(asset, amount, extraParams));
     }
 
@@ -274,7 +273,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin</a>
      * @return result of repay margin account request as String
      * **/
-    public String repayMarginAccount(String asset, double amount, BinanceManager.Params extraParams) throws Exception {
+    public String repayMarginAccount(String asset, double amount, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&asset=" + asset + "&amount=" + amount;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_REPAY_ENDPOINT, params, POST_METHOD);
@@ -289,7 +288,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin</a>
      * @return result of repay margin account request as JsonObject
      * **/
-    public JSONObject repayJSONMarginAccount(String asset, double amount, BinanceManager.Params extraParams) throws Exception {
+    public JSONObject repayJSONMarginAccount(String asset, double amount, Params extraParams) throws Exception {
         return new JSONObject(repayMarginAccount(asset, amount, extraParams));
     }
 
@@ -302,7 +301,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-repay-margin</a>
      * @return result margin repay's tranId as long
      * **/
-    public long getRepayMarginAccount(String asset, double amount, BinanceManager.Params extraParams) throws Exception {
+    public long getRepayMarginAccount(String asset, double amount, Params extraParams) throws Exception {
         return getTransactionId(repayMarginAccount(asset, amount, extraParams));
     }
 
@@ -519,7 +518,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
      * @return result of the order as String
      * **/
-    public String sendNewMarginOrder(String symbol, String side, String type, BinanceManager.Params extraParams) throws Exception {
+    public String sendNewMarginOrder(String symbol, String side, String type, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&side=" + side +"&type=" + type;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_ORDER_ENDPOINT, params, POST_METHOD);
@@ -536,7 +535,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
      * @return result of the order as JsonObject
      * **/
-    public JSONObject sendJSONNewMarginOrder(String symbol, String side, String type, BinanceManager.Params extraParams) throws Exception {
+    public JSONObject sendJSONNewMarginOrder(String symbol, String side, String type, Params extraParams) throws Exception {
         return new JSONObject(sendNewMarginOrder(symbol, side, type, extraParams));
     }
 
@@ -554,7 +553,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @implNote with other types will be an {@link ACKMarginOrder} object
      * **/
     public <T extends ACKMarginOrder> T sendObjectNewMarginOrder(String symbol, String side, String type,
-                                                   BinanceManager.Params extraParams) throws Exception {
+                                                   Params extraParams) throws Exception {
         JSONObject order = new JSONObject(sendJSONNewMarginOrder(symbol, side, type, extraParams));
         if(type.equals(LIMIT) || type.equals(MARKET))
             return (T) getFullOrderResponse(order);
@@ -575,7 +574,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return result of the order as String
      * **/
     public String sendNewMarginOrder(String symbol, String side, String type, String newOrderRespType,
-                                     BinanceManager.Params extraParams) throws Exception {
+                                     Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&side=" + side + "&type=" + type + "&newOrderRespType="
                 + newOrderRespType;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
@@ -594,7 +593,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
      * @return result of the order as JsonObject
      * **/
-    public JSONObject sendJSONNewMarginOrder(String symbol, String side, String type, BinanceManager.Params extraParams,
+    public JSONObject sendJSONNewMarginOrder(String symbol, String side, String type, Params extraParams,
                                              String newOrderRespType) throws Exception {
         return new JSONObject(sendNewMarginOrder(symbol, side, type, newOrderRespType, extraParams));
     }
@@ -615,7 +614,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_ACK object will be {@link ACKMarginOrder}
      * **/
     public <T extends ACKMarginOrder> T sendObjectNewMarginOrder(String symbol, String side, String type,
-                                                                 BinanceManager.Params extraParams,
+                                                                 Params extraParams,
                                                                  String newOrderRespType) throws Exception {
         JSONObject order = new JSONObject(sendJSONNewMarginOrder(symbol, side, type, extraParams, newOrderRespType));
         switch (newOrderRespType){
@@ -716,7 +715,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
      * @return cancel a margin order response as String
      * **/
-    public String cancelMarginOrder(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public String cancelMarginOrder(String symbol, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_ORDER_ENDPOINT, params, DELETE_METHOD);
@@ -730,7 +729,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
      * @return cancel a margin order response as JsonObject
      * **/
-    public JSONObject cancelJSONMarginOrder(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public JSONObject cancelJSONMarginOrder(String symbol, Params extraParams) throws Exception {
         return new JSONObject(cancelMarginOrder(symbol, extraParams));
     }
 
@@ -742,7 +741,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
      * @return cancel a margin order response as {@link DetailMarginOrder} object
      * **/
-    public DetailMarginOrder cancelObjectMarginOrder(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public DetailMarginOrder cancelObjectMarginOrder(String symbol, Params extraParams) throws Exception {
         return DetailMarginOrder.assembleDetailMarginOrderObject(new JSONObject(cancelMarginOrder(symbol,extraParams)));
     }
 
@@ -785,7 +784,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
      * @return cancel all margin order response as String
      * **/
-    public String cancelAllMarginOrders(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public String cancelAllMarginOrders(String symbol, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, params, DELETE_METHOD);
@@ -799,7 +798,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
      * @return cancel all margin order response as JsonObject
      * **/
-    public JSONArray cancelJSONAllMarginOrders(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public JSONArray cancelJSONAllMarginOrders(String symbol, Params extraParams) throws Exception {
         return new JSONArray(cancelAllMarginOrders(symbol, extraParams));
     }
 
@@ -811,7 +810,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
      * @return cancel all margin order response as ArrayList<{@link OpenMarginOrders}>
      * **/
-    public OpenMarginOrders cancelObjectAllMarginOrders(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public OpenMarginOrders cancelObjectAllMarginOrders(String symbol, Params extraParams) throws Exception {
         return assembleOpenMarginOrdersObject(new JSONArray(cancelAllMarginOrders(symbol, extraParams)));
     }
 
@@ -869,7 +868,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as String
      * **/
-    public String getCrossMarginTransferHistory(BinanceManager.Params extraParams) throws Exception {
+    public String getCrossMarginTransferHistory(Params extraParams) throws Exception {
         return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, apiRequest.encodeAdditionalParams(getParamTimestamp(),
                 extraParams), GET_METHOD);
     }
@@ -881,7 +880,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as JsonObject
      * **/
-    public JSONObject getJSONCrossMarginTransferHistory(BinanceManager.Params extraParams) throws Exception {
+    public JSONObject getJSONCrossMarginTransferHistory(Params extraParams) throws Exception {
         return new JSONObject(getCrossMarginTransferHistory(extraParams));
     }
 
@@ -892,7 +891,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as {@link MarginTransferHistory} object
      * **/
-    public MarginTransferHistory getObjectCrossMarginTransferHistory(BinanceManager.Params extraParams) throws Exception {
+    public MarginTransferHistory getObjectCrossMarginTransferHistory(Params extraParams) throws Exception {
         return new MarginTransferHistory(new JSONObject(getCrossMarginTransferHistory(extraParams)));
     }
 
@@ -936,7 +935,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as String
      * **/
-    public String getCrossMarginTransferHistory(String asset, BinanceManager.Params extraParams) throws Exception {
+    public String getCrossMarginTransferHistory(String asset, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&asset=" + asset;
         params = apiRequest.encodeAdditionalParams(params,extraParams);
         return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, params, GET_METHOD);
@@ -950,7 +949,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as JsonObject
      * **/
-    public JSONObject getJSONCrossMarginTransferHistory(String asset, BinanceManager.Params extraParams) throws Exception {
+    public JSONObject getJSONCrossMarginTransferHistory(String asset, Params extraParams) throws Exception {
         return new JSONObject(getCrossMarginTransferHistory(asset, extraParams));
     }
 
@@ -962,7 +961,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as {@link MarginTransferHistory} object
      * **/
-    public MarginTransferHistory getObjectCrossMarginTransferHistory(String asset, BinanceManager.Params extraParams)
+    public MarginTransferHistory getObjectCrossMarginTransferHistory(String asset, Params extraParams)
             throws Exception {
         return new MarginTransferHistory(new JSONObject(getCrossMarginTransferHistory(asset, extraParams)));
     }
@@ -1006,7 +1005,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
      * @return query loan record as String
      * **/
-    public String getQueryLoanRecord(String asset, BinanceManager.Params extraParams) throws Exception {
+    public String getQueryLoanRecord(String asset, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&asset=" + asset;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_LOAN_ENDPOINT, params, GET_METHOD);
@@ -1020,7 +1019,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
      * @return query loan record as JsonObject
      * **/
-    public JSONObject getJSONQueryLoanRecord(String asset, BinanceManager.Params extraParams) throws Exception {
+    public JSONObject getJSONQueryLoanRecord(String asset, Params extraParams) throws Exception {
         return new JSONObject(getQueryLoanRecord(asset, extraParams));
     }
 
@@ -1032,7 +1031,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
      * @return query loan record as {@link MarginLoan} object
      * **/
-    public MarginLoan getObjectQueryLoanRecord(String asset, BinanceManager.Params extraParams) throws Exception {
+    public MarginLoan getObjectQueryLoanRecord(String asset, Params extraParams) throws Exception {
         return new MarginLoan(new JSONObject(getQueryLoanRecord(asset, extraParams)));
     }
 
@@ -1075,7 +1074,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
      * @return query repay record as String
      * **/
-    public String getQueryRepayRecord(String asset, BinanceManager.Params extraParams) throws Exception {
+    public String getQueryRepayRecord(String asset, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&asset=" + asset;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_REPAY_ENDPOINT, params, GET_METHOD);
@@ -1089,7 +1088,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
      * @return query repay record as JsonObject
      * **/
-    public JSONObject getJSONRepayRecord(String asset, BinanceManager.Params extraParams) throws Exception {
+    public JSONObject getJSONRepayRecord(String asset, Params extraParams) throws Exception {
         return new JSONObject(getQueryRepayRecord(asset, extraParams));
     }
 
@@ -1101,7 +1100,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
      * @return query repay record as {@link MarginRepay} object
      * **/
-    public MarginRepay getObjectRepayRecord(String asset, BinanceManager.Params extraParams) throws Exception {
+    public MarginRepay getObjectRepayRecord(String asset, Params extraParams) throws Exception {
         return new MarginRepay(new JSONObject(getQueryRepayRecord(asset, extraParams)));
     }
 
@@ -1142,7 +1141,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as String
      * **/
-    public String getInterestHistory(BinanceManager.Params extraParams) throws Exception {
+    public String getInterestHistory(Params extraParams) throws Exception {
         return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT, apiRequest.encodeAdditionalParams(getParamTimestamp(),
                 extraParams), GET_METHOD);
     }
@@ -1154,7 +1153,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as JsonObject
      * **/
-    public JSONObject getJSONInterestHistory(BinanceManager.Params extraParams) throws Exception {
+    public JSONObject getJSONInterestHistory(Params extraParams) throws Exception {
         return new JSONObject(getInterestHistory(extraParams));
     }
 
@@ -1165,7 +1164,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as {@link MarginInterestHistory} object
      * **/
-    public MarginInterestHistory getObjectInterestHistory(BinanceManager.Params extraParams) throws Exception {
+    public MarginInterestHistory getObjectInterestHistory(Params extraParams) throws Exception {
         return new MarginInterestHistory(new JSONObject(getInterestHistory(extraParams)));
     }
 
@@ -1208,7 +1207,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as String
      * **/
-    public String getInterestHistory(String asset,BinanceManager.Params extraParams) throws Exception {
+    public String getInterestHistory(String asset,Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&asset=" + asset;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT, params, GET_METHOD);
@@ -1222,7 +1221,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as String
      * **/
-    public JSONObject getJSONInterestHistory(String asset, BinanceManager.Params extraParams) throws Exception {
+    public JSONObject getJSONInterestHistory(String asset, Params extraParams) throws Exception {
         return new JSONObject(getInterestHistory(asset, extraParams));
     }
 
@@ -1234,7 +1233,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as {@link MarginInterestHistory} object
      * **/
-    public MarginInterestHistory getObjectInterestHistory(String asset, BinanceManager.Params extraParams) throws Exception {
+    public MarginInterestHistory getObjectInterestHistory(String asset, Params extraParams) throws Exception {
         return new MarginInterestHistory(new JSONObject(getInterestHistory(asset, extraParams)));
     }
 
@@ -1275,7 +1274,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
      * @return margin force liquidation response as String
      * **/
-    public String getMarginForceLiquidation(BinanceManager.Params extraParams) throws Exception {
+    public String getMarginForceLiquidation(Params extraParams) throws Exception {
         return sendSignedRequest(MARGIN_FORCE_LIQUIDATION_ENDPOINT, apiRequest.encodeAdditionalParams(getParamTimestamp(),
                 extraParams), GET_METHOD);
     }
@@ -1287,7 +1286,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
      * @return margin force liquidation response as JsonObject
      * **/
-    public JSONObject getJSONMarginForceLiquidation(BinanceManager.Params extraParams) throws Exception {
+    public JSONObject getJSONMarginForceLiquidation(Params extraParams) throws Exception {
         return new JSONObject(getMarginForceLiquidation(extraParams));
     }
 
@@ -1298,7 +1297,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
      * @return margin force liquidation response as {@link MarginForceLiquidation} object
      * **/
-    public MarginForceLiquidation getObjectMarginForceLiquidation(BinanceManager.Params extraParams) throws Exception {
+    public MarginForceLiquidation getObjectMarginForceLiquidation(Params extraParams) throws Exception {
         return new MarginForceLiquidation(new JSONObject(getMarginForceLiquidation(extraParams)));
     }
 
@@ -1418,7 +1417,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data</a>
      * @return margin status order response as String
      * **/
-    public String getMarginOrderStatus(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public String getMarginOrderStatus(String symbol, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_ORDER_ENDPOINT, params, GET_METHOD);
@@ -1432,7 +1431,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data</a>
      * @return margin status order response as JSONObject
      * **/
-    public JSONObject getJSONMarginOrderStatus(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public JSONObject getJSONMarginOrderStatus(String symbol, Params extraParams) throws Exception {
         return new JSONObject(getMarginOrderStatus(symbol, extraParams));
     }
 
@@ -1444,7 +1443,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data</a>
      * @return margin status order response as {@link MarginOrderStatus} object
      * **/
-    public MarginOrderStatus getObjectMarginOrderStatus(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public MarginOrderStatus getObjectMarginOrderStatus(String symbol, Params extraParams) throws Exception {
         return assembleMarginOrderStatus(new JSONObject(getMarginOrderStatus(symbol, extraParams)));
     }
 
@@ -1516,7 +1515,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data</a>
      * @return all margin open orders as String
      * **/
-    public String getAllMarginOpenOrders(BinanceManager.Params extraParams) throws Exception {
+    public String getAllMarginOpenOrders(Params extraParams) throws Exception {
         String params = apiRequest.encodeAdditionalParams(getParamTimestamp(), extraParams);
         return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, params, GET_METHOD);
     }
@@ -1528,7 +1527,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data</a>
      * @return all margin open orders as JSONArray
      * **/
-    public JSONArray getJSONAllMarginOpenOrders(BinanceManager.Params extraParams) throws Exception {
+    public JSONArray getJSONAllMarginOpenOrders(Params extraParams) throws Exception {
         return new JSONArray(getAllMarginOpenOrders(extraParams));
     }
 
@@ -1540,7 +1539,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data</a>
      * @return all margin open orders as ArrayList<{@link MarginOrderStatus}>
      * **/
-    public ArrayList<MarginOrderStatus> getAllMarginOpenOrdersList(BinanceManager.Params extraParams) throws Exception {
+    public ArrayList<MarginOrderStatus> getAllMarginOpenOrdersList(Params extraParams) throws Exception {
         return assembleMarginOrdersList(new JSONArray(getAllMarginOpenOrders(extraParams)));
     }
 
@@ -1617,7 +1616,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data</a>
      * @return all margin orders as String
      * **/
-    public String getAllMarginOrders(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public String getAllMarginOrders(String symbol, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
@@ -1631,7 +1630,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data</a>
      * @return all margin orders as JSONArray
      * **/
-    public JSONArray getJSONAllMarginOrders(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public JSONArray getJSONAllMarginOrders(String symbol, Params extraParams) throws Exception {
         return new JSONArray(getAllMarginOrders(symbol, extraParams));
     }
 
@@ -1643,7 +1642,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data</a>
      * @return all margin orders as ArrayList<{@link MarginOrderStatus}>
      * **/
-    public ArrayList<MarginOrderStatus> getAllMarginOrdersList(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public ArrayList<MarginOrderStatus> getAllMarginOrdersList(String symbol, Params extraParams) throws Exception {
         return assembleMarginOrdersList(new JSONArray(getAllMarginOrders(symbol, extraParams)));
     }
 
@@ -1743,7 +1742,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return new OCO margin order response as String
      * **/
     public String sendNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice,
-                                        BinanceManager.Params extraParams ) throws Exception {
+                                        Params extraParams ) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&side=" + side + "&quantity=" + quantity +
                 "&price=" + price + "&stopPrice=" + stopPrice;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
@@ -1765,7 +1764,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return new OCO margin order response as JSONObject
      * **/
     public JSONObject sendJSONNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice,
-                                                BinanceManager.Params extraParams) throws Exception {
+                                                Params extraParams) throws Exception {
         return new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice, extraParams));
     }
 
@@ -1784,7 +1783,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return new OCO margin order response as {@link OCOMarginOrder} object
      * **/
     public OCOMarginOrder sendObjectNewOCOMarginOrder(String symbol, String side, double quantity, double price,
-                                                      double stopPrice, BinanceManager.Params extraParams) throws Exception {
+                                                      double stopPrice, Params extraParams) throws Exception {
         return assembleOCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice,extraParams)));
     }
 
@@ -1862,7 +1861,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String sendNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice,
                                         double stopLimitPrice, String stopLimitTimeInForce,
-                                        BinanceManager.Params extraParams) throws Exception {
+                                        Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&side=" + side + "&quantity=" + quantity +
                 "&price=" + price + "&stopPrice=" + stopPrice + "&stopLimitPrice=" + stopLimitPrice +
                 "&stopLimitTimeInForce=" + stopLimitTimeInForce;
@@ -1888,7 +1887,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public JSONObject sendJSONNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice,
                                                 double stopLimitPrice, String stopLimitTimeInForce,
-                                                BinanceManager.Params extraParams) throws Exception {
+                                                Params extraParams) throws Exception {
         return new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice, stopLimitPrice,
                 stopLimitTimeInForce, extraParams));
     }
@@ -1910,7 +1909,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public OCOMarginOrder sendObjectNewOCOMarginOrder(String symbol, String side, double quantity, double price,
                                                       double stopPrice, double stopLimitPrice,
-                                                      String stopLimitTimeInForce, BinanceManager.Params extraParams) throws Exception {
+                                                      String stopLimitTimeInForce, Params extraParams) throws Exception {
         return assembleOCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice,
                 stopLimitPrice, stopLimitTimeInForce, extraParams)));
     }
@@ -1992,7 +1991,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade</a>
      * @return cancel OCO margin order response as String
      * **/
-    public String cancelOCOMarginOrder(String symbol, long orderListId, BinanceManager.Params extraParams) throws Exception {
+    public String cancelOCOMarginOrder(String symbol, long orderListId, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&orderListId=" + orderListId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, DELETE_METHOD);
@@ -2007,7 +2006,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade</a>
      * @return cancel OCO margin order response as JSONObject
      * **/
-    public JSONObject cancelJSONOCOMarginOrder(String symbol, long orderListId, BinanceManager.Params extraParams) throws Exception {
+    public JSONObject cancelJSONOCOMarginOrder(String symbol, long orderListId, Params extraParams) throws Exception {
         return new JSONObject(cancelOCOMarginOrder(symbol, orderListId, extraParams));
     }
 
@@ -2021,7 +2020,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cancel OCO margin order response as {@link ComposedMarginOrderDetails} object
      * **/
     public ComposedMarginOrderDetails cancelObjectOCOMarginOrder(String symbol, long orderListId,
-                                                                 BinanceManager.Params extraParams) throws Exception {
+                                                                 Params extraParams) throws Exception {
         return assembleComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, orderListId, extraParams)));
     }
 
@@ -2034,7 +2033,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade</a>
      * @return cancel OCO margin order response as String
      * **/
-    public String cancelOCOMarginOrder(String symbol, String listClientOrderId, BinanceManager.Params extraParams) throws Exception {
+    public String cancelOCOMarginOrder(String symbol, String listClientOrderId, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&listClientOrderId=" + listClientOrderId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, DELETE_METHOD);
@@ -2049,7 +2048,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade</a>
      * @return cancel OCO margin order response as JSONObject
      * **/
-    public JSONObject cancelJSONOCOMarginOrder(String symbol, String listClientOrderId, BinanceManager.Params extraParams) throws Exception {
+    public JSONObject cancelJSONOCOMarginOrder(String symbol, String listClientOrderId, Params extraParams) throws Exception {
         return new JSONObject(cancelOCOMarginOrder(symbol, listClientOrderId, extraParams));
     }
 
@@ -2063,7 +2062,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cancel OCO margin order response as {@link ComposedMarginOrderDetails} object
      * **/
     public ComposedMarginOrderDetails cancelObjectOCOMarginOrder(String symbol, String listClientOrderId,
-                                                                 BinanceManager.Params extraParams) throws Exception {
+                                                                 Params extraParams) throws Exception {
         return assembleComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, listClientOrderId, extraParams)));
     }
 
@@ -2207,7 +2206,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
      * @return OCO margin order status response as String
      * **/
-    public String getOCOMarginOrderStatus(String symbol, long orderListId, BinanceManager.Params extraParams) throws Exception {
+    public String getOCOMarginOrderStatus(String symbol, long orderListId, Params extraParams) throws Exception {
         String params = getParamTimestamp()+ "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, GET_METHOD);
@@ -2222,7 +2221,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
      * @return OCO margin order status response as JSONObject
      * **/
-    public JSONObject getJSONOCOMarginOrderStatus(String symbol, long orderListId, BinanceManager.Params extraParams) throws Exception {
+    public JSONObject getJSONOCOMarginOrderStatus(String symbol, long orderListId, Params extraParams) throws Exception {
         return new JSONObject(getOCOMarginOrderStatus(symbol, orderListId, extraParams));
     }
 
@@ -2236,7 +2235,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
      * **/
     public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String symbol, long orderListId,
-                                                                  BinanceManager.Params extraParams) throws Exception {
+                                                                  Params extraParams) throws Exception {
         return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, orderListId, extraParams)));
     }
 
@@ -2249,7 +2248,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
      * @return OCO margin order status response as String
      * **/
-    public String getOCOMarginOrderStatus(String symbol, String origClientOrderId,BinanceManager.Params extraParams) throws Exception {
+    public String getOCOMarginOrderStatus(String symbol, String origClientOrderId,Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId +
                 "&isIsolated=" + true;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
@@ -2265,7 +2264,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
      * @return OCO margin order status response as JSONObject
      * **/
-    public JSONObject getJSONOCOMarginOrderStatus(String symbol, String origClientOrderId, BinanceManager.Params extraParams) throws Exception {
+    public JSONObject getJSONOCOMarginOrderStatus(String symbol, String origClientOrderId, Params extraParams) throws Exception {
         return new JSONObject(getOCOMarginOrderStatus(symbol, origClientOrderId, extraParams));
     }
 
@@ -2279,7 +2278,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
      * **/
     public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String symbol, String origClientOrderId,
-                                                                  BinanceManager.Params extraParams) throws Exception {
+                                                                  Params extraParams) throws Exception {
         return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, origClientOrderId, extraParams)));
     }
 
@@ -2290,7 +2289,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
      * @return OCO margin order status response as String
      * **/
-    public String getOCOMarginOrderStatus(long orderListId, BinanceManager.Params extraParams) throws Exception {
+    public String getOCOMarginOrderStatus(long orderListId, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&orderListId=" + orderListId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, GET_METHOD);
@@ -2304,7 +2303,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
      * @return OCO margin order status response as JSONObject
      * **/
-    public JSONObject getJSONOCOMarginOrderStatus(long orderListId, BinanceManager.Params extraParams) throws Exception {
+    public JSONObject getJSONOCOMarginOrderStatus(long orderListId, Params extraParams) throws Exception {
         return new JSONObject(getOCOMarginOrderStatus(orderListId, extraParams));
     }
 
@@ -2316,7 +2315,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
      * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
      * **/
-    public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(long orderListId, BinanceManager.Params extraParams) throws Exception {
+    public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(long orderListId, Params extraParams) throws Exception {
         return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(orderListId, extraParams)));
     }
 
@@ -2328,7 +2327,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
      * @return OCO margin order status response as String
      * **/
-    public String getOCOMarginOrderStatus(String origClientOrderId, BinanceManager.Params extraParams) throws Exception {
+    public String getOCOMarginOrderStatus(String origClientOrderId, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&origClientOrderId=" + origClientOrderId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, GET_METHOD);
@@ -2342,7 +2341,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
      * @return OCO margin order status response as JSONObject
      * **/
-    public JSONObject getJSONOCOMarginOrderStatus(String origClientOrderId, BinanceManager.Params extraParams) throws Exception {
+    public JSONObject getJSONOCOMarginOrderStatus(String origClientOrderId, Params extraParams) throws Exception {
         return new JSONObject(getOCOMarginOrderStatus(origClientOrderId, extraParams));
     }
 
@@ -2355,7 +2354,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
      * **/
     public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String origClientOrderId,
-                                                                  BinanceManager.Params extraParams) throws Exception {
+                                                                  Params extraParams) throws Exception {
         return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(origClientOrderId, extraParams)));
     }
 
@@ -2698,7 +2697,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
      * @return all OCO margin orders status response as String
      * **/
-    public String getAllOCOMarginOrders(String symbol, long orderListId, BinanceManager.Params extraParams) throws Exception {
+    public String getAllOCOMarginOrders(String symbol, long orderListId, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
@@ -2713,7 +2712,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
      * @return all OCO margin orders status response as JSONArray
      * **/
-    public JSONArray getJSONAllOCOMarginOrders(String symbol, long orderListId, BinanceManager.Params extraParams) throws Exception {
+    public JSONArray getJSONAllOCOMarginOrders(String symbol, long orderListId, Params extraParams) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(symbol, orderListId, extraParams));
     }
 
@@ -2727,7 +2726,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
      * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, long orderListId,
-                                                                         BinanceManager.Params extraParams) throws Exception {
+                                                                         Params extraParams) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(symbol, orderListId, extraParams)));
     }
 
@@ -2740,7 +2739,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
      * @return all OCO margin orders status response as String
      * **/
-    public String getAllOCOMarginOrders(String symbol, String origClientOrderId, BinanceManager.Params extraParams) throws Exception {
+    public String getAllOCOMarginOrders(String symbol, String origClientOrderId, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId
                  + "&isIsolated=" + true;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
@@ -2756,7 +2755,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
      * @return all OCO margin orders status response as JSONArray
      * **/
-    public JSONArray getJSONAllOCOMarginOrders(String symbol, String origClientOrderId, BinanceManager.Params extraParams) throws Exception {
+    public JSONArray getJSONAllOCOMarginOrders(String symbol, String origClientOrderId, Params extraParams) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(symbol, origClientOrderId, extraParams));
     }
 
@@ -2769,7 +2768,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
      * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, String origClientOrderId,
-                                                                         BinanceManager.Params extraParams) throws Exception {
+                                                                         Params extraParams) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(symbol, origClientOrderId,
                 extraParams)));
     }
@@ -2787,7 +2786,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as String
      * **/
     public String getAllOCOMarginOrders(String symbol, long orderListId, long fromId, String keyTime, long valueTime,
-                                        BinanceManager.Params extraParams) throws Exception {
+                                        Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true
                  + "&" + keyTime + "=" + valueTime + "&fromId=" + fromId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
@@ -2807,7 +2806,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as JSONArray
      * **/
     public JSONArray getJSONAllOCOMarginOrders(String symbol, long orderListId, long fromId, String keyTime, long valueTime,
-                                               BinanceManager.Params extraParams) throws Exception {
+                                               Params extraParams) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(symbol, orderListId, fromId, keyTime, valueTime));
     }
 
@@ -2825,7 +2824,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, long orderListId, long fromId,
                                                                          String keyTime, long valueTime,
-                                                                         BinanceManager.Params extraParams) throws Exception {
+                                                                         Params extraParams) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(symbol, orderListId,
                 fromId, keyTime, valueTime)));
     }
@@ -2843,7 +2842,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as String
      * **/
     public String getAllOCOMarginOrders(String symbol, String origClientOrderId, long fromId, String keyTime,
-                                        long valueTime, BinanceManager.Params extraParams) throws Exception {
+                                        long valueTime, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId
                 + "&isIsolated=" + true + "&" + keyTime + "=" + valueTime + "&fromId=" + fromId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
@@ -2863,7 +2862,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as JSONArray
      * **/
     public JSONArray getJSONAllOCOMarginOrders(String symbol, String origClientOrderId, long fromId, String keyTime,
-                                               long valueTime, BinanceManager.Params extraParams) throws Exception {
+                                               long valueTime, Params extraParams) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(symbol, origClientOrderId, fromId, keyTime, valueTime));
     }
 
@@ -2881,7 +2880,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, String origClientOrderId,
                                                                          long fromId, String keyTime, long valueTime,
-                                                                         BinanceManager.Params extraParams) throws Exception {
+                                                                         Params extraParams) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(symbol, origClientOrderId,
                 fromId, keyTime, valueTime)));
     }
@@ -2894,7 +2893,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
      * @return all OCO margin orders status response as String
      * **/
-    public String getAllOCOMarginOrders(long orderListId, BinanceManager.Params extraParams) throws Exception {
+    public String getAllOCOMarginOrders(long orderListId, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&orderListId=" + orderListId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
@@ -2908,7 +2907,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
      * @return all OCO margin orders status response as JSONArray
      * **/
-    public JSONArray getJSONAllOCOMarginOrders(long orderListId, BinanceManager.Params extraParams) throws Exception {
+    public JSONArray getJSONAllOCOMarginOrders(long orderListId, Params extraParams) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(orderListId));
     }
 
@@ -2920,7 +2919,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
      * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
      * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(long orderListId, BinanceManager.Params extraParams) throws Exception {
+    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(long orderListId, Params extraParams) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(orderListId)));
     }
 
@@ -2932,7 +2931,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
      * @return all OCO margin orders status response as String
      * **/
-    public String getAllOCOMarginOrders(String origClientOrderId, BinanceManager.Params extraParams) throws Exception {
+    public String getAllOCOMarginOrders(String origClientOrderId, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&origClientOrderId=" + origClientOrderId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
@@ -2946,7 +2945,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
      * @return all OCO margin orders status response as JSONArray
      * **/
-    public JSONArray getJSONAllOCOMarginOrders(String origClientOrderId, BinanceManager.Params extraParams) throws Exception {
+    public JSONArray getJSONAllOCOMarginOrders(String origClientOrderId, Params extraParams) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(origClientOrderId));
     }
 
@@ -2959,7 +2958,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
      * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String origClientOrderId,
-                                                                         BinanceManager.Params extraParams) throws Exception {
+                                                                         Params extraParams) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(origClientOrderId)));
     }
 
@@ -2975,7 +2974,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as String
      * **/
     public String getAllOCOMarginOrders(long orderListId, long fromId, String keyTime,
-                                        long valueTime, BinanceManager.Params extraParams) throws Exception {
+                                        long valueTime, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&orderListId=" + orderListId + "&" + keyTime + "=" + valueTime +
                 "&fromId=" + fromId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
@@ -2994,7 +2993,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as JSONArray
      * **/
     public JSONArray getJSONAllOCOMarginOrders(long orderListId, long fromId, String keyTime,
-                                               long valueTime, BinanceManager.Params extraParams) throws Exception {
+                                               long valueTime, Params extraParams) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(orderListId, fromId, keyTime, valueTime));
     }
 
@@ -3010,7 +3009,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
      * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(long orderListId, long fromId, String keyTime,
-                                                                         long valueTime, BinanceManager.Params extraParams) throws Exception {
+                                                                         long valueTime, Params extraParams) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(orderListId, fromId, keyTime,
                 valueTime)));
     }
@@ -3027,7 +3026,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as String
      * **/
     public String getAllOCOMarginOrders(String origClientOrderId, long fromId, String keyTime,
-                                        long valueTime, BinanceManager.Params extraParams) throws Exception {
+                                        long valueTime, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&origClientOrderId=" + origClientOrderId+ "&" + keyTime + "=" + valueTime
                  + "&fromId=" + fromId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
@@ -3046,7 +3045,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as JSONArray
      * **/
     public JSONArray getJSONAllOCOMarginOrders(String origClientOrderId, long fromId, String keyTime,
-                                               long valueTime, BinanceManager.Params extraParams) throws Exception {
+                                               long valueTime, Params extraParams) throws Exception {
         return new JSONArray(getAllOCOMarginOrders(origClientOrderId, fromId, keyTime, valueTime));
     }
 
@@ -3062,7 +3061,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
      * **/
     public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String origClientOrderId, long fromId, String keyTime,
-                                                                         long valueTime, BinanceManager.Params extraParams) throws Exception {
+                                                                         long valueTime, Params extraParams) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(origClientOrderId, fromId,
                 keyTime, valueTime)));
     }
@@ -3180,7 +3179,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data</a>
      * @return all open OCO margin orders response as String
      * **/
-    public String getAllOCOMarginOpenOrders(BinanceManager.Params extraParams) throws Exception {
+    public String getAllOCOMarginOpenOrders(Params extraParams) throws Exception {
         String params = apiRequest.encodeAdditionalParams(getParamTimestamp(), extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT, params, GET_METHOD);
     }
@@ -3192,7 +3191,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data</a>
      * @return all open OCO margin orders response as JSONArray
      * **/
-    public JSONArray getJSONAllOCOMarginOpenOrders(BinanceManager.Params extraParams) throws Exception {
+    public JSONArray getJSONAllOCOMarginOpenOrders(Params extraParams) throws Exception {
         return new JSONArray(getAllOCOMarginOpenOrders(extraParams));
     }
 
@@ -3202,7 +3201,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @apiNote see official documentation at:<a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data</a>
      * @return all open OCO margin orders response as ArrayList<{@link MarginOrderStatusDetails}>
      * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOpenOrdersList(BinanceManager.Params extraParams) throws Exception {
+    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOpenOrdersList(Params extraParams) throws Exception {
         return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOpenOrders(extraParams)));
     }
 
@@ -3245,7 +3244,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data</a>
      * @return margin trade list as String
      * **/
-    public String getMarginTradeList(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public String getMarginTradeList(String symbol, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_TRADES_LIST_ENDPOINT, params, GET_METHOD);
@@ -3259,7 +3258,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data</a>
      * @return margin trade list as JSONArray
      * **/
-    public JSONArray getJSONMarginTradeList(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public JSONArray getJSONMarginTradeList(String symbol, Params extraParams) throws Exception {
         return new JSONArray(getMarginTradeList(symbol, extraParams));
     }
 
@@ -3271,7 +3270,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data</a>
      * @return margin trade list as ArrayList<{@link MarginAccountTrade}>
      * **/
-    public ArrayList<MarginAccountTrade> getMarginTradesList(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public ArrayList<MarginAccountTrade> getMarginTradesList(String symbol, Params extraParams) throws Exception {
         return assembleMarginTradesList(new JSONArray(getMarginTradeList(symbol, extraParams)));
     }
 
@@ -3339,7 +3338,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-max-borrow-user_data</a>
      * @return max borrow as String
      * **/
-    public String getMaxBorrow(String asset, BinanceManager.Params extraParams) throws Exception {
+    public String getMaxBorrow(String asset, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&asset=" + asset;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(GET_MAX_MARGIN_BORROW_ENDPOINT, params, GET_METHOD);
@@ -3353,7 +3352,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-max-borrow-user_data</a>
      * @return max borrow as JSONObject
      * **/
-    public JSONObject getJSONMaxBorrow(String asset, BinanceManager.Params extraParams) throws Exception {
+    public JSONObject getJSONMaxBorrow(String asset, Params extraParams) throws Exception {
         return new JSONObject(getMaxBorrow(asset, extraParams));
     }
 
@@ -3365,7 +3364,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-max-borrow-user_data</a>
      * @return max borrow as {@link MarginMaxBorrow}
      * **/
-    public MarginMaxBorrow getObjectMarginBorrow(String asset, BinanceManager.Params extraParams) throws Exception {
+    public MarginMaxBorrow getObjectMarginBorrow(String asset, Params extraParams) throws Exception {
         return assembleMarginMaxBorrowObject(new JSONObject(getMaxBorrow(asset, extraParams)));
     }
 
@@ -3418,7 +3417,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data</a>
      * @return max transfer out amount as String
      * **/
-    public String getMaxTransferOutAmount(String asset, BinanceManager.Params extraParams) throws Exception {
+    public String getMaxTransferOutAmount(String asset, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&asset=" + asset;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(GET_MAX_MARGIN_TRANSFER_ENDPOINT, params, GET_METHOD);
@@ -3432,7 +3431,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data</a>
      * @return max transfer out amount as JSONObject
      * **/
-    public JSONObject getJSONMaxTransferOutAmount(String asset, BinanceManager.Params extraParams) throws Exception {
+    public JSONObject getJSONMaxTransferOutAmount(String asset, Params extraParams) throws Exception {
         return new JSONObject(getMaxTransferOutAmount(asset, extraParams));
     }
 
@@ -3444,7 +3443,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data</a>
      * @return max transfer out amount as double
      * **/
-    public double getMaxTransferOutAmountValue(String asset, BinanceManager.Params extraParams) throws Exception {
+    public double getMaxTransferOutAmountValue(String asset, Params extraParams) throws Exception {
         return getMaxTransferAmountValue(getMaxTransferOutAmount(asset, extraParams));
     }
 
@@ -3593,7 +3592,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
      * @return margin isolated transfer history as String
      * **/
-    public String getMarginIsolatedTransferHistory(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public String getMarginIsolatedTransferHistory(String symbol, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT, params, GET_METHOD);
@@ -3607,7 +3606,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
      * @return margin isolated transfer history as JSONObject
      * **/
-    public JSONObject getJSONMarginIsolatedTransferHistory(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public JSONObject getJSONMarginIsolatedTransferHistory(String symbol, Params extraParams) throws Exception {
         return new JSONObject(getMarginIsolatedTransferHistory(symbol, extraParams));
     }
 
@@ -3619,7 +3618,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
      * @return margin isolated transfer history as {@link MarginIsolatedTransferHistory} object
      * **/
-    public MarginIsolatedTransferHistory getObjectMarginIsolatedTransferHistory(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public MarginIsolatedTransferHistory getObjectMarginIsolatedTransferHistory(String symbol, Params extraParams) throws Exception {
         return new MarginIsolatedTransferHistory(new JSONObject(getMarginIsolatedTransferHistory(symbol, extraParams)));
     }
 
@@ -3703,7 +3702,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return margin account info as String
      * **/
     public String getMarginIsolatedAccountInfo(ArrayList<String> symbols) throws Exception {
-        String params = getParamTimestamp() + "&symbols=" + apiRequest.assembleParamsList("%22", "%22 ", symbols);
+        String params = getParamTimestamp() + "&symbols=" + apiRequest.assembleParamsList("%22", "%22", symbols);
         return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT, params, GET_METHOD);
     }
 
@@ -3768,8 +3767,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return margin account info as String
      * **/
     public String getMarginIsolatedAccountInfo(ArrayList<String> symbols, long recvWindow) throws Exception {
-        String params = getParamTimestamp() + "&symbols=" + apiRequest.assembleParamsList("%22", "%22 ", symbols)
-                 + "&recvWindow=" + recvWindow;
+        String params = getParamTimestamp() + "&symbols=" + apiRequest.assembleParamsList("%22", "%22",
+                symbols) + "&recvWindow=" + recvWindow;
         return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT, params, GET_METHOD);
     }
 
@@ -4177,7 +4176,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data</a>
      * @return toggle BNB on trade interest as String
      * **/
-    public String toggleBNBOnTradeInterest(BinanceManager.Params extraParams) throws Exception {
+    public String toggleBNBOnTradeInterest(Params extraParams) throws Exception {
         String params = apiRequest.encodeAdditionalParams(getParamTimestamp(), extraParams);
         return sendSignedRequest(MARGIN_BNB_ENDPOINT, params, POST_METHOD);
     }
@@ -4189,7 +4188,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data</a>
      * @return toggle BNB on trade interest as JSONObject
      * **/
-    public JSONObject toggleJSONBNBOnTradeInterest(BinanceManager.Params extraParams) throws Exception {
+    public JSONObject toggleJSONBNBOnTradeInterest(Params extraParams) throws Exception {
         return new JSONObject(toggleBNBOnTradeInterest(extraParams));
     }
 
@@ -4200,7 +4199,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data</a>
      * @return toggle BNB on trade interest as {@link BNBBurn} object
      * **/
-    public BNBBurn toggleObjectBNBOnTradeInterest(BinanceManager.Params extraParams) throws Exception {
+    public BNBBurn toggleObjectBNBOnTradeInterest(Params extraParams) throws Exception {
         return assembleBNBBurnObject(new JSONObject(toggleBNBOnTradeInterest(extraParams)));
     }
 
@@ -4314,7 +4313,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data</a>
      * @return margin interest rate history as String
      * **/
-    public String getMarginInterestRateHistory(String asset, BinanceManager.Params extraParams) throws Exception {
+    public String getMarginInterestRateHistory(String asset, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&asset=" + asset;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_INTEREST_RATE_HISTORY_ENDPOINT, params, GET_METHOD);
@@ -4328,7 +4327,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data</a>
      * @return margin interest rate history as JSONArray
      * **/
-    public JSONArray getJSONMarginInterestRateHistory(String asset, BinanceManager.Params extraParams) throws Exception {
+    public JSONArray getJSONMarginInterestRateHistory(String asset, Params extraParams) throws Exception {
         return new JSONArray(getMarginInterestRateHistory(asset, extraParams));
     }
 
@@ -4340,7 +4339,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data</a>
      * @return margin interest rate history as ArrayList<{@link MarginInterestRate}>
      * **/
-    public ArrayList<MarginInterestRate> getMarginInterestRateHistoryList(String asset, BinanceManager.Params extraParams) throws Exception {
+    public ArrayList<MarginInterestRate> getMarginInterestRateHistoryList(String asset, Params extraParams) throws Exception {
         return assembleMarginIRateHistoryList(new JSONArray(getMarginInterestRateHistory(asset, extraParams)));
     }
 
@@ -4398,7 +4397,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data</a>
      * @return cross margin fee data as String
      * **/
-    public String getCrossMarginFeeData(BinanceManager.Params extraParams) throws Exception {
+    public String getCrossMarginFeeData(Params extraParams) throws Exception {
         String params = apiRequest.encodeAdditionalParams(getParamTimestamp(), extraParams);
         return sendSignedRequest(CROSS_MARGIN_DATA_ENDPOINT, params, GET_METHOD);
     }
@@ -4410,7 +4409,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data</a>
      * @return cross margin fee data as JSONArray
      * **/
-    public JSONArray getJSONCrossMarginFeeData(BinanceManager.Params extraParams) throws Exception {
+    public JSONArray getJSONCrossMarginFeeData(Params extraParams) throws Exception {
         return new JSONArray(getCrossMarginFeeData(extraParams));
     }
 
@@ -4421,7 +4420,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data</a>
      * @return cross margin fee data as ArrayList<{@link CrossMarginFee}>
      * **/
-    public ArrayList<CrossMarginFee> getCrossMarginFeesList(BinanceManager.Params extraParams) throws Exception {
+    public ArrayList<CrossMarginFee> getCrossMarginFeesList(Params extraParams) throws Exception {
         return assembleCrossMarginFeesList(new JSONArray(getCrossMarginFeeData(extraParams)));
     }
 
@@ -4483,7 +4482,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data</a>
      * @return isolated margin fee data as String
      * **/
-    public String getIsolatedMarginFee(BinanceManager.Params extraParams) throws Exception {
+    public String getIsolatedMarginFee(Params extraParams) throws Exception {
         String params = apiRequest.encodeAdditionalParams(getParamTimestamp(), extraParams);
         return sendSignedRequest(ISOLATED_MARGIN_DATA_ENDPOINT, params, GET_METHOD);
     }
@@ -4495,7 +4494,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data</a>
      * @return isolated margin fee data as JSONArray
      * **/
-    public JSONArray getJSONIsolatedMarginFee(BinanceManager.Params extraParams) throws Exception {
+    public JSONArray getJSONIsolatedMarginFee(Params extraParams) throws Exception {
         return new JSONArray(getIsolatedMarginFee(extraParams));
     }
 
@@ -4506,7 +4505,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data</a>
      * @return isolated margin fee data as ArrayList<{@link IsolatedMarginFee}>
      * **/
-    public ArrayList<IsolatedMarginFee> getIsolatedMarginFeesList(BinanceManager.Params extraParams) throws Exception {
+    public ArrayList<IsolatedMarginFee> getIsolatedMarginFeesList(Params extraParams) throws Exception {
         return assembleIsolatedMarginFeesList(new JSONArray(getIsolatedMarginFee(extraParams)));
     }
 
@@ -4566,7 +4565,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data</a>
      * @return isolated margin tier data as String
      * **/
-    public String getIsolatedMarginTierData(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public String getIsolatedMarginTierData(String symbol, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(ISOLATED_MARGIN_TIER_DATA_ENDPOINT, params, GET_METHOD);
@@ -4580,7 +4579,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data</a>
      * @return isolated margin tier data as JSONArray
      * **/
-    public JSONArray getJSONIsolatedMarginTierData(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public JSONArray getJSONIsolatedMarginTierData(String symbol, Params extraParams) throws Exception {
         return new JSONArray(getIsolatedMarginTierData(symbol, extraParams));
     }
 
@@ -4592,7 +4591,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data</a>
      * @return isolated margin tier data as ArrayList<{@link IsolatedMarginTierData}>
      * **/
-    public ArrayList<IsolatedMarginTierData> getIsolatedMarginTierDataList(String symbol, BinanceManager.Params extraParams) throws Exception {
+    public ArrayList<IsolatedMarginTierData> getIsolatedMarginTierDataList(String symbol, Params extraParams) throws Exception {
         return assembleIsolatedMarginTierDataList(new JSONArray(getIsolatedMarginTierData(symbol, extraParams)));
     }
 
