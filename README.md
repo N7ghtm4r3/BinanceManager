@@ -1,5 +1,5 @@
 # BinanceManager
-**v1.0.6**
+**v1.0.7**
 
 This is a Java Based library useful to work with Binance's API service.
 
@@ -23,7 +23,7 @@ allprojects {
 
 ```gradle
 dependencies {
-	implementation 'com.github.N7ghtm4r3:BinanceManager:1.0.6'
+	implementation 'com.github.N7ghtm4r3:BinanceManager:1.0.7'
 }
 ```
 
@@ -45,7 +45,7 @@ dependencies {
 <dependency>
     <groupId>com.github.N7ghtm4r3</groupId>
     <artifactId>BinanceManager</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.7</version>
 </dependency>
 ```
 

@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'tecknobit.com'
-version '1.0.6'
+version '1.0.7'
 
 repositories {
     mavenCentral()
@@ -24,7 +24,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'com.tecknobit.binancemanager'
             artifactId = 'BinanceManager'
-            version = '1.0.6'
+            version = '1.0.7'
             from components.java
         }
     }
