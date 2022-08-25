@@ -3,12 +3,15 @@ package com.tecknobit.binancemanager.Managers.Market.Records.Tickers;
 import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
 import org.json.JSONObject;
 
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
  * The {@code OrderBookTicker} class is useful to manage OrderBookTicker requests
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker">
- *     https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker</a>
+ *
  * @author N7ghtm4r3 - Tecknobit
- * **/
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker">
+ * https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker</a>
+ **/
 
 public class OrderBookTicker extends Ticker {
 
@@ -69,16 +72,60 @@ public class OrderBookTicker extends Ticker {
         return bidPrice;
     }
 
+    /**
+     * Method to get {@link #bidPrice} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #bidPrice} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getBidPrice(int decimals) {
+        return roundValue(bidPrice, decimals);
+    }
+
     public double getBidQty() {
         return bidQty;
+    }
+
+    /**
+     * Method to get {@link #bidQty} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #bidQty} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getBidQty(int decimals) {
+        return roundValue(bidPrice, decimals);
     }
 
     public double getAskPrice() {
         return askPrice;
     }
 
+    /**
+     * Method to get {@link #askPrice} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #askPrice} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getAskPrice(int decimals) {
+        return roundValue(askPrice, decimals);
+    }
+
     public double getAskQty() {
         return askQty;
+    }
+
+    /**
+     * Method to get {@link #askQty} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #askQty} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getAskQty(int decimals) {
+        return roundValue(askQty, decimals);
     }
 
     @Override
