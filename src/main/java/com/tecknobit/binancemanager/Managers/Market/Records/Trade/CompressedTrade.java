@@ -2,7 +2,7 @@ package com.tecknobit.binancemanager.Managers.Market.Records.Trade;
 
 /**
  * The {@code CompressedTrade} class is useful to format compressed trade in market endpoints type
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list">
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list">
  * https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/

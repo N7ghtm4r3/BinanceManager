@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * The {@code AccountSnapshotMargin} class is useful to obtain and format AccountSnapshotMargin object
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
  *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/
@@ -63,7 +63,7 @@ public class AccountSnapshotMargin extends AccountSnapshot{
 
     /** Method to assemble an UserAssetMargin list
      * @param jsonAssets: accountDetails obtain by AccountSnapshot Binance request
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * @return userAssetMargin list as ArrayList<UserAssetMargin>
      * **/
@@ -95,7 +95,7 @@ public class AccountSnapshotMargin extends AccountSnapshot{
 
     /**
      *  The {@code DataMargin} class is useful to obtain and format DataMargin object
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * **/
 
@@ -203,7 +203,7 @@ public class AccountSnapshotMargin extends AccountSnapshot{
 
     /**
      *  The {@code UserAssetMargin} class is useful to obtain and format UserAssetMargin object
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * **/
 

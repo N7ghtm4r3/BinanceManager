@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  *  The {@code DustTransfer} class is useful to manage DustTransfer Binance request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
  *      https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
  * **/
 

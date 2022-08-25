@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 /**
  *  The {@code MarginOrderStatusDetails} class is useful to format all Binance Margin Order Status request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
  *      https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/

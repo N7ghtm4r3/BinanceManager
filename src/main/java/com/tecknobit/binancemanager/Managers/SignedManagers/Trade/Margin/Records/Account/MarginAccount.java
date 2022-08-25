@@ -2,7 +2,7 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Record
 
 /**
  *  The {@code MarginAccount} class is useful to format Binance Margin Account
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
  *      https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/

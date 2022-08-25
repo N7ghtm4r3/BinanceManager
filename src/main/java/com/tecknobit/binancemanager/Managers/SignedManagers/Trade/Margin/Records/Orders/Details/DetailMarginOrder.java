@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 /**
  *  The {@code DetailMarginOrder} class is useful to format Binance Margin Cancel Order request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
  *      https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
@@ -141,16 +141,16 @@ public class DetailMarginOrder extends Order {
         return side;
     }
 
-    /** Method to get stopPrice
-     * any params required
+    /** Method to get stopPrice <br>
+     * Any params required
      * @return stopPrice as double, if is a null field will return -1
      * **/
     public double getStopPrice(){
         return jsonHelper.getDouble("stopPrice");
     }
 
-    /** Method to get icebergQty
-     * any params required
+    /** Method to get icebergQty <br>
+     * Any params required
      * @return icebergQty as double, if is a null field will return -1
      * **/
     public double getIcebergQty(){

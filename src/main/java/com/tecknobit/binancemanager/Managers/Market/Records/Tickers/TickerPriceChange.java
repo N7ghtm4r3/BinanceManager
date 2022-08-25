@@ -1,13 +1,15 @@
 package com.tecknobit.binancemanager.Managers.Market.Records.Tickers;
 
+import org.json.JSONObject;
+
 /**
  * The {@code TickerPriceChange} class is useful to manage TickerPriceChange requests
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#24hr-ticker-price-change-statistics">
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#24hr-ticker-price-change-statistics">
  *     https://binance-docs.github.io/apidocs/spot/en/#24hr-ticker-price-change-statistics</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/
 
-public class TickerPriceChange extends OrderBookTicker{
+public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * {@code priceChange} is instance that contains price change of the ticker
@@ -134,6 +136,29 @@ public class TickerPriceChange extends OrderBookTicker{
         this.firstId = firstId;
         this.lastId = lastId;
         this.count = count;
+    }
+
+    /** Constructor to init {@link TickerPriceChange} object
+     * @param ticker: ticker price change details as {@link JSONObject}
+     * **/
+    public TickerPriceChange(JSONObject ticker) {
+        super(ticker);
+        priceChange = hTicker.getDouble("priceChange");
+        priceChangePercent = hTicker.getDouble("priceChangePercent");
+        weightedAvgPrice = hTicker.getDouble("weightedAvgPrice");
+        prevClosePrice = hTicker.getDouble("prevClosePrice");
+        lastPrice = hTicker.getDouble("openPrice");
+        lastQty = hTicker.getDouble("lastQty");
+        openPrice = hTicker.getDouble("highPrice");
+        highPrice = hTicker.getDouble("lowPrice");
+        lowPrice = hTicker.getDouble("lastPrice");
+        volume = hTicker.getDouble("volume");
+        quoteVolume = hTicker.getDouble("quoteVolume");
+        openTime = hTicker.getLong("openTime");
+        closeTime = hTicker.getLong("closeTime");
+        firstId = hTicker.getLong("firstId");
+        lastId = hTicker.getLong("lastId");
+        count = hTicker.getInt("count");
     }
 
     public double getPriceChange() {

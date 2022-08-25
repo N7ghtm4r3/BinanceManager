@@ -11,7 +11,7 @@ import static com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Record
 
 /**
  *  The {@code SpotAccountInformation} class is useful to format SpotAccountInformation object
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data">
  *      https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
@@ -54,6 +54,11 @@ public class SpotAccountInformation {
     private boolean canDeposit;
 
     /**
+     * {@code brokered} is flag that memorizes if account is brokered
+     * **/
+    private boolean brokered;
+
+    /**
      * {@code updateTime} is instance that memorizes update time value
      * **/
     private long updateTime;
@@ -81,14 +86,15 @@ public class SpotAccountInformation {
      * @param canTrade: can trade
      * @param canWithdraw: can withdraw
      * @param canDeposit: can deposit
+     * @param brokered: is brokered
      * @param updateTime: update time value
      * @param accountType: account type value
      * @param jsonAccount: account details information in JSON format
      * @throws IllegalArgumentException if parameters range is not respected
      * **/
     public SpotAccountInformation(double makerCommission, double takerCommission, double buyerCommission, double sellerCommission,
-                                  boolean canTrade, boolean canWithdraw, boolean canDeposit, long updateTime, String accountType,
-                                  JSONObject jsonAccount) {
+                                  boolean canTrade, boolean canWithdraw, boolean canDeposit, boolean brokered,
+                                  long updateTime, String accountType, JSONObject jsonAccount) {
         if(makerCommission < 0)
             throw new IllegalArgumentException("Maker commission value cannot be less than 0");
         else
@@ -288,7 +294,7 @@ public class SpotAccountInformation {
 
     /**
      * The {@code Permission} class is useful to obtain and format Permission object
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data</a>
      * **/
 

@@ -2,12 +2,26 @@ package com.tecknobit.binancemanager.Managers.Market.Records.Stats;
 
 /**
  * The {@code Candlestick} class is useful to manage Candlestick requests
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data">
- *     https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data</a>
+ * @apiNote see the official documentation at:
+ * <ul>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data">
+ *            https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data</a>
+ *     </li>
+ *      <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#uiklines">
+ *           https://binance-docs.github.io/apidocs/spot/en/#uiklines</a>
+ *     </li>
+ * </ul>
  * @author N7ghtm4r3 - Tecknobit
  * **/
 
 public class Candlestick {
+
+    /**
+     * {@code INTERVAL_1s} is constant for one second interval
+     * **/
+    public static final String INTERVAL_1s = "1s";
 
     /**
      * {@code INTERVAL_1m} is constant for one minute interval

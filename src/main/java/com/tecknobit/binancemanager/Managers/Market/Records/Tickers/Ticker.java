@@ -5,7 +5,17 @@ package com.tecknobit.binancemanager.Managers.Market.Records.Tickers;
  * @author N7ghtm4r3 - Tecknobit
  * **/
 
-public class Ticker {
+public abstract class Ticker {
+
+    /**
+     * {@code FULL_TYPE_RESPONSE} is constant for full type response
+     * **/
+    public static final String FULL_TYPE_RESPONSE = "FULL";
+
+    /**
+     * {@code MINI_TYPE_RESPONSE} is constant for mini type response
+     * **/
+    public static final String MINI_TYPE_RESPONSE = "MINI";
 
     /**
      * {@code symbol} is instance that contains symbol of the ticker

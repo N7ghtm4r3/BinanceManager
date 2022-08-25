@@ -6,6 +6,7 @@ import com.tecknobit.binancemanager.Exceptions.SystemException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static com.tecknobit.apimanager.Manager.APIRequest.GET_METHOD;
 import static com.tecknobit.apimanager.Tools.Trading.TradingTools.computeAssetPercent;
@@ -17,7 +18,7 @@ import static java.lang.System.currentTimeMillis;
 /**
  *  The {@code BinanceManager} class is useful to manage all Binance Endpoints
  *  giving basics methods for others Binance managers and basics endpoints for API request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
  *      https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
@@ -51,8 +52,8 @@ public class BinanceManager {
             this.baseEndpoint = getDefaultBaseEndpoint();
     }
 
-    /** Method to set automatically a working endpoint
-     * any params required
+    /** Method to set automatically a working endpoint <br>
+     * Any params required
      * **/
     protected String getDefaultBaseEndpoint() throws SystemException, IOException {
         for (String string : BASE_ENDPOINTS)
@@ -82,8 +83,8 @@ public class BinanceManager {
         }
     }
 
-    /** Method to get timestamp for request
-     * any params required
+    /** Method to get timestamp for request <br>
+     * Any params required
      * @return "?timestamp=" + getTimestamp() return value
      * **/
     public String getParamTimestamp(){
@@ -113,23 +114,23 @@ public class BinanceManager {
         return apiRequest.getResponse();
     }
 
-    /** Method to get status code of request response
-     * any params required
+    /** Method to get status code of request response <br>
+     * Any params required
      * @return status code of request response
      * **/
     public int getStatusResponse(){
         return apiRequest.getResponseStatusCode();
     }
 
-    /** Method to get error response of an HTTP request
-     * any params required
+    /** Method to get error response of an HTTP request <br>
+     * Any params required
      * @return apiRequest.getErrorResponse();
      * **/
     public String getErrorResponse() {
         return apiRequest.getErrorResponse();
     }
 
-    /** Method to print error response of an HTTP request <br>
+    /** Method to print error response of an HTTP request  <br>
      * Any params required
      * **/
     public void printErrorResponse() {
@@ -192,6 +193,24 @@ public class BinanceManager {
      * **/
     public String getTextTrendPercent(double startValue, double finalValue, int decimalDigits){
         return textualizeAssetPercent(startValue, finalValue, decimalDigits);
+    }
+
+    /** Method to concatenate a list of symbols
+     * @param symbols: symbols to concatenate in {@link String} array format
+     * @return list of symbols as {@link String} es. "%22symbol1%22,%22symbol2%22" HTTP encoded -> "symbol1","symbol2"
+     * @throws IllegalArgumentException when one of the params inserted does not respect correct range
+     * **/
+    public String assembleSymbolsList(String[] symbols) {
+        return apiRequest.assembleParamsList("%22", "%22,", symbols);
+    }
+
+    /** Method to concatenate a list of symbols
+     * @param symbols: symbols to concatenate in {@link ArrayList} of {@link String} format
+     * @return list of symbols as {@link String} es. "%22symbol1%22,%22symbol2%22" HTTP encoded -> "symbol1","symbol2"
+     * @throws IllegalArgumentException when one of the params inserted does not respect correct range
+     * **/
+    public String assembleSymbolsList(ArrayList<String> symbols) {
+        return apiRequest.assembleParamsList("%22", "%22,", symbols);
     }
 
     /**

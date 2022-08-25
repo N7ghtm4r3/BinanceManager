@@ -106,7 +106,7 @@ try {
 
 In this example manager is NO signed type manager, but is the same for signed type managers
 
-- String: will return response formatted as String object
+- String: will return response formatted as {@link String} object
 
 ```java
 try {

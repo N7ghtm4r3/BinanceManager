@@ -10,7 +10,7 @@ import static com.tecknobit.apimanager.Manager.APIRequest.HMAC_SHA256_ALGORITHM;
 
 /**
  * The {@code BinanceSignedManager} class is useful to manage all signed binance requests
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
  *     https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/
@@ -56,16 +56,16 @@ public class BinanceSignedManager extends BinanceManager {
         return "&signature=" + APIRequest.getSignature(secretKey, params, HMAC_SHA256_ALGORITHM);
     }
 
-    /** Method to get apiKey used
-     * any params required
+    /** Method to get apiKey used <br>
+     * Any params required
      * @return apiKey
      * **/
     public String getApiKey() {
         return apiKey;
     }
 
-    /** Method to get secretKey used
-     * any params required
+    /** Method to get secretKey used <br>
+     * Any params required
      * @return secretKey
      * **/
     public String getSecretKey() {

@@ -9,7 +9,7 @@ import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.
 
 /**
  * The {@code ComposedIMarginAccountInfo} class is useful to format Binance Isolated Margin Account Status request response
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade">
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade">
  *     https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/

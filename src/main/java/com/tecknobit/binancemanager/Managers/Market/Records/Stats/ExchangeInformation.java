@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  *  The {@code ExchangeInformation} class is useful to manage ExchangeInformation Binance request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
  *      https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
@@ -59,9 +59,9 @@ public class ExchangeInformation {
         assembleSymbols();
     }
 
-    /** Method to assemble an RateLimits list
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
+    /** Method to assemble an RateLimits list <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
      *     https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
      * **/
     private void assembleRateLimits() {
@@ -79,7 +79,7 @@ public class ExchangeInformation {
 
     /** Method to assemble a Filters list
      * @param jsonFilters: obtained from Binance request
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
      *     https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
      * @return filters list as ArrayList<Filter> object
      * **/
@@ -96,9 +96,9 @@ public class ExchangeInformation {
         return filters;
     }
 
-    /** Method to assemble a Symbols list
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
+    /** Method to assemble a Symbols list <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
      *     https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
      * **/
     private void assembleSymbols() {
@@ -158,7 +158,7 @@ public class ExchangeInformation {
 
     /**
      * The {@code RateLimit} class is useful to obtain and format RateLimit object
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
      *     https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
      * **/
 
@@ -262,7 +262,7 @@ public class ExchangeInformation {
 
     /**
      * The {@code Symbol} class is useful to obtain and format Symbol object
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
      *     https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
      * **/
 
@@ -388,7 +388,7 @@ public class ExchangeInformation {
 
         /** Method to assemble a EnumValues list
          * @param jsonList: obtained from Binance request
-         * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
+         * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
          *     https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
          * @return exchangeEnumValues list as ArrayList<EnumValues> object
          * **/

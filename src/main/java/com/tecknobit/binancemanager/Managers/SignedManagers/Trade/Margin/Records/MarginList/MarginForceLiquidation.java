@@ -10,7 +10,7 @@ import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.
 
 /**
  *  The {@code MarginForceLiquidation} class is useful to format Binance Margin Force Liquidation request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
  *      https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
@@ -102,7 +102,7 @@ public class MarginForceLiquidation {
 
     /**
      * The {@code ForceLiquidationAsset} class is useful to obtain and format ForceLiquidationAsset object
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
      * **/
 

@@ -3,7 +3,8 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common;
 /**
  * The {@code Order} class is useful to manage and format all Binance Order request
  * @implNote used by BinanceSpotManager, BinanceMarginManager
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
+ *     https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
  * **/
 
 public class Order {

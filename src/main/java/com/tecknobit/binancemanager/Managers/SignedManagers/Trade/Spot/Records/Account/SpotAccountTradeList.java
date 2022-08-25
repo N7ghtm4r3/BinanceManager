@@ -4,7 +4,7 @@ import com.tecknobit.binancemanager.Managers.Market.Records.Trade.Trade;
 
 /**
  *  The {@code SpotAccountTradeList} class is useful to format SpotAccountTradeList object
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data">
  *      https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/

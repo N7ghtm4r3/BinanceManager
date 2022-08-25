@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  *  The {@code ConvertibleBNBAssets} class is useful to manage ConvertibleBNBAssets Binance request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
  *      https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data</a>
  * **/
 
@@ -120,7 +120,7 @@ public class ConvertibleBNBAssets {
 
     /**
      *  The {@code AssetDetail} class is useful to obtain and format AssetDetail object
-     *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
+     *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
      *      https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data</a>
      * **/
 

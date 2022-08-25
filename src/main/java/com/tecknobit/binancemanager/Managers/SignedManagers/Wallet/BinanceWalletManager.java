@@ -35,7 +35,7 @@ import static com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Record
 
 /**
  *  The {@code BinanceWalletManager} class is useful to manage all Binance Wallet Endpoints
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#general-api-information">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#general-api-information">
  *      https://binance-docs.github.io/apidocs/spot/en/#general-api-information</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
@@ -61,29 +61,29 @@ public class BinanceWalletManager extends BinanceSignedManager {
         super(null, apiKey, secretKey);
     }
 
-    /** Request to get information of your coins available for deposit and withdraw
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+    /** Request to get information of your coins available for deposit and withdraw <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
-     * @return all coin information as String
+     * @return all coin information as {@link String}
      * **/
     public String getAllCoins() throws Exception {
         return sendSignedRequest(ALL_COINS_ENDPOINT, getParamTimestamp(), GET_METHOD);
     }
 
-    /** Request to get information of your coins available for deposit and withdraw
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+    /** Request to get information of your coins available for deposit and withdraw <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
-     * @return all coin information as JsonArray
+     * @return all coin information as {@link JSONArray}
      * **/
     public JSONArray getJSONAllCoins() throws Exception {
         return new JSONArray(getAllCoins());
     }
 
-    /** Request to get information of your coins available for deposit and withdraw
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+    /** Request to get information of your coins available for deposit and withdraw <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
      * @return all coin information as ArrayList<CoinInformation>
      * **/
@@ -97,7 +97,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Custom request to get information of your coin available for deposit and withdraw
      * @param coin: identifier of coin to fetch es. BTC
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
      * @return single coin information as {@link String}
      * **/
@@ -107,7 +107,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Custom request to get information of your coin available for deposit and withdraw
      * @param coin: identifier of coin to fetch es. BTC
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
      * @return single coin information as {@link JSONObject}
      * **/
@@ -117,7 +117,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Custom request to get information of your coin available for deposit and withdraw
      * @param coin: identifier of coin to fetch es. BTC
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
      * @return single coin information as {@link CoinInformation} object
      * **/
@@ -127,7 +127,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Custom request to get information of your coin available for deposit and withdraw
      * @param name: identifier of coin to fetch by name es. Bitcoin
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
      * @return single coin information as {@link String}
      * **/
@@ -137,7 +137,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Custom request to get information of your coin available for deposit and withdraw
      * @param name: identifier of coin to fetch by name es. Bitcoin
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
      * @return single coin information as {@link JSONObject}
      * **/
@@ -147,7 +147,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Custom request to get information of your coin available for deposit and withdraw
      * @param name: identifier of coin to fetch by name es. Bitcoin
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
      * @return single coin information as {@link CoinInformation} object
      * **/
@@ -158,7 +158,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
     /** Method to get information of your coin available
      * @param keyValue: name or coin es Bitcoin or BTC
      * @param keySearch: name or coin param
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
      * @return coin corresponding to params as {@link JSONObject}
      * **/
@@ -197,9 +197,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get your daily account snapshot
      * @param type: SPOT,MARGIN OR FUTURES
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
-     * @return account snapshot as String
+     * @return account snapshot as {@link String}
      * **/
     public String getAccountSnapshot(String type) throws Exception {
         String params = getParamTimestamp() + "&type=" + type;
@@ -208,9 +208,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get your daily account snapshot
      * @param type: SPOT,MARGIN OR FUTURES
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
-     * @return account snapshot as JsonObject
+     * @return account snapshot as {@link JSONObject}
      * **/
     public JSONObject getJSONAccountSnapshot(String type) throws Exception {
         return new JSONObject(getAccountSnapshot(type));
@@ -218,7 +218,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get your daily account snapshot
      * @param type: SPOT,MARGIN OR FUTURES
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * @return account snapshot as AccountSnapshot - {type} object.
      * **/
@@ -229,9 +229,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
     /** Request to get your daily account snapshot
      * @param extraParams: additional params of the request
      * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
-     * @return account snapshot as String
+     * @return account snapshot as {@link String}
      * **/
     public String getAccountSnapshot(String type, Params extraParams) throws Exception {
         String params = apiRequest.encodeAdditionalParams(getParamTimestamp() + "&type=" + type,
@@ -242,9 +242,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
     /** Request to get your daily account snapshot
      * @param extraParams: additional params of the request
      * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
-     * @return account snapshot as JsonObject
+     * @return account snapshot as {@link JSONObject}
      * **/
     public JSONObject getJSONAccountSnapshot(String type, Params extraParams) throws Exception {
         return new JSONObject(getAccountSnapshot(type, extraParams));
@@ -253,7 +253,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
     /** Request to get your daily account snapshot
      * @param extraParams: additional params of the request
      * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * @return account snapshot as AccountSnapshot - {type} object.
      * **/
@@ -264,7 +264,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
     /** Method to get your daily account snapshot
      * @param type: SPOT,MARGIN OR FUTURES
      * @param jsonAccount: obtain by request to binance
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * @return account snapshot as AccountSnapshot - {type} object.
      * **/
@@ -283,7 +283,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param enableFastWithdraw: true,false
      * true: endpoint will be ENABLE_FAST_WITHDRAW_ENDPOINT
      * false: endpoint will be DISABLE_FAST_WITHDRAW_ENDPOINT
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-fast-withdraw-switch-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-fast-withdraw-switch-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#disable-fast-withdraw-switch-user_data</a>
      * @return successful or not of operation (true or false)
      * **/
@@ -298,9 +298,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param coinSymbol: symbol of coin used es. BTC
      * @param address: address used
      * @param amount: amount to withdraw
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data</a>
-     * @return id of transaction if operation is successful as String
+     * @return id of transaction if operation is successful as {@link String}
      * **/
     public String submitWithdraw(String coinSymbol, String address, double amount) throws Exception {
         String params = getParamTimestamp() + "&coin=" + coinSymbol + "&address=" + address + "&amount=" + amount;
@@ -311,9 +311,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param coinSymbol: symbol of coin used es. BTC
      * @param address: address used
      * @param amount: amount to withdraw
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data</a>
-     * @return id of transaction if operation is successful as JsonObject
+     * @return id of transaction if operation is successful as {@link JSONObject}
      * **/
     public JSONObject submitJSONWithdraw(String coinSymbol, String address, double amount) throws Exception {
         return new JSONObject(submitWithdraw(coinSymbol, address, amount));
@@ -325,12 +325,11 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param amount: amount to withdraw
      * @param extraParams: additional params of the request
      * @implSpec (keys accepted are withdrawOrderId,network,addressTag,transactionFeeFlag,name,walletType,recvWindow)
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data</a>
-     * @return id of transaction if operation is successful as String
+     * @return id of transaction if operation is successful as {@link String}
      * **/
-    public String submitWithdraw(String coinSymbol, String address, double amount,
-                                 Params extraParams) throws Exception {
+    public String submitWithdraw(String coinSymbol, String address, double amount, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&coin=" + coinSymbol + "&address=" + address + "&amount=" + amount;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return submitWithdraw(params);
@@ -342,28 +341,27 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param amount: amount to withdraw
      * @param extraParams: additional params of the request
      * @implSpec (keys accepted are withdrawOrderId,network,addressTag,transactionFeeFlag,name,walletType,recvWindow)
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data</a>
-     * @return id of transaction if operation is successful as JsonObject
+     * @return id of transaction if operation is successful as {@link JSONObject}
      * **/
-    public JSONObject submitJSONWithdraw(String coinSymbol, String address, double amount,
-                                         Params extraParams) throws Exception {
+    public JSONObject submitJSONWithdraw(String coinSymbol, String address, double amount, Params extraParams) throws Exception {
         return new JSONObject(submitWithdraw(coinSymbol,address,amount,extraParams));
     }
 
     /** Method to submit withdraw request
      * @param params: params of request
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data</a>
-     * @return id of transaction if operation is successful as String
+     * @return id of transaction if operation is successful as {@link String}
      * **/
     private String submitWithdraw(String params) throws Exception {
         return sendSignedRequest(SUBMIT_WITHDRAW_ENDPOINT, params, POST_METHOD);
     }
 
-    /** Request to get deposit history
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
+    /** Request to get deposit history <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data</a>
      * @return list of deposits as ArrayList<Deposit>
      * **/
@@ -374,7 +372,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
     /** Request to get deposit history
      * @param extraParams: additional params of the request
      * @implSpec (keys accepted are coin,status,startTime,endTime,offset,limit,recvWindow)
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data</a>
      * @return list of deposits as ArrayList<Deposit>
      * **/
@@ -385,7 +383,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Method to submit get deposit history request
      * @param params: params of request
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data</a>
      * @return list of deposits as ArrayList<Deposit>
      * **/
@@ -410,9 +408,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
         return depositHistory;
     }
 
-    /** Request to get withdraw history
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
+    /** Request to get withdraw history <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data</a>
      * @return list of withdraws as ArrayList<Withdraw>
      * **/
@@ -423,7 +421,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
     /** Request to get withdraw history
      * @param extraParams: additional params of the request
      * @implSpec (keys accepted are coin,withdrawOrderId,status,offset,limit,startTime,endTime,recvWindow)
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data</a>
      * @return list of withdraws as ArrayList<Withdraw>
      * **/
@@ -434,7 +432,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Method to submit get withdraw history request
      * @param params: params of request
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data</a>
      * @return list of withdraws as ArrayList<Withdraw>
      * **/
@@ -463,7 +461,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get deposit address
      * @param coin: symbol of coin used to fetch address es. BTC
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data</a>
      * @return deposit address information as DepositAddress object
      * **/
@@ -474,7 +472,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
     /** Request to get deposit address
      * @param coin: symbol of coin used to fetch address es. BTC
      * @param network: network used to fetch address es. BTC
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data</a>
      * @return deposit address information as DepositAddress object
      * **/
@@ -484,7 +482,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Method to submit get deposit address request
      * @param params: params of request
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data</a>
      * @return deposit address information as DepositAddress object
      * **/
@@ -497,49 +495,49 @@ public class BinanceWalletManager extends BinanceSignedManager {
         );
     }
 
-    /** Request to get account status
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-status-user_data">
+    /** Request to get account status <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-status-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#account-status-user_data</a>
-     * @return account status as String
+     * @return account status as {@link String}
      * **/
     public String getAccountStatus() throws Exception {
         return sendSignedRequest(ACCOUNT_STATUS_ENDPOINT, getParamTimestamp(), GET_METHOD);
     }
 
-    /** Request to get account status
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-status-user_data">
+    /** Request to get account status <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-status-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#account-status-user_data</a>
-     * @return account status as JsonObject
+     * @return account status as {@link JSONObject}
      * **/
     public JSONObject getJSONAccountStatus() throws Exception {
         return new JSONObject(getAccountStatus());
     }
 
-    /** Request to get API trading status
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data">
+    /** Request to get API trading status <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data</a>
-     * @return API trading status as String
+     * @return API trading status as {@link String}
      * **/
     public String getAPITradingStatus() throws Exception {
         return sendSignedRequest(API_TRADING_STATUS_ENDPOINT, getParamTimestamp(), GET_METHOD);
     }
 
-    /** Request to get API trading status
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data">
+    /** Request to get API trading status <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data</a>
-     * @return API trading status as JsonObject
+     * @return API trading status as {@link JSONObject}
      * **/
     public JSONObject getJSONAPITradingStatus() throws Exception {
         return new JSONObject(getAPITradingStatus());
     }
 
-    /** Request to get API trading status
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data">
+    /** Request to get API trading status <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data</a>
      * @return API trading status as APIStatus object
      * **/
@@ -559,29 +557,29 @@ public class BinanceWalletManager extends BinanceSignedManager {
         );
     }
 
-    /** Request to get dust log information
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
+    /** Request to get dust log information <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
-     * @return dust log information as String
+     * @return dust log information as {@link String}
      * **/
     public String getDustLog() throws Exception {
         return sendSignedRequest(DUST_LOG_ENDPOINT, getParamTimestamp(), GET_METHOD);
     }
 
-    /** Request to get dust log information
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
+    /** Request to get dust log information <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
-     * @return dust log information as JsonObject
+     * @return dust log information as {@link JSONObject}
      * **/
     public JSONObject getJSONDustLog() throws Exception {
         return new JSONObject(getDustLog());
     }
 
-    /** Request to get dust log information
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
+    /** Request to get dust log information <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
      * @return dust log information as DustLog object
      * **/
@@ -592,9 +590,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
     /** Request to get dust log information
      * @param extraParams: additional params of the request
      * @implSpec (keys accepted are startTime,endTime,recvWindow)
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
-     * @return dust log information as String
+     * @return dust log information as {@link String}
      * **/
     public String getDustLog(Params extraParams) throws Exception {
         String params = apiRequest.encodeAdditionalParams(getParamTimestamp(), extraParams);
@@ -604,9 +602,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
     /** Request to get dust log information
      * @param extraParams: additional params of the request
      * @implSpec (keys accepted are startTime,endTime,recvWindow)
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
-     * @return dust log information as JsonObject
+     * @return dust log information as {@link JSONObject}
      * **/
     public JSONObject getJSONDustLog(Params extraParams) throws Exception {
         return new JSONObject(getDustLog(extraParams));
@@ -615,7 +613,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
     /** Request to get dust log information
      * @param extraParams: additional params of the request
      * @implSpec (keys accepted are startTime,endTime,recvWindow)
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
      * @return dust log information as DustLog object
      * **/
@@ -648,29 +646,29 @@ public class BinanceWalletManager extends BinanceSignedManager {
         return new DustLog(total,assetDribblets);
     }
 
-    /** Request to get convertible assets into BNB
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
+    /** Request to get convertible assets into BNB <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data</a>
-     * @return convertible assets into BNB as String
+     * @return convertible assets into BNB as {@link String}
      * **/
     public String getConvertibleBNBAssets() throws Exception {
         return sendSignedRequest(ASSET_CONVERTIBLE_BNB_ENDPOINT, getParamTimestamp(), POST_METHOD);
     }
 
-    /** Request to get convertible assets into BNB
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
+    /** Request to get convertible assets into BNB <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data</a>
-     * @return convertible assets into BNB as JsonObject
+     * @return convertible assets into BNB as {@link JSONObject}
      * **/
     public JSONObject getJSONConvertibleBNBAssets() throws Exception {
         return new JSONObject(getConvertibleBNBAssets());
     }
 
-    /** Request to get convertible assets into BNB
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
+    /** Request to get convertible assets into BNB <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data</a>
      * @return convertible assets into BNB as ConvertibleBNBAssets object
      * **/
@@ -697,9 +695,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get dust transfer
      * @param assets: list of assets to request dust transfer es. BTC,ETH,SOL
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-user_data</a>
-     * @return dust transfer as String
+     * @return dust transfer as {@link String}
      * **/
     public String getDustTransfer(ArrayList<String> assets) throws Exception {
         StringBuilder params = new StringBuilder(getParamTimestamp());
@@ -710,9 +708,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get dust transfer
      * @param assets: list of assets to request dust transfer es. BTC,ETH,SOL
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-user_data</a>
-     * @return dust transfer as JsonObject
+     * @return dust transfer as {@link JSONObject}
      * **/
     public JSONObject getJSONDustTransfer(ArrayList<String> assets) throws Exception {
         return new JSONObject(getDustTransfer(assets));
@@ -720,7 +718,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get dust transfer
      * @param assets: list of assets to request dust transfer es. BTC,ETH,SOL
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-user_data</a>
      * @return dust transfer as DustTransfer object
      * **/
@@ -736,29 +734,29 @@ public class BinanceWalletManager extends BinanceSignedManager {
         return new DustTransfer(totalServiceCharge, totalTransfered, transferResults);
     }
 
-    /** Request to get asset dividend
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
+    /** Request to get asset dividend <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
-     * @return asset dividend as String
+     * @return asset dividend as {@link String}
      * **/
     public String getAssetDividend() throws Exception {
         return sendSignedRequest(ASSET_DIVIDEND_ENDPOINT, getParamTimestamp(), GET_METHOD);
     }
 
-    /** Request to get asset dividend
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
+    /** Request to get asset dividend <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
-     * @return asset dividend as JsonObject
+     * @return asset dividend as {@link JSONObject}
      * **/
     public JSONObject getJSONAssetDividend() throws Exception {
         return new JSONObject(getAssetDividend());
     }
 
-    /** Request to get asset dividend
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
+    /** Request to get asset dividend <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
      * @return asset dividend as AssetDividend object
      * **/
@@ -769,9 +767,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
     /** Request to get asset dividend
      * @param extraParams: additional params of the request
      * @implSpec (keys accepted are asset,startTime,endTime,limit,recvWindow)
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
-     * @return  get asset dividend as String
+     * @return  get asset dividend as {@link String}
      * **/
     public String getAssetDividend(Params extraParams) throws Exception {
         return sendSignedRequest(ASSET_DIVIDEND_ENDPOINT, apiRequest.encodeAdditionalParams(getParamTimestamp(),
@@ -781,9 +779,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
     /** Request to get asset dividend
      * @param extraParams: additional params of the request
      * @implSpec (keys accepted are asset,startTime,endTime,limit,recvWindow)
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
-     * @return  get asset dividend as JsonObject
+     * @return  get asset dividend as {@link JSONObject}
      * **/
     public JSONObject getJSONAssetDividend(Params extraParams) throws Exception {
         return new JSONObject(getAssetDividend(extraParams));
@@ -792,7 +790,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
     /** Request to get asset dividend
      * @param extraParams: additional params of the request
      * @implSpec (keys accepted are asset,startTime,endTime,limit,recvWindow)
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
      * @return  get asset dividend as AssetDividend object
      * **/
@@ -824,29 +822,29 @@ public class BinanceWalletManager extends BinanceSignedManager {
         return new AssetDividend(total, assetDividendDetails);
     }
 
-    /** Request to get asset detail
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
+    /** Request to get asset detail <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
-     * @return asset detail as String
+     * @return asset detail as {@link String}
      * **/
     public String getAssetDetail() throws Exception {
         return sendSignedRequest(ASSET_DETAIL_ENDPOINT, getParamTimestamp(), GET_METHOD);
     }
 
-    /** Request to get asset detail
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
+    /** Request to get asset detail <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
-     * @return asset detail as JsonObject
+     * @return asset detail as {@link JSONObject}
      * **/
     public JSONObject getJSONAssetDetail() throws Exception {
         return new JSONObject(getAssetDetail());
     }
 
-    /** Request to get asset detail
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
+    /** Request to get asset detail <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
      * @return asset detail list as ArrayList<AssetDetail>
      * **/
@@ -868,9 +866,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get asset detail
      * @param asset: asset to get details es BTC
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
-     * @return asset detail as String
+     * @return asset detail as {@link String}
      * **/
     public String getAssetDetail(String asset) throws Exception {
         String params = getParamTimestamp() + "&asset=" + asset;
@@ -879,9 +877,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get asset detail
      * @param asset: asset to get details es BTC
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
-     * @return asset detail as JsonObject
+     * @return asset detail as {@link JSONObject}
      * **/
     public JSONObject getJSONAssetDetail(String asset) throws Exception {
         return new JSONObject(getAssetDetail(asset));
@@ -889,7 +887,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get asset detail
      * @param asset: asset to get details es BTC
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
      * @return asset detail as AssetDetail object
      * **/
@@ -906,7 +904,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Method to get depositTip
      * @param jsonObject: jsonObject assembled from request to Binance
-     * @return depositTip as String
+     * @return depositTip as {@link String}
      * **/
     private String getDepositTip(JSONObject jsonObject){
         try {
@@ -916,29 +914,29 @@ public class BinanceWalletManager extends BinanceSignedManager {
         }
     }
 
-    /** Request to get asset trade fee
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data">
+    /** Request to get asset trade fee <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data</a>
-     * @return asset trade fee as String
+     * @return asset trade fee as {@link String}
      * **/
     public String getTradeFee() throws Exception {
         return sendSignedRequest(TRADE_FEE_ENDPOINT, getParamTimestamp(), GET_METHOD);
     }
 
-    /** Request to get asset trade fee
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data">
+    /** Request to get asset trade fee <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data</a>
-     * @return asset trade fee as JsonArray
+     * @return asset trade fee as {@link JSONArray}
      * **/
     public JSONArray getJSONTradeFee() throws Exception {
         return new JSONArray(getTradeFee());
     }
 
-    /** Request to get asset trade fee
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
+    /** Request to get asset trade fee <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
      * @return asset trade fee list as ArrayList<TradeFee>
      * **/
@@ -957,9 +955,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get asset trade fee
      * @param symbol: asset to get details es BTCUSD
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
-     * @return asset trade fee as String
+     * @return asset trade fee as {@link String}
      * **/
     public String getTradeFee(String symbol) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol;
@@ -968,9 +966,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get asset trade fee
      * @param symbol: asset to get details es BTCUSD
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
-     * @return asset trade fee as JsonArray
+     * @return asset trade fee as {@link JSONArray}
      * **/
     public JSONArray getJSONTradeFee(String symbol) throws Exception {
         return new JSONArray(getTradeFee(symbol));
@@ -978,7 +976,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get asset trade fee
      * @param symbol: asset to get details es BTCUSD
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
      * @return asset trade fee as TradeFee object
      * **/
@@ -996,9 +994,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param amount: amount for the request
      * @implNote in case type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
      * @implNote in case type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
-     * @return universal transfer as String
+     * @return universal transfer as {@link String}
      * **/
     public String getUniversalTransfer(String type, String asset, double amount) throws Exception {
         String params = getParamTimestamp() + "&type=" + type + "&asset=" + asset + "&amount=" + amount;
@@ -1011,9 +1009,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param amount: amount for the request
      * @implNote in case type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
      * @implNote in case type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
-     * @return universal transfer as JsonObject
+     * @return universal transfer as {@link JSONObject}
      * **/
     public JSONObject getJSONUniversalTransfer(String type, String asset, double amount) throws Exception {
         return new JSONObject(getUniversalTransfer(type, asset, amount));
@@ -1024,9 +1022,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @implSpec (keys accepted are fromSymbol,toSymbol,recvWindow)
      * @implNote in case type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
      * @implNote in case type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
-     * @return universal transfer as String
+     * @return universal transfer as {@link String}
      * **/
     public String getUniversalTransfer(String type, String asset, double amount, Params extraParams) throws Exception {
         return sendSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT, apiRequest.encodeAdditionalParams(getParamTimestamp(),
@@ -1038,9 +1036,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @implSpec (keys accepted are fromSymbol,toSymbol,recvWindow)
      * @implNote in case type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
      * @implNote in case type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
-     * @return universal transfer as JsonObject
+     * @return universal transfer as {@link JSONObject}
      * **/
     public JSONObject getJSONUniversalTransfer(String type, String asset, double amount,
                                                Params extraParams) throws Exception {
@@ -1051,7 +1049,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param type: type to fetch history
      * @implNote in case type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
      * @implNote in case type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
      * @return universal transfer history as ArrayList<UniversalTransfer>
      * **/
@@ -1065,7 +1063,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @implSpec (keys accepted are startTime,endTime,current,size,fromSymbol,toSymbol,recvWindow)
      * @implNote in case type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
      * @implNote in case type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
      * @return universal transfer history as ArrayList<UniversalTransfer>
      * **/
@@ -1077,7 +1075,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Method to submit get universal transfer history
      * @param params: params of request
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
      * @return universal transfer history as ArrayList<UniversalTransfer>
      * **/
@@ -1099,9 +1097,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
         return universalTransfersHistory;
     }
 
-    /** Request to get funding wallet
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data">
+    /** Request to get funding wallet <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data</a>
      * @return funding wallet as ArrayList<FundingWallet>
      * **/
@@ -1112,7 +1110,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
     /** Request to get universal transfer history
      * @param extraParams: additional params of the request
      * @implSpec (keys accepted are asset,needBtcValuation,recvWindow)
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data</a>
      * @return funding wallet as ArrayList<FundingWallet>
      * **/
@@ -1122,7 +1120,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Method to submit get funding wallet request
      * @param params: params of request
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data</a>
      * @return funding wallet as ArrayList<FundingWallet>
      * **/
@@ -1142,29 +1140,29 @@ public class BinanceWalletManager extends BinanceSignedManager {
         return fundingWalletsList;
     }
 
-    /** Request to get API key permission
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data">
+    /** Request to get API key permission <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data</a>
-     * @return API key permission as String
+     * @return API key permission as {@link String}
      * **/
     public String getAPIKeyPermission() throws Exception {
         return sendSignedRequest(API_KEY_PERMISSION_ENDPOINT, getParamTimestamp(), GET_METHOD);
     }
 
-    /** Request to get API key permission
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data">
+    /** Request to get API key permission <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data</a>
-     * @return API key permission as JsonObject
+     * @return API key permission as {@link JSONObject}
      * **/
     public JSONObject getJSONAPIKeyPermission() throws Exception {
         return new JSONObject(getAPIKeyPermission());
     }
 
-    /** Request to get API key permission
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data">
+    /** Request to get API key permission <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data</a>
      * @implSpec if tradingAuthorityExpirationTime = -1 means that is not set for this api key
      * @return API key permission as APIPermission object

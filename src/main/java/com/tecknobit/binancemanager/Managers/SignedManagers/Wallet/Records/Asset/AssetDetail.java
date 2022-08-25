@@ -2,7 +2,7 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Asse
 
 /**
  * The {@code AssetDetail} class is useful to manage AssetDetail Binance request
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
  *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
  * **/
 

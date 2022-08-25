@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * The {@code AccountSnapshotFutures} class is useful to obtain and format AccountSnapshotFutures object
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
  *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/
@@ -54,7 +54,7 @@ public class AccountSnapshotFutures extends AccountSnapshot{
 
     /** Method to assemble an AssetFutures list
      * @param assets: accountDetails obtain by AccountSnapshot Binance request
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * @return assetFuturesList list as ArrayList<AssetFutures>
      * **/
@@ -72,7 +72,7 @@ public class AccountSnapshotFutures extends AccountSnapshot{
 
     /** Method to assemble an PositionFutures list
      * @param positions: accountDetails obtain by AccountSnapshot Binance request
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * @return positionFuturesList list as ArrayList<PositionFutures>
      * **/
@@ -124,7 +124,7 @@ public class AccountSnapshotFutures extends AccountSnapshot{
 
     /**
      *  The {@code DataFutures} class is useful to obtain and format DataFutures object
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * **/
 
@@ -215,7 +215,7 @@ public class AccountSnapshotFutures extends AccountSnapshot{
 
     /**
      *  The {@code AssetFutures} class is useful to obtain and format AssetFutures object
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * **/
 
@@ -299,7 +299,7 @@ public class AccountSnapshotFutures extends AccountSnapshot{
 
     /**
      *  The {@code PositionFutures} class is useful to obtain and format PositionFutures object
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * **/
 

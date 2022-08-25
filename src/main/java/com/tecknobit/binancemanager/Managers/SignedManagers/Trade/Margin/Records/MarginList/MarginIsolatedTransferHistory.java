@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * The {@code MarginIsolatedTransferHistory} class is useful to format Binance Isolated Transfer History request response
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
  *     https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/
@@ -108,7 +108,7 @@ public class MarginIsolatedTransferHistory {
 
     /**
      * The {@code MarginIsolatedTransfer} class is useful to obtain and format IsolatedData object
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
      * **/
 

@@ -2,7 +2,7 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Dust
 
 /**
  *  The {@code UniversalTransfer} class is useful to manage all UniversalTransfer Binance requests
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
  *      https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
  * **/
 

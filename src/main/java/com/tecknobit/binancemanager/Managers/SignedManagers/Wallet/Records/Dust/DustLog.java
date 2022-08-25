@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  *  The {@code DustLog} class is useful to manage DustLog Binance request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
  *      https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
  * **/
 
@@ -70,7 +70,7 @@ public class DustLog {
 
     /**
      *  The {@code AssetDribblets} class is useful to obtain and format AssetDribblets object
-     *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
+     *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
      *      https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
      * **/
 

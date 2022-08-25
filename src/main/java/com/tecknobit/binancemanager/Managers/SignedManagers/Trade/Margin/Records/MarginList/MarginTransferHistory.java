@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  *  The {@code MarginTransferHistory} class is useful to format Binance Margin Get Cross Transfer History request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
  *      https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
@@ -106,7 +106,7 @@ public class MarginTransferHistory {
 
     /**
      * The {@code MarginTransferAsset} class is useful to obtain and format MarginTransferAsset object
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * **/
 

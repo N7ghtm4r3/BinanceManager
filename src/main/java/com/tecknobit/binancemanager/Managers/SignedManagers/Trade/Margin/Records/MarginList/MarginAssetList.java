@@ -4,7 +4,7 @@ import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.
 
 /**
  *  The {@code MarginAssetList} class is useful to format Binance Margin List response request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade">
  *      https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/

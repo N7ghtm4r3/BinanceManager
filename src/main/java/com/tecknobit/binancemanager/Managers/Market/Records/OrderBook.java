@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 /**
  * The {@code OrderBook} class is useful to format Binance OrderBook request
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
  * https://binance-docs.github.io/apidocs/spot/en/#order-book</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/
@@ -49,7 +49,7 @@ public class OrderBook {
 
     /** Method to get load list of order details
      * @param jsonList: obtained from Binance request
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
      * https://binance-docs.github.io/apidocs/spot/en/#order-book</a>
      * @return order details list as ArrayList<BookOrderDetails> object
      * **/
@@ -91,7 +91,7 @@ public class OrderBook {
 
     /**
      * The {@code BookOrderDetails} class is useful to format order book details
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
      * https://binance-docs.github.io/apidocs/spot/en/#order-book</a>
      * **/
 
@@ -125,8 +125,8 @@ public class OrderBook {
         }
 
         /** Method to get order details value formatted in JSON
-         * any params required
-         * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
+         * Any params required
+         * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
          * https://binance-docs.github.io/apidocs/spot/en/#order-book</a>
          * @return JSONObject of {@link #price} and {@link #quantity}
          * **/

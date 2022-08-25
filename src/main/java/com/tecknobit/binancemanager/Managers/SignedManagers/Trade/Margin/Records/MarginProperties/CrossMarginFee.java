@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * The {@code CrossMarginFee} class is useful to format Binance Cross Margin Fee request response
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data">
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data">
  *     https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data</a>
  * **/
 

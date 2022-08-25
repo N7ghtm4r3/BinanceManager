@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  *  The {@code OpenMarginOrders} class is useful to asseble Binance Margin Account Cancel all Open Orders on a Symbol request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">
  *      https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/

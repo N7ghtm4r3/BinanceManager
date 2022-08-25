@@ -2,7 +2,7 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.
 
 /**
  *  The {@code SpotOrderStatus} class is useful to format an SpotOrderStatus object
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data">
  *      https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/

@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 /**
  *  The {@code Filter} class is useful to format filter of ExchangeInformation Binance request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
  *  https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
@@ -92,9 +92,9 @@ public class Filter {
         return filterType;
     }
 
-    /** Method to get order details value formatted in JSON
-     * any params required
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
+    /** Method to get order details value formatted in JSON <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
      * https://binance-docs.github.io/apidocs/spot/en/#order-book</a>
      * @return JsonObject of key and values of a filter
      * **/
@@ -118,7 +118,7 @@ public class Filter {
 
     /**
      * The {@code FilterDetails} class is useful to contain and filter details
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
      * https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
      * **/
 

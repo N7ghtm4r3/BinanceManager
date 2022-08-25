@@ -2,7 +2,7 @@ package com.tecknobit.binancemanager.Managers.Market.Records;
 
 /**
  * The {@code CurrentAveragePrice} class is useful to manage CurrentAveragePrice requests
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#current-average-price">
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#current-average-price">
  * https://binance-docs.github.io/apidocs/spot/en/#current-average-price</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/

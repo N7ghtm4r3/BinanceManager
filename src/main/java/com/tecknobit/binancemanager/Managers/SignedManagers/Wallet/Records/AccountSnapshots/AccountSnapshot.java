@@ -4,7 +4,7 @@ import org.json.JSONArray;
 
 /**
  *  The {@code AccountSnapshot} class is useful to manage AccountSnapshot Binance request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
  *      https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
@@ -59,8 +59,8 @@ public class AccountSnapshot {
         this.accountDetails = accountDetails;
     }
 
-    /** Method to get specific AccountSnapshot object
-     * any params required
+    /** Method to get specific AccountSnapshot object <br>
+     * Any params required
      * @return AccountSnapshot object then to cast
      * **/
     public <T extends AccountSnapshot> T getAccountSnapshot(){

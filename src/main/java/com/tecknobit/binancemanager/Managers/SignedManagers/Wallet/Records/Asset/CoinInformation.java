@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  *  The {@code CoinInformation} class is useful to manage AllCoins Binance request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
  *      https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
  * **/
 
@@ -322,7 +322,7 @@ public class CoinInformation {
 
     /**
      *  The {@code NetworkItem} class is useful to obtain and format NetworkItem object
-     *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+     *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
      *      https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
      * **/
 
@@ -430,7 +430,7 @@ public class CoinInformation {
          * @param depositEnable: deposit is enabled
          * @param isDefault: is default
          * @param memoRegex: memo regex value
-         * @param minConfirm:  minimum confirms value
+         * @param minConfirm: minimum confirms value
          * @param name: name value
          * @param network: network value
          * @param resetAddressStatus: is reset address status
@@ -472,7 +472,7 @@ public class CoinInformation {
 
         /** Method to assemble an AssetDribbletsDetails list
          * @param networkList: accountDetails obtain by AllCoins Binance request
-         * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+         * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
          *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
          * @return networkItemsList list as  ArrayList<NetworkItem>
          * **/

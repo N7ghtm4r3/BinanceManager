@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * The {@code AssetDividend} class is useful to manage AssetDividend Binance request
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
  *     https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
  * **/
 
@@ -70,7 +70,7 @@ public class AssetDividend {
 
     /**
      *  The {@code AssetDividendDetails} class is useful to obtain and format AssetDividendDetails object
-     *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
+     *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
      *      https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
      * **/
 

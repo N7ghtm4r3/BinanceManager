@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 /**
  *  The {@code DetailSpotOrder} class is useful to format all DetailSpotOrder Binance request in DetailSpotOrder format
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
  *      https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
@@ -131,16 +131,16 @@ public class DetailSpotOrder extends SpotOrder {
         return side;
     }
 
-    /** Method to get stopPrice
-     * any params required
+    /** Method to get stopPrice <br>
+     * Any params required
      * @return stopPrice as double, if is a null field will return -1
      * **/
     public double getStopPrice(){
         return jsonHelper.getDouble("stopPrice");
     }
 
-    /** Method to get icebergQty
-     * any params required
+    /** Method to get icebergQty <br>
+     * Any params required
      * @return icebergQty as double, if is a null field will return -1
      * **/
     public double getIcebergQty(){

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  *  The {@code MarginRepay} class is useful to format Binance Margin Query Repay record request
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
  *      https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
@@ -98,7 +98,7 @@ public class MarginRepay {
 
     /**
      * The {@code MarginRepayAsset} class is useful to obtain and format MarginRepayAsset object
-     * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
      * **/
 

@@ -1,13 +1,16 @@
 package com.tecknobit.binancemanager.Managers.Market.Records.Tickers;
 
+import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
+import org.json.JSONObject;
+
 /**
  * The {@code OrderBookTicker} class is useful to manage OrderBookTicker requests
- * @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker">
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker">
  *     https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker</a>
  * @author N7ghtm4r3 - Tecknobit
  * **/
 
-public class OrderBookTicker extends Ticker{
+public class OrderBookTicker extends Ticker {
 
     /**
      * {@code bidPrice} is instance that contains bids price in the order book ticker
@@ -29,6 +32,11 @@ public class OrderBookTicker extends Ticker{
      * **/
     protected final double askQty;
 
+    /**
+     * {@code hTicker} is instance that is useful to work with JSON book details
+     * **/
+    protected final JsonHelper hTicker;
+
     /** Constructor to init {@link OrderBookTicker} object
      * @param symbol: symbol of the ticker
      * @param bidPrice: bids price in the order book ticker
@@ -42,6 +50,19 @@ public class OrderBookTicker extends Ticker{
         this.bidQty = bidQty;
         this.askPrice = askPrice;
         this.askQty = askQty;
+        hTicker = null;
+    }
+
+    /** Constructor to init {@link OrderBookTicker} object
+     * @param book: book ticker details as {@link JSONObject}
+     * **/
+    public OrderBookTicker(JSONObject book) {
+        super(book.getString("symbol"));
+        hTicker = new JsonHelper(book);
+        bidPrice = hTicker.getDouble("bidPrice");
+        bidQty = hTicker.getDouble("bidQty");
+        askPrice = hTicker.getDouble("askPrice");
+        askQty = hTicker.getDouble("askQty");
     }
 
     public double getBidPrice() {

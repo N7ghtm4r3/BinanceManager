@@ -2,7 +2,7 @@ package com.tecknobit.binancemanager.Constants;
 
 /**
  *  The {@code EndpointsList} class is a container class for all Binance's endpoints of the service API
- *  @apiNote see official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
+ *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
  *      https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
  *  @author N7ghtm4r3 - Tecknobit
  * **/
@@ -150,6 +150,11 @@ public abstract class EndpointsList {
     public static final String CANDLESTICK_DATA_ENDPOINT = "/api/v3/klines";
 
     /**
+     * {@code UIKLINES_ENDPOINT} is constant for UIKLINES_ENDPOINT's endpoint
+     * **/
+    public static final String UIKLINES_ENDPOINT = "/api/v3/uiKlines";
+
+    /**
      * {@code CURRENT_AVERAGE_PRICE_ENDPOINT} is constant for CURRENT_AVERAGE_PRICE_ENDPOINT's endpoint
      * **/
     public static final String CURRENT_AVERAGE_PRICE_ENDPOINT = "/api/v3/avgPrice";
@@ -163,6 +168,11 @@ public abstract class EndpointsList {
      * {@code PRICE_TICKER_ENDPOINT} is constant for PRICE_TICKER_ENDPOINT's endpoint
      * **/
     public static final String PRICE_TICKER_ENDPOINT = "/api/v3/ticker/price";
+
+    /**
+     * {@code ROLLING_TICKER_ENDPOINT} is constant for ROLLING_TICKER_ENDPOINT's endpoint
+     * **/
+    public static final String ROLLING_TICKER_ENDPOINT = "/api/v3/ticker";
 
     /**
      * {@code BOOK_TICKER_ENDPOINT} is constant for BOOK_TICKER_ENDPOINT's endpoint
