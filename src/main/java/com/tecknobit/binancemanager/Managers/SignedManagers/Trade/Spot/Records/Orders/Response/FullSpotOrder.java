@@ -44,13 +44,25 @@ public class FullSpotOrder extends ResultSpotOrder {
         loadFills(fills);
     }
 
-    /** Method to load fillsList list
+    /**
+     * Constructor to init {@link FullSpotOrder} object
+     *
+     * @param fullSpotOrder: full spot order details as {@link JSONObject}
+     **/
+    public FullSpotOrder(JSONObject fullSpotOrder) {
+        super(fullSpotOrder);
+        loadFills(hOrder.getJSONArray("fills", new JSONArray()));
+    }
+
+    /**
+     * Method to load fillsList list
+     *
      * @param fillsArray: obtained from Binance's request
-     * any return
-     * **/
+     *                    any return
+     **/
     private void loadFills(JSONArray fillsArray) {
         fillsList = new ArrayList<>();
-        for(int j=0; j < fillsArray.length(); j++){
+        for (int j = 0; j < fillsArray.length(); j++) {
             JSONObject fill = fillsArray.getJSONObject(j);
             fillsList.add(new FillSpot(fill.getDouble("price"),
                     fill.getDouble("qty"),

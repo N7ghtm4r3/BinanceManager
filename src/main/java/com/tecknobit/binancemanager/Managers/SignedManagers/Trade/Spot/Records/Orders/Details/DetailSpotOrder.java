@@ -1,67 +1,22 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Details;
 
-import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.SpotOrder;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ResultSpotOrder;
 import org.json.JSONObject;
 
 /**
- *  The {@code DetailSpotOrder} class is useful to format all DetailSpotOrder Binance request in DetailSpotOrder format
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
- *      https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code DetailSpotOrder} class is useful to format all DetailSpotOrder Binance request in DetailSpotOrder format
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
+ * https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
+ **/
 
-public class DetailSpotOrder extends SpotOrder {
+public class DetailSpotOrder extends ResultSpotOrder {
 
     /**
      * {@code origClientOrderId} is instance that memorizes origin client order identifier
      * **/
     private final String origClientOrderId;
-
-    /**
-     * {@code price} is instance that memorizes price in the order
-     * **/
-    private final double price;
-
-    /**
-     * {@code origQty} is instance that memorizes origin quantity in the order
-     * **/
-    private final double origQty;
-
-    /**
-     * {@code executedQty} is instance that memorizes executed quantity in the order
-     * **/
-    private final double executedQty;
-
-    /**
-     * {@code cummulativeQuoteQty} is instance that memorizes cummulative quote quantity in the order
-     * **/
-    private final double cummulativeQuoteQty;
-
-    /**
-     * {@code status} is instance that memorizes status of the order
-     * **/
-    private final String status;
-
-    /**
-     * {@code timeInForce} is instance that memorizes time in force of the order
-     * **/
-    private final String timeInForce;
-
-    /**
-     * {@code type} is instance that memorizes type of the order
-     * **/
-    private final String type;
-
-    /**
-     * {@code side} is instance that memorizes side of the order
-     * **/
-    private final String side;
-
-    /**
-     * {@code jsonHelper} is instance that memorizes {@link JsonHelper} tool
-     * **/
-    private final JsonHelper jsonHelper;
 
     /** Constructor to init {@link DetailSpotOrder} object
      * @param symbol: symbol used in the order
@@ -82,69 +37,46 @@ public class DetailSpotOrder extends SpotOrder {
     public DetailSpotOrder(String symbol, long orderId, long orderListId, String clientOrderId, String origClientOrderId,
                            double price, double origQty, double executedQty, double cummulativeQuoteQty, String status,
                            String timeInForce, String type, String side, JSONObject jsonOrder) {
-        super(symbol, orderId, orderListId, clientOrderId);
+        super(symbol, orderId, orderListId, clientOrderId, -1, price, origQty, executedQty, cummulativeQuoteQty,
+                status, timeInForce, type, side);
         this.origClientOrderId = origClientOrderId;
-        this.price = price;
-        this.origQty = origQty;
-        this.executedQty = executedQty;
-        this.cummulativeQuoteQty = cummulativeQuoteQty;
-        this.status = status;
-        this.timeInForce = timeInForce;
-        this.type = type;
-        this.side = side;
-        jsonHelper = new JsonHelper(jsonOrder);
     }
 
-    public String getOrigClientOrderId() {
-        return origClientOrderId;
+    /**
+     * Constructor to init {@link DetailSpotOrder} object
+     *
+     * @param detailSpotOrder: spot order details as {@link JSONObject}
+     **/
+    public DetailSpotOrder(JSONObject detailSpotOrder) {
+        super(detailSpotOrder);
+        origClientOrderId = hOrder.getString("origClientOrderId");
     }
 
-    public double getPrice() {
-        return price;
+    /**
+     * @return ever same value -1
+     * @apiNote this method in {@link DetailSpotOrder} class will return ever -1
+     **/
+    @Override
+    public long getTransactTime() {
+        return super.getTransactTime();
     }
 
-    public double getOrigQty() {
-        return origQty;
-    }
-
-    public double getExecutedQty() {
-        return executedQty;
-    }
-
-    public double getCummulativeQuoteQty() {
-        return cummulativeQuoteQty;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getTimeInForce() {
-        return timeInForce;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getSide() {
-        return side;
-    }
-
-    /** Method to get stopPrice <br>
+    /**
+     * Method to get stopPrice <br>
      * Any params required
+     *
      * @return stopPrice as double, if is a null field will return -1
-     * **/
-    public double getStopPrice(){
-        return jsonHelper.getDouble("stopPrice");
+     **/
+    public double getStopPrice() {
+        return hOrder.getDouble("stopPrice");
     }
 
     /** Method to get icebergQty <br>
      * Any params required
      * @return icebergQty as double, if is a null field will return -1
      * **/
-    public double getIcebergQty(){
-        return jsonHelper.getDouble("icebergQty");
+    public double getIcebergQty() {
+        return hOrder.getDouble("icebergQty");
     }
 
     /** Method to assemble a DetailSpotOrder object
@@ -180,7 +112,6 @@ public class DetailSpotOrder extends SpotOrder {
                 ", timeInForce='" + timeInForce + '\'' +
                 ", type='" + type + '\'' +
                 ", side='" + side + '\'' +
-                ", jsonHelper=" + jsonHelper +
                 ", orderListId=" + orderListId +
                 ", symbol='" + symbol + '\'' +
                 ", orderId=" + orderId +

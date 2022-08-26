@@ -175,7 +175,6 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #bidPrice} instance
-     *
      * @param decimals: number of digits to round final value
      * @return {@link #bidPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -198,7 +197,6 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #bidQty} instance
-     *
      * @param decimals: number of digits to round final value
      * @return {@link #bidQty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -221,7 +219,6 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #askPrice} instance
-     *
      * @param decimals: number of digits to round final value
      * @return {@link #askPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -244,7 +241,6 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #askQty} instance
-     *
      * @param decimals: number of digits to round final value
      * @return {@link #askQty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -266,7 +262,6 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #priceChange} instance
-     *
      * @param decimals: number of digits to round final value
      * @return {@link #priceChange} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -287,7 +282,6 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #priceChangePercent} instance
-     *
      * @param decimals: number of digits to round final value
      * @return {@link #priceChangePercent} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -308,7 +302,6 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #weightedAvgPrice} instance
-     *
      * @param decimals: number of digits to round final value
      * @return {@link #weightedAvgPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -329,7 +322,6 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #prevClosePrice} instance
-     *
      * @param decimals: number of digits to round final value
      * @return {@link #prevClosePrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -346,7 +338,6 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #lastPrice} instance
-     *
      * @param decimals: number of digits to round final value
      * @return {@link #lastPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -365,7 +356,6 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #lastQty} instance
-     *
      * @param decimals: number of digits to round final value
      * @return {@link #lastQty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -382,7 +372,6 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #openPrice} instance
-     *
      * @param decimals: number of digits to round final value
      * @return {@link #openPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -397,7 +386,6 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #highPrice} instance
-     *
      * @param decimals: number of digits to round final value
      * @return {@link #highPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -412,7 +400,6 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #lowPrice} instance
-     *
      * @param decimals: number of digits to round final value
      * @return {@link #lowPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -427,7 +414,6 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #volume} instance
-     *
      * @param decimals: number of digits to round final value
      * @return {@link #volume} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -442,7 +428,6 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #quoteVolume} instance
-     *
      * @param decimals: number of digits to round final value
      * @return {@link #quoteVolume} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative

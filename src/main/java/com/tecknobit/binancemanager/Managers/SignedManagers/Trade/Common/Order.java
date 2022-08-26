@@ -1,11 +1,15 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common;
 
+import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
+import org.json.JSONObject;
+
 /**
  * The {@code Order} class is useful to manage and format all Binance Order request
+ *
  * @implNote used by BinanceSpotManager, BinanceMarginManager
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
- *     https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
- * **/
+ * https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
+ **/
 
 public class Order {
 
@@ -81,23 +85,43 @@ public class Order {
 
     /**
      * {@code orderId} is instance that memorizes order identifier
-     * **/
+     **/
     protected final double orderId;
 
     /**
      * {@code clientOrderId} is instance that memorizes client order identifier
-     * **/
+     **/
     protected final String clientOrderId;
 
-    /** Constructor to init {@link Order} object
-     * @param symbol: symbol used in the order
-     * @param orderId: order identifier
+    /**
+     * {@code jsonHelper} is instance that memorizes {@link JsonHelper} tool
+     **/
+    protected final JsonHelper hOrder;
+
+    /**
+     * Constructor to init {@link Order} object
+     *
+     * @param symbol:        symbol used in the order
+     * @param orderId:       order identifier
      * @param clientOrderId: client order identifier
-     * **/
+     **/
     public Order(String symbol, double orderId, String clientOrderId) {
         this.symbol = symbol;
         this.orderId = orderId;
         this.clientOrderId = clientOrderId;
+        hOrder = null;
+    }
+
+    /**
+     * Constructor to init {@link Order} object
+     *
+     * @param order: order details as {@link JSONObject}
+     **/
+    public Order(JSONObject order) {
+        hOrder = new JsonHelper(order);
+        symbol = hOrder.getString("symbol");
+        orderId = hOrder.getLong("orderId");
+        clientOrderId = hOrder.getString("clientOrderId");
     }
 
     public String getSymbol() {

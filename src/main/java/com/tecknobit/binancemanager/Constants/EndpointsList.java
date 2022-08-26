@@ -191,22 +191,27 @@ public abstract class EndpointsList {
 
     /**
      * {@code SPOT_OPEN_ORDERS_ENDPOINT} is constant for SPOT_OPEN_ORDERS_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String SPOT_OPEN_ORDERS_ENDPOINT = "/api/v3/openOrders";
 
     /**
      * {@code SPOT_ALL_ORDERS_LIST_ENDPOINT} is constant for SPOT_ALL_ORDERS_LIST_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String SPOT_ALL_ORDERS_LIST_ENDPOINT = "/api/v3/allOrders";
 
     /**
+     * {@code CANCEL_AND_SEND_ORDER_ENDPOINT} is constant for CANCEL_AND_SEND_ORDER_ENDPOINT's endpoint
+     **/
+    public static final String CANCEL_AND_SEND_ORDER_ENDPOINT = "/api/v3/order/cancelReplace";
+
+    /**
      * {@code SPOT_OCO_ORDER_ENDPOINT} is constant for SPOT_OCO_ORDER_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String SPOT_OCO_ORDER_ENDPOINT = "/api/v3/order/oco";
 
     /**
      * {@code SPOT_OCO_ORDER_LIST_ENDPOINT} is constant for SPOT_OCO_ORDER_LIST_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String SPOT_OCO_ORDER_LIST_ENDPOINT = "/api/v3/orderList";
 
     /**

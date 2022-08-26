@@ -1,11 +1,16 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response;
 
+import org.json.JSONObject;
+
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
- *  The {@code FullOrder} class is useful to format all SpotOrder Binance request in ResultOrder format
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
- *      https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code FullOrder} class is useful to format all SpotOrder Binance request in ResultOrder format
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
+ * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
+ **/
 
 public class ResultSpotOrder extends ACKSpotOrder {
 
@@ -52,8 +57,8 @@ public class ResultSpotOrder extends ACKSpotOrder {
     /** Constructor to init {@link ResultSpotOrder} object
      * @param symbol: symbol used in the order
      * @param orderId: order identifier
-     * @param clientOrderId: client order identifier
      * @param orderListId: list order identifier
+     * @param clientOrderId: client order identifier
      * @param transactTime: transaction time
      * @param price: price in order
      * @param origQty: origin quantity in order
@@ -78,20 +83,81 @@ public class ResultSpotOrder extends ACKSpotOrder {
         this.side = side;
     }
 
+    /**
+     * Constructor to init {@link ResultSpotOrder} object
+     *
+     * @param resultOrder: result order details as {@link JSONObject}
+     **/
+    public ResultSpotOrder(JSONObject resultOrder) {
+        super(resultOrder);
+        price = hOrder.getDouble("price");
+        origQty = hOrder.getDouble("origQty");
+        executedQty = hOrder.getDouble("executedQty");
+        cummulativeQuoteQty = hOrder.getDouble("cummulativeQuoteQty");
+        status = hOrder.getString("status");
+        timeInForce = hOrder.getString("timeInForce");
+        type = hOrder.getString("type");
+        side = hOrder.getString("side");
+    }
+
     public double getPrice() {
         return price;
+    }
+
+    /**
+     * Method to get {@link #price} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #price} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getPrice(int decimals) {
+        return roundValue(price, decimals);
     }
 
     public double getOrigQty() {
         return origQty;
     }
 
+    /**
+     * Method to get {@link #origQty} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #origQty} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getOrigQty(int decimals) {
+        return roundValue(origQty, decimals);
+    }
+
     public double getExecutedQty() {
         return executedQty;
     }
 
+    /**
+     * Method to get {@link #executedQty} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #executedQty} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getExecutedQty(int decimals) {
+        return roundValue(executedQty, decimals);
+    }
+
     public double getCummulativeQuoteQty() {
         return cummulativeQuoteQty;
+    }
+
+    /**
+     * Method to get {@link #cummulativeQuoteQty} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #cummulativeQuoteQty} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getCummulativeQuoteQty(int decimals) {
+        return roundValue(cummulativeQuoteQty, decimals);
     }
 
     public String getStatus() {

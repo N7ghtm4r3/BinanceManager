@@ -192,7 +192,6 @@ public class DetailMarginOrder extends Order {
                 ", timeInForce='" + timeInForce + '\'' +
                 ", type='" + type + '\'' +
                 ", side='" + side + '\'' +
-                ", jsonHelper=" + jsonHelper +
                 ", symbol='" + symbol + '\'' +
                 ", orderId=" + orderId +
                 ", clientOrderId='" + clientOrderId + '\'' +

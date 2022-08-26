@@ -2,6 +2,7 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.
 
 import com.tecknobit.binancemanager.Managers.BinanceManager.Params;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.Order;
+import org.json.JSONObject;
 
 import static com.tecknobit.apimanager.Tools.Formatters.ScientificNotationParser.sNotationParse;
 
@@ -28,6 +29,16 @@ public class SpotOrder extends Order {
     public SpotOrder(String symbol, double orderId, long orderListId, String clientOrderId) {
         super(symbol, orderId, clientOrderId);
         this.orderListId = orderListId;
+    }
+
+    /**
+     * Constructor to init {@link SpotOrder} object
+     *
+     * @param spotOrder: spot order details as {@link JSONObject}
+     **/
+    public SpotOrder(JSONObject spotOrder) {
+        super(spotOrder);
+        orderListId = hOrder.getInt("orderListId");
     }
 
     public long getOrderListId() {
