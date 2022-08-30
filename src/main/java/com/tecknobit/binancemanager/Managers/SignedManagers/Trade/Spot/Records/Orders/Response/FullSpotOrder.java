@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response;
 
+import com.tecknobit.binancemanager.Managers.BinanceManager;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.Fill;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -7,13 +8,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- *  The {@code FullOrder} class is useful to format all SpotOrder Binance request in FullOrder format
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
- *      https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code FullOrder} class is useful to format all SpotOrder Binance request in FullOrder format
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
+ * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
+ **/
 
-public class FullSpotOrder extends ResultSpotOrder {
+public class FullSpotOrder extends ResultSpotOrder implements BinanceManager.BinanceResponse {
 
     /**
      * {@code fillsList} is instance that memorizes fills list
@@ -86,12 +88,42 @@ public class FullSpotOrder extends ResultSpotOrder {
             fillsList.add(fillSpot);
     }
 
-    public boolean removeFill(FillSpot fillSpot){
+    public boolean removeFill(FillSpot fillSpot) {
         return fillsList.remove(fillSpot);
     }
 
-    public FillSpot getFill(int index){
+    public FillSpot getFill(int index) {
         return fillsList.get(index);
+    }
+
+    /**
+     * Method to get error code <br>
+     * Any params required
+     *
+     * @return code of error as int
+     * *
+     * @implSpec if code error is not present in Binance's response will be returned -1 as default
+     **/
+    @Override
+    public int getCode() {
+        if (hOrder != null)
+            return hOrder.getInt("code", -1);
+        return -1;
+    }
+
+    /**
+     * Method to get error message <br>
+     * Any params required
+     *
+     * @return message of error as {@link String}
+     * *
+     * @implSpec if message error is not present in Binance's response will be returned null as default
+     **/
+    @Override
+    public String getMessage() {
+        if (hOrder != null)
+            return hOrder.getString("msg", null);
+        return null;
     }
 
     @Override

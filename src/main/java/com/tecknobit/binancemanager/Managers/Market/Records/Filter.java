@@ -1,17 +1,22 @@
 package com.tecknobit.binancemanager.Managers.Market.Records;
 
+import com.tecknobit.binancemanager.Managers.Market.Records.Stats.ExchangeInformation;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- *  The {@code Filter} class is useful to format filter of ExchangeInformation Binance request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
- *  https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code Filter} class is useful to format filter of ExchangeInformation Binance request
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
+ * https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
+ * @see com.tecknobit.binancemanager.Managers.Market.Records.Stats.ExchangeInformation.Filter
+ * @deprecated this standalone class will be deleted in the next update so use instead {@link ExchangeInformation.Filter}
+ **/
 
+@Deprecated
 public class Filter {
 
     /**

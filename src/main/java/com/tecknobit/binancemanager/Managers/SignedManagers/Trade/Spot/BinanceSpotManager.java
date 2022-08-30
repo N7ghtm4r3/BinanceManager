@@ -780,10 +780,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @implNote if type LIMIT or MARKET will be must cast in {@link FullSpotOrder} object
      * @implNote with other types will be an {@link ACKSpotOrder} object
      * **/
-    private <T extends ACKSpotOrder> T sendNewOrderObject(String symbol, String side, String type,
-                                                          Params extraParams) throws Exception {
+    private <T extends ACKSpotOrder> T sendNewOrderObject(String symbol, String side, String type, Params extraParams) throws Exception {
         JSONObject spotOrder = new JSONObject(sendNewOrder(symbol, side, type, extraParams));
-        if(type.equals(LIMIT) || type.equals(MARKET))
+        if (type.equals(LIMIT) || type.equals(MARKET))
             return (T) getFullOrderResponse(spotOrder);
         else
             return (T) getACKResponse(spotOrder);
@@ -2159,10 +2158,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
      * @param extraParams:       additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link String}
+     * @return result of cancellation of an order and creation of a new order as {@link String}
      * @implNote CAS means CANCEL AND SEND
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2183,10 +2182,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
      * @param extraParams:       additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link String}
+     * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
      * @implNote CAS means CANCEL AND SEND
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official Binance's documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2195,28 +2194,801 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return new JSONObject(casLimitOrder(symbol, side, cancelReplaceMode, timeInForce, quantity, price, extraParams));
     }
 
-    // TODO: 26/08/2022 WORK ON
-    public SpotOrderCAS casLimitOrderObject() {
-        return new SpotOrderCAS(new JSONObject("{\n" +
-                "  \"code\": -2022,\n" +
-                "  \"msg\": \"Order cancel-replace failed.\",\n" +
-                "  \"data\": {\n" +
-                "    \"cancelResult\": \"FAILURE\",\n" +
-                "    \"newOrderResult\": \"NOT_ATTEMPTED\",\n" +
-                "    \"cancelResponse\": {\n" +
-                "      \"code\": -2011,\n" +
-                "      \"msg\": \"Unknown order sent.\"\n" +
-                "    },\n" +
-                "    \"newOrderResponse\": null\n" +
-                "  }\n" +
-                "}"));
+    /**
+     * Request to cancel an existing limit order and send a new limit spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param timeInForce:       time in force for the order
+     * @param quantity:          quantity value in the order
+     * @param price:             price value in the order
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
+     * @implNote CAS means CANCEL AND SEND
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public SpotOrderCAS casLimitOrderObject(String symbol, String side, String cancelReplaceMode, String timeInForce,
+                                            double quantity, double price, Params extraParams) throws Exception {
+        return new SpotOrderCAS(new JSONObject(casLimitOrder(symbol, side, cancelReplaceMode, timeInForce, quantity,
+                price, extraParams)));
     }
 
+    /**
+     * Request to cancel an existing market order with quantity and send a new market spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quantity:          quantity value in the order
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link String}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     * @implNote CAS means CANCEL AND SEND
+     **/
+    public String casMarketOrderQty(String symbol, String side, String cancelReplaceMode, double quantity,
+                                    Params extraParams) throws Exception {
+        return cancelAndSendOrder(symbol, side, MARKET, cancelReplaceMode, getMarketPayload("quantity", quantity,
+                extraParams));
+    }
+
+    /**
+     * Request to cancel an existing market order with quantity and send a new market spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quantity:          quantity value in the order
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     * @implNote CAS means CANCEL AND SEND
+     **/
+    public JSONObject casMarketOrderQtyJSON(String symbol, String side, String cancelReplaceMode, double quantity,
+                                            Params extraParams) throws Exception {
+        return new JSONObject(casMarketOrderQty(symbol, side, cancelReplaceMode, quantity, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing market order with quantity and send a new market spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quantity:          quantity value in the order
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     * @implNote CAS means CANCEL AND SEND
+     **/
+    public SpotOrderCAS casMarketOrderQtyObject(String symbol, String side, String cancelReplaceMode, double quantity,
+                                                Params extraParams) throws Exception {
+        return new SpotOrderCAS(new JSONObject(casMarketOrderQty(symbol, side, cancelReplaceMode, quantity, extraParams)));
+    }
+
+    /**
+     * Request to cancel an existing market order with quote quantity and send a new market spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quoteQuantity:     quote quantity value in the order
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link String}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     * @implNote CAS means CANCEL AND SEND
+     **/
+    public String casMarketOrderQuoteQty(String symbol, String side, String cancelReplaceMode, double quoteQuantity,
+                                         Params extraParams) throws Exception {
+        return cancelAndSendOrder(symbol, side, MARKET, cancelReplaceMode, getMarketPayload("quoteOrderQty",
+                quoteQuantity, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing market order with quote quantity and send a new market spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quoteQuantity:     quote quantity value in the order
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public JSONObject casMarketOrderQuoteQtyJSON(String symbol, String side, String cancelReplaceMode, double quoteQuantity,
+                                                 Params extraParams) throws Exception {
+        return new JSONObject(casMarketOrderQuoteQty(symbol, side, cancelReplaceMode, quoteQuantity, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing market order with quote quantity and send a new market spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quoteQuantity:     quote quantity value in the order
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public SpotOrderCAS casMarketOrderQuoteQtyObject(String symbol, String side, String cancelReplaceMode,
+                                                     double quoteQuantity, Params extraParams) throws Exception {
+        return new SpotOrderCAS(new JSONObject(casMarketOrderQuoteQty(symbol, side, cancelReplaceMode, quoteQuantity,
+                extraParams)));
+    }
+
+    /**
+     * Request to cancel an existing stop loss order with price and send a new stop loss spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quantity:          quantity value in the order
+     * @param stopPrice:         stop price value for the order
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link String}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public String casStopLossOrderPrice(String symbol, String side, String cancelReplaceMode, double quantity,
+                                        double stopPrice, Params extraParams) throws Exception {
+        return cancelAndSendOrder(symbol, side, STOP_LOSS, cancelReplaceMode, getLevelPayload(quantity, "stopPrice",
+                stopPrice, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing stop loss order with price and send a new stop loss spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quantity:          quantity value in the order
+     * @param stopPrice:         stop price value for the order
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public JSONObject casStopLossOrderPriceJSON(String symbol, String side, String cancelReplaceMode, double quantity,
+                                                double stopPrice, Params extraParams) throws Exception {
+        return new JSONObject(casStopLossOrderPrice(symbol, side, cancelReplaceMode, quantity, stopPrice, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing stop loss order with price and send a new stop loss spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quantity:          quantity value in the order
+     * @param stopPrice:         stop price value for the order
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public SpotOrderCAS casStopLossOrderPriceObject(String symbol, String side, String cancelReplaceMode, double quantity,
+                                                    double stopPrice, Params extraParams) throws Exception {
+        return new SpotOrderCAS(new JSONObject(casStopLossOrderPrice(symbol, side, cancelReplaceMode, quantity, stopPrice,
+                extraParams)));
+    }
+
+    /**
+     * Request to cancel an existing stop loss order with delta and send a new stop loss spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quantity:          quantity value in the order
+     * @param trailingDelta:     stop price value for the order
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link String}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public String casStopLossOrderDelta(String symbol, String side, String cancelReplaceMode, double quantity,
+                                        double trailingDelta, Params extraParams) throws Exception {
+        return cancelAndSendOrder(symbol, side, STOP_LOSS, cancelReplaceMode, getLevelPayload(quantity, "trailingDelta",
+                trailingDelta, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing stop loss order with delta and send a new stop loss spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quantity:          quantity value in the order
+     * @param trailingDelta:     stop price value for the order
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public JSONObject casStopLossOrderDeltaJSON(String symbol, String side, String cancelReplaceMode, double quantity,
+                                                double trailingDelta, Params extraParams) throws Exception {
+        return new JSONObject(casStopLossOrderDelta(symbol, side, cancelReplaceMode, quantity, trailingDelta, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing stop loss order with delta and send a new stop loss spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quantity:          quantity value in the order
+     * @param trailingDelta:     stop price value for the order
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public SpotOrderCAS casStopLossOrderDeltaObject(String symbol, String side, String cancelReplaceMode, double quantity,
+                                                    double trailingDelta, Params extraParams) throws Exception {
+        return new SpotOrderCAS(new JSONObject(casStopLossOrderDelta(symbol, side, cancelReplaceMode, quantity, trailingDelta,
+                extraParams)));
+    }
+
+    /**
+     * Request to cancel an existing stop loss limit order with price and send a new stop loss limit spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param timeInForce:       time in force for the order
+     * @param quantity:          quantity value in the order
+     * @param price:             price value in the order
+     * @param stopPrice:         stop price value for the order
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link String}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public String casStopLossLimitOrderPrice(String symbol, String side, String cancelReplaceMode, String timeInForce,
+                                             double quantity, double price, double stopPrice, Params extraParams) throws Exception {
+        return cancelAndSendOrder(symbol, side, STOP_LOSS_LIMIT, cancelReplaceMode, getLevelLimitPayload(timeInForce, quantity, price,
+                "stopPrice", stopPrice, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing stop loss limit order with price and send a new stop loss limit spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param timeInForce:       time in force for the order
+     * @param quantity:          quantity value in the order
+     * @param price:             price value in the order
+     * @param stopPrice:         stop price value for the order
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public JSONObject casStopLossLimitOrderPriceJSON(String symbol, String side, String cancelReplaceMode, String timeInForce,
+                                                     double quantity, double price, double stopPrice,
+                                                     Params extraParams) throws Exception {
+        return new JSONObject(casStopLossLimitOrderPrice(symbol, side, cancelReplaceMode, timeInForce, quantity, price,
+                stopPrice, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing stop loss limit order with price and send a new stop loss limit spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param timeInForce:       time in force for the order
+     * @param quantity:          quantity value in the order
+     * @param price:             price value in the order
+     * @param stopPrice:         stop price value for the order
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public SpotOrderCAS casStopLossLimitOrderPriceObject(String symbol, String side, String cancelReplaceMode,
+                                                         String timeInForce, double quantity, double price,
+                                                         double stopPrice, Params extraParams) throws Exception {
+        return new SpotOrderCAS(new JSONObject(casStopLossLimitOrderPrice(symbol, side, cancelReplaceMode, timeInForce,
+                quantity, price, stopPrice, extraParams)));
+    }
+
+    /**
+     * Request to cancel an existing stop loss limit order with delta and send a new stop loss limit spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param timeInForce:       time in force for the order
+     * @param quantity:          quantity value in the order
+     * @param price:             price value in the order
+     * @param trailingDelta:     trailing delta value
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link String}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public String casStopLossLimitOrderDelta(String symbol, String side, String cancelReplaceMode, String timeInForce,
+                                             double quantity, double price, double trailingDelta,
+                                             Params extraParams) throws Exception {
+        return cancelAndSendOrder(symbol, side, STOP_LOSS_LIMIT, cancelReplaceMode, getLevelLimitPayload(timeInForce,
+                quantity, trailingDelta, "trailingDelta", trailingDelta, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing stop loss limit order with delta and send a new stop loss limit spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param timeInForce:       time in force for the order
+     * @param quantity:          quantity value in the order
+     * @param price:             price value in the order
+     * @param trailingDelta:     trailing delta value
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public JSONObject casStopLossLimitOrderDeltaJSON(String symbol, String side, String cancelReplaceMode, String timeInForce,
+                                                     double quantity, double price, double trailingDelta,
+                                                     Params extraParams) throws Exception {
+        return new JSONObject(casStopLossLimitOrderDelta(symbol, side, cancelReplaceMode, timeInForce, quantity, price,
+                trailingDelta, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing stop loss limit order with delta and send a new stop loss limit spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param timeInForce:       time in force for the order
+     * @param quantity:          quantity value in the order
+     * @param price:             price value in the order
+     * @param trailingDelta:     trailing delta value
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public SpotOrderCAS casStopLossLimitOrderDeltaObject(String symbol, String side, String cancelReplaceMode,
+                                                         String timeInForce, double quantity, double price,
+                                                         double trailingDelta, Params extraParams) throws Exception {
+        return new SpotOrderCAS(new JSONObject(casStopLossLimitOrderDelta(symbol, side, cancelReplaceMode, timeInForce,
+                quantity, price, trailingDelta, extraParams)));
+    }
+
+    /**
+     * Request to cancel an existing take profit order with price and send a new take profit spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quantity:          quantity value in the order
+     * @param stopPrice:         stop price value
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link String}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public String casTakeProfitOrderPrice(String symbol, String side, String cancelReplaceMode, double quantity,
+                                          double stopPrice, Params extraParams) throws Exception {
+        return cancelAndSendOrder(symbol, side, TAKE_PROFIT, cancelReplaceMode, getLevelPayload(quantity, "stopPrice",
+                stopPrice, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing take profit order with price and send a new take profit spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quantity:          quantity value in the order
+     * @param stopPrice:         stop price value
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public JSONObject casTakeProfitOrderPriceJSON(String symbol, String side, String cancelReplaceMode, double quantity,
+                                                  double stopPrice, Params extraParams) throws Exception {
+        return new JSONObject(casTakeProfitOrderPrice(symbol, side, cancelReplaceMode, quantity, stopPrice, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing take profit order with price and send a new stop loss limit spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quantity:          quantity value in the order
+     * @param stopPrice:         stop price value
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public SpotOrderCAS casTakeProfitOrderPriceObject(String symbol, String side, String cancelReplaceMode, double quantity,
+                                                      double stopPrice, Params extraParams) throws Exception {
+        return new SpotOrderCAS(new JSONObject(casTakeProfitOrderPrice(symbol, side, cancelReplaceMode, quantity, stopPrice,
+                extraParams)));
+    }
+
+    /**
+     * Request to cancel an existing take profit order with delta and send a new take profit spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quantity:          quantity value in the order
+     * @param trailingDelta:     trailing delta value
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link String}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public String casTakeProfitOrderDelta(String symbol, String side, String cancelReplaceMode, double quantity,
+                                          double trailingDelta, Params extraParams) throws Exception {
+        return cancelAndSendOrder(symbol, side, TAKE_PROFIT, cancelReplaceMode, getLevelPayload(quantity, "trailingDelta",
+                trailingDelta, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing take profit order with delta and send a new take profit spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quantity:          quantity value in the order
+     * @param trailingDelta:     trailing delta value
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public JSONObject casTakeProfitOrderDeltaJSON(String symbol, String side, String cancelReplaceMode, double quantity,
+                                                  double trailingDelta, Params extraParams) throws Exception {
+        return new JSONObject(casTakeProfitOrderDelta(symbol, side, cancelReplaceMode, quantity, trailingDelta, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing take profit limit order with delta and send a new stop loss spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quantity:          quantity value in the order
+     * @param trailingDelta:     trailing delta value
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public SpotOrderCAS casTakeProfitOrderDeltaObject(String symbol, String side, String cancelReplaceMode,
+                                                      double quantity, double trailingDelta,
+                                                      Params extraParams) throws Exception {
+        return new SpotOrderCAS(new JSONObject(casTakeProfitOrderDelta(symbol, side, cancelReplaceMode, quantity,
+                trailingDelta, extraParams)));
+    }
+
+    /**
+     * Request to cancel an existing take profit limit order with price and send a new take profit limit spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param timeInForce:       time in force for the order
+     * @param quantity:          quantity value in the order
+     * @param price:             price value in the order
+     * @param stopPrice:         stop price value
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link String}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public String casTakeProfitLimitOrderPrice(String symbol, String side, String cancelReplaceMode, String timeInForce,
+                                               double quantity, double price, double stopPrice,
+                                               Params extraParams) throws Exception {
+        return cancelAndSendOrder(symbol, side, TAKE_PROFIT_LIMIT, cancelReplaceMode, getLevelLimitPayload(timeInForce,
+                quantity, price, "stopPrice", stopPrice, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing take profit limit order with price and send a new take profit limit spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param timeInForce:       time in force for the order
+     * @param quantity:          quantity value in the order
+     * @param price:             price value in the order
+     * @param stopPrice:         stop price value
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public JSONObject casTakeProfitLimitOrderPriceJSON(String symbol, String side, String cancelReplaceMode,
+                                                       String timeInForce, double quantity, double price, double stopPrice,
+                                                       Params extraParams) throws Exception {
+        return new JSONObject(casTakeProfitLimitOrderPrice(symbol, side, cancelReplaceMode, timeInForce, quantity, price,
+                stopPrice, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing take profit limit order with price and send a new take profit limit spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param timeInForce:       time in force for the order
+     * @param quantity:          quantity value in the order
+     * @param price:             price value in the order
+     * @param stopPrice:         stop price value
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public SpotOrderCAS casTakeProfitLimitOrderPriceObject(String symbol, String side, String cancelReplaceMode,
+                                                           String timeInForce, double quantity, double price,
+                                                           double stopPrice, Params extraParams) throws Exception {
+        return new SpotOrderCAS(new JSONObject(casTakeProfitLimitOrderPrice(symbol, side, cancelReplaceMode, timeInForce,
+                quantity, price, stopPrice, extraParams)));
+    }
+
+    /**
+     * Request to cancel an existing take profit limit order with delta and send a new take profit limit spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param timeInForce:       time in force for the order
+     * @param quantity:          quantity value in the order
+     * @param price:             price value in the order
+     * @param trailingDelta:     trailing delta value
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link String}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public String casTakeProfitLimitOrderDelta(String symbol, String side, String cancelReplaceMode, String timeInForce,
+                                               double quantity, double price, double trailingDelta,
+                                               Params extraParams) throws Exception {
+        return cancelAndSendOrder(symbol, side, TAKE_PROFIT_LIMIT, cancelReplaceMode, getLevelLimitPayload(timeInForce, quantity,
+                trailingDelta, "trailingDelta", trailingDelta, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing take profit limit order with delta and send a new take profit limit spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param timeInForce:       time in force for the order
+     * @param quantity:          quantity value in the order
+     * @param price:             price value in the order
+     * @param trailingDelta:     trailing delta value
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public JSONObject casTakeProfitLimitOrderDeltaJSON(String symbol, String side, String cancelReplaceMode,
+                                                       String timeInForce, double quantity, double price,
+                                                       double trailingDelta, Params extraParams) throws Exception {
+        return new JSONObject(casTakeProfitLimitOrderDelta(symbol, side, cancelReplaceMode, timeInForce, quantity, price,
+                trailingDelta, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing take profit limit order with delta and send a new take profit limit spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param timeInForce:       time in force for the order
+     * @param quantity:          quantity value in the order
+     * @param price:             price value in the order
+     * @param trailingDelta:     trailing delta value
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public SpotOrderCAS casTakeProfitLimitOrderDeltaObject(String symbol, String side, String cancelReplaceMode,
+                                                           String timeInForce, double quantity, double price,
+                                                           double trailingDelta, Params extraParams) throws Exception {
+        return new SpotOrderCAS(new JSONObject(casTakeProfitLimitOrderDelta(symbol, side, cancelReplaceMode, timeInForce,
+                quantity, price, trailingDelta, extraParams)));
+    }
+
+    /**
+     * Request to cancel an existing limit maker order with delta and send a new limit maker spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quantity:          quantity value in the order
+     * @param price:             price value in the order
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link String}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public String casLimitMakerOrder(String symbol, String side, String cancelReplaceMode, double quantity, double price,
+                                     Params extraParams) throws Exception {
+        return cancelAndSendOrder(symbol, side, LIMIT_MAKER, cancelReplaceMode, getLimitMakerPayload(quantity, price, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing limit maker order with delta and send a new limit maker spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quantity:          quantity value in the order
+     * @param price:             price value in the order
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public JSONObject casLimitMakerOrderJSON(String symbol, String side, String cancelReplaceMode, double quantity,
+                                             double price, Params extraParams) throws Exception {
+        return new JSONObject(casLimitMakerOrder(symbol, side, cancelReplaceMode, quantity, price, extraParams));
+    }
+
+    /**
+     * Request to cancel an existing limit maker order with delta and send a new limit maker spot order on the same symbol
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param quantity:          quantity value in the order
+     * @param price:             price value in the order
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
+    public SpotOrderCAS casLimitMakerOrderObject(String symbol, String side, String cancelReplaceMode, double quantity,
+                                                 double price, Params extraParams) throws Exception {
+        return new SpotOrderCAS(new JSONObject(casLimitMakerOrder(symbol, side, cancelReplaceMode, quantity, price,
+                extraParams)));
+    }
+
+    /**
+     * Request to cancel and resend a spot order
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
+     * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param type:              LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
+     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
+     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param extraParams:       additional params of the request, insert null if there are no extra params
+     * @return result of cancellation of an order and creation of a new order as {@link String}
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *recvWindow), see official Binance's documentation to implement in the right combination
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+     **/
     private String cancelAndSendOrder(String symbol, String side, String type, String cancelReplaceMode,
-                                      Params params) throws Exception {
+                                      Params extraParams) throws Exception {
         String query = getParamTimestamp() + "&symbol=" + symbol + "&side=" + side + "&type=" + type + "&cancelReplaceMode="
                 + cancelReplaceMode;
-        return sendSignedRequest(CANCEL_AND_SEND_ORDER_ENDPOINT, apiRequest.encodeAdditionalParams(query, params),
+        return sendSignedRequest(CANCEL_AND_SEND_ORDER_ENDPOINT, apiRequest.encodeAdditionalParams(query, extraParams),
                 POST_METHOD);
     }
 
@@ -2571,7 +3343,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param #symbol: symbol used in cancel oco order es. BTCBUSD
      * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted orderListId,listClientOrderId,newClientOrderId,recvWindow)
+     * @implSpec (keys accepted orderListId,listClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade</a>
      * @return cancel all OcoOrders response as ComposedSpotOrderDetails object
@@ -2581,11 +3353,13 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, listClientOrderId, extraParams)));
     }
 
-    /** Method to assemble an ComposedSpotOrderDetails object
+    /**
+     * Method to assemble an ComposedSpotOrderDetails object
+     *
      * @param #order: obtained from Binance's request
      * @return a ComposedSpotOrderDetails object with response data
-     * **/
-    private ComposedSpotOrderDetails assembleComposedOrderDetails(JSONObject order){
+     **/
+    private ComposedSpotOrderDetails assembleComposedOrderDetails(JSONObject order) {
         return new ComposedSpotOrderDetails(order.getLong("orderListId"),
                 order.getString("contingencyType"),
                 order.getString("listStatusType"),
@@ -2598,7 +3372,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     /** Request to get OCO order status
-     * @param #symbol: symbol used to fecth OCO order status es. BTCBUSD
+     * @param #symbol: symbol used to fetch OCO order status es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data</a>
@@ -2610,7 +3384,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     /** Request to get OCO order status
-     * @param #symbol: symbol used to fecth OCO order status es. BTCBUSD
+     * @param #symbol: symbol used to fetch OCO order status es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data</a>
@@ -2621,7 +3395,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     /** Request to get OCO order status
-     * @param #symbol: symbol used to fecth OCO order status es. BTCBUSD
+     * @param #symbol: symbol used to fetch OCO order status es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data</a>
@@ -2632,7 +3406,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     /** Request to get OCO order status
-     * @param #symbol: symbol used to fecth OCO order status es. BTCBUSD
+     * @param #symbol: symbol used to fetch OCO order status es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data">
@@ -2646,7 +3420,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     /** Request to get OCO order status
-     * @param #symbol: symbol used to fecth OCO order status es. BTCBUSD
+     * @param #symbol: symbol used to fetch OCO order status es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data">
@@ -2658,7 +3432,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     /** Request to get OCO order status
-     * @param #symbol: symbol used to fecth OCO order status es. BTCBUSD
+     * @param #symbol: symbol used to fetch OCO order status es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data">

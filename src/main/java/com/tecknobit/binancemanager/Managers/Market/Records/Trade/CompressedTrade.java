@@ -1,11 +1,16 @@
 package com.tecknobit.binancemanager.Managers.Market.Records.Trade;
 
+import org.json.JSONObject;
+
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
  * The {@code CompressedTrade} class is useful to format compressed trade in market endpoints type
+ *
+ * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list">
  * https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list</a>
- * @author N7ghtm4r3 - Tecknobit
- * **/
+ **/
 
 public class CompressedTrade {
 
@@ -71,6 +76,22 @@ public class CompressedTrade {
         this.isBestMatch = isBestMatch;
     }
 
+    /**
+     * Constructor to init {@link CompressedTrade} object
+     *
+     * @param compressedTrade: compressed trade details as {@link JSONObject}
+     **/
+    public CompressedTrade(JSONObject compressedTrade) {
+        aggregateTradeId = compressedTrade.getLong("a");
+        price = compressedTrade.getDouble("p");
+        quantity = compressedTrade.getDouble("q");
+        firstTradeId = compressedTrade.getLong("f");
+        lastTradeId = compressedTrade.getLong("l");
+        timestamp = compressedTrade.getLong("T");
+        isBuyerMaker = compressedTrade.getBoolean("m");
+        isBestMatch = compressedTrade.getBoolean("M");
+    }
+
     public long getAggregateTradeId() {
         return aggregateTradeId;
     }
@@ -79,8 +100,30 @@ public class CompressedTrade {
         return price;
     }
 
+    /**
+     * Method to get {@link #price} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #price} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getPrice(int decimals) {
+        return roundValue(price, decimals);
+    }
+
     public double getQuantity() {
         return quantity;
+    }
+
+    /**
+     * Method to get {@link #quantity} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #quantity} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getQuantity(int decimals) {
+        return roundValue(quantity, decimals);
     }
 
     public long getFirstTradeId() {

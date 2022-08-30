@@ -57,6 +57,7 @@ public class OrderBookTicker extends Ticker {
     }
 
     /** Constructor to init {@link OrderBookTicker} object
+     *
      * @param book: book ticker details as {@link JSONObject}
      * **/
     public OrderBookTicker(JSONObject book) {

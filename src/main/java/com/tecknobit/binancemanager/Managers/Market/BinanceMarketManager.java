@@ -80,10 +80,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @return exchange information as ExchangeInformation object
      * **/
     public ExchangeInformation getObjectExchangeInformation() throws IOException {
-        JSONObject information = new JSONObject(getExchangeInformation());
-        return new ExchangeInformation(information.getString("timezone"),
-                information.getLong("serverTime"),
-                information);
+        return new ExchangeInformation(new JSONObject(getExchangeInformation()));
     }
 
     /** Request to get exchange information
@@ -113,7 +110,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @return exchange information as ExchangeInformation object
      * **/
     public ExchangeInformation getObjectExchangeInformation(String symbol) throws Exception {
-        return getObjectExchangeInformation(new JSONObject(getExchangeInformation(symbol)));
+        return new ExchangeInformation(new JSONObject(getExchangeInformation(symbol)));
     }
 
     /** Request to get exchange information
@@ -144,7 +141,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @return exchange information as ExchangeInformation object
      * **/
     public ExchangeInformation getObjectExchangeInformation(ArrayList<String> symbols) throws Exception {
-        return getObjectExchangeInformation(new JSONObject(getExchangeInformation(symbols)));
+        return new ExchangeInformation(new JSONObject(getExchangeInformation(symbols)));
     }
 
     /** Request to get exchange information
@@ -174,19 +171,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @return exchange information as ExchangeInformation object
      * **/
     public ExchangeInformation getObjectExchangeInformation(String[] symbols) throws Exception {
-        return getObjectExchangeInformation(new JSONObject(getExchangeInformation(symbols)));
-    }
-
-    /** Method to get ExchangeInformation object
-     * @param jsonInformation: obtained from Binance request
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
-     *     https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
-     * @return exchange information as ExchangeInformation object
-     * **/
-    private ExchangeInformation getObjectExchangeInformation(JSONObject jsonInformation){
-        return new ExchangeInformation(jsonInformation.getString("timezone"),
-                jsonInformation.getLong("serverTime"),
-                jsonInformation);
+        return new ExchangeInformation(new JSONObject(getExchangeInformation(symbols)));
     }
 
     /** Request to get order book
@@ -216,8 +201,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @return order book as OrderBook object
      * **/
     public OrderBook getObjectOrderBook(String symbol) throws IOException {
-        JSONObject book = new JSONObject(getOrderBook(symbol));
-        return new OrderBook(book.getLong("lastUpdateId"), book, symbol);
+        return new OrderBook(new JSONObject(getOrderBook(symbol)), symbol);
     }
 
     /** Request to get order book
@@ -253,8 +237,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @return order book as OrderBook object
      * **/
     public OrderBook getObjectOrderBook(String symbol, int limit) throws IOException {
-        JSONObject book = new JSONObject(getOrderBook(symbol, limit));
-        return new OrderBook(book.getLong("lastUpdateId"), book, symbol);
+        return new OrderBook(new JSONObject(getOrderBook(symbol, limit)), symbol);
     }
 
     /** Request to get recent trade
@@ -331,17 +314,8 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     private ArrayList<Trade> getTradeList(JSONArray jsonTrades) {
         ArrayList<Trade> trades = new ArrayList<>();
-        for (int j = 0; j < jsonTrades.length(); j++){
-            JSONObject recentTrade = jsonTrades.getJSONObject(j);
-            trades.add(new Trade(recentTrade.getLong("id"),
-                    recentTrade.getDouble("price"),
-                    recentTrade.getDouble("qty"),
-                    recentTrade.getDouble("quoteQty"),
-                    recentTrade.getLong("time"),
-                    recentTrade.getBoolean("isBuyerMaker"),
-                    recentTrade.getBoolean("isBestMatch")
-            ));
-        }
+        for (int j = 0; j < jsonTrades.length(); j++)
+            trades.add(new Trade(jsonTrades.getJSONObject(j)));
         return trades;
     }
 
@@ -499,20 +473,10 @@ public class BinanceMarketManager extends BinanceManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list</a>
      * @return list of compressedTrade as ArrayList<CompressedTrade>
      * **/
-    private ArrayList<CompressedTrade> getObjectCompressedTradeList(JSONArray jsonArray){
+    private ArrayList<CompressedTrade> getObjectCompressedTradeList(JSONArray jsonArray) {
         ArrayList<CompressedTrade> compressedTrades = new ArrayList<>();
-        for (int j=0; j < jsonArray.length(); j++){
-            JSONObject compressedTrade = jsonArray.getJSONObject(j);
-            compressedTrades.add(new CompressedTrade(compressedTrade.getLong("a"),
-                    compressedTrade.getDouble("p"),
-                    compressedTrade.getDouble("q"),
-                    compressedTrade.getLong("f"),
-                    compressedTrade.getLong("l"),
-                    compressedTrade.getLong("T"),
-                    compressedTrade.getBoolean("m"),
-                    compressedTrade.getBoolean("M")
-            ));
-        }
+        for (int j = 0; j < jsonArray.length(); j++)
+            compressedTrades.add(new CompressedTrade(jsonArray.getJSONObject(j)));
         return compressedTrades;
     }
 
@@ -664,30 +628,18 @@ public class BinanceMarketManager extends BinanceManager {
         return getCandlestickDataList(new JSONArray(getUIKLines(symbol, interval, extraParams)));
     }
 
-    /** Method to assemble Candlestick list
+    /**
+     * Method to assemble Candlestick list
+     *
      * @param jsonArray: obtain from Binance request
+     * @return list of candlestick as {@link ArrayList} of {@link Candlestick>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data</a>
-     * @return list of candlestick as ArrayList<Candlestick>
-     * **/
-    private ArrayList<Candlestick> getCandlestickDataList(JSONArray jsonArray){
+     * https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data</a>
+     **/
+    private ArrayList<Candlestick> getCandlestickDataList(JSONArray jsonArray) {
         ArrayList<Candlestick> candlesticksList = new ArrayList<>();
-        for (int j=0; j < jsonArray.length(); j++){
-            JSONArray candlestick = jsonArray.getJSONArray(j);
-            candlesticksList.add(new Candlestick(candlestick.getLong(0),
-                    candlestick.getDouble(1),
-                    candlestick.getDouble(2),
-                    candlestick.getDouble(3),
-                    candlestick.getDouble(4),
-                    candlestick.getDouble(5),
-                    candlestick.getLong(6),
-                    candlestick.getDouble(7),
-                    candlestick.getInt(8),
-                    candlestick.getDouble(9),
-                    candlestick.getDouble(10),
-                    candlestick.getDouble(11)
-            ));
-        }
+        for (int j = 0; j < jsonArray.length(); j++)
+            candlesticksList.add(new Candlestick(jsonArray.getJSONArray(j)));
         return candlesticksList;
     }
 
@@ -718,8 +670,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @return current average price value as double
      * **/
     public double getCurrentAveragePriceValue(String symbol) throws IOException {
-        JSONObject avgPrice = new JSONObject(getCurrentAveragePrice(symbol));
-        return avgPrice.getDouble("price");
+        return new JSONObject(getCurrentAveragePrice(symbol)).getDouble("price");
     }
 
     /** Request to get current average price
@@ -729,8 +680,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @return current average price CurrentAveragePrice object
      * **/
     public CurrentAveragePrice getObjectCurrentAveragePrice(String symbol) throws IOException {
-        JSONObject avgPrice = new JSONObject(getCurrentAveragePrice(symbol));
-        return new CurrentAveragePrice(avgPrice.getInt("mins"), avgPrice.getDouble("price"));
+        return new CurrentAveragePrice(new JSONObject(getCurrentAveragePrice(symbol)));
     }
 
     /** Request to get ticker price change

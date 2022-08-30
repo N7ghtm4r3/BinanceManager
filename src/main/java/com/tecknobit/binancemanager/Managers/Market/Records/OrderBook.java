@@ -1,17 +1,21 @@
 package com.tecknobit.binancemanager.Managers.Market.Records;
 
+import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
  * The {@code OrderBook} class is useful to format Binance OrderBook request
+ *
+ * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
  * https://binance-docs.github.io/apidocs/spot/en/#order-book</a>
- * @author N7ghtm4r3 - Tecknobit
- * **/
+ **/
 
 public class OrderBook {
 
@@ -35,25 +39,44 @@ public class OrderBook {
      * **/
     private final String symbol;
 
-    /** Constructor to init {@link OrderBook} object
-     * @param lastUpdateId: last update of order book
-     * @param jsonOrderBook: values of bids and asks in JSON format
-     * @param symbol: symbol of the order book
-     * **/
-    public OrderBook(long lastUpdateId, JSONObject jsonOrderBook, String symbol) {
+    /**
+     * Constructor to init {@link OrderBook} object
+     *
+     * @param lastUpdateId:     last update of order book
+     * @param orderDetailsBids: list of bids of the order book
+     * @param orderDetailsAsks: list of asks of the order book
+     * @param symbol:           symbol of the order book
+     **/
+    public OrderBook(long lastUpdateId, ArrayList<BookOrderDetails> orderDetailsBids, ArrayList<BookOrderDetails> orderDetailsAsks,
+                     String symbol) {
         this.lastUpdateId = lastUpdateId;
-        orderDetailsAsks = loadOrderList(jsonOrderBook.getJSONArray("bids"));
-        orderDetailsBids = loadOrderList(jsonOrderBook.getJSONArray("asks"));
+        this.orderDetailsBids = orderDetailsBids;
+        this.orderDetailsAsks = orderDetailsAsks;
         this.symbol = symbol;
     }
 
-    /** Method to get load list of order details
+    /**
+     * Constructor to init {@link OrderBook} object
+     *
+     * @param orderBook: order book details as {@link JSONObject}
+     **/
+    public OrderBook(JSONObject orderBook, String symbol) {
+        this.symbol = symbol;
+        lastUpdateId = orderBook.getLong("lastUpdateId");
+        JsonHelper hBook = new JsonHelper(orderBook);
+        orderDetailsAsks = loadOrderList(hBook.getJSONArray("bids", new JSONArray()));
+        orderDetailsBids = loadOrderList(hBook.getJSONArray("asks", new JSONArray()));
+    }
+
+    /**
+     * Method to get load list of order details
+     *
      * @param jsonList: obtained from Binance request
+     * @return order details list as ArrayList<BookOrderDetails> object
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
      * https://binance-docs.github.io/apidocs/spot/en/#order-book</a>
-     * @return order details list as ArrayList<BookOrderDetails> object
-     * **/
-    private ArrayList<BookOrderDetails> loadOrderList(JSONArray jsonList){
+     **/
+    private ArrayList<BookOrderDetails> loadOrderList(JSONArray jsonList) {
         ArrayList<BookOrderDetails> orderDetails = new ArrayList<>();
         for (int j = 0; j < jsonList.length(); j++){
             JSONArray details = jsonList.getJSONArray(j);
@@ -91,8 +114,6 @@ public class OrderBook {
 
     /**
      * The {@code BookOrderDetails} class is useful to format order book details
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
-     * https://binance-docs.github.io/apidocs/spot/en/#order-book</a>
      * **/
 
     public static class BookOrderDetails {
@@ -120,18 +141,43 @@ public class OrderBook {
             return price;
         }
 
+        /**
+         * Method to get {@link #price} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #price} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getPrice(int decimals) {
+            return roundValue(price, decimals);
+        }
+
         public double getQuantity() {
             return quantity;
         }
 
-        /** Method to get order details value formatted in JSON
+        /**
+         * Method to get {@link #quantity} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #quantity} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getQuantity(int decimals) {
+            return roundValue(quantity, decimals);
+        }
+
+
+        /**
+         * Method to get order details value formatted in JSON
          * Any params required
+         *
+         * @return JSONObject of {@link #price} and {@link #quantity}
          * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
          * https://binance-docs.github.io/apidocs/spot/en/#order-book</a>
-         * @return JSONObject of {@link #price} and {@link #quantity}
-         * **/
-        public JSONObject getOrderDetails(){
-            HashMap<String,Double> values = new HashMap<>();
+         **/
+        public JSONObject getOrderDetails() {
+            HashMap<String, Double> values = new HashMap<>();
             values.put("quantity", quantity);
             values.put("price", price);
             return new JSONObject(values);

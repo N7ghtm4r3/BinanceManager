@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Details;
 
+import com.tecknobit.binancemanager.Managers.BinanceManager;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response.ResultSpotOrder;
 import org.json.JSONObject;
 
@@ -11,11 +12,11 @@ import org.json.JSONObject;
  * https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
  **/
 
-public class DetailSpotOrder extends ResultSpotOrder {
+public class DetailSpotOrder extends ResultSpotOrder implements BinanceManager.BinanceResponse {
 
     /**
      * {@code origClientOrderId} is instance that memorizes origin client order identifier
-     * **/
+     **/
     private final String origClientOrderId;
 
     /** Constructor to init {@link DetailSpotOrder} object
@@ -98,6 +99,36 @@ public class DetailSpotOrder extends ResultSpotOrder {
                 response.getString("type"),
                 response.getString("side"),
                 response);
+    }
+
+    /**
+     * Method to get error code <br>
+     * Any params required
+     *
+     * @return code of error as int
+     * *
+     * @implSpec if code error is not present in Binance's response will be returned -1 as default
+     **/
+    @Override
+    public int getCode() {
+        if (hOrder != null)
+            return hOrder.getInt("code", -1);
+        return -1;
+    }
+
+    /**
+     * Method to get error message <br>
+     * Any params required
+     *
+     * @return message of error as {@link String}
+     * *
+     * @implSpec if message error is not present in Binance's response will be returned null as default
+     **/
+    @Override
+    public String getMessage() {
+        if (hOrder != null)
+            return hOrder.getString("msg", null);
+        return null;
     }
 
     @Override

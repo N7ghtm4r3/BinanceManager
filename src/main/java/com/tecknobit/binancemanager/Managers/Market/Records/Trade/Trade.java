@@ -1,11 +1,16 @@
 package com.tecknobit.binancemanager.Managers.Market.Records.Trade;
 
+import org.json.JSONObject;
+
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
  * The {@code Trade} class is useful to format Binance Recent Trade request
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list">
- *     https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list</a>
+ *
  * @author N7ghtm4r3 - Tecknobit
- * **/
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list">
+ * https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list</a>
+ **/
 
 public class Trade {
 
@@ -63,6 +68,21 @@ public class Trade {
         this.isBestMatch = isBestMatch;
     }
 
+    /**
+     * Constructor to init {@link Trade} object
+     *
+     * @param trade: trade details as {@link JSONObject}
+     **/
+    public Trade(JSONObject trade) {
+        id = trade.getLong("id");
+        price = trade.getDouble("price");
+        qty = trade.getDouble("qty");
+        quoteQty = trade.getDouble("quoteQty");
+        time = trade.getLong("time");
+        isBuyerMaker = trade.getBoolean("isBuyerMaker");
+        isBestMatch = trade.getBoolean("isBestMatch");
+    }
+
     public long getId() {
         return id;
     }
@@ -71,12 +91,45 @@ public class Trade {
         return price;
     }
 
+    /**
+     * Method to get {@link #price} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #price} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getPrice(int decimals) {
+        return roundValue(price, decimals);
+    }
+
     public double getQty() {
         return qty;
     }
 
+    /**
+     * Method to get {@link #qty} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #qty} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getQty(int decimals) {
+        return roundValue(qty, decimals);
+    }
+
     public double getQuoteQty() {
         return quoteQty;
+    }
+
+    /**
+     * Method to get {@link #quoteQty} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #quoteQty} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getQuoteQty(int decimals) {
+        return roundValue(quoteQty, decimals);
     }
 
     public long getTime() {

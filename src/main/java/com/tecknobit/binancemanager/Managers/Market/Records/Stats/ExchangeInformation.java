@@ -1,10 +1,11 @@
 package com.tecknobit.binancemanager.Managers.Market.Records.Stats;
 
-import com.tecknobit.binancemanager.Managers.Market.Records.Filter;
+import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *  The {@code ExchangeInformation} class is useful to manage ExchangeInformation Binance request
@@ -27,8 +28,8 @@ public class ExchangeInformation {
 
     /**
      * {@code jsonInformation} is instance that contains exchange information in JSON format
-     * **/
-    private final JSONObject jsonInformation;
+     **/
+    private final JsonHelper hInfo;
 
     /**
      * {@code rateLimits} is instance that contains rate limits list
@@ -48,80 +49,78 @@ public class ExchangeInformation {
     /** Constructor to init {@link ExchangeInformation} object
      * @param timezone: timezone information
      * @param serverTime: server time information
-     * @param jsonInformation: exchange information in JSON format
+     * @param jsonInformation: exchange information as {@link JSONObject}
      * **/
     public ExchangeInformation(String timezone, long serverTime, JSONObject jsonInformation) {
         this.timezone = timezone;
         this.serverTime = serverTime;
-        this.jsonInformation = jsonInformation;
+        hInfo = new JsonHelper(jsonInformation);
         assembleRateLimits();
         exchangeFilters = assembleFilters(jsonInformation.getJSONArray("exchangeFilters"));
         assembleSymbols();
     }
 
-    /** Method to assemble an RateLimits list <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
-     *     https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
-     * **/
-    private void assembleRateLimits() {
-        rateLimits = new ArrayList<>();
-        JSONArray jsonRateLimits = jsonInformation.getJSONArray("rateLimits");
-        for (int j = 0; j < jsonRateLimits.length(); j++){
-            JSONObject rateLimit = jsonRateLimits.getJSONObject(j);
-            rateLimits.add(new RateLimit(rateLimit.getInt("intervalNum"),
-                    rateLimit.getInt("limit"),
-                    rateLimit.getString("interval"),
-                    rateLimit.getString("rateLimitType")
-            ));
-        }
+    /**
+     * Constructor to init {@link ExchangeInformation} object
+     *
+     * @param exchangeInfo: exchange details as {@link JSONObject}
+     **/
+    public ExchangeInformation(JSONObject exchangeInfo) {
+        timezone = exchangeInfo.getString("timezone");
+        serverTime = exchangeInfo.getLong("timezone");
+        hInfo = new JsonHelper(exchangeInfo);
+        assembleRateLimits();
+        exchangeFilters = assembleFilters(hInfo.getJSONArray("exchangeFilters", new JSONArray()));
+        assembleSymbols();
     }
 
-    /** Method to assemble a Filters list
+    /**
+     * Method to assemble a Filters list
+     *
      * @param jsonFilters: obtained from Binance request
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
-     *     https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
      * @return filters list as ArrayList<Filter> object
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
+     * https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
+     **/
     private static ArrayList<Filter> assembleFilters(JSONArray jsonFilters) {
         ArrayList<Filter> filters = new ArrayList<>();
-        for (int j = 0; j < jsonFilters.length(); j++){
+        for (int j = 0; j < jsonFilters.length(); j++) {
             JSONObject filter = jsonFilters.getJSONObject(j);
             ArrayList<String> filterKeys = new ArrayList<>(filter.keySet());
             ArrayList<Object> filterValues = new ArrayList<>();
             for (String filterKey : filterKeys)
                 filterValues.add(filter.get(filterKey));
-            filters.add(new Filter(filterKeys,filterValues,filter.getString("filterType")));
+            filters.add(new Filter(filterKeys, filterValues, filter.getString("filterType")));
         }
         return filters;
     }
 
-    /** Method to assemble a Symbols list <br>
+    /**
+     * Method to assemble an RateLimits list <br>
      * Any params required
+     *
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
-     *     https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
-     * **/
+     * https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
+     **/
+    private void assembleRateLimits() {
+        rateLimits = new ArrayList<>();
+        JSONArray jsonRateLimits = hInfo.getJSONArray("rateLimits", new JSONArray());
+        for (int j = 0; j < jsonRateLimits.length(); j++)
+            rateLimits.add(new RateLimit(jsonRateLimits.getJSONObject(j)));
+    }
+
+    /**
+     * Method to assemble a Symbols list <br>
+     * Any params required
+     *
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
+     * https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
+     **/
     private void assembleSymbols() {
         symbols = new ArrayList<>();
-        JSONArray jsonSymbols = jsonInformation.getJSONArray("symbols");
-        for (int j = 0; j < jsonSymbols.length(); j++){
-            JSONObject symbol = jsonSymbols.getJSONObject(j);
-            symbols.add(new Symbol(symbol.getString("symbol"),
-                    symbol.getBoolean("quoteOrderQtyMarketAllowed"),
-                    symbol.getString("status"),
-                    symbol.getString("baseAsset"),
-                    symbol.getInt("baseAssetPrecision"),
-                    symbol.getString("quoteAsset"),
-                    symbol.getInt("quotePrecision"),
-                    symbol.getInt("quoteAssetPrecision"),
-                    symbol.getBoolean("icebergAllowed"),
-                    symbol.getBoolean("ocoAllowed"),
-                    symbol.getBoolean("isSpotTradingAllowed"),
-                    symbol.getBoolean("isMarginTradingAllowed"),
-                    symbol,
-                    symbol.getInt("baseCommissionPrecision")
-            ));
-        }
+        JSONArray jsonSymbols = hInfo.getJSONArray("symbols", new JSONArray());
+        for (int j = 0; j < jsonSymbols.length(); j++)
+            symbols.add(new Symbol(jsonSymbols.getJSONObject(j)));
     }
 
     public String getTimezone() {
@@ -149,7 +148,6 @@ public class ExchangeInformation {
         return "ExchangeInformation{" +
                 "timezone='" + timezone + '\'' +
                 ", serverTime=" + serverTime +
-                ", jsonInformation=" + jsonInformation +
                 ", rateLimits=" + rateLimits +
                 ", exchangeFilters=" + exchangeFilters +
                 ", symbols=" + symbols +
@@ -230,6 +228,18 @@ public class ExchangeInformation {
             this.limit = limit;
             this.interval = interval;
             this.rateLimitType = rateLimitType;
+        }
+
+        /**
+         * Constructor to init {@link RateLimit} object
+         *
+         * @param rateLimit: rate limit details as {@link JSONObject}
+         **/
+        public RateLimit(JSONObject rateLimit) {
+            intervalNum = rateLimit.getInt("intervalNum");
+            limit = rateLimit.getInt("limit");
+            interval = rateLimit.getString("interval");
+            rateLimitType = rateLimit.getString("rateLimitType");
         }
 
         public int getIntervalNum() {
@@ -368,6 +378,7 @@ public class ExchangeInformation {
                       int baseAssetPrecision, String quoteAsset, int quotePrecision, int quoteAssetPrecision,
                       boolean icebergAllowed, boolean ocoAllowed, boolean isSpotTradingAllowed, boolean isMarginTradingAllowed,
                       JSONObject jsonSymbol, int baseCommissionPrecision) {
+            JsonHelper hSymbol = new JsonHelper(jsonSymbol);
             this.symbol = symbol;
             this.quoteOrderQtyMarketAllowed = quoteOrderQtyMarketAllowed;
             this.status = status;
@@ -376,25 +387,52 @@ public class ExchangeInformation {
             this.quoteAsset = quoteAsset;
             this.quotePrecision = quotePrecision;
             this.quoteAssetPrecision = quoteAssetPrecision;
-            this.orderTypes = loadEnumsList(jsonSymbol.getJSONArray("orderTypes"));
+            this.orderTypes = loadEnumsList(hSymbol.getJSONArray("orderTypes", new JSONArray()));
             this.icebergAllowed = icebergAllowed;
             this.ocoAllowed = ocoAllowed;
             this.isSpotTradingAllowed = isSpotTradingAllowed;
             this.isMarginTradingAllowed = isMarginTradingAllowed;
-            filters = ExchangeInformation.assembleFilters(jsonSymbol.getJSONArray("filters"));
-            this.permissions = loadEnumsList(jsonSymbol.getJSONArray("permissions"));
+            filters = assembleFilters(hSymbol.getJSONArray("filters", new JSONArray()));
+            this.permissions = loadEnumsList(hSymbol.getJSONArray("permissions", new JSONArray()));
             this.baseCommissionPrecision = baseCommissionPrecision;
         }
 
-        /** Method to assemble a EnumValues list
+        /**
+         * Constructor to init {@link Symbol} object
+         *
+         * @param symbol: symbol details as {@link JSONObject}
+         **/
+        public Symbol(JSONObject symbol) {
+            JsonHelper hSymbol = new JsonHelper(symbol);
+            this.symbol = hSymbol.getString("symbol");
+            quoteOrderQtyMarketAllowed = hSymbol.getBoolean("quoteOrderQtyMarketAllowed");
+            status = hSymbol.getString("status");
+            baseAsset = hSymbol.getString("baseAsset");
+            baseAssetPrecision = hSymbol.getInt("baseAssetPrecision");
+            quoteAsset = hSymbol.getString("quoteAsset");
+            quotePrecision = hSymbol.getInt("quotePrecision");
+            quoteAssetPrecision = hSymbol.getInt("quoteAssetPrecision");
+            orderTypes = loadEnumsList(hSymbol.getJSONArray("orderTypes", new JSONArray()));
+            icebergAllowed = hSymbol.getBoolean("icebergAllowed");
+            ocoAllowed = hSymbol.getBoolean("ocoAllowed");
+            isSpotTradingAllowed = hSymbol.getBoolean("isSpotTradingAllowed");
+            isMarginTradingAllowed = hSymbol.getBoolean("isMarginTradingAllowed");
+            filters = assembleFilters(hSymbol.getJSONArray("filters", new JSONArray()));
+            permissions = loadEnumsList(hSymbol.getJSONArray("permissions", new JSONArray()));
+            baseCommissionPrecision = hSymbol.getInt("baseCommissionPrecision");
+        }
+
+        /**
+         * Method to assemble a EnumValues list
+         *
          * @param jsonList: obtained from Binance request
-         * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
-         *     https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
          * @return exchangeEnumValues list as ArrayList<EnumValues> object
-         * **/
-        private ArrayList<String> loadEnumsList(JSONArray jsonList){
+         * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
+         * https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
+         **/
+        private ArrayList<String> loadEnumsList(JSONArray jsonList) {
             ArrayList<String> enumValues = new ArrayList<>();
-            for(int j = 0; j < jsonList.length(); j++)
+            for (int j = 0; j < jsonList.length(); j++)
                 enumValues.add(jsonList.getString(j));
             return enumValues;
         }
@@ -495,6 +533,159 @@ public class ExchangeInformation {
                     ", permissions=" + permissions +
                     ", baseCommissionPrecision=" + baseCommissionPrecision +
                     '}';
+        }
+
+    }
+
+    /**
+     * The {@code Filter} class is useful to format filter of {@link ExchangeInformation} Binance's request
+     **/
+
+    public static class Filter {
+
+        /**
+         * {@code PRICE_FILTER} is constant for price filter
+         * **/
+        public static final String PRICE_FILTER = "PRICE_FILTER";
+
+        /**
+         * {@code PERCENT_PRICE} is constant for percent filter
+         * **/
+        public static final String PERCENT_PRICE = "PERCENT_PRICE";
+
+        /**
+         * {@code LOT_SIZE} is constant for lot size filter
+         * **/
+        public static final String LOT_SIZE = "LOT_SIZE";
+
+        /**
+         * {@code MIN_NOTIONAL} is constant for min notional filter
+         * **/
+        public static final String MIN_NOTIONAL = "MIN_NOTIONAL";
+
+        /**
+         * {@code ICEBERG_PARTS} is constant for iceberg parts filter
+         * **/
+        public static final String ICEBERG_PARTS = "ICEBERG_PARTS";
+
+        /**
+         * {@code MARKET_LOT_SIZE} is constant for market lot size
+         * **/
+        public static final String MARKET_LOT_SIZE = "MARKET_LOT_SIZE";
+
+        /**
+         * {@code MAX_NUM_ORDERS} is constant for max orders number
+         * **/
+        public static final String MAX_NUM_ORDERS = "MAX_NUM_ORDERS";
+
+        /**
+         * {@code MAX_NUM_ALGO_ORDERS} is constant for max algo orders number
+         * **/
+        public static final String MAX_NUM_ALGO_ORDERS = "MAX_NUM_ALGO_ORDERS";
+
+        /**
+         * {@code keys} is instance that contains keys of the filters
+         * **/
+        private final ArrayList<String> keys;
+
+        /**
+         * {@code values} is instance that contains values of the filters
+         * **/
+        private final ArrayList<Object> values;
+
+        /**
+         * {@code filterType} is instance that contains type of the filter
+         * **/
+        private final String filterType;
+
+        /** Constructor to init {@link Filter} object
+         * @param keys: keys of the filters
+         * @param values: values of the filters
+         * @param filterType: type of the filter
+         * **/
+        public Filter(ArrayList<String> keys, ArrayList<Object> values, String filterType) {
+            this.keys = keys;
+            this.values = values;
+            this.filterType = filterType;
+        }
+
+        public ArrayList<String> getKeys() {
+            return keys;
+        }
+
+        public ArrayList<Object> getValues() {
+            return values;
+        }
+
+        public String getFilterType() {
+            return filterType;
+        }
+
+        /** Method to get order details value formatted in JSON <br>
+         * Any params required
+         * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
+         * https://binance-docs.github.io/apidocs/spot/en/#order-book</a>
+         * @return JsonObject of key and values of a filter
+         * **/
+        public JSONObject getFilterDetails() {
+            HashMap<String, HashMap<String, Object>> filterDetails = new HashMap<>();
+            HashMap<String, Object> filterValues = new HashMap<>();
+            for (int j = 0; j < keys.size(); j++)
+                filterValues.put(keys.get(j), values.get(j));
+            filterDetails.put(filterType, filterValues);
+            return new JSONObject(filterDetails);
+        }
+
+        @Override
+        public String toString() {
+            return "Filter{" +
+                    "keys=" + keys +
+                    ", values=" + values +
+                    ", filterType='" + filterType + '\'' +
+                    '}';
+        }
+
+        /**
+         * The {@code FilterDetails} class is useful to format details of a {@link Filter}
+         * **/
+
+        public static class FilterDetails {
+
+            /**
+             * {@code key} is instance that contains key of the filter
+             * **/
+            private final String key;
+
+            /**
+             * {@code value} is instance that contains value of the filter
+             * **/
+            private final Object value;
+
+            /** Constructor to init {@link Filter.FilterDetails} object
+             * @param key: key of the filter
+             * @param value: value of the filter
+             * **/
+            public FilterDetails(String key, Object value) {
+                this.key = key;
+                this.value = value;
+            }
+
+            public String getKey() {
+                return key;
+            }
+
+            public Object getValue() {
+                return value;
+            }
+
+            @Override
+            public String toString() {
+                return "FilterDetails{" +
+                        "key='" + key + '\'' +
+                        ", value=" + value +
+                        '}';
+            }
+
         }
 
     }

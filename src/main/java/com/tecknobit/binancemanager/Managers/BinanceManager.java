@@ -215,11 +215,40 @@ public class BinanceManager {
 
     /**
      * The {@code Params} class is useful to assemble params values for the request
+     *
      * @implNote this class can be used to assemble body payload or query request params
      * @implSpec look this library <a href="https://github.com/N7ghtm4r3/APIManager">here</a>
      * @see com.tecknobit.apimanager.Manager.APIRequest.Params
-     * **/
+     **/
 
-    public static class Params extends APIRequest.Params {}
+    public static class Params extends APIRequest.Params {
+    }
+
+    /**
+     * The {@code BinanceResponse} interface is useful to format base Binance's errors responses
+     **/
+    public interface BinanceResponse {
+
+        /**
+         * Method to get error code <br>
+         * Any params required
+         *
+         * @return code of error as int
+         * *
+         * @implSpec if code error is not present in Binance's response will be returned -1 as default
+         **/
+        int getCode();
+
+        /**
+         * Method to get error message <br>
+         * Any params required
+         *
+         * @return message of error as {@link String}
+         * *
+         * @implSpec if message error is not present in Binance's response will be returned null as default
+         **/
+        String getMessage();
+
+    }
 
 }

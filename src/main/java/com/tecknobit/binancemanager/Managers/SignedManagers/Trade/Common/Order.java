@@ -11,16 +11,16 @@ import org.json.JSONObject;
  * https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
  **/
 
-public class Order {
+public abstract class Order {
 
     /**
      * {@code STATUS_CONFIRMED} is constant for confirmed status
-     * **/
+     **/
     public static final String STATUS_CONFIRMED = "CONFIRMED";
 
     /**
      * {@code STATUS_PENDING} is constant for pending status
-     * **/
+     **/
     public static final String STATUS_PENDING = "PENDING";
 
     /**

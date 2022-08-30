@@ -1,5 +1,9 @@
 package com.tecknobit.binancemanager.Managers.Market.Records.Stats;
 
+import org.json.JSONArray;
+
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
  * The {@code Candlestick} class is useful to manage Candlestick requests
  * @apiNote see the official documentation at:
@@ -189,6 +193,26 @@ public class Candlestick {
         this.valueToIgnore = valueToIgnore;
     }
 
+    /**
+     * Constructor to init {@link Candlestick} object
+     *
+     * @param candlestick: candlestick details as {@link JSONArray}
+     **/
+    public Candlestick(JSONArray candlestick) {
+        openTime = candlestick.getLong(0);
+        open = candlestick.getDouble(1);
+        high = candlestick.getDouble(2);
+        low = candlestick.getDouble(3);
+        close = candlestick.getDouble(4);
+        volume = candlestick.getDouble(5);
+        closeTime = candlestick.getLong(6);
+        quoteAssetVolume = candlestick.getDouble(7);
+        numberOfTrades = candlestick.getInt(8);
+        takerBuyBaseAssetVolume = candlestick.getDouble(9);
+        takerBuyQuoteAssetVolume = candlestick.getDouble(10);
+        valueToIgnore = candlestick.getDouble(11);
+    }
+
     public long getOpenTime() {
         return openTime;
     }
@@ -197,20 +221,75 @@ public class Candlestick {
         return open;
     }
 
+    /**
+     * Method to get {@link #open} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #open} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getOpen(int decimals) {
+        return roundValue(open, decimals);
+    }
+
     public double getHigh() {
         return high;
+    }
+
+    /**
+     * Method to get {@link #high} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #high} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getHigh(int decimals) {
+        return roundValue(high, decimals);
     }
 
     public double getLow() {
         return low;
     }
 
+    /**
+     * Method to get {@link #low} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #low} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getLow(int decimals) {
+        return roundValue(low, decimals);
+    }
+
     public double getClose() {
         return close;
     }
 
+    /**
+     * Method to get {@link #close} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #close} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getClose(int decimals) {
+        return roundValue(close, decimals);
+    }
+
     public double getVolume() {
         return volume;
+    }
+
+    /**
+     * Method to get {@link #volume} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #volume} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getVolume(int decimals) {
+        return roundValue(volume, decimals);
     }
 
     public long getCloseTime() {
@@ -221,6 +300,17 @@ public class Candlestick {
         return quoteAssetVolume;
     }
 
+    /**
+     * Method to get {@link #quoteAssetVolume} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #quoteAssetVolume} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getQuoteAssetVolume(int decimals) {
+        return roundValue(quoteAssetVolume, decimals);
+    }
+
     public int getNumberOfTrades() {
         return numberOfTrades;
     }
@@ -229,12 +319,45 @@ public class Candlestick {
         return takerBuyBaseAssetVolume;
     }
 
+    /**
+     * Method to get {@link #takerBuyBaseAssetVolume} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #takerBuyBaseAssetVolume} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getTakerBuyBaseAssetVolume(int decimals) {
+        return roundValue(takerBuyBaseAssetVolume, decimals);
+    }
+
     public double getTakerBuyQuoteAssetVolume() {
         return takerBuyQuoteAssetVolume;
     }
 
+    /**
+     * Method to get {@link #takerBuyQuoteAssetVolume} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #takerBuyQuoteAssetVolume} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getTakerBuyQuoteAssetVolume(int decimals) {
+        return roundValue(takerBuyQuoteAssetVolume, decimals);
+    }
+
     public double getValueToIgnore() {
         return valueToIgnore;
+    }
+
+    /**
+     * Method to get {@link #valueToIgnore} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #valueToIgnore} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getValueToIgnore(int decimals) {
+        return roundValue(valueToIgnore, decimals);
     }
 
     @Override
