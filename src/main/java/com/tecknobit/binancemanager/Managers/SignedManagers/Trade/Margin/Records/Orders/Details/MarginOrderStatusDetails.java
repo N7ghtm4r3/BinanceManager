@@ -17,17 +17,19 @@ public class MarginOrderStatusDetails extends OrderDetails {
      * **/
     private final boolean isIsolated;
 
-    /** Constructor to init {@link OrderDetails} object
-     * @param orderListId: list order identifier
-     * @param contingencyType: contingency type of the order
-     * @param listStatusType: list status type of the order
-     * @param listOrderStatus: list order status
+    /**
+     * Constructor to init {@link OrderDetails} object
+     *
+     * @param orderListId:       list order identifier
+     * @param contingencyType:   contingency type of the order
+     * @param listStatusType:    list status type of the order
+     * @param listOrderStatus:   list order status
      * @param listClientOrderId: list client order id
-     * @param transactionTime: transaction time of the order
-     * @param symbol: symbol used in the order
-     * @param jsonOrder: order details in JSON format
-     * @param isIsolated: is isolated
-     * **/
+     * @param transactionTime:   transaction time of the order
+     * @param symbol:            symbol used in the order
+     * @param jsonOrder:         order details as {@link JSONObject}
+     * @param isIsolated:        is isolated
+     **/
     public MarginOrderStatusDetails(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
                                     String listClientOrderId, long transactionTime, String symbol, JSONObject jsonOrder,
                                     boolean isIsolated) {

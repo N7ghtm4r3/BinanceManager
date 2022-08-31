@@ -6,6 +6,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
  * The {@code AccountSnapshotMargin} class is useful to obtain and format AccountSnapshotMargin object
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
@@ -20,12 +22,14 @@ public class AccountSnapshotMargin extends AccountSnapshot{
      * **/
     private ArrayList<DataMargin> dataMarginsList;
 
-    /** Constructor to init {@link AccountSnapshotMargin} object
-     * @param code: code of response
-     * @param msg: message of response
-     * @param type: type of account
-     * @param accountDetails: details in JSON format
-     * **/
+    /**
+     * Constructor to init {@link AccountSnapshotMargin} object
+     *
+     * @param code:           code of response
+     * @param msg:            message of response
+     * @param type:           type of account
+     * @param accountDetails: details as {@link JSONObject}
+     **/
     public AccountSnapshotMargin(int code, String msg, String type, JSONArray accountDetails) {
         super(code, msg, type, accountDetails);
         dataMarginsList = new ArrayList<>();
@@ -49,29 +53,33 @@ public class AccountSnapshotMargin extends AccountSnapshot{
         }
     }
 
-    /** Constructor to init {@link AccountSnapshotMargin} object
-     * @param code: code of response
-     * @param msg: message of response
-     * @param type: type of account
-     * @param accountDetails: details in JSON format
-     * @param dataMargins: list of {@link DataMargin}
-     * **/
+    /**
+     * Constructor to init {@link AccountSnapshotMargin} object
+     *
+     * @param code:           code of response
+     * @param msg:            message of response
+     * @param type:           type of account
+     * @param accountDetails: details as {@link JSONObject}
+     * @param dataMargins:    list of {@link DataMargin}
+     **/
     public AccountSnapshotMargin(int code, String msg, String type, JSONArray accountDetails, ArrayList<DataMargin> dataMargins) {
         super(code, msg, type, accountDetails);
         this.dataMarginsList = dataMargins;
     }
 
-    /** Method to assemble an UserAssetMargin list
+    /**
+     * Method to assemble an UserMarginAsset list
+     *
      * @param jsonAssets: accountDetails obtain by AccountSnapshot Binance request
+     * @return userAssetMargin list as ArrayList<UserMarginAsset>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
-     * @return userAssetMargin list as ArrayList<UserAssetMargin>
-     * **/
-    public static ArrayList<UserAssetMargin> assembleUserMarginAssetsList(JSONArray jsonAssets) {
-        ArrayList<UserAssetMargin> userAssetMargins = new ArrayList<>();
+     * https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
+     **/
+    public static ArrayList<UserMarginAsset> assembleUserMarginAssetsList(JSONArray jsonAssets) {
+        ArrayList<UserMarginAsset> userMarginAssets = new ArrayList<>();
         for (int j = 0; j < jsonAssets.length(); j++)
-            userAssetMargins.add(UserAssetMargin.assembleUserMarginAsset(jsonAssets.getJSONObject(j)));
-        return userAssetMargins;
+            userMarginAssets.add(new UserMarginAsset(jsonAssets.getJSONObject(j)));
+        return userMarginAssets;
     }
 
     public ArrayList<DataMargin> getDataMarginsList() {
@@ -108,34 +116,36 @@ public class AccountSnapshotMargin extends AccountSnapshot{
 
         /**
          * {@code updateTime} is instance that memorizes update time value
-         * **/
+         **/
         private long updateTime;
 
         /**
-         * {@code userAssetMarginsList} is instance that memorizes list of {@link UserAssetMargin}
-         * **/
-        private ArrayList<UserAssetMargin> userAssetMarginsList;
+         * {@code userMarginsListAsset} is instance that memorizes list of {@link UserMarginAsset}
+         **/
+        private ArrayList<UserMarginAsset> userMarginsListAsset;
 
-        /** Constructor to init {@link DataMargin} object
-         * @param totalAssetOfBtc: total asset of Bitcoin
+        /**
+         * Constructor to init {@link DataMargin} object
+         *
+         * @param totalAssetOfBtc:     total asset of Bitcoin
          * @param totalLiabilityOfBtc: total liability of Bitcoin
-         * @param totalNetAssetOfBtc: total net asset of Bitcoin
-         * @param updateTime: update time value
-         * @param userAssetsMargin: list of {@link UserAssetMargin}
+         * @param totalNetAssetOfBtc:  total net asset of Bitcoin
+         * @param updateTime:          update time value
+         * @param userAssetsMargin:    list of {@link UserMarginAsset}
          * @throws IllegalArgumentException if parameters range is not respected
-         * **/
+         **/
         public DataMargin(double marginLevel, double totalAssetOfBtc, double totalLiabilityOfBtc, double totalNetAssetOfBtc,
-                          long updateTime, ArrayList<UserAssetMargin> userAssetsMargin) {
+                          long updateTime, ArrayList<UserMarginAsset> userAssetsMargin) {
             super(totalAssetOfBtc, totalLiabilityOfBtc, totalNetAssetOfBtc);
-            if(marginLevel < 0)
+            if (marginLevel < 0)
                 throw new IllegalArgumentException("Margin level value cannot be less than 0");
             else
                 this.marginLevel = marginLevel;
-            if(updateTime < 0)
+            if (updateTime < 0)
                 throw new IllegalArgumentException("Update time value cannot be less than 0");
             else
                 this.updateTime = updateTime;
-            this.userAssetMarginsList = userAssetsMargin;
+            this.userMarginsListAsset = userAssetsMargin;
         }
 
         public double getMarginLevel() {
@@ -147,7 +157,7 @@ public class AccountSnapshotMargin extends AccountSnapshot{
          * @throws IllegalArgumentException when margin level value is less than 0
          * **/
         public void setMarginLevel(double marginLevel) {
-            if(marginLevel < 0)
+            if (marginLevel < 0)
                 throw new IllegalArgumentException("Margin level value cannot be less than 0");
             this.marginLevel = marginLevel;
         }
@@ -156,35 +166,37 @@ public class AccountSnapshotMargin extends AccountSnapshot{
             return updateTime;
         }
 
-        /** Method to set {@link #updateTime}
+        /**
+         * Method to set {@link #updateTime}
+         *
          * @param updateTime: update time value
          * @throws IllegalArgumentException when update time value value is less than 0
-         * **/
+         **/
         public void setUpdateTime(long updateTime) {
-            if(updateTime < 0)
+            if (updateTime < 0)
                 throw new IllegalArgumentException("Update time value cannot be less than 0");
             this.updateTime = updateTime;
         }
 
-        public ArrayList<UserAssetMargin> getUserAssetMarginsList() {
-            return userAssetMarginsList;
+        public ArrayList<UserMarginAsset> getUserAssetMarginsList() {
+            return userMarginsListAsset;
         }
 
-        public void setUserAssetsMargin(ArrayList<UserAssetMargin> userAssetMargins) {
-            this.userAssetMarginsList = userAssetMargins;
+        public void setUserAssetsMargin(ArrayList<UserMarginAsset> userMarginAssets) {
+            this.userMarginsListAsset = userMarginAssets;
         }
 
-        public void insertUserAssetMargin(UserAssetMargin userAssetMargin){
-            if(!userAssetMarginsList.contains(userAssetMargin))
-                userAssetMarginsList.add(userAssetMargin);
+        public void insertUserAssetMargin(UserMarginAsset userMarginAsset) {
+            if (!userMarginsListAsset.contains(userMarginAsset))
+                userMarginsListAsset.add(userMarginAsset);
         }
 
-        public boolean removeUserAssetMargin(UserAssetMargin userAssetMargin){
-            return userAssetMarginsList.remove(userAssetMargin);
+        public boolean removeUserAssetMargin(UserMarginAsset userMarginAsset) {
+            return userMarginsListAsset.remove(userMarginAsset);
         }
 
-        public UserAssetMargin getUserAssetMargin(int index) {
-            return userAssetMarginsList.get(index);
+        public UserMarginAsset getUserAssetMargin(int index) {
+            return userMarginsListAsset.get(index);
         }
 
         @Override
@@ -192,7 +204,7 @@ public class AccountSnapshotMargin extends AccountSnapshot{
             return "DataMargin{" +
                     "marginLevel=" + marginLevel +
                     ", updateTime=" + updateTime +
-                    ", userAssetMarginsList=" + userAssetMarginsList +
+                    ", userMarginsListAsset=" + userMarginsListAsset +
                     ", totalAssetOfBtc=" + totalAssetOfBtc +
                     ", totalLiabilityOfBtc=" + totalLiabilityOfBtc +
                     ", totalNetAssetOfBtc=" + totalNetAssetOfBtc +
@@ -202,77 +214,99 @@ public class AccountSnapshotMargin extends AccountSnapshot{
     }
 
     /**
-     *  The {@code UserAssetMargin} class is useful to obtain and format UserAssetMargin object
+     * The {@code UserMarginAsset} class is useful to obtain and format UserMarginAsset object
+     *
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
-     * **/
+     * https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
+     **/
 
-    public static class UserAssetMargin extends AccountSnapshotSpot.BalanceSpot {
+    public static class UserMarginAsset extends AccountSnapshotSpot.BalanceSpot {
 
         /**
          * {@code borrowed} is instance that memorizes amount of borrow from asset
-         * **/
+         **/
         protected double borrowed;
 
         /**
          * {@code interest} is instance that memorizes amount of interest in asset
-         * **/
+         **/
         protected double interest;
 
         /**
          * {@code netAsset} is instance that memorizes net asset
-         * **/
+         **/
         protected double netAsset;
 
-        /** Constructor to init {@link UserAssetMargin} object
-         * @param asset: asset
+        /**
+         * Constructor to init {@link UserMarginAsset} object
+         *
+         * @param asset:    asset
          * @param borrowed: amount of borrow from asset
-         * @param free: free amount of asset
+         * @param free:     free amount of asset
          * @param interest: amount of interest in asset
-         * @param locked: amount locked for asset
+         * @param locked:   amount locked for asset
          * @param netAsset: net asset
          * @throws IllegalArgumentException if parameters range is not respected
-         * **/
-        public UserAssetMargin(String asset, double borrowed, double free, double interest, double locked, double netAsset) {
+         **/
+        public UserMarginAsset(String asset, double borrowed, double free, double interest, double locked, double netAsset) {
             super(asset, free, locked);
-            if(borrowed < 0)
+            if (borrowed < 0)
                 throw new IllegalArgumentException("Borrowed value cannot be less than 0");
             else
                 this.borrowed = borrowed;
-            if(interest < 0)
+            if (interest < 0)
                 throw new IllegalArgumentException("Interest value cannot be less than 0");
             else
                 this.interest = interest;
-            if(netAsset < 0)
+            if (netAsset < 0)
                 throw new IllegalArgumentException("Net asset value cannot be less than 0");
             else
                 this.netAsset = netAsset;
         }
 
-        /** Method to assemble {@link UserAssetMargin} object
-         * @param userAsset: obtain from Binance's request
-         * @return {@link UserAssetMargin} object
-         * **/
-        public static UserAssetMargin assembleUserMarginAsset(JSONObject userAsset){
-            return new UserAssetMargin(userAsset.getString("asset"),
-                    userAsset.getDouble("borrowed"),
-                    userAsset.getDouble("free"),
-                    userAsset.getDouble("interest"),
-                    userAsset.getDouble("locked"),
-                    userAsset.getDouble("netAsset")
-            );
+        /**
+         * Constructor to init {@link UserMarginAsset} object
+         *
+         * @param marginAsset: margin asset details as {@link JSONObject}
+         * @throws IllegalArgumentException if parameters range is not respected
+         **/
+        public UserMarginAsset(JSONObject marginAsset) {
+            super(marginAsset);
+            borrowed = marginAsset.getDouble("borrowed");
+            if (borrowed < 0)
+                throw new IllegalArgumentException("Borrowed value cannot be less than 0");
+            interest = marginAsset.getDouble("interest");
+            if (interest < 0)
+                throw new IllegalArgumentException("Interest value cannot be less than 0");
+            netAsset = marginAsset.getDouble("netAsset");
+            if (netAsset < 0)
+                throw new IllegalArgumentException("Net asset value cannot be less than 0");
         }
 
         public double getBorrowed() {
             return borrowed;
         }
 
-        /** Method to set {@link #borrowed}
+        /**
+         * Method to get {@link #borrowed} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #borrowed} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getBorrowed(int decimals) {
+            return roundValue(borrowed, decimals);
+        }
+
+
+        /**
+         * Method to set {@link #borrowed}
+         *
          * @param borrowed: amount of borrow from asset
          * @throws IllegalArgumentException when borrowed is less than 0
-         * **/
+         **/
         public void setBorrowed(double borrowed) {
-            if(borrowed < 0)
+            if (borrowed < 0)
                 throw new IllegalArgumentException("Borrowed value cannot be less than 0");
             this.borrowed = borrowed;
         }
@@ -281,12 +315,25 @@ public class AccountSnapshotMargin extends AccountSnapshot{
             return interest;
         }
 
-        /** Method to set {@link #interest}
+        /**
+         * Method to get {@link #interest} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #interest} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getInterest(int decimals) {
+            return roundValue(interest, decimals);
+        }
+
+        /**
+         * Method to set {@link #interest}
+         *
          * @param interest: amount of interest in asset
          * @throws IllegalArgumentException when interest value is less than 0
-         * **/
+         **/
         public void setInterest(double interest) {
-            if(interest < 0)
+            if (interest < 0)
                 throw new IllegalArgumentException("Interest value cannot be less than 0");
             this.interest = interest;
         }
@@ -295,19 +342,32 @@ public class AccountSnapshotMargin extends AccountSnapshot{
             return netAsset;
         }
 
-        /** Method to set {@link #netAsset}
+        /**
+         * Method to get {@link #netAsset} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #netAsset} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getNetAsset(int decimals) {
+            return roundValue(netAsset, decimals);
+        }
+
+        /**
+         * Method to set {@link #netAsset}
+         *
          * @param netAsset: net asset
          * @throws IllegalArgumentException when net asset value is less than 0
-         * **/
+         **/
         public void setNetAsset(double netAsset) {
-            if(netAsset < 0)
+            if (netAsset < 0)
                 throw new IllegalArgumentException("Net asset value cannot be less than 0");
             this.netAsset = netAsset;
         }
 
         @Override
         public String toString() {
-            return "UserAssetMargin{" +
+            return "UserMarginAsset{" +
                     "borrowed=" + borrowed +
                     ", interest=" + interest +
                     ", netAsset=" + netAsset +

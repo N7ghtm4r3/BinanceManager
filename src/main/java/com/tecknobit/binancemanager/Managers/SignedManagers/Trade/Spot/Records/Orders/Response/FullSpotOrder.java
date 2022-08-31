@@ -36,7 +36,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceManager.Bin
      * @param timeInForce: time in force of the order
      * @param type: type of the order
      * @param side: side of the order
-     * @param fills: fills details in JSON format
+     * @param fills: fills details as {@link JSONObject}
      * **/
     public FullSpotOrder(String symbol, long orderId, long orderListId, String clientOrderId, long transactTime, double price,
                          double origQty, double executedQty, double cummulativeQuoteQty, String status, String timeInForce,

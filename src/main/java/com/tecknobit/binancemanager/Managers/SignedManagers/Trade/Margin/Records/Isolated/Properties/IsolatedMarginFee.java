@@ -5,12 +5,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
  * The {@code IsolatedMarginFee} class is useful to format Binance Isolated Margin Fee request response
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
- *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data</a>
+ *
  * @author N7ghtm4r3 - Tecknobit
- * **/
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data</a>
+ **/
 
 public class IsolatedMarginFee {
 
@@ -26,46 +29,56 @@ public class IsolatedMarginFee {
 
     /**
      * {@code leverage} is instance that memorizes leverage value
-     * **/
+     **/
     private int leverage;
 
     /**
      * {@code isolatedDataList} is instance that memorizes isolated data list
-     * **/
+     **/
     private ArrayList<IsolatedData> isolatedDataList;
 
-    /** Constructor to init {@link IsolatedMarginFee} object
-     * @param vipLevel: vip level
-     * @param symbol: symbol of asset
-     * @param leverage: leverage value
-     * @param jsonFees: fees details in JSON format
+    /**
+     * Constructor to init {@link IsolatedMarginFee} object
+     *
+     * @param vipLevel:         vip level
+     * @param symbol:           symbol of asset
+     * @param leverage:         leverage value
+     * @param isolatedDataList: list of fees as {@link ArrayList} of {@link IsolatedData}
      * @throws IllegalArgumentException if parameters range is not respected
-     * **/
-    public IsolatedMarginFee(int vipLevel, String symbol, int leverage, JSONArray jsonFees) {
-        if(vipLevel < 0)
-            throw new IllegalArgumentException("Vip level value cannot be less than 0");
-        else
-            this.vipLevel = vipLevel;
+     **/
+    public IsolatedMarginFee(int vipLevel, String symbol, int leverage, ArrayList<IsolatedData> isolatedDataList) {
+        this.vipLevel = vipLevel;
         this.symbol = symbol;
-        if(leverage < 0)
-            throw new IllegalArgumentException("Leverage value cannot be less than 0");
-        else
-            this.leverage = leverage;
-        loadIsolatedData(jsonFees);
+        this.leverage = leverage;
+        this.isolatedDataList = isolatedDataList;
     }
 
-    /** Method to assemble a IsolatedData list
+    /**
+     * Constructor to init {@link IsolatedMarginFee} object
+     *
+     * @param isolatedMarginFee: isolated margin fee details as {@link JSONObject}
+     * @throws IllegalArgumentException if parameters range is not respected
+     **/
+    public IsolatedMarginFee(JSONObject isolatedMarginFee) {
+        vipLevel = isolatedMarginFee.getInt("vipLevel");
+        if (vipLevel < 0)
+            throw new IllegalArgumentException("Vip level value cannot be less than 0");
+        symbol = isolatedMarginFee.getString("symbol");
+        leverage = isolatedMarginFee.getInt("leverage");
+        if (leverage < 0)
+            throw new IllegalArgumentException("Leverage value cannot be less than 0");
+        loadIsolatedData(isolatedMarginFee.getJSONArray("data"));
+    }
+
+    /**
+     * Method to assemble a IsolatedData list
+     *
      * @param jsonIsolatedData: obtained from Binance's request
-     * **/
+     **/
     private void loadIsolatedData(JSONArray jsonIsolatedData) {
         isolatedDataList = new ArrayList<>();
-        for (int j = 0; j < jsonIsolatedData.length(); j++) {
-            JSONObject data = jsonIsolatedData.getJSONObject(j);
-            isolatedDataList.add(new IsolatedData(data.getString("coin"),
-                    data.getDouble("dailyInterest"),
-                    data.getDouble("borrowLimit")
-            ));
-        }
+        for (int j = 0; j < jsonIsolatedData.length(); j++)
+            isolatedDataList.add(new IsolatedData(jsonIsolatedData.getJSONObject(j)));
     }
 
     public int getVipLevel() {
@@ -132,9 +145,7 @@ public class IsolatedMarginFee {
     }
 
     /**
-     * The {@code IsolatedData} class is useful to obtain and format IsolatedData object
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data</a>
+     * The {@code IsolatedData} class is useful to create an isolated data object
      * **/
 
     public static class IsolatedData {
@@ -162,14 +173,30 @@ public class IsolatedMarginFee {
          * **/
         public IsolatedData(String coin, double dailyInterest, double borrowLimit) {
             this.coin = coin;
-            if(dailyInterest < 0)
+            if (dailyInterest < 0)
                 throw new IllegalArgumentException("Daily interest value cannot be less than 0");
             else
                 this.dailyInterest = dailyInterest;
-            if(borrowLimit < 0)
+            if (borrowLimit < 0)
                 throw new IllegalArgumentException("Borrow limit value cannot be less than 0");
             else
                 this.borrowLimit = borrowLimit;
+        }
+
+        /**
+         * Constructor to init {@link IsolatedData} object
+         *
+         * @param isolatedData: isolated data details as {@link JSONObject}
+         * @throws IllegalArgumentException if parameters range is not respected
+         **/
+        public IsolatedData(JSONObject isolatedData) {
+            coin = isolatedData.getString("coin");
+            dailyInterest = isolatedData.getDouble("dailyInterest");
+            if (dailyInterest < 0)
+                throw new IllegalArgumentException("Daily interest value cannot be less than 0");
+            borrowLimit = isolatedData.getDouble("borrowLimit");
+            if (borrowLimit < 0)
+                throw new IllegalArgumentException("Borrow limit value cannot be less than 0");
         }
 
         public String getCoin() {
@@ -180,12 +207,26 @@ public class IsolatedMarginFee {
             return dailyInterest;
         }
 
-        /** Method to set {@link #dailyInterest}
+        /**
+         * Method to get {@link #dailyInterest} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #dailyInterest} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getDailyInterest(int decimals) {
+            return roundValue(dailyInterest, decimals);
+        }
+
+
+        /**
+         * Method to set {@link #dailyInterest}
+         *
          * @param dailyInterest: value of daily interest
          * @throws IllegalArgumentException when value of daily interest is less than 0
-         * **/
+         **/
         public void setDailyInterest(double dailyInterest) {
-            if(dailyInterest < 0)
+            if (dailyInterest < 0)
                 throw new IllegalArgumentException("Daily interest value cannot be less than 0");
             this.dailyInterest = dailyInterest;
         }
@@ -194,12 +235,25 @@ public class IsolatedMarginFee {
             return borrowLimit;
         }
 
-        /** Method to set {@link #borrowLimit}
+        /**
+         * Method to get {@link #borrowLimit} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #borrowLimit} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getBorrowLimit(int decimals) {
+            return roundValue(borrowLimit, decimals);
+        }
+
+        /**
+         * Method to set {@link #borrowLimit}
+         *
          * @param borrowLimit: value of borrow limit
          * @throws IllegalArgumentException when value of borrow limit is less than 0
-         * **/
+         **/
         public void setBorrowLimit(double borrowLimit) {
-            if(borrowLimit < 0)
+            if (borrowLimit < 0)
                 throw new IllegalArgumentException("Borrow limit value cannot be less than 0");
             this.borrowLimit = borrowLimit;
         }

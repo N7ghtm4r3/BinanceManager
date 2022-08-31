@@ -2,7 +2,6 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Record
 
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.Fill;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -33,7 +32,7 @@ public class FullMarginOrder extends ResultMarginOrder {
      * @param timeInForce: time in force of the order
      * @param type: type of the order
      * @param side: side of the order
-     * @param jsonMargins: margins details in JSON format
+     * @param jsonMargins: margins details as {@link JSONObject}
      * **/
     public FullMarginOrder(String symbol, double orderId, String clientOrderId, long transactTime, boolean isIsolated,
                            double price, double origQty, double executedQty, double cummulativeQuoteQty, String status,
@@ -49,14 +48,8 @@ public class FullMarginOrder extends ResultMarginOrder {
      * **/
     private void loadFillMargins(JSONArray jsonMargins) {
         fillMarginsList = new ArrayList<>();
-        for (int j = 0; j < jsonMargins.length(); j++) {
-            JSONObject fill = jsonMargins.getJSONObject(j);
-            fillMarginsList.add(new Fill(fill.getDouble("price"),
-                    fill.getDouble("qty"),
-                    fill.getDouble("commission"),
-                    fill.getString("commissionAsset")
-            ));
-        }
+        for (int j = 0; j < jsonMargins.length(); j++)
+            fillMarginsList.add(new Fill(jsonMargins.getJSONObject(j)));
     }
 
     public ArrayList<Fill> getFillMarginsList() {

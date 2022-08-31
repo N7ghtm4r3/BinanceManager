@@ -1,28 +1,33 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account;
 
 import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.AccountSnapshotMargin;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.AccountSnapshotMargin.UserAssetMargin;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.AccountSnapshotMargin.UserMarginAsset;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-/**
- *  The {@code CrossMarginAccountDetails} class is useful to format Binance Cross Margin Account Detail response request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+import static com.tecknobit.apimanager.Tools.Formatters.JsonHelper.getJSONArray;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.AccountSnapshotMargin.assembleUserMarginAssetsList;
 
-public class CrossMarginAccountDetails extends MarginAccount{
+/**
+ * The {@code CrossMarginAccountDetails} class is useful to format Binance Cross Margin Account Detail response request
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
+ **/
+
+public class CrossMarginAccountDetails extends MarginAccount {
 
     /**
      * {@code borrowEnabled} is instance that memorizes if borrow is enable
-     * **/
+     **/
     private boolean borrowEnabled;
 
     /**
      * {@code marginLevel} is instance that memorizes margin level
-     * **/
+     **/
     private double marginLevel;
 
     /**
@@ -36,9 +41,9 @@ public class CrossMarginAccountDetails extends MarginAccount{
     private boolean transferEnabled;
 
     /**
-     * {@code userAssetMargins} is instance that memorizes list of user margin assets
+     * {@code userMarginAssets} is instance that memorizes list of {@link UserMarginAsset}
      * **/
-    private ArrayList<UserAssetMargin> userAssetMargins;
+    private ArrayList<UserMarginAsset> userMarginAssets;
 
     /** Constructor to init {@link CrossMarginAccountDetails} object
      * @param borrowEnabled: borrow is enable
@@ -48,21 +53,35 @@ public class CrossMarginAccountDetails extends MarginAccount{
      * @param totalNetAssetOfBtc: total net asset of Bitcoin
      * @param tradeEnabled: trade is enable
      * @param transferEnabled: transfer is enable
-     * @param jsonDetails: margin account details in JSON format
+     * @param userMarginAssets: list of {@link UserMarginAsset}
      * @throws IllegalArgumentException if parameters range is not respected
      * **/
-    public CrossMarginAccountDetails(boolean borrowEnabled, double marginLevel, double totalAssetOfBtc,
-                                     double totalLiabilityOfBtc, double totalNetAssetOfBtc, boolean tradeEnabled,
-                                     boolean transferEnabled, JSONArray jsonDetails) {
+    public CrossMarginAccountDetails(double totalAssetOfBtc, double totalLiabilityOfBtc, double totalNetAssetOfBtc,
+                                     boolean borrowEnabled, double marginLevel, boolean tradeEnabled,
+                                     boolean transferEnabled, ArrayList<UserMarginAsset> userMarginAssets) {
         super(totalAssetOfBtc, totalLiabilityOfBtc, totalNetAssetOfBtc);
         this.borrowEnabled = borrowEnabled;
-        if(marginLevel < 0)
-            throw new IllegalArgumentException("Margin level value cannot be less than 0");
-        else
-            this.marginLevel = marginLevel;
+        this.marginLevel = marginLevel;
         this.tradeEnabled = tradeEnabled;
         this.transferEnabled = transferEnabled;
-        userAssetMargins = AccountSnapshotMargin.assembleUserMarginAssetsList(jsonDetails);
+        this.userMarginAssets = userMarginAssets;
+    }
+
+    /**
+     * Constructor to init {@link CrossMarginAccountDetails} object
+     *
+     * @param crossMarginAccount: cross margin account details as {@link JSONObject}
+     * @throws IllegalArgumentException if parameters range is not respected
+     **/
+    public CrossMarginAccountDetails(JSONObject crossMarginAccount) {
+        super(crossMarginAccount);
+        borrowEnabled = crossMarginAccount.getBoolean("borrowEnabled");
+        marginLevel = crossMarginAccount.getDouble("marginLevel");
+        if (marginLevel < 0)
+            throw new IllegalArgumentException("Margin level value cannot be less than 0");
+        tradeEnabled = crossMarginAccount.getBoolean("tradeEnabled");
+        transferEnabled = crossMarginAccount.getBoolean("transferEnabled");
+        userMarginAssets = assembleUserMarginAssetsList(getJSONArray(crossMarginAccount, "userAssets", new JSONArray()));
     }
 
     public boolean isBorrowEnabled() {
@@ -87,10 +106,6 @@ public class CrossMarginAccountDetails extends MarginAccount{
         this.marginLevel = marginLevel;
     }
 
-    public double getTotalAssetOfBtc() {
-        return totalAssetOfBtc;
-    }
-
     public boolean isTradeEnabled() {
         return tradeEnabled;
     }
@@ -107,25 +122,25 @@ public class CrossMarginAccountDetails extends MarginAccount{
         this.transferEnabled = transferEnabled;
     }
 
-    public ArrayList<UserAssetMargin> getUserAssetMargins() {
-        return userAssetMargins;
+    public ArrayList<UserMarginAsset> getUserAssetMargins() {
+        return userMarginAssets;
     }
 
-    public void setUserAssetMargins(ArrayList<UserAssetMargin> userAssetMargins) {
-        this.userAssetMargins = userAssetMargins;
+    public void setUserAssetMargins(ArrayList<UserMarginAsset> userMarginAssets) {
+        this.userMarginAssets = userMarginAssets;
     }
 
-    public void insertUserAssetMargin(UserAssetMargin assetMargin){
-        if(!userAssetMargins.contains(assetMargin))
-            userAssetMargins.add(assetMargin);
+    public void insertUserAssetMargin(AccountSnapshotMargin.UserMarginAsset assetMargin) {
+        if (!userMarginAssets.contains(assetMargin))
+            userMarginAssets.add(assetMargin);
     }
 
-    public boolean removeUserAssetMargin(UserAssetMargin assetMargin){
-        return userAssetMargins.remove(assetMargin);
+    public boolean removeUserAssetMargin(AccountSnapshotMargin.UserMarginAsset assetMargin) {
+        return userMarginAssets.remove(assetMargin);
     }
 
-    public UserAssetMargin getUserAssetMargin(int index) {
-        return userAssetMargins.get(index);
+    public AccountSnapshotMargin.UserMarginAsset getUserAssetMargin(int index) {
+        return userMarginAssets.get(index);
     }
 
     @Override
@@ -135,7 +150,7 @@ public class CrossMarginAccountDetails extends MarginAccount{
                 ", marginLevel=" + marginLevel +
                 ", tradeEnabled=" + tradeEnabled +
                 ", transferEnabled=" + transferEnabled +
-                ", userAssetMargins=" + userAssetMargins +
+                ", userMarginAssets=" + userMarginAssets +
                 ", totalAssetOfBtc=" + totalAssetOfBtc +
                 ", totalLiabilityOfBtc=" + totalLiabilityOfBtc +
                 ", totalNetAssetOfBtc=" + totalNetAssetOfBtc +

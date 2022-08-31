@@ -1,11 +1,14 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Properties;
 
+import org.json.JSONObject;
+
 /**
  * The {@code IsolatedMarginSymbol} class is useful to format Binance Isolated Margin Symbol request response
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data">
- *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data</a>
+ *
  * @author N7ghtm4r3 - Tecknobit
- * **/
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data</a>
+ **/
 
 public class IsolatedMarginSymbol {
 
@@ -55,6 +58,20 @@ public class IsolatedMarginSymbol {
         this.isMarginTrade = isMarginTrade;
         this.isBuyAllowed = isBuyAllowed;
         this.isSellAllowed = isSellAllowed;
+    }
+
+    /**
+     * Constructor to init {@link IsolatedMarginSymbol} object
+     *
+     * @param isolatedMarginSymbol: isolated margin symbol details as {@link JSONObject}
+     **/
+    public IsolatedMarginSymbol(JSONObject isolatedMarginSymbol) {
+        symbol = isolatedMarginSymbol.getString("symbol");
+        base = isolatedMarginSymbol.getString("base");
+        quote = isolatedMarginSymbol.getString("quote");
+        isMarginTrade = isolatedMarginSymbol.getBoolean("isMarginTrade");
+        isBuyAllowed = isolatedMarginSymbol.getBoolean("isBuyAllowed");
+        isSellAllowed = isolatedMarginSymbol.getBoolean("isSellAllowed");
     }
 
     public String getSymbol() {

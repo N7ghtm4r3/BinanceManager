@@ -30,8 +30,7 @@ import java.util.Arrays;
 import static com.tecknobit.apimanager.Manager.APIRequest.*;
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.TradeConstants.*;
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account.IsolatedMarginAccountInfo.assembleIsolatedMarginAccountInfoList;
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.ComposedMarginOrderDetails.assembleComposedMarginOrderDetails;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account.IsolatedMarginAccountInfo.createIsolatedMarginAccountInfoList;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.OCOMarginOrder.assembleOCOMarginOrder;
 
 /**
@@ -342,7 +341,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return detail's asset as {@link MarginAsset} object
      * **/
     public MarginAsset queryObjectMarginAsset(String asset) throws Exception {
-        return assembleMarginAssetObject(new JSONObject(queryMarginAsset(asset)));
+        return new MarginAsset(new JSONObject(queryMarginAsset(asset)));
     }
 
     /** Request to get all margin asset details <br>
@@ -375,22 +374,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
         ArrayList<MarginAsset> marginAssets = new ArrayList<>();
         JSONArray assets = new JSONArray(queryAllMarginAssets());
         for (int j = 0; j < assets.length(); j++)
-            marginAssets.add(assembleMarginAssetObject(assets.getJSONObject(j)));
+            marginAssets.add(new MarginAsset(assets.getJSONObject(j)));
         return marginAssets;
-    }
-
-    /** Method to assemble a {@link MarginAsset} object
-     * @param jsonMarginAsset: obtained from Binance's request
-     * @return a MarginAsset object
-     * **/
-    private MarginAsset assembleMarginAssetObject(JSONObject jsonMarginAsset){
-        return new MarginAsset(jsonMarginAsset.getString("assetFullName"),
-                jsonMarginAsset.getString("assetName"),
-                jsonMarginAsset.getBoolean("isBorrowable"),
-                jsonMarginAsset.getBoolean("isMortgageable"),
-                jsonMarginAsset.getDouble("userMinBorrow"),
-                jsonMarginAsset.getDouble("userMinRepay")
-        );
     }
 
     /** Request to get cross margin pair details
@@ -421,7 +406,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cross margin pair as {@link MarginPair} object
      * **/
     public MarginPair queryObjectCrossMarginPair(String asset) throws Exception {
-        return assembleMarginPairObject(new JSONObject(queryCrossMarginPair(asset)));
+        return new MarginPair(new JSONObject(queryCrossMarginPair(asset)));
     }
 
     /** Request to get all cross margin pair details <br>
@@ -454,23 +439,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
         ArrayList<MarginPair> marginAssets = new ArrayList<>();
         JSONArray pairs = new JSONArray(queryAllMarginPairs());
         for (int j = 0; j < pairs.length(); j++)
-            marginAssets.add(assembleMarginPairObject(pairs.getJSONObject(j)));
+            marginAssets.add(new MarginPair(pairs.getJSONObject(j)));
         return marginAssets;
-    }
-
-    /** Method to assemble an MarginPair object
-     * @param jsonMarginPair: obtained from Binance's request
-     * @return a MarginPair object
-     * **/
-    private MarginPair assembleMarginPairObject(JSONObject jsonMarginPair){
-        return new MarginPair(jsonMarginPair.getLong("id"),
-                jsonMarginPair.getString("symbol"),
-                jsonMarginPair.getString("base"),
-                jsonMarginPair.getString("quote"),
-                jsonMarginPair.getBoolean("isMarginTrade"),
-                jsonMarginPair.getBoolean("isBuyAllowed"),
-                jsonMarginPair.getBoolean("isSellAllowed")
-        );
     }
 
     /** Request to get priceIndex of a symbol
@@ -500,11 +470,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return priceIndex of a symbol as {@link MarginPriceIndex} object
      * **/
     public MarginPriceIndex getObjectMarginPriceIndex(String symbol) throws Exception {
-        JSONObject marginIndex = new JSONObject(getMarginPriceIndex(symbol));
-        return new MarginPriceIndex(marginIndex.getLong("calcTime"),
-                marginIndex.getDouble("price"),
-                marginIndex.getString("symbol")
-        );
+        return new MarginPriceIndex(new JSONObject(getMarginPriceIndex(symbol)));
     }
 
     /** Request to send a new margin order
@@ -824,7 +790,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
         for (int j=0; j < jsonArray.length(); j++){
             JSONObject openMarginOrder = jsonArray.getJSONObject(j);
             if(!openMarginOrder.getString("contingencyType").isEmpty())
-                composedMarginOrderDetails.add(assembleComposedMarginOrderDetails(openMarginOrder));
+                composedMarginOrderDetails.add(new ComposedMarginOrderDetails(openMarginOrder));
             else
                 detailMarginOrders.add(DetailMarginOrder.assembleDetailMarginOrderObject(openMarginOrder));
         }
@@ -1328,7 +1294,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cross margin account details response as {@link CrossMarginAccountDetails} object
      * **/
     public CrossMarginAccountDetails getObjectCrossMarginAccountDetails() throws Exception {
-        return assembleCrossMarginAccountDetails(new JSONObject(getCrossMarginAccountDetails()));
+        return new CrossMarginAccountDetails(new JSONObject(getCrossMarginAccountDetails()));
     }
 
     /** Request to get cross margin account details
@@ -1359,23 +1325,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cross margin account details response as {@link CrossMarginAccountDetails} object
      * **/
     public CrossMarginAccountDetails getObjectCrossMarginAccountDetails(long recvWindow) throws Exception {
-        return assembleCrossMarginAccountDetails(new JSONObject(getCrossMarginAccountDetails(recvWindow)));
-    }
-
-    /** Method to assemble a CrossMarginAccountDetails object
-     * @param jsonCrossDetails: obtained from Binance's request
-     * @return a CrossMarginAccountDetails object
-     * **/
-    private CrossMarginAccountDetails assembleCrossMarginAccountDetails(JSONObject jsonCrossDetails){
-        return new CrossMarginAccountDetails(jsonCrossDetails.getBoolean("borrowEnabled"),
-                jsonCrossDetails.getDouble("marginLevel"),
-                jsonCrossDetails.getDouble("totalAssetOfBtc"),
-                jsonCrossDetails.getDouble("totalLiabilityOfBtc"),
-                jsonCrossDetails.getDouble("totalNetAssetOfBtc"),
-                jsonCrossDetails.getBoolean("tradeEnabled"),
-                jsonCrossDetails.getBoolean("transferEnabled"),
-                jsonCrossDetails.getJSONArray("userAssets")
-        );
+        return new CrossMarginAccountDetails(new JSONObject(getCrossMarginAccountDetails(recvWindow)));
     }
 
     /** Request to get margin status order
@@ -1945,7 +1895,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cancel OCO margin order response as {@link ComposedMarginOrderDetails} object
      * **/
     public ComposedMarginOrderDetails cancelObjectOCOMarginOrder(String symbol, long orderListId) throws Exception {
-        return assembleComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, orderListId)));
+        return new ComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, orderListId)));
     }
 
     /** Request to cancel OCO margin order
@@ -1979,7 +1929,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cancel OCO margin order response as {@link ComposedMarginOrderDetails} object
      * **/
     public ComposedMarginOrderDetails cancelObjectOCOMarginOrder(String symbol, String listClientOrderId ) throws Exception {
-        return assembleComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, listClientOrderId)));
+        return new ComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, listClientOrderId)));
     }
 
     /** Request to cancel OCO margin order
@@ -2021,7 +1971,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public ComposedMarginOrderDetails cancelObjectOCOMarginOrder(String symbol, long orderListId,
                                                                  Params extraParams) throws Exception {
-        return assembleComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, orderListId, extraParams)));
+        return new ComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, orderListId, extraParams)));
     }
 
     /** Request to cancel OCO margin order
@@ -2063,7 +2013,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public ComposedMarginOrderDetails cancelObjectOCOMarginOrder(String symbol, String listClientOrderId,
                                                                  Params extraParams) throws Exception {
-        return assembleComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, listClientOrderId, extraParams)));
+        return new ComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, listClientOrderId, extraParams)));
     }
 
     /** Request to get OCO margin order status
@@ -3262,40 +3212,30 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return new JSONArray(getMarginTradeList(symbol, extraParams));
     }
 
-    /** Request to get margin trade list
-     * @param #symbol: used in the request es. BTCBUSD
+    /**
+     * Request to get margin trade list
+     *
+     * @param #symbol:     used in the request es. BTCBUSD
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,startTime,endTime,fromId,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data</a>
      * @return margin trade list as ArrayList<{@link MarginAccountTrade}>
-     * **/
+     * @implSpec (keys accepted are isIsolated, startTime, endTime, fromId, limit, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data</a>
+     **/
     public ArrayList<MarginAccountTrade> getMarginTradesList(String symbol, Params extraParams) throws Exception {
         return assembleMarginTradesList(new JSONArray(getMarginTradeList(symbol, extraParams)));
     }
 
-    /** Method to assemble a MarginAccountTrade list
-     * @param #jsonMarginTrade: obtained from Binance's request
-     * @return a list as ArrayList<{@link MarginAccountTrade}>
-     * **/
-    private ArrayList<MarginAccountTrade> assembleMarginTradesList(JSONArray jsonMarginTrade) {
+    /**
+     * Method to assemble a {@link MarginAccountTrade} list
+     *
+     * @param #jsonMarginTrades: obtained from Binance's request
+     * @return a list as {@link ArrayList} of {@link MarginAccountTrade}
+     **/
+    private ArrayList<MarginAccountTrade> assembleMarginTradesList(JSONArray jsonMarginTrades) {
         ArrayList<MarginAccountTrade> marginAccountTrades = new ArrayList<>();
-        for (int j = 0; j < jsonMarginTrade.length(); j++){
-            JSONObject marginTrade = jsonMarginTrade.getJSONObject(j);
-            marginAccountTrades.add(new MarginAccountTrade(marginTrade.getDouble("commission"),
-                    marginTrade.getString("commissionAsset"),
-                    marginTrade.getLong("id"),
-                    marginTrade.getBoolean("isBestMatch"),
-                    marginTrade.getBoolean("isBuyer"),
-                    marginTrade.getBoolean("isMaker"),
-                    marginTrade.getLong("orderId"),
-                    marginTrade.getDouble("price"),
-                    marginTrade.getDouble("qty"),
-                    marginTrade.getString("symbol"),
-                    marginTrade.getBoolean("isIsolated"),
-                    marginTrade.getLong("time")
-            ));
-        }
+        for (int j = 0; j < jsonMarginTrades.length(); j++)
+            marginAccountTrades.add(new MarginAccountTrade(jsonMarginTrades.getJSONObject(j)));
         return marginAccountTrades;
     }
 
@@ -3327,7 +3267,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return max borrow as {@link MarginMaxBorrow}
      * **/
     public MarginMaxBorrow getObjectMarginBorrow(String asset) throws Exception {
-        return assembleMarginMaxBorrowObject(new JSONObject(getMaxBorrow(asset)));
+        return new MarginMaxBorrow(new JSONObject(getMaxBorrow(asset)));
     }
 
     /** Request to get max borrow
@@ -3365,17 +3305,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return max borrow as {@link MarginMaxBorrow}
      * **/
     public MarginMaxBorrow getObjectMarginBorrow(String asset, Params extraParams) throws Exception {
-        return assembleMarginMaxBorrowObject(new JSONObject(getMaxBorrow(asset, extraParams)));
-    }
-
-    /** Method to assemble a MarginMaxBorrow object
-     * @param #maxBorrow: obtained from Binance's request
-     * @return a {@link MarginMaxBorrow} object
-     * **/
-    private MarginMaxBorrow assembleMarginMaxBorrowObject(JSONObject maxBorrow){
-        return new MarginMaxBorrow(maxBorrow.getDouble("amount"),
-                maxBorrow.getDouble("borrowLimit")
-        );
+        return new MarginMaxBorrow(new JSONObject(getMaxBorrow(asset, extraParams)));
     }
 
     /** Request to get max transfer out amount
@@ -3649,7 +3579,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return margin account info as {@link ComposedIMarginAccountInfo} object
      * **/
     public ComposedIMarginAccountInfo getObjectMarginIsolatedAccount() throws Exception {
-        return assembleComposedIMarginAccountInfoObject(new JSONObject(getMarginIsolatedAccountInfo()));
+        return new ComposedIMarginAccountInfo(new JSONObject(getMarginIsolatedAccountInfo()));
     }
 
     /** Request to get margin isolated account info
@@ -3680,19 +3610,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return margin account info as {@link ComposedIMarginAccountInfo} object
      * **/
     public ComposedIMarginAccountInfo getObjectMarginIsolatedAccount(long recvWindow) throws Exception {
-        return assembleComposedIMarginAccountInfoObject(new JSONObject(getMarginIsolatedAccountInfo(recvWindow)));
-    }
-
-    /** Method to assemble a ComposedIMarginAccountInfo object
-     * @param #jsonComposed: obtained from Binance's request
-     * @return a {@link ComposedIMarginAccountInfo} object
-     * **/
-    private ComposedIMarginAccountInfo assembleComposedIMarginAccountInfoObject(JSONObject jsonComposed){
-        return new ComposedIMarginAccountInfo(jsonComposed.getDouble("totalAssetOfBtc"),
-                jsonComposed.getDouble("totalLiabilityOfBtc"),
-                jsonComposed.getDouble("totalNetAssetOfBtc"),
-                jsonComposed.getJSONArray("assets")
-        );
+        return new ComposedIMarginAccountInfo(new JSONObject(getMarginIsolatedAccountInfo(recvWindow)));
     }
 
     /** Request to get margin isolated account info
@@ -3723,7 +3641,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return margin account info as ArrayList<{@link IsolatedMarginAccountInfo}>
      * **/
     public ArrayList<IsolatedMarginAccountInfo> getMarginIsolatedAccountList(ArrayList<String> symbols) throws Exception {
-        return assembleIsolatedMarginAccountInfoList(new JSONObject(getMarginIsolatedAccountInfo(symbols))
+        return createIsolatedMarginAccountInfoList(new JSONObject(getMarginIsolatedAccountInfo(symbols))
                 .getJSONArray("assets"));
     }
 
@@ -3756,7 +3674,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     public ArrayList<IsolatedMarginAccountInfo> getMarginIsolatedAccountList(String[] symbols) throws Exception {
         JSONArray marginAccountList = new JSONObject(getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols))))
                 .getJSONArray("assets");
-        return assembleIsolatedMarginAccountInfoList(marginAccountList);
+        return createIsolatedMarginAccountInfoList(marginAccountList);
     }
 
     /** Request to get margin isolated account info
@@ -3791,7 +3709,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public ArrayList<IsolatedMarginAccountInfo> getMarginIsolatedAccountList(ArrayList<String> symbols, long recvWindow) throws Exception {
         JSONArray jsonArray = new JSONObject(getMarginIsolatedAccountInfo(symbols, recvWindow)).getJSONArray("assets");
-        return assembleIsolatedMarginAccountInfoList(jsonArray);
+        return createIsolatedMarginAccountInfoList(jsonArray);
     }
 
     /** Request to get margin isolated account info
@@ -3826,7 +3744,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     public ArrayList<IsolatedMarginAccountInfo> getMarginIsolatedAccountList(String[] symbols, long recvWindow) throws Exception {
         JSONArray marginAccountList = new JSONObject(getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols)),
                 recvWindow)).getJSONArray("assets");
-        return assembleIsolatedMarginAccountInfoList(marginAccountList);
+        return createIsolatedMarginAccountInfoList(marginAccountList);
     }
 
     /** Request to enable or disable isolated margin account status
@@ -3863,7 +3781,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return result of enable or disable isolated margin account status as {@link IsolatedMarginAccountStatus}
      * **/
     public IsolatedMarginAccountStatus switchObjectIMarginAccountStatus(String symbol, boolean enableIsolated) throws Exception {
-        return assembleIMarginAccountStatusObject(new JSONObject(switchIMarginAccountStatus(symbol, enableIsolated)));
+        return new IsolatedMarginAccountStatus(new JSONObject(switchIMarginAccountStatus(symbol, enableIsolated)));
     }
 
     /** Request to enable or disable isolated margin account status
@@ -3903,17 +3821,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return result of enable or disable isolated margin account status as {@link IsolatedMarginAccountStatus}
      * **/
     public IsolatedMarginAccountStatus switchObjectIMarginAccountStatus(String symbol, long recvWindow, boolean enableIsolated) throws Exception {
-        return assembleIMarginAccountStatusObject(new JSONObject(switchIMarginAccountStatus(symbol, recvWindow, enableIsolated)));
-    }
-
-    /** Method to assemble a IsolatedMarginAccountStatus object
-     * @param #jsonStatus: obtained from Binance's request
-     * @return a {@link IsolatedMarginAccountStatus} object
-     * **/
-    private IsolatedMarginAccountStatus assembleIMarginAccountStatusObject(JSONObject jsonStatus){
-        return new IsolatedMarginAccountStatus(jsonStatus.getBoolean("success"),
-                jsonStatus.getString("symbol")
-        );
+        return new IsolatedMarginAccountStatus(new JSONObject(switchIMarginAccountStatus(symbol, recvWindow, enableIsolated)));
     }
 
     /** Request to get isolate margin account limit <br>
@@ -3943,7 +3851,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return isolate margin account limit as {@link IsolatedMarginAccountLimit} object
      * **/
     public IsolatedMarginAccountLimit getObjectIsolateMarginAccountLimit() throws Exception {
-        return assembleIsolatedMarginAccountLimitObject(new JSONObject(getIsolateMarginAccountLimit()));
+        return new IsolatedMarginAccountLimit(new JSONObject(getIsolateMarginAccountLimit()));
     }
 
     /** Request to get isolate margin account limit
@@ -3974,17 +3882,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return isolate margin account limit as {@link IsolatedMarginAccountLimit} object
      * **/
     public IsolatedMarginAccountLimit getObjectIsolateMarginAccountLimit(long recvWindow) throws Exception {
-        return assembleIsolatedMarginAccountLimitObject(new JSONObject(getIsolateMarginAccountLimit(recvWindow)));
-    }
-
-    /** Method to assemble a IsolatedMarginAccountLimit object
-     * @param #accountLimit: obtained from Binance's request
-     * @return a {@link IsolatedMarginAccountLimit} object
-     * **/
-    private IsolatedMarginAccountLimit assembleIsolatedMarginAccountLimitObject(JSONObject accountLimit){
-        return new IsolatedMarginAccountLimit(accountLimit.getInt("enabledAccount"),
-                accountLimit.getInt("maxAccount")
-        );
+        return new IsolatedMarginAccountLimit(new JSONObject(getIsolateMarginAccountLimit(recvWindow)));
     }
 
     /** Request to get isolate margin symbol
@@ -4015,7 +3913,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return isolate margin symbol as {@link IsolatedMarginSymbol} object
      * **/
     public IsolatedMarginSymbol getObjectIsolatedMarginSymbol(String symbol) throws Exception {
-        return assembleIsolatedMarginSymbolObject(new JSONObject(getIsolatedMarginSymbol(symbol)));
+        return new IsolatedMarginSymbol(new JSONObject(getIsolatedMarginSymbol(symbol)));
     }
 
     /** Request to get isolate margin symbol
@@ -4049,7 +3947,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return isolate margin symbol as {@link IsolatedMarginSymbol} object
      * **/
     public IsolatedMarginSymbol getObjectIsolatedMarginSymbol(String symbol, long recvWindow) throws Exception {
-        return assembleIsolatedMarginSymbolObject(new JSONObject(getIsolatedMarginSymbol(symbol, recvWindow)));
+        return new IsolatedMarginSymbol(new JSONObject(getIsolatedMarginSymbol(symbol, recvWindow)));
     }
 
     /** Request to get all isolate margin symbols <br>
@@ -4093,48 +3991,40 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return sendSignedRequest(QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT, params, GET_METHOD);
     }
 
-    /** Request to get all isolate margin symbols
+    /**
+     * Request to get all isolate margin symbols
+     *
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data</a>
      * @return all isolate margin symbols as {@link JSONArray}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data</a>
+     **/
     public JSONArray getJSONAllIsolatedMarginSymbol(long recvWindow) throws Exception {
         return new JSONArray(getAllIsolatedMarginSymbol(recvWindow));
     }
 
-    /** Request to get all isolate margin symbols
+    /**
+     * Request to get all isolate margin symbols
+     *
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data</a>
      * @return all isolate margin symbols as ArrayList<{@link IsolatedMarginSymbol}>
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data</a>
+     **/
     public ArrayList<IsolatedMarginSymbol> getAllIsolatedMarginSymbolList(long recvWindow) throws Exception {
         return assembleAllIMarginSymbolList(new JSONArray(getAllIsolatedMarginSymbol(recvWindow)));
     }
 
-    /** Method to assemble a IsolatedMarginSymbol object
-     * @param #symbol: obtained from Binance's request
-     * @return a {@link IsolatedMarginSymbol} object
-     * **/
-    private IsolatedMarginSymbol assembleIsolatedMarginSymbolObject(JSONObject symbol){
-        return new IsolatedMarginSymbol(symbol.getString("symbol"),
-                symbol.getString("base"),
-                symbol.getString("quote"),
-                symbol.getBoolean("isMarginTrade"),
-                symbol.getBoolean("isBuyAllowed"),
-                symbol.getBoolean("isSellAllowed")
-        );
-    }
-
-    /** Method to assemble a IsolatedMarginSymbol list
-     * @param #jsonArray: obtained from Binance's request
-     * @return as ArrayList<{@link IsolatedMarginSymbol}>
-     * **/
-    private ArrayList<IsolatedMarginSymbol> assembleAllIMarginSymbolList(JSONArray jsonArray){
+    /**
+     * Method to assemble an {@link IsolatedMarginSymbol} list
+     *
+     * @param #symbolsList: obtained from Binance's request
+     * @return list as {@link ArrayList} of {@link IsolatedMarginSymbol}
+     **/
+    private ArrayList<IsolatedMarginSymbol> assembleAllIMarginSymbolList(JSONArray symbolsList) {
         ArrayList<IsolatedMarginSymbol> isolatedMarginSymbols = new ArrayList<>();
-        for (int j=0; j < jsonArray.length(); j++)
-            isolatedMarginSymbols.add(assembleIsolatedMarginSymbolObject(jsonArray.getJSONObject(j)));
+        for (int j = 0; j < symbolsList.length(); j++)
+            isolatedMarginSymbols.add(new IsolatedMarginSymbol(symbolsList.getJSONObject(j)));
         return isolatedMarginSymbols;
     }
 
@@ -4165,7 +4055,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return toggle BNB on trade interest as {@link BNBBurn} object
      * **/
     public BNBBurn toggleObjectBNBOnTradeInterest() throws Exception {
-        return assembleBNBBurnObject(new JSONObject(toggleBNBOnTradeInterest()));
+        return new BNBBurn(new JSONObject(toggleBNBOnTradeInterest()));
     }
 
     /** Request to get toggle BNB on trade interest
@@ -4199,7 +4089,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return toggle BNB on trade interest as {@link BNBBurn} object
      * **/
     public BNBBurn toggleObjectBNBOnTradeInterest(Params extraParams) throws Exception {
-        return assembleBNBBurnObject(new JSONObject(toggleBNBOnTradeInterest(extraParams)));
+        return new BNBBurn(new JSONObject(toggleBNBOnTradeInterest(extraParams)));
     }
 
     /** Request to get BNB burn status <br>
@@ -4229,7 +4119,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return BNB burn status as {@link BNBBurn} object
      * **/
     public BNBBurn getObjectBNBBurnStatus() throws Exception {
-        return assembleBNBBurnObject(new JSONObject(getBNBBurnStatus()));
+        return new BNBBurn(new JSONObject(getBNBBurnStatus()));
     }
 
     /** Request to get BNB burn status
@@ -4260,17 +4150,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return BNB burn status as {@link BNBBurn} object
      * **/
     public BNBBurn getObjectBNBBurnStatus(long recvWindow) throws Exception {
-        return assembleBNBBurnObject(new JSONObject(getBNBBurnStatus(recvWindow)));
-    }
-
-    /** Method to assemble a BNBBurn object
-     * @param #jsonObject: obtained from Binance's request
-     * @return a {@link BNBBurn} object
-     * **/
-    private BNBBurn assembleBNBBurnObject(JSONObject jsonObject){
-        return new BNBBurn(jsonObject.getBoolean("spotBNBBurn"),
-                jsonObject.getBoolean("interestBNBBurn")
-        );
+        return new BNBBurn(new JSONObject(getBNBBurnStatus(recvWindow)));
     }
 
     /** Request to get margin interest rate history
@@ -4348,14 +4228,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     private ArrayList<MarginInterestRate> assembleMarginIRateHistoryList(JSONArray jsonRate) {
         ArrayList<MarginInterestRate> marginInterestRates = new ArrayList<>();
-        for (int j = 0; j < jsonRate.length(); j++) {
-            JSONObject interestRate = jsonRate.getJSONObject(j);
-            marginInterestRates.add(new MarginInterestRate(interestRate.getString("asset"),
-                    interestRate.getDouble("dailyInterestRate"),
-                    interestRate.getLong("timestamp"),
-                    interestRate.getInt("vipLevel")
-            ));
-        }
+        for (int j = 0; j < jsonRate.length(); j++)
+            marginInterestRates.add(new MarginInterestRate(jsonRate.getJSONObject(j)));
         return marginInterestRates;
     }
 
@@ -4429,18 +4303,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     private ArrayList<CrossMarginFee> assembleCrossMarginFeesList(JSONArray jsonFees) {
         ArrayList<CrossMarginFee> crossMarginFees = new ArrayList<>();
-        for (int j = 0; j < jsonFees.length(); j++) {
-            JSONObject fee = jsonFees.getJSONObject(j);
-            crossMarginFees.add(new CrossMarginFee(fee.getInt("vipLevel"),
-                    fee.getString("coin"),
-                    fee.getBoolean("transferIn"),
-                    fee.getBoolean("borrowable"),
-                    fee.getDouble("dailyInterest"),
-                    fee.getDouble("yearlyInterest"),
-                    fee.getDouble("borrowLimit"),
-                    fee.getJSONArray("marginablePairs")
-            ));
-        }
+        for (int j = 0; j < jsonFees.length(); j++)
+            crossMarginFees.add(new CrossMarginFee(jsonFees.getJSONObject(j)));
         return crossMarginFees;
     }
 
@@ -4508,20 +4372,14 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return assembleIsolatedMarginFeesList(new JSONArray(getIsolatedMarginFee(extraParams)));
     }
 
-    /** Method to assemble a IsolatedMarginFee list
+    /** Method to assemble an {@link IsolatedMarginFee} list
      * @param #jsonFees: obtained from Binance's request
-     * @return IsolatedMarginFee as ArrayList<{@link IsolatedMarginFee}>
+     * @return list as {@link ArrayList} of {@link IsolatedMarginFee}
      * **/
     private ArrayList<IsolatedMarginFee> assembleIsolatedMarginFeesList(JSONArray jsonFees) {
         ArrayList<IsolatedMarginFee> isolatedMarginFees = new ArrayList<>();
-        for (int j = 0; j < jsonFees.length(); j++) {
-            JSONObject fee = jsonFees.getJSONObject(j);
-            isolatedMarginFees.add(new IsolatedMarginFee(fee.getInt("vipLevel"),
-                    fee.getString("symbol"),
-                    fee.getInt("leverage"),
-                    fee.getJSONArray("data")
-            ));
-        }
+        for (int j = 0; j < jsonFees.length(); j++)
+            isolatedMarginFees.add(new IsolatedMarginFee(jsonFees.getJSONObject(j)));
         return isolatedMarginFees;
     }
 
@@ -4594,23 +4452,14 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return assembleIsolatedMarginTierDataList(new JSONArray(getIsolatedMarginTierData(symbol, extraParams)));
     }
 
-    /** Method to assemble a IsolatedMarginTierData list
+    /** Method to assemble an {@link IsolatedMarginTierData} list
      * @param #jsonTierData: obtained from Binance's request
-     * @return as ArrayList<{@link IsolatedMarginTierData}>
+     * @return list as {@link ArrayList} of {@link IsolatedMarginTierData}
      * **/
     private ArrayList<IsolatedMarginTierData> assembleIsolatedMarginTierDataList(JSONArray jsonTierData) {
         ArrayList<IsolatedMarginTierData> isolatedMarginTierData = new ArrayList<>();
-        for (int j = 0; j < jsonTierData.length(); j++) {
-            JSONObject tierData = jsonTierData.getJSONObject(j);
-            isolatedMarginTierData.add(new IsolatedMarginTierData(tierData.getString("symbol"),
-                    tierData.getInt("tier"),
-                    tierData.getDouble("effectiveMultiple"),
-                    tierData.getDouble("initialRiskRatio"),
-                    tierData.getDouble("liquidationRiskRatio"),
-                    tierData.getDouble("baseAssetMaxBorrowable"),
-                    tierData.getDouble("quoteAssetMaxBorrowable")
-            ));
-        }
+        for (int j = 0; j < jsonTierData.length(); j++)
+            isolatedMarginTierData.add(new IsolatedMarginTierData(jsonTierData.getJSONObject(j)));
         return isolatedMarginTierData;
     }
 

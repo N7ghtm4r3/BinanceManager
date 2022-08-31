@@ -3402,7 +3402,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return OCO order status response as OrderValues object
      * **/
     public OrderDetails getOcoOrderStatusObject(String symbol, long orderListId) throws Exception {
-        return assembleBaseOrderDetails(new JSONObject(getOcoOrderStatus(symbol, orderListId)));
+        return new OrderDetails(new JSONObject(getOcoOrderStatus(symbol, orderListId)));
     }
 
     /** Request to get OCO order status
@@ -3440,7 +3440,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return cancel all OcoOrders response as OrderValues object
      * **/
     public OrderDetails getOcoOrderStatusObject(String symbol, long orderListId, long recvWindow) throws Exception {
-        return assembleBaseOrderDetails(new JSONObject(getOcoOrderStatus(symbol, orderListId, recvWindow)));
+        return new OrderDetails(new JSONObject(getOcoOrderStatus(symbol, orderListId, recvWindow)));
     }
 
     /** Request to get OCO order status
@@ -3474,7 +3474,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return OCO order status response as OrderValues object
      * **/
     public OrderDetails getOcoOrderStatusObject(String symbol, String listClientOrderId) throws Exception {
-        return assembleBaseOrderDetails(new JSONObject(getOcoOrderStatus(symbol, listClientOrderId)));
+        return new OrderDetails(new JSONObject(getOcoOrderStatus(symbol, listClientOrderId)));
     }
 
     /** Request to get OCO order status
@@ -3512,7 +3512,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return OCO order status response as OrderValues object
      * **/
     public OrderDetails getOcoOrderStatusObject(String symbol, String listClientOrderId, long recvWindow) throws Exception {
-        return assembleBaseOrderDetails(new JSONObject(getOcoOrderStatus(symbol, listClientOrderId, recvWindow)));
+        return new OrderDetails(new JSONObject(getOcoOrderStatus(symbol, listClientOrderId, recvWindow)));
     }
 
     /** Request to get OCO order status list <br>
@@ -3542,7 +3542,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return OCO order status list response as ArrayList<OrderValues>
      * **/
     public ArrayList<OrderDetails> getObjectOcoOrderStatusList() throws Exception {
-        return assembleBaseOrderDetails(new JSONArray(getOcoOrderStatusList()));
+        return assembleBaseOrderDetailsList(new JSONArray(getOcoOrderStatusList()));
     }
 
     /** Request to get OCO order status list
@@ -3579,7 +3579,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return OCO order status list response as ArrayList<OrderValues>
      * **/
     public ArrayList<OrderDetails> getObjectOcoOrderStatusList(long fromId, String timeParam, long timeParamValue) throws Exception {
-        return assembleBaseOrderDetails(new JSONArray(getOcoOrderStatusList(fromId, timeParam, timeParamValue)));
+        return assembleBaseOrderDetailsList(new JSONArray(getOcoOrderStatusList(fromId, timeParam, timeParamValue)));
     }
 
     /** Request to get OCO order status list
@@ -3613,7 +3613,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return OCO order status list response as ArrayList<OrderValues>
      * **/
     public ArrayList<OrderDetails> getObjectOcoOrderStatusList(Params extraParams) throws Exception {
-        return assembleBaseOrderDetails(new JSONArray(getOcoOrderStatusList(extraParams)));
+        return assembleBaseOrderDetailsList(new JSONArray(getOcoOrderStatusList(extraParams)));
     }
 
     /** Request to get OCO order status list
@@ -3660,7 +3660,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public ArrayList<OrderDetails> getObjectOcoOrderStatusList(long fromId, String timeParam, long timeParamValue,
                                                                Params extraParams) throws Exception {
-        return assembleBaseOrderDetails(new JSONArray(getOcoOrderStatusList(fromId, timeParam, timeParamValue, extraParams)));
+        return assembleBaseOrderDetailsList(new JSONArray(getOcoOrderStatusList(fromId, timeParam, timeParamValue, extraParams)));
     }
 
     /** Request to get open OCO order list <br>
@@ -3690,7 +3690,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return open OCO order list response as ArrayList<OrderValues>
      * **/
     public ArrayList<OrderDetails> getObjectOpenOcoOrderList() throws Exception {
-        return assembleBaseOrderDetails(new JSONArray(getOpenOcoOrderList()));
+        return assembleBaseOrderDetailsList(new JSONArray(getOpenOcoOrderList()));
     }
 
     /** Request to get open OCO order list
@@ -3714,41 +3714,29 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return new JSONArray(getOpenOcoOrderList(recvWindow));
     }
 
-    /** Request to get open OCO order list
+    /**
+     * Request to get open OCO order list
+     *
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-open-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-open-oco-user_data</a>
      * @return open OCO order list response as ArrayList<OrderValues>
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-open-oco-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#query-open-oco-user_data</a>
+     **/
     public ArrayList<OrderDetails> getObjectOpenOcoOrderList(long recvWindow) throws Exception {
-        return assembleBaseOrderDetails(new JSONArray(getOpenOcoOrderList(recvWindow)));
+        return assembleBaseOrderDetailsList(new JSONArray(getOpenOcoOrderList(recvWindow)));
     }
 
-    /** Method to assemble an OrderValues object list
+    /**
+     * Method to assemble an OrderValues object list
+     *
      * @param #jsonOrders: obtained from Binance's request
      * @return an ArrayList<OrderValues> with response data
-     * **/
-    private ArrayList<OrderDetails> assembleBaseOrderDetails(JSONArray jsonOrders){
+     **/
+    private ArrayList<OrderDetails> assembleBaseOrderDetailsList(JSONArray jsonOrders) {
         ArrayList<OrderDetails> baseOrderDetailsList = new ArrayList<>();
         for (int j = 0; j < jsonOrders.length(); j++)
-            baseOrderDetailsList.add(assembleBaseOrderDetails(jsonOrders.getJSONObject(j)));
+            baseOrderDetailsList.add(new OrderDetails(jsonOrders.getJSONObject(j)));
         return baseOrderDetailsList;
-    }
-
-    /** Method to assemble an OrderValues object
-     * @param #order: obtained from Binance's request
-     * @return a OrderValues object with response data
-     * **/
-    private OrderDetails assembleBaseOrderDetails(JSONObject order){
-        return new OrderDetails(order.getLong("orderListId"),
-                order.getString("contingencyType"),
-                order.getString("listStatusType"),
-                order.getString("listOrderStatus"),
-                order.getString("listClientOrderId"),
-                order.getLong("transactionTime"),
-                order.getString("symbol"),
-                order
-        );
     }
 
     /** Request to get spot account information <br>

@@ -33,7 +33,7 @@ public class DetailSpotOrder extends ResultSpotOrder implements BinanceManager.B
      * @param timeInForce: time in force of the order
      * @param type: type of the order
      * @param side: side of the order
-     * @param jsonOrder: order details in JSON format
+     * @param jsonOrder: order details as {@link JSONObject}
      * **/
     public DetailSpotOrder(String symbol, long orderId, long orderListId, String clientOrderId, String origClientOrderId,
                            double price, double origQty, double executedQty, double cummulativeQuoteQty, String status,

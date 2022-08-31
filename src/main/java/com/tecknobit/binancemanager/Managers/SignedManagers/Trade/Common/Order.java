@@ -1,14 +1,45 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common;
 
 import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.BinanceMarginManager;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.BinanceSpotManager;
 import org.json.JSONObject;
 
 /**
  * The {@code Order} class is useful to manage and format all Binance Order request
  *
- * @implNote used by BinanceSpotManager, BinanceMarginManager
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
- * https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
+ * @implNote used by {@link BinanceSpotManager} and {@link BinanceMarginManager}
+ * @apiNote see the official documentation at:
+ * <ul>
+ * <li>
+ * <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+ * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
+ * </li>
+ * <li>
+ * <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
+ * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
+ * </li><li>
+ * <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
+ * </li>
+ * <li>
+ * <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
+ * https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
+ * </li><li>
+ * <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+ * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
+ * </li>
+ * <li>
+ * <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade">
+ * https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade</a>
+ * </li><li>
+ * <a href="https://binance-docs.github.io/apidocs/spot/en/#spot-account-trade">
+ * https://binance-docs.github.io/apidocs/spot/en/#spot-account-trade</a>
+ * </li><li>
+ * <a href="https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data</a>
+ * </li>
+ * </ul>
  **/
 
 public abstract class Order {

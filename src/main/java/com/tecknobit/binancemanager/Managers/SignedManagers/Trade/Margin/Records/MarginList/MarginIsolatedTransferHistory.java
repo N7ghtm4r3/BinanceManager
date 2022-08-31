@@ -1,17 +1,20 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginList;
 
-import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.tecknobit.apimanager.Tools.Formatters.JsonHelper.getJSONArray;
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
  * The {@code MarginIsolatedTransferHistory} class is useful to format Binance Isolated Transfer History request response
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
- *     https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
+ *
  * @author N7ghtm4r3 - Tecknobit
- * **/
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
+ **/
 
 public class MarginIsolatedTransferHistory {
 
@@ -32,19 +35,32 @@ public class MarginIsolatedTransferHistory {
 
     /**
      * {@code marginIsolatedTransfersList} is instance that memorizes list of {@link MarginIsolatedTransfer}
-     * **/
+     **/
     private ArrayList<MarginIsolatedTransfer> marginIsolatedTransfersList;
 
-    /** Constructor to init {@link MarginIsolatedTransferHistory} object
-     * @param jsonTransfer: transfers details in JSON format
+    /**
+     * Constructor to init {@link MarginIsolatedTransferHistory} object
+     *
+     * @param total:                       total size of transfers history
+     * @param marginIsolatedTransfersList: list of {@link MarginIsolatedTransfer}
+     **/
+    public MarginIsolatedTransferHistory(int total, ArrayList<MarginIsolatedTransfer> marginIsolatedTransfersList) {
+        this.total = total;
+        this.marginIsolatedTransfersList = marginIsolatedTransfersList;
+    }
+
+    /**
+     * Constructor to init {@link MarginIsolatedTransferHistory} object
+     *
+     * @param jsonTransfer: transfers details as {@link JSONObject}
      * @throws IllegalArgumentException when transfers details are not recoverable
-     * **/
+     **/
     public MarginIsolatedTransferHistory(JSONObject jsonTransfer) {
-        JSONArray jsonTransfers = new JsonHelper(jsonTransfer).getJSONArray("rows");
-        if(jsonTransfer != null){
+        JSONArray jsonTransfers = getJSONArray(jsonTransfer, "rows");
+        if (jsonTransfers != null) {
             total = jsonTransfers.length();
             loadIsolatedTransfersList(jsonTransfers);
-        }else
+        } else
             throw new IllegalArgumentException("Details are not recoverable");
     }
 
@@ -54,17 +70,8 @@ public class MarginIsolatedTransferHistory {
      * **/
     private void loadIsolatedTransfersList(JSONArray jsonTransfers) {
         marginIsolatedTransfersList = new ArrayList<>();
-        for (int j = 0; j < jsonTransfers.length(); j++){
-            JSONObject isolatedTransfer = jsonTransfers.getJSONObject(j);
-            marginIsolatedTransfersList.add(new MarginIsolatedTransfer(isolatedTransfer.getString("asset"),
-                    isolatedTransfer.getLong("txId"),
-                    isolatedTransfer.getLong("timestamp"),
-                    isolatedTransfer.getString("status"),
-                    isolatedTransfer.getDouble("amount"),
-                    isolatedTransfer.getString("transFrom"),
-                    isolatedTransfer.getString("transTO")
-            ));
-        }
+        for (int j = 0; j < jsonTransfers.length(); j++)
+            marginIsolatedTransfersList.add(new MarginIsolatedTransfer(jsonTransfers.getJSONObject(j)));
     }
 
     public int getTotal() {
@@ -108,8 +115,6 @@ public class MarginIsolatedTransferHistory {
 
     /**
      * The {@code MarginIsolatedTransfer} class is useful to obtain and format IsolatedData object
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
      * **/
 
     public static class MarginIsolatedTransfer extends MarginAssetList {
@@ -147,8 +152,32 @@ public class MarginIsolatedTransferHistory {
             this.transTo = transTo;
         }
 
+        /**
+         * Constructor to init {@link MarginIsolatedTransfer} object
+         *
+         * @param isolatedTransfer: isolated transfer details as {@link JSONObject}
+         * @throws IllegalArgumentException if parameters range is not respected
+         **/
+        public MarginIsolatedTransfer(JSONObject isolatedTransfer) {
+            super(isolatedTransfer);
+            amount = isolatedTransfer.getDouble("amount");
+            transFrom = isolatedTransfer.getString("transFrom");
+            transTo = isolatedTransfer.getString("transTo");
+        }
+
         public double getAmount() {
             return amount;
+        }
+
+        /**
+         * Method to get {@link #amount} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #amount} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getAmount(int decimals) {
+            return roundValue(amount, decimals);
         }
 
         public String getTransFrom() {

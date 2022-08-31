@@ -42,15 +42,15 @@ public class AccountSnapshot {
     protected final String type;
 
     /**
-     * {@code accountDetails} is instance that memorizes account details in JSON format
-     * **/
+     * {@code accountDetails} is instance that memorizes account details as {@link JSONObject}
+     **/
     protected final JSONArray accountDetails;
 
     /** Constructor to init {@link AccountSnapshot} object
      * @param code: code of response
      * @param msg: message of response
      * @param type: type of account
-     * @param accountDetails: details in JSON format
+     * @param accountDetails: details as {@link JSONObject}
      * **/
     public AccountSnapshot(int code, String msg, String type, JSONArray accountDetails) {
         this.code = code;

@@ -1,11 +1,16 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties;
 
+import org.json.JSONObject;
+
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
- *  The {@code MarginAsset} class is useful to format Binance Get All Margin Assets request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-margin-assets-market_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#get-all-margin-assets-market_data</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code MarginAsset} class is useful to format Binance Get All Margin Assets request
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-margin-assets-market_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#get-all-margin-assets-market_data</a>
+ **/
 
 public class MarginAsset {
 
@@ -54,14 +59,33 @@ public class MarginAsset {
         this.assetName = assetName;
         this.isBorrowable = isBorrowable;
         this.isMortgageable = isMortgageable;
-        if(userMinBorrow < 0)
+        if (userMinBorrow < 0)
             throw new IllegalArgumentException("Min borrow quote value cannot be less than 0");
         else
             this.userMinBorrow = userMinBorrow;
-        if(userMinRepay < 0)
+        if (userMinRepay < 0)
             throw new IllegalArgumentException("Min repay quote value cannot be less than 0");
         else
             this.userMinRepay = userMinRepay;
+    }
+
+    /**
+     * Constructor to init {@link MarginAsset} object
+     *
+     * @param marginAsset: margin asset details as {@link JSONObject}
+     * @throws IllegalArgumentException if parameters range is not respected
+     **/
+    public MarginAsset(JSONObject marginAsset) {
+        assetFullName = marginAsset.getString("assetFullName");
+        assetName = marginAsset.getString("assetName");
+        isBorrowable = marginAsset.getBoolean("isBorrowable");
+        isMortgageable = marginAsset.getBoolean("isMortgageable");
+        userMinBorrow = marginAsset.getDouble("userMinBorrow");
+        if (userMinBorrow < 0)
+            throw new IllegalArgumentException("Min borrow quote value cannot be less than 0");
+        userMinRepay = marginAsset.getDouble("userMinRepay");
+        if (userMinRepay < 0)
+            throw new IllegalArgumentException("Min repay quote value cannot be less than 0");
     }
 
     public String getAssetFullName() {
@@ -92,12 +116,25 @@ public class MarginAsset {
         return userMinBorrow;
     }
 
-    /** Method to set {@link #userMinBorrow}
+    /**
+     * Method to get {@link #userMinBorrow} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #userMinBorrow} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getUserMinBorrow(int decimals) {
+        return roundValue(userMinBorrow, decimals);
+    }
+
+    /**
+     * Method to set {@link #userMinBorrow}
+     *
      * @param userMinBorrow: min borrow quote
      * @throws IllegalArgumentException when min borrow quote value is less than 0
-     * **/
+     **/
     public void setUserMinBorrow(double userMinBorrow) {
-        if(userMinBorrow < 0)
+        if (userMinBorrow < 0)
             throw new IllegalArgumentException("Min borrow quote value cannot be less than 0");
         this.userMinBorrow = userMinBorrow;
     }
@@ -106,12 +143,25 @@ public class MarginAsset {
         return userMinRepay;
     }
 
-    /** Method to set {@link #userMinRepay}
+    /**
+     * Method to get {@link #userMinRepay} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #userMinRepay} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getUserMinRepay(int decimals) {
+        return roundValue(userMinRepay, decimals);
+    }
+
+    /**
+     * Method to set {@link #userMinRepay}
+     *
      * @param userMinRepay: min repay quote
      * @throws IllegalArgumentException when min repay quote value is less than 0
-     * **/
+     **/
     public void setUserMinRepay(double userMinRepay) {
-        if(userMinRepay < 0)
+        if (userMinRepay < 0)
             throw new IllegalArgumentException("Min repay quote value cannot be less than 0");
         this.userMinRepay = userMinRepay;
     }

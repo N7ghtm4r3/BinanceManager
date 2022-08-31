@@ -1,17 +1,20 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginList;
 
-import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.tecknobit.apimanager.Tools.Formatters.JsonHelper.getJSONArray;
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
- *  The {@code MarginRepay} class is useful to format Binance Margin Query Repay record request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code MarginRepay} class is useful to format Binance Margin Query Repay record request
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
+ **/
 
 public class MarginRepay {
 
@@ -22,19 +25,32 @@ public class MarginRepay {
 
     /**
      * {@code marginRepayAssetsList} is instance that memorizes list of {@link MarginRepayAsset}
-     * **/
+     **/
     private ArrayList<MarginRepayAsset> marginRepayAssetsList;
 
-    /** Constructor to init {@link MarginRepay} object
-     * @param jsonRepay: repay details in JSON format
+    /**
+     * Constructor to init {@link MarginRepay} object
+     *
+     * @param total:                 total size of repays
+     * @param marginRepayAssetsList: list of {@link MarginRepayAsset}
+     **/
+    public MarginRepay(int total, ArrayList<MarginRepayAsset> marginRepayAssetsList) {
+        this.total = total;
+        this.marginRepayAssetsList = marginRepayAssetsList;
+    }
+
+    /**
+     * Constructor to init {@link MarginRepay} object
+     *
+     * @param jsonRepay: repay details as {@link JSONObject}
      * @throws IllegalArgumentException when repay details are not recoverable
-     * **/
+     **/
     public MarginRepay(JSONObject jsonRepay) {
-        JSONArray jsonAssets = new JsonHelper(jsonRepay).getJSONArray("rows");
-        if(jsonAssets != null){
+        JSONArray jsonAssets = getJSONArray(jsonRepay, "rows");
+        if (jsonAssets != null) {
             total = jsonAssets.length();
             loadMarginRepayAssets(jsonAssets);
-        }else
+        } else
             throw new IllegalArgumentException("Details are not recoverable");
     }
 
@@ -43,18 +59,8 @@ public class MarginRepay {
      * **/
     private void loadMarginRepayAssets(JSONArray jsonAssets) {
         marginRepayAssetsList = new ArrayList<>();
-        for (int j = 0; j < jsonAssets.length(); j++){
-            JSONObject jsonObject = jsonAssets.getJSONObject(j);
-            marginRepayAssetsList.add(new MarginRepayAsset(jsonObject.getString("asset"),
-                    jsonObject.getLong("txId"),
-                    jsonObject.getLong("timestamp"),
-                    jsonObject.getString("status"),
-                    jsonObject.getString("isolatedSymbol"),
-                    jsonObject.getDouble("principal"),
-                    jsonObject.getDouble("amount"),
-                    jsonObject.getDouble("interest")
-            ));
-        }
+        for (int j = 0; j < jsonAssets.length(); j++)
+            marginRepayAssetsList.add(new MarginRepayAsset(jsonAssets.getJSONObject(j)));
     }
 
     public int getTotal() {
@@ -97,9 +103,7 @@ public class MarginRepay {
     }
 
     /**
-     * The {@code MarginRepayAsset} class is useful to obtain and format MarginRepayAsset object
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
+     * The {@code MarginRepayAsset} class is useful to create a margin repay asset type
      * **/
 
     public static class MarginRepayAsset extends MarginLoan.MarginLoanAsset {
@@ -114,7 +118,7 @@ public class MarginRepay {
          * **/
         private double interest;
 
-        /** Constructor to init {@link MarginLoan.MarginLoanAsset} object
+        /** Constructor to init {@link MarginRepayAsset} object
          * @param asset: asset
          * @param txId: identifier of transaction
          * @param timestamp: timestamp of transaction
@@ -128,26 +132,55 @@ public class MarginRepay {
         public MarginRepayAsset(String asset, long txId, long timestamp, String status, String isolatedSymbol,
                                 double principal, double amount, double interest) {
             super(asset, txId, timestamp, status, isolatedSymbol, principal);
-            if(amount < 0)
+            if (amount < 0)
                 throw new IllegalArgumentException("Amount value cannot be less than 0");
             else
                 this.amount = amount;
-            if(interest < 0)
+            if (interest < 0)
                 throw new IllegalArgumentException("Interest value cannot be less than 0");
             else
                 this.interest = interest;
+        }
+
+        /**
+         * Constructor to init {@link MarginRepayAsset} object
+         *
+         * @param repayAsset: margin repay asset details as {@link JSONObject}
+         * @throws IllegalArgumentException if parameters range is not respected
+         **/
+        public MarginRepayAsset(JSONObject repayAsset) {
+            super(repayAsset);
+            amount = repayAsset.getDouble("amount");
+            if (amount < 0)
+                throw new IllegalArgumentException("Amount value cannot be less than 0");
+            interest = repayAsset.getDouble("interest");
+            if (interest < 0)
+                throw new IllegalArgumentException("Interest value cannot be less than 0");
         }
 
         public double getAmount() {
             return amount;
         }
 
-        /** Method to set {@link #amount}
+        /**
+         * Method to get {@link #amount} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #amount} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getAmount(int decimals) {
+            return roundValue(amount, decimals);
+        }
+
+        /**
+         * Method to set {@link #amount}
+         *
          * @param amount: amount of asset
          * @throws IllegalArgumentException when amount value is less than 0
-         * **/
+         **/
         public void setAmount(double amount) {
-            if(amount < 0)
+            if (amount < 0)
                 throw new IllegalArgumentException("Amount value cannot be less than 0");
             this.amount = amount;
         }
@@ -156,12 +189,25 @@ public class MarginRepay {
             return interest;
         }
 
-        /** Method to set {@link #interest}
+        /**
+         * Method to get {@link #interest} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #interest} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getInterest(int decimals) {
+            return roundValue(interest, decimals);
+        }
+
+        /**
+         * Method to set {@link #interest}
+         *
          * @param interest: interest on the asset
          * @throws IllegalArgumentException when interest value is less than 0
-         * **/
+         **/
         public void setInterest(double interest) {
-            if(interest < 0)
+            if (interest < 0)
                 throw new IllegalArgumentException("Interest value cannot be less than 0");
             this.interest = interest;
         }

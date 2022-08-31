@@ -1,14 +1,19 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common;
 
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.BinanceMarginManager;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.BinanceSpotManager;
+import org.json.JSONObject;
+
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
- *  The {@code Fill} class is useful to obtain and format Fill object
- *  @implNote used by BinanceSpotManager, BinanceMarginManager
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
- *      https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
- * **/
+ * The {@code Fill} class is useful to obtain and format Fill object
+ *
+ * @implNote used by {@link BinanceSpotManager} and {@link BinanceMarginManager}
+ **/
 
 public class Fill {
-    
+
     /**
      * {@code price} is instance that memorizes price of a fill
      * **/
@@ -41,27 +46,59 @@ public class Fill {
             throw new IllegalArgumentException("Price value cannot be less than 0");
         else
             this.price = price;
-        if(qty < 0)
+        if (qty < 0)
             throw new IllegalArgumentException("Quantity value cannot be less than 0");
         else
             this.qty = qty;
-        if(commission < 0)
+        if (commission < 0)
             throw new IllegalArgumentException("Commission value cannot be less than 0");
         else
             this.commission = commission;
         this.commissionAsset = commissionAsset;
     }
 
+    /**
+     * Constructor to init {@link Fill} object
+     *
+     * @param fill: fill details as {@link JSONObject}
+     * @throws IllegalArgumentException if parameters range is not respected
+     **/
+    public Fill(JSONObject fill) {
+        price = fill.getDouble("price");
+        if (price < 0)
+            throw new IllegalArgumentException("Price value cannot be less than 0");
+        qty = fill.getDouble("qty");
+        if (qty < 0)
+            throw new IllegalArgumentException("Quantity value cannot be less than 0");
+        commission = fill.getDouble("commission");
+        if (commission < 0)
+            throw new IllegalArgumentException("Commission value cannot be less than 0");
+        commissionAsset = fill.getString("commissionAsset");
+    }
+
     public double getPrice() {
         return price;
     }
 
-    /** Method to set {@link #price}
+    /**
+     * Method to get {@link #price} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #price} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getPrice(int decimals) {
+        return roundValue(price, decimals);
+    }
+
+    /**
+     * Method to set {@link #price}
+     *
      * @param price: price of a fill
      * @throws IllegalArgumentException when price value is less than 0
-     * **/
+     **/
     public void setPrice(double price) {
-        if(price < 0)
+        if (price < 0)
             throw new IllegalArgumentException("Price value cannot be less than 0");
         this.price = price;
     }
@@ -70,12 +107,25 @@ public class Fill {
         return qty;
     }
 
-    /** Method to set {@link #qty}
+    /**
+     * Method to get {@link #qty} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #qty} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getQty(int decimals) {
+        return roundValue(qty, decimals);
+    }
+
+    /**
+     * Method to set {@link #qty}
+     *
      * @param qty: price of a fill
      * @throws IllegalArgumentException when quantity value is less than 0
-     * **/
+     **/
     public void setQty(double qty) {
-        if(qty < 0)
+        if (qty < 0)
             throw new IllegalArgumentException("Quantity value cannot be less than 0");
         this.qty = qty;
     }
@@ -84,12 +134,25 @@ public class Fill {
         return commission;
     }
 
-    /** Method to set {@link #commission}
+    /**
+     * Method to get {@link #commission} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #commission} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getCommission(int decimals) {
+        return roundValue(commission, decimals);
+    }
+
+    /**
+     * Method to set {@link #commission}
+     *
      * @param commission: price of a fill
      * @throws IllegalArgumentException when commission value is less than 0
-     * **/
+     **/
     public void setCommission(double commission) {
-        if(commission < 0)
+        if (commission < 0)
             throw new IllegalArgumentException("Commission value cannot be less than 0");
         this.commission = commission;
     }

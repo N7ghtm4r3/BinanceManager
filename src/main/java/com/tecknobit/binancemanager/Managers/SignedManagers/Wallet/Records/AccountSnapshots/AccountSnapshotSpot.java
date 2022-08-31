@@ -5,26 +5,31 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
  * The {@code AccountSnapshotSpot} class is useful to obtain and format AccountSnapshotSpot object
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
- *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
+ *
  * @author N7ghtm4r3 - Tecknobit
- * **/
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
+ **/
 
-public class AccountSnapshotSpot extends AccountSnapshot{
+public class AccountSnapshotSpot extends AccountSnapshot {
 
     /**
      * {@code assetsSpotData} is instance that memorizes list of {@link DataSpot}
-     * **/
+     **/
     private ArrayList<DataSpot> assetsSpotData;
 
-    /** Constructor to init {@link AccountSnapshotMargin} object
-     * @param code: code of response
-     * @param msg: message of response
-     * @param type: type of account
-     * @param accountDetails: details in JSON format
-     * **/
+    /**
+     * Constructor to init {@link AccountSnapshotMargin} object
+     *
+     * @param code:           code of response
+     * @param msg:            message of response
+     * @param type:           type of account
+     * @param accountDetails: details as {@link JSONObject}
+     **/
     public AccountSnapshotSpot(int code, String msg, String type, JSONArray accountDetails) {
         super(code, msg, type, accountDetails);
         assetsSpotData = new ArrayList<>();
@@ -43,7 +48,7 @@ public class AccountSnapshotSpot extends AccountSnapshot{
      * @param code: code of response
      * @param msg: message of response
      * @param type: type of account
-     * @param accountDetails: details in JSON format
+     * @param accountDetails: details as {@link JSONObject}
      * @param assetsSpotData: list of {@link DataSpot}
      * **/
     public AccountSnapshotSpot(int code, String msg, String type, JSONArray accountDetails, ArrayList<DataSpot> assetsSpotData) {
@@ -57,15 +62,10 @@ public class AccountSnapshotSpot extends AccountSnapshot{
      *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
      * @return BalanceSpot list as ArrayList<BalanceSpot>
      * **/
-    public static ArrayList<BalanceSpot> getBalancesSpot(JSONArray jsonBalances){
+    public static ArrayList<BalanceSpot> getBalancesSpot(JSONArray jsonBalances) {
         ArrayList<BalanceSpot> balanceSpots = new ArrayList<>();
-        for (int j = 0; j < jsonBalances.length(); j++){
-            JSONObject balance = jsonBalances.getJSONObject(j);
-            balanceSpots.add(new BalanceSpot(balance.getString("asset"),
-                    balance.getDouble("free"),
-                    balance.getDouble("locked")
-            ));
-        }
+        for (int j = 0; j < jsonBalances.length(); j++)
+            balanceSpots.add(new BalanceSpot(jsonBalances.getJSONObject(j)));
         return balanceSpots;
     }
 
@@ -194,9 +194,7 @@ public class AccountSnapshotSpot extends AccountSnapshot{
     }
 
     /**
-     *  The {@code BalanceSpot} class is useful to obtain and format BalanceSpot object
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
+     *  The {@code BalanceSpot} class is useful to create a balance spot object
      * **/
 
     public static class BalanceSpot {
@@ -224,26 +222,56 @@ public class AccountSnapshotSpot extends AccountSnapshot{
          * **/
         public BalanceSpot(String asset, double free, double locked) {
             this.asset = asset;
-            if(free < 0)
+            if (free < 0)
                 throw new IllegalArgumentException("Free value cannot be less than 0");
             else
                 this.free = free;
-            if(locked < 0)
+            if (locked < 0)
                 throw new IllegalArgumentException("Locked value cannot be less than 0");
             else
                 this.locked = locked;
+        }
+
+        /**
+         * Constructor to init {@link BalanceSpot} object
+         *
+         * @param balanceSpot: balance spot details as {@link JSONObject}
+         * @throws IllegalArgumentException if parameters range is not respected
+         **/
+        public BalanceSpot(JSONObject balanceSpot) {
+            asset = balanceSpot.getString("asset");
+            free = balanceSpot.getDouble("free");
+            if (free < 0)
+                throw new IllegalArgumentException("Free value cannot be less than 0");
+            locked = balanceSpot.getDouble("locked");
+            if (locked < 0)
+                throw new IllegalArgumentException("Locked value cannot be less than 0");
         }
 
         public double getFree() {
             return free;
         }
 
-        /** Method to set {@link #free}
+        /**
+         * Method to get {@link #free} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #free} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getFree(int decimals) {
+            return roundValue(free, decimals);
+        }
+
+
+        /**
+         * Method to set {@link #free}
+         *
          * @param free: free amount of asset
          * @throws IllegalArgumentException when free value is less than 0
-         * **/
+         **/
         public void setFree(double free) {
-            if(free < 0)
+            if (free < 0)
                 throw new IllegalArgumentException("Free value cannot be less than 0");
             this.free = free;
         }
@@ -252,12 +280,25 @@ public class AccountSnapshotSpot extends AccountSnapshot{
             return locked;
         }
 
-        /** Method to set {@link #locked}
+        /**
+         * Method to get {@link #locked} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #locked} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getLocked(int decimals) {
+            return roundValue(locked, decimals);
+        }
+
+        /**
+         * Method to set {@link #locked}
+         *
          * @param locked: amount locked for asset
          * @throws IllegalArgumentException when amount locked value is less than 0
-         * **/
+         **/
         public void setLocked(double locked) {
-            if(locked < 0)
+            if (locked < 0)
                 throw new IllegalArgumentException("Locked value cannot be less than 0");
             this.locked = locked;
         }

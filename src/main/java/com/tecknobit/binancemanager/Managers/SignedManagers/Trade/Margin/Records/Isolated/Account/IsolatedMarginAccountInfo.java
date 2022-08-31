@@ -1,16 +1,20 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account;
 
+import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.AccountSnapshotMargin;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
  * The {@code IsolatedMarginAccountInfo} class is useful to format Binance Isolated Margin Account Info request response
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
- *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
+ *
  * @author N7ghtm4r3 - Tecknobit
- * **/
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
+ **/
 
 public class IsolatedMarginAccountInfo {
 
@@ -85,110 +89,98 @@ public class IsolatedMarginAccountInfo {
     private double liquidateRate;
 
     /**
-     * {@code tradeEnabled} is instance that if trade has been enabled
-     * **/
+     * {@code baseAsset} is instance that memorizes base asset
+     **/
+    private final IsolatedMarginAsset baseAsset;
+    /**
+     * {@code quoteAsset} is instance that memorizes quote asset
+     **/
+    private final IsolatedMarginAsset quoteAsset;
+    /**
+     * {@code tradeEnabled} is flag that checks if trade has been enabled
+     **/
     private boolean tradeEnabled;
 
     /**
-     * {@code baseAsset} is instance that base asset
-     * **/
-    private final IsolatedMarginAsset baseAsset;
-
-    /**
-     * {@code quoteAsset} is instance that quote asset
-     * **/
-    private final IsolatedMarginAsset quoteAsset;
-
-    /** Constructor to init {@link IsolatedMarginAccountInfo} object
-     * @param symbol: symbol used in the order
-     * @param isolatedCreated: isolated has been created
-     * @param enabled: order has been enabled
-     * @param marginLevel: margin level
+     * Constructor to init {@link IsolatedMarginAccountInfo} object
+     *
+     * @param symbol:            symbol used in the order
+     * @param isolatedCreated:   isolated has been created
+     * @param enabled:           order has been enabled
+     * @param marginLevel:       margin level
      * @param marginLevelStatus: margin status level
-     * @param marginRatio: margin ratio
-     * @param indexPrice: index price
-     * @param liquidatePrice: liquidate price
-     * @param liquidateRate: liquidate rate
-     * @param tradeEnabled: trade enable
-     * @param jsonAccount: time of order trade
+     * @param marginRatio:       margin ratio
+     * @param indexPrice:        index price
+     * @param liquidatePrice:    liquidate price
+     * @param liquidateRate:     liquidate rate
+     * @param tradeEnabled:      trade enable
+     * @param baseAsset:         time of order trade
+     * @param quoteAsset:        time of order trade
      * @throws IllegalArgumentException if parameters range is not respected
-     * **/
+     **/
     public IsolatedMarginAccountInfo(String symbol, boolean isolatedCreated, boolean enabled, double marginLevel,
                                      String marginLevelStatus, double marginRatio, double indexPrice, double liquidatePrice,
-                                     double liquidateRate, boolean tradeEnabled, JSONObject jsonAccount) {
+                                     double liquidateRate, boolean tradeEnabled, IsolatedMarginAsset baseAsset,
+                                     IsolatedMarginAsset quoteAsset) {
         this.symbol = symbol;
         this.isolatedCreated = isolatedCreated;
         this.enabled = enabled;
-        if(marginLevel < 0)
+        this.marginLevel = marginLevel;
+        this.marginLevelStatus = marginLevelStatus;
+        this.marginRatio = marginRatio;
+        this.indexPrice = indexPrice;
+        this.liquidatePrice = liquidatePrice;
+        this.liquidateRate = liquidateRate;
+        this.tradeEnabled = tradeEnabled;
+        this.baseAsset = baseAsset;
+        this.quoteAsset = quoteAsset;
+    }
+
+    /**
+     * Constructor to init {@link IsolatedMarginAccountInfo} object
+     *
+     * @param isolatedMarginAccountInfo: isolated margin account info as {@link JSONObject}
+     * @throws IllegalArgumentException if parameters range is not respected
+     **/
+    public IsolatedMarginAccountInfo(JSONObject isolatedMarginAccountInfo) {
+        symbol = isolatedMarginAccountInfo.getString("asset");
+        isolatedCreated = isolatedMarginAccountInfo.getBoolean("isolatedCreated");
+        enabled = isolatedMarginAccountInfo.getBoolean("enabled");
+        marginLevel = isolatedMarginAccountInfo.getDouble("marginLevel");
+        if (marginLevel < 0)
             throw new IllegalArgumentException("Margin level value cannot be less than 0");
-        else
-            this.marginLevel = marginLevel;
-        if(marginLevelStatusIsValid(marginLevelStatus))
-            this.marginLevelStatus = marginLevelStatus;
-        else {
+        marginLevelStatus = isolatedMarginAccountInfo.getString("marginLevelStatus");
+        if (!marginLevelStatusIsValid(marginLevelStatus)) {
             throw new IllegalArgumentException("Margin level status can only be EXCESSIVE, NORMAL, MARGIN_CALL, " +
                     "PRE_LIQUIDATION or FORCE_LIQUIDATION");
         }
-        if(marginRatio < 0)
+        marginRatio = isolatedMarginAccountInfo.getDouble("marginRatio");
+        if (marginRatio < 0)
             throw new IllegalArgumentException("Margin ratio value cannot be less than 0");
-        else
-            this.marginRatio = marginRatio;
-        if(indexPrice < 0)
+        indexPrice = isolatedMarginAccountInfo.getDouble("indexPrice");
+        if (indexPrice < 0)
             throw new IllegalArgumentException("Index price value cannot be less than 0");
-        else
-            this.indexPrice = indexPrice;
-        if(liquidatePrice < 0)
+        liquidatePrice = isolatedMarginAccountInfo.getDouble("liquidatePrice");
+        if (liquidatePrice < 0)
             throw new IllegalArgumentException("Liquidate price value cannot be less than 0");
-        else
-            this.liquidatePrice = liquidatePrice;
-        if(liquidateRate < 0)
+        liquidateRate = isolatedMarginAccountInfo.getDouble("liquidateRate");
+        if (liquidateRate < 0)
             throw new IllegalArgumentException("Liquidate rate value cannot be less than 0");
-        else
-            this.liquidateRate = liquidateRate;
-        this.tradeEnabled = tradeEnabled;
-        baseAsset = loadIsolatedMarginAsset(jsonAccount.getJSONObject("baseAsset"));
-        quoteAsset = loadIsolatedMarginAsset(jsonAccount.getJSONObject("quoteAsset"));
+        tradeEnabled = isolatedMarginAccountInfo.getBoolean("tradeEnabled");
+        baseAsset = new IsolatedMarginAsset(isolatedMarginAccountInfo.getJSONObject("baseAsset"));
+        quoteAsset = new IsolatedMarginAsset(isolatedMarginAccountInfo.getJSONObject("quoteAsset"));
     }
 
-    /** Method to assemble a IsolatedMarginAsset object
-     * @param asset: obtained from Binance's request
-     * @return {@link IsolatedMarginAsset} assembled
-     * **/
-    private IsolatedMarginAsset loadIsolatedMarginAsset(JSONObject asset) {
-        return new IsolatedMarginAsset(asset.getString("asset"),
-                asset.getBoolean("borrowEnabled"),
-                asset.getDouble("borrowed"),
-                asset.getDouble("free"),
-                asset.getDouble("interest"),
-                asset.getDouble("locked"),
-                asset.getDouble("netAsset"),
-                asset.getDouble("netAssetOfBtc"),
-                asset.getBoolean("repayEnabled"),
-                asset.getDouble("totalAsset")
-        );
-    }
-
-    /** Method to assemble a IsolatedMarginAccountInfo list
+    /**
+     * Method to assemble an IsolatedMarginAccountInfo list
+     *
      * @param jsonInfo: obtained from Binance's request
      * @return a list as ArrayList<IsolatedMarginAccountInfo>
-     * **/
-    public static ArrayList<IsolatedMarginAccountInfo> assembleIsolatedMarginAccountInfoList(JSONArray jsonInfo){
+     **/
+    public static ArrayList<IsolatedMarginAccountInfo> createIsolatedMarginAccountInfoList(JSONArray jsonInfo) {
         ArrayList<IsolatedMarginAccountInfo> isolatedMarginAccountInfo = new ArrayList<>();
-        for (int j = 0; j < jsonInfo.length(); j++){
-            JSONObject isolatedInfo = jsonInfo.getJSONObject(j);
-            isolatedMarginAccountInfo.add(new IsolatedMarginAccountInfo(isolatedInfo.getString("asset"),
-                    isolatedInfo.getBoolean("isolatedCreated"),
-                    isolatedInfo.getBoolean("enabled"),
-                    isolatedInfo.getDouble("marginLevel"),
-                    isolatedInfo.getString("marginLevelStatus"),
-                    isolatedInfo.getDouble("marginRatio"),
-                    isolatedInfo.getDouble("indexPrice"),
-                    isolatedInfo.getDouble("liquidatePrice"),
-                    isolatedInfo.getDouble("liquidateRate"),
-                    isolatedInfo.getBoolean("tradeEnabled"),
-                    isolatedInfo
-            ));
-        }
+        for (int j = 0; j < jsonInfo.length(); j++)
+            isolatedMarginAccountInfo.add(new IsolatedMarginAccountInfo(jsonInfo.getJSONObject(j)));
         return isolatedMarginAccountInfo;
     }
 
@@ -216,12 +208,26 @@ public class IsolatedMarginAccountInfo {
         return marginLevel;
     }
 
-    /** Method to set {@link #marginLevel}
+    /**
+     * Method to get {@link #marginLevel} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #marginLevel} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getMarginLevel(int decimals) {
+        return roundValue(marginLevel, decimals);
+    }
+
+
+    /**
+     * Method to set {@link #marginLevel}
+     *
      * @param marginLevel: margin level
      * @throws IllegalArgumentException when margin level value is less than 0
-     * **/
+     **/
     public void setMarginLevel(double marginLevel) {
-        if(marginLevel < 0)
+        if (marginLevel < 0)
             throw new IllegalArgumentException("Margin level value cannot be less than 0");
         this.marginLevel = marginLevel;
     }
@@ -243,11 +249,13 @@ public class IsolatedMarginAccountInfo {
         }
     }
 
-    /** Method to check {@link #marginLevelStatus} validity
+    /**
+     * Method to check {@link #marginLevelStatus} validity
+     *
      * @param marginLevelStatus: margin status level
      * @return validity of margin level status as boolean
-     * **/
-    private boolean marginLevelStatusIsValid(String marginLevelStatus){
+     **/
+    private boolean marginLevelStatusIsValid(String marginLevelStatus) {
         return marginLevelStatus.equals(MARGIN_LEVEL_STATUS_EXCESSIVE) ||
                 marginLevelStatus.equals(MARGIN_LEVEL_STATUS_NORMAL) ||
                 marginLevelStatus.equals(MARGIN_LEVEL_STATUS_FORCE_LIQUIDATION) ||
@@ -259,12 +267,25 @@ public class IsolatedMarginAccountInfo {
         return marginRatio;
     }
 
-    /** Method to set {@link #marginRatio}
+    /**
+     * Method to get {@link #marginRatio} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #marginRatio} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getMarginRatio(int decimals) {
+        return roundValue(marginRatio, decimals);
+    }
+
+    /**
+     * Method to set {@link #marginRatio}
+     *
      * @param marginRatio: margin ratio
      * @throws IllegalArgumentException when margin ratio value is less than 0
-     * **/
+     **/
     public void setMarginRatio(double marginRatio) {
-        if(marginRatio < 0)
+        if (marginRatio < 0)
             throw new IllegalArgumentException("Margin ratio value cannot be less than 0");
         this.marginRatio = marginRatio;
     }
@@ -273,12 +294,25 @@ public class IsolatedMarginAccountInfo {
         return indexPrice;
     }
 
-    /** Method to set {@link #indexPrice}
+    /**
+     * Method to get {@link #indexPrice} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #indexPrice} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getIndexPrice(int decimals) {
+        return roundValue(indexPrice, decimals);
+    }
+
+    /**
+     * Method to set {@link #indexPrice}
+     *
      * @param indexPrice: commission asset of margin account trade
      * @throws IllegalArgumentException when index price value is less than 0
-     * **/
+     **/
     public void setIndexPrice(double indexPrice) {
-        if(indexPrice < 0)
+        if (indexPrice < 0)
             throw new IllegalArgumentException("Index price value cannot be less than 0");
         this.indexPrice = indexPrice;
     }
@@ -287,12 +321,25 @@ public class IsolatedMarginAccountInfo {
         return liquidatePrice;
     }
 
-    /** Method to set {@link #liquidatePrice}
+    /**
+     * Method to get {@link #liquidatePrice} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #liquidatePrice} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getLiquidatePrice(int decimals) {
+        return roundValue(liquidatePrice, decimals);
+    }
+
+    /**
+     * Method to set {@link #liquidatePrice}
+     *
      * @param liquidatePrice: commission asset of margin account trade
      * @throws IllegalArgumentException when liquidate price value is less than 0
-     * **/
+     **/
     public void setLiquidatePrice(double liquidatePrice) {
-        if(liquidatePrice < 0)
+        if (liquidatePrice < 0)
             throw new IllegalArgumentException("Liquidate price value cannot be less than 0");
         this.liquidatePrice = liquidatePrice;
     }
@@ -301,12 +348,25 @@ public class IsolatedMarginAccountInfo {
         return liquidateRate;
     }
 
-    /** Method to set {@link #liquidateRate}
+    /**
+     * Method to get {@link #liquidateRate} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #liquidateRate} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getLiquidateRate(int decimals) {
+        return roundValue(liquidateRate, decimals);
+    }
+
+    /**
+     * Method to set {@link #liquidateRate}
+     *
      * @param liquidateRate: commission asset of margin account trade
      * @throws IllegalArgumentException when liquidate rate value is less than 0
-     * **/
+     **/
     public void setLiquidateRate(double liquidateRate) {
-        if(liquidateRate < 0)
+        if (liquidateRate < 0)
             throw new IllegalArgumentException("Liquidate rate value cannot be less than 0");
         this.liquidateRate = liquidateRate;
     }
@@ -345,4 +405,167 @@ public class IsolatedMarginAccountInfo {
                 '}';
     }
 
+    /**
+     * The {@code IsolatedMarginAsset} class is useful to create an isolated margin asset object
+     **/
+
+    public static class IsolatedMarginAsset extends AccountSnapshotMargin.UserMarginAsset {
+
+        /**
+         * {@code borrowEnabled} is instance if borrow is enabled for asset
+         **/
+        private boolean borrowEnabled;
+
+        /**
+         * {@code netAssetOfBtc} is instance that memorizes net asset of Bitcoin
+         **/
+        private double netAssetOfBtc;
+
+        /**
+         * {@code repayEnabled} is instance if repay is enabled for asset
+         **/
+        private boolean repayEnabled;
+
+        /**
+         * {@code totalAsset} is instance that memorizes total asset amount
+         **/
+        private double totalAsset;
+
+        /**
+         * Constructor to init {@link IsolatedMarginAsset} object
+         *
+         * @param asset:         asset
+         * @param borrowEnabled: borrow is enabled for asset
+         * @param borrowed:      amount of borrow from asset
+         * @param free:          free amount of asset
+         * @param interest:      amount of interest in asset
+         * @param locked:        amount locked for asset
+         * @param netAsset:      net asset
+         * @param netAssetOfBtc: net asset of Bitcoin
+         * @param repayEnabled:  repay is enabled for asset
+         * @param totalAsset:    total asset amount
+         * @throws IllegalArgumentException if parameters range is not respected
+         **/
+        public IsolatedMarginAsset(String asset, boolean borrowEnabled, double borrowed, double free, double interest,
+                                   double locked, double netAsset, double netAssetOfBtc, boolean repayEnabled, double totalAsset) {
+            super(asset, borrowed, free, interest, locked, netAsset);
+            this.borrowEnabled = borrowEnabled;
+            if (netAssetOfBtc < 0)
+                throw new IllegalArgumentException("Net asset of BTC value cannot be less than 0");
+            else
+                this.netAssetOfBtc = netAssetOfBtc;
+            this.repayEnabled = repayEnabled;
+            if (totalAsset < 0)
+                throw new IllegalArgumentException("Total asset value cannot be less than 0");
+            else
+                this.totalAsset = totalAsset;
+        }
+
+
+        /**
+         * Constructor to init {@link IsolatedMarginAsset} object
+         *
+         * @param isolateMarginAsset: isolated margin asset details as {@link JSONObject}
+         * @throws IllegalArgumentException if parameters range is not respected
+         **/
+        public IsolatedMarginAsset(JSONObject isolateMarginAsset) {
+            super(isolateMarginAsset);
+            borrowEnabled = isolateMarginAsset.getBoolean("borrowEnabled");
+            netAssetOfBtc = isolateMarginAsset.getDouble("netAssetOfBtc");
+            if (netAssetOfBtc < 0)
+                throw new IllegalArgumentException("Net asset of BTC value cannot be less than 0");
+            repayEnabled = isolateMarginAsset.getBoolean("repayEnabled");
+            totalAsset = isolateMarginAsset.getDouble("totalAsset");
+            if (totalAsset < 0)
+                throw new IllegalArgumentException("Total asset value cannot be less than 0");
+        }
+
+        public boolean isBorrowEnabled() {
+            return borrowEnabled;
+        }
+
+        public void setBorrowEnabled(boolean borrowEnabled) {
+            this.borrowEnabled = borrowEnabled;
+        }
+
+        public double getNetAssetOfBtc() {
+            return netAssetOfBtc;
+        }
+
+        /**
+         * Method to set {@link #netAssetOfBtc}
+         *
+         * @param netAssetOfBtc: net asset of Bitcoin
+         * @throws IllegalArgumentException when net asset of Bitcoin value is less than 0
+         **/
+        public void setNetAssetOfBtc(double netAssetOfBtc) {
+            if (netAssetOfBtc < 0)
+                throw new IllegalArgumentException("Net asset of BTC value cannot be less than 0");
+            this.netAssetOfBtc = netAssetOfBtc;
+        }
+
+        /**
+         * Method to get {@link #netAssetOfBtc} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #netAssetOfBtc} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getNetAssetOfBtc(int decimals) {
+            return roundValue(netAssetOfBtc, decimals);
+        }
+
+        public boolean isRepayEnabled() {
+            return repayEnabled;
+        }
+
+        public void setRepayEnabled(boolean repayEnabled) {
+            this.repayEnabled = repayEnabled;
+        }
+
+        public double getTotalAsset() {
+            return totalAsset;
+        }
+
+        /**
+         * Method to set {@link #totalAsset}
+         *
+         * @param totalAsset: total asset amount
+         * @throws IllegalArgumentException when total asset amount value is less than 0
+         **/
+        public void setTotalAsset(double totalAsset) {
+            if (totalAsset < 0)
+                throw new IllegalArgumentException("Total asset value cannot be less than 0");
+            this.totalAsset = totalAsset;
+        }
+
+        /**
+         * Method to get {@link #totalAsset} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #totalAsset} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getTotalAsset(int decimals) {
+            return roundValue(totalAsset, decimals);
+        }
+
+        @Override
+        public String toString() {
+            return "IsolatedMarginAsset{" +
+                    "borrowEnabled=" + borrowEnabled +
+                    ", netAssetOfBtc=" + netAssetOfBtc +
+                    ", repayEnabled=" + repayEnabled +
+                    ", totalAsset=" + totalAsset +
+                    ", borrowed=" + borrowed +
+                    ", interest=" + interest +
+                    ", netAsset=" + netAsset +
+                    ", asset='" + asset + '\'' +
+                    ", free=" + free +
+                    ", locked=" + locked +
+                    '}';
+        }
+
+    }
+    
 }

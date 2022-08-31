@@ -36,19 +36,21 @@ public class OCOMarginOrder extends ComposedMarginOrderDetails {
      * **/
     private final String marginBuyBorrowAsset;
 
-    /** Constructor to init {@link OCOMarginOrder} object
-     * @param orderListId: list order identifier
-     * @param contingencyType: contingency type of the order
-     * @param listStatusType: list status type of the order
-     * @param listOrderStatus: list order status
-     * @param listClientOrderId: list client order id
-     * @param transactionTime: transaction time of the order
-     * @param symbol: symbol used in the order
-     * @param jsonOrder: order details in JSON format
-     * @param isIsolated: is isolated
+    /**
+     * Constructor to init {@link OCOMarginOrder} object
+     *
+     * @param orderListId:           list order identifier
+     * @param contingencyType:       contingency type of the order
+     * @param listStatusType:        list status type of the order
+     * @param listOrderStatus:       list order status
+     * @param listClientOrderId:     list client order id
+     * @param transactionTime:       transaction time of the order
+     * @param symbol:                symbol used in the order
+     * @param jsonOrder:             order details as {@link JSONObject}
+     * @param isIsolated:            is isolated
      * @param marginBuyBorrowAmount: margin buy borrow amount
-     * @param marginBuyBorrowAsset: margin buy borrow asset
-     * **/
+     * @param marginBuyBorrowAsset:  margin buy borrow asset
+     **/
     public OCOMarginOrder(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
                           String listClientOrderId, long transactionTime, String symbol, boolean isIsolated,
                           double marginBuyBorrowAmount, String marginBuyBorrowAsset, JSONObject jsonOrder) {

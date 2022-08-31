@@ -1,11 +1,16 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account;
 
+import org.json.JSONObject;
+
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
- *  The {@code MarginAccount} class is useful to format Binance Margin Account
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code MarginAccount} class is useful to format Binance Margin Account
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
+ **/
 
 public class MarginAccount {
 
@@ -31,40 +36,88 @@ public class MarginAccount {
      * @throws IllegalArgumentException if parameters range is not respected
      * **/
     public MarginAccount(double totalAssetOfBtc, double totalLiabilityOfBtc, double totalNetAssetOfBtc) {
-        if(totalAssetOfBtc < 0)
+        if (totalAssetOfBtc < 0)
             throw new IllegalArgumentException("Total asset of BTC value cannot be less than 0");
         else
             this.totalAssetOfBtc = totalAssetOfBtc;
-        if(totalLiabilityOfBtc < 0)
+        if (totalLiabilityOfBtc < 0)
             throw new IllegalArgumentException("Total liability asset of BTC value cannot be less than 0");
         else
             this.totalLiabilityOfBtc = totalLiabilityOfBtc;
-        if(totalNetAssetOfBtc < 0)
+        if (totalNetAssetOfBtc < 0)
             throw new IllegalArgumentException("Total net asset of BTC value cannot be less than 0");
         else
             this.totalNetAssetOfBtc = totalNetAssetOfBtc;
     }
 
-    /** Method to set {@link #totalAssetOfBtc}
+    /**
+     * Constructor to init {@link MarginAccount} object
+     *
+     * @param marginAccount: margin account details as {@link JSONObject}
+     * @throws IllegalArgumentException if parameters range is not respected
+     **/
+    public MarginAccount(JSONObject marginAccount) {
+        totalAssetOfBtc = marginAccount.getDouble("totalAssetOfBtc");
+        if (totalAssetOfBtc < 0)
+            throw new IllegalArgumentException("Total asset of BTC value cannot be less than 0");
+        totalLiabilityOfBtc = marginAccount.getDouble("totalLiabilityOfBtc");
+        if (totalLiabilityOfBtc < 0)
+            throw new IllegalArgumentException("Total liability asset of BTC value cannot be less than 0");
+        totalNetAssetOfBtc = marginAccount.getDouble("totalNetAssetOfBtc");
+        if (totalNetAssetOfBtc < 0)
+            throw new IllegalArgumentException("Total net asset of BTC value cannot be less than 0");
+    }
+
+    public double getTotalAssetOfBtc() {
+        return totalAssetOfBtc;
+    }
+
+    /**
+     * Method to set {@link #totalAssetOfBtc}
+     *
      * @param totalAssetOfBtc: total asset of Bitcoin
      * @throws IllegalArgumentException when number value is less than 0
-     * **/
+     **/
     public void setTotalAssetOfBtc(double totalAssetOfBtc) {
-        if(totalAssetOfBtc < 0)
+        if (totalAssetOfBtc < 0)
             throw new IllegalArgumentException("Total asset of BTC value cannot be less than 0");
         this.totalAssetOfBtc = totalAssetOfBtc;
+    }
+
+    /**
+     * Method to get {@link #totalAssetOfBtc} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #totalAssetOfBtc} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getTotalAssetOfBtc(int decimals) {
+        return roundValue(totalAssetOfBtc, decimals);
     }
 
     public double getTotalLiabilityOfBtc() {
         return totalLiabilityOfBtc;
     }
 
-    /** Method to set {@link #totalLiabilityOfBtc}
+    /**
+     * Method to get {@link #totalLiabilityOfBtc} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #totalLiabilityOfBtc} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getTotalLiabilityOfBtc(int decimals) {
+        return roundValue(totalLiabilityOfBtc, decimals);
+    }
+
+    /**
+     * Method to set {@link #totalLiabilityOfBtc}
+     *
      * @param totalLiabilityOfBtc: total liability of Bitcoin
      * @throws IllegalArgumentException when number value is less than 0
-     * **/
+     **/
     public void setTotalLiabilityOfBtc(double totalLiabilityOfBtc) {
-        if(totalLiabilityOfBtc < 0)
+        if (totalLiabilityOfBtc < 0)
             throw new IllegalArgumentException("Total liability asset of BTC value cannot be less than 0");
         this.totalLiabilityOfBtc = totalLiabilityOfBtc;
     }
@@ -73,12 +126,25 @@ public class MarginAccount {
         return totalNetAssetOfBtc;
     }
 
-    /** Method to set {@link #totalNetAssetOfBtc}
+    /**
+     * Method to get {@link #totalNetAssetOfBtc} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #totalNetAssetOfBtc} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getTotalNetAssetOfBtc(int decimals) {
+        return roundValue(totalNetAssetOfBtc, decimals);
+    }
+
+    /**
+     * Method to set {@link #totalNetAssetOfBtc}
+     *
      * @param totalNetAssetOfBtc: total net asset of Bitcoin
      * @throws IllegalArgumentException when number value is less than 0
-     * **/
+     **/
     public void setTotalNetAssetOfBtc(double totalNetAssetOfBtc) {
-        if(totalNetAssetOfBtc < 0)
+        if (totalNetAssetOfBtc < 0)
             throw new IllegalArgumentException("Total net asset of BTC value cannot be less than 0");
         this.totalNetAssetOfBtc = totalNetAssetOfBtc;
     }

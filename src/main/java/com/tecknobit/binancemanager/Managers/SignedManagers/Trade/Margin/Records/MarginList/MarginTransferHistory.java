@@ -1,17 +1,20 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginList;
 
-import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.tecknobit.apimanager.Tools.Formatters.JsonHelper.getJSONArray;
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
- *  The {@code MarginTransferHistory} class is useful to format Binance Margin Get Cross Transfer History request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code MarginTransferHistory} class is useful to format Binance Margin Get Cross Transfer History request
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
+ **/
 
 public class MarginTransferHistory {
 
@@ -32,19 +35,32 @@ public class MarginTransferHistory {
 
     /**
      * {@code marginTransferAssetsList} is instance that memorizes list of {@link MarginTransferAsset}
-     * **/
+     **/
     private ArrayList<MarginTransferAsset> marginTransferAssetsList;
 
-    /** Constructor to init {@link MarginTransferHistory} object
-     * @param jsonTransfer: transfer history details in JSON format
+    /**
+     * Constructor to init {@link MarginTransferHistory} object
+     *
+     * @param total:                    total size of transfers
+     * @param marginTransferAssetsList: list of {@link MarginTransferAsset}
+     **/
+    public MarginTransferHistory(int total, ArrayList<MarginTransferAsset> marginTransferAssetsList) {
+        this.total = total;
+        this.marginTransferAssetsList = marginTransferAssetsList;
+    }
+
+    /**
+     * Constructor to init {@link MarginTransferHistory} object
+     *
+     * @param jsonTransfer: transfer history details as {@link JSONObject}
      * @throws IllegalArgumentException when transfers history details are not recoverable
-     * **/
+     **/
     public MarginTransferHistory(JSONObject jsonTransfer) {
-        JSONArray jsonTransfers = new JsonHelper(jsonTransfer).getJSONArray("rows");
-        if(jsonTransfers != null){
+        JSONArray jsonTransfers = getJSONArray(jsonTransfer, "rows");
+        if (jsonTransfers != null) {
             total = jsonTransfers.length();
             loadMarginTransferAssets(jsonTransfers);
-        }else
+        } else
             throw new IllegalArgumentException("Details are not recoverable");
     }
 
@@ -54,16 +70,8 @@ public class MarginTransferHistory {
      * **/
     private void loadMarginTransferAssets(JSONArray jsonTransfers) {
         marginTransferAssetsList = new ArrayList<>();
-        for (int j = 0; j < jsonTransfers.length(); j++){
-            JSONObject jsonObject = jsonTransfers.getJSONObject(j);
-            marginTransferAssetsList.add(new MarginTransferAsset(jsonObject.getString("asset"),
-                    jsonObject.getLong("txId"),
-                    jsonObject.getDouble("amount"),
-                    jsonObject.getString("status"),
-                    jsonObject.getLong("timestamp"),
-                    jsonObject.getString("type")
-            ));
-        }
+        for (int j = 0; j < jsonTransfers.length(); j++)
+            marginTransferAssetsList.add(new MarginTransferAsset(jsonTransfers.getJSONObject(j)));
     }
 
     public int getTotal() {
@@ -105,9 +113,7 @@ public class MarginTransferHistory {
     }
 
     /**
-     * The {@code MarginTransferAsset} class is useful to obtain and format MarginTransferAsset object
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
+     * The {@code MarginTransferAsset} class is useful to create a margin transfer asset type
      * **/
 
     public static class MarginTransferAsset extends MarginAssetList {
@@ -133,13 +139,29 @@ public class MarginTransferHistory {
          * **/
         public MarginTransferAsset(String asset, long txId, double amount, String status, long timestamp, String type) {
             super(asset, txId, timestamp, status);
-            if(amount < 0)
+            if (amount < 0)
                 throw new IllegalArgumentException("Amount value cannot be less than 0");
             else
                 this.amount = amount;
-            if(typeIsValid(type))
+            if (typeIsValid(type))
                 this.type = type;
             else
+                throw new IllegalArgumentException("Type can only be ROLL_OUT or ROLL_IN");
+        }
+
+        /**
+         * Constructor to init {@link MarginTransferAsset} object
+         *
+         * @param transferAsset: transfer asset details as {@link JSONObject}
+         * @throws IllegalArgumentException if parameters range is not respected
+         **/
+        public MarginTransferAsset(JSONObject transferAsset) {
+            super(transferAsset);
+            amount = transferAsset.getDouble("amount");
+            if (amount < 0)
+                throw new IllegalArgumentException("Amount value cannot be less than 0");
+            type = transferAsset.getString("type");
+            if (!typeIsValid(type))
                 throw new IllegalArgumentException("Type can only be ROLL_OUT or ROLL_IN");
         }
 
@@ -147,12 +169,25 @@ public class MarginTransferHistory {
             return amount;
         }
 
-        /** Method to set {@link #amount}
+        /**
+         * Method to get {@link #amount} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #amount} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getAmount(int decimals) {
+            return roundValue(amount, decimals);
+        }
+
+        /**
+         * Method to set {@link #amount}
+         *
          * @param amount: amount to transfer
          * @throws IllegalArgumentException when amount to transfer value is less than 0
-         * **/
+         **/
         public void setAmount(double amount) {
-            if(amount < 0)
+            if (amount < 0)
                 throw new IllegalArgumentException("Amount value cannot be less than 0");
             this.amount = amount;
         }

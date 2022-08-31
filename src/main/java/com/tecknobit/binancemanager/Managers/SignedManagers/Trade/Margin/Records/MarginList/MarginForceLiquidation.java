@@ -1,11 +1,12 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginList;
 
-import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.tecknobit.apimanager.Tools.Formatters.JsonHelper.getJSONArray;
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.TradeConstants.*;
 
 /**
@@ -24,19 +25,32 @@ public class MarginForceLiquidation {
 
     /**
      * {@code forceLiquidationAssetsList} is instance that memorizes force liquidations list
-     * **/
+     **/
     private ArrayList<ForceLiquidationAsset> forceLiquidationAssetsList;
 
-    /** Constructor to init {@link MarginForceLiquidation} object
-     * @param jsonLiquidation: margin force liquidation details in JSON format
+    /**
+     * Constructor to init {@link MarginForceLiquidation} object
+     *
+     * @param total:                      total size of force liquidations
+     * @param forceLiquidationAssetsList: list of {@link ForceLiquidationAsset}
+     **/
+    public MarginForceLiquidation(int total, ArrayList<ForceLiquidationAsset> forceLiquidationAssetsList) {
+        this.total = total;
+        this.forceLiquidationAssetsList = forceLiquidationAssetsList;
+    }
+
+    /**
+     * Constructor to init {@link MarginForceLiquidation} object
+     *
+     * @param jsonLiquidation: margin force liquidation details as {@link JSONObject}
      * @throws IllegalArgumentException when liquidation details are not recoverable
-     * **/
+     **/
     public MarginForceLiquidation(JSONObject jsonLiquidation) {
-        JSONArray jsonForceLiquidation = new JsonHelper(jsonLiquidation).getJSONArray("rows");
-        if(jsonForceLiquidation != null) {
+        JSONArray jsonForceLiquidation = getJSONArray(jsonLiquidation, "rows");
+        if (jsonForceLiquidation != null) {
             total = jsonForceLiquidation.length();
             loadForceLiquidationAssets(jsonForceLiquidation);
-        }else
+        } else
             throw new IllegalArgumentException("Details are not recoverable");
     }
 
@@ -45,20 +59,8 @@ public class MarginForceLiquidation {
      * **/
     private void loadForceLiquidationAssets(JSONArray jsonAssets) {
         forceLiquidationAssetsList = new ArrayList<>();
-        for (int j = 0; j < jsonAssets.length(); j++){
-            JSONObject jsonObject = jsonAssets.getJSONObject(j);
-            forceLiquidationAssetsList.add(new ForceLiquidationAsset(jsonObject.getDouble("avgPrice"),
-                    jsonObject.getDouble("executedQty"),
-                    jsonObject.getLong("orderId"),
-                    jsonObject.getDouble("price"),
-                    jsonObject.getDouble("qty"),
-                    jsonObject.getString("side"),
-                    jsonObject.getString("symbol"),
-                    jsonObject.getString("timeInForce"),
-                    jsonObject.getBoolean("isIsolated"),
-                    jsonObject.getLong("updatedTime")
-            ));
-        }
+        for (int j = 0; j < jsonAssets.length(); j++)
+            forceLiquidationAssetsList.add(new ForceLiquidationAsset(jsonAssets.getJSONObject(j)));
     }
 
     public int getTotal() {
@@ -101,9 +103,7 @@ public class MarginForceLiquidation {
     }
 
     /**
-     * The {@code ForceLiquidationAsset} class is useful to obtain and format ForceLiquidationAsset object
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
+     * The {@code ForceLiquidationAsset} class is useful to create a force liquidation asset type
      * **/
 
     public static class ForceLiquidationAsset {
@@ -195,27 +195,73 @@ public class MarginForceLiquidation {
             else
                 throw new IllegalArgumentException("Side value can only be BUY or SELL");
             this.symbol = symbol;
-            if(timeInForceIsValid(timeInForce))
+            if (timeInForceIsValid(timeInForce))
                 this.timeInForce = timeInForce;
             else
                 throw new IllegalArgumentException("Time in force value can only be FOK, GTC or IOC");
             this.isIsolated = isIsolated;
-            if(updatedTime < 0)
+            if (updatedTime < 0)
                 throw new IllegalArgumentException("Updated time value cannot be less than 0");
             else
                 this.updatedTime = updatedTime;
+        }
+
+        /**
+         * Constructor to init {@link ForceLiquidationAsset} object
+         *
+         * @param forceLiquidationAsset: force liquidation asset details as {@link JSONObject}
+         * @throws IllegalArgumentException if parameters range is not respected
+         **/
+        public ForceLiquidationAsset(JSONObject forceLiquidationAsset) {
+            avgPrice = forceLiquidationAsset.getDouble("avgPrice");
+            if (avgPrice < 0)
+                throw new IllegalArgumentException("Average price value cannot be less than 0");
+            executedQty = forceLiquidationAsset.getDouble("executedQty");
+            if (executedQty < 0)
+                throw new IllegalArgumentException("Executed quantity value cannot be less than 0");
+            orderId = forceLiquidationAsset.getLong("orderId");
+            price = forceLiquidationAsset.getDouble("price");
+            if (price < 0)
+                throw new IllegalArgumentException("Price value cannot be less than 0");
+            qty = forceLiquidationAsset.getDouble("qty");
+            if (qty < 0)
+                throw new IllegalArgumentException("Quantity value cannot be less than 0");
+            side = forceLiquidationAsset.getString("side");
+            if (!sideIsValid(side))
+                throw new IllegalArgumentException("Side value can only be BUY or SELL");
+            symbol = forceLiquidationAsset.getString("symbol");
+            timeInForce = forceLiquidationAsset.getString("timeInForce");
+            if (!timeInForceIsValid(timeInForce))
+                throw new IllegalArgumentException("Time in force value can only be FOK, GTC or IOC");
+            isIsolated = forceLiquidationAsset.getBoolean("isIsolated");
+            updatedTime = forceLiquidationAsset.getLong("updatedTime");
+            if (updatedTime < 0)
+                throw new IllegalArgumentException("Updated time value cannot be less than 0");
         }
 
         public double getAvgPrice() {
             return avgPrice;
         }
 
-        /** Method to set {@link #avgPrice}
+        /**
+         * Method to get {@link #avgPrice} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #avgPrice} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getAvgPrice(int decimals) {
+            return roundValue(avgPrice, decimals);
+        }
+
+        /**
+         * Method to set {@link #avgPrice}
+         *
          * @param avgPrice: average price of liquidation asset
          * @throws IllegalArgumentException when average price of liquidation asset value is less than 0
-         * **/
+         **/
         public void setAvgPrice(double avgPrice) {
-            if(avgPrice < 0)
+            if (avgPrice < 0)
                 throw new IllegalArgumentException("Average price value cannot be less than 0");
             this.avgPrice = avgPrice;
         }
@@ -224,12 +270,25 @@ public class MarginForceLiquidation {
             return executedQty;
         }
 
-        /** Method to set {@link #executedQty}
+        /**
+         * Method to get {@link #executedQty} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #executedQty} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getExecutedQty(int decimals) {
+            return roundValue(executedQty, decimals);
+        }
+
+        /**
+         * Method to set {@link #executedQty}
+         *
          * @param executedQty: executed quantity of liquidation asset
          * @throws IllegalArgumentException when executed quantity of liquidation asset value is less than 0
-         * **/
+         **/
         public void setExecutedQty(double executedQty) {
-            if(executedQty < 0)
+            if (executedQty < 0)
                 throw new IllegalArgumentException("Executed quantity value cannot be less than 0");
             this.executedQty = executedQty;
         }
@@ -246,12 +305,25 @@ public class MarginForceLiquidation {
             return price;
         }
 
-        /** Method to set {@link #price}
+        /**
+         * Method to get {@link #price} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #price} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getPrice(int decimals) {
+            return roundValue(price, decimals);
+        }
+
+        /**
+         * Method to set {@link #price}
+         *
          * @param price: price of order
          * @throws IllegalArgumentException when price of order value is less than 0
-         * **/
+         **/
         public void setPrice(double price) {
-            if(price < 0)
+            if (price < 0)
                 throw new IllegalArgumentException("Price value cannot be less than 0");
             this.price = price;
         }
@@ -260,12 +332,25 @@ public class MarginForceLiquidation {
             return qty;
         }
 
-        /** Method to set {@link #qty}
+        /**
+         * Method to get {@link #qty} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #qty} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getQty(int decimals) {
+            return roundValue(qty, decimals);
+        }
+
+        /**
+         * Method to set {@link #qty}
+         *
          * @param qty: quantity of order
          * @throws IllegalArgumentException when quantity of order value is less than 0
-         * **/
+         **/
         public void setQty(double qty) {
-            if(qty < 0)
+            if (qty < 0)
                 throw new IllegalArgumentException("Quantity value cannot be less than 0");
             this.qty = qty;
         }

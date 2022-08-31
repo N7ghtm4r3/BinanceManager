@@ -20,16 +20,18 @@ public class ComposedSpotOrderDetails extends OrderDetails {
      * **/
     private ArrayList<DetailSpotOrder> orderReportsList;
 
-    /** Constructor to init {@link ComposedSpotOrderDetails} object
-     * @param orderListId: list order identifier
-     * @param contingencyType: contingency type of the order
-     * @param listStatusType: list status type of the order
-     * @param listOrderStatus: list order status
+    /**
+     * Constructor to init {@link ComposedSpotOrderDetails} object
+     *
+     * @param orderListId:       list order identifier
+     * @param contingencyType:   contingency type of the order
+     * @param listStatusType:    list status type of the order
+     * @param listOrderStatus:   list order status
      * @param listClientOrderId: list client order id
-     * @param transactionTime: transaction time of the order
-     * @param symbol: symbol used in the order
-     * @param jsonSpotOrder: order details in JSON format
-     * **/
+     * @param transactionTime:   transaction time of the order
+     * @param symbol:            symbol used in the order
+     * @param jsonSpotOrder:     order details as {@link JSONObject}
+     **/
     public ComposedSpotOrderDetails(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
                                     String listClientOrderId, long transactionTime, String symbol, JSONObject jsonSpotOrder) {
         super(orderListId, contingencyType, listStatusType, listOrderStatus, listClientOrderId, transactionTime, symbol, jsonSpotOrder);

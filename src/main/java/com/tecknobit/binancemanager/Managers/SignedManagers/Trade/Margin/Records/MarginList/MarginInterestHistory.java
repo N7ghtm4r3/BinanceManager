@@ -1,17 +1,20 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginList;
 
-import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.tecknobit.apimanager.Tools.Formatters.JsonHelper.getJSONArray;
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
- *  The {@code MarginInterestHistory} class is useful to format Binance Margin Interest History request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code MarginInterestHistory} class is useful to format Binance Margin Interest History request
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
+ **/
 
 public class MarginInterestHistory {
 
@@ -42,39 +45,45 @@ public class MarginInterestHistory {
 
     /**
      * {@code marginInterestAssetsList} is instance that memorizes list of {@link MarginInterestAsset}
-     * **/
+     **/
     private ArrayList<MarginInterestAsset> marginInterestAssetsList;
 
-    /** Constructor to init {@link MarginInterestHistory} object
-     * @param jsonHistory: history details in JSON format
+    /**
+     * Constructor to init {@link MarginInterestHistory} object
+     *
+     * @param total:                    total size of interest assets
+     * @param marginInterestAssetsList: list of {@link MarginInterestAsset}
+     **/
+    public MarginInterestHistory(int total, ArrayList<MarginInterestAsset> marginInterestAssetsList) {
+        this.total = total;
+        this.marginInterestAssetsList = marginInterestAssetsList;
+    }
+
+    /**
+     * Constructor to init {@link MarginInterestHistory} object
+     *
+     * @param jsonHistory: history details as {@link JSONObject}
      * @throws IllegalArgumentException when history details are not recoverable
-     * **/
+     **/
     public MarginInterestHistory(JSONObject jsonHistory) {
-        JSONArray jsonHistoryList = new JsonHelper(jsonHistory).getJSONArray("rows");
-        if(jsonHistoryList != null){
+        JSONArray jsonHistoryList = getJSONArray(jsonHistory, "rows");
+        if (jsonHistoryList != null) {
             total = jsonHistoryList.length();
             loadMarginInterestAssets(jsonHistoryList);
-        }else
+        } else
             throw new IllegalArgumentException("Details are not recoverable");
     }
 
-    /** Method to load InterestAssets list
-     * @param jsonArray: obtained from Binance's request
-     * any return
-     * **/
-    private void loadMarginInterestAssets(JSONArray jsonArray) {
+    /**
+     * Method to load InterestAssets list
+     *
+     * @param interestAssets: obtained from Binance's request
+     *                        any return
+     **/
+    private void loadMarginInterestAssets(JSONArray interestAssets) {
         marginInterestAssetsList = new ArrayList<>();
-        for (int j=0; j < jsonArray.length(); j++){
-            JSONObject jsonObject = jsonArray.getJSONObject(j);
-            marginInterestAssetsList.add(new MarginInterestAsset(jsonObject.getString("isolatedSymbol"),
-                    jsonObject.getString("asset"),
-                    jsonObject.getDouble("interest"),
-                    jsonObject.getLong("interestAccusedTime"),
-                    jsonObject.getDouble("interestRate"),
-                    jsonObject.getDouble("principal"),
-                    jsonObject.getString("type")
-            ));
-        }
+        for (int j = 0; j < interestAssets.length(); j++)
+            marginInterestAssetsList.add(new MarginInterestAsset(interestAssets.getJSONObject(j)));
     }
 
     public int getTotal() {
@@ -117,9 +126,7 @@ public class MarginInterestHistory {
     }
 
     /**
-     * The {@code MarginInterestAsset} class is useful to obtain and format MarginInterestAsset object
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
+     * The {@code MarginInterestAsset} class is useful to create a margin interest asset type
      * **/
 
     public static class MarginInterestAsset {
@@ -185,13 +192,41 @@ public class MarginInterestHistory {
                 throw new IllegalArgumentException("Interest rate value cannot be less than 0");
             else
                 this.interestRate = interestRate;
-            if(principal < 0)
+            if (principal < 0)
                 throw new IllegalArgumentException("Principal value cannot be less than 0");
             else
                 this.principal = principal;
-            if(typeIsValid(type))
+            if (typeIsValid(type))
                 this.type = type;
             else {
+                throw new IllegalArgumentException("Type value can only be ON_BORROW,ON_BORROW_CONVERTED,PERIODIC " +
+                        "or PERIODIC_CONVERTED");
+            }
+        }
+
+        /**
+         * Constructor to init {@link MarginInterestAsset} object
+         *
+         * @param interestAsset: interest asset details as {@link JSONObject}
+         * @throws IllegalArgumentException if parameters range is not respected
+         **/
+        public MarginInterestAsset(JSONObject interestAsset) {
+            isolatedSymbol = interestAsset.getString("isolatedSymbol");
+            asset = interestAsset.getString("asset");
+            interest = interestAsset.getDouble("interest");
+            if (interest < 0)
+                throw new IllegalArgumentException("Interest value cannot be less than 0");
+            interestAccuredTime = interestAsset.getLong("interestAccusedTime");
+            if (interestAccuredTime < 0)
+                throw new IllegalArgumentException("Interest accured time value cannot be less than 0");
+            interestRate = interestAsset.getDouble("interestRate");
+            if (interestRate < 0)
+                throw new IllegalArgumentException("Interest rate value cannot be less than 0");
+            principal = interestAsset.getDouble("principal");
+            if (principal < 0)
+                throw new IllegalArgumentException("Principal value cannot be less than 0");
+            type = interestAsset.getString("type");
+            if (!typeIsValid(type)) {
                 throw new IllegalArgumentException("Type value can only be ON_BORROW,ON_BORROW_CONVERTED,PERIODIC " +
                         "or PERIODIC_CONVERTED");
             }
@@ -209,12 +244,25 @@ public class MarginInterestHistory {
             return interest;
         }
 
-        /** Method to set {@link #interest}
+        /**
+         * Method to get {@link #interest} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #interest} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getInterest(int decimals) {
+            return roundValue(interest, decimals);
+        }
+
+        /**
+         * Method to set {@link #interest}
+         *
          * @param interest: interest on the asset
          * @throws IllegalArgumentException when interest value is less than 0
-         * **/
+         **/
         public void setInterest(double interest) {
-            if(interest < 0)
+            if (interest < 0)
                 throw new IllegalArgumentException("Interest value cannot be less than 0");
             this.interest = interest;
         }
@@ -228,7 +276,7 @@ public class MarginInterestHistory {
          * @throws IllegalArgumentException when accurate time value is less than 0
          * **/
         public void setInterestAccuredTime(long interestAccuredTime) {
-            if(interestAccuredTime < 0)
+            if (interestAccuredTime < 0)
                 throw new IllegalArgumentException("Interest accured time value cannot be less than 0");
             this.interestAccuredTime = interestAccuredTime;
         }
@@ -237,12 +285,25 @@ public class MarginInterestHistory {
             return interestRate;
         }
 
-        /** Method to set {@link #interestRate}
+        /**
+         * Method to get {@link #interestRate} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #interestRate} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getInterestRate(int decimals) {
+            return roundValue(interestRate, decimals);
+        }
+
+        /**
+         * Method to set {@link #interestRate}
+         *
          * @param interestRate: interest rate value
          * @throws IllegalArgumentException when interest rate value is less than 0
-         * **/
+         **/
         public void setInterestRate(double interestRate) {
-            if(interestRate < 0)
+            if (interestRate < 0)
                 throw new IllegalArgumentException("Interest rate value cannot be less than 0");
             this.interestRate = interestRate;
         }
@@ -251,12 +312,25 @@ public class MarginInterestHistory {
             return principal;
         }
 
-        /** Method to set {@link #principal}
+        /**
+         * Method to get {@link #principal} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #principal} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getPrincipal(int decimals) {
+            return roundValue(principal, decimals);
+        }
+
+        /**
+         * Method to set {@link #principal}
+         *
          * @param principal: principal value
          * @throws IllegalArgumentException when principal value is less than 0
-         * **/
+         **/
         public void setPrincipal(double principal) {
-            if(principal < 0)
+            if (principal < 0)
                 throw new IllegalArgumentException("Principal value cannot be less than 0");
             this.principal = principal;
         }

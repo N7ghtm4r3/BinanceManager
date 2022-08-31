@@ -1,11 +1,14 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginProperties;
 
+import org.json.JSONObject;
+
 /**
- *  The {@code MarginPair} class is useful to format Binance Get All Cross Margin Pairs request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-cross-margin-pairs-market_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#get-all-cross-margin-pairs-market_data</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code MarginPair} class is useful to format Binance Get All Cross Margin Pairs request
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-cross-margin-pairs-market_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#get-all-cross-margin-pairs-market_data</a>
+ **/
 
 public class MarginPair {
 
@@ -62,6 +65,21 @@ public class MarginPair {
         this.isMarginTrade = isMarginTrade;
         this.isBuyAllowed = isBuyAllowed;
         this.isSellAllowed = isSellAllowed;
+    }
+
+    /**
+     * Constructor to init {@link MarginPair} object
+     *
+     * @param marginPair: margin pair details as {@link JSONObject}
+     **/
+    public MarginPair(JSONObject marginPair) {
+        id = marginPair.getLong("id");
+        symbol = marginPair.getString("symbol");
+        base = marginPair.getString("base");
+        quote = marginPair.getString("quote");
+        isMarginTrade = marginPair.getBoolean("isMarginTrade");
+        isBuyAllowed = marginPair.getBoolean("isBuyAllowed");
+        isSellAllowed = marginPair.getBoolean("isSellAllowed");
     }
 
     public long getId() {

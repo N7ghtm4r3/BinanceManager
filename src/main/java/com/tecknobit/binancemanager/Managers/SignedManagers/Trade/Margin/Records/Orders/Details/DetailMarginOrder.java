@@ -82,7 +82,7 @@ public class DetailMarginOrder extends Order {
      * @param timeInForce: time in force of the order
      * @param type: type of the order
      * @param side: side of the order
-     * @param jsonOrder: order details in JSON format
+     * @param jsonOrder: order details as {@link JSONObject}
      * **/
     public DetailMarginOrder(String symbol, double orderId, String clientOrderId, boolean isIsolated, String origClientOrderId,
                              double price, double origQty, double executedQty, double cummulativeQuoteQty, String status,

@@ -19,12 +19,14 @@ public class AccountSnapshotFutures extends AccountSnapshot{
      * **/
     private ArrayList<DataFutures> dataFuturesList;
 
-    /** Constructor to init {@link AccountSnapshotFutures} object
-     * @param code: code of response
-     * @param msg: message of response
-     * @param type: type of account
-     * @param accountDetails: details in JSON format
-     * **/
+    /**
+     * Constructor to init {@link AccountSnapshotFutures} object
+     *
+     * @param code:           code of response
+     * @param msg:            message of response
+     * @param type:           type of account
+     * @param accountDetails: details as {@link JSONObject}
+     **/
     public AccountSnapshotFutures(int code, String msg, String type, JSONArray accountDetails) {
         super(code, msg, type, accountDetails);
         dataFuturesList = new ArrayList<>();
@@ -44,7 +46,7 @@ public class AccountSnapshotFutures extends AccountSnapshot{
      * @param code: code of response
      * @param msg: message of response
      * @param type: type of account
-     * @param accountDetails: details in JSON format
+     * @param accountDetails: details as {@link JSONObject}
      * @param dataFutures: list of {@link DataFutures}
      * **/
     public AccountSnapshotFutures(int code, String msg, String type, JSONArray accountDetails, ArrayList<DataFutures> dataFutures) {

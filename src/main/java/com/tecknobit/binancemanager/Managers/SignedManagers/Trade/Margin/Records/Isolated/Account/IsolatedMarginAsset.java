@@ -4,19 +4,21 @@ import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Accou
 
 /**
  * The {@code IsolatedMarginAsset} class is useful to format IsolatedMarginAsset object of Binance Isolated Margin Asset
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
- * **/
+ *
+ * @deprecated this standalone class will be deleted in the next update so use instead {@link IsolatedMarginAccountInfo.IsolatedMarginAsset}
+ **/
 
-public class IsolatedMarginAsset extends AccountSnapshotMargin.UserAssetMargin {
+@Deprecated
+public class IsolatedMarginAsset extends AccountSnapshotMargin.UserMarginAsset {
 
     /**
      * {@code borrowEnabled} is instance if borrow is enabled for asset
-     * **/
+     **/
     private boolean borrowEnabled;
 
     /**
      * {@code netAssetOfBtc} is instance that memorizes net asset of Bitcoin
-     * **/
+     **/
     private double netAssetOfBtc;
 
     /**

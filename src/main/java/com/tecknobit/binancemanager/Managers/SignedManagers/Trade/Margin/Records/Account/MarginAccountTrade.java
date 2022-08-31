@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account;
 
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.Fill;
+import org.json.JSONObject;
 
 /**
  * The {@code MarginAccountTrade} class is useful to format Binance Margin Account Trade request response
@@ -77,6 +78,24 @@ public class MarginAccountTrade extends Fill {
         this.symbol = symbol;
         this.isIsolated = isIsolated;
         this.time = time;
+    }
+
+    /**
+     * Constructor to init {@link MarginAccountTrade} object
+     *
+     * @param marginAccountTrade: margin account trade details as {@link JSONObject}
+     * @throws IllegalArgumentException if parameters range is not respected
+     **/
+    public MarginAccountTrade(JSONObject marginAccountTrade) {
+        super(marginAccountTrade);
+        id = marginAccountTrade.getLong("id");
+        isBestMatch = marginAccountTrade.getBoolean("isBestMatch");
+        isBuyer = marginAccountTrade.getBoolean("isBuyer");
+        isMaker = marginAccountTrade.getBoolean("isMaker");
+        orderId = marginAccountTrade.getLong("orderId");
+        symbol = marginAccountTrade.getString("symbol");
+        isIsolated = marginAccountTrade.getBoolean("isIsolated");
+        time = marginAccountTrade.getLong("time");
     }
 
     public long getId() {

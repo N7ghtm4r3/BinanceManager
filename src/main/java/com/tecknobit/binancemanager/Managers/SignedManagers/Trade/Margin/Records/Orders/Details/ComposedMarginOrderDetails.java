@@ -27,29 +27,43 @@ public class ComposedMarginOrderDetails extends OrderDetails {
      * **/
     private final boolean isIsolated;
 
-    /** Constructor to init {@link ComposedMarginOrderDetails} object
-     * @param orderListId: list order identifier
-     * @param contingencyType: contingency type of the order
-     * @param listStatusType: list status type of the order
-     * @param listOrderStatus: list order status
-     * @param listClientOrderId: list client order id
-     * @param transactionTime: transaction time of the order
-     * @param symbol: symbol used in the order
-     * @param isIsolated: is isolated
-     * @param jsonDetails: order details in JSON format
-     * **/
+    /**
+     * Constructor to init {@link ComposedMarginOrderDetails} object
+     *
+     * @param orderListId:            list order identifier
+     * @param contingencyType:        contingency type of the order
+     * @param listStatusType:         list status type of the order
+     * @param listOrderStatus:        list order status
+     * @param listClientOrderId:      list client order id
+     * @param transactionTime:        transaction time of the order
+     * @param symbol:                 symbol used in the order
+     * @param detailMarginOrdersList: details margin orders list
+     * @param isIsolated:             is isolated
+     **/
     public ComposedMarginOrderDetails(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
-                                      String listClientOrderId, long transactionTime, String symbol, boolean isIsolated,
-                                      JSONObject jsonDetails) {
-        super(orderListId, contingencyType, listStatusType, listOrderStatus, listClientOrderId, transactionTime, symbol,
-                jsonDetails);
+                                      String listClientOrderId, long transactionTime, String symbol, ArrayList<OrderValues> orderValues,
+                                      ArrayList<DetailMarginOrder> detailMarginOrdersList, boolean isIsolated) {
+        super(orderListId, contingencyType, listStatusType, listOrderStatus, listClientOrderId, transactionTime, symbol, orderValues);
+        this.detailMarginOrdersList = detailMarginOrdersList;
         this.isIsolated = isIsolated;
-        loadOrderReport(jsonDetails.getJSONArray("orderReports"));
     }
 
-    /** Method to load OrderReport list
+    /**
+     * Constructor to init {@link ComposedMarginOrderDetails} object
+     *
+     * @param marginOrderDetails: margin order details as {@link JSONObject}
+     **/
+    public ComposedMarginOrderDetails(JSONObject marginOrderDetails) {
+        super(marginOrderDetails);
+        loadOrderReport(marginOrderDetails.getJSONArray("orderReports"));
+        isIsolated = marginOrderDetails.getBoolean("isIsolated");
+    }
+
+    /**
+     * Method to load OrderReport list
+     *
      * @param orderReports: obtained from Binance's request
-     * **/
+     **/
     private void loadOrderReport(JSONArray orderReports) {
         detailMarginOrdersList = new ArrayList<>();
         for (int j = 0; j < orderReports.length(); j++)
@@ -79,23 +93,6 @@ public class ComposedMarginOrderDetails extends OrderDetails {
 
     public boolean isIsolated() {
         return isIsolated;
-    }
-
-    /** Method to assemble a {@link ComposedMarginOrderDetails} object
-     * @param order: obtained from Binance's request
-     * @return composed margin order details as {@link ComposedMarginOrderDetails}
-     * **/
-    public static ComposedMarginOrderDetails assembleComposedMarginOrderDetails(JSONObject order){
-        return new ComposedMarginOrderDetails(order.getLong("orderListId"),
-                order.getString("contingencyType"),
-                order.getString("listStatusType"),
-                order.getString("listOrderStatus"),
-                order.getString("listClientOrderId"),
-                order.getLong("transactionTime"),
-                order.getString("symbol"),
-                order.getBoolean("isIsolated"),
-                order
-        );
     }
 
     @Override

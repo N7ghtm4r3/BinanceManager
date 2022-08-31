@@ -2,14 +2,18 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Record
 
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Properties.IsolatedMarginFee;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
  * The {@code CrossMarginFee} class is useful to format Binance Cross Margin Fee request response
+ *
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data">
- *     https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data</a>
- * **/
+ * https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data</a>
+ **/
 
 public class CrossMarginFee extends IsolatedMarginFee.IsolatedData {
 
@@ -34,7 +38,7 @@ public class CrossMarginFee extends IsolatedMarginFee.IsolatedData {
     private double yearlyInterest;
 
     /**
-     * {@code marginablePairsList} is instance that memorizes pairs data list
+     * {@code marginablePairsList} is instance that memorizes list of pairs data
      * **/
     private ArrayList<String> marginablePairsList;
 
@@ -46,28 +50,44 @@ public class CrossMarginFee extends IsolatedMarginFee.IsolatedData {
      * @param dailyInterest: value of daily interest
      * @param yearlyInterest: value of yearly interest
      * @param borrowLimit: limit for borrow
-     * @param jsonFees: limit for borrow
+     * @param marginablePairsList: list of pairs data
      * @throws IllegalArgumentException if parameters range is not respected
      * **/
-    public CrossMarginFee(int vipLevel, String coin, boolean transferIn, boolean borrowable, double dailyInterest,
-                          double yearlyInterest, double borrowLimit, JSONArray jsonFees) {
+    public CrossMarginFee(String coin, double dailyInterest, double borrowLimit, int vipLevel, boolean transferIn,
+                          boolean borrowable, double yearlyInterest, ArrayList<String> marginablePairsList) {
         super(coin, dailyInterest, borrowLimit);
-        if(vipLevel < 0)
-            throw new IllegalArgumentException("Vip level value cannot be less than 0");
-        else
-            this.vipLevel = vipLevel;
+        this.vipLevel = vipLevel;
         this.transferIn = transferIn;
         this.borrowable = borrowable;
         this.yearlyInterest = yearlyInterest;
-        loadMarginablePairsList(jsonFees);
+        this.marginablePairsList = marginablePairsList;
     }
 
-    /** Method to load MarginablePairs list
+    /**
+     * Constructor to init {@link CrossMarginFee} object
+     *
+     * @param marginFee: margin fee details as {@link JSONObject}
+     * @throws IllegalArgumentException if parameters range is not respected
+     **/
+    public CrossMarginFee(JSONObject marginFee) {
+        super(marginFee);
+        vipLevel = marginFee.getInt("vipLevel");
+        if (vipLevel < 0)
+            throw new IllegalArgumentException("Vip level value cannot be less than 0");
+        transferIn = marginFee.getBoolean("transferIn");
+        borrowable = marginFee.getBoolean("borrowable");
+        yearlyInterest = marginFee.getDouble("yearlyInterest");
+        loadMarginablePairsList(marginFee.getJSONArray("marginablePairs"));
+    }
+
+    /**
+     * Method to load MarginablePairs list
+     *
      * @param jsonAssets: obtained from Binance's request
-     * **/
+     **/
     private void loadMarginablePairsList(JSONArray jsonAssets) {
         marginablePairsList = new ArrayList<>();
-        for(int j = 0; j < jsonAssets.length(); j++)
+        for (int j = 0; j < jsonAssets.length(); j++)
             marginablePairsList.add(jsonAssets.getString(j));
     }
 
@@ -105,12 +125,25 @@ public class CrossMarginFee extends IsolatedMarginFee.IsolatedData {
         return yearlyInterest;
     }
 
-    /** Method to set {@link #yearlyInterest}
+    /**
+     * Method to get {@link #yearlyInterest} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #yearlyInterest} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getYearlyInterest(int decimals) {
+        return roundValue(yearlyInterest, decimals);
+    }
+
+    /**
+     * Method to set {@link #yearlyInterest}
+     *
      * @param yearlyInterest: value of yearly interest
      * @throws IllegalArgumentException when value of yearly interest is less than 0
-     * **/
+     **/
     public void setYearlyInterest(double yearlyInterest) {
-        if(yearlyInterest < 0)
+        if (yearlyInterest < 0)
             throw new IllegalArgumentException("Yearly interest value cannot be less than 0");
         this.yearlyInterest = yearlyInterest;
     }

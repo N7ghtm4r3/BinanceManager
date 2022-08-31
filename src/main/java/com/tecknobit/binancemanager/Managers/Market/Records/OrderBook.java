@@ -41,7 +41,6 @@ public class OrderBook {
 
     /**
      * Constructor to init {@link OrderBook} object
-     *
      * @param lastUpdateId:     last update of order book
      * @param orderDetailsBids: list of bids of the order book
      * @param orderDetailsAsks: list of asks of the order book

@@ -5,12 +5,16 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.tecknobit.apimanager.Tools.Formatters.JsonHelper.getJSONArray;
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
- *  The {@code MarginLoan} class is useful to format Binance Margin Query Loan repay request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code MarginLoan} class is useful to format Binance Margin Query Loan repay request
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
+ **/
 
 public class MarginLoan {
 
@@ -21,19 +25,32 @@ public class MarginLoan {
 
     /**
      * {@code marginLoanAssetsList} is instance that memorizes list of {@link MarginLoanAsset}
-     * **/
+     **/
     private ArrayList<MarginLoanAsset> marginLoanAssetsList;
 
-    /** Constructor to init {@link MarginLoan} object
-     * @param jsonLoan: loan details in JSON format
+    /**
+     * Constructor to init {@link MarginLoan} object
+     *
+     * @param total:                total size of loans
+     * @param marginLoanAssetsList: list of {@link MarginLoanAsset}
+     **/
+    public MarginLoan(int total, ArrayList<MarginLoanAsset> marginLoanAssetsList) {
+        this.total = total;
+        this.marginLoanAssetsList = marginLoanAssetsList;
+    }
+
+    /**
+     * Constructor to init {@link MarginLoan} object
+     *
+     * @param jsonLoan: loan details as {@link JSONObject}
      * @throws IllegalArgumentException when loan details are not recoverable
-     * **/
+     **/
     public MarginLoan(JSONObject jsonLoan) {
-        JSONArray jsonAssets = jsonLoan.getJSONArray("rows");
-        if(jsonAssets != null) {
+        JSONArray jsonAssets = getJSONArray(jsonLoan, "rows");
+        if (jsonAssets != null) {
             total = jsonAssets.length();
             loadMarginLoanAssets(jsonAssets);
-        }else
+        } else
             throw new IllegalArgumentException("Details are not recoverable");
     }
 
@@ -43,16 +60,8 @@ public class MarginLoan {
      * **/
     private void loadMarginLoanAssets(JSONArray jsonAssets) {
         marginLoanAssetsList = new ArrayList<>();
-        for (int j = 0; j < jsonAssets.length(); j++){
-            JSONObject jsonObject = jsonAssets.getJSONObject(j);
-            marginLoanAssetsList.add(new MarginLoanAsset(jsonObject.getString("asset"),
-                    jsonObject.getLong("txId"),
-                    jsonObject.getLong("timestamp"),
-                    jsonObject.getString("status"),
-                    jsonObject.getString("isolatedSymbol"),
-                    jsonObject.getDouble("principal")
-            ));
-        }
+        for (int j = 0; j < jsonAssets.length(); j++)
+            marginLoanAssetsList.add(new MarginLoanAsset(jsonAssets.getJSONObject(j)));
     }
 
     public int getTotal() {
@@ -95,9 +104,7 @@ public class MarginLoan {
     }
 
     /**
-     * The {@code MarginLoanAsset} class is useful to obtain and format MarginLoanAsset object
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
+     * The {@code MarginLoanAsset} class is useful to create a margin loan asset type
      * **/
 
     public static class MarginLoanAsset extends MarginAssetList {
@@ -125,10 +132,24 @@ public class MarginLoan {
                                double principal) {
             super(asset, txId, timestamp, status);
             this.isolatedSymbol = isolatedSymbol;
-            if(principal < 0)
+            if (principal < 0)
                 throw new IllegalArgumentException("Principal value cannot be less than 0");
             else
                 this.principal = principal;
+        }
+
+        /**
+         * Constructor to init {@link MarginLoanAsset} object
+         *
+         * @param loanAsset: loan asset details as {@link JSONObject}
+         * @throws IllegalArgumentException if parameters range is not respected
+         **/
+        public MarginLoanAsset(JSONObject loanAsset) {
+            super(loanAsset);
+            isolatedSymbol = loanAsset.getString("isolatedSymbol");
+            principal = loanAsset.getDouble("principal");
+            if (principal < 0)
+                throw new IllegalArgumentException("Principal value cannot be less than 0");
         }
 
         public String getIsolatedSymbol() {
@@ -139,12 +160,25 @@ public class MarginLoan {
             return principal;
         }
 
-        /** Method to set {@link #principal}
+        /**
+         * Method to get {@link #principal} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #principal} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getPrincipal(int decimals) {
+            return roundValue(principal, decimals);
+        }
+
+        /**
+         * Method to set {@link #principal}
+         *
          * @param principal: principal value
          * @throws IllegalArgumentException when principal value is less than 0
-         * **/
+         **/
         public void setPrincipal(double principal) {
-            if(principal < 0)
+            if (principal < 0)
                 throw new IllegalArgumentException("Principal value cannot be less than 0");
             this.principal = principal;
         }

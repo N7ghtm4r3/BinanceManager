@@ -1,13 +1,35 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.MarginList;
 
+import org.json.JSONObject;
+
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.Order.*;
 
 /**
- *  The {@code MarginAssetList} class is useful to format Binance Margin List response request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade">
- *      https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade</a>
+ * The {@code MarginAssetList} class is useful to create Binance's base margin lists
+ *
+ * @apiNote see the official documentation at:
+ * <ul>
+ * <li>
+ * <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
+ * </li>
+ * <li>
+ * <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
+ * </li><li>
+ * <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
+ * </li>
+ * <li>
+ * <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
+ * https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
+ * </li><li>
+ * <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
+ * </li>
+ * </ul>
  *  @author N7ghtm4r3 - Tecknobit
- * **/
+ **/
 
 public class MarginAssetList {
 
@@ -41,13 +63,30 @@ public class MarginAssetList {
     public MarginAssetList(String asset, long txId, long timestamp, String status) {
         this.asset = asset;
         this.txId = txId;
-        if(timestamp < 0)
+        if (timestamp < 0)
             throw new IllegalArgumentException("Timestamp value cannot be less than 0");
         else
             this.timestamp = timestamp;
-        if(checkStatusValidity(status))
+        if (checkStatusValidity(status))
             this.status = status;
         else
+            throw new IllegalArgumentException("Status can be only CONFIRMED, PENDING or FAILED");
+    }
+
+    /**
+     * Constructor to init {@link MarginAssetList} object
+     *
+     * @param marginList: margin assets list details as {@link JSONObject}
+     * @throws IllegalArgumentException if parameters range is not respected
+     **/
+    public MarginAssetList(JSONObject marginList) {
+        asset = marginList.getString("asset");
+        txId = marginList.getLong("txId");
+        timestamp = marginList.getLong("timestamp");
+        if (timestamp < 0)
+            throw new IllegalArgumentException("Timestamp value cannot be less than 0");
+        status = marginList.getString("status");
+        if (!checkStatusValidity(status))
             throw new IllegalArgumentException("Status can be only CONFIRMED, PENDING or FAILED");
     }
 
