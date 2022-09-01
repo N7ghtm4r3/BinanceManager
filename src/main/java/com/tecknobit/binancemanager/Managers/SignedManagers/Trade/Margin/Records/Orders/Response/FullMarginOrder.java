@@ -2,6 +2,7 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Record
 
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.Fill;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -32,20 +33,32 @@ public class FullMarginOrder extends ResultMarginOrder {
      * @param timeInForce: time in force of the order
      * @param type: type of the order
      * @param side: side of the order
-     * @param jsonMargins: margins details as {@link JSONObject}
+     * @param fillMarginsList: list of {@link Fill}
      * **/
     public FullMarginOrder(String symbol, double orderId, String clientOrderId, long transactTime, boolean isIsolated,
                            double price, double origQty, double executedQty, double cummulativeQuoteQty, String status,
-                           String timeInForce, String type, String side, JSONArray jsonMargins) {
+                           String timeInForce, String type, String side, ArrayList<Fill> fillMarginsList) {
         super(symbol, orderId, clientOrderId, transactTime, isIsolated, price, origQty, executedQty, cummulativeQuoteQty,
                 status, timeInForce, type, side);
-        loadFillMargins(jsonMargins);
+        this.fillMarginsList = fillMarginsList;
     }
 
-    /** Method to load FillMargins list
+    /**
+     * Constructor to init {@link FullMarginOrder} object
+     *
+     * @param fullMarginOrder: full margin order details as {@link JSONObject}
+     **/
+    public FullMarginOrder(JSONObject fullMarginOrder) {
+        super(fullMarginOrder);
+        loadFillMargins(fullMarginOrder.getJSONArray("fills"));
+    }
+
+    /**
+     * Method to load FillMargins list
+     *
      * @param jsonMargins: obtained from Binance's request
-     * any return
-     * **/
+     *                     any return
+     **/
     private void loadFillMargins(JSONArray jsonMargins) {
         fillMarginsList = new ArrayList<>();
         for (int j = 0; j < jsonMargins.length(); j++)

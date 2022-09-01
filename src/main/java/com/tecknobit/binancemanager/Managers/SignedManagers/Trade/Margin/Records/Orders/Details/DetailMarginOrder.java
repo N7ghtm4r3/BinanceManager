@@ -4,12 +4,15 @@ import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.Order;
 import org.json.JSONObject;
 
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
- *  The {@code DetailMarginOrder} class is useful to format Binance Margin Cancel Order request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code DetailMarginOrder} class is useful to format Binance Margin Cancel Order request
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
+ **/
 
 public class DetailMarginOrder extends Order {
 
@@ -65,8 +68,8 @@ public class DetailMarginOrder extends Order {
 
     /**
      * {@code jsonHelper} is instance that memorizes {@link JsonHelper} tool
-     * **/
-    private final JsonHelper jsonHelper;
+     **/
+    private final JsonHelper hMarginOrder;
 
     /** Constructor to init {@link DetailMarginOrder} object
      * @param symbol: symbol used in the order
@@ -82,11 +85,10 @@ public class DetailMarginOrder extends Order {
      * @param timeInForce: time in force of the order
      * @param type: type of the order
      * @param side: side of the order
-     * @param jsonOrder: order details as {@link JSONObject}
      * **/
     public DetailMarginOrder(String symbol, double orderId, String clientOrderId, boolean isIsolated, String origClientOrderId,
-                             double price, double origQty, double executedQty, double cummulativeQuoteQty, String status,
-                             String timeInForce, String type, String side, JSONObject jsonOrder) {
+                             double price, double origQty, double executedQty, double cummulativeQuoteQty,
+                             String status, String timeInForce, String type, String side) {
         super(symbol, orderId, clientOrderId);
         this.isIsolated = isIsolated;
         this.origClientOrderId = origClientOrderId;
@@ -98,7 +100,27 @@ public class DetailMarginOrder extends Order {
         this.timeInForce = timeInForce;
         this.type = type;
         this.side = side;
-        jsonHelper = new JsonHelper(jsonOrder);
+        hMarginOrder = null;
+    }
+
+    /**
+     * Constructor to init {@link DetailMarginOrder} object
+     *
+     * @param marginOrder: margin order details as {@link JSONObject}
+     **/
+    public DetailMarginOrder(JSONObject marginOrder) {
+        super(marginOrder);
+        isIsolated = marginOrder.getBoolean("isIsolated");
+        origClientOrderId = marginOrder.getString("origClientOrderId");
+        price = marginOrder.getDouble("price");
+        origQty = marginOrder.getDouble("origQty");
+        executedQty = marginOrder.getDouble("executedQty");
+        cummulativeQuoteQty = marginOrder.getDouble("cummulativeQuoteQty");
+        status = marginOrder.getString("status");
+        timeInForce = marginOrder.getString("timeInForce");
+        type = marginOrder.getString("type");
+        side = marginOrder.getString("side");
+        hMarginOrder = new JsonHelper(marginOrder);
     }
 
     public boolean isIsolated() {
@@ -113,16 +135,60 @@ public class DetailMarginOrder extends Order {
         return price;
     }
 
+    /**
+     * Method to get {@link #price} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #price} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getPrice(int decimals) {
+        return roundValue(price, decimals);
+    }
+
     public double getOrigQty() {
         return origQty;
+    }
+
+    /**
+     * Method to get {@link #origQty} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #origQty} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getOrigQty(int decimals) {
+        return roundValue(origQty, decimals);
     }
 
     public double getExecutedQty() {
         return executedQty;
     }
 
+    /**
+     * Method to get {@link #executedQty} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #executedQty} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getExecutedQty(int decimals) {
+        return roundValue(origQty, decimals);
+    }
+
     public double getCummulativeQuoteQty() {
         return cummulativeQuoteQty;
+    }
+
+    /**
+     * Method to get {@link #cummulativeQuoteQty} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #cummulativeQuoteQty} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getCummulativeQuoteQty(int decimals) {
+        return roundValue(cummulativeQuoteQty, decimals);
     }
 
     public String getStatus() {
@@ -141,42 +207,48 @@ public class DetailMarginOrder extends Order {
         return side;
     }
 
-    /** Method to get stopPrice <br>
+    /**
+     * Method to get {@code stop price} value <br>
      * Any params required
+     *
      * @return stopPrice as double, if is a null field will return -1
-     * **/
-    public double getStopPrice(){
-        return jsonHelper.getDouble("stopPrice");
+     **/
+    public double getStopPrice() {
+        if (hMarginOrder == null)
+            return -1;
+        return hMarginOrder.getDouble("stopPrice");
     }
 
-    /** Method to get icebergQty <br>
+    /**
+     * Method to get {@code stop price} value <br>
      * Any params required
-     * @return icebergQty as double, if is a null field will return -1
-     * **/
-    public double getIcebergQty(){
-        return jsonHelper.getDouble("icebergQty");
+     *
+     * @return stopPrice as double, if is a null field will return -1
+     **/
+    public double getStopPrice(int decimals) {
+        return roundValue(getStopPrice(), decimals);
     }
 
-    /** Method to assemble a DetailMarginOrder
-     * @param cancelMarginOrder: obtained from Binance's request
-     * retrun DetailMarginOrder object
-     * **/
-    public static DetailMarginOrder assembleDetailMarginOrderObject(JSONObject cancelMarginOrder){
-        return new DetailMarginOrder(cancelMarginOrder.getString("symbol"),
-                cancelMarginOrder.getLong("orderId"),
-                cancelMarginOrder.getString("clientOrderId"),
-                cancelMarginOrder.getBoolean("isIsolated"),
-                cancelMarginOrder.getString("origClientOrderId"),
-                cancelMarginOrder.getDouble("price"),
-                cancelMarginOrder.getDouble("origQty"),
-                cancelMarginOrder.getDouble("executedQty"),
-                cancelMarginOrder.getDouble("cummulativeQuoteQty"),
-                cancelMarginOrder.getString("status"),
-                cancelMarginOrder.getString("timeInForce"),
-                cancelMarginOrder.getString("type"),
-                cancelMarginOrder.getString("side"),
-                cancelMarginOrder
-        );
+    /**
+     * Method to get {@code iceberg quantity} value <br>
+     * Any params required
+     *
+     * @return icebergQty as double, if is a null field will return -1
+     **/
+    public double getIcebergQty() {
+        if (hMarginOrder == null)
+            return -1;
+        return hMarginOrder.getDouble("icebergQty");
+    }
+
+    /**
+     * Method to get {@code iceberg quantity} <br>
+     * Any params required
+     *
+     * @return icebergQty as double, if is a null field will return -1
+     **/
+    public double getIcebergQty(int decimals) {
+        return roundValue(getIcebergQty(), decimals);
     }
 
     @Override

@@ -1,11 +1,16 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.API;
 
+import org.json.JSONObject;
+
+import static com.tecknobit.apimanager.Tools.Formatters.JsonHelper.getLong;
+
 /**
- *  The {@code APIPermission} class is useful to manage APIPermission Binance request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code APIPermission} class is useful to manage APIPermission Binance request
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data</a>
+ **/
 
 public class APIPermission {
 
@@ -76,6 +81,7 @@ public class APIPermission {
      * @param enableMargin: api has margin option enabled
      * @param enableSpotAndMarginTrading: api is allowed to spot and margin trading
      * @param tradingAuthorityExpirationTime: api trading authority expiration value
+     * @implSpec if tradingAuthorityExpirationTime = -1 means that is not set for this api key
      * @throws IllegalArgumentException if parameters range is not respected
      * **/
     public APIPermission(boolean ipRestrict, long createTime, boolean enableWithdrawals, boolean enableInternalTransfer,
@@ -92,10 +98,27 @@ public class APIPermission {
         this.enableFutures = enableFutures;
         this.enableMargin = enableMargin;
         this.enableSpotAndMarginTrading = enableSpotAndMarginTrading;
-        if(tradingAuthorityExpirationTime < 0)
-            throw new IllegalArgumentException("Api trading authority expiration value cannot be less than 0");
-        else
-            this.tradingAuthorityExpirationTime = tradingAuthorityExpirationTime;
+        this.tradingAuthorityExpirationTime = tradingAuthorityExpirationTime;
+    }
+
+    /**
+     * Constructor to init {@link APIPermission} object
+     *
+     * @param apiPermission: api permission details as {@link JSONObject}
+     * @implSpec if tradingAuthorityExpirationTime = -1 means that is not set for this api key
+     **/
+    public APIPermission(JSONObject apiPermission) {
+        ipRestrict = apiPermission.getBoolean("ipRestrict");
+        createTime = apiPermission.getLong("createTime");
+        enableWithdrawals = apiPermission.getBoolean("enableWithdrawals");
+        enableInternalTransfer = apiPermission.getBoolean("enableInternalTransfer");
+        permitsUniversalTransfer = apiPermission.getBoolean("permitsUniversalTransfer");
+        enableVanillaOptions = apiPermission.getBoolean("enableVanillaOptions");
+        enableReading = apiPermission.getBoolean("enableReading");
+        enableFutures = apiPermission.getBoolean("enableFutures");
+        enableMargin = apiPermission.getBoolean("enableMargin");
+        enableSpotAndMarginTrading = apiPermission.getBoolean("enableSpotAndMarginTrading");
+        tradingAuthorityExpirationTime = getLong(apiPermission, "tradingAuthorityExpirationTime");
     }
 
     public boolean isIpRestrict() {
@@ -174,16 +197,22 @@ public class APIPermission {
         this.enableSpotAndMarginTrading = enableSpotAndMarginTrading;
     }
 
+
+    /**
+     * @implSpec if tradingAuthorityExpirationTime = -1 means that is not set for this api key
+     **/
     public long getTradingAuthorityExpirationTime() {
         return tradingAuthorityExpirationTime;
     }
 
-    /** Method to set {@link #tradingAuthorityExpirationTime}
+    /**
+     * Method to set {@link #tradingAuthorityExpirationTime}
+     *
      * @param tradingAuthorityExpirationTime: api trading authority expiration value
      * @throws IllegalArgumentException when api trading authority expiration value is less than 0
-     * **/
+     **/
     public void setTradingAuthorityExpirationTime(long tradingAuthorityExpirationTime) {
-        if(tradingAuthorityExpirationTime < 0)
+        if (tradingAuthorityExpirationTime < 0)
             throw new IllegalArgumentException("Api trading authority expiration value cannot be less than 0");
         this.tradingAuthorityExpirationTime = tradingAuthorityExpirationTime;
     }

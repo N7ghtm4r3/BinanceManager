@@ -1,11 +1,14 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Deposit;
 
+import org.json.JSONObject;
+
 /**
- *  The {@code DepositAddress} class is useful to manage DepositAddress Binance request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code DepositAddress} class is useful to manage DepositAddress Binance request
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data</a>
+ **/
 
 public class DepositAddress {
 
@@ -40,6 +43,18 @@ public class DepositAddress {
         this.coin = coin;
         this.tag = tag;
         this.url = url;
+    }
+
+    /**
+     * Constructor to init {@link DepositAddress} object
+     *
+     * @param depositAddress: deposit address details as {@link JSONObject}
+     **/
+    public DepositAddress(JSONObject depositAddress) {
+        address = depositAddress.getString("address");
+        coin = depositAddress.getString("coin");
+        tag = depositAddress.getString("tag");
+        url = depositAddress.getString("url");
     }
 
     public String address() {

@@ -6,7 +6,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.DetailMarginOrder.assembleDetailMarginOrderObject;
 
 /**
  *  The {@code ComposedMarginOrderDetails} class is useful to format Binance Margin Account Cancel all Open Orders on a Symbol request
@@ -37,7 +36,7 @@ public class ComposedMarginOrderDetails extends OrderDetails {
      * @param listClientOrderId:      list client order id
      * @param transactionTime:        transaction time of the order
      * @param symbol:                 symbol used in the order
-     * @param detailMarginOrdersList: details margin orders list
+     * @param detailMarginOrdersList: list of {@link DetailMarginOrder}
      * @param isIsolated:             is isolated
      **/
     public ComposedMarginOrderDetails(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
@@ -67,7 +66,7 @@ public class ComposedMarginOrderDetails extends OrderDetails {
     private void loadOrderReport(JSONArray orderReports) {
         detailMarginOrdersList = new ArrayList<>();
         for (int j = 0; j < orderReports.length(); j++)
-            detailMarginOrdersList.add(assembleDetailMarginOrderObject(orderReports.getJSONObject(j)));
+            detailMarginOrdersList.add(new DetailMarginOrder(orderReports.getJSONObject(j)));
     }
 
     public ArrayList<DetailMarginOrder> getCancelMarginOrdersList() {

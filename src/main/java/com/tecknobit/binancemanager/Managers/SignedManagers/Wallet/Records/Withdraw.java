@@ -1,11 +1,16 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records;
 
+import org.json.JSONObject;
+
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
- *  The {@code Withdraw} class is useful to manage Withdraw Binance request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code Withdraw} class is useful to manage Binance's withdraw request
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data</a>
+ **/
 
 public class Withdraw {
 
@@ -107,12 +112,44 @@ public class Withdraw {
         this.txId = txId;
     }
 
+    /**
+     * Constructor to init {@link Withdraw} object
+     *
+     * @param withdraw: withdraw details as {@link JSONObject}
+     **/
+    public Withdraw(JSONObject withdraw) {
+        address = withdraw.getString("address");
+        amount = withdraw.getDouble("amount");
+        applyTime = withdraw.getString("applyTime");
+        coin = withdraw.getString("coin");
+        id = withdraw.getString("id");
+        withdrawOrderId = withdraw.getString("withdrawOrderId");
+        network = withdraw.getString("network");
+        transferType = withdraw.getInt("transferType");
+        status = withdraw.getInt("status");
+        transactionFee = withdraw.getDouble("transactionFee");
+        confirmNo = withdraw.getInt("confirmNo");
+        info = withdraw.getString("info");
+        txId = withdraw.getString("txId");
+    }
+
     public String getAddress() {
         return address;
     }
 
     public double getAmount() {
         return amount;
+    }
+
+    /**
+     * Method to get {@link #amount} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #amount} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getAmount(int decimals) {
+        return roundValue(amount, decimals);
     }
 
     public String getApplyTime() {
@@ -145,6 +182,17 @@ public class Withdraw {
 
     public double getTransactionFee() {
         return transactionFee;
+    }
+
+    /**
+     * Method to get {@link #transactionFee} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #transactionFee} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getTransactionFee(int decimals) {
+        return roundValue(transactionFee, decimals);
     }
 
     public int getConfirmNo() {

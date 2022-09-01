@@ -30,22 +30,37 @@ public class ComposedSpotOrderDetails extends OrderDetails {
      * @param listClientOrderId: list client order id
      * @param transactionTime:   transaction time of the order
      * @param symbol:            symbol used in the order
-     * @param jsonSpotOrder:     order details as {@link JSONObject}
+     * @param orderValues:       list of {@link OrderValues}
+     * @param orderReportsList:  list of {@link DetailSpotOrder}
      **/
     public ComposedSpotOrderDetails(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
-                                    String listClientOrderId, long transactionTime, String symbol, JSONObject jsonSpotOrder) {
-        super(orderListId, contingencyType, listStatusType, listOrderStatus, listClientOrderId, transactionTime, symbol, jsonSpotOrder);
-        loadOrderReports(jsonSpotOrder.getJSONArray("orderReportsList"));
+                                    String listClientOrderId, long transactionTime, String symbol, ArrayList<OrderValues> orderValues,
+                                    ArrayList<DetailSpotOrder> orderReportsList) {
+        super(orderListId, contingencyType, listStatusType, listOrderStatus, listClientOrderId, transactionTime, symbol,
+                orderValues);
+        this.orderReportsList = orderReportsList;
     }
 
-    /** Method to load DetailSpotOrder list
+    /**
+     * Constructor to init {@link ComposedSpotOrderDetails} object
+     *
+     * @param composedSpotOrder: composed spot order details as {@link JSONObject}
+     **/
+    public ComposedSpotOrderDetails(JSONObject composedSpotOrder) {
+        super(composedSpotOrder);
+        loadOrderReports(composedSpotOrder.getJSONArray("orderReportsList"));
+    }
+
+    /**
+     * Method to load DetailSpotOrder list
+     *
      * @param list: obtained from Binance's request
-     * any return
-     * **/
-    private void loadOrderReports(JSONArray list){
+     *              any return
+     **/
+    private void loadOrderReports(JSONArray list) {
         orderReportsList = new ArrayList<>();
-        for (int j=0; j < list.length(); j++)
-            orderReportsList.add(DetailSpotOrder.assembleDetailSpotOrderObject(list.getJSONObject(j)));
+        for (int j = 0; j < list.length(); j++)
+            orderReportsList.add(new DetailSpotOrder(list.getJSONObject(j)));
     }
 
     public ArrayList<DetailSpotOrder> getOrderReportsList() {

@@ -1,32 +1,55 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Asset;
 
+import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
- * The {@code AssetDividend} class is useful to manage AssetDividend Binance request
+ * The {@code AssetDividend} class is useful to manage a Binance's asset dividend
+ *
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
- *     https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
- * **/
+ * https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
+ **/
 
 public class AssetDividend {
 
     /**
      * {@code total} is instance that memorizes total size of {@link #assetDividendDetailsList}
-     * **/
+     **/
     private int total;
 
     /**
      * {@code assetDividendDetailsList} is instance that memorizes list of {@link AssetDividendDetails}
-     * **/
+     **/
     private ArrayList<AssetDividendDetails> assetDividendDetailsList;
 
-    /** Constructor to init {@link AssetDividend} object
-     * @param total: total size of {@link #assetDividendDetailsList}
+    /**
+     * Constructor to init {@link AssetDividend} object
+     *
+     * @param total:                total size of {@link #assetDividendDetailsList}
      * @param assetDividendDetails: list of {@link AssetDividendDetails}
-     * **/
+     **/
     public AssetDividend(int total, ArrayList<AssetDividendDetails> assetDividendDetails) {
         this.total = total;
         this.assetDividendDetailsList = assetDividendDetails;
+    }
+
+    /**
+     * Constructor to init {@link AssetDividend} object
+     *
+     * @param assetDividend : asset dividend details as {@link JSONObject}
+     * @implSpec if tradingAuthorityExpirationTime = -1 means that is not set for this api key
+     **/
+    public AssetDividend(JSONObject assetDividend) {
+        total = assetDividend.getInt("total");
+        assetDividendDetailsList = new ArrayList<>();
+        JSONArray assetsDividend = JsonHelper.getJSONArray(assetDividend, "rows", new JSONArray());
+        for (int j = 0; j < assetsDividend.length(); j++)
+            assetDividendDetailsList.add(new AssetDividendDetails(assetsDividend.getJSONObject(j)));
     }
 
     public int total() {
@@ -69,9 +92,7 @@ public class AssetDividend {
     }
 
     /**
-     *  The {@code AssetDividendDetails} class is useful to obtain and format AssetDividendDetails object
-     *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
-     *      https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
+     *  The {@code AssetDividendDetails} class is useful to create an asset with its dividend details
      * **/
 
     public static final class AssetDividendDetails {
@@ -124,27 +145,53 @@ public class AssetDividend {
             this.tranId = tranId;
         }
 
-        public long id() {
+        /**
+         * Constructor to init {@link AssetDividendDetails} object
+         *
+         * @param dividendDetails: dividend details as {@link JSONObject}
+         * @implSpec if tradingAuthorityExpirationTime = -1 means that is not set for this api key
+         **/
+        public AssetDividendDetails(JSONObject dividendDetails) {
+            id = dividendDetails.getLong("id");
+            amount = dividendDetails.getDouble("amount");
+            asset = dividendDetails.getString("asset");
+            divTime = dividendDetails.getLong("divTime");
+            enInfo = dividendDetails.getString("enInfo");
+            tranId = dividendDetails.getLong("tranId");
+        }
+
+        public long getId() {
             return id;
         }
 
-        public double amount() {
+        public double getAmount() {
             return amount;
         }
 
-        public String asset() {
+        /**
+         * Method to get {@link #amount} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #amount} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getAmount(int decimals) {
+            return roundValue(amount, decimals);
+        }
+
+        public String getAsset() {
             return asset;
         }
 
-        public long divTime() {
+        public long getDivTime() {
             return divTime;
         }
 
-        public String enInfo() {
+        public String getEnInfo() {
             return enInfo;
         }
 
-        public long tranId() {
+        public long getTranId() {
             return tranId;
         }
 

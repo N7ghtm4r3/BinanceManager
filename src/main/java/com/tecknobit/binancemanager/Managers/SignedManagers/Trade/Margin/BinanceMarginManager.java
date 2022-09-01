@@ -31,7 +31,7 @@ import static com.tecknobit.apimanager.Manager.APIRequest.*;
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.TradeConstants.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account.IsolatedMarginAccountInfo.createIsolatedMarginAccountInfoList;
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Details.OCOMarginOrder.assembleOCOMarginOrder;
+
 
 /**
  *  The {@code BinanceMarginManager} class is useful to manage all Binance Margin Endpoints
@@ -522,9 +522,9 @@ public class BinanceMarginManager extends BinanceSignedManager {
                                                    Params extraParams) throws Exception {
         JSONObject order = new JSONObject(sendJSONNewMarginOrder(symbol, side, type, extraParams));
         if(type.equals(LIMIT) || type.equals(MARKET))
-            return (T) getFullOrderResponse(order);
+            return (T) new FullMarginOrder(order);
         else
-            return (T) getACKResponse(order);
+            return (T) new ACKMarginOrder(order);
     }
 
     /** Request to send a new margin order
@@ -585,61 +585,12 @@ public class BinanceMarginManager extends BinanceSignedManager {
         JSONObject order = new JSONObject(sendJSONNewMarginOrder(symbol, side, type, extraParams, newOrderRespType));
         switch (newOrderRespType){
             case NEW_ORDER_RESP_TYPE_RESULT:
-                return (T) new ResultMarginOrder(order.getString("symbol"),
-                        order.getLong("orderId"),
-                        order.getString("clientOrderId"),
-                        order.getLong("transactTime"),
-                        order.getBoolean("isIsolated"),
-                        order.getDouble("price"),
-                        order.getDouble("origQty"),
-                        order.getDouble("executedQty"),
-                        order.getDouble("cumulativeQuoteQty"),
-                        order.getString("status"),
-                        order.getString("timeInForce"),
-                        order.getString("type"),
-                        order.getString("side")
-                );
+                return (T) new ResultMarginOrder(order);
             case NEW_ORDER_RESP_TYPE_FULL:
-                return (T) getFullOrderResponse(order);
+                return (T) new FullMarginOrder(order);
             default:
-                return (T) getACKResponse(order);
+                return (T) new ACKMarginOrder(order);
         }
-    }
-
-    /** Method to assemble an ACKMarginOrder object
-     * @param jsonResponse: obtained from Binance's request
-     * @return an {@link ACKMarginOrder} object with jsonResponse data
-     * **/
-    private ACKMarginOrder getACKResponse(JSONObject jsonResponse){
-        return new ACKMarginOrder(jsonResponse.getString("symbol"),
-                jsonResponse.getLong("orderId"),
-                jsonResponse.getString("clientOrderId"),
-                jsonResponse.getLong("transactTime"),
-                jsonResponse.getBoolean("isIsolated")
-        );
-    }
-
-    /** Method to assemble an FullMarginOrder object
-     * @param jsonResponse: obtained from Binance's request
-     * @return a {@link FullMarginOrder} object with response data
-     * **/
-    private FullMarginOrder getFullOrderResponse(JSONObject jsonResponse){
-        return new FullMarginOrder(jsonResponse.getString("symbol"),
-                jsonResponse.getLong("orderId"),
-                jsonResponse.getString("clientOrderId"),
-                jsonResponse.getLong("transactTime"),
-                jsonResponse.getBoolean("isIsolated"),
-                jsonResponse.getDouble("price"),
-                jsonResponse.getDouble("origQty"),
-                jsonResponse.getDouble("executedQty"),
-                jsonResponse.getDouble("cummulativeQuoteQty"),
-                jsonResponse.getString("status"),
-                jsonResponse.getString("timeInForce"),
-                jsonResponse.getString("type"),
-                jsonResponse.getString("side"),
-                jsonResponse.getJSONArray("fills")
-
-        );
     }
 
     /** Request to get cancel a margin order
@@ -670,7 +621,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cancel a margin order response as {@link DetailMarginOrder} object
      * **/
     public DetailMarginOrder cancelObjectMarginOrder(String symbol) throws Exception {
-        return DetailMarginOrder.assembleDetailMarginOrderObject(new JSONObject(cancelMarginOrder(symbol)));
+        return new DetailMarginOrder(new JSONObject(cancelMarginOrder(symbol)));
     }
 
     /** Request to get cancel a margin order
@@ -708,7 +659,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cancel a margin order response as {@link DetailMarginOrder} object
      * **/
     public DetailMarginOrder cancelObjectMarginOrder(String symbol, Params extraParams) throws Exception {
-        return DetailMarginOrder.assembleDetailMarginOrderObject(new JSONObject(cancelMarginOrder(symbol,extraParams)));
+        return new DetailMarginOrder(new JSONObject(cancelMarginOrder(symbol, extraParams)));
     }
 
     /** Request to get cancel all a margin orders
@@ -792,9 +743,9 @@ public class BinanceMarginManager extends BinanceSignedManager {
             if(!openMarginOrder.getString("contingencyType").isEmpty())
                 composedMarginOrderDetails.add(new ComposedMarginOrderDetails(openMarginOrder));
             else
-                detailMarginOrders.add(DetailMarginOrder.assembleDetailMarginOrderObject(openMarginOrder));
+                detailMarginOrders.add(new DetailMarginOrder(openMarginOrder));
         }
-        return new OpenMarginOrders(detailMarginOrders,composedMarginOrderDetails);
+        return new OpenMarginOrders(detailMarginOrders, composedMarginOrderDetails);
     }
 
     /** Request to get cross margin transfer history <br>
@@ -1356,7 +1307,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return margin status order response as {@link MarginOrderStatus} object
      * **/
     public MarginOrderStatus getObjectMarginOrderStatus(String symbol) throws Exception {
-        return assembleMarginOrderStatus(new JSONObject(getMarginOrderStatus(symbol)));
+        return new MarginOrderStatus(new JSONObject(getMarginOrderStatus(symbol)));
     }
 
     /** Request to get margin status order
@@ -1394,7 +1345,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return margin status order response as {@link MarginOrderStatus} object
      * **/
     public MarginOrderStatus getObjectMarginOrderStatus(String symbol, Params extraParams) throws Exception {
-        return assembleMarginOrderStatus(new JSONObject(getMarginOrderStatus(symbol, extraParams)));
+        return new MarginOrderStatus(new JSONObject(getMarginOrderStatus(symbol, extraParams)));
     }
 
     /** Request to get all margin open orders <br>
@@ -1603,33 +1554,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
     private ArrayList<MarginOrderStatus> assembleMarginOrdersList(JSONArray jsonOrder) {
         ArrayList<MarginOrderStatus> marginOrderStatus = new ArrayList<>();
         for (int j = 0; j < jsonOrder.length(); j++)
-            marginOrderStatus.add(assembleMarginOrderStatus(jsonOrder.getJSONObject(j)));
+            marginOrderStatus.add(new MarginOrderStatus(jsonOrder.getJSONObject(j)));
         return marginOrderStatus;
-    }
-
-    /** Method to assemble a MarginOrderStatus object
-     * @param #jsonOrder: obtained from Binance's request
-     * @return a MarginOrderStatus object
-     * **/
-    private MarginOrderStatus assembleMarginOrderStatus(JSONObject jsonOrder){
-        return new MarginOrderStatus(jsonOrder.getString("symbol"),
-                jsonOrder.getLong("orderId"),
-                jsonOrder.getString("clientOrderId"),
-                jsonOrder.getLong("updateTime"),
-                jsonOrder.getBoolean("isIsolated"),
-                jsonOrder.getDouble("price"),
-                jsonOrder.getDouble("origQty"),
-                jsonOrder.getDouble("executedQty"),
-                jsonOrder.getDouble("cummulativeQuoteQty"),
-                jsonOrder.getString("status"),
-                jsonOrder.getString("timeInForce"),
-                jsonOrder.getString("type"),
-                jsonOrder.getString("side"),
-                jsonOrder.getDouble("icebergQty"),
-                jsonOrder.getBoolean("isWorking"),
-                jsonOrder.getDouble("stopPrice"),
-                jsonOrder.getLong("time")
-        );
     }
 
     /** Request to send new OCO margin order
@@ -1674,7 +1600,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public OCOMarginOrder sendObjectNewOCOMarginOrder(String symbol, String side, double quantity, double price,
                                                                   double stopPrice) throws Exception {
-        return assembleOCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice)));
+        return new OCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice)));
     }
 
     /** Request to send new OCO margin order
@@ -1734,7 +1660,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public OCOMarginOrder sendObjectNewOCOMarginOrder(String symbol, String side, double quantity, double price,
                                                       double stopPrice, Params extraParams) throws Exception {
-        return assembleOCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice,extraParams)));
+        return new OCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice, extraParams)));
     }
 
     /** Request to send new OCO margin order
@@ -1789,7 +1715,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     public OCOMarginOrder sendObjectNewOCOMarginOrder(String symbol, String side, double quantity, double price,
                                                                   double stopPrice, double stopLimitPrice,
                                                                   String stopLimitTimeInForce) throws Exception {
-        return assembleOCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice,
+        return new OCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice,
                 stopLimitPrice, stopLimitTimeInForce)));
     }
 
@@ -1860,7 +1786,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     public OCOMarginOrder sendObjectNewOCOMarginOrder(String symbol, String side, double quantity, double price,
                                                       double stopPrice, double stopLimitPrice,
                                                       String stopLimitTimeInForce, Params extraParams) throws Exception {
-        return assembleOCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice,
+        return new OCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice,
                 stopLimitPrice, stopLimitTimeInForce, extraParams)));
     }
 
@@ -2047,7 +1973,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
      * **/
     public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String symbol, long orderListId) throws Exception {
-        return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, orderListId)));
+        return new MarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, orderListId)));
     }
 
     /** Request to get OCO margin order status
@@ -2082,7 +2008,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
      * **/
     public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String symbol, String origClientOrderId) throws Exception {
-        return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, origClientOrderId)));
+        return new MarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, origClientOrderId)));
     }
 
     /** Request to get OCO margin order status
@@ -2113,7 +2039,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
      * **/
     public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(long orderListId) throws Exception {
-        return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(orderListId)));
+        return new MarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(orderListId)));
     }
 
     /** Request to get OCO margin order status
@@ -2144,7 +2070,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
      * **/
     public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String origClientOrderId) throws Exception {
-        return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(origClientOrderId)));
+        return new MarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(origClientOrderId)));
     }
 
     /** Request to get OCO margin order status
@@ -2186,7 +2112,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String symbol, long orderListId,
                                                                   Params extraParams) throws Exception {
-        return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, orderListId, extraParams)));
+        return new MarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, orderListId, extraParams)));
     }
 
     /** Request to get OCO margin order status
@@ -2229,7 +2155,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String symbol, String origClientOrderId,
                                                                   Params extraParams) throws Exception {
-        return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, origClientOrderId, extraParams)));
+        return new MarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, origClientOrderId, extraParams)));
     }
 
     /** Request to get OCO margin order status
@@ -2266,7 +2192,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
      * **/
     public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(long orderListId, Params extraParams) throws Exception {
-        return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(orderListId, extraParams)));
+        return new MarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(orderListId, extraParams)));
     }
 
     /** Request to get OCO margin order status
@@ -2305,24 +2231,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String origClientOrderId,
                                                                   Params extraParams) throws Exception {
-        return assembleMarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(origClientOrderId, extraParams)));
-    }
-
-    /** Method to assemble a MarginOrderStatusDetails object
-     * @param #jsonMarginOrder: obtained from Binance's request
-     * @return a MarginOrderStatusDetails object
-     * **/
-    private MarginOrderStatusDetails assembleMarginOrderStatusDetails(JSONObject jsonMarginOrder){
-        return new MarginOrderStatusDetails(jsonMarginOrder.getLong("orderListId"),
-                jsonMarginOrder.getString("contingencyType"),
-                jsonMarginOrder.getString("listStatusType"),
-                jsonMarginOrder.getString("listOrderStatus"),
-                jsonMarginOrder.getString("listClientOrderId"),
-                jsonMarginOrder.getLong("transactionTime"),
-                jsonMarginOrder.getString("symbol"),
-                jsonMarginOrder,
-                jsonMarginOrder.getBoolean("isIsolated")
-        );
+        return new MarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(origClientOrderId, extraParams)));
     }
 
     /** Request to get all OCO margin orders status
@@ -3023,7 +2932,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     private ArrayList<MarginOrderStatusDetails> assembleMarginOrderStatusDetailsList(JSONArray jsonOrderStatus) {
         ArrayList<MarginOrderStatusDetails> marginOrderStatusDetails = new ArrayList<>();
         for (int j = 0; j < jsonOrderStatus.length(); j++)
-            marginOrderStatusDetails.add(assembleMarginOrderStatusDetails(jsonOrderStatus.getJSONObject(j)));
+            marginOrderStatusDetails.add(new MarginOrderStatusDetails(jsonOrderStatus.getJSONObject(j)));
         return marginOrderStatusDetails;
     }
 

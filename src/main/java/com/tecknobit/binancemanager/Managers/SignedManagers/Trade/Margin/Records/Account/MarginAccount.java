@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account;
 
+import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
 import org.json.JSONObject;
 
 import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
@@ -16,25 +17,30 @@ public class MarginAccount {
 
     /**
      * {@code totalAssetOfBtc} is instance that memorizes total asset of Bitcoin
-     * **/
+     **/
     protected double totalAssetOfBtc;
 
     /**
+     * {@code hMarginAccount} is instance useful to work with margin account details in JSON format
+     **/
+    protected final JsonHelper hMarginAccount;
+    /**
      * {@code totalLiabilityOfBtc} is instance that memorizes total liability of Bitcoin
-     * **/
+     **/
     protected double totalLiabilityOfBtc;
-
     /**
      * {@code totalLiabilityOfBtc} is instance that memorizes total net asset of Bitcoin
-     * **/
+     **/
     protected double totalNetAssetOfBtc;
 
-    /** Constructor to init {@link MarginAccount} object
-     * @param totalAssetOfBtc: total asset of Bitcoin
+    /**
+     * Constructor to init {@link MarginAccount} object
+     *
+     * @param totalAssetOfBtc:     total asset of Bitcoin
      * @param totalLiabilityOfBtc: total liability of Bitcoin
-     * @param totalNetAssetOfBtc: total net asset of Bitcoin
+     * @param totalNetAssetOfBtc:  total net asset of Bitcoin
      * @throws IllegalArgumentException if parameters range is not respected
-     * **/
+     **/
     public MarginAccount(double totalAssetOfBtc, double totalLiabilityOfBtc, double totalNetAssetOfBtc) {
         if (totalAssetOfBtc < 0)
             throw new IllegalArgumentException("Total asset of BTC value cannot be less than 0");
@@ -48,6 +54,7 @@ public class MarginAccount {
             throw new IllegalArgumentException("Total net asset of BTC value cannot be less than 0");
         else
             this.totalNetAssetOfBtc = totalNetAssetOfBtc;
+        hMarginAccount = null;
     }
 
     /**
@@ -57,13 +64,14 @@ public class MarginAccount {
      * @throws IllegalArgumentException if parameters range is not respected
      **/
     public MarginAccount(JSONObject marginAccount) {
-        totalAssetOfBtc = marginAccount.getDouble("totalAssetOfBtc");
+        hMarginAccount = new JsonHelper(marginAccount);
+        totalAssetOfBtc = hMarginAccount.getDouble("totalAssetOfBtc", 0);
         if (totalAssetOfBtc < 0)
             throw new IllegalArgumentException("Total asset of BTC value cannot be less than 0");
-        totalLiabilityOfBtc = marginAccount.getDouble("totalLiabilityOfBtc");
+        totalLiabilityOfBtc = hMarginAccount.getDouble("totalLiabilityOfBtc", 0);
         if (totalLiabilityOfBtc < 0)
             throw new IllegalArgumentException("Total liability asset of BTC value cannot be less than 0");
-        totalNetAssetOfBtc = marginAccount.getDouble("totalNetAssetOfBtc");
+        totalNetAssetOfBtc = hMarginAccount.getDouble("totalNetAssetOfBtc", 0);
         if (totalNetAssetOfBtc < 0)
             throw new IllegalArgumentException("Total net asset of BTC value cannot be less than 0");
     }

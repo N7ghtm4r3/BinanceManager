@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots;
 
+import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -8,219 +9,244 @@ import java.util.ArrayList;
 import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
 
 /**
- * The {@code AccountSnapshotSpot} class is useful to obtain and format AccountSnapshotSpot object
+ * The {@code SpotAccountSnapshot} class is useful to obtain and format SpotAccountSnapshot object
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
  * https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
  **/
 
-public class AccountSnapshotSpot extends AccountSnapshot {
+public class SpotAccountSnapshot extends AccountSnapshot {
 
     /**
-     * {@code assetsSpotData} is instance that memorizes list of {@link DataSpot}
+     * {@code assetsSpotData} is instance that memorizes list of {@link SpotData}
      **/
-    private ArrayList<DataSpot> assetsSpotData;
+    private ArrayList<SpotData> assetsSpotData;
 
     /**
-     * Constructor to init {@link AccountSnapshotMargin} object
+     * Constructor to init {@link MarginAccountSnapshot} object
      *
      * @param code:           code of response
      * @param msg:            message of response
      * @param type:           type of account
      * @param accountDetails: details as {@link JSONObject}
+     * @param assetsSpotData: list of {@link SpotData}
      **/
-    public AccountSnapshotSpot(int code, String msg, String type, JSONArray accountDetails) {
-        super(code, msg, type, accountDetails);
-        assetsSpotData = new ArrayList<>();
-        if(accountDetails != null){
-            for (int j = 0; j < accountDetails.length(); j++){
-                JSONObject dataSpotRow = accountDetails.getJSONObject(j);
-                double updateTime = dataSpotRow.getLong("updateTime");
-                dataSpotRow = dataSpotRow.getJSONObject("data");
-                double totalAssetOfBtc = dataSpotRow.getDouble("totalAssetOfBtc");
-                assetsSpotData.add(new DataSpot(totalAssetOfBtc, updateTime, getBalancesSpot(dataSpotRow.getJSONArray("balances"))));
-            }
-        }
-    }
-
-    /** Constructor to init {@link AccountSnapshotMargin} object
-     * @param code: code of response
-     * @param msg: message of response
-     * @param type: type of account
-     * @param accountDetails: details as {@link JSONObject}
-     * @param assetsSpotData: list of {@link DataSpot}
-     * **/
-    public AccountSnapshotSpot(int code, String msg, String type, JSONArray accountDetails, ArrayList<DataSpot> assetsSpotData) {
+    public SpotAccountSnapshot(int code, String msg, String type, JSONArray accountDetails, ArrayList<SpotData> assetsSpotData) {
         super(code, msg, type, accountDetails);
         this.assetsSpotData = assetsSpotData;
     }
 
-    /** Method to assemble an BalanceSpot list
-     * @param jsonBalances: accountDetails obtain by AccountSnapshot Binance request
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
-     * @return BalanceSpot list as ArrayList<BalanceSpot>
-     * **/
-    public static ArrayList<BalanceSpot> getBalancesSpot(JSONArray jsonBalances) {
-        ArrayList<BalanceSpot> balanceSpots = new ArrayList<>();
-        for (int j = 0; j < jsonBalances.length(); j++)
-            balanceSpots.add(new BalanceSpot(jsonBalances.getJSONObject(j)));
-        return balanceSpots;
+    /**
+     * Constructor to init {@link FuturesAccountSnapshot} object
+     *
+     * @param spotAccount: futures account snapshot details as {@link JSONObject}
+     **/
+    public SpotAccountSnapshot(JSONObject spotAccount) {
+        super(spotAccount, SPOT);
+        assetsSpotData = new ArrayList<>();
+        for (int j = 0; j < snapshotVos.length(); j++)
+            assetsSpotData.add(new SpotData(snapshotVos.getJSONObject(j)));
     }
 
-    public ArrayList<DataSpot> getAssetsSpotData() {
+    /**
+     * Method to assemble a {@link SpotBalance} list
+     *
+     * @param jsonBalances: snapshotVos obtain by AccountSnapshot Binance request
+     * @return list as {@link ArrayList} of {@link SpotBalance}
+     **/
+    public static ArrayList<SpotBalance> getBalancesSpot(JSONArray jsonBalances) {
+        ArrayList<SpotBalance> spotBalances = new ArrayList<>();
+        for (int j = 0; j < jsonBalances.length(); j++)
+            spotBalances.add(new SpotBalance(jsonBalances.getJSONObject(j)));
+        return spotBalances;
+    }
+
+    public ArrayList<SpotData> getAssetsSpotData() {
         return assetsSpotData;
     }
 
-    public void setAssetsSpotData(ArrayList<DataSpot> assetsSpotData) {
+    public void setAssetsSpotData(ArrayList<SpotData> assetsSpotData) {
         this.assetsSpotData = assetsSpotData;
     }
 
-    public DataSpot getAssetSpotData(int index){
+    public SpotData getAssetSpotData(int index) {
         return assetsSpotData.get(index);
     }
 
     @Override
     public String toString() {
-        return "AccountSnapshotSpot{" +
+        return "SpotAccountSnapshot{" +
                 "assetsSpotData=" + assetsSpotData +
                 ", code=" + code +
                 ", msg='" + msg + '\'' +
                 ", type='" + type + '\'' +
-                ", accountDetails=" + accountDetails +
                 '}';
     }
 
     /**
-     *  The {@code DataSpot} class is useful to obtain and format DataSpot object
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
-     * **/
+     * The {@code SpotData} class is useful to create a spot data object
+     **/
 
-    public static class DataSpot {
+    public static class SpotData {
 
         /**
          * {@code totalAssetOfBtc} is instance that memorizes total asset of Bitcoin
-         * **/
+         **/
         private double totalAssetOfBtc;
 
         /**
          * {@code updateTime} is instance that memorizes update time value
-         * **/
-        private double updateTime;
+         **/
+        private long updateTime;
 
         /**
-         * {@code balanceSpotList} is instance that memorizes list of {@link BalanceSpot}
-         * **/
-        private ArrayList<BalanceSpot> balanceSpotList;
+         * {@code spotBalanceList} is instance that memorizes list of {@link SpotBalance}
+         **/
+        private ArrayList<SpotBalance> spotBalanceList;
 
-        /** Constructor to init {@link DataSpot} object
+        /**
+         * Constructor to init {@link SpotData} object
+         *
          * @param totalAssetOfBtc: total asset of Bitcoin
-         * @param updateTime: update time value
-         * @param balanceSpot: list of {@link BalanceSpot}
+         * @param updateTime:      update time value
+         * @param spotBalance:     list of {@link SpotBalance}
          * @throws IllegalArgumentException if parameters range is not respected
-         * **/
-        public DataSpot(double totalAssetOfBtc, double updateTime, ArrayList<BalanceSpot> balanceSpot) {
-            if(totalAssetOfBtc < 0)
+         **/
+        public SpotData(double totalAssetOfBtc, long updateTime, ArrayList<SpotBalance> spotBalance) {
+            if (totalAssetOfBtc < 0)
                 throw new IllegalArgumentException("Total asset of BTC value cannot be less than 0");
             else
                 this.totalAssetOfBtc = totalAssetOfBtc;
-            if(updateTime < 0)
+            if (updateTime < 0)
                 throw new IllegalArgumentException("Update time value cannot be less than 0");
             else
                 this.updateTime = updateTime;
-            this.balanceSpotList = balanceSpot;
+            this.spotBalanceList = spotBalance;
+        }
+
+        /**
+         * Constructor to init {@link SpotData} object
+         *
+         * @param spotData: spot data details as {@link JSONObject}
+         * @throws IllegalArgumentException if parameters range is not respected
+         **/
+        public SpotData(JSONObject spotData) {
+            JsonHelper hSpotData = new JsonHelper(spotData);
+            totalAssetOfBtc = hSpotData.getDouble("totalAssetOfBtc", 0);
+            if (totalAssetOfBtc < 0)
+                throw new IllegalArgumentException("Total asset of BTC value cannot be less than 0");
+            updateTime = hSpotData.getLong("updateTime", 0);
+            if (updateTime < 0)
+                throw new IllegalArgumentException("Update time value cannot be less than 0");
+            spotBalanceList = getBalancesSpot(hSpotData.getJSONArray("balances", new JSONArray()));
         }
 
         public double getTotalAssetOfBtc() {
             return totalAssetOfBtc;
         }
 
-        /** Method to set {@link #totalAssetOfBtc}
+        /**
+         * Method to get {@link #totalAssetOfBtc} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #totalAssetOfBtc} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getTotalAssetOfBtc(int decimals) {
+            return roundValue(totalAssetOfBtc, decimals);
+        }
+
+        /**
+         * Method to set {@link #totalAssetOfBtc}
+         *
          * @param totalAssetOfBtc: total asset of Bitcoin
          * @throws IllegalArgumentException when total asset of Bitcoin value is less than 0
-         * **/
+         **/
         public void setTotalAssetOfBtc(double totalAssetOfBtc) {
-            if(totalAssetOfBtc < 0)
+            if (totalAssetOfBtc < 0)
                 throw new IllegalArgumentException("Total asset of BTC value cannot be less than 0");
             this.totalAssetOfBtc = totalAssetOfBtc;
         }
 
-        public double getUpdateTime() {
+        public long getUpdateTime() {
             return updateTime;
         }
 
-        /** Method to set {@link #updateTime}
+        /**
+         * Method to set {@link #updateTime}
+         *
          * @param updateTime: update time value
          * @throws IllegalArgumentException when update time value is less than 0
-         * **/
-        public void setUpdateTime(double updateTime) {
-            if(updateTime < 0)
+         **/
+        public void setUpdateTime(long updateTime) {
+            if (updateTime < 0)
                 throw new IllegalArgumentException("Update time value cannot be less than 0");
             this.updateTime = updateTime;
         }
 
-        public ArrayList<BalanceSpot> getBalancesSpotList() {
-            return balanceSpotList;
+        public ArrayList<SpotBalance> getBalancesSpotList() {
+            return spotBalanceList;
         }
 
-        public void setBalancesSpotList(ArrayList<BalanceSpot> balanceSpotList) {
-            this.balanceSpotList = balanceSpotList;
+        public void setBalancesSpotList(ArrayList<SpotBalance> spotBalanceList) {
+            this.spotBalanceList = spotBalanceList;
         }
 
-        public void insertBalanceSpot(BalanceSpot balanceSpot){
-            if(!balanceSpotList.contains(balanceSpot))
-                balanceSpotList.add(balanceSpot);
+        public void insertBalanceSpot(SpotBalance spotBalance) {
+            if (!spotBalanceList.contains(spotBalance))
+                spotBalanceList.add(spotBalance);
         }
 
-        public boolean removeBalanceSpot(BalanceSpot balanceSpot){
-            return balanceSpotList.remove(balanceSpot);
+        public boolean removeBalanceSpot(SpotBalance spotBalance) {
+            return spotBalanceList.remove(spotBalance);
         }
 
-        public BalanceSpot getBalanceSpot(int index){
-            return balanceSpotList.get(index);
+        public SpotBalance getBalanceSpot(int index) {
+            return spotBalanceList.get(index);
         }
 
         @Override
         public String toString() {
-            return "DataSpot{" +
+            return "SpotData{" +
                     "totalAssetOfBtc=" + totalAssetOfBtc +
                     ", updateTime=" + updateTime +
-                    ", balanceSpotList=" + balanceSpotList +
+                    ", spotBalanceList=" + spotBalanceList +
                     '}';
         }
 
     }
 
     /**
-     *  The {@code BalanceSpot} class is useful to create a balance spot object
-     * **/
+     * The {@code SpotBalance} class is useful to create a balance spot object
+     **/
 
-    public static class BalanceSpot {
+    public static class SpotBalance {
 
         /**
          * {@code asset} is instance that memorizes asset
-         * **/
+         **/
         protected final String asset;
 
         /**
          * {@code free} is instance that memorizes free amount of asset
-         * **/
+         **/
         protected double free;
 
         /**
          * {@code locked} is instance that memorizes amount locked for asset
-         * **/
+         **/
         protected double locked;
 
-        /** Constructor to init {@link BalanceSpot} object
-         * @param asset: asset
-         * @param free: free amount of asset
+        /**
+         * Constructor to init {@link SpotBalance} object
+         *
+         * @param asset:  asset
+         * @param free:   free amount of asset
          * @param locked: amount locked for asset
          * @throws IllegalArgumentException if parameters range is not respected
-         * **/
-        public BalanceSpot(String asset, double free, double locked) {
+         **/
+        public SpotBalance(String asset, double free, double locked) {
             this.asset = asset;
             if (free < 0)
                 throw new IllegalArgumentException("Free value cannot be less than 0");
@@ -233,12 +259,12 @@ public class AccountSnapshotSpot extends AccountSnapshot {
         }
 
         /**
-         * Constructor to init {@link BalanceSpot} object
+         * Constructor to init {@link SpotBalance} object
          *
          * @param balanceSpot: balance spot details as {@link JSONObject}
          * @throws IllegalArgumentException if parameters range is not respected
          **/
-        public BalanceSpot(JSONObject balanceSpot) {
+        public SpotBalance(JSONObject balanceSpot) {
             asset = balanceSpot.getString("asset");
             free = balanceSpot.getDouble("free");
             if (free < 0)
@@ -262,7 +288,6 @@ public class AccountSnapshotSpot extends AccountSnapshot {
         public double getFree(int decimals) {
             return roundValue(free, decimals);
         }
-
 
         /**
          * Method to set {@link #free}
@@ -305,7 +330,7 @@ public class AccountSnapshotSpot extends AccountSnapshot {
 
         @Override
         public String toString() {
-            return "BalanceSpot{" +
+            return "SpotBalance{" +
                     "asset='" + asset + '\'' +
                     ", free=" + free +
                     ", locked=" + locked +

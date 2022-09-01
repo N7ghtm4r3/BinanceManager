@@ -1,12 +1,18 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Dust;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Dust.DustItem.getListDribbletsDetails;
+
 /**
- *  The {@code DustTransfer} class is useful to manage DustTransfer Binance request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
- * **/
+ * The {@code DustTransfer} class is useful to manage DustTransfer Binance request
+ *
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
+ **/
 
 public class DustTransfer {
 
@@ -36,15 +42,48 @@ public class DustTransfer {
         this.transferResultsList = transferResults;
     }
 
-    public double totalServiceCharge() {
+    /**
+     * Constructor to init {@link DustLog} object
+     *
+     * @param dustTransfer: dust transfer details as {@link JSONObject}
+     **/
+    public DustTransfer(JSONObject dustTransfer) {
+        totalServiceCharge = dustTransfer.getDouble("totalServiceCharge");
+        totalTransfered = dustTransfer.getDouble("totalTransfered");
+        transferResultsList = getListDribbletsDetails(dustTransfer.getJSONArray("transferResult"));
+    }
+
+    public double getTotalServiceCharge() {
         return totalServiceCharge;
     }
 
-    public double totalTransfered() {
+    /**
+     * Method to get {@link #totalServiceCharge} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #totalServiceCharge} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getTotalServiceCharge(int decimals) {
+        return roundValue(totalServiceCharge, decimals);
+    }
+
+    public double getTotalTransfered() {
         return totalTransfered;
     }
 
-    public ArrayList<DustItem> transferResults() {
+    /**
+     * Method to get {@link #totalTransfered} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #totalTransfered} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getTotalTransfered(int decimals) {
+        return roundValue(totalTransfered, decimals);
+    }
+
+    public ArrayList<DustItem> getTransferResultsList() {
         return transferResultsList;
     }
 
@@ -52,16 +91,16 @@ public class DustTransfer {
         this.transferResultsList = transferResultsList;
     }
 
-    public void insertTransferResult(DustItem transferResult){
-        if(!transferResultsList.contains(transferResult))
+    public void insertTransferResult(DustItem transferResult) {
+        if (!transferResultsList.contains(transferResult))
             transferResultsList.add(transferResult);
     }
 
-    public boolean removeTransferResult(DustItem transferResult){
+    public boolean canRemoveTransferResult(DustItem transferResult) {
         return transferResultsList.remove(transferResult);
     }
 
-    public DustItem getAssetDribbletDetails(int index){
+    public DustItem getAssetDribbletDetails(int index) {
         return transferResultsList.get(index);
     }
 

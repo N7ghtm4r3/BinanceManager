@@ -25,8 +25,8 @@ public class ACKSpotOrder extends SpotOrder {
 
     /**
      * {@code transactTime} is instance that memorizes transaction time
-     * **/
-    protected final long transactTime;
+     **/
+    protected long transactTime;
 
     /** Constructor to init {@link ACKSpotOrder} object
      * @param symbol: symbol used in the order

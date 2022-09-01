@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response;
 
 import com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.MarginOrder;
+import org.json.JSONObject;
 
 /**
  * The {@code ACKMarginOrder} class is useful to format ACKMarginOrder object of Binance's request Margin Account New Order
@@ -25,6 +26,16 @@ public class ACKMarginOrder extends MarginOrder {
     public ACKMarginOrder(String symbol, double orderId, String clientOrderId, long transactTime, boolean isIsolated) {
         super(symbol, orderId, clientOrderId, transactTime);
         this.isIsolated = isIsolated;
+    }
+
+    /**
+     * Constructor to init {@link ACKMarginOrder} object
+     *
+     * @param ackMarginOrder: ack margin order details as {@link JSONObject}
+     **/
+    public ACKMarginOrder(JSONObject ackMarginOrder) {
+        super(ackMarginOrder);
+        isIsolated = ackMarginOrder.getBoolean("isIsolated");
     }
 
     public boolean isIsolated() {

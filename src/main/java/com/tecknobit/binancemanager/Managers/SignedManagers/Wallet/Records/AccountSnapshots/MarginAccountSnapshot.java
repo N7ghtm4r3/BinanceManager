@@ -9,71 +9,51 @@ import java.util.ArrayList;
 import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
 
 /**
- * The {@code AccountSnapshotMargin} class is useful to obtain and format AccountSnapshotMargin object
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
- *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
+ * The {@code MarginAccountSnapshot} class is useful to obtain and format MarginAccountSnapshot object
+ *
  * @author N7ghtm4r3 - Tecknobit
- * **/
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
+ **/
 
-public class AccountSnapshotMargin extends AccountSnapshot{
-
-    /**
-     * {@code dataMarginsList} is instance that memorizes list of {@link DataMargin}
-     * **/
-    private ArrayList<DataMargin> dataMarginsList;
+public class MarginAccountSnapshot extends AccountSnapshot {
 
     /**
-     * Constructor to init {@link AccountSnapshotMargin} object
+     * {@code marginsListData} is instance that memorizes list of {@link MarginData}
+     **/
+    private ArrayList<MarginData> marginsListData;
+
+    /**
+     * Constructor to init {@link MarginAccountSnapshot} object
      *
      * @param code:           code of response
      * @param msg:            message of response
      * @param type:           type of account
      * @param accountDetails: details as {@link JSONObject}
+     * @param marginData:     list of {@link MarginData}
      **/
-    public AccountSnapshotMargin(int code, String msg, String type, JSONArray accountDetails) {
+    public MarginAccountSnapshot(int code, String msg, String type, JSONArray accountDetails, ArrayList<MarginData> marginData) {
         super(code, msg, type, accountDetails);
-        dataMarginsList = new ArrayList<>();
-        if(accountDetails != null) {
-            for (int j = 0; j < accountDetails.length(); j++){
-                JSONObject dataRow = accountDetails.getJSONObject(j);
-                long updateTime = dataRow.getLong("updateTime");
-                dataRow = dataRow.getJSONObject("data");
-                double marginLevel = dataRow.getDouble("marginLevel");
-                double totalAssetOfBtc = dataRow.getDouble("totalAssetOfBtc");
-                double totalLiabilityOfBtc = dataRow.getDouble("totalLiabilityOfBtc");
-                double totalNetAssetOfBtc = dataRow.getDouble("totalNetAssetOfBtc");
-                dataMarginsList.add(new DataMargin(marginLevel,
-                        totalAssetOfBtc,
-                        totalLiabilityOfBtc,
-                        totalNetAssetOfBtc,
-                        updateTime,
-                        assembleUserMarginAssetsList(dataRow.getJSONArray("userAssets"))
-                ));
-            }
-        }
+        this.marginsListData = marginData;
     }
 
     /**
-     * Constructor to init {@link AccountSnapshotMargin} object
+     * Constructor to init {@link FuturesAccountSnapshot} object
      *
-     * @param code:           code of response
-     * @param msg:            message of response
-     * @param type:           type of account
-     * @param accountDetails: details as {@link JSONObject}
-     * @param dataMargins:    list of {@link DataMargin}
+     * @param marginAccount : margin account snapshot details as {@link JSONObject}
      **/
-    public AccountSnapshotMargin(int code, String msg, String type, JSONArray accountDetails, ArrayList<DataMargin> dataMargins) {
-        super(code, msg, type, accountDetails);
-        this.dataMarginsList = dataMargins;
+    public MarginAccountSnapshot(JSONObject marginAccount) {
+        super(marginAccount, MARGIN);
+        marginsListData = new ArrayList<>();
+        for (int j = 0; j < snapshotVos.length(); j++)
+            marginsListData.add(new MarginData(snapshotVos.getJSONObject(j)));
     }
 
     /**
-     * Method to assemble an UserMarginAsset list
+     * Method to assemble a {@link UserMarginAsset} list
      *
-     * @param jsonAssets: accountDetails obtain by AccountSnapshot Binance request
-     * @return userAssetMargin list as ArrayList<UserMarginAsset>
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
+     * @param jsonAssets: snapshotVos obtain by AccountSnapshot Binance request
+     * @return list as {@link ArrayList} of {@link UserMarginAsset}
      **/
     public static ArrayList<UserMarginAsset> assembleUserMarginAssetsList(JSONArray jsonAssets) {
         ArrayList<UserMarginAsset> userMarginAssets = new ArrayList<>();
@@ -82,36 +62,33 @@ public class AccountSnapshotMargin extends AccountSnapshot{
         return userMarginAssets;
     }
 
-    public ArrayList<DataMargin> getDataMarginsList() {
-        return dataMarginsList;
+    public ArrayList<MarginData> getDataMarginsList() {
+        return marginsListData;
     }
 
-    public void setDataMarginsList(ArrayList<DataMargin> dataMarginsList) {
-        this.dataMarginsList = dataMarginsList;
+    public void setDataMarginsList(ArrayList<MarginData> marginsListData) {
+        this.marginsListData = marginsListData;
     }
 
     @Override
     public String toString() {
-        return "AccountSnapshotMargin{" +
-                "dataMarginsList=" + dataMarginsList +
+        return "MarginAccountSnapshot{" +
+                "marginsListData=" + marginsListData +
                 ", code=" + code +
                 ", msg='" + msg + '\'' +
                 ", type='" + type + '\'' +
-                ", accountDetails=" + accountDetails +
                 '}';
     }
 
     /**
-     *  The {@code DataMargin} class is useful to obtain and format DataMargin object
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
+     *  The {@code MarginData} class is useful to create margin data object
      * **/
 
-    public static class DataMargin extends MarginAccount {
+    public static class MarginData extends MarginAccount {
 
         /**
          * {@code marginLevel} is instance that memorizes margin level value
-         * **/
+         **/
         private double marginLevel;
 
         /**
@@ -125,7 +102,7 @@ public class AccountSnapshotMargin extends AccountSnapshot{
         private ArrayList<UserMarginAsset> userMarginsListAsset;
 
         /**
-         * Constructor to init {@link DataMargin} object
+         * Constructor to init {@link MarginData} object
          *
          * @param totalAssetOfBtc:     total asset of Bitcoin
          * @param totalLiabilityOfBtc: total liability of Bitcoin
@@ -134,7 +111,7 @@ public class AccountSnapshotMargin extends AccountSnapshot{
          * @param userAssetsMargin:    list of {@link UserMarginAsset}
          * @throws IllegalArgumentException if parameters range is not respected
          **/
-        public DataMargin(double marginLevel, double totalAssetOfBtc, double totalLiabilityOfBtc, double totalNetAssetOfBtc,
+        public MarginData(double marginLevel, double totalAssetOfBtc, double totalLiabilityOfBtc, double totalNetAssetOfBtc,
                           long updateTime, ArrayList<UserMarginAsset> userAssetsMargin) {
             super(totalAssetOfBtc, totalLiabilityOfBtc, totalNetAssetOfBtc);
             if (marginLevel < 0)
@@ -148,14 +125,44 @@ public class AccountSnapshotMargin extends AccountSnapshot{
             this.userMarginsListAsset = userAssetsMargin;
         }
 
+        /**
+         * Constructor to init {@link MarginData} object
+         *
+         * @param marginData: margin data details as {@link JSONObject}
+         * @throws IllegalArgumentException if parameters range is not respected
+         **/
+        public MarginData(JSONObject marginData) {
+            super(marginData);
+            marginLevel = hMarginAccount.getDouble("marginLevel", 0);
+            if (marginLevel < 0)
+                throw new IllegalArgumentException("Margin level value cannot be less than 0");
+            updateTime = hMarginAccount.getLong("updateTime", 0);
+            if (updateTime < 0)
+                throw new IllegalArgumentException("Update time value cannot be less than 0");
+            userMarginsListAsset = assembleUserMarginAssetsList(hMarginAccount.getJSONArray("userAssets", new JSONArray()));
+        }
+
         public double getMarginLevel() {
             return marginLevel;
         }
 
-        /** Method to set {@link #marginLevel}
+        /**
+         * Method to get {@link #marginLevel} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #marginLevel} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getMarginLevel(int decimals) {
+            return roundValue(marginLevel, decimals);
+        }
+
+        /**
+         * Method to set {@link #marginLevel}
+         *
          * @param marginLevel: margin level value
          * @throws IllegalArgumentException when margin level value is less than 0
-         * **/
+         **/
         public void setMarginLevel(double marginLevel) {
             if (marginLevel < 0)
                 throw new IllegalArgumentException("Margin level value cannot be less than 0");
@@ -201,7 +208,7 @@ public class AccountSnapshotMargin extends AccountSnapshot{
 
         @Override
         public String toString() {
-            return "DataMargin{" +
+            return "MarginData{" +
                     "marginLevel=" + marginLevel +
                     ", updateTime=" + updateTime +
                     ", userMarginsListAsset=" + userMarginsListAsset +
@@ -214,13 +221,10 @@ public class AccountSnapshotMargin extends AccountSnapshot{
     }
 
     /**
-     * The {@code UserMarginAsset} class is useful to obtain and format UserMarginAsset object
-     *
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
+     * The {@code UserMarginAsset} class is useful to create a user margin asset type
      **/
 
-    public static class UserMarginAsset extends AccountSnapshotSpot.BalanceSpot {
+    public static class UserMarginAsset extends SpotAccountSnapshot.SpotBalance {
 
         /**
          * {@code borrowed} is instance that memorizes amount of borrow from asset
@@ -297,7 +301,6 @@ public class AccountSnapshotMargin extends AccountSnapshot{
         public double getBorrowed(int decimals) {
             return roundValue(borrowed, decimals);
         }
-
 
         /**
          * Method to set {@link #borrowed}

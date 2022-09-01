@@ -2,15 +2,18 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Asse
 
 import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
 import org.json.JSONArray;
-import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
- *  The {@code CoinInformation} class is useful to manage AllCoins Binance request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
- * **/
+ * The {@code CoinInformation} class is useful to create a coin information object
+ *
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
+ **/
 
 public class CoinInformation {
 
@@ -135,10 +138,50 @@ public class CoinInformation {
             this.storage = storage;
         this.trading = trading;
         this.withdrawAllEnable = withdrawAllEnable;
-        if(withdrawing < 0)
+        if (withdrawing < 0)
             throw new IllegalArgumentException("Withdrawing value cannot be less than 0");
         else
             this.withdrawing = withdrawing;
+    }
+
+    /**
+     * Constructor to init {@link CoinInformation} object
+     *
+     * @param coinInformation: coin information details as {@link JSONObject}
+     * @throws IllegalArgumentException if parameters range is not respected
+     **/
+    public CoinInformation(JSONObject coinInformation) {
+        coin = coinInformation.getString("coin");
+        depositAllEnable = coinInformation.getBoolean("depositAllEnable");
+        free = coinInformation.getDouble("free");
+        if (free < 0)
+            throw new IllegalArgumentException("Free value cannot be less than 0");
+        freeze = coinInformation.getDouble("freeze");
+        if (freeze < 0)
+            throw new IllegalArgumentException("Freeze value cannot be less than 0");
+        ipoable = coinInformation.getDouble("ipoable");
+        if (ipoable < 0)
+            throw new IllegalArgumentException("Ipoable value cannot be less than 0");
+        ipoing = coinInformation.getDouble("ipoing");
+        if (ipoing < 0)
+            throw new IllegalArgumentException("Ipoing value cannot be less than 0");
+        isLegalMoney = coinInformation.getBoolean("isLegalMoney");
+        locked = coinInformation.getDouble("locked");
+        if (locked < 0)
+            throw new IllegalArgumentException("Locked value cannot be less than 0");
+        name = coinInformation.getString("name");
+        JSONArray networkList = JsonHelper.getJSONArray(coinInformation, "networkList", new JSONArray());
+        networkItemsList = new ArrayList<>();
+        for (int j = 0; j < networkList.length(); j++)
+            networkItemsList.add(new NetworkItem(networkList.getJSONObject(j)));
+        trading = coinInformation.getBoolean("trading");
+        storage = coinInformation.getDouble("storage");
+        if (storage < 0)
+            throw new IllegalArgumentException("Storage value cannot be less than 0");
+        withdrawAllEnable = coinInformation.getBoolean("withdrawAllEnable");
+        withdrawing = coinInformation.getDouble("withdrawing");
+        if (withdrawing < 0)
+            throw new IllegalArgumentException("Withdrawing value cannot be less than 0");
     }
 
     public String getCoin() {
@@ -157,12 +200,25 @@ public class CoinInformation {
         return free;
     }
 
-    /** Method to set {@link #free}
+    /**
+     * Method to get {@link #free} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #free} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getFree(int decimals) {
+        return roundValue(free, decimals);
+    }
+
+    /**
+     * Method to set {@link #free}
+     *
      * @param free: free value
      * @throws IllegalArgumentException when free value is less than 0
-     * **/
+     **/
     public void setFree(double free) {
-        if(free < 0)
+        if (free < 0)
             throw new IllegalArgumentException("Free value cannot be less than 0");
         this.free = free;
     }
@@ -171,12 +227,25 @@ public class CoinInformation {
         return freeze;
     }
 
-    /** Method to set {@link #freeze}
+    /**
+     * Method to get {@link #freeze} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #freeze} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getFreeze(int decimals) {
+        return roundValue(freeze, decimals);
+    }
+
+    /**
+     * Method to set {@link #freeze}
+     *
      * @param freeze: freeze value
      * @throws IllegalArgumentException when freeze value is less than 0
-     * **/
+     **/
     public void setFreeze(double freeze) {
-        if(freeze < 0)
+        if (freeze < 0)
             throw new IllegalArgumentException("Freeze value cannot be less than 0");
         this.freeze = freeze;
     }
@@ -185,12 +254,25 @@ public class CoinInformation {
         return ipoable;
     }
 
-    /** Method to set {@link #ipoable}
+    /**
+     * Method to get {@link #ipoable} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #ipoable} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getIpoable(int decimals) {
+        return roundValue(ipoable, decimals);
+    }
+
+    /**
+     * Method to set {@link #ipoable}
+     *
      * @param ipoable: freeze value
      * @throws IllegalArgumentException when ipoable value is less than 0
-     * **/
+     **/
     public void setIpoable(double ipoable) {
-        if(ipoable < 0)
+        if (ipoable < 0)
             throw new IllegalArgumentException("Ipoable value cannot be less than 0");
         this.ipoable = ipoable;
     }
@@ -199,12 +281,25 @@ public class CoinInformation {
         return ipoing;
     }
 
-    /** Method to set {@link #ipoing}
+    /**
+     * Method to get {@link #ipoing} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #ipoing} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getIpoing(int decimals) {
+        return roundValue(ipoing, decimals);
+    }
+
+    /**
+     * Method to set {@link #ipoing}
+     *
      * @param ipoing: ipoing value
      * @throws IllegalArgumentException when ipoing value is less than 0
-     * **/
+     **/
     public void setIpoing(double ipoing) {
-        if(ipoing < 0)
+        if (ipoing < 0)
             throw new IllegalArgumentException("Ipoing value cannot be less than 0");
         this.ipoing = ipoing;
     }
@@ -221,12 +316,25 @@ public class CoinInformation {
         return locked;
     }
 
-    /** Method to set {@link #locked}
+    /**
+     * Method to get {@link #locked} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #locked} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getLocked(int decimals) {
+        return roundValue(locked, decimals);
+    }
+
+    /**
+     * Method to set {@link #locked}
+     *
      * @param locked: locked value
      * @throws IllegalArgumentException when locked value is less than 0
-     * **/
+     **/
     public void setLocked(double locked) {
-        if(locked < 0)
+        if (locked < 0)
             throw new IllegalArgumentException("Locked value cannot be less than 0");
         this.locked = locked;
     }
@@ -248,11 +356,11 @@ public class CoinInformation {
             networkItemsList.add(networkItem);
     }
 
-    public boolean removeNetworkItem(NetworkItem networkItem){
+    public boolean removeNetworkItem(NetworkItem networkItem) {
         return networkItemsList.remove(networkItem);
     }
 
-    public NetworkItem getNetWorkItem(int index){
+    public NetworkItem getNetWorkItem(int index) {
         return networkItemsList.get(index);
     }
 
@@ -260,12 +368,25 @@ public class CoinInformation {
         return storage;
     }
 
-    /** Method to set {@link #storage}
+    /**
+     * Method to get {@link #storage} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #storage} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getStorage(int decimals) {
+        return roundValue(storage, decimals);
+    }
+
+    /**
+     * Method to set {@link #storage}
+     *
      * @param storage: storage value
      * @throws IllegalArgumentException when storage value is less than 0
-     * **/
+     **/
     public void setStorage(double storage) {
-        if(storage < 0)
+        if (storage < 0)
             throw new IllegalArgumentException("Storage value cannot be less than 0");
         this.storage = storage;
     }
@@ -290,12 +411,25 @@ public class CoinInformation {
         return withdrawing;
     }
 
-    /** Method to set {@link #withdrawing}
+    /**
+     * Method to get {@link #withdrawing} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #withdrawing} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getWithdrawing(int decimals) {
+        return roundValue(withdrawing, decimals);
+    }
+
+    /**
+     * Method to set {@link #withdrawing}
+     *
      * @param withdrawing: withdrawing value
      * @throws IllegalArgumentException when withdrawing value is less than 0
-     * **/
+     **/
     public void setWithdrawing(double withdrawing) {
-        if(withdrawing < 0)
+        if (withdrawing < 0)
             throw new IllegalArgumentException("Withdrawing value cannot be less than 0");
         this.withdrawing = withdrawing;
     }
@@ -321,10 +455,8 @@ public class CoinInformation {
     }
 
     /**
-     *  The {@code NetworkItem} class is useful to obtain and format NetworkItem object
-     *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
-     *      https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
-     * **/
+     * The {@code NetworkItem} class is useful to obtain and create a network item object
+     **/
 
     public static class NetworkItem {
 
@@ -470,44 +602,32 @@ public class CoinInformation {
             this.sameAddress = sameAddress;
         }
 
-        /** Method to assemble an AssetDribbletsDetails list
-         * @param networkList: accountDetails obtain by AllCoins Binance request
-         * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
-         *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
-         * @return networkItemsList list as  ArrayList<NetworkItem>
-         * **/
-        public static ArrayList<NetworkItem> getNetworkList(JSONArray networkList) {
-            ArrayList<NetworkItem> networkItems = new ArrayList<>();
-            for (int j=0; j < networkList.length(); j++){
-                JsonHelper networkItem = new JsonHelper(networkList.getJSONObject(j));
-                String specialTips;
-                try {
-                    specialTips = networkItem.getString("specialTips");
-                }catch (JSONException e){
-                    specialTips = "Any special tips";
-                }
-                networkItems.add(new NetworkItem(networkItem.getString("addressRegex"),
-                        networkItem.getString("coin"),
-                        networkItem.getString("depositDesc"),
-                        networkItem.getBoolean("depositEnable"),
-                        networkItem.getBoolean("isDefault"),
-                        networkItem.getString("memoRegex"),
-                        networkItem.getInt("minConfirm"),
-                        networkItem.getString("name"),
-                        networkItem.getString("network"),
-                        networkItem.getBoolean("resetAddressStatus"),
-                        specialTips,
-                        networkItem.getInt("unLockConfirm"),
-                        networkItem.getString("withdrawDesc"),
-                        networkItem.getBoolean("withdrawEnable"),
-                        networkItem.getDouble("withdrawFee"),
-                        networkItem.getDouble("withdrawIntegerMultiple"),
-                        networkItem.getDouble("withdrawMax"),
-                        networkItem.getDouble("withdrawMin"),
-                        networkItem.getBoolean("sameAddress")
-                ));
-            }
-            return networkItems;
+        /**
+         * Constructor to init {@link CoinInformation} object
+         *
+         * @param networkItem: network item details as {@link JSONObject}
+         **/
+        public NetworkItem(JSONObject networkItem) {
+            JsonHelper hNetworkItem = new JsonHelper(networkItem);
+            addressRegex = hNetworkItem.getString("addressRegex");
+            coin = hNetworkItem.getString("coin");
+            depositDesc = hNetworkItem.getString("depositDesc");
+            depositEnable = hNetworkItem.getBoolean("depositEnable");
+            isDefault = hNetworkItem.getBoolean("isDefault");
+            memoRegex = hNetworkItem.getString("memoRegex");
+            minConfirm = hNetworkItem.getInt("minConfirm");
+            name = hNetworkItem.getString("name");
+            network = hNetworkItem.getString("network");
+            resetAddressStatus = hNetworkItem.getBoolean("resetAddressStatus");
+            specialTips = hNetworkItem.getString("specialTips", "Any special tips");
+            unLockConfirm = hNetworkItem.getInt("unLockConfirm");
+            withdrawDesc = hNetworkItem.getString("withdrawDesc");
+            withdrawEnable = hNetworkItem.getBoolean("withdrawEnable");
+            withdrawFee = hNetworkItem.getDouble("withdrawFee");
+            withdrawIntegerMultiple = hNetworkItem.getDouble("withdrawIntegerMultiple");
+            withdrawMax = hNetworkItem.getDouble("withdrawMax");
+            withdrawMin = hNetworkItem.getDouble("withdrawMin");
+            sameAddress = hNetworkItem.getBoolean("sameAddress");
         }
 
         public String getAddressRegex() {
@@ -570,16 +690,60 @@ public class CoinInformation {
             return withdrawFee;
         }
 
+        /**
+         * Method to get {@link #withdrawFee} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #withdrawFee} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getWithdrawFee(int decimals) {
+            return roundValue(withdrawFee, decimals);
+        }
+
         public double getWithdrawIntegerMultiple() {
             return withdrawIntegerMultiple;
+        }
+
+        /**
+         * Method to get {@link #withdrawIntegerMultiple} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #withdrawIntegerMultiple} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getWithdrawIntegerMultiple(int decimals) {
+            return roundValue(withdrawIntegerMultiple, decimals);
         }
 
         public double getWithdrawMax() {
             return withdrawMax;
         }
 
+        /**
+         * Method to get {@link #withdrawMax} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #withdrawMax} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getWithdrawMax(int decimals) {
+            return roundValue(withdrawMax, decimals);
+        }
+
         public double getWithdrawMin() {
             return withdrawMin;
+        }
+
+        /**
+         * Method to get {@link #withdrawMin} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #withdrawMin} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getWithdrawMin(int decimals) {
+            return roundValue(withdrawMin, decimals);
         }
 
         public boolean isSameAddress() {

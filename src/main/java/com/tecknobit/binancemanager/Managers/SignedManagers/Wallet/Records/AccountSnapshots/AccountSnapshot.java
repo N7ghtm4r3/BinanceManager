@@ -1,6 +1,9 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
+
+import static com.tecknobit.apimanager.Tools.Formatters.JsonHelper.getJSONArray;
 
 /**
  *  The {@code AccountSnapshot} class is useful to manage AccountSnapshot Binance request
@@ -38,40 +41,39 @@ public class AccountSnapshot {
 
     /**
      * {@code type} is instance that memorizes type of account
-     * **/
+     **/
     protected final String type;
 
     /**
-     * {@code accountDetails} is instance that memorizes account details as {@link JSONObject}
+     * {@code snapshotVos} is instance that memorizes account details as {@link JSONArray}
      **/
-    protected final JSONArray accountDetails;
+    protected final JSONArray snapshotVos;
 
-    /** Constructor to init {@link AccountSnapshot} object
-     * @param code: code of response
-     * @param msg: message of response
-     * @param type: type of account
-     * @param accountDetails: details as {@link JSONObject}
-     * **/
-    public AccountSnapshot(int code, String msg, String type, JSONArray accountDetails) {
+    /**
+     * Constructor to init {@link AccountSnapshot} object
+     *
+     * @param code:        code of response
+     * @param msg:         message of response
+     * @param type:        type of account
+     * @param snapshotVos: details as {@link JSONObject}
+     **/
+    public AccountSnapshot(int code, String msg, String type, JSONArray snapshotVos) {
         this.code = code;
         this.msg = msg;
         this.type = type;
-        this.accountDetails = accountDetails;
+        this.snapshotVos = snapshotVos;
     }
 
-    /** Method to get specific AccountSnapshot object <br>
-     * Any params required
-     * @return AccountSnapshot object then to cast
-     * **/
-    public <T extends AccountSnapshot> T getAccountSnapshot(){
-        switch (type){
-            case SPOT:
-                return (T) new AccountSnapshotSpot(code, msg, type, accountDetails);
-            case MARGIN:
-                return (T) new AccountSnapshotMargin(code, msg, type, accountDetails);
-            default:
-                return (T) new AccountSnapshotFutures(code, msg, type, accountDetails);
-        }
+    /**
+     * Constructor to init {@link AccountSnapshot} object
+     *
+     * @param accountSnapshot: account snapshot details as {@link JSONObject}
+     **/
+    public AccountSnapshot(JSONObject accountSnapshot, String type) {
+        snapshotVos = getJSONArray(accountSnapshot, "snapshotVos", new JSONArray());
+        code = accountSnapshot.getInt("code");
+        msg = accountSnapshot.getString("msg");
+        this.type = type;
     }
 
     public int getCode() {
@@ -94,8 +96,8 @@ public class AccountSnapshot {
         return type;
     }
 
-    public JSONArray getAccountDetails() {
-        return accountDetails;
+    public JSONArray getSnapshotVos() {
+        return snapshotVos;
     }
 
     @Override
@@ -104,7 +106,6 @@ public class AccountSnapshot {
                 "code=" + code +
                 ", msg='" + msg + '\'' +
                 ", type='" + type + '\'' +
-                ", accountDetails=" + accountDetails +
                 '}';
     }
 

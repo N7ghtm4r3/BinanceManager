@@ -1,11 +1,16 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Response;
 
+import org.json.JSONObject;
+
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
- *  The {@code SpotOrderStatus} class is useful to format an SpotOrderStatus object
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code SpotOrderStatus} class is useful to format an SpotOrderStatus object
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data</a>
+ **/
 
 public class SpotOrderStatus extends ResultSpotOrder {
 
@@ -62,12 +67,49 @@ public class SpotOrderStatus extends ResultSpotOrder {
         this.origQuoteOrderQty = origQuoteOrderQty;
     }
 
+    /**
+     * Constructor to init {@link SpotOrderStatus} object
+     *
+     * @param spotOrderStatus: spot order status details as {@link JSONObject}
+     **/
+    public SpotOrderStatus(JSONObject spotOrderStatus) {
+        super(spotOrderStatus);
+        stopPrice = spotOrderStatus.getDouble("stopPrice");
+        icebergQty = spotOrderStatus.getDouble("icebergQty");
+        time = spotOrderStatus.getLong("time");
+        isWorking = spotOrderStatus.getBoolean("isWorking");
+        origQuoteOrderQty = spotOrderStatus.getDouble("origQuoteOrderQty");
+        transactTime = hOrder.getLong("updateTime");
+    }
+
     public double getStopPrice() {
         return stopPrice;
     }
 
+    /**
+     * Method to get {@link #stopPrice} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #stopPrice} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getStopPrice(int decimals) {
+        return roundValue(stopPrice, decimals);
+    }
+
     public double getIcebergQty() {
         return icebergQty;
+    }
+
+    /**
+     * Method to get {@link #icebergQty} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #icebergQty} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getIcebergQty(int decimals) {
+        return roundValue(icebergQty, decimals);
     }
 
     public long getTime() {
@@ -84,6 +126,17 @@ public class SpotOrderStatus extends ResultSpotOrder {
 
     public double getOrigQuoteOrderQty() {
         return origQuoteOrderQty;
+    }
+
+    /**
+     * Method to get {@link #origQuoteOrderQty} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #origQuoteOrderQty} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getOrigQuoteOrderQty(int decimals) {
+        return roundValue(origQuoteOrderQty, decimals);
     }
 
     @Override

@@ -5,11 +5,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
- *  The {@code DustItem} class is useful to obtain and format dust item object
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
- * **/
+ * The {@code DustItem} class is useful to obtain and format dust item object
+ *
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
+ **/
 
 public class DustItem {
 
@@ -43,16 +46,18 @@ public class DustItem {
      * **/
     private final String fromAsset;
 
-    /** Constructor to init {@link DustItem} object
-     * @param transId: transaction identifier value
+    /**
+     * Constructor to init {@link DustItem} object
+     *
+     * @param transId:             transaction identifier value
      * @param serviceChargeAmount: service charge amount value
-     * @param amount: amount value
-     * @param operateTime: operate time value
-     * @param transferedAmount: transfered amount value
-     * @param fromAsset: from asset value
-     * **/
+     * @param amount:              amount value
+     * @param operateTime:         operate time value
+     * @param transferedAmount:    transfered amount value
+     * @param fromAsset:           from asset value
+     **/
     public DustItem(long transId, double serviceChargeAmount, double amount, long operateTime,
-                                 double transferedAmount, String fromAsset) {
+                    double transferedAmount, String fromAsset) {
         this.transId = transId;
         this.serviceChargeAmount = serviceChargeAmount;
         this.amount = amount;
@@ -61,49 +66,88 @@ public class DustItem {
         this.fromAsset = fromAsset;
     }
 
-    public long transId() {
+    /**
+     * Constructor to init {@link DustItem} object
+     *
+     * @param dustItem: dust item details as {@link JSONObject}
+     **/
+    public DustItem(JSONObject dustItem) {
+        transId = dustItem.getLong("transId");
+        serviceChargeAmount = dustItem.getDouble("serviceChargeAmount");
+        amount = dustItem.getDouble("amount");
+        operateTime = dustItem.getLong("operateTime");
+        transferedAmount = dustItem.getDouble("transferedAmount");
+        fromAsset = dustItem.getString("fromAsset");
+    }
+
+    /**
+     * Method to assemble an {@link DustItem} list
+     *
+     * @param userAssetDribbletDetails: list of items
+     * @return list as {@link ArrayList} of {@link DustItem}
+     **/
+    public static ArrayList<DustItem> getListDribbletsDetails(JSONArray userAssetDribbletDetails) {
+        ArrayList<DustItem> dustItems = new ArrayList<>();
+        for (int j = 0; j < userAssetDribbletDetails.length(); j++)
+            dustItems.add(new DustItem(userAssetDribbletDetails.getJSONObject(j)));
+        return dustItems;
+    }
+
+    public long getTransId() {
         return transId;
     }
 
-    public double serviceChargeAmount() {
+    public double getServiceChargeAmount() {
         return serviceChargeAmount;
     }
 
-    public double amount() {
+    /**
+     * Method to get {@link #serviceChargeAmount} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #serviceChargeAmount} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getServiceChargeAmount(int decimals) {
+        return roundValue(serviceChargeAmount, decimals);
+    }
+
+    public double getAmount() {
         return amount;
     }
 
-    public long operateTime() {
+    /**
+     * Method to get {@link #amount} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #amount} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getAmount(int decimals) {
+        return roundValue(amount, decimals);
+    }
+
+    public long getOperateTime() {
         return operateTime;
     }
 
-    public double transferedAmount() {
+    public double getTransferedAmount() {
         return transferedAmount;
     }
 
-    public String fromAsset() {
-        return fromAsset;
+    /**
+     * Method to get {@link #transferedAmount} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #transferedAmount} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getTransferedAmount(int decimals) {
+        return roundValue(transferedAmount, decimals);
     }
 
-    /** Method to assemble an AssetDribbletsDetails list
-     * @param userAssetDribbletDetails: accountDetails obtain by DustLog Binance request
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
-     * @return assetDribbletsDetailsList list as ArrayList<AssetDribbletsDetails>
-     * **/
-    public static ArrayList<DustItem> getListDribbletsDetails(JSONArray userAssetDribbletDetails) {
-        ArrayList<DustItem> dustItems = new ArrayList<>();
-        for (int j = 0; j < userAssetDribbletDetails.length(); j++) {
-            JSONObject assetDribblet = userAssetDribbletDetails.getJSONObject(j);
-            dustItems.add(new DustItem(assetDribblet.getLong("transId"),
-                    assetDribblet.getDouble("serviceChargeAmount"),
-                    assetDribblet.getDouble("amount"),
-                    assetDribblet.getLong("operateTime"),
-                    assetDribblet.getDouble("transferedAmount"),
-                    assetDribblet.getString("fromAsset")
-            ));
-        }
-        return dustItems;
+    public String getFromAsset() {
+        return fromAsset;
     }
 
     @Override

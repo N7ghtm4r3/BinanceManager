@@ -1,21 +1,26 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response;
 
+import org.json.JSONObject;
+
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
  * The {@code ResultMarginOrder} class is useful to format ResultMarginOrder object of Binance's request Margin Account New Order
+ *
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
- *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
- * **/
+ * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
+ **/
 
-public class ResultMarginOrder extends ACKMarginOrder{
+public class ResultMarginOrder extends ACKMarginOrder {
 
     /**
      * {@code price} is instance that memorizes price in order
-     * **/
+     **/
     protected final double price;
 
     /**
      * {@code origQty} is instance that memorizes origin quantity in order
-     * **/
+     **/
     protected final double origQty;
 
     /**
@@ -77,20 +82,81 @@ public class ResultMarginOrder extends ACKMarginOrder{
         this.side = side;
     }
 
+    /**
+     * Constructor to init {@link ResultMarginOrder} object
+     *
+     * @param resultMarginOrder: result margin order details as {@link JSONObject}
+     **/
+    public ResultMarginOrder(JSONObject resultMarginOrder) {
+        super(resultMarginOrder);
+        price = resultMarginOrder.getDouble("price");
+        origQty = resultMarginOrder.getDouble("origQty");
+        executedQty = resultMarginOrder.getDouble("executedQty");
+        cummulativeQuoteQty = resultMarginOrder.getDouble("cumulativeQuoteQty");
+        status = resultMarginOrder.getString("status");
+        timeInForce = resultMarginOrder.getString("timeInForce");
+        type = resultMarginOrder.getString("type");
+        side = resultMarginOrder.getString("side");
+    }
+
     public double getPrice() {
         return price;
+    }
+
+    /**
+     * Method to get {@link #price} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #price} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getPrice(int decimals) {
+        return roundValue(price, decimals);
     }
 
     public double getOrigQty() {
         return origQty;
     }
 
+    /**
+     * Method to get {@link #origQty} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #origQty} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getOrigQty(int decimals) {
+        return roundValue(origQty, decimals);
+    }
+
     public double getExecutedQty() {
         return executedQty;
     }
 
+    /**
+     * Method to get {@link #executedQty} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #executedQty} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getExecutedQty(int decimals) {
+        return roundValue(executedQty, decimals);
+    }
+
     public double getCummulativeQuoteQty() {
         return cummulativeQuoteQty;
+    }
+
+    /**
+     * Method to get {@link #cummulativeQuoteQty} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #cummulativeQuoteQty} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getCummulativeQuoteQty(int decimals) {
+        return roundValue(cummulativeQuoteQty, decimals);
     }
 
     public String getStatus() {

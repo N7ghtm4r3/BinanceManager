@@ -1,10 +1,15 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Dust;
 
+import org.json.JSONObject;
+
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
- *  The {@code UniversalTransfer} class is useful to manage all UniversalTransfer Binance requests
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
- * **/
+ * The {@code UniversalTransfer} class is useful to manage all UniversalTransfer Binance requests
+ *
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
+ **/
 
 public class UniversalTransfer {
 
@@ -160,27 +165,52 @@ public class UniversalTransfer {
         this.timestamp = timestamp;
     }
 
-    public String asset() {
+    /**
+     * Constructor to init {@link UniversalTransfer} object
+     *
+     * @param universalTransfer: universal transfer details as {@link JSONObject}
+     **/
+    public UniversalTransfer(JSONObject universalTransfer) {
+        asset = universalTransfer.getString("asset");
+        amount = universalTransfer.getDouble("amount");
+        type = universalTransfer.getString("type");
+        status = universalTransfer.getString("status");
+        tranId = universalTransfer.getLong("tranId");
+        timestamp = universalTransfer.getLong("timestamp");
+    }
+
+    public String getAsset() {
         return asset;
     }
 
-    public double amount() {
+    public double getAmount() {
         return amount;
     }
 
-    public String type() {
+    /**
+     * Method to get {@link #amount} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #amount} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getAmount(int decimals) {
+        return roundValue(amount, decimals);
+    }
+
+    public String getType() {
         return type;
     }
 
-    public String status() {
+    public String getStatus() {
         return status;
     }
 
-    public long tranId() {
+    public long getTranId() {
         return tranId;
     }
 
-    public long timestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 

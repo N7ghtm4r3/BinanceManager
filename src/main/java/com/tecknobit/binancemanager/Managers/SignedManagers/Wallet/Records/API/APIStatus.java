@@ -1,5 +1,7 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.API;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,9 +25,9 @@ public class APIStatus {
     private int plannedRecoverTime;
 
     /**
-     * {@code triggerCondition} is instance that memorizes triggers condition values
-     * **/
-    private HashMap<String, Integer> triggerCondition;
+     * {@code triggerConditions} is instance that memorizes triggers condition values
+     **/
+    private HashMap<String, Integer> triggerConditions;
 
     /**
      * {@code updateTime} is instance that memorizes update time value
@@ -42,24 +44,50 @@ public class APIStatus {
      * **/
     private ArrayList<Integer> values;
 
-    /** Constructor to init {@link APIStatus} object
-     * @param isLocked: api status is locked
+    /**
+     * Constructor to init {@link APIStatus} object
+     *
+     * @param isLocked:           api status is locked
      * @param plannedRecoverTime: planned recover time
-     * @param triggerCondition: triggers condition values
-     * @param updateTime: update time value
+     * @param triggerConditions:  triggers condition values
+     * @param updateTime:         update time value
      * @throws IllegalArgumentException if parameters range is not respected
-     * **/
-    public APIStatus(boolean isLocked, int plannedRecoverTime, HashMap<String, Integer> triggerCondition, long updateTime) {
+     **/
+    public APIStatus(boolean isLocked, int plannedRecoverTime, HashMap<String, Integer> triggerConditions, long updateTime) {
         this.isLocked = isLocked;
-        if(plannedRecoverTime < 0)
+        if (plannedRecoverTime < 0)
             throw new IllegalArgumentException("Planned recover time value cannot be less than 0");
         else
             this.plannedRecoverTime = plannedRecoverTime;
-        this.triggerCondition = triggerCondition;
-        if(updateTime < 0)
+        this.triggerConditions = triggerConditions;
+        if (updateTime < 0)
             throw new IllegalArgumentException("Update time value cannot be less than 0");
         else
             this.updateTime = updateTime;
+        loadListsValues();
+    }
+
+    /**
+     * Constructor to init {@link APIStatus} object
+     *
+     * @param apiStatus: api status details as {@link JSONObject}
+     * @throws IllegalArgumentException if parameters range is not respected
+     **/
+    public APIStatus(JSONObject apiStatus) {
+        isLocked = apiStatus.getBoolean("isLocked");
+        plannedRecoverTime = apiStatus.getInt("plannedRecoverTime");
+        if (plannedRecoverTime < 0)
+            throw new IllegalArgumentException("Planned recover time value cannot be less than 0");
+        updateTime = apiStatus.getLong("updateTime");
+        if (updateTime < 0)
+            throw new IllegalArgumentException("Update time value cannot be less than 0");
+        triggerConditions = new HashMap<>();
+        JSONObject oTriggerConditions = apiStatus.getJSONObject("triggerConditions");
+        ArrayList<String> keys = new ArrayList<>(oTriggerConditions.keySet());
+        for (int j = 0; j < oTriggerConditions.length(); j++) {
+            String key = keys.get(j);
+            triggerConditions.put(key, oTriggerConditions.getInt(key));
+        }
         loadListsValues();
     }
 
@@ -80,17 +108,17 @@ public class APIStatus {
      * @throws IllegalArgumentException when planned recover time value is less than 0
      * **/
     public void setPlannedRecoverTime(int plannedRecoverTime) {
-        if(plannedRecoverTime < 0)
+        if (plannedRecoverTime < 0)
             throw new IllegalArgumentException("Planned recover time value cannot be less than 0");
         this.plannedRecoverTime = plannedRecoverTime;
     }
 
     public HashMap<String, Integer> triggerCondition() {
-        return triggerCondition;
+        return triggerConditions;
     }
 
-    public void setTriggerCondition(HashMap<String, Integer> triggerCondition) {
-        this.triggerCondition = triggerCondition;
+    public void setTriggerConditions(HashMap<String, Integer> triggerConditions) {
+        this.triggerConditions = triggerConditions;
         loadListsValues();
     }
 
@@ -107,7 +135,7 @@ public class APIStatus {
     }
 
     public Integer getTriggerConditionValue(String key) {
-        return triggerCondition.get(key);
+        return triggerConditions.get(key);
     }
 
     public Integer getTriggerConditionValue(int index) {
@@ -128,12 +156,13 @@ public class APIStatus {
         this.updateTime = updateTime;
     }
 
-    /** Method to set load triggers list  <br>
+    /**
+     * Method to set load triggers list  <br>
      * Any params required
-     * **/
-    private void loadListsValues(){
-        keys = new ArrayList<>(triggerCondition.keySet());
-        values = new ArrayList<>(triggerCondition.values());
+     **/
+    private void loadListsValues() {
+        keys = new ArrayList<>(triggerConditions.keySet());
+        values = new ArrayList<>(triggerConditions.values());
     }
 
     @Override
@@ -141,7 +170,7 @@ public class APIStatus {
         return "APIStatus{" +
                 "isLocked=" + isLocked +
                 ", plannedRecoverTime=" + plannedRecoverTime +
-                ", triggerCondition=" + triggerCondition +
+                ", triggerConditions=" + triggerConditions +
                 ", updateTime=" + updateTime +
                 ", keys=" + keys +
                 ", values=" + values +

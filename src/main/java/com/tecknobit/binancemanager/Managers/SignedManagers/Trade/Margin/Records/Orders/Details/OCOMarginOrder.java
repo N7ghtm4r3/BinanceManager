@@ -2,12 +2,17 @@ package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Record
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
- *  The {@code OCOMarginOrder} class is useful to format all Binance Margin OCO Order request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
- *      https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code OCOMarginOrder} class is useful to format all Binance Margin OCO Order request
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
+ * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
+ **/
 
 public class OCOMarginOrder extends ComposedMarginOrderDetails {
 
@@ -39,52 +44,57 @@ public class OCOMarginOrder extends ComposedMarginOrderDetails {
     /**
      * Constructor to init {@link OCOMarginOrder} object
      *
-     * @param orderListId:           list order identifier
-     * @param contingencyType:       contingency type of the order
-     * @param listStatusType:        list status type of the order
-     * @param listOrderStatus:       list order status
-     * @param listClientOrderId:     list client order id
-     * @param transactionTime:       transaction time of the order
-     * @param symbol:                symbol used in the order
-     * @param jsonOrder:             order details as {@link JSONObject}
-     * @param isIsolated:            is isolated
-     * @param marginBuyBorrowAmount: margin buy borrow amount
-     * @param marginBuyBorrowAsset:  margin buy borrow asset
+     * @param orderListId:            list order identifier
+     * @param contingencyType:        contingency type of the order
+     * @param listStatusType:         list status type of the order
+     * @param listOrderStatus:        list order status
+     * @param listClientOrderId:      list client order id
+     * @param transactionTime:        transaction time of the order
+     * @param symbol:                 symbol used in the order
+     * @param orderValues:            list of {@link OrderValues}
+     * @param detailMarginOrdersList: list of {@link DetailMarginOrder}
+     * @param isIsolated:             is isolated
+     * @param marginBuyBorrowAmount:  margin buy borrow amount
+     * @param marginBuyBorrowAsset:   margin buy borrow asset
      **/
     public OCOMarginOrder(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
-                          String listClientOrderId, long transactionTime, String symbol, boolean isIsolated,
-                          double marginBuyBorrowAmount, String marginBuyBorrowAsset, JSONObject jsonOrder) {
+                          String listClientOrderId, long transactionTime, String symbol, ArrayList<OrderValues> orderValues,
+                          ArrayList<DetailMarginOrder> detailMarginOrdersList, boolean isIsolated, double marginBuyBorrowAmount,
+                          String marginBuyBorrowAsset) {
         super(orderListId, contingencyType, listStatusType, listOrderStatus, listClientOrderId, transactionTime, symbol,
-                isIsolated, jsonOrder);
+                orderValues, detailMarginOrdersList, isIsolated);
         this.marginBuyBorrowAmount = marginBuyBorrowAmount;
         this.marginBuyBorrowAsset = marginBuyBorrowAsset;
+    }
+
+    /**
+     * Constructor to init {@link OCOMarginOrder} object
+     *
+     * @param ocoMarginOrder: oco margin order details as {@link JSONObject}
+     **/
+    public OCOMarginOrder(JSONObject ocoMarginOrder) {
+        super(ocoMarginOrder);
+        marginBuyBorrowAmount = ocoMarginOrder.getDouble("marginBuyBorrowAmount");
+        marginBuyBorrowAsset = ocoMarginOrder.getString("marginBuyBorrowAsset");
     }
 
     public double getMarginBuyBorrowAmount() {
         return marginBuyBorrowAmount;
     }
 
-    public String getMarginBuyBorrowAsset() {
-        return marginBuyBorrowAsset;
+    /**
+     * Method to get {@link #marginBuyBorrowAmount} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #marginBuyBorrowAmount} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getMarginBuyBorrowAmount(int decimals) {
+        return roundValue(marginBuyBorrowAmount, decimals);
     }
 
-    /** Method to assemble a OCOMarginOrder
-     * @param ocoOrder: obtained from Binance's request
-     * @return {@link OCOMarginOrder} object
-     * **/
-    public static OCOMarginOrder assembleOCOMarginOrder(JSONObject ocoOrder){
-        return new OCOMarginOrder(ocoOrder.getLong("orderListId"),
-                ocoOrder.getString("contingencyType"),
-                ocoOrder.getString("listStatusType"),
-                ocoOrder.getString("listOrderStatus"),
-                ocoOrder.getString("listClientOrderId"),
-                ocoOrder.getLong("transactionTime"),
-                ocoOrder.getString("symbol"),
-                ocoOrder.getBoolean("isIsolated"),
-                ocoOrder.getDouble("marginBuyBorrowAmount"),
-                ocoOrder.getString("marginBuyBorrowAsset"),
-                ocoOrder
-        );
+    public String getMarginBuyBorrowAsset() {
+        return marginBuyBorrowAsset;
     }
 
     @Override

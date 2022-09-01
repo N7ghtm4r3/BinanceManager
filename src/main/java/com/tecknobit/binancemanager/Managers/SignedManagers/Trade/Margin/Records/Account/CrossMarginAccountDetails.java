@@ -1,14 +1,14 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Account;
 
-import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.AccountSnapshotMargin;
-import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.AccountSnapshotMargin.UserMarginAsset;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.MarginAccountSnapshot;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.MarginAccountSnapshot.UserMarginAsset;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import static com.tecknobit.apimanager.Tools.Formatters.JsonHelper.getJSONArray;
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.AccountSnapshotMargin.assembleUserMarginAssetsList;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.MarginAccountSnapshot.assembleUserMarginAssetsList;
 
 /**
  * The {@code CrossMarginAccountDetails} class is useful to format Binance Cross Margin Account Detail response request
@@ -130,16 +130,16 @@ public class CrossMarginAccountDetails extends MarginAccount {
         this.userMarginAssets = userMarginAssets;
     }
 
-    public void insertUserAssetMargin(AccountSnapshotMargin.UserMarginAsset assetMargin) {
+    public void insertUserAssetMargin(MarginAccountSnapshot.UserMarginAsset assetMargin) {
         if (!userMarginAssets.contains(assetMargin))
             userMarginAssets.add(assetMargin);
     }
 
-    public boolean removeUserAssetMargin(AccountSnapshotMargin.UserMarginAsset assetMargin) {
+    public boolean removeUserAssetMargin(MarginAccountSnapshot.UserMarginAsset assetMargin) {
         return userMarginAssets.remove(assetMargin);
     }
 
-    public AccountSnapshotMargin.UserMarginAsset getUserAssetMargin(int index) {
+    public MarginAccountSnapshot.UserMarginAsset getUserAssetMargin(int index) {
         return userMarginAssets.get(index);
     }
 

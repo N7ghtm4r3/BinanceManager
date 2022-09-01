@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import static com.tecknobit.apimanager.Manager.APIRequest.*;
 import static com.tecknobit.binancemanager.Constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Common.TradeConstants.*;
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.Details.DetailSpotOrder.assembleDetailSpotOrderObject;
 import static com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Orders.SpotOrder.*;
 
 /**
@@ -783,9 +782,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
     private <T extends ACKSpotOrder> T sendNewOrderObject(String symbol, String side, String type, Params extraParams) throws Exception {
         JSONObject spotOrder = new JSONObject(sendNewOrder(symbol, side, type, extraParams));
         if (type.equals(LIMIT) || type.equals(MARKET))
-            return (T) getFullOrderResponse(spotOrder);
+            return (T) new FullSpotOrder(spotOrder);
         else
-            return (T) getACKResponse(spotOrder);
+            return (T) new ACKSpotOrder(spotOrder);
     }
 
     /** Request to send a limit spot order
@@ -1541,62 +1540,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
     private <T extends ACKSpotOrder> T sendNewOrderObject(String symbol, String side, String type, String newOrderRespType, 
                                                           Params extraParams) throws Exception {
         JSONObject order = new JSONObject(sendNewOrder(symbol, side, type, newOrderRespType, extraParams));
-        switch (newOrderRespType){
+        switch (newOrderRespType) {
             case NEW_ORDER_RESP_TYPE_RESULT:
-                return (T) new ResultSpotOrder(order.getString("symbol"),
-                        order.getLong("orderId"),
-                        order.getLong("orderListId"),
-                        order.getString("clientOrderId"),
-                        order.getLong("transactTime"),
-                        order.getDouble("price"),
-                        order.getDouble("origQty"),
-                        order.getDouble("executedQty"),
-                        order.getDouble("cummulativeQuoteQty"),
-                        order.getString("status"),
-                        order.getString("timeInForce"),
-                        order.getString("type"),
-                        order.getString("side")
-                );
+                return (T) new ResultSpotOrder(order);
             case NEW_ORDER_RESP_TYPE_FULL:
-                return (T) getFullOrderResponse(order);
+                return (T) new FullSpotOrder(order);
             default:
-                return (T) getACKResponse(order);
+                return (T) new ACKSpotOrder(order);
         }
-    }
-
-    /** Method to assemble an ACKSpotOrder object
-     * @param response: obtained from Binance's request
-     * @return an {@link ACKSpotOrder} object with response data
-     * **/
-    private ACKSpotOrder getACKResponse(JSONObject response){
-        return new ACKSpotOrder(response.getString("symbol"),
-                response.getLong("orderId"),
-                response.getLong("orderListId"),
-                response.getString("clientOrderId"),
-                response.getLong("transactTime")
-        );
-    }
-
-    /** Method to assemble an FullOrder object
-     * @param response: obtained from Binance's request
-     * @return a {@link FullSpotOrder} object with response data
-     * **/
-    private FullSpotOrder getFullOrderResponse(JSONObject response){
-        return new FullSpotOrder(response.getString("symbol"),
-                response.getLong("orderId"),
-                response.getLong("orderListId"),
-                response.getString("clientOrderId"),
-                response.getLong("transactTime"),
-                response.getDouble("price"),
-                response.getDouble("origQty"),
-                response.getDouble("executedQty"),
-                response.getDouble("cummulativeQuoteQty"),
-                response.getString("status"),
-                response.getString("timeInForce"),
-                response.getString("type"),
-                response.getString("side"),
-                response.getJSONArray("fills")
-        );
     }
 
     /** Request to cancel an SpotOrder
@@ -1630,7 +1581,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of DetailSpotOrder operation as {@link DetailSpotOrder} object
      * **/
     public DetailSpotOrder cancelOrderObject(String symbol, long orderId) throws Exception {
-        return assembleDetailSpotOrderObject(new JSONObject(cancelOrderJSON(symbol, orderId)));
+        return new DetailSpotOrder(new JSONObject(cancelOrderJSON(symbol, orderId)));
     }
 
     /** Request to cancel an SpotOrder
@@ -1664,7 +1615,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of DetailSpotOrder operation as {@link DetailSpotOrder} object
      * **/
     public DetailSpotOrder cancelOrderObject(String symbol, String origClientOrderId) throws Exception {
-        return assembleDetailSpotOrderObject( new JSONObject(cancelOrderJSON(symbol, origClientOrderId)));
+        return new DetailSpotOrder(new JSONObject(cancelOrderJSON(symbol, origClientOrderId)));
     }
 
     /** Request to cancel an SpotOrder
@@ -1705,7 +1656,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of DetailSpotOrder operation as {@link DetailSpotOrder} object
      * **/
     public DetailSpotOrder cancelOrderObject(String symbol, long orderId, Params extraParams) throws Exception {
-        return assembleDetailSpotOrderObject(new JSONObject(cancelOrderJSON(symbol, orderId, extraParams)));
+        return new DetailSpotOrder(new JSONObject(cancelOrderJSON(symbol, orderId, extraParams)));
     }
 
     /** Request to cancel an SpotOrder
@@ -1747,7 +1698,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public DetailSpotOrder cancelOrderObject(String symbol, String origClientOrderId,
                                              Params extraParams) throws Exception {
-        return assembleDetailSpotOrderObject(new JSONObject(cancelOrderJSON(symbol, origClientOrderId, extraParams)));
+        return new DetailSpotOrder(new JSONObject(cancelOrderJSON(symbol, origClientOrderId, extraParams)));
     }
 
     /** Request to cancel all open orders on a symbol
@@ -1826,12 +1777,12 @@ public class BinanceSpotManager extends BinanceSignedManager {
             JSONObject order = jsonOrders.getJSONObject(j);
             try {
                 String contingencyType = order.getString("contingencyType");
-                cancelOrderComposed.add(assembleComposedOrderDetails(order));
+                cancelOrderComposed.add(new ComposedSpotOrderDetails(order));
             }catch (JSONException e){
-                cancelOrders.add(assembleDetailSpotOrderObject(order));
+                cancelOrders.add(new DetailSpotOrder(order));
             }
         }
-        return new OpenSpotOrders(cancelOrders,cancelOrderComposed);
+        return new OpenSpotOrders(cancelOrders, cancelOrderComposed);
     }
 
     /** Request to get status of an order
@@ -1865,7 +1816,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return status of an order as {@link SpotOrderStatus} object
      * **/
     public SpotOrderStatus getObjectOrderStatus(String symbol, long orderId) throws Exception {
-        return getObjectOrderStatus(new JSONObject(getOrderStatus(symbol, orderId)));
+        return new SpotOrderStatus(new JSONObject(getOrderStatus(symbol, orderId)));
     }
 
     /** Request to get status of an order
@@ -1899,7 +1850,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return status of an order as {@link SpotOrderStatus} object
      * **/
     public SpotOrderStatus getObjectOrderStatus(String symbol, String origClientOrderId) throws Exception {
-        return getObjectOrderStatus(new JSONObject(getOrderStatus(symbol, origClientOrderId)));
+        return new SpotOrderStatus(new JSONObject(getOrderStatus(symbol, origClientOrderId)));
     }
 
     /** Request to get status of an order
@@ -1936,7 +1887,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return status of an order as {@link SpotOrderStatus} object
      * **/
     public SpotOrderStatus getObjectOrderStatus(String symbol, long orderId, long recvWindow) throws Exception {
-        return getObjectOrderStatus(new JSONObject(getOrderStatus(symbol, orderId, recvWindow)));
+        return new SpotOrderStatus(new JSONObject(getOrderStatus(symbol, orderId, recvWindow)));
     }
 
     /** Request to get status of an order
@@ -1974,7 +1925,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return status of an order as {@link SpotOrderStatus} object
      * **/
     public SpotOrderStatus getObjectOrderStatus(String symbol, String origClientOrderId, long recvWindow) throws Exception {
-        return getObjectOrderStatus(new JSONObject(getOrderStatus(symbol, origClientOrderId, recvWindow)));
+        return new SpotOrderStatus(new JSONObject(getOrderStatus(symbol, origClientOrderId, recvWindow)));
     }
 
     /** Request to get current open orders list <br>
@@ -2108,32 +2059,6 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return assembleOrderStatusList(new JSONArray(getAllOrdersList(symbol, extraParams)));
     }
 
-    /** Method to assemble an OrderStatus object
-     * @param response: obtained from Binance's request
-     * @return an OrderStatus object with response data
-     * **/
-    private SpotOrderStatus getObjectOrderStatus(JSONObject response){
-        return new SpotOrderStatus(response.getString("symbol"),
-                response.getLong("orderId"),
-                response.getLong("orderListId"),
-                response.getString("clientOrderId"),
-                response.getDouble("price"),
-                response.getDouble("origQty"),
-                response.getDouble("executedQty"),
-                response.getDouble("cummulativeQuoteQty"),
-                response.getString("status"),
-                response.getString("timeInForce"),
-                response.getString("type"),
-                response.getString("side"),
-                response.getDouble("stopPrice"),
-                response.getDouble("icebergQty"),
-                response.getLong("time"),
-                response.getLong("updateTime"),
-                response.getBoolean("isWorking"),
-                response.getDouble("origQuoteOrderQty")
-        );
-    }
-
     /**
      * Method to assemble an OrderStatus object list
      *
@@ -2143,7 +2068,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     private ArrayList<SpotOrderStatus> assembleOrderStatusList(JSONArray jsonOrders) {
         ArrayList<SpotOrderStatus> orderStatuses = new ArrayList<>();
         for (int j = 0; j < jsonOrders.length(); j++)
-            orderStatuses.add(getObjectOrderStatus(jsonOrders.getJSONObject(j)));
+            orderStatuses.add(new SpotOrderStatus(jsonOrders.getJSONObject(j)));
         return orderStatuses;
     }
 
@@ -3030,7 +2955,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return oco order response as ComposedSpotOrderDetails object
      * **/
     public ComposedSpotOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice) throws Exception {
-        return assembleComposedOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice)));
+        return new ComposedSpotOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice)));
     }
 
     /** Request to send new oco order
@@ -3080,7 +3005,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public ComposedSpotOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice,
                                                           double stopLimitPrice, String stopLimitTimeInForce) throws Exception {
-        return assembleComposedOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice,
+        return new ComposedSpotOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice,
                 stopLimitPrice, stopLimitTimeInForce)));
     }
 
@@ -3135,7 +3060,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public ComposedSpotOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice,
                                                           Params extraParams) throws Exception {
-        return assembleComposedOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice, extraParams)));
+        return new ComposedSpotOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice, extraParams)));
     }
 
     /** Request to send new oco order
@@ -3197,7 +3122,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     public ComposedSpotOrderDetails sendNewOcoOrderObject(String symbol, String side, double price, double stopPrice,
                                                           double stopLimitPrice, String stopLimitTimeInForce,
                                                           Params extraParams) throws Exception {
-        return assembleComposedOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice,
+        return new ComposedSpotOrderDetails(new JSONObject(sendNewOcoOrder(symbol, side, price, stopPrice,
                 stopLimitPrice, stopLimitTimeInForce, extraParams)));
     }
 
@@ -3232,7 +3157,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return cancel all OcoOrders response as ComposedSpotOrderDetails object
      * **/
     public ComposedSpotOrderDetails cancelAllOcoOrdersObject(String symbol, long orderListId) throws Exception {
-        return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, orderListId)));
+        return new ComposedSpotOrderDetails(new JSONObject(cancelOrderJSON(symbol, orderListId)));
     }
 
     /** Request to cancel all OcoOrders
@@ -3266,7 +3191,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return cancel all OcoOrders response as ComposedSpotOrderDetails object
      * **/
     public ComposedSpotOrderDetails cancelAllOcoOrdersObject(String symbol, String listClientOrderId) throws Exception {
-        return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, listClientOrderId)));
+        return new ComposedSpotOrderDetails(new JSONObject(cancelOrderJSON(symbol, listClientOrderId)));
     }
 
     /** Request to cancel all OcoOrders
@@ -3308,7 +3233,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public ComposedSpotOrderDetails cancelAllOcoOrdersObject(String symbol, long orderListId,
                                                              Params extraParams) throws Exception {
-        return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, orderListId, extraParams)));
+        return new ComposedSpotOrderDetails(new JSONObject(cancelOrderJSON(symbol, orderListId, extraParams)));
     }
 
     /** Request to cancel all OcoOrders
@@ -3350,25 +3275,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     public ComposedSpotOrderDetails cancelAllOcoOrdersObject(String symbol, String listClientOrderId,
                                                              Params extraParams) throws Exception {
-        return assembleComposedOrderDetails(new JSONObject(cancelOrderJSON(symbol, listClientOrderId, extraParams)));
-    }
-
-    /**
-     * Method to assemble an ComposedSpotOrderDetails object
-     *
-     * @param #order: obtained from Binance's request
-     * @return a ComposedSpotOrderDetails object with response data
-     **/
-    private ComposedSpotOrderDetails assembleComposedOrderDetails(JSONObject order) {
-        return new ComposedSpotOrderDetails(order.getLong("orderListId"),
-                order.getString("contingencyType"),
-                order.getString("listStatusType"),
-                order.getString("listOrderStatus"),
-                order.getString("listClientOrderId"),
-                order.getLong("transactionTime"),
-                order.getString("symbol"),
-                order
-        );
+        return new ComposedSpotOrderDetails(new JSONObject(cancelOrderJSON(symbol, listClientOrderId, extraParams)));
     }
 
     /** Request to get OCO order status
@@ -3766,7 +3673,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return spot account information response as SpotAccountInformation object
      * **/
     public SpotAccountInformation getObjectSpotAccountInformation() throws Exception {
-        return assembleSpotAccountInformationObject(new JSONObject(getSpotAccountInformation()));
+        return new SpotAccountInformation(new JSONObject(getSpotAccountInformation()));
     }
 
     /** Request to get spot account information
@@ -3797,26 +3704,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return spot account information response as SpotAccountInformation object
      * **/
     public SpotAccountInformation getObjectSpotAccountInformation(double recvWindow) throws Exception {
-        return assembleSpotAccountInformationObject(new JSONObject(getSpotAccountInformation(recvWindow)));
-    }
-
-    /** Method to assemble an SpotAccountInformation object
-     * @param #jsonAccount: obtained from Binance's request
-     * @return a SpotAccountInformation object with response data
-     * **/
-    private SpotAccountInformation assembleSpotAccountInformationObject(JSONObject jsonAccount){
-        return new SpotAccountInformation(jsonAccount.getDouble("makerCommission"),
-                jsonAccount.getDouble("takerCommission"),
-                jsonAccount.getDouble("buyerCommission"),
-                jsonAccount.getDouble("sellerCommission"),
-                jsonAccount.getBoolean("canTrade"),
-                jsonAccount.getBoolean("canWithdraw"),
-                jsonAccount.getBoolean("canDeposit"),
-                jsonAccount.getBoolean("brokered"),
-                jsonAccount.getLong("updateTime"),
-                jsonAccount.getString("accountType"),
-                jsonAccount
-        );
+        return new SpotAccountInformation(new JSONObject(getSpotAccountInformation(recvWindow)));
     }
 
     /** Request to get Account Trade List
@@ -3889,29 +3777,16 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return assembleSpotAccountTradeList(new JSONArray(getAccountTradeList(symbol,extraParams)));
     }
 
-    /** Method to assemble an SpotAccountTradeList object
+    /**
+     * Method to assemble an SpotAccountTradeList object
+     *
      * @param #jsonTrades: obtained from Binance's request
      * @return a SpotAccountTradeList object with response data
-     * **/
-    private ArrayList<SpotAccountTradeList> assembleSpotAccountTradeList(JSONArray jsonTrades){
+     **/
+    private ArrayList<SpotAccountTradeList> assembleSpotAccountTradeList(JSONArray jsonTrades) {
         ArrayList<SpotAccountTradeList> spotAccountTradeLists = new ArrayList<>();
-        for (int j = 0; j < jsonTrades.length(); j++){
-            JSONObject trade = jsonTrades.getJSONObject(j);
-            spotAccountTradeLists.add(new SpotAccountTradeList(trade.getString("symbol"),
-                    trade.getLong("id"),
-                    trade.getLong("orderId"),
-                    trade.getLong("orderListId"),
-                    trade.getDouble("price"),
-                    trade.getDouble("qty"),
-                    trade.getDouble("quoteQty"),
-                    trade.getDouble("commission"),
-                    trade.getString("commissionAsset"),
-                    trade.getLong("time"),
-                    trade.getBoolean("isBuyer"),
-                    trade.getBoolean("isMaker"),
-                    trade.getBoolean("isBestMatch")
-            ));
-        }
+        for (int j = 0; j < jsonTrades.length(); j++)
+            spotAccountTradeLists.add(new SpotAccountTradeList(jsonTrades.getJSONObject(j)));
         return spotAccountTradeLists;
     }
 
@@ -3976,21 +3851,16 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return assembleOrderCountUsageList(new JSONArray(getCurrentOrderCountUsage(recvWindow)));
     }
 
-    /** Method to assemble an OrderCountUsage object
+    /**
+     * Method to assemble an OrderCountUsage object
+     *
      * @param #jsonCount: obtained from Binance's request
      * @return a OrderCountUsage object with response data
-     * **/
-    private ArrayList<OrderCountUsage> assembleOrderCountUsageList(JSONArray jsonCount){
+     **/
+    private ArrayList<OrderCountUsage> assembleOrderCountUsageList(JSONArray jsonCount) {
         ArrayList<OrderCountUsage> orderCountUsages = new ArrayList<>();
-        for (int j = 0; j < jsonCount.length(); j++){
-            JSONObject order = jsonCount.getJSONObject(j);
-            orderCountUsages.add(new OrderCountUsage(order.getString("rateLimitType"),
-                    order.getString("interval"),
-                    order.getDouble("intervalNum"),
-                    order.getDouble("limit"),
-                    order.getInt("count")
-            ));
-        }
+        for (int j = 0; j < jsonCount.length(); j++)
+            orderCountUsages.add(new OrderCountUsage(jsonCount.getJSONObject(j)));
         return orderCountUsages;
     }
 

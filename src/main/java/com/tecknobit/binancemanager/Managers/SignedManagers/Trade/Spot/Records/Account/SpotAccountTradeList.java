@@ -1,6 +1,9 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account;
 
 import com.tecknobit.binancemanager.Managers.Market.Records.Trade.Trade;
+import org.json.JSONObject;
+
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
 
 /**
  *  The {@code SpotAccountTradeList} class is useful to format SpotAccountTradeList object
@@ -18,13 +21,13 @@ public class SpotAccountTradeList extends Trade {
 
     /**
      * {@code orderId} is instance that memorizes order identifier
-     * **/
-    private final double orderId;
+     **/
+    private final long orderId;
 
     /**
      * {@code orderListId} is instance that memorizes order list identifier
-     * **/
-    private final double orderListId;
+     **/
+    private final long orderListId;
 
     /**
      * {@code commission} is instance that memorizes commission value
@@ -56,7 +59,7 @@ public class SpotAccountTradeList extends Trade {
      * @param commissionAsset: commission asset value
      * @param isMaker: is maker
      * **/
-    public SpotAccountTradeList(String symbol, long id, double orderId, double orderListId, double price, double qty,
+    public SpotAccountTradeList(String symbol, long id, long orderId, long orderListId, double price, double qty,
                                 double quoteQty, double commission, String commissionAsset, long time,
                                 boolean isBuyerMaker, boolean isMaker, boolean isBestMatch) {
         super(id, price, qty, quoteQty, time, isBuyerMaker, isBestMatch);
@@ -68,20 +71,46 @@ public class SpotAccountTradeList extends Trade {
         this.isMaker = isMaker;
     }
 
+    /**
+     * Constructor to init {@link SpotAccountTradeList} object
+     *
+     * @param spotAccountTradeList: spot account trade list details as {@link JSONObject}
+     **/
+    public SpotAccountTradeList(JSONObject spotAccountTradeList) {
+        super(spotAccountTradeList);
+        symbol = spotAccountTradeList.getString("symbol");
+        orderId = spotAccountTradeList.getLong("orderId");
+        orderListId = spotAccountTradeList.getLong("orderListId");
+        commission = spotAccountTradeList.getDouble("commission");
+        commissionAsset = spotAccountTradeList.getString("commissionAsset");
+        isMaker = spotAccountTradeList.getBoolean("isMaker");
+    }
+
     public String getSymbol() {
         return symbol;
     }
 
-    public double getOrderId() {
+    public long getOrderId() {
         return orderId;
     }
 
-    public double getOrderListId() {
+    public long getOrderListId() {
         return orderListId;
     }
 
     public double getCommission() {
         return commission;
+    }
+
+    /**
+     * Method to get {@link #commission} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #commission} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getCommission(int decimals) {
+        return roundValue(commission, decimals);
     }
 
     public String getCommissionAsset() {

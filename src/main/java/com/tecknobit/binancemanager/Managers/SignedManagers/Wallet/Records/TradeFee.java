@@ -1,11 +1,16 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records;
 
+import org.json.JSONObject;
+
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
- *  The {@code TradeFee} class is useful to manage TradeFee Binance request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code TradeFee} class is useful to manage TradeFee Binance request
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data</a>
+ **/
 
 public class TradeFee {
 
@@ -35,6 +40,17 @@ public class TradeFee {
         this.takerCommission = takerCommission;
     }
 
+    /**
+     * Constructor to init {@link TradeFee} object
+     *
+     * @param tradeFee: trade fee details as {@link JSONObject}
+     **/
+    public TradeFee(JSONObject tradeFee) {
+        symbol = tradeFee.getString("symbol");
+        makerCommission = tradeFee.getDouble("makerCommission");
+        takerCommission = tradeFee.getDouble("takerCommission");
+    }
+
     public String getSymbol() {
         return symbol;
     }
@@ -43,8 +59,30 @@ public class TradeFee {
         return makerCommission;
     }
 
+    /**
+     * Method to get {@link #makerCommission} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #makerCommission} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getMakerCommission(int decimals) {
+        return roundValue(makerCommission, decimals);
+    }
+
     public double getTakerCommission() {
         return takerCommission;
+    }
+
+    /**
+     * Method to get {@link #takerCommission} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #takerCommission} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getTakerCommission(int decimals) {
+        return roundValue(takerCommission, decimals);
     }
 
     @Override

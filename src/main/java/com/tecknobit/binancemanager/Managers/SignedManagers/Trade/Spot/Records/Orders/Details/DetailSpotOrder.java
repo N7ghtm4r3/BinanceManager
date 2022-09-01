@@ -80,27 +80,6 @@ public class DetailSpotOrder extends ResultSpotOrder implements BinanceManager.B
         return hOrder.getDouble("icebergQty");
     }
 
-    /** Method to assemble a DetailSpotOrder object
-     * @param response: obtained from Binance's request
-     * @return an DetailSpotOrder object with response data
-     * **/
-    public static DetailSpotOrder assembleDetailSpotOrderObject(JSONObject response){
-        return new DetailSpotOrder(response.getString("symbol"),
-                response.getLong("orderId"),
-                response.getLong("orderListId"),
-                response.getString("clientOrderId"),
-                response.getString("origClientOrderId"),
-                response.getDouble("price"),
-                response.getDouble("origQty"),
-                response.getDouble("executedQty"),
-                response.getDouble("cummulativeQuoteQty"),
-                response.getString("status"),
-                response.getString("timeInForce"),
-                response.getString("type"),
-                response.getString("side"),
-                response);
-    }
-
     /**
      * Method to get error code <br>
      * Any params required

@@ -1,13 +1,15 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Spot.Records.Account;
 
 import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.SpotAccountSnapshot;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.AccountSnapshotSpot.BalanceSpot;
-import static com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.AccountSnapshotSpot.getBalancesSpot;
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.SpotAccountSnapshot.SpotBalance;
+import static com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.SpotAccountSnapshot.getBalancesSpot;
 
 /**
  *  The {@code SpotAccountInformation} class is useful to format SpotAccountInformation object
@@ -69,9 +71,9 @@ public class SpotAccountInformation {
     private final String accountType;
 
     /**
-     * {@code balanceSpotsList} is instance that memorizes balance spot list
-     * **/
-    private ArrayList<BalanceSpot> balanceSpotsList;
+     * {@code spotsListBalance} is instance that memorizes balance spot list
+     **/
+    private ArrayList<SpotAccountSnapshot.SpotBalance> spotsListBalance;
 
     /**
      * {@code permissionsList} is instance that memorizes permissions list
@@ -89,48 +91,83 @@ public class SpotAccountInformation {
      * @param brokered: is brokered
      * @param updateTime: update time value
      * @param accountType: account type value
-     * @param jsonAccount: account details information in JSON format
+     * @param spotsListBalance: balance spot list
+     * @param permissionsList: permissions list
      * @throws IllegalArgumentException if parameters range is not respected
      * **/
     public SpotAccountInformation(double makerCommission, double takerCommission, double buyerCommission, double sellerCommission,
                                   boolean canTrade, boolean canWithdraw, boolean canDeposit, boolean brokered,
-                                  long updateTime, String accountType, JSONObject jsonAccount) {
-        if(makerCommission < 0)
+                                  long updateTime, String accountType, ArrayList<SpotBalance> spotsListBalance,
+                                  ArrayList<Permission> permissionsList) {
+        if (makerCommission < 0)
             throw new IllegalArgumentException("Maker commission value cannot be less than 0");
         else
             this.makerCommission = makerCommission;
-        if(takerCommission < 0)
+        if (takerCommission < 0)
             throw new IllegalArgumentException("Taker commission value cannot be less than 0");
         else
             this.takerCommission = takerCommission;
-        if(buyerCommission < 0)
+        if (buyerCommission < 0)
             throw new IllegalArgumentException("Buyer commission value cannot be less than 0");
         else
             this.buyerCommission = buyerCommission;
-        if(sellerCommission < 0)
+        if (sellerCommission < 0)
             throw new IllegalArgumentException("Seller commission value cannot be less than 0");
         else
             this.sellerCommission = sellerCommission;
         this.canTrade = canTrade;
         this.canWithdraw = canWithdraw;
         this.canDeposit = canDeposit;
-        if(updateTime < 0)
+        if (updateTime < 0)
             throw new IllegalArgumentException("Update time value cannot be less than 0");
         else
             this.updateTime = updateTime;
         this.accountType = accountType;
-        JsonHelper jsonHelper = new JsonHelper(jsonAccount);
-        balanceSpotsList = getBalancesSpot(jsonHelper.getJSONArray("balances"));
-        loadPermissionList(jsonHelper.getJSONArray("permissionsList"));
+        this.spotsListBalance = spotsListBalance;
+        this.permissionsList = permissionsList;
     }
 
-    /** Method to load Permissions list
+    /**
+     * Constructor to init {@link SpotAccountInformation} object
+     *
+     * @param spotAccountInformation: spot account details as {@link JSONObject}
+     * @throws IllegalArgumentException if parameters range is not respected
+     **/
+    public SpotAccountInformation(JSONObject spotAccountInformation) {
+        makerCommission = spotAccountInformation.getDouble("makerCommission");
+        if (makerCommission < 0)
+            throw new IllegalArgumentException("Maker commission value cannot be less than 0");
+        takerCommission = spotAccountInformation.getDouble("takerCommission");
+        if (takerCommission < 0)
+            throw new IllegalArgumentException("Taker commission value cannot be less than 0");
+        buyerCommission = spotAccountInformation.getDouble("buyerCommission");
+        if (buyerCommission < 0)
+            throw new IllegalArgumentException("Buyer commission value cannot be less than 0");
+        sellerCommission = spotAccountInformation.getDouble("sellerCommission");
+        if (sellerCommission < 0)
+            throw new IllegalArgumentException("Seller commission value cannot be less than 0");
+        canTrade = spotAccountInformation.getBoolean("canTrade");
+        canWithdraw = spotAccountInformation.getBoolean("canWithdraw");
+        canDeposit = spotAccountInformation.getBoolean("canDeposit");
+        brokered = spotAccountInformation.getBoolean("brokered");
+        updateTime = spotAccountInformation.getLong("updateTime");
+        if (updateTime < 0)
+            throw new IllegalArgumentException("Update time value cannot be less than 0");
+        accountType = spotAccountInformation.getString("accountType");
+        JsonHelper hSpotAccount = new JsonHelper(spotAccountInformation);
+        spotsListBalance = getBalancesSpot(hSpotAccount.getJSONArray("balances", new JSONArray()));
+        loadPermissionList(hSpotAccount.getJSONArray("permissionsList", new JSONArray()));
+    }
+
+    /**
+     * Method to load Permissions list
+     *
      * @param jsonPermissions: obtained from Binance's request
-     * any return
-     * **/
-    private void loadPermissionList(JSONArray jsonPermissions){
+     *                         any return
+     **/
+    private void loadPermissionList(JSONArray jsonPermissions) {
         permissionsList = new ArrayList<>();
-        if(jsonPermissions != null)
+        if (jsonPermissions != null)
             for (int j = 0; j < jsonPermissions.length(); j++)
                 permissionsList.add(new Permission(jsonPermissions.getString(j)));
     }
@@ -139,12 +176,25 @@ public class SpotAccountInformation {
         return makerCommission;
     }
 
-    /** Method to set {@link #makerCommission}
+    /**
+     * Method to get {@link #makerCommission} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #makerCommission} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getMakerCommission(int decimals) {
+        return roundValue(makerCommission, decimals);
+    }
+
+    /**
+     * Method to set {@link #makerCommission}
+     *
      * @param makerCommission: maker commission
      * @throws IllegalArgumentException when maker commission value is less than 0
-     * **/
+     **/
     public void setMakerCommission(double makerCommission) {
-        if(makerCommission < 0)
+        if (makerCommission < 0)
             throw new IllegalArgumentException("Maker commission value cannot be less than 0");
         this.makerCommission = makerCommission;
     }
@@ -153,12 +203,25 @@ public class SpotAccountInformation {
         return takerCommission;
     }
 
-    /** Method to set {@link #takerCommission}
+    /**
+     * Method to get {@link #takerCommission} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #takerCommission} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getTakerCommission(int decimals) {
+        return roundValue(takerCommission, decimals);
+    }
+
+    /**
+     * Method to set {@link #takerCommission}
+     *
      * @param takerCommission: taker commission
      * @throws IllegalArgumentException when taker commission value is less than 0
-     * **/
+     **/
     public void setTakerCommission(double takerCommission) {
-        if(takerCommission < 0)
+        if (takerCommission < 0)
             throw new IllegalArgumentException("Taker commission value cannot be less than 0");
         this.takerCommission = takerCommission;
     }
@@ -167,12 +230,25 @@ public class SpotAccountInformation {
         return buyerCommission;
     }
 
-    /** Method to set {@link #buyerCommission}
+    /**
+     * Method to get {@link #buyerCommission} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #buyerCommission} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getBuyerCommission(int decimals) {
+        return roundValue(buyerCommission, decimals);
+    }
+
+    /**
+     * Method to set {@link #buyerCommission}
+     *
      * @param buyerCommission: buyer commission
      * @throws IllegalArgumentException when buyer commission value is less than 0
-     * **/
+     **/
     public void setBuyerCommission(double buyerCommission) {
-        if(buyerCommission < 0)
+        if (buyerCommission < 0)
             throw new IllegalArgumentException("Buyer commission value cannot be less than 0");
         this.buyerCommission = buyerCommission;
     }
@@ -181,12 +257,25 @@ public class SpotAccountInformation {
         return sellerCommission;
     }
 
-    /** Method to set {@link #sellerCommission}
+    /**
+     * Method to get {@link #sellerCommission} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #sellerCommission} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getSellerCommission(int decimals) {
+        return roundValue(sellerCommission, decimals);
+    }
+
+    /**
+     * Method to set {@link #sellerCommission}
+     *
      * @param sellerCommission: seller commission
      * @throws IllegalArgumentException when seller commission value is less than 0
-     * **/
+     **/
     public void setSellerCommission(double sellerCommission) {
-        if(sellerCommission < 0)
+        if (sellerCommission < 0)
             throw new IllegalArgumentException("Seller commission value cannot be less than 0");
         this.sellerCommission = sellerCommission;
     }
@@ -215,16 +304,26 @@ public class SpotAccountInformation {
         this.canDeposit = canDeposit;
     }
 
+    public boolean isBrokered() {
+        return brokered;
+    }
+
+    public void setBrokered(boolean brokered) {
+        this.brokered = brokered;
+    }
+
     public long getUpdateTime() {
         return updateTime;
     }
 
-    /** Method to set {@link #updateTime}
+    /**
+     * Method to set {@link #updateTime}
+     *
      * @param updateTime: update time value
      * @throws IllegalArgumentException when update time value is less than 0
-     * **/
+     **/
     public void setUpdateTime(long updateTime) {
-        if(updateTime < 0)
+        if (updateTime < 0)
             throw new IllegalArgumentException("Update time value cannot be less than 0");
         this.updateTime = updateTime;
     }
@@ -233,25 +332,25 @@ public class SpotAccountInformation {
         return accountType;
     }
 
-    public ArrayList<BalanceSpot> getBalancesSpotsList() {
-        return balanceSpotsList;
+    public ArrayList<SpotAccountSnapshot.SpotBalance> getBalancesSpotsList() {
+        return spotsListBalance;
     }
 
-    public void setBalancesSpotsList(ArrayList<BalanceSpot> balanceSpotsList) {
-        this.balanceSpotsList = balanceSpotsList;
+    public void setBalancesSpotsList(ArrayList<SpotAccountSnapshot.SpotBalance> spotsListBalance) {
+        this.spotsListBalance = spotsListBalance;
     }
 
-    public void insertBalanceSpot(BalanceSpot balanceSpot){
-        if(!balanceSpotsList.contains(balanceSpot))
-            balanceSpotsList.add(balanceSpot);
+    public void insertBalanceSpot(SpotAccountSnapshot.SpotBalance spotBalance) {
+        if (!spotsListBalance.contains(spotBalance))
+            spotsListBalance.add(spotBalance);
     }
 
-    public boolean removeBalanceSpot(BalanceSpot balanceSpot){
-        return balanceSpotsList.remove(balanceSpot);
+    public boolean removeBalanceSpot(SpotAccountSnapshot.SpotBalance spotBalance) {
+        return spotsListBalance.remove(spotBalance);
     }
 
-    public BalanceSpot getBalanceSpot(int index){
-        return balanceSpotsList.get(index);
+    public SpotAccountSnapshot.SpotBalance getBalanceSpot(int index) {
+        return spotsListBalance.get(index);
     }
 
     public ArrayList<Permission> getPermissionsList() {
@@ -287,7 +386,7 @@ public class SpotAccountInformation {
                 ", canDeposit=" + canDeposit +
                 ", updateTime=" + updateTime +
                 ", accountType='" + accountType + '\'' +
-                ", balanceSpotsList=" + balanceSpotsList +
+                ", spotsListBalance=" + spotsListBalance +
                 ", permissionsList=" + permissionsList +
                 '}';
     }

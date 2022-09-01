@@ -1,12 +1,19 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Asset;
 
+import com.tecknobit.apimanager.Tools.Formatters.JsonHelper;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
- *  The {@code ConvertibleBNBAssets} class is useful to manage ConvertibleBNBAssets Binance request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data</a>
- * **/
+ * The {@code ConvertibleBNBAssets} class is useful to create a Binance's convertible BNB Asset object
+ *
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data</a>
+ **/
 
 public class ConvertibleBNBAssets {
 
@@ -35,7 +42,6 @@ public class ConvertibleBNBAssets {
      * @param totalTransferBtc: total transfer of Bitcoin
      * @param totalTransferBNB: total transfer of BNB
      * @param dribbletPercentage: dribblet percentage value
-     * @throws IllegalArgumentException if parameters range is not respected
      * **/
     public ConvertibleBNBAssets(ArrayList<AssetDetails> assetsDetails, double totalTransferBtc, double totalTransferBNB,
                                 double dribbletPercentage) {
@@ -43,6 +49,21 @@ public class ConvertibleBNBAssets {
         this.totalTransferBtc = totalTransferBtc;
         this.totalTransferBNB = totalTransferBNB;
         this.dribbletPercentage = dribbletPercentage;
+    }
+
+    /**
+     * Constructor to init {@link ConvertibleBNBAssets} object
+     *
+     * @param convertibleBNBAsset: convertible bnb asset details as {@link JSONObject}
+     **/
+    public ConvertibleBNBAssets(JSONObject convertibleBNBAsset) {
+        assetsDetailsList = new ArrayList<>();
+        JSONArray convertibleAssets = JsonHelper.getJSONArray(convertibleBNBAsset, "details", new JSONArray());
+        for (int j = 0; j < convertibleAssets.length(); j++)
+            assetsDetailsList.add(new AssetDetails(convertibleAssets.getJSONObject(j)));
+        totalTransferBtc = convertibleBNBAsset.getDouble("totalTransferBtc");
+        totalTransferBNB = convertibleBNBAsset.getDouble("totalTransferBNB");
+        dribbletPercentage = convertibleBNBAsset.getDouble("dribbletPercentage");
     }
 
     public ArrayList<AssetDetails> getAssetsDetailsList() {
@@ -53,8 +74,8 @@ public class ConvertibleBNBAssets {
         this.assetsDetailsList = assetsDetailsList;
     }
 
-    public void insertAssetDetails(AssetDetails assetDetails){
-        if(!assetsDetailsList.contains(assetDetails))
+    public void insertAssetDetails(AssetDetails assetDetails) {
+        if (!assetsDetailsList.contains(assetDetails))
             assetsDetailsList.add(assetDetails);
     }
 
@@ -62,7 +83,7 @@ public class ConvertibleBNBAssets {
         return assetsDetailsList.remove(assetDetails);
     }
 
-    public AssetDetails getAssetDetails(int index){
+    public AssetDetails getAssetDetails(int index) {
         return assetsDetailsList.get(index);
     }
 
@@ -70,12 +91,25 @@ public class ConvertibleBNBAssets {
         return totalTransferBtc;
     }
 
-    /** Method to set {@link #totalTransferBtc}
+    /**
+     * Method to get {@link #totalTransferBtc} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #totalTransferBtc} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getTotalTransferBtc(int decimals) {
+        return roundValue(totalTransferBtc, decimals);
+    }
+
+    /**
+     * Method to set {@link #totalTransferBtc}
+     *
      * @param totalTransferBtc: total transfer of Bitcoin
      * @throws IllegalArgumentException when total transfer of Bitcoin value is less than 0
-     * **/
+     **/
     public void setTotalTransferBtc(double totalTransferBtc) {
-        if(totalTransferBtc < 0)
+        if (totalTransferBtc < 0)
             throw new IllegalArgumentException("Total transfer BTC value cannot be less than 0");
         this.totalTransferBtc = totalTransferBtc;
     }
@@ -84,12 +118,25 @@ public class ConvertibleBNBAssets {
         return totalTransferBNB;
     }
 
-    /** Method to set {@link #totalTransferBNB}
+    /**
+     * Method to get {@link #totalTransferBNB} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #totalTransferBNB} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getTotalTransferBNB(int decimals) {
+        return roundValue(totalTransferBNB, decimals);
+    }
+
+    /**
+     * Method to set {@link #totalTransferBNB}
+     *
      * @param totalTransferBNB: total transfer of BNB
      * @throws IllegalArgumentException when total transfer of BNB value is less than 0
-     * **/
+     **/
     public void setTotalTransferBNB(double totalTransferBNB) {
-        if(totalTransferBNB < 0)
+        if (totalTransferBNB < 0)
             throw new IllegalArgumentException("Total transfer BNB value cannot be less than 0");
         this.totalTransferBNB = totalTransferBNB;
     }
@@ -98,12 +145,25 @@ public class ConvertibleBNBAssets {
         return dribbletPercentage;
     }
 
-    /** Method to set {@link #dribbletPercentage}
+    /**
+     * Method to get {@link #dribbletPercentage} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #dribbletPercentage} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getDribbletPercentage(int decimals) {
+        return roundValue(dribbletPercentage, decimals);
+    }
+
+    /**
+     * Method to set {@link #dribbletPercentage}
+     *
      * @param dribbletPercentage: dribblet percentage value
      * @throws IllegalArgumentException when dribblet percentage value is less than 0
-     * **/
+     **/
     public void setDribbletPercentage(double dribbletPercentage) {
-        if(dribbletPercentage < 0)
+        if (dribbletPercentage < 0)
             throw new IllegalArgumentException("Dribblet percentage value cannot be less than 0");
         this.dribbletPercentage = dribbletPercentage;
     }
@@ -119,10 +179,8 @@ public class ConvertibleBNBAssets {
     }
 
     /**
-     *  The {@code AssetDetail} class is useful to obtain and format AssetDetail object
-     *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
-     *      https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data</a>
-     * **/
+     * The {@code AssetDetail} class is useful to create an asset with its details
+     **/
 
     public static final class AssetDetails {
 
@@ -187,14 +245,40 @@ public class ConvertibleBNBAssets {
                 throw new IllegalArgumentException("To BNB value cannot be less than 0");
             else
                 this.toBNB = toBNB;
-            if(toBNBOffExchange < 0)
+            if (toBNBOffExchange < 0)
                 throw new IllegalArgumentException("To BNB off exchange value cannot be less than 0");
             else
                 this.toBNBOffExchange = toBNBOffExchange;
-            if(exchange < 0)
+            if (exchange < 0)
                 throw new IllegalArgumentException("Exchange value cannot be less than 0");
             else
                 this.exchange = exchange;
+        }
+
+        /**
+         * Constructor to init {@link AssetDetails} object
+         *
+         * @param assetDetails: asset details as {@link JSONObject}
+         * @throws IllegalArgumentException if parameters range is not respected
+         **/
+        public AssetDetails(JSONObject assetDetails) {
+            asset = assetDetails.getString("asset");
+            assetFullName = assetDetails.getString("assetFullName");
+            amountFree = assetDetails.getDouble("amountFree");
+            if (amountFree < 0)
+                throw new IllegalArgumentException("Amount free value cannot be less than 0");
+            toBTC = assetDetails.getDouble("toBTC");
+            if (toBTC < 0)
+                throw new IllegalArgumentException("To BTC value cannot be less than 0");
+            toBNB = assetDetails.getDouble("toBNB");
+            if (toBNB < 0)
+                throw new IllegalArgumentException("To BNB value cannot be less than 0");
+            toBNBOffExchange = assetDetails.getDouble("toBNBOffExchange");
+            if (toBNBOffExchange < 0)
+                throw new IllegalArgumentException("To BNB off exchange value cannot be less than 0");
+            exchange = assetDetails.getDouble("exchange");
+            if (exchange < 0)
+                throw new IllegalArgumentException("Exchange value cannot be less than 0");
         }
 
         public String getAsset() {
@@ -209,12 +293,25 @@ public class ConvertibleBNBAssets {
             return amountFree;
         }
 
-        /** Method to set {@link #amountFree}
+        /**
+         * Method to get {@link #amountFree} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #amountFree} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getAmountFree(int decimals) {
+            return roundValue(amountFree, decimals);
+        }
+
+        /**
+         * Method to set {@link #amountFree}
+         *
          * @param amountFree: amount free value
          * @throws IllegalArgumentException when amount free value is less than 0
-         * **/
+         **/
         public void setAmountFree(double amountFree) {
-            if(amountFree < 0)
+            if (amountFree < 0)
                 throw new IllegalArgumentException("Amount free value cannot be less than 0");
             this.amountFree = amountFree;
         }
@@ -223,12 +320,25 @@ public class ConvertibleBNBAssets {
             return toBTC;
         }
 
-        /** Method to set {@link #toBTC}
+        /**
+         * Method to get {@link #toBTC} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #toBTC} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getToBTC(int decimals) {
+            return roundValue(toBTC, decimals);
+        }
+
+        /**
+         * Method to set {@link #toBTC}
+         *
          * @param toBTC: to Bitcoin value
          * @throws IllegalArgumentException when to Bitcoin value is less than 0
-         * **/
+         **/
         public void setToBTC(double toBTC) {
-            if(toBTC < 0)
+            if (toBTC < 0)
                 throw new IllegalArgumentException("To BTC value cannot be less than 0");
             this.toBTC = toBTC;
         }
@@ -237,12 +347,25 @@ public class ConvertibleBNBAssets {
             return toBNB;
         }
 
-        /** Method to set {@link #toBNB}
+        /**
+         * Method to get {@link #toBNB} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #toBNB} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getToBNB(int decimals) {
+            return roundValue(toBNB, decimals);
+        }
+
+        /**
+         * Method to set {@link #toBNB}
+         *
          * @param toBNB: to BNB value
          * @throws IllegalArgumentException when to BNB value is less than 0
-         * **/
+         **/
         public void setToBNB(double toBNB) {
-            if(toBNB < 0)
+            if (toBNB < 0)
                 throw new IllegalArgumentException("To BNB value cannot be less than 0");
             this.toBNB = toBNB;
         }
@@ -251,12 +374,25 @@ public class ConvertibleBNBAssets {
             return toBNBOffExchange;
         }
 
-        /** Method to set {@link #toBNBOffExchange}
+        /**
+         * Method to get {@link #toBNBOffExchange} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #toBNBOffExchange} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getToBNBOffExchange(int decimals) {
+            return roundValue(toBNBOffExchange, decimals);
+        }
+
+        /**
+         * Method to set {@link #toBNBOffExchange}
+         *
          * @param toBNBOffExchange: to BNB of exchange value
          * @throws IllegalArgumentException when to BNB of exchange value is less than 0
-         * **/
+         **/
         public void setToBNBOffExchange(double toBNBOffExchange) {
-            if(toBNBOffExchange < 0)
+            if (toBNBOffExchange < 0)
                 throw new IllegalArgumentException("To BNB off exchange value cannot be less than 0");
             this.toBNBOffExchange = toBNBOffExchange;
         }
@@ -265,12 +401,25 @@ public class ConvertibleBNBAssets {
             return exchange;
         }
 
-        /** Method to set {@link #exchange}
+        /**
+         * Method to get {@link #exchange} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #exchange} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getExchange(int decimals) {
+            return roundValue(exchange, decimals);
+        }
+
+        /**
+         * Method to set {@link #exchange}
+         *
          * @param exchange: exchange value
          * @throws IllegalArgumentException when exchange value value is less than 0
-         * **/
+         **/
         public void setExchange(double exchange) {
-            if(exchange < 0)
+            if (exchange < 0)
                 throw new IllegalArgumentException("Exchange value cannot be less than 0");
             this.exchange = exchange;
         }

@@ -1,10 +1,15 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Orders.Response;
 
+import org.json.JSONObject;
+
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
  * The {@code MarginOrderStatus} class is useful to format ResultMarginOrder object of Binance's request Margin Account New Order
+ *
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
- *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
- * **/
+ * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
+ **/
 
 public class MarginOrderStatus extends ResultMarginOrder {
 
@@ -59,8 +64,32 @@ public class MarginOrderStatus extends ResultMarginOrder {
         this.time = time;
     }
 
+    /**
+     * Constructor to init {@link MarginOrderStatus} object
+     *
+     * @param resultMarginOrder: result margin order details as {@link JSONObject}
+     **/
+    public MarginOrderStatus(JSONObject resultMarginOrder) {
+        super(resultMarginOrder);
+        icebergQty = resultMarginOrder.getDouble("icebergQty");
+        isWorking = resultMarginOrder.getBoolean("isWorking");
+        stopPrice = resultMarginOrder.getDouble("stopPrice");
+        time = resultMarginOrder.getLong("time");
+    }
+
     public double getIcebergQty() {
         return icebergQty;
+    }
+
+    /**
+     * Method to get {@link #icebergQty} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #icebergQty} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getIcebergQty(int decimals) {
+        return roundValue(icebergQty, decimals);
     }
 
     public boolean isWorking() {
@@ -71,11 +100,22 @@ public class MarginOrderStatus extends ResultMarginOrder {
         return stopPrice;
     }
 
+    /**
+     * Method to get {@link #stopPrice} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #stopPrice} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getStopPrice(int decimals) {
+        return roundValue(stopPrice, decimals);
+    }
+
     public long getTime() {
         return time;
     }
 
-    public long getUpdateTime(){
+    public long getUpdateTime() {
         return transactTime;
     }
 

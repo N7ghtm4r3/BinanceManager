@@ -1,11 +1,16 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.Deposit;
 
+import org.json.JSONObject;
+
+import static com.tecknobit.apimanager.Tools.Trading.TradingTools.roundValue;
+
 /**
- *  The {@code Deposit} class is useful to manage Deposit Binance request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code Deposit} class is useful to manage Deposit Binance request
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data</a>
+ **/
 
 public class Deposit {
 
@@ -93,11 +98,11 @@ public class Deposit {
         this.address = address;
         this.addressTag = addressTag;
         this.txId = txId;
-        if(insertTime < 0)
+        if (insertTime < 0)
             throw new IllegalArgumentException("Insert time value cannot be less than 0");
         else
             this.insertTime = insertTime;
-        if(transferType < 0 || transferType > 1)
+        if (transferType < 0 || transferType > 1)
             throw new IllegalArgumentException("Status value can only be from 0 to 1");
         else
             this.transferType = transferType;
@@ -105,16 +110,57 @@ public class Deposit {
         this.confirmTimes = confirmTimes;
     }
 
+    /**
+     * Constructor to init {@link Deposit} object
+     *
+     * @param deposit: deposit details as {@link JSONObject}
+     * @throws IllegalArgumentException if parameters range is not respected
+     **/
+    public Deposit(JSONObject deposit) {
+        amount = deposit.getDouble("amount");
+        if (amount < 0)
+            throw new IllegalArgumentException("Amount value cannot be less than 0");
+        coin = deposit.getString("coin");
+        network = deposit.getString("network");
+        status = deposit.getInt("status");
+        if (status < 0 || status > 6)
+            throw new IllegalArgumentException("Status value can only be from 0 to 6");
+        address = deposit.getString("address");
+        addressTag = deposit.getString("addressTag");
+        txId = deposit.getString("txId");
+        insertTime = deposit.getLong("insertTime");
+        if (insertTime < 0)
+            throw new IllegalArgumentException("Insert time value cannot be less than 0");
+        transferType = deposit.getInt("transferType");
+        if (transferType < 0 || transferType > 1)
+            throw new IllegalArgumentException("Status value can only be from 0 to 1");
+        unlockConfirm = deposit.getString("unlockConfirm");
+        confirmTimes = deposit.getString("confirmTimes");
+    }
+
     public double getAmount() {
         return amount;
     }
 
-    /** Method to set {@link #amount}
+    /**
+     * Method to get {@link #amount} instance
+     *
+     * @param decimals: number of digits to round final value
+     * @return {@link #amount} instance rounded with decimal digits inserted
+     * @throws IllegalArgumentException if decimalDigits is negative
+     **/
+    public double getAmount(int decimals) {
+        return roundValue(amount, decimals);
+    }
+
+    /**
+     * Method to set {@link #amount}
+     *
      * @param amount: amount value
      * @throws IllegalArgumentException when amount value is less than 0
-     * **/
+     **/
     public void setAmount(double amount) {
-        if(amount < 0)
+        if (amount < 0)
             throw new IllegalArgumentException("Amount value cannot be less than 0");
         this.amount = amount;
     }

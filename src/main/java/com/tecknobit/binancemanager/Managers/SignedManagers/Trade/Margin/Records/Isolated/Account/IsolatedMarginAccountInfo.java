@@ -1,6 +1,6 @@
 package com.tecknobit.binancemanager.Managers.SignedManagers.Trade.Margin.Records.Isolated.Account;
 
-import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.AccountSnapshotMargin;
+import com.tecknobit.binancemanager.Managers.SignedManagers.Wallet.Records.AccountSnapshots.MarginAccountSnapshot;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -409,7 +409,7 @@ public class IsolatedMarginAccountInfo {
      * The {@code IsolatedMarginAsset} class is useful to create an isolated margin asset object
      **/
 
-    public static class IsolatedMarginAsset extends AccountSnapshotMargin.UserMarginAsset {
+    public static class IsolatedMarginAsset extends MarginAccountSnapshot.UserMarginAsset {
 
         /**
          * {@code borrowEnabled} is instance if borrow is enabled for asset
