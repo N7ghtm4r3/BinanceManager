@@ -67,7 +67,7 @@ public class ExchangeInformation {
      **/
     public ExchangeInformation(JSONObject exchangeInfo) {
         timezone = exchangeInfo.getString("timezone");
-        serverTime = exchangeInfo.getLong("timezone");
+        serverTime = exchangeInfo.getLong("serverTime");
         hInfo = new JsonHelper(exchangeInfo);
         assembleRateLimits();
         exchangeFilters = assembleFilters(hInfo.getJSONArray("exchangeFilters", new JSONArray()));
@@ -78,7 +78,7 @@ public class ExchangeInformation {
      * Method to assemble a Filters list
      *
      * @param jsonFilters: obtained from Binance request
-     * @return filters list as ArrayList<Filter> object
+     * @return filters list as {@link ArrayList} of {@link Filter} custom object
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
      * https://binance-docs.github.io/apidocs/spot/en/#exchange-information</a>
      **/
