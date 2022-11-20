@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code IsolatedMarginFee} class is useful to format Binance Isolated Margin Fee request response
+ * The {@code IsolatedMarginFee} class is useful to format {@code "Binance"} Isolated Margin Fee request response
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
@@ -73,7 +73,7 @@ public class IsolatedMarginFee {
     /**
      * Method to assemble a IsolatedData list
      *
-     * @param jsonIsolatedData: obtained from Binance's request
+     * @param jsonIsolatedData: obtained from {@code "Binance"}'s request
      **/
     private void loadIsolatedData(JSONArray jsonIsolatedData) {
         isolatedDataList = new ArrayList<>();

@@ -9,7 +9,7 @@ import static com.tecknobit.apimanager.formatters.JsonHelper.getJSONArray;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code MarginTransferHistory} class is useful to format Binance Margin Get Cross Transfer History request
+ * The {@code MarginTransferHistory} class is useful to format {@code "Binance"} Margin Get Cross Transfer History request
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
@@ -64,10 +64,12 @@ public class MarginTransferHistory {
             throw new IllegalArgumentException("Details are not recoverable");
     }
 
-    /** Method to load MarginTransferAssets list
-     * @param jsonTransfers: obtained from Binance's request
-     * any return
-     * **/
+    /**
+     * Method to load MarginTransferAssets list
+     *
+     * @param jsonTransfers: obtained from {@code "Binance"}'s request
+     *                       any return
+     **/
     private void loadMarginTransferAssets(JSONArray jsonTransfers) {
         marginTransferAssetsList = new ArrayList<>();
         for (int j = 0; j < jsonTransfers.length(); j++)

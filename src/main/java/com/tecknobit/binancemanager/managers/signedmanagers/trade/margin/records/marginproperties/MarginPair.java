@@ -3,7 +3,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.record
 import org.json.JSONObject;
 
 /**
- * The {@code MarginPair} class is useful to format Binance Get All Cross Margin Pairs request
+ * The {@code MarginPair} class is useful to format {@code "Binance"} Get All Cross Margin Pairs request
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-cross-margin-pairs-market_data">

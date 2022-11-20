@@ -52,7 +52,7 @@ public class MarginAccountSnapshot extends AccountSnapshot {
     /**
      * Method to assemble a {@link UserMarginAsset} list
      *
-     * @param jsonAssets: snapshotVos obtain by AccountSnapshot Binance request
+     * @param jsonAssets: snapshotVos obtain by AccountSnapshot {@code "Binance"} request
      * @return list as {@link ArrayList} of {@link UserMarginAsset}
      **/
     public static ArrayList<UserMarginAsset> assembleUserMarginAssetsList(JSONArray jsonAssets) {

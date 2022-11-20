@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code MarginPriceIndex} class is useful to format Binance Query Margin PriceIndex request
+ * The {@code MarginPriceIndex} class is useful to format {@code "Binance"} Query Margin PriceIndex request
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-priceindex-market_data">

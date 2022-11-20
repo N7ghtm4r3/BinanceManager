@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.formatters.ScientificNotationParser.sNotationParse;
 
 /**
- * The {@code SpotOrder} class is useful to manage all SpotOrder Binance request
+ * The {@code SpotOrder} class is useful to manage all SpotOrder {@code "Binance"} request
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#spot-account-trade">
@@ -51,8 +51,8 @@ public abstract class SpotOrder extends Order {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param extraParams: extraParams of the request
-     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
-     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
      * @return payload request as {@link Params}
@@ -71,8 +71,8 @@ public abstract class SpotOrder extends Order {
      * @param keyQty: key for qty value (quantity or quoteOrderQty)
      * @param qty: quantity value in the order
      * @param extraParams: extraParams of the request
-     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
-     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
      * @return payload request as {@link Params}
@@ -90,8 +90,8 @@ public abstract class SpotOrder extends Order {
      * @param key: key for value (stopPrice or trailingDelta)
      * @param value: level indicator value
      * @param extraParams: extraParams of the request
-     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
-     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
      * @return payload request as {@link Params}
@@ -112,8 +112,8 @@ public abstract class SpotOrder extends Order {
      * @param key: key for value (stopPrice or trailingDelta)
      * @param value: level indicator value
      * @param extraParams: extraParams of the request
-     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
-     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
      * @return payload request as {@link Params}
@@ -129,8 +129,8 @@ public abstract class SpotOrder extends Order {
      * @param quantity: quantity value in the order
      * @param price: price value in the order
      * @param extraParams: extraParams of the request
-     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
-     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
      * @return payload request as {@link Params}

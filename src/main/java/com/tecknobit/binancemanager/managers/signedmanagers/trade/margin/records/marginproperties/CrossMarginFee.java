@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code CrossMarginFee} class is useful to format Binance Cross Margin Fee request response
+ * The {@code CrossMarginFee} class is useful to format {@code "Binance"} Cross Margin Fee request response
  *
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data">
  * https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data</a>
@@ -83,7 +83,7 @@ public class CrossMarginFee extends IsolatedMarginFee.IsolatedData {
     /**
      * Method to load MarginablePairs list
      *
-     * @param jsonAssets: obtained from Binance's request
+     * @param jsonAssets: obtained from {@code "Binance"}'s request
      **/
     private void loadMarginablePairsList(JSONArray jsonAssets) {
         marginablePairsList = new ArrayList<>();

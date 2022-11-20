@@ -10,11 +10,12 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.common.TradeConstants.*;
 
 /**
- *  The {@code MarginForceLiquidation} class is useful to format Binance Margin Force Liquidation request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code MarginForceLiquidation} class is useful to format {@code "Binance"} Margin Force Liquidation request
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
+ **/
 
 public class MarginForceLiquidation {
 
@@ -55,7 +56,7 @@ public class MarginForceLiquidation {
     }
 
     /** Method to load ForceLiquidationAssets list
-     * @param jsonAssets: obtained from Binance's request
+     * @param jsonAssets: obtained from {@code "Binance"}'s request
      * **/
     private void loadForceLiquidationAssets(JSONArray jsonAssets) {
         forceLiquidationAssetsList = new ArrayList<>();

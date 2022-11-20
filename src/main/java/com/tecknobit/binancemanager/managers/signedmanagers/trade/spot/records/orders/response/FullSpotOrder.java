@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * The {@code FullOrder} class is useful to format all SpotOrder Binance request in FullOrder format
+ * The {@code FullOrder} class is useful to format all SpotOrder {@code "Binance"} request in FullOrder format
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -59,7 +59,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceManager.Bin
     /**
      * Method to load fillsList list
      *
-     * @param fillsArray: obtained from Binance's request
+     * @param fillsArray: obtained from {@code "Binance"}'s request
      *                    any return
      **/
     private void loadFills(JSONArray fillsArray) {
@@ -102,7 +102,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceManager.Bin
      *
      * @return code of error as int
      * *
-     * @implSpec if code error is not present in Binance's response will be returned -1 as default
+     * @implSpec if code error is not present in {@code "Binance"}'s response will be returned -1 as default
      **/
     @Override
     public int getCode() {
@@ -117,7 +117,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceManager.Bin
      *
      * @return message of error as {@link String}
      * *
-     * @implSpec if message error is not present in Binance's response will be returned null as default
+     * @implSpec if message error is not present in {@code "Binance"}'s response will be returned null as default
      **/
     @Override
     public String getMessage() {

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code AssetDividend} class is useful to manage a Binance's asset dividend
+ * The {@code AssetDividend} class is useful to manage a {@code "Binance"}'s asset dividend
  *
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
  * https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>

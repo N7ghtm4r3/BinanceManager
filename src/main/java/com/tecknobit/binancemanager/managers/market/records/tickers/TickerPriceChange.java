@@ -9,9 +9,10 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#24hr-ticker-price-change-statistics">
- * https://binance-docs.github.io/apidocs/spot/en/#24hr-ticker-price-change-statistics</a>
+ * 24hr Ticker Price Change Statistics</a>
+ * @see Ticker
+ * @see OrderBookTicker
  **/
-
 public class TickerPriceChange extends OrderBookTicker {
 
     /**
@@ -146,31 +147,35 @@ public class TickerPriceChange extends OrderBookTicker {
      * **/
     public TickerPriceChange(JSONObject ticker) {
         super(ticker);
-        priceChange = hTicker.getDouble("priceChange");
-        priceChangePercent = hTicker.getDouble("priceChangePercent");
-        weightedAvgPrice = hTicker.getDouble("weightedAvgPrice");
-        prevClosePrice = hTicker.getDouble("prevClosePrice");
-        lastPrice = hTicker.getDouble("openPrice");
-        lastQty = hTicker.getDouble("lastQty");
-        openPrice = hTicker.getDouble("highPrice");
-        highPrice = hTicker.getDouble("lowPrice");
-        lowPrice = hTicker.getDouble("lastPrice");
-        volume = hTicker.getDouble("volume");
-        quoteVolume = hTicker.getDouble("quoteVolume");
-        openTime = hTicker.getLong("openTime");
-        closeTime = hTicker.getLong("closeTime");
-        firstId = hTicker.getLong("firstId");
-        lastId = hTicker.getLong("lastId");
-        count = hTicker.getInt("count");
+        priceChange = hTicker.getDouble("priceChange", 0);
+        priceChangePercent = hTicker.getDouble("priceChangePercent", 0);
+        weightedAvgPrice = hTicker.getDouble("weightedAvgPrice", 0);
+        prevClosePrice = hTicker.getDouble("prevClosePrice", 0);
+        lastPrice = hTicker.getDouble("openPrice", 0);
+        lastQty = hTicker.getDouble("lastQty", 0);
+        openPrice = hTicker.getDouble("highPrice", 0);
+        highPrice = hTicker.getDouble("lowPrice", 0);
+        lowPrice = hTicker.getDouble("lastPrice", 0);
+        volume = hTicker.getDouble("volume", 0);
+        quoteVolume = hTicker.getDouble("quoteVolume", 0);
+        openTime = hTicker.getLong("openTime", 0);
+        closeTime = hTicker.getLong("closeTime", 0);
+        firstId = hTicker.getLong("firstId", 0);
+        lastId = hTicker.getLong("lastId", 0);
+        count = hTicker.getInt("count", 0);
     }
 
     /**
-     * @implSpec if this rolling ticket has been created with {@link Ticker#MINI_TYPE_RESPONSE} type response this instance will be return
-     * -1234567890 by default
+     * Method to get {@link #bidPrice} instance <br>
+     * Any params required
+     *
+     * @return {@link #bidPrice} instance as double
+     * @implSpec if this ticket has been created with {@link ResponseType#MINI} type response this instance will be return
+     * 0 by default
      **/
     @Override
     public double getBidPrice() {
-        return super.getBidPrice();
+        return bidPrice;
     }
 
     /**
@@ -178,8 +183,8 @@ public class TickerPriceChange extends OrderBookTicker {
      * @param decimals: number of digits to round final value
      * @return {@link #bidPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     * @implSpec if this rolling ticket has been created with {@link Ticker#MINI_TYPE_RESPONSE} type response this instance will be return
-     * -1234567890 by default
+     * @implSpec if this ticket has been created with {@link Ticker.ResponseType#MINI} type response this instance will be return
+     * 0 by default
      **/
     @Override
     public double getBidPrice(int decimals) {
@@ -187,12 +192,15 @@ public class TickerPriceChange extends OrderBookTicker {
     }
 
     /**
-     * @implSpec if this rolling ticket has been created with {@link Ticker#MINI_TYPE_RESPONSE} type response this instance will be return
-     * -1234567890 by default
+     * Method to get {@link #bidQty} instance <br>
+     * Any params required
+     * @implSpec if this ticket has been created with {@link ResponseType#MINI} type response this instance will be return
+     * 0 by default
+     * @return {@link #bidQty} instance as double
      **/
     @Override
     public double getBidQty() {
-        return super.getBidQty();
+        return bidQty;
     }
 
     /**
@@ -200,8 +208,8 @@ public class TickerPriceChange extends OrderBookTicker {
      * @param decimals: number of digits to round final value
      * @return {@link #bidQty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     * @implSpec if this rolling ticket has been created with {@link Ticker#MINI_TYPE_RESPONSE} type response this instance will be return
-     * -1234567890 by default
+     * @implSpec if this ticket has been created with {@link Ticker.ResponseType#MINI} type response this instance will be return
+     * 0 by default
      **/
     @Override
     public double getBidQty(int decimals) {
@@ -209,12 +217,15 @@ public class TickerPriceChange extends OrderBookTicker {
     }
 
     /**
-     * @implSpec if this rolling ticket has been created with {@link Ticker#MINI_TYPE_RESPONSE} type response this instance will be return
-     * -1234567890 by default
+     * Method to get {@link #askPrice} instance <br>
+     * Any params required
+     * @implSpec if this ticket has been created with {@link ResponseType#MINI} type response this instance will be return
+     * 0 by default
+     * @return {@link #askPrice} instance as double
      **/
     @Override
     public double getAskPrice() {
-        return super.getAskPrice();
+        return askPrice;
     }
 
     /**
@@ -222,8 +233,8 @@ public class TickerPriceChange extends OrderBookTicker {
      * @param decimals: number of digits to round final value
      * @return {@link #askPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     * @implSpec if this rolling ticket has been created with {@link Ticker#MINI_TYPE_RESPONSE} type response this instance will be return
-     * -1234567890 by default
+     * @implSpec if this ticket has been created with {@link Ticker.ResponseType#MINI} type response this instance will be return
+     * 0 by default
      **/
     @Override
     public double getAskPrice(int decimals) {
@@ -231,12 +242,15 @@ public class TickerPriceChange extends OrderBookTicker {
     }
 
     /**
-     * @implSpec if this rolling ticket has been created with {@link Ticker#MINI_TYPE_RESPONSE} type response this instance will be return
-     * -1234567890 by default
+     * Method to get {@link #askQty} instance <br>
+     * Any params required
+     * @implSpec if this ticket has been created with {@link ResponseType#MINI} type response this instance will be return
+     * 0 by default
+     * @return {@link #askQty} instance as double
      **/
     @Override
     public double getAskQty() {
-        return super.getAskQty();
+        return askQty;
     }
 
     /**
@@ -244,8 +258,8 @@ public class TickerPriceChange extends OrderBookTicker {
      * @param decimals: number of digits to round final value
      * @return {@link #askQty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     * @implSpec if this rolling ticket has been created with {@link Ticker#MINI_TYPE_RESPONSE} type response this instance will be return
-     * -1234567890 by default
+     * @implSpec if this ticket has been created with {@link Ticker.ResponseType#MINI} type response this instance will be return
+     * 0 by default
      **/
     @Override
     public double getAskQty(int decimals) {
@@ -253,8 +267,11 @@ public class TickerPriceChange extends OrderBookTicker {
     }
 
     /**
-     * @implSpec if this rolling ticket has been created with {@link Ticker#MINI_TYPE_RESPONSE} type response this instance will be return
-     * -1234567890 by default
+     * Method to get {@link #priceChange} instance <br>
+     * Any params required
+     * @implSpec if this ticket has been created with {@link ResponseType#MINI} type response this instance will be return
+     * 0 by default
+     * @return {@link #priceChange} instance as double
      **/
     public double getPriceChange() {
         return priceChange;
@@ -265,16 +282,19 @@ public class TickerPriceChange extends OrderBookTicker {
      * @param decimals: number of digits to round final value
      * @return {@link #priceChange} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     * @implSpec if this rolling ticket has been created with {@link Ticker#MINI_TYPE_RESPONSE} type response this instance will be return
-     * -1234567890 by default
+     * @implSpec if this ticket has been created with {@link Ticker.ResponseType#MINI} type response this instance will be return
+     * 0 by default
      **/
     public double getPriceChange(int decimals) {
         return roundValue(priceChange, decimals);
     }
 
     /**
-     * @implSpec if this rolling ticket has been created with {@link Ticker#MINI_TYPE_RESPONSE} type response this instance will be return
-     * -1234567890 by default
+     * Method to get {@link #priceChangePercent} instance <br>
+     * Any params required
+     * @implSpec if this ticket has been created with {@link ResponseType#MINI} type response this instance will be return
+     * 0 by default
+     * @return {@link #priceChangePercent} instance as double
      **/
     public double getPriceChangePercent() {
         return priceChangePercent;
@@ -285,16 +305,19 @@ public class TickerPriceChange extends OrderBookTicker {
      * @param decimals: number of digits to round final value
      * @return {@link #priceChangePercent} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     * @implSpec if this rolling ticket has been created with {@link Ticker#MINI_TYPE_RESPONSE} type response this instance will be return
-     * -1234567890 by default
+     * @implSpec if this ticket has been created with {@link Ticker.ResponseType#MINI} type response this instance will be return
+     * 0 by default
      **/
     public double getPriceChangePercent(int decimals) {
         return roundValue(priceChangePercent, decimals);
     }
 
     /**
-     * @implSpec if this rolling ticket has been created with {@link Ticker#MINI_TYPE_RESPONSE} type response this instance will be return
-     * -1234567890 by default
+     * Method to get {@link #weightedAvgPrice} instance <br>
+     * Any params required
+     * @implSpec if this ticket has been created with {@link ResponseType#MINI} type response this instance will be return
+     * 0 by default
+     * @return {@link #weightedAvgPrice} instance as double
      **/
     public double getWeightedAvgPrice() {
         return weightedAvgPrice;
@@ -305,16 +328,19 @@ public class TickerPriceChange extends OrderBookTicker {
      * @param decimals: number of digits to round final value
      * @return {@link #weightedAvgPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     * @implSpec if this rolling ticket has been created with {@link Ticker#MINI_TYPE_RESPONSE} type response this instance will be return
-     * -1234567890 by default
+     * @implSpec if this ticket has been created with {@link Ticker.ResponseType#MINI} type response this instance will be return
+     * 0 by default
      **/
     public double getWeightedAvgPrice(int decimals) {
         return roundValue(weightedAvgPrice, decimals);
     }
 
     /**
-     * @implSpec if this rolling ticket has been created with {@link Ticker#MINI_TYPE_RESPONSE} type response this instance will be return
-     * -1234567890 by default
+     * Method to get {@link #prevClosePrice} instance <br>
+     * Any params required
+     * @implSpec if this ticket has been created with {@link ResponseType#MINI} type response this instance will be return
+     * 0 by default
+     * @return {@link #prevClosePrice} instance as double
      **/
     public double getPrevClosePrice() {
         return prevClosePrice;
@@ -322,16 +348,23 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #prevClosePrice} instance
+     *
      * @param decimals: number of digits to round final value
      * @return {@link #prevClosePrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     * @implSpec if this rolling ticket has been created with {@link Ticker#MINI_TYPE_RESPONSE} type response this instance will be return
-     * -1234567890 by default
+     * @implSpec if this ticket has been created with {@link Ticker.ResponseType#MINI} type response this instance will be return
+     * 0 by default
      **/
     public double getPrevClosePrice(int decimals) {
         return roundValue(prevClosePrice, decimals);
     }
 
+    /**
+     * Method to get {@link #lastPrice} instance <br>
+     * Any params required
+     *
+     * @return {@link #lastPrice} instance as double
+     **/
     public double getLastPrice() {
         return lastPrice;
     }
@@ -347,8 +380,11 @@ public class TickerPriceChange extends OrderBookTicker {
     }
 
     /**
-     * @implSpec if this rolling ticket has been created with {@link Ticker#MINI_TYPE_RESPONSE} type response this instance will be return
-     * -1234567890 by default
+     * Method to get {@link #lastQty} instance <br>
+     * Any params required
+     * @implSpec if this ticket has been created with {@link ResponseType#MINI} type response this instance will be return
+     * 0 by default
+     * @return {@link #lastQty} instance as double
      **/
     public double getLastQty() {
         return lastQty;
@@ -356,22 +392,30 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #lastQty} instance
+     *
      * @param decimals: number of digits to round final value
      * @return {@link #lastQty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     * @implSpec if this rolling ticket has been created with {@link Ticker#MINI_TYPE_RESPONSE} type response this instance will be return
-     * -1234567890 by default
+     * @implSpec if this ticket has been created with {@link Ticker.ResponseType#MINI} type response this instance will be return
+     * 0 by default
      **/
     public double getLastQty(int decimals) {
         return roundValue(lastQty, decimals);
     }
 
+    /**
+     * Method to get {@link #openPrice} instance <br>
+     * Any params required
+     *
+     * @return {@link #openPrice} instance as double
+     **/
     public double getOpenPrice() {
         return openPrice;
     }
 
     /**
      * Method to get {@link #openPrice} instance
+     *
      * @param decimals: number of digits to round final value
      * @return {@link #openPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -380,12 +424,19 @@ public class TickerPriceChange extends OrderBookTicker {
         return roundValue(lastPrice, decimals);
     }
 
+    /**
+     * Method to get {@link #highPrice} instance <br>
+     * Any params required
+     *
+     * @return {@link #highPrice} instance as double
+     **/
     public double getHighPrice() {
         return highPrice;
     }
 
     /**
      * Method to get {@link #highPrice} instance
+     *
      * @param decimals: number of digits to round final value
      * @return {@link #highPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -394,12 +445,19 @@ public class TickerPriceChange extends OrderBookTicker {
         return roundValue(highPrice, decimals);
     }
 
+    /**
+     * Method to get {@link #lowPrice} instance <br>
+     * Any params required
+     *
+     * @return {@link #lowPrice} instance as double
+     **/
     public double getLowPrice() {
         return lowPrice;
     }
 
     /**
      * Method to get {@link #lowPrice} instance
+     *
      * @param decimals: number of digits to round final value
      * @return {@link #lowPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -408,12 +466,19 @@ public class TickerPriceChange extends OrderBookTicker {
         return roundValue(lowPrice, decimals);
     }
 
+    /**
+     * Method to get {@link #volume} instance <br>
+     * Any params required
+     *
+     * @return {@link #volume} instance as double
+     **/
     public double getVolume() {
         return volume;
     }
 
     /**
      * Method to get {@link #volume} instance
+     *
      * @param decimals: number of digits to round final value
      * @return {@link #volume} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -422,12 +487,19 @@ public class TickerPriceChange extends OrderBookTicker {
         return roundValue(volume, decimals);
     }
 
+    /**
+     * Method to get {@link #quoteVolume} instance <br>
+     * Any params required
+     *
+     * @return {@link #quoteVolume} instance as double
+     **/
     public double getQuoteVolume() {
         return quoteVolume;
     }
 
     /**
      * Method to get {@link #quoteVolume} instance
+     *
      * @param decimals: number of digits to round final value
      * @return {@link #quoteVolume} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -436,52 +508,55 @@ public class TickerPriceChange extends OrderBookTicker {
         return roundValue(quoteVolume, decimals);
     }
 
+    /**
+     * Method to get {@link #openTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #openTime} instance as long
+     **/
     public long getOpenTime() {
         return openTime;
     }
 
+    /**
+     * Method to get {@link #closeTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #closeTime} instance as long
+     **/
     public long getCloseTime() {
         return closeTime;
     }
 
+    /**
+     * Method to get {@link #firstId} instance <br>
+     * Any params required
+     *
+     * @return {@link #firstId} instance as long
+     **/
     public long getFirstId() {
         return firstId;
     }
 
+    /**
+     * Method to get {@link #lastId} instance <br>
+     * Any params required
+     *
+     * @return {@link #lastId} instance as long
+     **/
     public long getLastId() {
         return lastId;
     }
 
+    /**
+     * Method to get {@link #count} instance <br>
+     * Any params required
+     *
+     * @return {@link #count} instance as int
+     **/
     public int getCount() {
         return count;
     }
-
-    @Override
-    public String toString() {
-        return "TickerPriceChange{" +
-                "priceChange=" + priceChange +
-                ", priceChangePercent=" + priceChangePercent +
-                ", weightedAvgPrice=" + weightedAvgPrice +
-                ", prevClosePrice=" + prevClosePrice +
-                ", lastPrice=" + lastPrice +
-                ", lastQty=" + lastQty +
-                ", openPrice=" + openPrice +
-                ", highPrice=" + highPrice +
-                ", lowPrice=" + lowPrice +
-                ", volume=" + volume +
-                ", quoteVolume=" + quoteVolume +
-                ", openTime=" + openTime +
-                ", closeTime=" + closeTime +
-                ", firstId=" + firstId +
-                ", lastId=" + lastId +
-                ", count=" + count +
-                ", bidPrice=" + bidPrice +
-                ", bidQty=" + bidQty +
-                ", askPrice=" + askPrice +
-                ", askQty=" + askQty +
-                ", symbol='" + symbol + '\'' +
-                '}';
-    }
-
+    
 }
 

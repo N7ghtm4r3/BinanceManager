@@ -9,7 +9,7 @@ import static com.tecknobit.apimanager.formatters.JsonHelper.getJSONArray;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code MarginIsolatedTransferHistory} class is useful to format Binance Isolated Transfer History request response
+ * The {@code MarginIsolatedTransferHistory} class is useful to format {@code "Binance"} Isolated Transfer History request response
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
@@ -64,10 +64,12 @@ public class MarginIsolatedTransferHistory {
             throw new IllegalArgumentException("Details are not recoverable");
     }
 
-    /** Method to assemble a MarginIsolatedTransfer list
-     * @param jsonTransfers: obtained from Binance's request
-     * any return
-     * **/
+    /**
+     * Method to assemble a MarginIsolatedTransfer list
+     *
+     * @param jsonTransfers: obtained from {@code "Binance"}'s request
+     *                       any return
+     **/
     private void loadIsolatedTransfersList(JSONArray jsonTransfers) {
         marginIsolatedTransfersList = new ArrayList<>();
         for (int j = 0; j < jsonTransfers.length(); j++)

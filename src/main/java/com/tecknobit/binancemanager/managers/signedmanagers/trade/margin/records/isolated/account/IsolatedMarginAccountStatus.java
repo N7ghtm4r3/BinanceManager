@@ -3,7 +3,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.record
 import org.json.JSONObject;
 
 /**
- * The {@code IsolatedMarginAccountStatus} class is useful to format Binance Isolated Margin Account Status request response
+ * The {@code IsolatedMarginAccountStatus} class is useful to format {@code "Binance"} Isolated Margin Account Status request response
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade">

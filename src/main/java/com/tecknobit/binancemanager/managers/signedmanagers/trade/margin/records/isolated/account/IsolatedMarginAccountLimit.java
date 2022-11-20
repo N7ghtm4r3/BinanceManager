@@ -3,7 +3,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.record
 import org.json.JSONObject;
 
 /**
- * The {@code IsolatedMarginAccountLimit} class is useful to format Binance Isolated Margin Account Limit request response
+ * The {@code IsolatedMarginAccountLimit} class is useful to format {@code "Binance"} Isolated Margin Account Limit request response
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data">

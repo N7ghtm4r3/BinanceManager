@@ -162,7 +162,7 @@ public class SpotAccountInformation {
     /**
      * Method to load Permissions list
      *
-     * @param jsonPermissions: obtained from Binance's request
+     * @param jsonPermissions: obtained from {@code "Binance"}'s request
      *                         any return
      **/
     private void loadPermissionList(JSONArray jsonPermissions) {

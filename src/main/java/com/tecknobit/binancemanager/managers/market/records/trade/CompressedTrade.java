@@ -1,6 +1,9 @@
 package com.tecknobit.binancemanager.managers.market.records.trade;
 
+import com.tecknobit.apimanager.formatters.TimeFormatter;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
@@ -9,9 +12,8 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list">
- * https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list</a>
+ * Compressed/Aggregate Trades List</a>
  **/
-
 public class CompressedTrade {
 
     /**
@@ -92,10 +94,22 @@ public class CompressedTrade {
         isBestMatch = compressedTrade.getBoolean("M");
     }
 
+    /**
+     * Method to get {@link #aggregateTradeId} instance <br>
+     * Any params required
+     *
+     * @return {@link #aggregateTradeId} instance as long
+     **/
     public long getAggregateTradeId() {
         return aggregateTradeId;
     }
 
+    /**
+     * Method to get {@link #price} instance <br>
+     * Any params required
+     *
+     * @return {@link #price} instance as double
+     **/
     public double getPrice() {
         return price;
     }
@@ -111,6 +125,12 @@ public class CompressedTrade {
         return roundValue(price, decimals);
     }
 
+    /**
+     * Method to get {@link #quantity} instance <br>
+     * Any params required
+     *
+     * @return {@link #quantity} instance as double
+     **/
     public double getQuantity() {
         return quantity;
     }
@@ -126,38 +146,75 @@ public class CompressedTrade {
         return roundValue(quantity, decimals);
     }
 
+    /**
+     * Method to get {@link #firstTradeId} instance <br>
+     * Any params required
+     *
+     * @return {@link #firstTradeId} instance as long
+     **/
     public long getFirstTradeId() {
         return firstTradeId;
     }
 
+    /**
+     * Method to get {@link #lastTradeId} instance <br>
+     * Any params required
+     *
+     * @return {@link #lastTradeId} instance as long
+     **/
     public long getLastTradeId() {
         return lastTradeId;
     }
 
+    /**
+     * Method to get {@link #timestamp} instance <br>
+     * Any params required
+     *
+     * @return {@link #timestamp} instance as long
+     **/
     public long getTimestamp() {
         return timestamp;
     }
 
+    /**
+     * Method to get {@link #timestamp} instance <br>
+     * Any params required
+     *
+     * @return {@link #timestamp} instance as {@link Date}
+     **/
+    public Date getDate() {
+        return TimeFormatter.getDate(timestamp);
+    }
+
+    /**
+     * Method to get {@link #isBuyerMaker} instance <br>
+     * Any params required
+     *
+     * @return {@link #isBuyerMaker} instance as boolean
+     **/
     public boolean isBuyerMaker() {
         return isBuyerMaker;
     }
 
+    /**
+     * Method to get {@link #isBestMatch} instance <br>
+     * Any params required
+     *
+     * @return {@link #isBestMatch} instance as boolean
+     **/
     public boolean isBestMatch() {
         return isBestMatch;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "CompressedTrade{" +
-                "aggregateTradeId=" + aggregateTradeId +
-                ", price=" + price +
-                ", quantity=" + quantity +
-                ", firstTradeId=" + firstTradeId +
-                ", lastTradeId=" + lastTradeId +
-                ", timestamp=" + timestamp +
-                ", isBuyerMaker=" + isBuyerMaker +
-                ", isBestMatch=" + isBestMatch +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

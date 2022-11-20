@@ -7,11 +7,12 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
  * The {@code RollingTicker} class is useful to format a rolling ticker object
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#rolling-window-price-change-statistics">
- *     https://binance-docs.github.io/apidocs/spot/en/#rolling-window-price-change-statistics</a>
+ *
  * @author N7ghtm4r3 - Tecknobit
- * **/
-
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#rolling-window-price-change-statistics">
+ * Rolling window price change statistics</a>
+ * @see Ticker
+ **/
 public class RollingTicker extends Ticker {
 
     /**
@@ -127,190 +128,271 @@ public class RollingTicker extends Ticker {
     public RollingTicker(JSONObject rollingTicker) {
         super(rollingTicker.getString("symbol"));
         JsonHelper hRollingTicker = new JsonHelper(rollingTicker);
-        priceChange = hRollingTicker.getDouble("priceChange");
-        priceChangePercent = hRollingTicker.getDouble("priceChangePercent");
-        weightedAvgPrice = hRollingTicker.getDouble("weightedAvgPrice");
-        lastPrice = hRollingTicker.getDouble("openPrice");
-        openPrice = hRollingTicker.getDouble("highPrice");
-        highPrice = hRollingTicker.getDouble("lowPrice");
-        lowPrice = hRollingTicker.getDouble("lastPrice");
-        volume = hRollingTicker.getDouble("volume");
-        quoteVolume = hRollingTicker.getDouble("quoteVolume");
-        openTime = hRollingTicker.getLong("openTime");
-        closeTime = hRollingTicker.getLong("closeTime");
-        firstId = hRollingTicker.getLong("firstId");
-        lastId = hRollingTicker.getLong("lastId");
-        count = hRollingTicker.getInt("count");
+        priceChange = hRollingTicker.getDouble("priceChange", 0);
+        priceChangePercent = hRollingTicker.getDouble("priceChangePercent", 0);
+        weightedAvgPrice = hRollingTicker.getDouble("weightedAvgPrice", 0);
+        lastPrice = hRollingTicker.getDouble("openPrice", 0);
+        openPrice = hRollingTicker.getDouble("highPrice", 0);
+        highPrice = hRollingTicker.getDouble("lowPrice", 0);
+        lowPrice = hRollingTicker.getDouble("lastPrice", 0);
+        volume = hRollingTicker.getDouble("volume", 0);
+        quoteVolume = hRollingTicker.getDouble("quoteVolume", 0);
+        openTime = hRollingTicker.getLong("openTime", 0);
+        closeTime = hRollingTicker.getLong("closeTime", 0);
+        firstId = hRollingTicker.getLong("firstId", 0);
+        lastId = hRollingTicker.getLong("lastId", 0);
+        count = hRollingTicker.getInt("count", 0);
     }
 
-    /** @implSpec if this rolling ticket has been created with MINI type response this instance will be return
-     * -1234567890 by default**/
+    /**
+     * Method to get {@link #priceChange} instance <br>
+     * Any params required
+     *
+     * @return {@link #priceChange} instance as double
+     * @implSpec if this rolling ticket has been created with {@link ResponseType#MINI} type response this instance will be return
+     * 0 by default
+     **/
     public double getPriceChange() {
         return priceChange;
     }
 
-    /** Method to get {@link #priceChange} instance
+    /**
+     * Method to get {@link #priceChange} instance
+     *
      * @param decimals: number of digits to round final value
      * @return {@link #priceChange} instance rounded with decimal digits inserted
-     * @implSpec if this rolling ticket has been created with MINI type response this instance will be return
-     * -1234567890 by default
      * @throws IllegalArgumentException if decimalDigits is negative
-     * **/
+     * @implSpec if this rolling ticket has been created with {@link ResponseType#MINI} type response this instance will be return
+     * 0 by default
+     **/
     public double getPriceChange(int decimals) {
         return roundValue(priceChange, decimals);
     }
 
-    /** @implSpec if this rolling ticket has been created with MINI type response this instance will be return
-     * -1234567890 by default**/
+    /**
+     * Method to get {@link #priceChangePercent} instance <br>
+     * Any params required
+     *
+     * @return {@link #priceChangePercent} instance as double
+     * @implSpec if this rolling ticket has been created with {@link ResponseType#MINI} type response this instance will be return
+     * 0 by default
+     **/
     public double getPriceChangePercent() {
         return priceChangePercent;
     }
 
-    /** Method to get {@link #priceChangePercent} instance
+    /**
+     * Method to get {@link #priceChangePercent} instance
+     *
      * @param decimals: number of digits to round final value
      * @return {@link #priceChangePercent} instance rounded with decimal digits inserted
-     * @implSpec if this rolling ticket has been created with MINI type response this instance will be return
-     * -1234567890 by default
      * @throws IllegalArgumentException if decimalDigits is negative
-     * **/
+     * @implSpec if this rolling ticket has been created with {@link ResponseType#MINI} type response this instance will be return
+     * 0 by default
+     **/
     public double getPriceChangePercent(int decimals) {
         return roundValue(priceChangePercent, decimals);
     }
 
-    /** @implSpec if this rolling ticket has been created with MINI type response this instance will be return
-     * -1234567890 by default**/
+    /**
+     * Method to get {@link #weightedAvgPrice} instance <br>
+     * Any params required
+     *
+     * @return {@link #weightedAvgPrice} instance as double
+     * @implSpec if this rolling ticket has been created with {@link ResponseType#MINI} type response this instance will be return
+     * 0 by default
+     **/
     public double getWeightedAvgPrice() {
         return weightedAvgPrice;
     }
 
-    /** Method to get {@link #weightedAvgPrice} instance
+    /**
+     * Method to get {@link #weightedAvgPrice} instance
+     *
      * @param decimals: number of digits to round final value
      * @return {@link #weightedAvgPrice} instance rounded with decimal digits inserted
-     * @implSpec if this rolling ticket has been created with MINI type response this instance will be return
-     * -1234567890 by default
      * @throws IllegalArgumentException if decimalDigits is negative
-     * **/
+     * @implSpec if this rolling ticket has been created with {@link ResponseType#MINI} type response this instance will be return
+     * 0 by default
+     **/
     public double getWeightedAvgPrice(int decimals) {
         return roundValue(weightedAvgPrice, decimals);
     }
 
+    /**
+     * Method to get {@link #lastPrice} instance <br>
+     * Any params required
+     *
+     * @return {@link #lastPrice} instance as double
+     **/
     public double getLastPrice() {
         return lastPrice;
     }
 
-    /** Method to get {@link #lastPrice} instance
+    /**
+     * Method to get {@link #lastPrice} instance
+     *
      * @param decimals: number of digits to round final value
      * @return {@link #lastPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     * **/
+     **/
     public double getLastPrice(int decimals) {
         return roundValue(lastPrice, decimals);
     }
 
+    /**
+     * Method to get {@link #openPrice} instance <br>
+     * Any params required
+     *
+     * @return {@link #openPrice} instance as double
+     **/
     public double getOpenPrice() {
         return openPrice;
     }
 
-    /** Method to get {@link #openPrice} instance
+    /**
+     * Method to get {@link #openPrice} instance
+     *
      * @param decimals: number of digits to round final value
      * @return {@link #openPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     * **/
+     **/
     public double getOpenPrice(int decimals) {
         return roundValue(lastPrice, decimals);
     }
 
+    /**
+     * Method to get {@link #highPrice} instance <br>
+     * Any params required
+     *
+     * @return {@link #highPrice} instance as double
+     **/
     public double getHighPrice() {
         return highPrice;
     }
 
-    /** Method to get {@link #highPrice} instance
+    /**
+     * Method to get {@link #highPrice} instance
+     *
      * @param decimals: number of digits to round final value
      * @return {@link #highPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     * **/
+     **/
     public double getHighPrice(int decimals) {
         return roundValue(highPrice, decimals);
     }
 
+    /**
+     * Method to get {@link #lowPrice} instance <br>
+     * Any params required
+     *
+     * @return {@link #lowPrice} instance as double
+     **/
     public double getLowPrice() {
         return lowPrice;
     }
 
-    /** Method to get {@link #lowPrice} instance
+    /**
+     * Method to get {@link #lowPrice} instance
+     *
      * @param decimals: number of digits to round final value
      * @return {@link #lowPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     * **/
+     **/
     public double getLowPrice(int decimals) {
         return roundValue(lowPrice, decimals);
     }
 
+    /**
+     * Method to get {@link #volume} instance <br>
+     * Any params required
+     *
+     * @return {@link #volume} instance as double
+     **/
     public double getVolume() {
         return volume;
     }
 
-    /** Method to get {@link #volume} instance
+    /**
+     * Method to get {@link #volume} instance
+     *
      * @param decimals: number of digits to round final value
      * @return {@link #volume} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     * **/
+     **/
     public double getVolume(int decimals) {
         return roundValue(volume, decimals);
     }
 
+    /**
+     * Method to get {@link #quoteVolume} instance <br>
+     * Any params required
+     *
+     * @return {@link #quoteVolume} instance as double
+     **/
     public double getQuoteVolume() {
         return quoteVolume;
     }
 
-    /** Method to get {@link #quoteVolume} instance
+    /**
+     * Method to get {@link #quoteVolume} instance
+     *
      * @param decimals: number of digits to round final value
      * @return {@link #quoteVolume} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     * **/
+     **/
     public double getQuoteVolume(int decimals) {
         return roundValue(quoteVolume, decimals);
     }
 
+    /**
+     * Method to get {@link #openTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #openTime} instance as long
+     **/
     public long getOpenTime() {
         return openTime;
     }
 
+    /**
+     * Method to get {@link #closeTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #closeTime} instance as long
+     **/
     public long getCloseTime() {
         return closeTime;
     }
 
+    /**
+     * Method to get {@link #firstId} instance <br>
+     * Any params required
+     *
+     * @return {@link #firstId} instance as long
+     **/
     public long getFirstId() {
         return firstId;
     }
 
+    /**
+     * Method to get {@link #lastId} instance <br>
+     * Any params required
+     *
+     * @return {@link #lastId} instance as long
+     **/
     public long getLastId() {
         return lastId;
     }
 
+    /**
+     * Method to get {@link #count} instance <br>
+     * Any params required
+     *
+     * @return {@link #count} instance as int
+     **/
     public int getCount() {
         return count;
-    }
-
-    @Override
-    public String toString() {
-        return "RollingTicker{" +
-                "priceChange=" + priceChange +
-                ", priceChangePercent=" + priceChangePercent +
-                ", weightedAvgPrice=" + weightedAvgPrice +
-                ", lastPrice=" + lastPrice +
-                ", openPrice=" + openPrice +
-                ", highPrice=" + highPrice +
-                ", lowPrice=" + lowPrice +
-                ", volume=" + volume +
-                ", quoteVolume=" + quoteVolume +
-                ", openTime=" + openTime +
-                ", closeTime=" + closeTime +
-                ", firstId=" + firstId +
-                ", lastId=" + lastId +
-                ", count=" + count +
-                ", symbol='" + symbol + '\'' +
-                '}';
     }
 
 }

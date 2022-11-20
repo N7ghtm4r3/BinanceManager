@@ -9,9 +9,8 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#current-average-price">
- * https://binance-docs.github.io/apidocs/spot/en/#current-average-price</a>
+ * Current Average Price</a>
  **/
-
 public class CurrentAveragePrice {
 
     /**
@@ -45,10 +44,22 @@ public class CurrentAveragePrice {
         price = avgPrice.getDouble("price");
     }
 
+    /**
+     * Method to get {@link #mins} instance <br>
+     * Any params required
+     *
+     * @return {@link #mins} instance as int
+     **/
     public int getMins() {
         return mins;
     }
 
+    /**
+     * Method to get {@link #price} instance <br>
+     * Any params required
+     *
+     * @return {@link #price} instance as double
+     **/
     public double getPrice() {
         return price;
     }
@@ -64,12 +75,15 @@ public class CurrentAveragePrice {
         return roundValue(price, decimals);
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "CurrentAveragePrice{" +
-                "mins=" + mins +
-                ", price=" + price +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

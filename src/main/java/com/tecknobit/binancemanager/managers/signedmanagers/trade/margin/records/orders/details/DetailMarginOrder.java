@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code DetailMarginOrder} class is useful to format Binance Margin Cancel Order request
+ * The {@code DetailMarginOrder} class is useful to format {@code "Binance"} Margin Cancel Order request
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">

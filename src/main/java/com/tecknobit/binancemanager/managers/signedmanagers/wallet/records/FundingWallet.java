@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code FundingWallet} class is useful to manage FundingWallet Binance request
+ * The {@code FundingWallet} class is useful to manage FundingWallet {@code "Binance"} request
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data">

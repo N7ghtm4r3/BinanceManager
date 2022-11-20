@@ -11,7 +11,7 @@ import static com.tecknobit.apimanager.formatters.JsonHelper.getJSONArray;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.MarginAccountSnapshot.assembleUserMarginAssetsList;
 
 /**
- * The {@code CrossMarginAccountDetails} class is useful to format Binance Cross Margin Account Detail response request
+ * The {@code CrossMarginAccountDetails} class is useful to format {@code "Binance"} Cross Margin Account Detail response request
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">

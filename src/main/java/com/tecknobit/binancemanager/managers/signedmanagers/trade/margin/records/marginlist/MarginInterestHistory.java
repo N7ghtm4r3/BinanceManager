@@ -9,7 +9,7 @@ import static com.tecknobit.apimanager.formatters.JsonHelper.getJSONArray;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code MarginInterestHistory} class is useful to format Binance Margin Interest History request
+ * The {@code MarginInterestHistory} class is useful to format {@code "Binance"} Margin Interest History request
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
@@ -77,7 +77,7 @@ public class MarginInterestHistory {
     /**
      * Method to load InterestAssets list
      *
-     * @param interestAssets: obtained from Binance's request
+     * @param interestAssets: obtained from {@code "Binance"}'s request
      *                        any return
      **/
     private void loadMarginInterestAssets(JSONArray interestAssets) {

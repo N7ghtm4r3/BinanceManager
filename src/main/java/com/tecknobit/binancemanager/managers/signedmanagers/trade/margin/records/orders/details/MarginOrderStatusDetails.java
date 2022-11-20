@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * The {@code MarginOrderStatusDetails} class is useful to format all Binance Margin Order Status request
+ * The {@code MarginOrderStatusDetails} class is useful to format all {@code "Binance"} Margin Order Status request
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">

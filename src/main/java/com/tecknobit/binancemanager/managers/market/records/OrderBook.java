@@ -10,7 +10,7 @@ import java.util.HashMap;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code OrderBook} class is useful to format Binance OrderBook request
+ * The {@code OrderBook} class is useful to format {@code "Binance"} OrderBook request
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
@@ -70,7 +70,7 @@ public class OrderBook {
     /**
      * Method to get load list of order details
      *
-     * @param jsonList: obtained from Binance request
+     * @param jsonList: obtained from {@code "Binance"} request
      * @return order details list as ArrayList<BookOrderDetails> object
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
      * https://binance-docs.github.io/apidocs/spot/en/#order-book</a>

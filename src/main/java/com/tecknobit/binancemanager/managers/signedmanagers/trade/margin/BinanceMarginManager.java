@@ -34,11 +34,12 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.
 
 
 /**
- *  The {@code BinanceMarginManager} class is useful to manage all Binance Margin Endpoints
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade">
- *      https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code BinanceMarginManager} class is useful to manage all {@code "Binance"} Margin Endpoints
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade">
+ * https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade</a>
+ **/
 
 public class BinanceMarginManager extends BinanceSignedManager {
 
@@ -305,7 +306,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Method to get tranId value
-     * @param stringSource: obtained from Binance's request
+     * @param stringSource: obtained from {@code "Binance"}'s request
      * @return tranId value as long
      * **/
     private long getTransactionId(String stringSource){
@@ -478,8 +479,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
-     * newOrderRespType,sideEffectType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *newOrderRespType, sideEffectType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
      * @return result of the order as {@link String}
@@ -495,8 +496,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
-     * newOrderRespType,sideEffectType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *newOrderRespType, sideEffectType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -510,8 +511,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param side: BUY or SELL order
      * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
-     * newOrderRespType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
      * @return result of the order
@@ -533,8 +534,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
-     * newOrderRespType,sideEffectType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *newOrderRespType, sideEffectType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
      * @return result of the order as {@link String}
@@ -553,8 +554,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
-     * newOrderRespType,sideEffectType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *newOrderRespType, sideEffectType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -570,8 +571,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are timeInForce,quantity,quoteOrderQty,price,newClientOrderId,stopPrice,icebergQty,
-     * newOrderRespType,sideEffectType,recvWindow), see official Binance's documentation to implement in the right combination
+     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
+     *newOrderRespType, sideEffectType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
      * @return result of the order
@@ -732,7 +733,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Method to assemble an {@link OpenMarginOrders} object
-     * @param jsonArray: obtained from Binance's request
+     * @param jsonArray: obtained from {@code "Binance"}'s request
      * @return a {@link OpenMarginOrders} list as ArrayList
      * **/
     private OpenMarginOrders assembleOpenMarginOrdersObject(JSONArray jsonArray){
@@ -1548,7 +1549,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Method to assemble a MarginOrderStatus list
-     * @param #jsonOrder: obtained from Binance's request
+     * @param #jsonOrder: obtained from {@code "Binance"}'s request
      * @return a list as ArrayList<MarginOrderStatus>
      * **/
     private ArrayList<MarginOrderStatus> assembleMarginOrdersList(JSONArray jsonOrder) {
@@ -1610,9 +1611,9 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param #price: used in the order, price of symbol es. BTC = {39016.21} BUSD
      * @param #stopPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,listClientOrderId,limitClientOrderId,limitIcebergQty,stopClientOrderId,
-     * stopLimitPrice,stopIcebergQty,stopLimitTimeInForce,newOrderRespType,sideEffectType,recvWindow),
-     * see official Binance's documentation to implement in the right combination
+     * @implSpec (keys accepted are isIsolated, listClientOrderId, limitClientOrderId, limitIcebergQty, stopClientOrderId,
+     *stopLimitPrice, stopIcebergQty, stopLimitTimeInForce, newOrderRespType, sideEffectType, recvWindow),
+     * see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
      * @return new OCO margin order response as {@link String}
@@ -1632,9 +1633,9 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param #price: used in the order, price of symbol es. BTC = {39016.21} BUSD
      * @param #stopPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,listClientOrderId,limitClientOrderId,limitIcebergQty,stopClientOrderId,
-     * stopLimitPrice,stopIcebergQty,stopLimitTimeInForce,newOrderRespType,sideEffectType,recvWindow),
-     * see official Binance's documentation to implement in the right combination
+     * @implSpec (keys accepted are isIsolated, listClientOrderId, limitClientOrderId, limitIcebergQty, stopClientOrderId,
+     *stopLimitPrice, stopIcebergQty, stopLimitTimeInForce, newOrderRespType, sideEffectType, recvWindow),
+     * see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
      * @return new OCO margin order response as {@link JSONObject}
@@ -1651,9 +1652,9 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param #price: used in the order, price of symbol es. BTC = {39016.21} BUSD
      * @param #stopPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,listClientOrderId,limitClientOrderId,limitIcebergQty,stopClientOrderId,
-     * stopLimitPrice,stopIcebergQty,stopLimitTimeInForce,newOrderRespType,sideEffectType,recvWindow),
-     * see official Binance's documentation to implement in the right combination
+     * @implSpec (keys accepted are isIsolated, listClientOrderId, limitClientOrderId, limitIcebergQty, stopClientOrderId,
+     *stopLimitPrice, stopIcebergQty, stopLimitTimeInForce, newOrderRespType, sideEffectType, recvWindow),
+     * see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
      * @return new OCO margin order response as {@link OCOMarginOrder} object
@@ -1728,9 +1729,9 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param #stopLimitPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD (limit)
      * @param #stopLimitTimeInForce: GTC, FOK or IOC
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,listClientOrderId,limitClientOrderId,limitIcebergQty,stopClientOrderId,
-     * stopIcebergQty,newOrderRespType,sideEffectType,recvWindow),
-     * see official Binance's documentation to implement in the right combination
+     * @implSpec (keys accepted are isIsolated, listClientOrderId, limitClientOrderId, limitIcebergQty, stopClientOrderId,
+     *stopIcebergQty, newOrderRespType, sideEffectType, recvWindow),
+     * see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
      * @return new OCO margin order response as {@link String}
@@ -1754,9 +1755,9 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param #stopLimitPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD (limit)
      * @param #stopLimitTimeInForce: GTC, FOK or IOC
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,listClientOrderId,limitClientOrderId,limitIcebergQty,stopClientOrderId,
-     * stopIcebergQty,newOrderRespType,sideEffectType,recvWindow),
-     * see official Binance's documentation to implement in the right combination
+     * @implSpec (keys accepted are isIsolated, listClientOrderId, limitClientOrderId, limitIcebergQty, stopClientOrderId,
+     *stopIcebergQty, newOrderRespType, sideEffectType, recvWindow),
+     * see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
      * @return new OCO margin order response as {@link JSONObject}
@@ -1777,8 +1778,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param #stopLimitPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD (limit)
      * @param #stopLimitTimeInForce: GTC, FOK or IOC
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,listClientOrderId,limitClientOrderId,limitIcebergQty,stopClientOrderId,
-     * stopIcebergQty,newOrderRespType,sideEffectType,recvWindow),see official Binance's documentation to implement in the right combination
+     * @implSpec (keys accepted are isIsolated, listClientOrderId, limitClientOrderId, limitIcebergQty, stopClientOrderId,
+     *stopIcebergQty, newOrderRespType, sideEffectType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
      * @return new OCO margin order response as {@link OCOMarginOrder} object
@@ -2926,7 +2927,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Method to assemble a MarginOrderStatusDetails list
-     * @param #jsonOrderStatus: obtained from Binance's request
+     * @param #jsonOrderStatus: obtained from {@code "Binance"}'s request
      * @return a list as ArrayList<MarginOrderStatusDetails>
      * **/
     private ArrayList<MarginOrderStatusDetails> assembleMarginOrderStatusDetailsList(JSONArray jsonOrderStatus) {
@@ -3138,7 +3139,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     /**
      * Method to assemble a {@link MarginAccountTrade} list
      *
-     * @param #jsonMarginTrades: obtained from Binance's request
+     * @param #jsonMarginTrades: obtained from {@code "Binance"}'s request
      * @return a list as {@link ArrayList} of {@link MarginAccountTrade}
      **/
     private ArrayList<MarginAccountTrade> assembleMarginTradesList(JSONArray jsonMarginTrades) {
@@ -3287,7 +3288,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Method to get amount value
-     * @param #stringSource: obtained from Binance's request
+     * @param #stringSource: obtained from {@code "Binance"}'s request
      * @return amount value as double
      * **/
     private double getMaxTransferAmountValue(String stringSource){
@@ -3927,7 +3928,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     /**
      * Method to assemble an {@link IsolatedMarginSymbol} list
      *
-     * @param #symbolsList: obtained from Binance's request
+     * @param #symbolsList: obtained from {@code "Binance"}'s request
      * @return list as {@link ArrayList} of {@link IsolatedMarginSymbol}
      **/
     private ArrayList<IsolatedMarginSymbol> assembleAllIMarginSymbolList(JSONArray symbolsList) {
@@ -4132,7 +4133,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Method to assemble a MarginInterestRate list
-     * @param #jsonRate: obtained from Binance's request
+     * @param #jsonRate: obtained from {@code "Binance"}'s request
      * @return as ArrayList<{@link MarginInterestRate}>
      * **/
     private ArrayList<MarginInterestRate> assembleMarginIRateHistoryList(JSONArray jsonRate) {
@@ -4207,7 +4208,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Method to assemble a CrossMarginFee list
-     * @param #jsonFees: obtained from Binance's request
+     * @param #jsonFees: obtained from {@code "Binance"}'s request
      * @return as ArrayList<{@link CrossMarginFee}>
      * **/
     private ArrayList<CrossMarginFee> assembleCrossMarginFeesList(JSONArray jsonFees) {
@@ -4282,7 +4283,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Method to assemble an {@link IsolatedMarginFee} list
-     * @param #jsonFees: obtained from Binance's request
+     * @param #jsonFees: obtained from {@code "Binance"}'s request
      * @return list as {@link ArrayList} of {@link IsolatedMarginFee}
      * **/
     private ArrayList<IsolatedMarginFee> assembleIsolatedMarginFeesList(JSONArray jsonFees) {
@@ -4362,7 +4363,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /** Method to assemble an {@link IsolatedMarginTierData} list
-     * @param #jsonTierData: obtained from Binance's request
+     * @param #jsonTierData: obtained from {@code "Binance"}'s request
      * @return list as {@link ArrayList} of {@link IsolatedMarginTierData}
      * **/
     private ArrayList<IsolatedMarginTierData> assembleIsolatedMarginTierDataList(JSONArray jsonTierData) {

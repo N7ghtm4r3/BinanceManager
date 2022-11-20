@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code FullOrder} class is useful to format all SpotOrder Binance request in ResultOrder format
+ * The {@code FullOrder} class is useful to format all SpotOrder {@code "Binance"} request in ResultOrder format
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">

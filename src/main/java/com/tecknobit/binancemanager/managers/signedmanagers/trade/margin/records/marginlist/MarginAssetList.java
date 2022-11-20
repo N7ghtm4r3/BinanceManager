@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order.*;
 
 /**
- * The {@code MarginAssetList} class is useful to create Binance's base margin lists
+ * The {@code MarginAssetList} class is useful to create {@code "Binance"}'s base margin lists
  *
  * @apiNote see the official documentation at:
  * <ul>

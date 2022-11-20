@@ -3,7 +3,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.depo
 import org.json.JSONObject;
 
 /**
- * The {@code DepositAddress} class is useful to manage DepositAddress Binance request
+ * The {@code DepositAddress} class is useful to manage DepositAddress {@code "Binance"} request
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">

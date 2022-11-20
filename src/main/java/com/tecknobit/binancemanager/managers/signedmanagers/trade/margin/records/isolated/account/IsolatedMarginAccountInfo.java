@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code IsolatedMarginAccountInfo} class is useful to format Binance Isolated Margin Account Info request response
+ * The {@code IsolatedMarginAccountInfo} class is useful to format {@code "Binance"} Isolated Margin Account Info request response
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
@@ -174,7 +174,7 @@ public class IsolatedMarginAccountInfo {
     /**
      * Method to assemble an IsolatedMarginAccountInfo list
      *
-     * @param jsonInfo: obtained from Binance's request
+     * @param jsonInfo: obtained from {@code "Binance"}'s request
      * @return a list as ArrayList<IsolatedMarginAccountInfo>
      **/
     public static ArrayList<IsolatedMarginAccountInfo> createIsolatedMarginAccountInfoList(JSONArray jsonInfo) {

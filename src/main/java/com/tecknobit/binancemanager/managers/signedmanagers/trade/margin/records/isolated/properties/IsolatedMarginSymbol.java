@@ -3,7 +3,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.record
 import org.json.JSONObject;
 
 /**
- * The {@code IsolatedMarginSymbol} class is useful to format Binance Isolated Margin Symbol request response
+ * The {@code IsolatedMarginSymbol} class is useful to format {@code "Binance"} Isolated Margin Symbol request response
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data">

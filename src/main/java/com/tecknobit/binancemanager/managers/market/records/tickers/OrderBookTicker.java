@@ -9,10 +9,18 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * The {@code OrderBookTicker} class is useful to manage OrderBookTicker requests
  *
  * @author N7ghtm4r3 - Tecknobit
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker">
- * https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker</a>
+ * @apiNote see the official documentation at:
+ * <ul>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker">
+ *             Symbol Order Book Ticker</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#24hr-ticker-price-change-statistics">
+ *             24hr Ticker Price Change Statistics</a>
+ *     </li>
+ * </ul>
  **/
-
 public class OrderBookTicker extends Ticker {
 
     /**
@@ -69,12 +77,19 @@ public class OrderBookTicker extends Ticker {
         askQty = hTicker.getDouble("askQty");
     }
 
+    /**
+     * Method to get {@link #bidPrice} instance <br>
+     * Any params required
+     *
+     * @return {@link #bidPrice} instance as double
+     **/
     public double getBidPrice() {
         return bidPrice;
     }
 
     /**
      * Method to get {@link #bidPrice} instance
+     *
      * @param decimals: number of digits to round final value
      * @return {@link #bidPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -83,12 +98,19 @@ public class OrderBookTicker extends Ticker {
         return roundValue(bidPrice, decimals);
     }
 
+    /**
+     * Method to get {@link #bidQty} instance <br>
+     * Any params required
+     *
+     * @return {@link #bidQty} instance as double
+     **/
     public double getBidQty() {
         return bidQty;
     }
 
     /**
      * Method to get {@link #bidQty} instance
+     *
      * @param decimals: number of digits to round final value
      * @return {@link #bidQty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -97,12 +119,19 @@ public class OrderBookTicker extends Ticker {
         return roundValue(bidPrice, decimals);
     }
 
+    /**
+     * Method to get {@link #askPrice} instance <br>
+     * Any params required
+     *
+     * @return {@link #askPrice} instance as double
+     **/
     public double getAskPrice() {
         return askPrice;
     }
 
     /**
      * Method to get {@link #askPrice} instance
+     *
      * @param decimals: number of digits to round final value
      * @return {@link #askPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
@@ -111,6 +140,12 @@ public class OrderBookTicker extends Ticker {
         return roundValue(askPrice, decimals);
     }
 
+    /**
+     * Method to get {@link #askQty} instance <br>
+     * Any params required
+     *
+     * @return {@link #askQty} instance as double
+     **/
     public double getAskQty() {
         return askQty;
     }
@@ -123,17 +158,6 @@ public class OrderBookTicker extends Ticker {
      **/
     public double getAskQty(int decimals) {
         return roundValue(askQty, decimals);
-    }
-
-    @Override
-    public String toString() {
-        return "OrderBookTicker{" +
-                "bidPrice=" + bidPrice +
-                ", bidQty=" + bidQty +
-                ", askPrice=" + askPrice +
-                ", askQty=" + askQty +
-                ", symbol='" + symbol + '\'' +
-                '}';
     }
 
 }

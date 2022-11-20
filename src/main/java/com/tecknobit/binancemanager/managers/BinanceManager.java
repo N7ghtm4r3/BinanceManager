@@ -16,23 +16,24 @@ import static com.tecknobit.binancemanager.constants.EndpointsList.TIMESTAMP_END
 import static java.lang.System.currentTimeMillis;
 
 /**
- *  The {@code BinanceManager} class is useful to manage all Binance Endpoints
- *  giving basics methods for others Binance managers and basics endpoints for API request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
- *      https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code BinanceManager} class is useful to manage all {@code "Binance"} Endpoints
+ * giving basics methods for others {@code "Binance"} managers and basics endpoints for API request
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
+ * https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
+ **/
 
 public class BinanceManager {
 
     /**
-     * {@code BASE_ENDPOINTS} is a list constant that contains list of Binance's main endpoints
+     * {@code BASE_ENDPOINTS} is a list constant that contains list of {@code "Binance"}'s main endpoints
      * **/
     public static final String[] BASE_ENDPOINTS = new String[]{"https://api.binance.com", "https://api1.binance.com",
             "https://api2.binance.com", "https://api3.binance.com"};
 
     /**
-     * {@code apiRequest} is instance that contains list of Binance's main endpoints
+     * {@code apiRequest} is instance that contains list of {@code "Binance"}'s main endpoints
      * **/
     protected APIRequest apiRequest;
 
@@ -41,7 +42,7 @@ public class BinanceManager {
      * **/
     protected final String baseEndpoint;
 
-    /** Constructor to init a Binance manager
+    /** Constructor to init a {@code "Binance"} manager
      * @param baseEndpoint base endpoint to work on
      * **/
     public BinanceManager(String baseEndpoint) throws SystemException, IOException {
@@ -67,7 +68,7 @@ public class BinanceManager {
      * **/
     public boolean isSystemAvailable(String baseEndpoint) throws IOException {
         apiRequest.sendAPIRequest(baseEndpoint + SYSTEM_STATUS_ENDPOINT, GET_METHOD);
-        return ((JSONObject) apiRequest.getJSONResponse()).getInt("status") == 0;
+        return new JSONObject(apiRequest.getResponse()).getInt("status") == 0;
     }
 
     /** Request to get server timestamp or your current timestamp
@@ -77,7 +78,7 @@ public class BinanceManager {
     public long getTimestamp(){
         try {
             apiRequest.sendAPIRequest(baseEndpoint + TIMESTAMP_ENDPOINT, GET_METHOD);
-            return ((JSONObject) apiRequest.getJSONResponse()).getLong("serverTime");
+            return new JSONObject(apiRequest.getResponse()).getLong("serverTime");
         } catch (Exception e) {
             return currentTimeMillis();
         }
@@ -225,7 +226,7 @@ public class BinanceManager {
     }
 
     /**
-     * The {@code BinanceResponse} interface is useful to format base Binance's errors responses
+     * The {@code BinanceResponse} interface is useful to format base {@code "Binance"}'s errors responses
      **/
     public interface BinanceResponse {
 
@@ -235,7 +236,7 @@ public class BinanceManager {
          *
          * @return code of error as int
          * *
-         * @implSpec if code error is not present in Binance's response will be returned -1 as default
+         * @implSpec if code error is not present in {@code "Binance"}'s response will be returned -1 as default
          **/
         int getCode();
 
@@ -245,7 +246,7 @@ public class BinanceManager {
          *
          * @return message of error as {@link String}
          * *
-         * @implSpec if message error is not present in Binance's response will be returned null as default
+         * @implSpec if message error is not present in {@code "Binance"}'s response will be returned null as default
          **/
         String getMessage();
 

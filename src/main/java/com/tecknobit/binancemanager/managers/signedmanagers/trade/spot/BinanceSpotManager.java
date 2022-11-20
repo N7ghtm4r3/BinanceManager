@@ -28,11 +28,12 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.trade.common.
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.SpotOrder.*;
 
 /**
- *  The {@code BinanceSpotManager} class is useful to manage all Binance Spot Endpoints
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#spot-account-trade">
- *      https://binance-docs.github.io/apidocs/spot/en/#spot-account-trade</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code BinanceSpotManager} class is useful to manage all {@code "Binance"} Spot Endpoints
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#spot-account-trade">
+ * https://binance-docs.github.io/apidocs/spot/en/#spot-account-trade</a>
+ **/
 
 public class BinanceSpotManager extends BinanceSignedManager {
 
@@ -63,7 +64,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams: additional params of the request
      * @return result of the order WITHOUT buy or sell nothing, if is correct return "{}" else error of the request
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
      **/
@@ -80,7 +81,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param extraParams: additional params of the request
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
      * @return result of the order WITHOUT buy or sell nothing, if is correct return "{}" else error of the request
@@ -101,7 +102,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param price: price value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -119,7 +120,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param price: price value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -137,7 +138,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param price: price value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -153,7 +154,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -169,7 +170,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -185,7 +186,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -201,7 +202,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quoteQuantity: quote quantity value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -217,7 +218,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quoteQuantity: quote quantity value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -233,7 +234,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quoteQuantity: quote quantity value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -251,7 +252,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value for the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -269,7 +270,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value for the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -286,7 +287,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value for the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -304,7 +305,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: stop price value for the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -322,7 +323,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: stop price value for the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -339,7 +340,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: stop price value for the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -360,7 +361,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value for the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -380,7 +381,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value for the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -399,7 +400,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value for the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -420,7 +421,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: trailing delta value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -440,7 +441,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: trailing delta value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -459,7 +460,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: trailing delta value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -478,7 +479,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -496,7 +497,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -513,7 +514,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -531,7 +532,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: trailing delta value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -549,7 +550,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: trailing delta value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -566,7 +567,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: trailing delta value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -587,7 +588,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -607,7 +608,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -626,7 +627,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -647,7 +648,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: trailing delta value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -667,7 +668,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: trailing delta value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -686,7 +687,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: trailing delta value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -705,7 +706,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param price: price value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -722,7 +723,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param price: price value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -739,7 +740,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param price: price value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -755,7 +756,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -772,7 +773,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
      * @param extraParams: additional params of the request
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as AckOrder
@@ -794,7 +795,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param price: price value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -811,7 +812,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param price: price value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -828,7 +829,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param price: price value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -847,7 +848,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -865,7 +866,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -882,7 +883,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quantity: quantity value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -900,7 +901,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quoteQuantity: quote quantity value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -918,7 +919,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quoteQuantity: quote quantity value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -935,7 +936,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param quoteQuantity: quote quantity value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -954,7 +955,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value for the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -973,7 +974,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value for the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -991,7 +992,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value for the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -1011,7 +1012,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: stop price value for the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -1030,7 +1031,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: stop price value for the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -1048,7 +1049,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: stop price value for the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -1070,7 +1071,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value for the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -1092,7 +1093,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value for the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -1114,7 +1115,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value for the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -1136,7 +1137,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: trailing delta value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -1158,7 +1159,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: trailing delta value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -1180,7 +1181,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: trailing delta value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -1201,7 +1202,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -1220,7 +1221,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -1238,7 +1239,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -1258,7 +1259,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: trailing delta value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -1277,7 +1278,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: trailing delta value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -1295,7 +1296,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: trailing delta value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -1317,7 +1318,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -1339,7 +1340,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -1361,7 +1362,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param stopPrice: stop price value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -1384,7 +1385,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: trailing delta value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -1406,7 +1407,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: trailing delta value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -1428,7 +1429,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param trailingDelta: trailing delta value
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -1449,7 +1450,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param price: price value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
@@ -1467,7 +1468,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param price: price value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
@@ -1485,7 +1486,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param price: price value in the order
      * @param extraParams: additional params of the request, insert null if there are no extra params
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
@@ -1507,7 +1508,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:      additional params of the request
      * @return result of the order as {@link String}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      **/
@@ -1526,7 +1527,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param extraParams: additional params of the request
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official Binance's documentation to implement in the right combination
+     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @implNote in base of newOrderRespType response will be formatted as:
@@ -1767,7 +1768,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     /** Method to assemble an OpenSpotOrders object
-     * @param jsonOrders: obtained from Binance's request
+     * @param jsonOrders: obtained from {@code "Binance"}'s request
      * @return an OpenSpotOrders object with response data
      * **/
     private OpenSpotOrders cancelAllOpenOrdersObject(JSONArray jsonOrders){
@@ -2062,7 +2063,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     /**
      * Method to assemble an OrderStatus object list
      *
-     * @param jsonOrders: obtained from Binance's request
+     * @param jsonOrders: obtained from {@code "Binance"}'s request
      * @return an ArrayList<OrderStatus> with response data
      **/
     private ArrayList<SpotOrderStatus> assembleOrderStatusList(JSONArray jsonOrders) {
@@ -2086,7 +2087,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of cancellation of an order and creation of a new order as {@link String}
      * @implNote CAS means CANCEL AND SEND
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2110,7 +2111,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
      * @implNote CAS means CANCEL AND SEND
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2133,7 +2134,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @implNote CAS means CANCEL AND SEND
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2154,7 +2155,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link String}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      * @implNote CAS means CANCEL AND SEND
@@ -2176,7 +2177,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      * @implNote CAS means CANCEL AND SEND
@@ -2197,7 +2198,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      * @implNote CAS means CANCEL AND SEND
@@ -2218,7 +2219,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link String}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      * @implNote CAS means CANCEL AND SEND
@@ -2240,7 +2241,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2260,7 +2261,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2282,7 +2283,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link String}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2304,7 +2305,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2325,7 +2326,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2347,7 +2348,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link String}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2369,7 +2370,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2390,7 +2391,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2414,7 +2415,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link String}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2438,7 +2439,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2463,7 +2464,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2488,7 +2489,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link String}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2513,7 +2514,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2538,7 +2539,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2561,7 +2562,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link String}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2583,7 +2584,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2604,7 +2605,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2626,7 +2627,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link String}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2648,7 +2649,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2669,7 +2670,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2694,7 +2695,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link String}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2719,7 +2720,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2744,7 +2745,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2769,7 +2770,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link String}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2794,7 +2795,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2819,7 +2820,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2842,7 +2843,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link String}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2863,7 +2864,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2884,7 +2885,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -2905,7 +2906,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link String}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *recvWindow), see official Binance's documentation to implement in the right combination
+     *recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
@@ -3636,7 +3637,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     /**
      * Method to assemble an OrderValues object list
      *
-     * @param #jsonOrders: obtained from Binance's request
+     * @param #jsonOrders: obtained from {@code "Binance"}'s request
      * @return an ArrayList<OrderValues> with response data
      **/
     private ArrayList<OrderDetails> assembleBaseOrderDetailsList(JSONArray jsonOrders) {
@@ -3780,7 +3781,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     /**
      * Method to assemble an SpotAccountTradeList object
      *
-     * @param #jsonTrades: obtained from Binance's request
+     * @param #jsonTrades: obtained from {@code "Binance"}'s request
      * @return a SpotAccountTradeList object with response data
      **/
     private ArrayList<SpotAccountTradeList> assembleSpotAccountTradeList(JSONArray jsonTrades) {
@@ -3854,7 +3855,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     /**
      * Method to assemble an OrderCountUsage object
      *
-     * @param #jsonCount: obtained from Binance's request
+     * @param #jsonCount: obtained from {@code "Binance"}'s request
      * @return a OrderCountUsage object with response data
      **/
     private ArrayList<OrderCountUsage> assembleOrderCountUsageList(JSONArray jsonCount) {

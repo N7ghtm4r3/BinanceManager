@@ -4,7 +4,7 @@ import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.o
 import org.json.JSONObject;
 
 /**
- * The {@code ACKOrder} class is useful to format all SpotOrder Binance request in ACK format
+ * The {@code ACKOrder} class is useful to format all SpotOrder {@code "Binance"} request in ACK format
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">

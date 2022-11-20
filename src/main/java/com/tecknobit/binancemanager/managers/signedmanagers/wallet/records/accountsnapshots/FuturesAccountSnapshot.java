@@ -129,7 +129,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
         /**
          * Method to assemble an {@link FuturesAsset} list
          *
-         * @param assets: list of assets obtain by AccountSnapshot Binance request
+         * @param assets: list of assets obtain by AccountSnapshot {@code "Binance"} request
          * @return list as {@link ArrayList} of {@link FuturesAsset}
          **/
         private ArrayList<FuturesAsset> getAssetsList(JSONObject assets) {
@@ -143,7 +143,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
         /**
          * Method to assemble a {@link FuturesPosition} list
          *
-         * @param positions: list of positions obtain by AccountSnapshot Binance request
+         * @param positions: list of positions obtain by AccountSnapshot {@code "Binance"} request
          * @return list as {@link ArrayList} of {@link FuturesPosition}
          **/
         private ArrayList<FuturesPosition> getPositionsList(JSONObject positions) {

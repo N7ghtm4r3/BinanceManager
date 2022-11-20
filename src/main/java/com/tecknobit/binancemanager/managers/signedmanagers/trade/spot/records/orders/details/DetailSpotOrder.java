@@ -5,7 +5,7 @@ import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.o
 import org.json.JSONObject;
 
 /**
- * The {@code DetailSpotOrder} class is useful to format all DetailSpotOrder Binance request in DetailSpotOrder format
+ * The {@code DetailSpotOrder} class is useful to format all DetailSpotOrder {@code "Binance"} request in DetailSpotOrder format
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
@@ -86,7 +86,7 @@ public class DetailSpotOrder extends ResultSpotOrder implements BinanceManager.B
      *
      * @return code of error as int
      * *
-     * @implSpec if code error is not present in Binance's response will be returned -1 as default
+     * @implSpec if code error is not present in {@code "Binance"}'s response will be returned -1 as default
      **/
     @Override
     public int getCode() {
@@ -101,7 +101,7 @@ public class DetailSpotOrder extends ResultSpotOrder implements BinanceManager.B
      *
      * @return message of error as {@link String}
      * *
-     * @implSpec if message error is not present in Binance's response will be returned null as default
+     * @implSpec if message error is not present in {@code "Binance"}'s response will be returned null as default
      **/
     @Override
     public String getMessage() {

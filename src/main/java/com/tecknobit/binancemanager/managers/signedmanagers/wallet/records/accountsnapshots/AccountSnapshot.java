@@ -6,11 +6,12 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.formatters.JsonHelper.getJSONArray;
 
 /**
- *  The {@code AccountSnapshot} class is useful to manage AccountSnapshot Binance request
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code AccountSnapshot} class is useful to manage AccountSnapshot {@code "Binance"} request
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+ * https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
+ **/
 
 public class AccountSnapshot {
 

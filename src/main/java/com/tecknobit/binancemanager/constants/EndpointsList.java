@@ -1,13 +1,13 @@
 package com.tecknobit.binancemanager.constants;
 
 /**
- *  The {@code EndpointsList} class is a container class for all Binance's endpoints of the service API
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
- *      https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
-
-public abstract class EndpointsList {
+ * The {@code EndpointsList} class is a container class for all {@code "Binance"}'s endpoints of the service API
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
+ * Introduction</a>
+ **/
+public class EndpointsList {
 
     /**
      * {@code SYSTEM_STATUS_ENDPOINT} is constant for SYSTEM_STATUS_ENDPOINT's endpoint
@@ -391,7 +391,13 @@ public abstract class EndpointsList {
 
     /**
      * {@code ISOLATED_MARGIN_TIER_DATA_ENDPOINT} is constant for ISOLATED_MARGIN_TIER_DATA_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String ISOLATED_MARGIN_TIER_DATA_ENDPOINT = "/sapi/v1/margin/isolatedMarginTier";
+
+    /**
+     * Constructor to avoid instantiation
+     **/
+    private EndpointsList() {
+    }
 
 }

@@ -52,7 +52,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
     /**
      * Method to assemble a {@link SpotBalance} list
      *
-     * @param jsonBalances: snapshotVos obtain by AccountSnapshot Binance request
+     * @param jsonBalances: snapshotVos obtain by AccountSnapshot {@code "Binance"} request
      * @return list as {@link ArrayList} of {@link SpotBalance}
      **/
     public static ArrayList<SpotBalance> getBalancesSpot(JSONArray jsonBalances) {

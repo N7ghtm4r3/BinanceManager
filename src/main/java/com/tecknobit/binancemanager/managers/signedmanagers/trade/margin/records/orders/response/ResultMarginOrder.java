@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code ResultMarginOrder} class is useful to format ResultMarginOrder object of Binance's request Margin Account New Order
+ * The {@code ResultMarginOrder} class is useful to format ResultMarginOrder object of {@code "Binance"}'s request Margin Account New Order
  *
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
  * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>

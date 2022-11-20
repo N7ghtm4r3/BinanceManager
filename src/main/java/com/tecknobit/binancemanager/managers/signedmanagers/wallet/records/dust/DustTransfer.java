@@ -8,7 +8,7 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustItem.getListDribbletsDetails;
 
 /**
- * The {@code DustTransfer} class is useful to manage DustTransfer Binance request
+ * The {@code DustTransfer} class is useful to manage DustTransfer {@code "Binance"} request
  *
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
  * https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>

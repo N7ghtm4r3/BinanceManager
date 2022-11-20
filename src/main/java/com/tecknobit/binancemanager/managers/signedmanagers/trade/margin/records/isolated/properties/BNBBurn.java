@@ -3,7 +3,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.record
 import org.json.JSONObject;
 
 /**
- * The {@code BNBBurn} class is useful to format all Binance BNBBurn request response
+ * The {@code BNBBurn} class is useful to format all {@code "Binance"} BNBBurn request response
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data">

@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code AssetDetail} class is useful to manage AssetDetail Binance request
+ * The {@code AssetDetail} class is useful to manage AssetDetail {@code "Binance"} request
  *
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
  * https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>

@@ -5,49 +5,57 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code Trade} class is useful to format Binance Recent Trade request
+ * The {@code Trade} class is useful to format {@code "Binance"} Recent Trade request
  *
  * @author N7ghtm4r3 - Tecknobit
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list">
- * https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list</a>
+ * @apiNote see the official documentation at:
+ * <ul>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list">
+ *             Recent Trades List</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data">
+ *             Account Trade List (USER_DATA)</a>
+ *     </li>
+ * </ul>
  **/
-
 public class Trade {
 
     /**
      * {@code id} is instance that contains trade id
-     * **/
-    private final long id;
+     **/
+    protected final long id;
 
     /**
      * {@code price} is instance that contains price in trade
      * **/
-    private final double price;
+    protected final double price;
 
     /**
      * {@code qty} is instance that contains quantity in trade
      * **/
-    private final double qty;
+    protected final double qty;
 
     /**
      * {@code quoteQty} is instance that contains quote quantity in trade
      * **/
-    private final double quoteQty;
+    protected final double quoteQty;
 
     /**
      * {@code time} is instance that contains time of trade
      * **/
-    private final long time;
+    protected final long time;
 
     /**
      * {@code isBuyerMaker} is instance that contains if trade is buyer maker
      * **/
-    private final boolean isBuyerMaker;
+    protected final boolean isBuyerMaker;
 
     /**
      * {@code isBestMatch} is instance that contains if is best match of trade
      * **/
-    private final boolean isBestMatch;
+    protected final boolean isBestMatch;
 
     /** Constructor to init {@link Trade} object
      * @param id: trade id
@@ -83,10 +91,22 @@ public class Trade {
         isBestMatch = trade.getBoolean("isBestMatch");
     }
 
+    /**
+     * Method to get {@link #id} instance <br>
+     * Any params required
+     *
+     * @return {@link #id} instance as long
+     **/
     public long getId() {
         return id;
     }
 
+    /**
+     * Method to get {@link #price} instance <br>
+     * Any params required
+     *
+     * @return {@link #price} instance as double
+     **/
     public double getPrice() {
         return price;
     }
@@ -102,6 +122,12 @@ public class Trade {
         return roundValue(price, decimals);
     }
 
+    /**
+     * Method to get {@link #qty} instance <br>
+     * Any params required
+     *
+     * @return {@link #qty} instance as double
+     **/
     public double getQty() {
         return qty;
     }
@@ -117,6 +143,12 @@ public class Trade {
         return roundValue(qty, decimals);
     }
 
+    /**
+     * Method to get {@link #quoteQty} instance <br>
+     * Any params required
+     *
+     * @return {@link #quoteQty} instance as double
+     **/
     public double getQuoteQty() {
         return quoteQty;
     }
@@ -132,29 +164,45 @@ public class Trade {
         return roundValue(quoteQty, decimals);
     }
 
+    /**
+     * Method to get {@link #time} instance <br>
+     * Any params required
+     *
+     * @return {@link #time} instance as long
+     **/
     public long getTime() {
         return time;
     }
 
+    /**
+     * Method to get {@link #isBuyerMaker} instance <br>
+     * Any params required
+     *
+     * @return {@link #isBuyerMaker} instance as boolean
+     **/
     public boolean isBuyerMaker() {
         return isBuyerMaker;
     }
 
+    /**
+     * Method to get {@link #isBestMatch} instance <br>
+     * Any params required
+     *
+     * @return {@link #isBestMatch} instance as boolean
+     **/
     public boolean isBestMatch() {
         return isBestMatch;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "Trade{" +
-                "id=" + id +
-                ", price=" + price +
-                ", qty=" + qty +
-                ", quoteQty=" + quoteQty +
-                ", time=" + time +
-                ", isBuyerMaker=" + isBuyerMaker +
-                ", isBestMatch=" + isBestMatch +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

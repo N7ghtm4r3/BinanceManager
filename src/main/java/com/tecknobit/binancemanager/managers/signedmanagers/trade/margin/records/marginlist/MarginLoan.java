@@ -9,7 +9,7 @@ import static com.tecknobit.apimanager.formatters.JsonHelper.getJSONArray;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code MarginLoan} class is useful to format Binance Margin Query Loan repay request
+ * The {@code MarginLoan} class is useful to format {@code "Binance"} Margin Query Loan repay request
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
@@ -54,10 +54,12 @@ public class MarginLoan {
             throw new IllegalArgumentException("Details are not recoverable");
     }
 
-    /** Method to load LoanAssets list
-     * @param jsonAssets: obtained from Binance's request
-     * any return
-     * **/
+    /**
+     * Method to load LoanAssets list
+     *
+     * @param jsonAssets: obtained from {@code "Binance"}'s request
+     *                    any return
+     **/
     private void loadMarginLoanAssets(JSONArray jsonAssets) {
         marginLoanAssetsList = new ArrayList<>();
         for (int j = 0; j < jsonAssets.length(); j++)

@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code MarginAsset} class is useful to format Binance Get All Margin Assets request
+ * The {@code MarginAsset} class is useful to format {@code "Binance"} Get All Margin Assets request
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-margin-assets-market_data">

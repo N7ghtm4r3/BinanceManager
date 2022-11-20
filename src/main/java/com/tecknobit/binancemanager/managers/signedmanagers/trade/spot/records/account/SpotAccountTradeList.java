@@ -6,12 +6,13 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- *  The {@code SpotAccountTradeList} class is useful to format SpotAccountTradeList object
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
-
+ * The {@code SpotAccountTradeList} class is useful to format SpotAccountTradeList object
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data">
+ * Account Trade List (USER_DATA)</a>
+ * @see Trade
+ **/
 public class SpotAccountTradeList extends Trade {
 
     /**

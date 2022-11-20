@@ -4,7 +4,7 @@ import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order;
 import org.json.JSONObject;
 
 /**
- * The {@code MarginOrder} class is useful to format all Binance's margin order responses
+ * The {@code MarginOrder} class is useful to format all {@code "Binance"}'s margin order responses
  *
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
  * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>

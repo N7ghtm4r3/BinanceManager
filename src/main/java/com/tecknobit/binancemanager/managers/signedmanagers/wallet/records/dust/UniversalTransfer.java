@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code UniversalTransfer} class is useful to manage all UniversalTransfer Binance requests
+ * The {@code UniversalTransfer} class is useful to manage all UniversalTransfer {@code "Binance"} requests
  *
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
  * https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>

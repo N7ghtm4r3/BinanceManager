@@ -35,11 +35,12 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.AccountSnapshot.SPOT;
 
 /**
- *  The {@code BinanceWalletManager} class is useful to manage all Binance Wallet Endpoints
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#general-api-information">
- *      https://binance-docs.github.io/apidocs/spot/en/#general-api-information</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
+ * The {@code BinanceWalletManager} class is useful to manage all {@code "Binance"} Wallet Endpoints
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#general-api-information">
+ * https://binance-docs.github.io/apidocs/spot/en/#general-api-information</a>
+ **/
 
 public class BinanceWalletManager extends BinanceSignedManager {
 
@@ -744,7 +745,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
     }
 
     /** Method to get depositTip
-     * @param jsonObject: jsonObject assembled from request to Binance
+     * @param jsonObject: jsonObject assembled from request to {@code "Binance"}
      * @return depositTip as {@link String}
      * **/
     private String getDepositTip(JSONObject jsonObject){

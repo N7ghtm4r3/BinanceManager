@@ -1,106 +1,38 @@
 package com.tecknobit.binancemanager.managers.market.records.stats;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code Candlestick} class is useful to manage Candlestick requests
+ * The {@code Candlestick} class is useful to format a candlestick object
  * @apiNote see the official documentation at:
  * <ul>
  *     <li>
  *         <a href="https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data">
- *            https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data</a>
+ *            Kline/Candlestick Data</a>
  *     </li>
  *      <li>
  *         <a href="https://binance-docs.github.io/apidocs/spot/en/#uiklines">
- *           https://binance-docs.github.io/apidocs/spot/en/#uiklines</a>
+ *           UIKlines</a>
  *     </li>
  * </ul>
  * @author N7ghtm4r3 - Tecknobit
  * **/
-
 public class Candlestick {
 
     /**
-     * {@code INTERVAL_1s} is constant for one second interval
-     * **/
-    public static final String INTERVAL_1s = "1s";
-
-    /**
-     * {@code INTERVAL_1m} is constant for one minute interval
-     * **/
-    public static final String INTERVAL_1m = "1m";
-
-    /**
-     * {@code INTERVAL_3m} is constant for three minutes interval
-     * **/
-    public static final String INTERVAL_3m = "3m";
-
-    /**
-     * {@code INTERVAL_5m} is constant for five minutes interval
-     * **/
-    public static final String INTERVAL_5m = "5m";
-
-    /**
-     * {@code INTERVAL_15m} is constant for fifteen minutes interval
-     * **/
-    public static final String INTERVAL_15m = "15m";
-
-    /**
-     * {@code INTERVAL_30m} is constant for thirty minutes interval
-     * **/
-    public static final String INTERVAL_30m = "30m";
-
-    /**
-     * {@code INTERVAL_1h} is constant for one hour interval
-     * **/
-    public static final String INTERVAL_1h = "1h";
-
-    /**
-     * {@code INTERVAL_2h} is constant for two hours interval
-     * **/
-    public static final String INTERVAL_2h = "2h";
-
-    /**
-     * {@code INTERVAL_4h} is constant for four hours interval
-     * **/
-    public static final String INTERVAL_4h = "4h";
-
-    /**
-     * {@code INTERVAL_4h} is constant for six hours interval
-     * **/
-    public static final String INTERVAL_6h = "6h";
-
-    /**
-     * {@code INTERVAL_8h} is constant for eight hours interval
-     * **/
-    public static final String INTERVAL_8h = "8h";
-
-    /**
-     * {@code INTERVAL_12h} is constant for twelve hours interval
-     * **/
-    public static final String INTERVAL_12h = "12h";
-
-    /**
-     * {@code INTERVAL_1d} is constant for one day interval
-     * **/
-    public static final String INTERVAL_1d = "1d";
-
-    /**
-     * {@code INTERVAL_3d} is constant for three days interval
-     * **/
-    public static final String INTERVAL_3d = "3d";
-
-    /**
-     * {@code INTERVAL_1w} is constant for one-week interval
-     * **/
-    public static final String INTERVAL_1w = "1w";
-
-    /**
-     * {@code INTERVAL_1M} is constant for one-month interval
-     * **/
-    public static final String INTERVAL_1M = "1M";
+     * Constructor to init {@link Candlestick} object
+     *
+     * @param candlestick: candlestick details as {@link JSONArray}
+     **/
+    public Candlestick(JSONArray candlestick) {
+        this(candlestick.getLong(0), candlestick.getDouble(1), candlestick.getDouble(2),
+                candlestick.getDouble(3), candlestick.getDouble(4), candlestick.getDouble(5),
+                candlestick.getLong(6), candlestick.getDouble(7), candlestick.getInt(8),
+                candlestick.getDouble(9), candlestick.getDouble(10), candlestick.getDouble(11));
+    }
 
     /**
      * {@code openTime} is instance that contains open time of the candlestick
@@ -194,31 +126,33 @@ public class Candlestick {
     }
 
     /**
-     * Constructor to init {@link Candlestick} object
+     * Method to get {@link #openTime} instance <br>
+     * Any params required
      *
-     * @param candlestick: candlestick details as {@link JSONArray}
+     * @return {@link #openTime} instance as long
      **/
-    public Candlestick(JSONArray candlestick) {
-        openTime = candlestick.getLong(0);
-        open = candlestick.getDouble(1);
-        high = candlestick.getDouble(2);
-        low = candlestick.getDouble(3);
-        close = candlestick.getDouble(4);
-        volume = candlestick.getDouble(5);
-        closeTime = candlestick.getLong(6);
-        quoteAssetVolume = candlestick.getDouble(7);
-        numberOfTrades = candlestick.getInt(8);
-        takerBuyBaseAssetVolume = candlestick.getDouble(9);
-        takerBuyQuoteAssetVolume = candlestick.getDouble(10);
-        valueToIgnore = candlestick.getDouble(11);
-    }
-
     public long getOpenTime() {
         return openTime;
     }
 
+    /**
+     * Method to get {@link #open} instance <br>
+     * Any params required
+     *
+     * @return {@link #open} instance as double
+     **/
     public double getOpen() {
         return open;
+    }
+
+    /**
+     * Method to get {@link #high} instance <br>
+     * Any params required
+     *
+     * @return {@link #high} instance as double
+     **/
+    public double getHigh() {
+        return high;
     }
 
     /**
@@ -232,8 +166,14 @@ public class Candlestick {
         return roundValue(open, decimals);
     }
 
-    public double getHigh() {
-        return high;
+    /**
+     * Method to get {@link #low} instance <br>
+     * Any params required
+     *
+     * @return {@link #low} instance as double
+     **/
+    public double getLow() {
+        return low;
     }
 
     /**
@@ -247,8 +187,14 @@ public class Candlestick {
         return roundValue(high, decimals);
     }
 
-    public double getLow() {
-        return low;
+    /**
+     * Method to get {@link #close} instance <br>
+     * Any params required
+     *
+     * @return {@link #close} instance as double
+     **/
+    public double getClose() {
+        return close;
     }
 
     /**
@@ -262,8 +208,14 @@ public class Candlestick {
         return roundValue(low, decimals);
     }
 
-    public double getClose() {
-        return close;
+    /**
+     * Method to get {@link #volume} instance <br>
+     * Any params required
+     *
+     * @return {@link #volume} instance as double
+     **/
+    public double getVolume() {
+        return volume;
     }
 
     /**
@@ -277,8 +229,14 @@ public class Candlestick {
         return roundValue(close, decimals);
     }
 
-    public double getVolume() {
-        return volume;
+    /**
+     * Method to get {@link #closeTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #closeTime} instance as long
+     **/
+    public long getCloseTime() {
+        return closeTime;
     }
 
     /**
@@ -292,12 +250,24 @@ public class Candlestick {
         return roundValue(volume, decimals);
     }
 
-    public long getCloseTime() {
-        return closeTime;
-    }
-
+    /**
+     * Method to get {@link #quoteAssetVolume} instance <br>
+     * Any params required
+     *
+     * @return {@link #quoteAssetVolume} instance as double
+     **/
     public double getQuoteAssetVolume() {
         return quoteAssetVolume;
+    }
+
+    /**
+     * Method to get {@link #numberOfTrades} instance <br>
+     * Any params required
+     *
+     * @return {@link #numberOfTrades} instance as int
+     **/
+    public int getNumberOfTrades() {
+        return numberOfTrades;
     }
 
     /**
@@ -311,12 +281,24 @@ public class Candlestick {
         return roundValue(quoteAssetVolume, decimals);
     }
 
-    public int getNumberOfTrades() {
-        return numberOfTrades;
-    }
-
+    /**
+     * Method to get {@link #takerBuyBaseAssetVolume} instance <br>
+     * Any params required
+     *
+     * @return {@link #takerBuyBaseAssetVolume} instance as double
+     **/
     public double getTakerBuyBaseAssetVolume() {
         return takerBuyBaseAssetVolume;
+    }
+
+    /**
+     * Method to get {@link #takerBuyQuoteAssetVolume} instance <br>
+     * Any params required
+     *
+     * @return {@link #takerBuyQuoteAssetVolume} instance as double
+     **/
+    public double getTakerBuyQuoteAssetVolume() {
+        return takerBuyQuoteAssetVolume;
     }
 
     /**
@@ -330,8 +312,14 @@ public class Candlestick {
         return roundValue(takerBuyBaseAssetVolume, decimals);
     }
 
-    public double getTakerBuyQuoteAssetVolume() {
-        return takerBuyQuoteAssetVolume;
+    /**
+     * Method to get {@link #valueToIgnore} instance <br>
+     * Any params required
+     *
+     * @return {@link #valueToIgnore} instance as double
+     **/
+    public double getValueToIgnore() {
+        return valueToIgnore;
     }
 
     /**
@@ -345,8 +333,15 @@ public class Candlestick {
         return roundValue(takerBuyQuoteAssetVolume, decimals);
     }
 
-    public double getValueToIgnore() {
-        return valueToIgnore;
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
+    @Override
+    public String toString() {
+        return new JSONObject(this).toString();
     }
 
     /**
@@ -360,22 +355,111 @@ public class Candlestick {
         return roundValue(valueToIgnore, decimals);
     }
 
-    @Override
-    public String toString() {
-        return "Candlestick{" +
-                "openTime=" + openTime +
-                ", open=" + open +
-                ", high=" + high +
-                ", low=" + low +
-                ", close=" + close +
-                ", volume=" + volume +
-                ", closeTime=" + closeTime +
-                ", quoteAssetVolume=" + quoteAssetVolume +
-                ", numberOfTrades=" + numberOfTrades +
-                ", takerBuyBaseAssetVolume=" + takerBuyBaseAssetVolume +
-                ", takerBuyQuoteAssetVolume=" + takerBuyQuoteAssetVolume +
-                ", valueToIgnore=" + valueToIgnore +
-                '}';
+    /**
+     * {@code Interval} list of intervals available for a candlestick
+     **/
+    public enum Interval {
+
+        /**
+         * {@code "_1s"} one second interval
+         **/
+        _1s("1s"),
+
+        /**
+         * {@code "_1m"} one minute interval
+         **/
+        _1m("1m"),
+
+        /**
+         * {@code "_3m"} three minutes interval
+         **/
+        _3m("3m"),
+
+        /**
+         * {@code "_5m"} five minutes interval
+         **/
+        _5m("5m"),
+
+        /**
+         * {@code "_15m"} fifteen minutes interval
+         **/
+        _15m("15m"),
+
+        /**
+         * {@code "_1h"} one hour interval
+         **/
+        _1h("1h"),
+
+        /**
+         * {@code "_2h"} two hours interval
+         **/
+        _2h("2h"),
+
+        /**
+         * {@code "_4h"} four hours interval
+         **/
+        _4h("4h"),
+
+        /**
+         * {@code "_6h"} six hours interval
+         **/
+        _6h("6h"),
+
+        /**
+         * {@code "_8h"} eight hours interval
+         **/
+        _8h("8h"),
+
+        /**
+         * {@code "_12h"} twelve hours interval
+         **/
+        _12h("12h"),
+
+        /**
+         * {@code "_1d"} one day interval
+         **/
+        _1d("1d"),
+
+        /**
+         * {@code "_3d"} three days interval
+         **/
+        _3d("3d"),
+
+        /**
+         * {@code "_1w"} one week interval
+         **/
+        _1w("1w"),
+
+        /**
+         * {@code "_1M"} one month interval
+         **/
+        _1M("1M");
+
+        /**
+         * {@code interval} interval type
+         **/
+        private final String interval;
+
+        /**
+         * Constructor to init {@link Interval}
+         *
+         * @param interval: interval type
+         **/
+        Interval(String interval) {
+            this.interval = interval;
+        }
+
+        /**
+         * Method to get {@link #interval} instance <br>
+         * Any params required
+         *
+         * @return {@link #interval} instance as {@link String}
+         **/
+        @Override
+        public String toString() {
+            return interval;
+        }
+
     }
 
 }

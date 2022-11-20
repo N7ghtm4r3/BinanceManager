@@ -4,10 +4,11 @@ import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records
 import org.json.JSONObject;
 
 /**
- * The {@code ACKMarginOrder} class is useful to format ACKMarginOrder object of Binance's request Margin Account New Order
+ * The {@code ACKMarginOrder} class is useful to format ACKMarginOrder object of {@code "Binance"}'s request Margin Account New Order
+ *
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
- *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
- * **/
+ * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
+ **/
 
 public class ACKMarginOrder extends MarginOrder {
 

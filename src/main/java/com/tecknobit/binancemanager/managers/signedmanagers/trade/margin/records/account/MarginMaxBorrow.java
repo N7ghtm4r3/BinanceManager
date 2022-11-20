@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code MarginMaxBorrow} class is useful to format Binance Margin Max Borrow request response
+ * The {@code MarginMaxBorrow} class is useful to format {@code "Binance"} Margin Max Borrow request response
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-borrow-user_data">

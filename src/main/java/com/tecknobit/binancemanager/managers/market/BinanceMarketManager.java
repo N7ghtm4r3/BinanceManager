@@ -21,11 +21,12 @@ import static com.tecknobit.apimanager.trading.TradingTools.computeTPTOPIndex;
 import static com.tecknobit.binancemanager.constants.EndpointsList.*;
 
 /**
- * The {@code BinanceMarketManager} class is useful to manage all Binance Market Endpoints
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#market-data-endpoints">
- *     https://binance-docs.github.io/apidocs/spot/en/#market-data-endpoints</a>
+ * The {@code BinanceMarketManager} class is useful to manage all {@code "Binance"} Market Endpoints
+ *
  * @author N7ghtm4r3 - Tecknobit
- * **/
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#market-data-endpoints">
+ * https://binance-docs.github.io/apidocs/spot/en/#market-data-endpoints</a>
+ **/
 
 public class BinanceMarketManager extends BinanceManager {
 
@@ -307,7 +308,7 @@ public class BinanceMarketManager extends BinanceManager {
     }
 
     /** Method to get RecentTrade list object
-     * @param jsonTrades: obtained from Binance request
+     * @param jsonTrades: obtained from {@code "Binance"} request
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list">
      *     https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list</a>
      * @return recent trades list as ArrayList<Trade> object
@@ -321,7 +322,7 @@ public class BinanceMarketManager extends BinanceManager {
 
     /** Request to get old trade
      * @param symbol: symbol to fetch exchange information es. BTCBUSD
-     * @param apiKey: apiKey of your Binance account
+     * @param apiKey: apiKey of your {@code "Binance"} account
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data</a>
      * @return old trade as {@link String}
@@ -332,7 +333,7 @@ public class BinanceMarketManager extends BinanceManager {
 
     /** Request to get old trade
      * @param symbol: symbol to fetch exchange information es. BTCBUSD
-     * @param apiKey: apiKey of your Binance account
+     * @param apiKey: apiKey of your {@code "Binance"} account
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data</a>
      * @return old trade as {@link JSONArray}
@@ -343,7 +344,7 @@ public class BinanceMarketManager extends BinanceManager {
 
     /** Request to get old trade
      * @param symbol: symbol to fetch exchange information es. BTCBUSD
-     * @param apiKey: apiKey of your Binance account
+     * @param apiKey: apiKey of your {@code "Binance"} account
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list">
      *     https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list</a>
      * @return old trade as ArrayList<Trade>
@@ -354,9 +355,9 @@ public class BinanceMarketManager extends BinanceManager {
 
     /** Request to get old trade
      * @param symbol: symbol to fetch exchange information es. BTCBUSD
-     * @param apiKey: apiKey of your Binance account
+     * @param apiKey: apiKey of your {@code "Binance"} account
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are limit,fromId,recvWindow)
+     * @implSpec (keys accepted are limit, fromId, recvWindow)
      * @implNote limit: valid limits are default 500 and max 1000
      * @implNote fromId: to insert it correctly ad L at the end of long number es 1499865549590 + L = 1499865549590L
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data">
@@ -371,9 +372,9 @@ public class BinanceMarketManager extends BinanceManager {
 
     /** Request to get old trade
      * @param symbol: symbol to fetch exchange information es. BTCBUSD
-     * @param apiKey: apiKey of your Binance account
+     * @param apiKey: apiKey of your {@code "Binance"} account
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are limit,fromId,recvWindow)
+     * @implSpec (keys accepted are limit, fromId, recvWindow)
      * @implNote limit: valid limits are default 500 and max 1000
      * @implNote fromId: to insert it correctly ad L at the end of long number es 1499865549590 + L = 1499865549590L
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data">
@@ -386,9 +387,9 @@ public class BinanceMarketManager extends BinanceManager {
 
     /** Request to get old trade
      * @param symbol: symbol to fetch exchange information es. BTCBUSD
-     * @param apiKey: apiKey of your Binance account
+     * @param apiKey: apiKey of your {@code "Binance"} account
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are limit,fromId,recvWindow)
+     * @implSpec (keys accepted are limit, fromId, recvWindow)
      * @implNote limit: valid limits are default 500 and max 1000
      * @implNote fromId: to insert it correctly ad L at the end of long number es 1499865549590 + L = 1499865549590L
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#old-trade-lookup-market_data">
@@ -468,7 +469,7 @@ public class BinanceMarketManager extends BinanceManager {
     }
 
     /** Method to assemble CompressedTrade list
-     * @param jsonArray: obtain from Binance request
+     * @param jsonArray: obtain from {@code "Binance"} request
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list">
      *     https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list</a>
      * @return list of compressedTrade as ArrayList<CompressedTrade>
@@ -631,7 +632,7 @@ public class BinanceMarketManager extends BinanceManager {
     /**
      * Method to assemble Candlestick list
      *
-     * @param jsonArray: obtain from Binance request
+     * @param jsonArray: obtain from {@code "Binance"} request
      * @return list of candlestick as {@link ArrayList} of {@link Candlestick>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data">
      * https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-data</a>
@@ -1077,7 +1078,7 @@ public class BinanceMarketManager extends BinanceManager {
     }
 
     /** Method to assemble PriceTicker list
-     * @param jsonObject: obtain from Binance request
+     * @param jsonObject: obtain from {@code "Binance"} request
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#symbol-price-ticker">
      *     https://binance-docs.github.io/apidocs/spot/en/#symbol-price-ticker</a>
      * @return PriceTicker object
@@ -1220,7 +1221,7 @@ public class BinanceMarketManager extends BinanceManager {
     }
 
     /** Method to assemble an {@link OrderBookTicker} object
-     * @param jsonOrderBook: obtain from Binance request
+     * @param jsonOrderBook: obtain from {@code "Binance"} request
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker">
      *     https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker</a>
      * @return OrderBookTicker object

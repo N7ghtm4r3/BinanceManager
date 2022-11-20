@@ -9,7 +9,7 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustItem.getListDribbletsDetails;
 
 /**
- * The {@code DustLog} class is useful to create a Binance's dust log
+ * The {@code DustLog} class is useful to create a {@code "Binance"}'s dust log
  *
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
  * https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
@@ -91,8 +91,8 @@ public class DustLog {
     }
 
     /**
-     *  The {@code AssetDribblets} class is useful to create a Binance's asset dribblets object
-     * **/
+     * The {@code AssetDribblets} class is useful to create a {@code "Binance"}'s asset dribblets object
+     **/
 
     public static class AssetDribblets {
 

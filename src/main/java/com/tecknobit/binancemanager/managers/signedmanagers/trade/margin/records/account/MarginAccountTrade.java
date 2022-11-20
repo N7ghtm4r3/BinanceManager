@@ -4,11 +4,12 @@ import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Fill;
 import org.json.JSONObject;
 
 /**
- * The {@code MarginAccountTrade} class is useful to format Binance Margin Account Trade request response
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-isolated-margin-account-trade">
- *     https://binance-docs.github.io/apidocs/spot/en/#enable-isolated-margin-account-trade</a>
+ * The {@code MarginAccountTrade} class is useful to format {@code "Binance"} Margin Account Trade request response
+ *
  * @author N7ghtm4r3 - Tecknobit
- * **/
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-isolated-margin-account-trade">
+ * https://binance-docs.github.io/apidocs/spot/en/#enable-isolated-margin-account-trade</a>
+ **/
 
 public class MarginAccountTrade extends Fill {
 

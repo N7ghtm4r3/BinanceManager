@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code ConvertibleBNBAssets} class is useful to create a Binance's convertible BNB Asset object
+ * The {@code ConvertibleBNBAssets} class is useful to create a {@code "Binance"}'s convertible BNB Asset object
  *
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
  * https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data</a>

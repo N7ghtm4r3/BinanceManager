@@ -18,12 +18,12 @@ import static com.tecknobit.apimanager.apis.APIRequest.HMAC_SHA256_ALGORITHM;
 public class BinanceSignedManager extends BinanceManager {
 
     /**
-     * {@code apiKey} is instance that contains api key of Binance's account
-     * **/
+     * {@code apiKey} is instance that contains api key of {@code "Binance"}'s account
+     **/
     protected final String apiKey;
 
     /**
-     * {@code secretKey} is instance that contains secret key of Binance's account
+     * {@code secretKey} is instance that contains secret key of {@code "Binance"}'s account
      * **/
     protected final String secretKey;
 
