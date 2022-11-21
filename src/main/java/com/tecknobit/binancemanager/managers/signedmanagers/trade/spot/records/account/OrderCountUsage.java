@@ -1,26 +1,27 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.account;
 
+import com.tecknobit.binancemanager.managers.market.records.stats.ExchangeInformation.RateLimit.RateLimitInterval;
+import com.tecknobit.binancemanager.managers.market.records.stats.ExchangeInformation.RateLimit.RateLimitType;
 import org.json.JSONObject;
 
 /**
- * The {@code OrderCountUsage} class is useful to format OrderCountUsage object
+ * The {@code OrderCountUsage} class is useful to format an orders count usage
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-order-count-usage-trade">
- * https://binance-docs.github.io/apidocs/spot/en/#query-current-order-count-usage-trade</a>
+ * Query Current Order Count Usage (TRADE)</a>
  **/
-
 public class OrderCountUsage {
 
     /**
      * {@code rateLimitType} is instance that memorizes rate limit type
-     * **/
-    private final String rateLimitType;
+     **/
+    private final RateLimitType rateLimitType;
 
     /**
      * {@code interval} is instance that memorizes interval value
-     * **/
-    private final String interval;
+     **/
+    private final RateLimitInterval interval;
 
     /**
      * {@code intervalNum} is instance that memorizes interval number value
@@ -44,7 +45,8 @@ public class OrderCountUsage {
      * @param limit: limit value
      * @param count: count value
      * **/
-    public OrderCountUsage(String rateLimitType, String interval, int intervalNum, double limit, int count) {
+    public OrderCountUsage(RateLimitType rateLimitType, RateLimitInterval interval, int intervalNum, double limit,
+                           int count) {
         this.rateLimitType = rateLimitType;
         this.interval = interval;
         this.intervalNum = intervalNum;
@@ -58,42 +60,72 @@ public class OrderCountUsage {
      * @param orderCountUsage: order count usage details as {@link JSONObject}
      **/
     public OrderCountUsage(JSONObject orderCountUsage) {
-        rateLimitType = orderCountUsage.getString("rateLimitType");
-        interval = orderCountUsage.getString("interval");
+        rateLimitType = RateLimitType.valueOf(orderCountUsage.getString("rateLimitType"));
+        interval = RateLimitInterval.valueOf(orderCountUsage.getString("interval"));
         intervalNum = orderCountUsage.getInt("intervalNum");
         limit = orderCountUsage.getDouble("limit");
         count = orderCountUsage.getInt("count");
     }
 
-    public String getRateLimitType() {
+    /**
+     * Method to get {@link #rateLimitType} instance <br>
+     * Any params required
+     *
+     * @return {@link #rateLimitType} instance as {@link RateLimitType}
+     **/
+    public RateLimitType getRateLimitType() {
         return rateLimitType;
     }
 
-    public String getInterval() {
+    /**
+     * Method to get {@link #interval} instance <br>
+     * Any params required
+     *
+     * @return {@link #interval} instance as {@link RateLimitInterval}
+     **/
+    public RateLimitInterval getInterval() {
         return interval;
     }
 
+    /**
+     * Method to get {@link #intervalNum} instance <br>
+     * Any params required
+     *
+     * @return {@link #intervalNum} instance as int
+     **/
     public int getIntervalNum() {
         return intervalNum;
     }
 
+    /**
+     * Method to get {@link #limit} instance <br>
+     * Any params required
+     *
+     * @return {@link #limit} instance as double
+     **/
     public double getLimit() {
         return limit;
     }
 
+    /**
+     * Method to get {@link #count} instance <br>
+     * Any params required
+     *
+     * @return {@link #count} instance as int
+     **/
     public int getCount() {
         return count;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "OrderCountUsage{" +
-                "rateLimitType='" + rateLimitType + '\'' +
-                ", interval='" + interval + '\'' +
-                ", intervalNum=" + intervalNum +
-                ", limit=" + limit +
-                ", count=" + count +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

@@ -1,6 +1,5 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response;
 
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.SpotOrder;
 import org.json.JSONObject;
 
 /**

@@ -1,129 +1,58 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.common;
 
 import com.tecknobit.apimanager.formatters.JsonHelper;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.BinanceMarginManager;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.BinanceSpotManager;
 import org.json.JSONObject;
 
 /**
- * The {@code Order} class is useful to manage and format all Binance Order request
+ * The {@code Order} class is useful to manage and format a {@code "Binance"}'s order
  *
- * @implNote used by {@link BinanceSpotManager} and {@link BinanceMarginManager}
+ * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at:
  * <ul>
  * <li>
- * <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
- * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
+ * <a href="https://binance-docs.github.io/apidocs/spot/en/#spot-account-trade">
+ * Spot Account/Trade</a>
  * </li>
  * <li>
  * <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
- * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
- * </li><li>
- * <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
+ * New Order (TRADE)</a>
+ * </li>
+ * <li>
+ * <a href="https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data">
+ * Query Order (USER_DATA)</a>
  * </li>
  * <li>
  * <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
- * https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
- * </li><li>
- * <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
- * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
+ * Cancel Order (TRADE)</a>
  * </li>
  * <li>
  * <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade">
- * https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade</a>
- * </li><li>
- * <a href="https://binance-docs.github.io/apidocs/spot/en/#spot-account-trade">
- * https://binance-docs.github.io/apidocs/spot/en/#spot-account-trade</a>
- * </li><li>
- * <a href="https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data</a>
+ * Margin Account/Trade</a>
+ * </li>
+ * <li>
+ * <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+ * Margin Account New Order (TRADE)</a>
+ * </li>
+ * <li>
+ * <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
+ * Query Cross Margin Account Details (USER_DATA)</a>
  * </li>
  * </ul>
  **/
-
-public abstract class Order {
-
-    /**
-     * {@code STATUS_CONFIRMED} is constant for confirmed status
-     **/
-    public static final String STATUS_CONFIRMED = "CONFIRMED";
-
-    /**
-     * {@code STATUS_PENDING} is constant for pending status
-     **/
-    public static final String STATUS_PENDING = "PENDING";
-
-    /**
-     * {@code STATUS_FAILED} is constant for failed status
-     * **/
-    public static final String STATUS_FAILED = "FAILED";
-
-    /**
-     * {@code STATUS_NEW} is constant for new status
-     * **/
-    public static final String STATUS_NEW = "NEW";
-
-    /**
-     * {@code STATUS_PARTIALLY_FILLED} is constant for status partially filled
-     * **/
-    public static final String STATUS_PARTIALLY_FILLED = "PARTIALLY_FILLED";
-
-    /**
-     * {@code STATUS_FILLED} is constant for filled status
-     * **/
-    public static final String STATUS_FILLED = "FILLED";
-
-    /**
-     * {@code STATUS_CANCELED} is constant for canceled status
-     * **/
-    public static final String STATUS_CANCELED = "CANCELED";
-
-    /**
-     * {@code STATUS_PENDING_CANCELED} is constant for pending canceled status
-     * **/
-    public static final String STATUS_PENDING_CANCELED = "PENDING_CANCELED";
-
-    /**
-     * {@code STATUS_REJECTED} is constant for rejected status
-     * **/
-    public static final String STATUS_REJECTED = "REJECTED";
-
-    /**
-     * {@code STATUS_EXPIRED} is constant for expired status
-     * **/
-    public static final String STATUS_EXPIRED = "EXPIRED";
-
-    /**
-     * {@code STATUS_EXECUTING} is constant for executing status
-     * **/
-    public static final String STATUS_EXECUTING = "EXECUTING";
-
-    /**
-     * {@code STATUS_ALL_DONE} is constant for all done status
-     * **/
-    public static final String STATUS_ALL_DONE = "ALL_DONE";
-
-    /**
-     * {@code REJECT} is constant for reject status
-     * **/
-    public static final String STATUS_REJECT = "REJECT";
-
-    /**
-     * {@code symbol} is instance that memorizes symbol used in the order
-     * **/
-    protected final String symbol;
+public class Order {
 
     /**
      * {@code orderId} is instance that memorizes order identifier
      **/
-    protected final double orderId;
-
+    protected final long orderId;
+    /**
+     * {@code symbol} is instance that memorizes symbol used in the order
+     **/
+    protected final String symbol;
     /**
      * {@code clientOrderId} is instance that memorizes client order identifier
      **/
     protected final String clientOrderId;
-
     /**
      * {@code jsonHelper} is instance that memorizes {@link JsonHelper} tool
      **/
@@ -136,11 +65,69 @@ public abstract class Order {
      * @param orderId:       order identifier
      * @param clientOrderId: client order identifier
      **/
-    public Order(String symbol, double orderId, String clientOrderId) {
+    public Order(String symbol, long orderId, String clientOrderId) {
         this.symbol = symbol;
         this.orderId = orderId;
         this.clientOrderId = clientOrderId;
         hOrder = null;
+    }
+
+    /**
+     * Method to get {@link #symbol} instance <br>
+     * Any params required
+     *
+     * @return {@link #symbol} instance as {@link String}
+     **/
+    public String getSymbol() {
+        return symbol;
+    }
+
+    /**
+     * Method to get {@link #orderId} instance <br>
+     * Any params required
+     *
+     * @return {@link #orderId} instance as long
+     **/
+    public long getOrderId() {
+        return orderId;
+    }
+
+    /**
+     * Method to get {@link #clientOrderId} instance <br>
+     * Any params required
+     *
+     * @return {@link #clientOrderId} instance as {@link String}
+     **/
+    public String getClientOrderId() {
+        return clientOrderId;
+    }
+
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
+    @Override
+    public String toString() {
+        return new JSONObject(this).toString();
+    }
+
+    /**
+     * {@code Status} list of available sides for an order
+     **/
+    public enum Side {
+
+        /**
+         * {@code "BUY"} side
+         **/
+        BUY,
+
+        /**
+         * {@code "SELL"} side
+         **/
+        SELL
+
     }
 
     /**
@@ -155,25 +142,162 @@ public abstract class Order {
         clientOrderId = hOrder.getString("clientOrderId");
     }
 
-    public String getSymbol() {
-        return symbol;
+    /**
+     * {@code OrderType} list of available types for an order
+     **/
+    public enum OrderType {
+
+        /**
+         * {@code "LIMIT"} type
+         **/
+        LIMIT,
+
+        /**
+         * {@code "MARKET"} type
+         **/
+        MARKET,
+
+        /**
+         * {@code "STOP_LOSS"} type
+         **/
+        STOP_LOSS,
+
+        /**
+         * {@code "STOP_LOSS_LIMIT"} type
+         **/
+        STOP_LOSS_LIMIT,
+
+        /**
+         * {@code "TAKE_PROFIT"} type
+         **/
+        TAKE_PROFIT,
+
+        /**
+         * {@code "TAKE_PROFIT_LIMIT"} type
+         **/
+        TAKE_PROFIT_LIMIT,
+
+        /**
+         * {@code "LIMIT_MAKER"} type
+         **/
+        LIMIT_MAKER
+
     }
 
-    public double getOrderId() {
-        return orderId;
+    /**
+     * {@code TimeInForce} list of available time in force for an order
+     **/
+    public enum TimeInForce {
+
+        /**
+         * {@code "GTC"} time in force -> {@code "Good Till Canceled"}
+         **/
+        GTC,
+
+        /**
+         * {@code "IOC"} time in force -> {@code "Immediate Or Cancel"}
+         **/
+        IOC,
+
+        /**
+         * {@code "FOK"} time in force -> {@code "Fill Or Kill"}
+         **/
+        FOK
+
     }
 
-    public String getClientOrderId() {
-        return clientOrderId;
+    /**
+     * {@code OrderResponseType} list of available response type for an order
+     **/
+    public enum OrderResponseType {
+
+        /**
+         * {@code "ACK"} response type
+         **/
+        ACK,
+
+        /**
+         * {@code "RESULT"} response type
+         **/
+        RESULT,
+
+        /**
+         * {@code "FULL"} response type
+         **/
+        FULL
+
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "symbol='" + symbol + '\'' +
-                ", orderId=" + orderId +
-                ", clientOrderId='" + clientOrderId + '\'' +
-                '}';
+    /**
+     * {@code Status} list of available statuses for an order
+     **/
+    public enum Status {
+
+        /**
+         * {@code "CONFIRMED"} status
+         **/
+        CONFIRMED,
+
+        /**
+         * {@code "PENDING"} status
+         **/
+        PENDING,
+
+        /**
+         * {@code "FAILED"} status
+         **/
+        FAILED,
+
+        /**
+         * {@code "NEW"} status
+         **/
+        NEW,
+
+        /**
+         * {@code "PARTIALLY_FILLED"} status
+         **/
+        PARTIALLY_FILLED,
+
+        /**
+         * {@code "FILLED"} status
+         **/
+        FILLED,
+
+        /**
+         * {@code "CANCELED"} status
+         **/
+        CANCELED,
+
+        /**
+         * {@code "PENDING_CANCELED"} status
+         **/
+        PENDING_CANCELED,
+
+        /**
+         * {@code "REJECTED"} status
+         **/
+        REJECTED,
+
+        /**
+         * {@code "EXPIRED"} status
+         **/
+        EXPIRED,
+
+        /**
+         * {@code "EXECUTING"} status
+         **/
+        EXECUTING,
+
+        /**
+         * {@code "ALL_DONE"} status
+         **/
+        ALL_DONE,
+
+        /**
+         * {@code "REJECT"} status
+         **/
+        REJECT
+
     }
 
 }

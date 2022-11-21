@@ -1,6 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.marginproperties;
 
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.properties.IsolatedMarginFee;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.properties.IsolatedMarginFee.IsolatedData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -9,38 +9,39 @@ import java.util.ArrayList;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code CrossMarginFee} class is useful to format {@code "Binance"} Cross Margin Fee request response
+ * The {@code CrossMarginFee} class is useful to format a {@code "Binance"}'s cross margin fee
  *
+ * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data</a>
+ * Query Cross Margin Fee Data (USER_DATA)</a>
+ * @see IsolatedData
  **/
-
-public class CrossMarginFee extends IsolatedMarginFee.IsolatedData {
+public class CrossMarginFee extends IsolatedData {
 
     /**
      * {@code vipLevel} is instance that memorizes vip level
-     * **/
-    private int vipLevel;
+     **/
+    private final int vipLevel;
 
     /**
      * {@code yearlyInterest} is instance that memorizes if is a transfer in
-     * **/
-    private boolean transferIn;
+     **/
+    private final boolean transferIn;
 
     /**
      * {@code borrowable} is instance that memorizes if is borrowable
-     * **/
-    private boolean borrowable;
+     **/
+    private final boolean borrowable;
 
     /**
      * {@code yearlyInterest} is instance that memorizes value of yearly interest
-     * **/
-    private double yearlyInterest;
+     **/
+    private final double yearlyInterest;
 
     /**
      * {@code marginablePairsList} is instance that memorizes list of pairs data
-     * **/
-    private ArrayList<String> marginablePairsList;
+     **/
+    private final ArrayList<String> marginablePairsList;
 
     /** Constructor to init {@link CrossMarginFee} object
      * @param vipLevel: vip level
@@ -77,50 +78,48 @@ public class CrossMarginFee extends IsolatedMarginFee.IsolatedData {
         transferIn = marginFee.getBoolean("transferIn");
         borrowable = marginFee.getBoolean("borrowable");
         yearlyInterest = marginFee.getDouble("yearlyInterest");
-        loadMarginablePairsList(marginFee.getJSONArray("marginablePairs"));
+        marginablePairsList = new ArrayList<>();
+        JSONArray jPairs = marginFee.getJSONArray("marginablePairs");
+        for (int j = 0; j < jPairs.length(); j++)
+            marginablePairsList.add(jPairs.getString(j));
     }
 
     /**
-     * Method to load MarginablePairs list
+     * Method to get {@link #vipLevel} instance <br>
+     * Any params required
      *
-     * @param jsonAssets: obtained from {@code "Binance"}'s request
+     * @return {@link #vipLevel} instance as int
      **/
-    private void loadMarginablePairsList(JSONArray jsonAssets) {
-        marginablePairsList = new ArrayList<>();
-        for (int j = 0; j < jsonAssets.length(); j++)
-            marginablePairsList.add(jsonAssets.getString(j));
-    }
-
     public int getVipLevel() {
         return vipLevel;
     }
 
-    /** Method to set {@link #vipLevel}
-     * @param vipLevel: vip level
-     * @throws IllegalArgumentException when vip level value is less than 0
-     * **/
-    public void setVipLevel(int vipLevel) {
-        if(vipLevel < 0)
-            throw new IllegalArgumentException("Vip level value cannot be less than 0");
-        this.vipLevel = vipLevel;
-    }
-
+    /**
+     * Method to get {@link #transferIn} instance <br>
+     * Any params required
+     *
+     * @return {@link #transferIn} instance as boolean
+     **/
     public boolean isTransferIn() {
         return transferIn;
     }
 
-    public void setTransferIn(boolean transferIn) {
-        this.transferIn = transferIn;
-    }
-
+    /**
+     * Method to get {@link #borrowable} instance <br>
+     * Any params required
+     *
+     * @return {@link #borrowable} instance as boolean
+     **/
     public boolean isBorrowable() {
         return borrowable;
     }
 
-    public void setBorrowable(boolean borrowable) {
-        this.borrowable = borrowable;
-    }
-
+    /**
+     * Method to get {@link #yearlyInterest} instance <br>
+     * Any params required
+     *
+     * @return {@link #yearlyInterest} instance as double
+     **/
     public double getYearlyInterest() {
         return yearlyInterest;
     }
@@ -137,50 +136,43 @@ public class CrossMarginFee extends IsolatedMarginFee.IsolatedData {
     }
 
     /**
-     * Method to set {@link #yearlyInterest}
+     * Method to get {@link #marginablePairsList} instance <br>
+     * Any params required
      *
-     * @param yearlyInterest: value of yearly interest
-     * @throws IllegalArgumentException when value of yearly interest is less than 0
+     * @return {@link #marginablePairsList} instance as {@link ArrayList} of {@link String}
      **/
-    public void setYearlyInterest(double yearlyInterest) {
-        if (yearlyInterest < 0)
-            throw new IllegalArgumentException("Yearly interest value cannot be less than 0");
-        this.yearlyInterest = yearlyInterest;
-    }
-
     public ArrayList<String> getMarginablePairsList() {
         return marginablePairsList;
     }
 
-    public void setMarginablePairsList(ArrayList<String> marginablePairsList) {
-        this.marginablePairsList = marginablePairsList;
-    }
-
-    public void insertMarginablePair(String marginablePair){
-        if(!marginablePairsList.contains(marginablePair))
+    /**
+     * Method to add a marginable pair to {@link #marginablePairsList}
+     *
+     * @param marginablePair: marginable pair to add
+     **/
+    public void insertMarginablePair(String marginablePair) {
+        if (!marginablePairsList.contains(marginablePair))
             marginablePairsList.add(marginablePair);
     }
 
-    public boolean removeMarginablePair(String marginablePair){
+    /**
+     * Method to remove a marginable pair from {@link #marginablePairsList}
+     *
+     * @param marginablePair: marginable pair to remove
+     * @return result of operation as boolean
+     **/
+    public boolean removeMarginablePair(String marginablePair) {
         return marginablePairsList.remove(marginablePair);
     }
 
-    public String getMarginablePair(int index){
+    /**
+     * Method to get a marginable pair from {@link #marginablePairsList} list
+     *
+     * @param index: index to fetch the marginable pair
+     * @return marginable pair as {@link String}
+     **/
+    public String getMarginablePair(int index) {
         return marginablePairsList.get(index);
-    }
-
-    @Override
-    public String toString() {
-        return "CrossMarginFee{" +
-                "vipLevel=" + vipLevel +
-                ", transferIn=" + transferIn +
-                ", borrowable=" + borrowable +
-                ", yearlyInterest=" + yearlyInterest +
-                ", marginablePairsList=" + marginablePairsList +
-                ", coin='" + coin + '\'' +
-                ", dailyInterest=" + dailyInterest +
-                ", borrowLimit=" + borrowLimit +
-                '}';
     }
 
 }

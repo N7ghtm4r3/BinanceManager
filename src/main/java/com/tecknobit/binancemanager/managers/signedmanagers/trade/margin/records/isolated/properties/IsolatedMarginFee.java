@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.properties;
 
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -8,19 +9,18 @@ import java.util.ArrayList;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code IsolatedMarginFee} class is useful to format {@code "Binance"} Isolated Margin Fee request response
+ * The {@code IsolatedMarginFee} class is useful to format a {@code "Binance"}'s isolated margin fee
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data</a>
+ * Query Isolated Margin Fee Data (USER_DATA)</a>
  **/
-
 public class IsolatedMarginFee {
 
     /**
      * {@code vipLevel} is instance that memorizes vip level
-     * **/
-    private int vipLevel;
+     **/
+    private final int vipLevel;
 
     /**
      * {@code symbol} is instance that memorizes symbol of asset
@@ -30,12 +30,12 @@ public class IsolatedMarginFee {
     /**
      * {@code leverage} is instance that memorizes leverage value
      **/
-    private int leverage;
+    private final int leverage;
 
     /**
      * {@code isolatedDataList} is instance that memorizes isolated data list
      **/
-    private ArrayList<IsolatedData> isolatedDataList;
+    private final ArrayList<IsolatedData> isolatedDataList;
 
     /**
      * Constructor to init {@link IsolatedMarginFee} object
@@ -67,87 +67,98 @@ public class IsolatedMarginFee {
         leverage = isolatedMarginFee.getInt("leverage");
         if (leverage < 0)
             throw new IllegalArgumentException("Leverage value cannot be less than 0");
-        loadIsolatedData(isolatedMarginFee.getJSONArray("data"));
+        JSONArray jIsolatedData = isolatedMarginFee.getJSONArray("data");
+        isolatedDataList = new ArrayList<>();
+        for (int j = 0; j < jIsolatedData.length(); j++)
+            isolatedDataList.add(new IsolatedData(jIsolatedData.getJSONObject(j)));
     }
 
     /**
-     * Method to assemble a IsolatedData list
+     * Method to get {@link #vipLevel} instance <br>
+     * Any params required
      *
-     * @param jsonIsolatedData: obtained from {@code "Binance"}'s request
+     * @return {@link #vipLevel} instance as int
      **/
-    private void loadIsolatedData(JSONArray jsonIsolatedData) {
-        isolatedDataList = new ArrayList<>();
-        for (int j = 0; j < jsonIsolatedData.length(); j++)
-            isolatedDataList.add(new IsolatedData(jsonIsolatedData.getJSONObject(j)));
-    }
-
     public int getVipLevel() {
         return vipLevel;
     }
 
-    /** Method to set {@link #vipLevel}
-     * @param vipLevel: vip level
-     * @throws IllegalArgumentException when vip level value is less than 0
-     * **/
-    public void setVipLevel(int vipLevel) {
-        if(vipLevel < 0)
-            throw new IllegalArgumentException("Vip level value cannot be less than 0");
-        this.vipLevel = vipLevel;
-    }
-
+    /**
+     * Method to get {@link #symbol} instance <br>
+     * Any params required
+     *
+     * @return {@link #symbol} instance as {@link String}
+     **/
     public String getSymbol() {
         return symbol;
     }
 
+    /**
+     * Method to get {@link #leverage} instance <br>
+     * Any params required
+     *
+     * @return {@link #leverage} instance as int
+     **/
     public int getLeverage() {
         return leverage;
     }
 
-    /** Method to set {@link #leverage}
-     * @param leverage: leverage value
-     * @throws IllegalArgumentException when leverage value is less than 0
-     * **/
-    public void setLeverage(int leverage) {
-        if(leverage < 0)
-            throw new IllegalArgumentException("Leverage value cannot be less than 0");
-        this.leverage = leverage;
-    }
-
+    /**
+     * Method to get {@link #isolatedDataList} instance <br>
+     * Any params required
+     *
+     * @return {@link #isolatedDataList} instance as {@link ArrayList} of {@link IsolatedData}
+     **/
     public ArrayList<IsolatedData> getIsolatedDataList() {
         return isolatedDataList;
     }
 
-    public void setIsolatedDataList(ArrayList<IsolatedData> isolatedDataList) {
-        this.isolatedDataList = isolatedDataList;
-    }
-
-    public void insertIsolatedData(IsolatedData isolatedData){
-        if(!isolatedDataList.contains(isolatedData))
+    /**
+     * Method to add an {@link IsolatedData} to {@link #isolatedDataList}
+     *
+     * @param isolatedData: isolated data to add
+     **/
+    public void insertIsolatedData(IsolatedData isolatedData) {
+        if (!isolatedDataList.contains(isolatedData))
             isolatedDataList.add(isolatedData);
     }
 
-    public boolean removeIsolatedData(IsolatedData isolatedData){
+    /**
+     * Method to remove an {@link IsolatedData} from {@link #isolatedDataList}
+     *
+     * @param isolatedData: isolated data to remove
+     * @return result of operation as boolean
+     **/
+    public boolean removeIsolatedData(IsolatedData isolatedData) {
         return isolatedDataList.remove(isolatedData);
     }
 
+    /**
+     * Method to get an isolated data from {@link #isolatedDataList} list
+     *
+     * @param index: index to fetch the isolated data
+     * @return isolated data as {@link Order}
+     **/
     public IsolatedData getIsolatedData(int index) {
         return isolatedDataList.get(index);
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "IsolatedMarginFee{" +
-                "vipLevel=" + vipLevel +
-                ", symbol='" + symbol + '\'' +
-                ", leverage=" + leverage +
-                ", isolatedDataList=" + isolatedDataList +
-                '}';
+        return new JSONObject(this).toString();
     }
 
     /**
      * The {@code IsolatedData} class is useful to create an isolated data object
-     * **/
-
+     *
+     * @author N7ghtm4r3 - Tecknobit
+     **/
     public static class IsolatedData {
 
         /**
@@ -157,13 +168,13 @@ public class IsolatedMarginFee {
 
         /**
          * {@code dailyInterest} is instance that memorizes value of daily interest
-         * **/
-        protected double dailyInterest;
+         **/
+        protected final double dailyInterest;
 
         /**
          * {@code borrowLimit} is instance that memorizes value of limit for borrow
-         * **/
-        protected double borrowLimit;
+         **/
+        protected final double borrowLimit;
 
         /** Constructor to init {@link IsolatedData} object
          * @param coin: coin
@@ -199,10 +210,22 @@ public class IsolatedMarginFee {
                 throw new IllegalArgumentException("Borrow limit value cannot be less than 0");
         }
 
+        /**
+         * Method to get {@link #coin} instance <br>
+         * Any params required
+         *
+         * @return {@link #coin} instance as {@link String}
+         **/
         public String getCoin() {
             return coin;
         }
 
+        /**
+         * Method to get {@link #dailyInterest} instance <br>
+         * Any params required
+         *
+         * @return {@link #dailyInterest} instance as double
+         **/
         public double getDailyInterest() {
             return dailyInterest;
         }
@@ -218,19 +241,12 @@ public class IsolatedMarginFee {
             return roundValue(dailyInterest, decimals);
         }
 
-
         /**
-         * Method to set {@link #dailyInterest}
+         * Method to get {@link #borrowLimit} instance <br>
+         * Any params required
          *
-         * @param dailyInterest: value of daily interest
-         * @throws IllegalArgumentException when value of daily interest is less than 0
+         * @return {@link #borrowLimit} instance as double
          **/
-        public void setDailyInterest(double dailyInterest) {
-            if (dailyInterest < 0)
-                throw new IllegalArgumentException("Daily interest value cannot be less than 0");
-            this.dailyInterest = dailyInterest;
-        }
-
         public double getBorrowLimit() {
             return borrowLimit;
         }
@@ -247,24 +263,14 @@ public class IsolatedMarginFee {
         }
 
         /**
-         * Method to set {@link #borrowLimit}
+         * Returns a string representation of the object <br>
+         * Any params required
          *
-         * @param borrowLimit: value of borrow limit
-         * @throws IllegalArgumentException when value of borrow limit is less than 0
-         **/
-        public void setBorrowLimit(double borrowLimit) {
-            if (borrowLimit < 0)
-                throw new IllegalArgumentException("Borrow limit value cannot be less than 0");
-            this.borrowLimit = borrowLimit;
-        }
-
+         * @return a string representation of the object as {@link String}
+         */
         @Override
         public String toString() {
-            return "IsolatedData{" +
-                    "coin='" + coin + '\'' +
-                    ", dailyInterest=" + dailyInterest +
-                    ", borrowLimit=" + borrowLimit +
-                    '}';
+            return new JSONObject(this).toString();
         }
 
     }

@@ -1,17 +1,25 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.common;
 
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.BinanceMarginManager;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.BinanceSpotManager;
 import org.json.JSONObject;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code Fill} class is useful to obtain and format Fill object
+ * The {@code Fill} class is useful to format a fill
  *
- * @implNote used by {@link BinanceSpotManager} and {@link BinanceMarginManager}
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at:
+ * <ul>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
+ *             New Order (TRADE)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-isolated-margin-account-trade">
+ *             Enable Isolated Margin Account (TRADE)</a>
+ *     </li>
+ * </ul>
  **/
-
 public class Fill {
 
     /**
@@ -64,18 +72,16 @@ public class Fill {
      * @throws IllegalArgumentException if parameters range is not respected
      **/
     public Fill(JSONObject fill) {
-        price = fill.getDouble("price");
-        if (price < 0)
-            throw new IllegalArgumentException("Price value cannot be less than 0");
-        qty = fill.getDouble("qty");
-        if (qty < 0)
-            throw new IllegalArgumentException("Quantity value cannot be less than 0");
-        commission = fill.getDouble("commission");
-        if (commission < 0)
-            throw new IllegalArgumentException("Commission value cannot be less than 0");
-        commissionAsset = fill.getString("commissionAsset");
+        this(fill.getDouble("price"), fill.getDouble("qty"), fill.getDouble("commission"),
+                fill.getString("commissionAsset"));
     }
 
+    /**
+     * Method to get {@link #price} instance <br>
+     * Any params required
+     *
+     * @return {@link #price} instance as double
+     **/
     public double getPrice() {
         return price;
     }
@@ -103,6 +109,12 @@ public class Fill {
         this.price = price;
     }
 
+    /**
+     * Method to get {@link #qty} instance <br>
+     * Any params required
+     *
+     * @return {@link #qty} instance as double
+     **/
     public double getQty() {
         return qty;
     }
@@ -130,6 +142,12 @@ public class Fill {
         this.qty = qty;
     }
 
+    /**
+     * Method to get {@link #commission} instance <br>
+     * Any params required
+     *
+     * @return {@link #commission} instance as double
+     **/
     public double getCommission() {
         return commission;
     }
@@ -157,18 +175,25 @@ public class Fill {
         this.commission = commission;
     }
 
+    /**
+     * Method to get {@link #commissionAsset} instance <br>
+     * Any params required
+     *
+     * @return {@link #commissionAsset} instance as {@link String}
+     **/
     public String getCommissionAsset() {
         return commissionAsset;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "Fill{" +
-                "price=" + price +
-                ", qty=" + qty +
-                ", commission=" + commission +
-                ", commissionAsset='" + commissionAsset + '\'' +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

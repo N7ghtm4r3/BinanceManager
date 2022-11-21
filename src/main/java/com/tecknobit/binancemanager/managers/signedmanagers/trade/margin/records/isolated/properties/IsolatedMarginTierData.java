@@ -5,13 +5,12 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code IsolatedMarginTierData} class is useful to format {@code "Binance"} Isolated Margin Tier Data request response
+ * The {@code IsolatedMarginTierData} class is useful to format a {@code "Binance"}'s isolated margin tier data
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data</a>
+ * Query Isolated Margin Tier Data (USER_DATA)</a>
  **/
-
 public class IsolatedMarginTierData {
 
     /**
@@ -21,33 +20,33 @@ public class IsolatedMarginTierData {
 
     /**
      * {@code tier} is instance that memorizes tier value
-     * **/
-    private int tier;
+     **/
+    private final int tier;
 
     /**
      * {@code effectiveMultiple} is instance that memorizes effective multiple value
-     * **/
-    private double effectiveMultiple;
+     **/
+    private final double effectiveMultiple;
 
     /**
      * {@code initialRiskRatio} is instance that memorizes initial risk ratio value
-     * **/
-    private double initialRiskRatio;
+     **/
+    private final double initialRiskRatio;
 
     /**
      * {@code liquidationRiskRatio} is instance that memorizes liquidation risk ratio value
-     * **/
-    private double liquidationRiskRatio;
+     **/
+    private final double liquidationRiskRatio;
 
     /**
      * {@code baseAssetMaxBorrowable} is instance that memorizes max base asset borrowable
-     * **/
-    private double baseAssetMaxBorrowable;
+     **/
+    private final double baseAssetMaxBorrowable;
 
     /**
      * {@code quoteAssetMaxBorrowable} is instance that memorizes max quote asset borrowable
      * **/
-    private double quoteAssetMaxBorrowable;
+    private final double quoteAssetMaxBorrowable;
 
     /** Constructor to init {@link IsolatedMarginTierData} object
      * @param symbol: symbol of asset
@@ -91,35 +90,31 @@ public class IsolatedMarginTierData {
     /**
      * Constructor to init {@link IsolatedMarginTierData} object
      *
-     * @param isolatedMarginTierData: isolated margin tier data details as {@link JSONObject}
+     * @param jTierData: isolated margin tier data details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
      **/
-    public IsolatedMarginTierData(JSONObject isolatedMarginTierData) {
-        symbol = isolatedMarginTierData.getString("symbol");
-        tier = isolatedMarginTierData.getInt("tier");
-        if (tier < 0)
-            throw new IllegalArgumentException("Tier value cannot be less than 0");
-        effectiveMultiple = isolatedMarginTierData.getDouble("effectiveMultiple");
-        if (effectiveMultiple < 0)
-            throw new IllegalArgumentException("Effective multiple value cannot be less than 0");
-        initialRiskRatio = isolatedMarginTierData.getDouble("initialRiskRatio");
-        if (initialRiskRatio < 0)
-            throw new IllegalArgumentException("Initial risk ratio value cannot be less than 0");
-        liquidationRiskRatio = isolatedMarginTierData.getDouble("liquidationRiskRatio");
-        if (liquidationRiskRatio < 0)
-            throw new IllegalArgumentException("Liquidation risk ratio value cannot be less than 0");
-        baseAssetMaxBorrowable = isolatedMarginTierData.getDouble("baseAssetMaxBorrowable");
-        if (baseAssetMaxBorrowable < 0)
-            throw new IllegalArgumentException("Base asset max borrowable value cannot be less than 0");
-        quoteAssetMaxBorrowable = isolatedMarginTierData.getDouble("quoteAssetMaxBorrowable");
-        if (quoteAssetMaxBorrowable < 0)
-            throw new IllegalArgumentException("Quote asset max borrowable value cannot be less than 0");
+    public IsolatedMarginTierData(JSONObject jTierData) {
+        this(jTierData.getString("symbol"), jTierData.getInt("tier"), jTierData.getDouble("effectiveMultiple"),
+                jTierData.getDouble("initialRiskRatio"), jTierData.getDouble("liquidationRiskRatio"),
+                jTierData.getDouble("baseAssetMaxBorrowable"), jTierData.getDouble("quoteAssetMaxBorrowable"));
     }
 
+    /**
+     * Method to get {@link #symbol} instance <br>
+     * Any params required
+     *
+     * @return {@link #symbol} instance as {@link String}
+     **/
     public String getSymbol() {
         return symbol;
     }
 
+    /**
+     * Method to get {@link #tier} instance <br>
+     * Any params required
+     *
+     * @return {@link #tier} instance as int
+     **/
     public int getTier() {
         return tier;
     }
@@ -135,19 +130,12 @@ public class IsolatedMarginTierData {
         return roundValue(tier, decimals);
     }
 
-
     /**
-     * Method to set {@link #tier}
+     * Method to get {@link #effectiveMultiple} instance <br>
+     * Any params required
      *
-     * @param tier: tier value
-     * @throws IllegalArgumentException when tier value is less than 0
+     * @return {@link #effectiveMultiple} instance as double
      **/
-    public void setTier(int tier) {
-        if (tier < 0)
-            throw new IllegalArgumentException("Tier value cannot be less than 0");
-        this.tier = tier;
-    }
-
     public double getEffectiveMultiple() {
         return effectiveMultiple;
     }
@@ -164,17 +152,11 @@ public class IsolatedMarginTierData {
     }
 
     /**
-     * Method to set {@link #effectiveMultiple}
+     * Method to get {@link #initialRiskRatio} instance <br>
+     * Any params required
      *
-     * @param effectiveMultiple: effective multiple value
-     * @throws IllegalArgumentException when effective multiple value is less than 0
+     * @return {@link #initialRiskRatio} instance as double
      **/
-    public void setEffectiveMultiple(double effectiveMultiple) {
-        if (effectiveMultiple < 0)
-            throw new IllegalArgumentException("Effective multiple value cannot be less than 0");
-        this.effectiveMultiple = effectiveMultiple;
-    }
-
     public double getInitialRiskRatio() {
         return initialRiskRatio;
     }
@@ -191,17 +173,11 @@ public class IsolatedMarginTierData {
     }
 
     /**
-     * Method to set {@link #initialRiskRatio}
+     * Method to get {@link #liquidationRiskRatio} instance <br>
+     * Any params required
      *
-     * @param initialRiskRatio: initial risk ratio value
-     * @throws IllegalArgumentException when effective multiple value is less than 0
+     * @return {@link #liquidationRiskRatio} instance as double
      **/
-    public void setInitialRiskRatio(double initialRiskRatio) {
-        if (initialRiskRatio < 0)
-            throw new IllegalArgumentException("Initial effective multiple value cannot be less than 0");
-        this.initialRiskRatio = initialRiskRatio;
-    }
-
     public double getLiquidationRiskRatio() {
         return liquidationRiskRatio;
     }
@@ -218,17 +194,11 @@ public class IsolatedMarginTierData {
     }
 
     /**
-     * Method to set {@link #liquidationRiskRatio}
+     * Method to get {@link #baseAssetMaxBorrowable} instance <br>
+     * Any params required
      *
-     * @param liquidationRiskRatio: liquidation risk ratio value
-     * @throws IllegalArgumentException when liquidation risk ratio value is less than 0
+     * @return {@link #baseAssetMaxBorrowable} instance as double
      **/
-    public void setLiquidationRiskRatio(double liquidationRiskRatio) {
-        if (liquidationRiskRatio < 0)
-            throw new IllegalArgumentException("Liquidation risk ratio value cannot be less than 0");
-        this.liquidationRiskRatio = liquidationRiskRatio;
-    }
-
     public double getBaseAssetMaxBorrowable() {
         return baseAssetMaxBorrowable;
     }
@@ -245,17 +215,11 @@ public class IsolatedMarginTierData {
     }
 
     /**
-     * Method to set {@link #baseAssetMaxBorrowable}
+     * Method to get {@link #quoteAssetMaxBorrowable} instance <br>
+     * Any params required
      *
-     * @param baseAssetMaxBorrowable: max base asset borrowable
-     * @throws IllegalArgumentException when max base asset borrowable value is less than 0
+     * @return {@link #quoteAssetMaxBorrowable} instance as double
      **/
-    public void setBaseAssetMaxBorrowable(double baseAssetMaxBorrowable) {
-        if (baseAssetMaxBorrowable < 0)
-            throw new IllegalArgumentException("Base asset max borrowable value cannot be less than 0");
-        this.baseAssetMaxBorrowable = baseAssetMaxBorrowable;
-    }
-
     public double getQuoteAssetMaxBorrowable() {
         return quoteAssetMaxBorrowable;
     }
@@ -272,28 +236,14 @@ public class IsolatedMarginTierData {
     }
 
     /**
-     * Method to set {@link #quoteAssetMaxBorrowable}
+     * Returns a string representation of the object <br>
+     * Any params required
      *
-     * @param quoteAssetMaxBorrowable: max quote asset borrowable
-     * @throws IllegalArgumentException when max quote asset borrowable value is less than 0
-     **/
-    public void setQuoteAssetMaxBorrowable(double quoteAssetMaxBorrowable) {
-        if (quoteAssetMaxBorrowable < 0)
-            throw new IllegalArgumentException("Quote asset max borrowable value cannot be less than 0");
-        this.quoteAssetMaxBorrowable = quoteAssetMaxBorrowable;
-    }
-
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "IsolatedMarginTierData{" +
-                "symbol='" + symbol + '\'' +
-                ", tier=" + tier +
-                ", effectiveMultiple=" + effectiveMultiple +
-                ", initialRiskRatio=" + initialRiskRatio +
-                ", liquidationRiskRatio=" + liquidationRiskRatio +
-                ", baseAssetMaxBorrowable=" + baseAssetMaxBorrowable +
-                ", quoteAssetMaxBorrowable=" + quoteAssetMaxBorrowable +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

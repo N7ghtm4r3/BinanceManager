@@ -1,17 +1,19 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.marginproperties;
 
+import com.tecknobit.apimanager.formatters.TimeFormatter;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code MarginPriceIndex} class is useful to format {@code "Binance"} Query Margin PriceIndex request
+ * The {@code MarginPriceIndex} class is useful to format a {@code "Binance"}'s price index
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-priceindex-market_data">
- * https://binance-docs.github.io/apidocs/spot/en/#query-margin-priceindex-market_data</a>
+ * Query Margin PriceIndex (MARKET_DATA)</a>
  **/
-
 public class MarginPriceIndex {
 
     /**
@@ -54,17 +56,27 @@ public class MarginPriceIndex {
      * @throws IllegalArgumentException if parameters range is not respected
      **/
     public MarginPriceIndex(JSONObject priceIndex) {
-        calcTime = priceIndex.getLong("calcTime");
-        if (calcTime < 0)
-            throw new IllegalArgumentException("Calc time value cannot be less than 0");
-        price = priceIndex.getDouble("price");
-        if (price < 0)
-            throw new IllegalArgumentException("Price value cannot be less than 0");
-        symbol = priceIndex.getString("symbol");
+        this(priceIndex.getLong("calcTime"), priceIndex.getDouble("price"), priceIndex.getString("symbol"));
     }
 
+    /**
+     * Method to get {@link #calcTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #calcTime} instance as long
+     **/
     public long getCalcTime() {
         return calcTime;
+    }
+
+    /**
+     * Method to get {@link #calcTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #calcTime} instance as {@link Date}
+     **/
+    public Date getCalcTimeDate() {
+        return TimeFormatter.getDate(calcTime);
     }
 
     /**
@@ -79,6 +91,12 @@ public class MarginPriceIndex {
         this.calcTime = calcTime;
     }
 
+    /**
+     * Method to get {@link #price} instance <br>
+     * Any params required
+     *
+     * @return {@link #price} instance as double
+     **/
     public double getPrice() {
         return price;
     }
@@ -106,17 +124,25 @@ public class MarginPriceIndex {
         this.price = price;
     }
 
+    /**
+     * Method to get {@link #symbol} instance <br>
+     * Any params required
+     *
+     * @return {@link #symbol} instance as {@link String}
+     **/
     public String getSymbol() {
         return symbol;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "MarginPriceIndex{" +
-                "calcTime=" + calcTime +
-                ", price=" + price +
-                ", symbol='" + symbol + '\'' +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

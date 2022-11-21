@@ -1,5 +1,8 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.details;
 
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order.Status;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.OrderDetails;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -7,62 +10,47 @@ import java.util.ArrayList;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code OCOMarginOrder} class is useful to format all {@code "Binance"} Margin OCO Order request
+ * The {@code OCOMarginOrder} class is useful to format a {@code "Binance"}'s margin {@code "OCO"} order
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
  * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
+ * @see OrderDetails
+ * @see ComposedMarginOrderDetails
  **/
-
 public class OCOMarginOrder extends ComposedMarginOrderDetails {
 
     /**
-     * {@code SIDE_EFFECT_NO_SIDE_EFFECT} is constant for no side effect option
-     * **/
-    public static final String SIDE_EFFECT_NO_SIDE_EFFECT = "NO_SIDE_EFFECT";
-
-    /**
-     * {@code SIDE_EFFECT_MARGIN_BUY} is constant for margin buy option
-     * **/
-    public static final String SIDE_EFFECT_MARGIN_BUY = "MARGIN_BUY";
-
-    /**
-     * {@code SIDE_EFFECT_AUTO_REPAY} is constant for margin auto repay option
-     * **/
-    public static final String SIDE_EFFECT_AUTO_REPAY = "AUTO_REPAY";
-
-    /**
      * {@code marginBuyBorrowAmount} is instance that memorizes margin buy borrow amount
-     * **/
+     **/
     private final double marginBuyBorrowAmount;
-
     /**
      * {@code marginBuyBorrowAsset} is instance that memorizes margin buy borrow asset
-     * **/
+     **/
     private final String marginBuyBorrowAsset;
 
     /**
      * Constructor to init {@link OCOMarginOrder} object
      *
-     * @param orderListId:            list order identifier
-     * @param contingencyType:        contingency type of the order
-     * @param listStatusType:         list status type of the order
-     * @param listOrderStatus:        list order status
-     * @param listClientOrderId:      list client order id
-     * @param transactionTime:        transaction time of the order
-     * @param symbol:                 symbol used in the order
-     * @param orderValues:            list of {@link OrderValues}
-     * @param detailMarginOrdersList: list of {@link DetailMarginOrder}
-     * @param isIsolated:             is isolated
-     * @param marginBuyBorrowAmount:  margin buy borrow amount
-     * @param marginBuyBorrowAsset:   margin buy borrow asset
+     * @param orderListId:             list order identifier
+     * @param contingencyType:         contingency type of the order
+     * @param listStatusType:          list status type of the order
+     * @param listOrderStatus:         list order status
+     * @param listClientOrderId:       list client order id
+     * @param transactionTime:         transaction time of the order
+     * @param symbol:                  symbol used in the order
+     * @param orders:                  list of {@link Order}
+     * @param marginOrdersListDetails: list of {@link MarginOrderDetails}
+     * @param isIsolated:              is isolated
+     * @param marginBuyBorrowAmount:   margin buy borrow amount
+     * @param marginBuyBorrowAsset:    margin buy borrow asset
      **/
-    public OCOMarginOrder(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
-                          String listClientOrderId, long transactionTime, String symbol, ArrayList<OrderValues> orderValues,
-                          ArrayList<DetailMarginOrder> detailMarginOrdersList, boolean isIsolated, double marginBuyBorrowAmount,
-                          String marginBuyBorrowAsset) {
+    public OCOMarginOrder(long orderListId, String contingencyType, Status listStatusType, Status listOrderStatus,
+                          String listClientOrderId, long transactionTime, String symbol, ArrayList<Order> orders,
+                          ArrayList<MarginOrderDetails> marginOrdersListDetails, boolean isIsolated,
+                          double marginBuyBorrowAmount, String marginBuyBorrowAsset) {
         super(orderListId, contingencyType, listStatusType, listOrderStatus, listClientOrderId, transactionTime, symbol,
-                orderValues, detailMarginOrdersList, isIsolated);
+                orders, marginOrdersListDetails, isIsolated);
         this.marginBuyBorrowAmount = marginBuyBorrowAmount;
         this.marginBuyBorrowAsset = marginBuyBorrowAsset;
     }
@@ -74,12 +62,28 @@ public class OCOMarginOrder extends ComposedMarginOrderDetails {
      **/
     public OCOMarginOrder(JSONObject ocoMarginOrder) {
         super(ocoMarginOrder);
-        marginBuyBorrowAmount = ocoMarginOrder.getDouble("marginBuyBorrowAmount");
-        marginBuyBorrowAsset = ocoMarginOrder.getString("marginBuyBorrowAsset");
+        marginBuyBorrowAmount = hOrder.getDouble("marginBuyBorrowAmount", 0);
+        marginBuyBorrowAsset = hOrder.getString("marginBuyBorrowAsset");
     }
 
+    /**
+     * Method to get {@link #marginBuyBorrowAmount} instance <br>
+     * Any params required
+     *
+     * @return {@link #marginBuyBorrowAmount} instance as double
+     **/
     public double getMarginBuyBorrowAmount() {
         return marginBuyBorrowAmount;
+    }
+
+    /**
+     * Method to get {@link #marginBuyBorrowAsset} instance <br>
+     * Any params required
+     *
+     * @return {@link #marginBuyBorrowAsset} instance as {@link String}
+     **/
+    public String getMarginBuyBorrowAsset() {
+        return marginBuyBorrowAsset;
     }
 
     /**
@@ -93,24 +97,26 @@ public class OCOMarginOrder extends ComposedMarginOrderDetails {
         return roundValue(marginBuyBorrowAmount, decimals);
     }
 
-    public String getMarginBuyBorrowAsset() {
-        return marginBuyBorrowAsset;
-    }
+    /**
+     * {@code SideEffect} list of available side effects
+     **/
+    public enum SideEffect {
 
-    @Override
-    public String toString() {
-        return "OCOMarginOrder{" +
-                "marginBuyBorrowAmount=" + marginBuyBorrowAmount +
-                ", marginBuyBorrowAsset='" + marginBuyBorrowAsset + '\'' +
-                ", orderListId=" + orderListId +
-                ", contingencyType='" + contingencyType + '\'' +
-                ", listStatusType='" + listStatusType + '\'' +
-                ", listOrderStatus='" + listOrderStatus + '\'' +
-                ", listClientOrderId='" + listClientOrderId + '\'' +
-                ", transactionTime=" + transactionTime +
-                ", symbol='" + symbol + '\'' +
-                ", orderValues=" + orderValues +
-                '}';
+        /**
+         * {@code "NO_SIDE_EFFECT"} side effect
+         **/
+        NO_SIDE_EFFECT,
+
+        /**
+         * {@code "MARGIN_BUY"} side effect
+         **/
+        MARGIN_BUY,
+
+        /**
+         * {@code "AUTO_REPAY"} side effect
+         **/
+        AUTO_REPAY
+
     }
 
 }

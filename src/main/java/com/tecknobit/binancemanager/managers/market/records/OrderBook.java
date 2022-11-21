@@ -1,11 +1,11 @@
 package com.tecknobit.binancemanager.managers.market.records;
 
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
@@ -14,9 +14,8 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
- * https://binance-docs.github.io/apidocs/spot/en/#order-book</a>
+ * Order Book</a>
  **/
-
 public class OrderBook {
 
     /**
@@ -41,101 +40,141 @@ public class OrderBook {
 
     /**
      * Constructor to init {@link OrderBook} object
+     *
      * @param lastUpdateId:     last update of order book
      * @param orderDetailsBids: list of bids of the order book
      * @param orderDetailsAsks: list of asks of the order book
      * @param symbol:           symbol of the order book
      **/
-    public OrderBook(long lastUpdateId, ArrayList<BookOrderDetails> orderDetailsBids, ArrayList<BookOrderDetails> orderDetailsAsks,
-                     String symbol) {
+    public OrderBook(long lastUpdateId, ArrayList<BookOrderDetails> orderDetailsBids,
+                     ArrayList<BookOrderDetails> orderDetailsAsks, String symbol) {
         this.lastUpdateId = lastUpdateId;
         this.orderDetailsBids = orderDetailsBids;
         this.orderDetailsAsks = orderDetailsAsks;
         this.symbol = symbol;
     }
 
+    // TODO: 20/11/2022 REMOVE EXTRA SYMBOL CHECK
     /**
      * Constructor to init {@link OrderBook} object
      *
      * @param orderBook: order book details as {@link JSONObject}
      **/
     public OrderBook(JSONObject orderBook, String symbol) {
+        JsonHelper hBook = new JsonHelper(orderBook);
         this.symbol = symbol;
         lastUpdateId = orderBook.getLong("lastUpdateId");
-        JsonHelper hBook = new JsonHelper(orderBook);
-        orderDetailsAsks = loadOrderList(hBook.getJSONArray("bids", new JSONArray()));
-        orderDetailsBids = loadOrderList(hBook.getJSONArray("asks", new JSONArray()));
+        orderDetailsAsks = returnOrdersList(hBook.getJSONArray("bids", new JSONArray()));
+        orderDetailsBids = returnOrdersList(hBook.getJSONArray("asks", new JSONArray()));
     }
 
     /**
      * Method to get load list of order details
      *
      * @param jsonList: obtained from {@code "Binance"} request
-     * @return order details list as ArrayList<BookOrderDetails> object
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
-     * https://binance-docs.github.io/apidocs/spot/en/#order-book</a>
+     * @return order details list as {@link ArrayList} of {@link BookOrderDetails}
      **/
-    private ArrayList<BookOrderDetails> loadOrderList(JSONArray jsonList) {
+    @Returner
+    private ArrayList<BookOrderDetails> returnOrdersList(JSONArray jsonList) {
         ArrayList<BookOrderDetails> orderDetails = new ArrayList<>();
-        for (int j = 0; j < jsonList.length(); j++){
-            JSONArray details = jsonList.getJSONArray(j);
-            orderDetails.add(new BookOrderDetails(details.getDouble(0),
-                    details.getDouble(1)));
-        }
+        for (int j = 0; j < jsonList.length(); j++)
+            orderDetails.add(new BookOrderDetails(jsonList.getJSONArray(j)));
         return orderDetails;
     }
 
+    /**
+     * Method to get {@link #lastUpdateId} instance <br>
+     * Any params required
+     *
+     * @return {@link #lastUpdateId} instance as long
+     **/
     public long getLastUpdateId() {
         return lastUpdateId;
     }
 
+    /**
+     * Method to get {@link #orderDetailsBids} instance <br>
+     * Any params required
+     *
+     * @return {@link #orderDetailsBids} instance as {@link ArrayList} of {@link BookOrderDetails}
+     **/
     public ArrayList<BookOrderDetails> getOrderDetailsBids() {
         return orderDetailsBids;
     }
 
+    /**
+     * Method to get {@link #orderDetailsAsks} instance <br>
+     * Any params required
+     *
+     * @return {@link #orderDetailsAsks} instance as {@link ArrayList} of {@link BookOrderDetails}
+     **/
     public ArrayList<BookOrderDetails> getOrderDetailsAsks() {
         return orderDetailsAsks;
     }
 
+    /**
+     * Method to get {@link #symbol} instance <br>
+     * Any params required
+     *
+     * @return {@link #symbol} instance as {@link String}
+     **/
     public String getSymbol() {
         return symbol;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "OrderBook{" +
-                "lastUpdateId=" + lastUpdateId +
-                ", orderDetailsBids=" + orderDetailsBids +
-                ", orderDetailsAsks=" + orderDetailsAsks +
-                ", symbol='" + symbol + '\'' +
-                '}';
+        return new JSONObject(this).toString();
     }
 
     /**
      * The {@code BookOrderDetails} class is useful to format order book details
-     * **/
-
+     **/
     public static class BookOrderDetails {
 
         /**
          * {@code price} is instance that contains price in the order book
-         * **/
+         **/
         private final double price;
 
         /**
          * {@code quantity} is instance that contains quantity in the order book
-         * **/
+         **/
         private final double quantity;
 
-        /** Constructor to init {@link BookOrderDetails} object
-         * @param price: price in the order book
+        /**
+         * Constructor to init {@link BookOrderDetails} object
+         *
+         * @param price:    price in the order book
          * @param quantity: quantity in the order book
-         * **/
+         **/
         public BookOrderDetails(double price, double quantity) {
             this.price = price;
             this.quantity = quantity;
         }
 
+        /**
+         * Constructor to init {@link BookOrderDetails} object
+         *
+         * @param jBookOrderDetails: book order details as {@link JSONArray}
+         **/
+        public BookOrderDetails(JSONArray jBookOrderDetails) {
+            price = jBookOrderDetails.getDouble(0);
+            quantity = jBookOrderDetails.getDouble(1);
+        }
+
+        /**
+         * Method to get {@link #price} instance <br>
+         * Any params required
+         *
+         * @return {@link #price} instance as double
+         **/
         public double getPrice() {
             return price;
         }
@@ -151,6 +190,12 @@ public class OrderBook {
             return roundValue(price, decimals);
         }
 
+        /**
+         * Method to get {@link #quantity} instance <br>
+         * Any params required
+         *
+         * @return {@link #quantity} instance as double
+         **/
         public double getQuantity() {
             return quantity;
         }
@@ -166,28 +211,15 @@ public class OrderBook {
             return roundValue(quantity, decimals);
         }
 
-
         /**
-         * Method to get order details value formatted in JSON
+         * Returns a string representation of the object <br>
          * Any params required
          *
-         * @return JSONObject of {@link #price} and {@link #quantity}
-         * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
-         * https://binance-docs.github.io/apidocs/spot/en/#order-book</a>
-         **/
-        public JSONObject getOrderDetails() {
-            HashMap<String, Double> values = new HashMap<>();
-            values.put("quantity", quantity);
-            values.put("price", price);
-            return new JSONObject(values);
-        }
-
+         * @return a string representation of the object as {@link String}
+         */
         @Override
         public String toString() {
-            return "BookOrderDetails{" +
-                    "price=" + price +
-                    ", quantity=" + quantity +
-                    '}';
+            return new JSONObject(this).toString();
         }
 
     }

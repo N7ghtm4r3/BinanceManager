@@ -1,16 +1,19 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.marginproperties;
 
+import com.tecknobit.apimanager.formatters.TimeFormatter;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code MarginInterestRate} class is useful to format {@code "Binance"} Margin Interest Rate request response
+ * The {@code MarginInterestRate} class is useful to format a {@code "Binance"}'s margin interest rate
  *
+ * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data</a>
+ * Query Margin Interest Rate History (USER_DATA)</a>
  **/
-
 public class MarginInterestRate {
 
     /**
@@ -20,18 +23,18 @@ public class MarginInterestRate {
 
     /**
      * {@code dailyInterestRate} is instance that memorizes daily interest rate value
-     * **/
-    private double dailyInterestRate;
+     **/
+    private final double dailyInterestRate;
 
     /**
      * {@code timestamp} is instance that memorizes timestamp value
-     * **/
-    private long timestamp;
+     **/
+    private final long timestamp;
 
     /**
      * {@code vipLevel} is instance that memorizes vip level value
-     * **/
-    private int vipLevel;
+     **/
+    private final int vipLevel;
 
     /** Constructor to init {@link MarginInterestRate} object
      * @param asset: asset
@@ -75,10 +78,22 @@ public class MarginInterestRate {
             throw new IllegalArgumentException("Vip level value cannot be less than 0");
     }
 
+    /**
+     * Method to get {@link #asset} instance <br>
+     * Any params required
+     *
+     * @return {@link #asset} instance as {@link String}
+     **/
     public String getAsset() {
         return asset;
     }
 
+    /**
+     * Method to get {@link #dailyInterestRate} instance <br>
+     * Any params required
+     *
+     * @return {@link #dailyInterestRate} instance as double
+     **/
     public double getDailyInterestRate() {
         return dailyInterestRate;
     }
@@ -95,53 +110,44 @@ public class MarginInterestRate {
     }
 
     /**
-     * Method to set {@link #dailyInterestRate}
+     * Method to get {@link #timestamp} instance <br>
+     * Any params required
      *
-     * @param dailyInterestRate: daily interest rate value
-     * @throws IllegalArgumentException when timestamp level value is less than 0
+     * @return {@link #timestamp} instance as long
      **/
-    public void setDailyInterestRate(double dailyInterestRate) {
-        if (dailyInterestRate < 0)
-            throw new IllegalArgumentException("Daily interest rate value cannot be less than 0");
-        this.dailyInterestRate = dailyInterestRate;
-    }
-
     public long getTimestamp() {
         return timestamp;
     }
 
-    /** Method to set {@link #timestamp}
-     * @param timestamp: timestamp value
-     * @throws IllegalArgumentException when timestamp level value is less than 0
-     * **/
-    public void setTimestamp(long timestamp) {
-        if(timestamp < 0)
-            throw new IllegalArgumentException("Timestamp value cannot be less than 0");
-        this.timestamp = timestamp;
+    /**
+     * Method to get {@link #timestamp} instance <br>
+     * Any params required
+     *
+     * @return {@link #timestamp} instance as {@link Date}
+     **/
+    public Date getDate() {
+        return TimeFormatter.getDate(timestamp);
     }
 
+    /**
+     * Method to get {@link #vipLevel} instance <br>
+     * Any params required
+     *
+     * @return {@link #vipLevel} instance as int
+     **/
     public int getVipLevel() {
         return vipLevel;
     }
 
-    /** Method to set {@link #vipLevel}
-     * @param vipLevel: vip level
-     * @throws IllegalArgumentException when vip level value is less than 0
-     * **/
-    public void setVipLevel(int vipLevel) {
-        if(vipLevel < 0)
-            throw new IllegalArgumentException("Vip level value cannot be less than 0");
-        this.vipLevel = vipLevel;
-    }
-
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "MarginInterestRate{" +
-                "asset='" + asset + '\'' +
-                ", dailyInterestRate=" + dailyInterestRate +
-                ", timestamp=" + timestamp +
-                ", vipLevel=" + vipLevel +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

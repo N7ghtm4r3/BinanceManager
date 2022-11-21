@@ -1,6 +1,9 @@
 package com.tecknobit.binancemanager.managers.market.records.trade;
 
+import com.tecknobit.apimanager.formatters.TimeFormatter;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
@@ -172,6 +175,16 @@ public class Trade {
      **/
     public long getTime() {
         return time;
+    }
+
+    /**
+     * Method to get {@link #time} instance <br>
+     * Any params required
+     *
+     * @return {@link #time} instance as {@link Date}
+     **/
+    public Date getDate() {
+        return TimeFormatter.getDate(time);
     }
 
     /**

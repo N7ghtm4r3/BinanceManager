@@ -599,7 +599,7 @@ public class ExchangeInformation {
         /**
          * Method to get an order type from {@link #orderTypes} list
          *
-         * @param index: index from fetch the order type
+         * @param index: index to fetch the order type
          * @return order type as {@link String}
          **/
         public String getOrderType(int index) {

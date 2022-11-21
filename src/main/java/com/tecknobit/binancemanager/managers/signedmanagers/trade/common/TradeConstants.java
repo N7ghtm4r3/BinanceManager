@@ -3,11 +3,10 @@ package com.tecknobit.binancemanager.managers.signedmanagers.trade.common;
 /**
  * The {@code TradeConstants} class contains all {@code "Binance"}'s Trade Constants to do trade's request
  *
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
- * https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
+ * @deprecated this class will be removed in the next update, use enums of constants in {@link Order} instead
  **/
-
-public abstract class TradeConstants {
+@Deprecated
+public class TradeConstants {
 
     /**
      * {@code BUY} is constant for buy operation

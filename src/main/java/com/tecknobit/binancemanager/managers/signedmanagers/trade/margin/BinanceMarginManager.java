@@ -13,7 +13,7 @@ import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.properties.IsolatedMarginFee;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.properties.IsolatedMarginSymbol;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.properties.IsolatedMarginTierData;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.marginlist.*;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.lists.*;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.marginproperties.*;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.details.*;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.response.ACKMarginOrder;
@@ -605,24 +605,28 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return sendSignedRequest(MARGIN_ORDER_ENDPOINT, params, DELETE_METHOD);
     }
 
-    /** Request to get cancel a margin order
+    /**
+     * Request to get cancel a margin order
+     *
      * @param symbol: symbol used in the order es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
      * @return cancel a margin order response as {@link JSONObject}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
+     **/
     public JSONObject cancelJSONMarginOrder(String symbol) throws Exception {
         return new JSONObject(cancelMarginOrder(symbol));
     }
 
-    /** Request to get cancel a margin order
+    /**
+     * Request to get cancel a margin order
+     *
      * @param symbol: symbol used in the order es. BTCBUSD
+     * @return cancel a margin order response as {@link MarginOrderDetails} object
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
-     * @return cancel a margin order response as {@link DetailMarginOrder} object
-     * **/
-    public DetailMarginOrder cancelObjectMarginOrder(String symbol) throws Exception {
-        return new DetailMarginOrder(new JSONObject(cancelMarginOrder(symbol)));
+     * https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
+     **/
+    public MarginOrderDetails cancelObjectMarginOrder(String symbol) throws Exception {
+        return new MarginOrderDetails(new JSONObject(cancelMarginOrder(symbol)));
     }
 
     /** Request to get cancel a margin order
@@ -639,28 +643,32 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return sendSignedRequest(MARGIN_ORDER_ENDPOINT, params, DELETE_METHOD);
     }
 
-    /** Request to get cancel a margin order
-     * @param symbol: symbol used in the order es. BTCBUSD
+    /**
+     * Request to get cancel a margin order
+     *
+     * @param symbol:      symbol used in the order es. BTCBUSD
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are isIsolated,orderId,origClientOrderId,newClientOrderId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
      * @return cancel a margin order response as {@link JSONObject}
-     * **/
+     * @implSpec (keys accepted are isIsolated, orderId, origClientOrderId, newClientOrderId, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
+     **/
     public JSONObject cancelJSONMarginOrder(String symbol, Params extraParams) throws Exception {
         return new JSONObject(cancelMarginOrder(symbol, extraParams));
     }
 
-    /** Request to get cancel a margin order
-     * @param symbol: symbol used in the order es. BTCBUSD
+    /**
+     * Request to get cancel a margin order
+     *
+     * @param symbol:      symbol used in the order es. BTCBUSD
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are isIsolated,orderId,origClientOrderId,newClientOrderId,recvWindow)
+     * @return cancel a margin order response as {@link MarginOrderDetails} object
+     * @implSpec (keys accepted are isIsolated, orderId, origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
-     * @return cancel a margin order response as {@link DetailMarginOrder} object
-     * **/
-    public DetailMarginOrder cancelObjectMarginOrder(String symbol, Params extraParams) throws Exception {
-        return new DetailMarginOrder(new JSONObject(cancelMarginOrder(symbol, extraParams)));
+     * https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
+     **/
+    public MarginOrderDetails cancelObjectMarginOrder(String symbol, Params extraParams) throws Exception {
+        return new MarginOrderDetails(new JSONObject(cancelMarginOrder(symbol, extraParams)));
     }
 
     /** Request to get cancel all a margin orders
@@ -711,7 +719,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     /** Request to get cancel all a margin orders
      * @param symbol: symbol used in the orders es. BTCBUSD
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are isIsolated,recvWindow)
+     * @implSpec (keys accepted are isIsolated, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
      * @return cancel all margin order response as {@link JSONObject}
@@ -720,97 +728,113 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return new JSONArray(cancelAllMarginOrders(symbol, extraParams));
     }
 
-    /** Request to get cancel all a margin orders
-     * @param symbol: symbol used in the orders es. BTCBUSD
+    /**
+     * Request to get cancel all a margin orders
+     *
+     * @param symbol:      symbol used in the orders es. BTCBUSD
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are isIsolated,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
      * @return cancel all margin order response as ArrayList<{@link OpenMarginOrders}>
-     * **/
+     * @implSpec (keys accepted are isIsolated, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">
+     * https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
+     **/
     public OpenMarginOrders cancelObjectAllMarginOrders(String symbol, Params extraParams) throws Exception {
         return assembleOpenMarginOrdersObject(new JSONArray(cancelAllMarginOrders(symbol, extraParams)));
     }
 
-    /** Method to assemble an {@link OpenMarginOrders} object
+    /**
+     * Method to assemble an {@link OpenMarginOrders} object
+     *
      * @param jsonArray: obtained from {@code "Binance"}'s request
      * @return a {@link OpenMarginOrders} list as ArrayList
-     * **/
-    private OpenMarginOrders assembleOpenMarginOrdersObject(JSONArray jsonArray){
-        ArrayList<DetailMarginOrder> detailMarginOrders = new ArrayList<>();
+     **/
+    private OpenMarginOrders assembleOpenMarginOrdersObject(JSONArray jsonArray) {
+        ArrayList<MarginOrderDetails> marginOrderDetails = new ArrayList<>();
         ArrayList<ComposedMarginOrderDetails> composedMarginOrderDetails = new ArrayList<>();
-        for (int j=0; j < jsonArray.length(); j++){
+        for (int j = 0; j < jsonArray.length(); j++) {
             JSONObject openMarginOrder = jsonArray.getJSONObject(j);
-            if(!openMarginOrder.getString("contingencyType").isEmpty())
+            if (!openMarginOrder.getString("contingencyType").isEmpty())
                 composedMarginOrderDetails.add(new ComposedMarginOrderDetails(openMarginOrder));
             else
-                detailMarginOrders.add(new DetailMarginOrder(openMarginOrder));
+                marginOrderDetails.add(new MarginOrderDetails(openMarginOrder));
         }
-        return new OpenMarginOrders(detailMarginOrders, composedMarginOrderDetails);
+        return new OpenMarginOrders(marginOrderDetails, composedMarginOrderDetails);
     }
 
-    /** Request to get cross margin transfer history <br>
+    /**
+     * Request to get cross margin transfer history <br>
      * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
+     *
      * @return cross margin transfer history response as {@link String}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
+     **/
     public String getCrossMarginTransferHistory() throws Exception {
-        return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT,getParamTimestamp(),GET_METHOD);
+        return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, getParamTimestamp(), GET_METHOD);
     }
 
-    /** Request to get cross margin transfer history <br>
+    /**
+     * Request to get cross margin transfer history <br>
      * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
+     *
      * @return cross margin transfer history response as {@link JSONObject}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
+     **/
     public JSONObject getJSONCrossMarginTransferHistory() throws Exception {
         return new JSONObject(getCrossMarginTransferHistory());
     }
 
-    /** Request to get cross margin transfer history <br>
+    /**
+     * Request to get cross margin transfer history <br>
      * Any params required
+     *
+     * @return cross margin transfer history response as {@link TransfersHistoryList} object
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
-     * @return cross margin transfer history response as {@link MarginTransferHistory} object
-     * **/
-    public MarginTransferHistory getObjectCrossMarginTransferHistory() throws Exception {
-        return new MarginTransferHistory(new JSONObject(getCrossMarginTransferHistory()));
+     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
+     **/
+    public TransfersHistoryList getObjectCrossMarginTransferHistory() throws Exception {
+        return new TransfersHistoryList(new JSONObject(getCrossMarginTransferHistory()));
     }
 
-    /** Request to get cross margin transfer history
+    /**
+     * Request to get cross margin transfer history
+     *
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are asset,type,startTime,endTime,current,size,archived,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as {@link String}
-     * **/
+     * @implSpec (keys accepted are asset, type, startTime, endTime, current, size, archived, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
+     **/
     public String getCrossMarginTransferHistory(Params extraParams) throws Exception {
         return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, apiRequest.encodeAdditionalParams(getParamTimestamp(),
                 extraParams), GET_METHOD);
     }
 
-    /** Request to get cross margin transfer history
+    /**
+     * Request to get cross margin transfer history
+     *
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are asset,type,startTime,endTime,current,size,archived,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as {@link JSONObject}
-     * **/
+     * @implSpec (keys accepted are asset, type, startTime, endTime, current, size, archived, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
+     **/
     public JSONObject getJSONCrossMarginTransferHistory(Params extraParams) throws Exception {
         return new JSONObject(getCrossMarginTransferHistory(extraParams));
     }
 
-    /** Request to get cross margin transfer history
+    /**
+     * Request to get cross margin transfer history
+     *
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are asset,type,startTime,endTime,current,size,archived,recvWindow)
+     * @return cross margin transfer history response as {@link TransfersHistoryList} object
+     * @implSpec (keys accepted are asset, type, startTime, endTime, current, size, archived, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
-     * @return cross margin transfer history response as {@link MarginTransferHistory} object
-     * **/
-    public MarginTransferHistory getObjectCrossMarginTransferHistory(Params extraParams) throws Exception {
-        return new MarginTransferHistory(new JSONObject(getCrossMarginTransferHistory(extraParams)));
+     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
+     **/
+    public TransfersHistoryList getObjectCrossMarginTransferHistory(Params extraParams) throws Exception {
+        return new TransfersHistoryList(new JSONObject(getCrossMarginTransferHistory(extraParams)));
     }
 
     /** Request to get cross margin transfer history
@@ -824,399 +848,469 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, params, GET_METHOD);
     }
 
-    /** Request to get cross margin transfer history
+    /**
+     * Request to get cross margin transfer history
+     *
      * @param asset: asset used to request es BTC
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as {@link JSONObject}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
+     **/
     public JSONObject getJSONCrossMarginTransferHistory(String asset) throws Exception {
         return new JSONObject(getCrossMarginTransferHistory(asset));
     }
 
-    /** Request to get cross margin transfer history
+    /**
+     * Request to get cross margin transfer history
+     *
      * @param asset: asset used to request es BTC
+     * @return cross margin transfer history response as {@link TransfersHistoryList} object
      * @apiNote see the official documentation at:
      * <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
-     * @return cross margin transfer history response as {@link MarginTransferHistory} object
-     * **/
-    public MarginTransferHistory getObjectCrossMarginTransferHistory(String asset) throws Exception {
-        return new MarginTransferHistory(new JSONObject(getCrossMarginTransferHistory(asset)));
+     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
+     **/
+    public TransfersHistoryList getObjectCrossMarginTransferHistory(String asset) throws Exception {
+        return new TransfersHistoryList(new JSONObject(getCrossMarginTransferHistory(asset)));
     }
 
-    /** Request to get cross margin transfer history
-     * @param asset: asset used to request es BTC
+    /**
+     * Request to get cross margin transfer history
+     *
+     * @param asset:       asset used to request es BTC
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are asset,type,startTime,endTime,current,size,archived,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as {@link String}
-     * **/
+     * @implSpec (keys accepted are asset, type, startTime, endTime, current, size, archived, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
+     **/
     public String getCrossMarginTransferHistory(String asset, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&asset=" + asset;
-        params = apiRequest.encodeAdditionalParams(params,extraParams);
+        params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, params, GET_METHOD);
     }
 
-    /** Request to get cross margin transfer history
-     * @param asset: asset used to request es BTC
+    /**
+     * Request to get cross margin transfer history
+     *
+     * @param asset:       asset used to request es BTC
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are asset,type,startTime,endTime,current,size,archived,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      * @return cross margin transfer history response as {@link JSONObject}
-     * **/
+     * @implSpec (keys accepted are asset, type, startTime, endTime, current, size, archived, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
+     **/
     public JSONObject getJSONCrossMarginTransferHistory(String asset, Params extraParams) throws Exception {
         return new JSONObject(getCrossMarginTransferHistory(asset, extraParams));
     }
 
-    /** Request to get cross margin transfer history
-     * @param asset: asset used to request es BTC
+    /**
+     * Request to get cross margin transfer history
+     *
+     * @param asset:       asset used to request es BTC
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are asset,type,startTime,endTime,current,size,archived,recvWindow)
+     * @return cross margin transfer history response as {@link TransfersHistoryList} object
+     * @implSpec (keys accepted are asset, type, startTime, endTime, current, size, archived, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
-     * @return cross margin transfer history response as {@link MarginTransferHistory} object
-     * **/
-    public MarginTransferHistory getObjectCrossMarginTransferHistory(String asset, Params extraParams)
+     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
+     **/
+    public TransfersHistoryList getObjectCrossMarginTransferHistory(String asset, Params extraParams)
             throws Exception {
-        return new MarginTransferHistory(new JSONObject(getCrossMarginTransferHistory(asset, extraParams)));
+        return new TransfersHistoryList(new JSONObject(getCrossMarginTransferHistory(asset, extraParams)));
     }
 
-    /** Request to get query loan record
+    /**
+     * Request to get query loan record
+     *
      * @param asset: asset used to request es BTC
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
      * @return query loan record as {@link String}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
+     **/
     public String getQueryLoanRecord(String asset) throws Exception {
         String params = getParamTimestamp() + "&asset=" + asset;
         return sendSignedRequest(MARGIN_LOAN_ENDPOINT, params, GET_METHOD);
     }
 
-    /** Request to get query loan record
+    /**
+     * Request to get query loan record
+     *
      * @param asset: asset used to request es BTC
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
      * @return query loan record as {@link JSONObject}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
+     **/
     public JSONObject getJSONQueryLoanRecord(String asset) throws Exception {
         return new JSONObject(getQueryLoanRecord(asset));
     }
 
-    /** Request to get query loan record
+    /**
+     * Request to get query loan record
+     *
      * @param asset: asset used to request es BTC
+     * @return query loan record as {@link LoansList} object
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
-     * @return query loan record as {@link MarginLoan} object
-     * **/
-    public MarginLoan getObjectQueryLoanRecord(String asset) throws Exception {
-        return new MarginLoan(new JSONObject(getQueryLoanRecord(asset)));
+     * https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
+     **/
+    public LoansList getObjectQueryLoanRecord(String asset) throws Exception {
+        return new LoansList(new JSONObject(getQueryLoanRecord(asset)));
     }
 
-    /** Request to get query loan record
-     * @param asset: asset used to request es BTC
+    /**
+     * Request to get query loan record
+     *
+     * @param asset:       asset used to request es BTC
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
      * @return query loan record as {@link String}
-     * **/
+     * @implSpec (keys accepted are isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
+     **/
     public String getQueryLoanRecord(String asset, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&asset=" + asset;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_LOAN_ENDPOINT, params, GET_METHOD);
     }
 
-    /** Request to get query loan record
-     * @param asset: asset used to request es BTC
+    /**
+     * Request to get query loan record
+     *
+     * @param asset:       asset used to request es BTC
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
      * @return query loan record as {@link JSONObject}
-     * **/
+     * @implSpec (keys accepted are isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
+     **/
     public JSONObject getJSONQueryLoanRecord(String asset, Params extraParams) throws Exception {
         return new JSONObject(getQueryLoanRecord(asset, extraParams));
     }
 
-    /** Request to get query loan record
-     * @param asset: asset used to request es BTC
+    /**
+     * Request to get query loan record
+     *
+     * @param asset:       asset used to request es BTC
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
+     * @return query loan record as {@link LoansList} object
+     * @implSpec (keys accepted are isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
-     * @return query loan record as {@link MarginLoan} object
-     * **/
-    public MarginLoan getObjectQueryLoanRecord(String asset, Params extraParams) throws Exception {
-        return new MarginLoan(new JSONObject(getQueryLoanRecord(asset, extraParams)));
+     * https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
+     **/
+    public LoansList getObjectQueryLoanRecord(String asset, Params extraParams) throws Exception {
+        return new LoansList(new JSONObject(getQueryLoanRecord(asset, extraParams)));
     }
 
-    /** Request to get query repay record
+    /**
+     * Request to get query repay record
+     *
      * @param asset: asset used to request es BTC
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
      * @return query repay record as {@link String}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
+     **/
     public String getQueryRepayRecord(String asset) throws Exception {
         String params = getParamTimestamp() + "&asset=" + asset;
         return sendSignedRequest(MARGIN_REPAY_ENDPOINT, params, GET_METHOD);
     }
 
-    /** Request to get query repay record
+    /**
+     * Request to get query repay record
+     *
      * @param asset: asset used to request es BTC
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
      * @return query repay record as {@link JSONObject}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
+     **/
     public JSONObject getJSONRepayRecord(String asset) throws Exception {
         return new JSONObject(getQueryRepayRecord(asset));
     }
 
-    /** Request to get query repay record
+    /**
+     * Request to get query repay record
+     *
      * @param asset: asset used to request es BTC
+     * @return query repay record as {@link RepaysList} object
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
-     * @return query repay record as {@link MarginRepay} object
-     * **/
-    public MarginRepay getObjectRepayRecord(String asset) throws Exception {
-        return new MarginRepay(new JSONObject(getQueryRepayRecord(asset)));
+     * https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
+     **/
+    public RepaysList getObjectRepayRecord(String asset) throws Exception {
+        return new RepaysList(new JSONObject(getQueryRepayRecord(asset)));
     }
 
-    /** Request to get query repay record
-     * @param asset: asset used to request es BTC
+    /**
+     * Request to get query repay record
+     *
+     * @param asset:       asset used to request es BTC
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
      * @return query repay record as {@link String}
-     * **/
+     * @implSpec (keys accepted are isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
+     **/
     public String getQueryRepayRecord(String asset, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&asset=" + asset;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_REPAY_ENDPOINT, params, GET_METHOD);
     }
 
-    /** Request to get query repay record
-     * @param asset: asset used to request es BTC
+    /**
+     * Request to get query repay record
+     *
+     * @param asset:       asset used to request es BTC
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
      * @return query repay record as {@link JSONObject}
-     * **/
+     * @implSpec (keys accepted are isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
+     **/
     public JSONObject getJSONRepayRecord(String asset, Params extraParams) throws Exception {
         return new JSONObject(getQueryRepayRecord(asset, extraParams));
     }
 
-    /** Request to get query repay record
-     * @param asset: asset used to request es BTC
+    /**
+     * Request to get query repay record
+     *
+     * @param asset:       asset used to request es BTC
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
+     * @return query repay record as {@link RepaysList} object
+     * @implSpec (keys accepted are isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
-     * @return query repay record as {@link MarginRepay} object
-     * **/
-    public MarginRepay getObjectRepayRecord(String asset, Params extraParams) throws Exception {
-        return new MarginRepay(new JSONObject(getQueryRepayRecord(asset, extraParams)));
+     * https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
+     **/
+    public RepaysList getObjectRepayRecord(String asset, Params extraParams) throws Exception {
+        return new RepaysList(new JSONObject(getQueryRepayRecord(asset, extraParams)));
     }
 
-    /** Request to get interest history <br>
+    /**
+     * Request to get interest history <br>
      * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
+     *
      * @return interest history response as {@link String}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
+     **/
     public String getInterestHistory() throws Exception {
         return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT, getParamTimestamp(), GET_METHOD);
     }
 
-    /** Request to get interest history <br>
+    /**
+     * Request to get interest history <br>
      * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
+     *
      * @return interest history response as {@link JSONObject}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
+     **/
     public JSONObject getJSONInterestHistory() throws Exception {
         return new JSONObject(getInterestHistory());
     }
 
-    /** Request to get interest history <br>
+    /**
+     * Request to get interest history <br>
      * Any params required
+     *
+     * @return interest history response as {@link InterestHistoryList} object
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
-     * @return interest history response as {@link MarginInterestHistory} object
-     * **/
-    public MarginInterestHistory getObjectInterestHistory() throws Exception {
-        return new MarginInterestHistory(new JSONObject(getInterestHistory()));
+     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
+     **/
+    public InterestHistoryList getObjectInterestHistory() throws Exception {
+        return new InterestHistoryList(new JSONObject(getInterestHistory()));
     }
 
-    /** Request to get interest history
+    /**
+     * Request to get interest history
+     *
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are asset,isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as {@link String}
-     * **/
+     * @implSpec (keys accepted are asset, isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
+     **/
     public String getInterestHistory(Params extraParams) throws Exception {
         return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT, apiRequest.encodeAdditionalParams(getParamTimestamp(),
                 extraParams), GET_METHOD);
     }
 
-    /** Request to get interest history
+    /**
+     * Request to get interest history
+     *
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are asset,isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as {@link JSONObject}
-     * **/
+     * @implSpec (keys accepted are asset, isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
+     **/
     public JSONObject getJSONInterestHistory(Params extraParams) throws Exception {
         return new JSONObject(getInterestHistory(extraParams));
     }
 
-    /** Request to get interest history
+    /**
+     * Request to get interest history
+     *
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are asset,isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
+     * @return interest history response as {@link InterestHistoryList} object
+     * @implSpec (keys accepted are asset, isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
-     * @return interest history response as {@link MarginInterestHistory} object
-     * **/
-    public MarginInterestHistory getObjectInterestHistory(Params extraParams) throws Exception {
-        return new MarginInterestHistory(new JSONObject(getInterestHistory(extraParams)));
+     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
+     **/
+    public InterestHistoryList getObjectInterestHistory(Params extraParams) throws Exception {
+        return new InterestHistoryList(new JSONObject(getInterestHistory(extraParams)));
     }
 
-    /** Request to get interest history
+    /**
+     * Request to get interest history
+     *
      * @param asset: asset used to request es BTC
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as {@link String}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
+     **/
     public String getInterestHistory(String asset) throws Exception {
         String params = getParamTimestamp() + "&asset=" + asset;
         return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT, params, GET_METHOD);
     }
 
-    /** Request to get interest history
+    /**
+     * Request to get interest history
+     *
      * @param asset: asset used to request es BTC
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as {@link JSONObject}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
+     **/
     public JSONObject getJSONInterestHistory(String asset) throws Exception {
         return new JSONObject(getInterestHistory(asset));
     }
 
-    /** Request to get interest history
+    /**
+     * Request to get interest history
+     *
      * @param asset: asset used to request es BTC
+     * @return interest history response as {@link InterestHistoryList} object
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
-     * @return interest history response as {@link MarginInterestHistory} object
-     * **/
-    public MarginInterestHistory getObjectInterestHistory(String asset) throws Exception {
-        return new MarginInterestHistory(new JSONObject(getInterestHistory(asset)));
+     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
+     **/
+    public InterestHistoryList getObjectInterestHistory(String asset) throws Exception {
+        return new InterestHistoryList(new JSONObject(getInterestHistory(asset)));
     }
 
-    /** Request to get interest history
-     * @param asset: asset used to request es BTC
+    /**
+     * Request to get interest history
+     *
+     * @param asset:       asset used to request es BTC
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are asset,isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as {@link String}
-     * **/
-    public String getInterestHistory(String asset,Params extraParams) throws Exception {
+     * @implSpec (keys accepted are asset, isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
+     **/
+    public String getInterestHistory(String asset, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&asset=" + asset;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT, params, GET_METHOD);
     }
 
-    /** Request to get interest history
-     * @param asset: asset used to request es BTC
+    /**
+     * Request to get interest history
+     *
+     * @param asset:       asset used to request es BTC
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are asset,isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      * @return interest history response as {@link String}
-     * **/
+     * @implSpec (keys accepted are asset, isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
+     **/
     public JSONObject getJSONInterestHistory(String asset, Params extraParams) throws Exception {
         return new JSONObject(getInterestHistory(asset, extraParams));
     }
 
-    /** Request to get interest history
-     * @param asset: asset used to request es BTC
+    /**
+     * Request to get interest history
+     *
+     * @param asset:       asset used to request es BTC
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are asset,isolatedSymbol,txId,startTime,endTime,current,size,archived,recvWindow)
+     * @return interest history response as {@link InterestHistoryList} object
+     * @implSpec (keys accepted are asset, isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
-     * @return interest history response as {@link MarginInterestHistory} object
-     * **/
-    public MarginInterestHistory getObjectInterestHistory(String asset, Params extraParams) throws Exception {
-        return new MarginInterestHistory(new JSONObject(getInterestHistory(asset, extraParams)));
+     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
+     **/
+    public InterestHistoryList getObjectInterestHistory(String asset, Params extraParams) throws Exception {
+        return new InterestHistoryList(new JSONObject(getInterestHistory(asset, extraParams)));
     }
 
-    /** Request to get margin force liquidation <br>
+    /**
+     * Request to get margin force liquidation <br>
      * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
+     *
      * @return margin force liquidation response as {@link String}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
+     **/
     public String getMarginForceLiquidation() throws Exception {
         return sendSignedRequest(MARGIN_FORCE_LIQUIDATION_ENDPOINT, getParamTimestamp(), GET_METHOD);
     }
 
-    /** Request to get margin force liquidation <br>
+    /**
+     * Request to get margin force liquidation <br>
      * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
+     *
      * @return margin force liquidation response as {@link JSONObject}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
+     **/
     public JSONObject getJSONMarginForceLiquidation() throws Exception {
         return new JSONObject(getMarginForceLiquidation());
     }
 
-    /** Request to get margin force liquidation <br>
+    /**
+     * Request to get margin force liquidation <br>
      * Any params required
+     *
+     * @return margin force liquidation response as {@link ForceLiquidationList} object
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
-     * @return margin force liquidation response as {@link MarginForceLiquidation} object
-     * **/
-    public MarginForceLiquidation getObjectMarginForceLiquidation() throws Exception {
-        return new MarginForceLiquidation(new JSONObject(getMarginForceLiquidation()));
+     * https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
+     **/
+    public ForceLiquidationList getObjectMarginForceLiquidation() throws Exception {
+        return new ForceLiquidationList(new JSONObject(getMarginForceLiquidation()));
     }
 
-    /** Request to get margin force liquidation
+    /**
+     * Request to get margin force liquidation
+     *
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are isolatedSymbol,startTime,endTime,current,size,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
      * @return margin force liquidation response as {@link String}
-     * **/
+     * @implSpec (keys accepted are isolatedSymbol, startTime, endTime, current, size, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
+     **/
     public String getMarginForceLiquidation(Params extraParams) throws Exception {
         return sendSignedRequest(MARGIN_FORCE_LIQUIDATION_ENDPOINT, apiRequest.encodeAdditionalParams(getParamTimestamp(),
                 extraParams), GET_METHOD);
     }
 
-    /** Request to get margin force liquidation
+    /**
+     * Request to get margin force liquidation
+     *
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are isolatedSymbol,startTime,endTime,current,size,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
      * @return margin force liquidation response as {@link JSONObject}
-     * **/
+     * @implSpec (keys accepted are isolatedSymbol, startTime, endTime, current, size, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
+     **/
     public JSONObject getJSONMarginForceLiquidation(Params extraParams) throws Exception {
         return new JSONObject(getMarginForceLiquidation(extraParams));
     }
 
-    /** Request to get margin force liquidation
+    /**
+     * Request to get margin force liquidation
+     *
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are isolatedSymbol,startTime,endTime,current,size,recvWindow)
+     * @return margin force liquidation response as {@link ForceLiquidationList} object
+     * @implSpec (keys accepted are isolatedSymbol, startTime, endTime, current, size, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
-     * @return margin force liquidation response as {@link MarginForceLiquidation} object
-     * **/
-    public MarginForceLiquidation getObjectMarginForceLiquidation(Params extraParams) throws Exception {
-        return new MarginForceLiquidation(new JSONObject(getMarginForceLiquidation(extraParams)));
+     * https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
+     **/
+    public ForceLiquidationList getObjectMarginForceLiquidation(Params extraParams) throws Exception {
+        return new ForceLiquidationList(new JSONObject(getMarginForceLiquidation(extraParams)));
     }
 
     /** Request to get cross margin account details <br>
@@ -3393,73 +3487,85 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return getTransactionId(getMarginIsolatedTransfer(asset, symbol, transFrom, transTo, amount, recvWindow));
     }
 
-    /** Request to get margin isolated transfer history
+    /**
+     * Request to get margin isolated transfer history
+     *
      * @param #symbol: used in the request es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
      * @return margin isolated transfer history as {@link String}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
+     **/
     public String getMarginIsolatedTransferHistory(String symbol) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol;
         return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT, params, GET_METHOD);
     }
 
-    /** Request to get margin isolated transfer history
+    /**
+     * Request to get margin isolated transfer history
+     *
      * @param #symbol: used in the request es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
      * @return margin isolated transfer history as {@link JSONObject}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
+     **/
     public JSONObject getJSONMarginIsolatedTransferHistory(String symbol) throws Exception {
         return new JSONObject(getMarginIsolatedTransferHistory(symbol));
     }
 
-    /** Request to get margin isolated transfer history
+    /**
+     * Request to get margin isolated transfer history
+     *
      * @param #symbol: used in the request es. BTCBUSD
+     * @return margin isolated transfer history as {@link IsolatedTransferHistoryList} object
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
-     * @return margin isolated transfer history as {@link MarginIsolatedTransferHistory} object
-     * **/
-    public MarginIsolatedTransferHistory getObjectMarginIsolatedTransferHistory(String symbol) throws Exception {
-        return new MarginIsolatedTransferHistory(new JSONObject(getMarginIsolatedTransferHistory(symbol)));
+     * https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
+     **/
+    public IsolatedTransferHistoryList getObjectMarginIsolatedTransferHistory(String symbol) throws Exception {
+        return new IsolatedTransferHistoryList(new JSONObject(getMarginIsolatedTransferHistory(symbol)));
     }
 
-    /** Request to get margin isolated transfer history
-     * @param #symbol: used in the request es. BTCBUSD
+    /**
+     * Request to get margin isolated transfer history
+     *
+     * @param #symbol:     used in the request es. BTCBUSD
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are asset,transFrom,transTo,startTime,endTime,current,size,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
      * @return margin isolated transfer history as {@link String}
-     * **/
+     * @implSpec (keys accepted are asset, transFrom, transTo, startTime, endTime, current, size, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
+     **/
     public String getMarginIsolatedTransferHistory(String symbol, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT, params, GET_METHOD);
     }
 
-    /** Request to get margin isolated transfer history
-     * @param #symbol: used in the request es. BTCBUSD
+    /**
+     * Request to get margin isolated transfer history
+     *
+     * @param #symbol:     used in the request es. BTCBUSD
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are asset,transFrom,transTo,startTime,endTime,current,size,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
      * @return margin isolated transfer history as {@link JSONObject}
-     * **/
+     * @implSpec (keys accepted are asset, transFrom, transTo, startTime, endTime, current, size, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
+     **/
     public JSONObject getJSONMarginIsolatedTransferHistory(String symbol, Params extraParams) throws Exception {
         return new JSONObject(getMarginIsolatedTransferHistory(symbol, extraParams));
     }
 
-    /** Request to get margin isolated transfer history
-     * @param #symbol: used in the request es. BTCBUSD
+    /**
+     * Request to get margin isolated transfer history
+     *
+     * @param #symbol:     used in the request es. BTCBUSD
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are asset,transFrom,transTo,startTime,endTime,current,size,recvWindow)
+     * @return margin isolated transfer history as {@link IsolatedTransferHistoryList} object
+     * @implSpec (keys accepted are asset, transFrom, transTo, startTime, endTime, current, size, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
-     * @return margin isolated transfer history as {@link MarginIsolatedTransferHistory} object
-     * **/
-    public MarginIsolatedTransferHistory getObjectMarginIsolatedTransferHistory(String symbol, Params extraParams) throws Exception {
-        return new MarginIsolatedTransferHistory(new JSONObject(getMarginIsolatedTransferHistory(symbol, extraParams)));
+     * https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
+     **/
+    public IsolatedTransferHistoryList getObjectMarginIsolatedTransferHistory(String symbol, Params extraParams) throws Exception {
+        return new IsolatedTransferHistoryList(new JSONObject(getMarginIsolatedTransferHistory(symbol, extraParams)));
     }
 
     /** Request to get margin isolated account info <br>

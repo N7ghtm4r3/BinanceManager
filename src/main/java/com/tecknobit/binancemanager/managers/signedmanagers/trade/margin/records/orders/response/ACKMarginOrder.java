@@ -1,30 +1,35 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.response;
 
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.MarginOrder;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order;
 import org.json.JSONObject;
 
 /**
- * The {@code ACKMarginOrder} class is useful to format ACKMarginOrder object of {@code "Binance"}'s request Margin Account New Order
+ * The {@code ACKMarginOrder} class is useful to format a {@code "Binance"}'s {@code "ACK"} response
  *
+ * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
- * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
+ * Margin Account New Order (TRADE)</a>
+ * @see Order
+ * @see MarginOrder
  **/
-
+// TODO: 21/11/2022 CHECK TO REMOVE
 public class ACKMarginOrder extends MarginOrder {
 
     /**
      * {@code isIsolated} is instance that memorizes if is isolated
-     * **/
+     **/
     protected final boolean isIsolated;
 
-    /** Constructor to init {@link ACKMarginOrder} object
-     * @param symbol: symbol used in the order
-     * @param orderId: order identifier
+    /**
+     * Constructor to init {@link ACKMarginOrder} object
+     *
+     * @param symbol:        symbol used in the order
+     * @param orderId:       order identifier
      * @param clientOrderId: client order identifier
-     * @param transactTime: transaction time
-     * @param isIsolated: is isolated
-     * **/
-    public ACKMarginOrder(String symbol, double orderId, String clientOrderId, long transactTime, boolean isIsolated) {
+     * @param transactTime:  transaction time
+     * @param isIsolated:    is isolated
+     **/
+    public ACKMarginOrder(String symbol, long orderId, String clientOrderId, long transactTime, boolean isIsolated) {
         super(symbol, orderId, clientOrderId, transactTime);
         this.isIsolated = isIsolated;
     }
@@ -39,19 +44,14 @@ public class ACKMarginOrder extends MarginOrder {
         isIsolated = ackMarginOrder.getBoolean("isIsolated");
     }
 
+    /**
+     * Method to get {@link #isIsolated} instance <br>
+     * Any params required
+     *
+     * @return {@link #isIsolated} instance as boolean
+     **/
     public boolean isIsolated() {
         return isIsolated;
-    }
-
-    @Override
-    public String toString() {
-        return "ACKMarginOrder{" +
-                "isIsolated=" + isIsolated +
-                ", transactTime=" + transactTime +
-                ", symbol='" + symbol + '\'' +
-                ", orderId=" + orderId +
-                ", clientOrderId='" + clientOrderId + '\'' +
-                '}';
     }
 
 }

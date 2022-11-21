@@ -3,13 +3,12 @@ package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.record
 import org.json.JSONObject;
 
 /**
- * The {@code IsolatedMarginSymbol} class is useful to format {@code "Binance"} Isolated Margin Symbol request response
+ * The {@code IsolatedMarginSymbol} class is useful to format an {@code "Binance"}'s isolated margin symbol
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data</a>
+ * Query Isolated Margin Symbol (USER_DATA)</a>
  **/
-
 public class IsolatedMarginSymbol {
 
     /**
@@ -74,40 +73,75 @@ public class IsolatedMarginSymbol {
         isSellAllowed = isolatedMarginSymbol.getBoolean("isSellAllowed");
     }
 
+    /**
+     * Method to get {@link #symbol} instance <br>
+     * Any params required
+     *
+     * @return {@link #symbol} instance as {@link String}
+     **/
     public String getSymbol() {
         return symbol;
     }
 
+    /**
+     * Method to get {@link #base} instance <br>
+     * Any params required
+     *
+     * @return {@link #base} instance as {@link String}
+     **/
     public String getBase() {
         return base;
     }
 
+    /**
+     * Method to get {@link #quote} instance <br>
+     * Any params required
+     *
+     * @return {@link #quote} instance as {@link String}
+     **/
     public String getQuote() {
         return quote;
     }
 
+    /**
+     * Method to get {@link #isMarginTrade} instance <br>
+     * Any params required
+     *
+     * @return {@link #isMarginTrade} instance as boolean
+     **/
     public boolean isMarginTrade() {
         return isMarginTrade;
     }
 
+    /**
+     * Method to get {@link #isBuyAllowed} instance <br>
+     * Any params required
+     *
+     * @return {@link #isBuyAllowed} instance as boolean
+     **/
     public boolean isBuyAllowed() {
         return isBuyAllowed;
     }
 
+    /**
+     * Method to get {@link #isSellAllowed} instance <br>
+     * Any params required
+     *
+     * @return {@link #isSellAllowed} instance as boolean
+     **/
     public boolean isSellAllowed() {
         return isSellAllowed;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "IsolatedMarginSymbol{" +
-                "symbol='" + symbol + '\'' +
-                ", base='" + base + '\'' +
-                ", quote='" + quote + '\'' +
-                ", isMarginTrade=" + isMarginTrade +
-                ", isBuyAllowed=" + isBuyAllowed +
-                ", isSellAllowed=" + isSellAllowed +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

@@ -3,13 +3,12 @@ package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.record
 import org.json.JSONObject;
 
 /**
- * The {@code IsolatedMarginAccountLimit} class is useful to format {@code "Binance"} Isolated Margin Account Limit request response
+ * The {@code IsolatedMarginAccountLimit} class is useful to format a {@code "Binance"}'s isolated margin account limit
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data</a>
+ * Query Enabled Isolated Margin Account Limit (USER_DATA)</a>
  **/
-
 public class IsolatedMarginAccountLimit {
 
     /**
@@ -53,6 +52,12 @@ public class IsolatedMarginAccountLimit {
             throw new IllegalArgumentException("Max account value cannot be less than 0");
     }
 
+    /**
+     * Method to get {@link #enabledAccount} instance <br>
+     * Any params required
+     *
+     * @return {@link #enabledAccount} instance as int
+     **/
     public int getEnabledAccount() {
         return enabledAccount;
     }
@@ -69,26 +74,37 @@ public class IsolatedMarginAccountLimit {
         this.enabledAccount = enabledAccount;
     }
 
+    /**
+     * Method to get {@link #maxAccount} instance <br>
+     * Any params required
+     *
+     * @return {@link #maxAccount} instance as int
+     **/
     public int getMaxAccount() {
         return maxAccount;
     }
 
-    /** Method to set {@link #maxAccount}
+    /**
+     * Method to set {@link #maxAccount}
+     *
      * @param maxAccount: max account enabled
      * @throws IllegalArgumentException when max account enabled is less than 0
-     * **/
+     **/
     public void setMaxAccount(int maxAccount) {
-        if(maxAccount < 0)
+        if (maxAccount < 0)
             throw new IllegalArgumentException("Max account value cannot be less than 0");
         this.maxAccount = maxAccount;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "IsolatedMarginAccountLimit{" +
-                "enabledAccount=" + enabledAccount +
-                ", maxAccount=" + maxAccount +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

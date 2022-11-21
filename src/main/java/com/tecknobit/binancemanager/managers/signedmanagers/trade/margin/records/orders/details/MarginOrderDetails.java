@@ -1,29 +1,28 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.details;
 
-import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order;
 import org.json.JSONObject;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code DetailMarginOrder} class is useful to format {@code "Binance"} Margin Cancel Order request
+ * The {@code MarginOrderDetails} class is useful to format a {@code "Binance"}'s margin order details
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
+ * Query Cross Margin Account Details (USER_DATA)</a>
+ * @see Order
  **/
-
-public class DetailMarginOrder extends Order {
+public class MarginOrderDetails extends Order {
 
     /**
      * {@code isIsolated} is instance that memorizes if is isolated
-     * **/
+     **/
     private final boolean isIsolated;
 
     /**
      * {@code origClientOrderId} is instance that memorizes origin client order id
-     * **/
+     **/
     private final String origClientOrderId;
 
     /**
@@ -48,30 +47,25 @@ public class DetailMarginOrder extends Order {
 
     /**
      * {@code status} is instance that memorizes status of the order
-     * **/
-    private final String status;
+     **/
+    private final Status status;
 
     /**
      * {@code timeInForce} is instance that memorizes time in force of the order
-     * **/
-    private final String timeInForce;
+     **/
+    private final TimeInForce timeInForce;
 
     /**
      * {@code type} is instance that memorizes type of the order
-     * **/
-    private final String type;
+     **/
+    private final OrderType type;
 
     /**
      * {@code side} is instance that memorizes side of the order
-     * **/
-    private final String side;
-
-    /**
-     * {@code jsonHelper} is instance that memorizes {@link JsonHelper} tool
      **/
-    private final JsonHelper hMarginOrder;
+    private final Side side;
 
-    /** Constructor to init {@link DetailMarginOrder} object
+    /** Constructor to init {@link MarginOrderDetails} object
      * @param symbol: symbol used in the order
      * @param orderId: order identifier
      * @param clientOrderId: client order identifier
@@ -86,9 +80,9 @@ public class DetailMarginOrder extends Order {
      * @param type: type of the order
      * @param side: side of the order
      * **/
-    public DetailMarginOrder(String symbol, double orderId, String clientOrderId, boolean isIsolated, String origClientOrderId,
-                             double price, double origQty, double executedQty, double cummulativeQuoteQty,
-                             String status, String timeInForce, String type, String side) {
+    public MarginOrderDetails(String symbol, long orderId, String clientOrderId, boolean isIsolated, String origClientOrderId,
+                              double price, double origQty, double executedQty, double cummulativeQuoteQty, Status status,
+                              TimeInForce timeInForce, OrderType type, Side side) {
         super(symbol, orderId, clientOrderId);
         this.isIsolated = isIsolated;
         this.origClientOrderId = origClientOrderId;
@@ -100,37 +94,53 @@ public class DetailMarginOrder extends Order {
         this.timeInForce = timeInForce;
         this.type = type;
         this.side = side;
-        hMarginOrder = null;
     }
 
     /**
-     * Constructor to init {@link DetailMarginOrder} object
+     * Constructor to init {@link MarginOrderDetails} object
      *
      * @param marginOrder: margin order details as {@link JSONObject}
      **/
-    public DetailMarginOrder(JSONObject marginOrder) {
+    public MarginOrderDetails(JSONObject marginOrder) {
         super(marginOrder);
-        isIsolated = marginOrder.getBoolean("isIsolated");
-        origClientOrderId = marginOrder.getString("origClientOrderId");
-        price = marginOrder.getDouble("price");
-        origQty = marginOrder.getDouble("origQty");
-        executedQty = marginOrder.getDouble("executedQty");
-        cummulativeQuoteQty = marginOrder.getDouble("cummulativeQuoteQty");
-        status = marginOrder.getString("status");
-        timeInForce = marginOrder.getString("timeInForce");
-        type = marginOrder.getString("type");
-        side = marginOrder.getString("side");
-        hMarginOrder = new JsonHelper(marginOrder);
+        isIsolated = hOrder.getBoolean("isIsolated");
+        origClientOrderId = hOrder.getString("origClientOrderId");
+        price = hOrder.getDouble("price", 0);
+        origQty = hOrder.getDouble("origQty", 0);
+        executedQty = hOrder.getDouble("executedQty", 0);
+        cummulativeQuoteQty = hOrder.getDouble("cummulativeQuoteQty", 0);
+        status = Status.valueOf(hOrder.getString("status", Status.CONFIRMED.name()));
+        timeInForce = TimeInForce.valueOf(hOrder.getString("timeInForce", TimeInForce.GTC.name()));
+        type = OrderType.valueOf(hOrder.getString("type", OrderType.MARKET.name()));
+        side = Side.valueOf(hOrder.getString("side", Side.BUY.name()));
     }
 
+    /**
+     * Method to get {@link #isIsolated} instance <br>
+     * Any params required
+     *
+     * @return {@link #isIsolated} instance as boolean
+     **/
     public boolean isIsolated() {
         return isIsolated;
     }
 
+    /**
+     * Method to get {@link #origClientOrderId} instance <br>
+     * Any params required
+     *
+     * @return {@link #origClientOrderId} instance as {@link String}
+     **/
     public String getOrigClientOrderId() {
         return origClientOrderId;
     }
 
+    /**
+     * Method to get {@link #price} instance <br>
+     * Any params required
+     *
+     * @return {@link #price} instance as double
+     **/
     public double getPrice() {
         return price;
     }
@@ -146,6 +156,12 @@ public class DetailMarginOrder extends Order {
         return roundValue(price, decimals);
     }
 
+    /**
+     * Method to get {@link #origQty} instance <br>
+     * Any params required
+     *
+     * @return {@link #origQty} instance as double
+     **/
     public double getOrigQty() {
         return origQty;
     }
@@ -161,6 +177,12 @@ public class DetailMarginOrder extends Order {
         return roundValue(origQty, decimals);
     }
 
+    /**
+     * Method to get {@link #executedQty} instance <br>
+     * Any params required
+     *
+     * @return {@link #executedQty} instance as double
+     **/
     public double getExecutedQty() {
         return executedQty;
     }
@@ -176,6 +198,12 @@ public class DetailMarginOrder extends Order {
         return roundValue(origQty, decimals);
     }
 
+    /**
+     * Method to get {@link #cummulativeQuoteQty} instance <br>
+     * Any params required
+     *
+     * @return {@link #cummulativeQuoteQty} instance as double
+     **/
     public double getCummulativeQuoteQty() {
         return cummulativeQuoteQty;
     }
@@ -191,19 +219,43 @@ public class DetailMarginOrder extends Order {
         return roundValue(cummulativeQuoteQty, decimals);
     }
 
-    public String getStatus() {
+    /**
+     * Method to get {@link #status} instance <br>
+     * Any params required
+     *
+     * @return {@link #status} instance as {@link Status}
+     **/
+    public Status getStatus() {
         return status;
     }
 
-    public String getTimeInForce() {
+    /**
+     * Method to get {@link #timeInForce} instance <br>
+     * Any params required
+     *
+     * @return {@link #timeInForce} instance as {@link TimeInForce}
+     **/
+    public TimeInForce getTimeInForce() {
         return timeInForce;
     }
 
-    public String getType() {
+    /**
+     * Method to get {@link #type} instance <br>
+     * Any params required
+     *
+     * @return {@link #type} instance as {@link OrderType}
+     **/
+    public OrderType getType() {
         return type;
     }
 
-    public String getSide() {
+    /**
+     * Method to get {@link #side} instance <br>
+     * Any params required
+     *
+     * @return {@link #side} instance as {@link Side}
+     **/
+    public Side getSide() {
         return side;
     }
 
@@ -214,9 +266,7 @@ public class DetailMarginOrder extends Order {
      * @return stopPrice as double, if is a null field will return -1
      **/
     public double getStopPrice() {
-        if (hMarginOrder == null)
-            return -1;
-        return hMarginOrder.getDouble("stopPrice");
+        return hOrder.getDouble("stopPrice", -1);
     }
 
     /**
@@ -236,9 +286,7 @@ public class DetailMarginOrder extends Order {
      * @return icebergQty as double, if is a null field will return -1
      **/
     public double getIcebergQty() {
-        if (hMarginOrder == null)
-            return -1;
-        return hMarginOrder.getDouble("icebergQty");
+        return hOrder.getDouble("icebergQty", -1);
     }
 
     /**
@@ -249,25 +297,6 @@ public class DetailMarginOrder extends Order {
      **/
     public double getIcebergQty(int decimals) {
         return roundValue(getIcebergQty(), decimals);
-    }
-
-    @Override
-    public String toString() {
-        return "DetailMarginOrder{" +
-                "isIsolated=" + isIsolated +
-                ", origClientOrderId='" + origClientOrderId + '\'' +
-                ", price=" + price +
-                ", origQty=" + origQty +
-                ", executedQty=" + executedQty +
-                ", cummulativeQuoteQty=" + cummulativeQuoteQty +
-                ", status='" + status + '\'' +
-                ", timeInForce='" + timeInForce + '\'' +
-                ", type='" + type + '\'' +
-                ", side='" + side + '\'' +
-                ", symbol='" + symbol + '\'' +
-                ", orderId=" + orderId +
-                ", clientOrderId='" + clientOrderId + '\'' +
-                '}';
     }
 
 }

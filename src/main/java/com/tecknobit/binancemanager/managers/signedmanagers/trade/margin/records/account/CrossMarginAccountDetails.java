@@ -1,6 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.account;
 
-import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.MarginAccountSnapshot;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.marginproperties.MarginAsset;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.MarginAccountSnapshot.UserMarginAsset;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,39 +11,39 @@ import static com.tecknobit.apimanager.formatters.JsonHelper.getJSONArray;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.MarginAccountSnapshot.assembleUserMarginAssetsList;
 
 /**
- * The {@code CrossMarginAccountDetails} class is useful to format {@code "Binance"} Cross Margin Account Detail response request
+ * The {@code CrossMarginAccountDetails} class is useful to format a {@code "Binance"}'s cross margin account details
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
+ * Query Cross Margin Account Details (USER_DATA)</a>
+ * @see MarginAccount
  **/
-
 public class CrossMarginAccountDetails extends MarginAccount {
 
     /**
      * {@code borrowEnabled} is instance that memorizes if borrow is enable
      **/
-    private boolean borrowEnabled;
+    private final boolean borrowEnabled;
 
     /**
      * {@code marginLevel} is instance that memorizes margin level
      **/
-    private double marginLevel;
+    private final double marginLevel;
 
     /**
      * {@code tradeEnabled} is instance that memorizes if trade is enable
-     * **/
-    private boolean tradeEnabled;
+     **/
+    private final boolean tradeEnabled;
 
     /**
      * {@code transferEnabled} is instance that memorizes if transfer is enable
-     * **/
-    private boolean transferEnabled;
+     **/
+    private final boolean transferEnabled;
 
     /**
      * {@code userMarginAssets} is instance that memorizes list of {@link UserMarginAsset}
-     * **/
-    private ArrayList<UserMarginAsset> userMarginAssets;
+     **/
+    private final ArrayList<UserMarginAsset> userMarginAssets;
 
     /** Constructor to init {@link CrossMarginAccountDetails} object
      * @param borrowEnabled: borrow is enable
@@ -84,77 +84,84 @@ public class CrossMarginAccountDetails extends MarginAccount {
         userMarginAssets = assembleUserMarginAssetsList(getJSONArray(crossMarginAccount, "userAssets", new JSONArray()));
     }
 
+    /**
+     * Method to get {@link #borrowEnabled} instance <br>
+     * Any params required
+     *
+     * @return {@link #borrowEnabled} instance as boolean
+     **/
     public boolean isBorrowEnabled() {
         return borrowEnabled;
     }
 
-    public void setBorrowEnabled(boolean borrowEnabled) {
-        this.borrowEnabled = borrowEnabled;
-    }
-
+    /**
+     * Method to get {@link #marginLevel} instance <br>
+     * Any params required
+     *
+     * @return {@link #marginLevel} instance as double
+     **/
     public double getMarginLevel() {
         return marginLevel;
     }
 
-    /** Method to set {@link #marginLevel}
-     * @param marginLevel: margin level
-     * @throws IllegalArgumentException when margin level value is less than 0
-     * **/
-    public void setMarginLevel(double marginLevel) {
-        if(marginLevel < 0)
-            throw new IllegalArgumentException("Margin level value cannot be less than 0");
-        this.marginLevel = marginLevel;
-    }
-
+    /**
+     * Method to get {@link #tradeEnabled} instance <br>
+     * Any params required
+     *
+     * @return {@link #tradeEnabled} instance as boolean
+     **/
     public boolean isTradeEnabled() {
         return tradeEnabled;
     }
 
-    public void setTradeEnabled(boolean tradeEnabled) {
-        this.tradeEnabled = tradeEnabled;
-    }
-
+    /**
+     * Method to get {@link #transferEnabled} instance <br>
+     * Any params required
+     *
+     * @return {@link #transferEnabled} instance as boolean
+     **/
     public boolean isTransferEnabled() {
         return transferEnabled;
     }
 
-    public void setTransferEnabled(boolean transferEnabled) {
-        this.transferEnabled = transferEnabled;
-    }
-
+    /**
+     * Method to get {@link #userMarginAssets} instance <br>
+     * Any params required
+     *
+     * @return {@link #userMarginAssets} instance as {@link ArrayList} of {@link UserMarginAsset}
+     **/
     public ArrayList<UserMarginAsset> getUserAssetMargins() {
         return userMarginAssets;
     }
 
-    public void setUserAssetMargins(ArrayList<UserMarginAsset> userMarginAssets) {
-        this.userMarginAssets = userMarginAssets;
-    }
-
-    public void insertUserAssetMargin(MarginAccountSnapshot.UserMarginAsset assetMargin) {
+    /**
+     * Method to add a {@link MarginAsset} to {@link #userMarginAssets}
+     *
+     * @param assetMargin: asset margin to add
+     **/
+    public void insertUserAssetMargin(UserMarginAsset assetMargin) {
         if (!userMarginAssets.contains(assetMargin))
             userMarginAssets.add(assetMargin);
     }
 
-    public boolean removeUserAssetMargin(MarginAccountSnapshot.UserMarginAsset assetMargin) {
+    /**
+     * Method to remove a {@link MarginAsset} from {@link #userMarginAssets}
+     *
+     * @param assetMargin: asset margin to remove
+     * @return result of operation as boolean
+     **/
+    public boolean removeUserAssetMargin(UserMarginAsset assetMargin) {
         return userMarginAssets.remove(assetMargin);
     }
 
-    public MarginAccountSnapshot.UserMarginAsset getUserAssetMargin(int index) {
+    /**
+     * Method to get a margin asset from {@link #userMarginAssets} list
+     *
+     * @param index: index to fetch the order
+     * @return margin asset as {@link UserMarginAsset}
+     **/
+    public UserMarginAsset getUserAssetMargin(int index) {
         return userMarginAssets.get(index);
-    }
-
-    @Override
-    public String toString() {
-        return "CrossMarginAccountDetails{" +
-                "borrowEnabled=" + borrowEnabled +
-                ", marginLevel=" + marginLevel +
-                ", tradeEnabled=" + tradeEnabled +
-                ", transferEnabled=" + transferEnabled +
-                ", userMarginAssets=" + userMarginAssets +
-                ", totalAssetOfBtc=" + totalAssetOfBtc +
-                ", totalLiabilityOfBtc=" + totalLiabilityOfBtc +
-                ", totalNetAssetOfBtc=" + totalNetAssetOfBtc +
-                '}';
     }
 
 }

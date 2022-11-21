@@ -1,16 +1,25 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.response;
 
+import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code MarginOrderStatus} class is useful to format ResultMarginOrder object of {@code "Binance"}'s request Margin Account New Order
+ * The {@code MarginOrderStatus} class is useful to format a {@code "Binance"}'s {@code "STATUS"} response
  *
+ * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
- * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
+ * Margin Account New Order (TRADE)</a>
+ * @see Order
+ * @see MarginOrder
+ * @see ACKMarginOrder
+ * @see ResultMarginOrder
  **/
-
+// TODO: 21/11/2022 CHECK TO REMOVE
 public class MarginOrderStatus extends ResultMarginOrder {
 
     /**
@@ -52,9 +61,9 @@ public class MarginOrderStatus extends ResultMarginOrder {
      * @param stopPrice: stop price value
      * @param time: time value
      * **/
-    public MarginOrderStatus(String symbol, double orderId, String clientOrderId, long updateTime, boolean isIsolated,
-                             double price, double origQty, double executedQty, double cummulativeQuoteQty, String status,
-                             String timeInForce, String type, String side, double icebergQty, boolean isWorking,
+    public MarginOrderStatus(String symbol, long orderId, String clientOrderId, long updateTime, boolean isIsolated,
+                             double price, double origQty, double executedQty, double cummulativeQuoteQty, Status status,
+                             TimeInForce timeInForce, OrderType type, Side side, double icebergQty, boolean isWorking,
                              double stopPrice, long time) {
         super(symbol, orderId, clientOrderId, updateTime, isIsolated, price, origQty, executedQty, cummulativeQuoteQty,
                 status, timeInForce, type, side);
@@ -77,6 +86,12 @@ public class MarginOrderStatus extends ResultMarginOrder {
         time = resultMarginOrder.getLong("time");
     }
 
+    /**
+     * Method to get {@link #icebergQty} instance <br>
+     * Any params required
+     *
+     * @return {@link #icebergQty} instance as double
+     **/
     public double getIcebergQty() {
         return icebergQty;
     }
@@ -92,10 +107,22 @@ public class MarginOrderStatus extends ResultMarginOrder {
         return roundValue(icebergQty, decimals);
     }
 
+    /**
+     * Method to get {@link #isWorking} instance <br>
+     * Any params required
+     *
+     * @return {@link #isWorking} instance as boolean
+     **/
     public boolean isWorking() {
         return isWorking;
     }
 
+    /**
+     * Method to get {@link #stopPrice} instance <br>
+     * Any params required
+     *
+     * @return {@link #stopPrice} instance as double
+     **/
     public double getStopPrice() {
         return stopPrice;
     }
@@ -111,35 +138,44 @@ public class MarginOrderStatus extends ResultMarginOrder {
         return roundValue(stopPrice, decimals);
     }
 
+    /**
+     * Method to get {@link #time} instance <br>
+     * Any params required
+     *
+     * @return {@link #time} instance as long
+     **/
     public long getTime() {
         return time;
     }
 
+    /**
+     * Method to get {@link #time} instance <br>
+     * Any params required
+     *
+     * @return {@link #time} instance as {@link Date}
+     **/
+    public Date getTransactionDate() {
+        return TimeFormatter.getDate(time);
+    }
+
+    /**
+     * Method to get {@link #transactTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #transactTime} instance as long
+     **/
     public long getUpdateTime() {
         return transactTime;
     }
 
-    @Override
-    public String toString() {
-        return "MarginOrderStatus{" +
-                "icebergQty=" + icebergQty +
-                ", isWorking=" + isWorking +
-                ", stopPrice=" + stopPrice +
-                ", time=" + time +
-                ", price=" + price +
-                ", origQty=" + origQty +
-                ", executedQty=" + executedQty +
-                ", cummulativeQuoteQty=" + cummulativeQuoteQty +
-                ", status='" + status + '\'' +
-                ", timeInForce='" + timeInForce + '\'' +
-                ", type='" + type + '\'' +
-                ", side='" + side + '\'' +
-                ", isIsolated=" + isIsolated +
-                ", transactTime=" + transactTime +
-                ", symbol='" + symbol + '\'' +
-                ", orderId=" + orderId +
-                ", clientOrderId='" + clientOrderId + '\'' +
-                '}';
+    /**
+     * Method to get {@link #transactTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #transactTime} instance as {@link Date}
+     **/
+    public Date getUpdateDate() {
+        return TimeFormatter.getDate(transactTime);
     }
 
 }

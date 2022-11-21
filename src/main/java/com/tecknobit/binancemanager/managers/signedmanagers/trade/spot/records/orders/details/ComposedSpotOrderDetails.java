@@ -1,5 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.details;
 
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order.Status;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.OrderDetails;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,14 +32,14 @@ public class ComposedSpotOrderDetails extends OrderDetails {
      * @param listClientOrderId: list client order id
      * @param transactionTime:   transaction time of the order
      * @param symbol:            symbol used in the order
-     * @param orderValues:       list of {@link OrderValues}
+     * @param orders:            list of {@link Order}
      * @param orderReportsList:  list of {@link DetailSpotOrder}
      **/
-    public ComposedSpotOrderDetails(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
-                                    String listClientOrderId, long transactionTime, String symbol, ArrayList<OrderValues> orderValues,
+    public ComposedSpotOrderDetails(long orderListId, String contingencyType, Status listStatusType, Status listOrderStatus,
+                                    String listClientOrderId, long transactionTime, String symbol, ArrayList<Order> orders,
                                     ArrayList<DetailSpotOrder> orderReportsList) {
         super(orderListId, contingencyType, listStatusType, listOrderStatus, listClientOrderId, transactionTime, symbol,
-                orderValues);
+                orders);
         this.orderReportsList = orderReportsList;
     }
 
@@ -95,7 +97,7 @@ public class ComposedSpotOrderDetails extends OrderDetails {
                 ", listClientOrderId='" + listClientOrderId + '\'' +
                 ", transactionTime=" + transactionTime +
                 ", symbol='" + symbol + '\'' +
-                ", orderValues=" + orderValues +
+                ", orders=" + orders +
                 '}';
     }
 

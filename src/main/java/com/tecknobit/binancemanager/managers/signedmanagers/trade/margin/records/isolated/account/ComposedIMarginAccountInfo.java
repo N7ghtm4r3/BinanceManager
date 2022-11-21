@@ -6,17 +6,16 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.tecknobit.apimanager.formatters.JsonHelper.getJSONArray;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.account.IsolatedMarginAccountInfo.createIsolatedMarginAccountInfoList;
 
 /**
- * The {@code ComposedIMarginAccountInfo} class is useful to format {@code "Binance"} Isolated Margin Account Status request response
+ * The {@code ComposedIMarginAccountInfo} class is useful to format a {@code "Binance"}'s isolated margin account
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
+ * Query Isolated Margin Account Info (USER_DATA)</a>
+ * @see MarginAccount
  **/
-
 public class ComposedIMarginAccountInfo extends MarginAccount {
 
     /**
@@ -47,39 +46,57 @@ public class ComposedIMarginAccountInfo extends MarginAccount {
      **/
     public ComposedIMarginAccountInfo(JSONObject marginAccountInfo) {
         super(marginAccountInfo);
-        isolatedMarginAccountInfoList = createIsolatedMarginAccountInfoList(getJSONArray(marginAccountInfo, "assets",
+        isolatedMarginAccountInfoList = createIsolatedMarginAccountInfoList(hMarginAccount.getJSONArray("assets",
                 new JSONArray()));
     }
 
+    /**
+     * Method to get {@link #isolatedMarginAccountInfoList} instance <br>
+     * Any params required
+     *
+     * @return {@link #isolatedMarginAccountInfoList} instance as {@link ArrayList} of {@link IsolatedMarginAccountInfo}
+     **/
     public ArrayList<IsolatedMarginAccountInfo> getIsolatedMarginAccountInfoList() {
         return isolatedMarginAccountInfoList;
     }
 
+    /**
+     * Method to set {@link #isolatedMarginAccountInfoList}
+     *
+     * @param isolatedMarginAccountInfoList: list of {@link IsolatedMarginAccountInfo} to set
+     **/
     public void setIsolatedMarginAccountInfoList(ArrayList<IsolatedMarginAccountInfo> isolatedMarginAccountInfoList) {
         this.isolatedMarginAccountInfoList = isolatedMarginAccountInfoList;
     }
 
-    public void insertIsolatedMarginAccountInfo(IsolatedMarginAccountInfo info){
-        if(!isolatedMarginAccountInfoList.contains(info))
+    /**
+     * Method to add an {@link IsolatedMarginAccountInfo} to {@link #isolatedMarginAccountInfoList}
+     *
+     * @param info: isolated margin account info to add
+     **/
+    public void insertIsolatedMarginAccountInfo(IsolatedMarginAccountInfo info) {
+        if (!isolatedMarginAccountInfoList.contains(info))
             isolatedMarginAccountInfoList.add(info);
     }
 
-    public boolean removeUserAssetMargin(IsolatedMarginAccountInfo info){
+    /**
+     * Method to remove a {@link IsolatedMarginAccountInfo} from {@link #isolatedMarginAccountInfoList}
+     *
+     * @param info: isolated margin account info to remove
+     * @return result of operation as boolean
+     **/
+    public boolean removeUserAssetMargin(IsolatedMarginAccountInfo info) {
         return isolatedMarginAccountInfoList.remove(info);
     }
 
+    /**
+     * Method to get an isolated margin account info from {@link #isolatedMarginAccountInfoList} list
+     *
+     * @param index: index to fetch the isolated margin account info
+     * @return isolated margin account info as {@link IsolatedMarginAccountInfo}
+     **/
     public IsolatedMarginAccountInfo getIsolatedMarginAccountInfo(int index) {
         return isolatedMarginAccountInfoList.get(index);
-    }
-
-    @Override
-    public String toString() {
-        return "ComposedIMarginAccountInfo{" +
-                "isolatedMarginAccountInfoList=" + isolatedMarginAccountInfoList +
-                ", totalAssetOfBtc=" + totalAssetOfBtc +
-                ", totalLiabilityOfBtc=" + totalLiabilityOfBtc +
-                ", totalNetAssetOfBtc=" + totalNetAssetOfBtc +
-                '}';
     }
 
 }

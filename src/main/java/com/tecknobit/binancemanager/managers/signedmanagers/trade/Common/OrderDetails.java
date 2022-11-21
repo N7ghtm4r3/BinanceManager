@@ -1,21 +1,38 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.common;
 
-import com.tecknobit.binancemanager.managers.market.records.tickers.OrderBookTicker;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.BinanceMarginManager;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.BinanceSpotManager;
+import com.tecknobit.apimanager.formatters.JsonHelper;
+import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order.Status;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import static com.tecknobit.apimanager.formatters.JsonHelper.getJSONArray;
+import java.util.Date;
 
 /**
- * The {@code OrderDetails} class is useful to manage and format all Binance's requests with order detailed
+ * The {@code OrderDetails} class is useful to format the details of an order
  *
- * @implNote used by {@link BinanceSpotManager} and {@link BinanceMarginManager}
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at:
+ * <ul>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">
+ *             Margin Account Cancel all Open Orders on a Symbol (TRADE)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade">
+ *             Cancel all Open Orders on a Symbol (TRADE)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
+ *             Margin Account Cancel Order (TRADE)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
+ *             Margin Account New OCO (TRADE)</a>
+ *     </li>
+ * </ul>
  **/
-
 public class OrderDetails {
 
     /**
@@ -30,13 +47,13 @@ public class OrderDetails {
 
     /**
      * {@code listStatusType} is instance that memorizes list status type of the order
-     * **/
-    protected final String listStatusType;
+     **/
+    protected final Status listStatusType;
 
     /**
      * {@code listOrderStatus} is instance that memorizes list order status
-     * **/
-    protected final String listOrderStatus;
+     **/
+    protected final Status listOrderStatus;
 
     /**
      * {@code listClientOrderId} is instance that list client order id
@@ -45,18 +62,21 @@ public class OrderDetails {
 
     /**
      * {@code transactionTime} is instance that memorizes transaction time of the order
-     * **/
+     **/
     protected final long transactionTime;
 
     /**
      * {@code symbol} is instance that memorizes symbol used in the order
      **/
     protected final String symbol;
-
     /**
-     * {@code orderValues} is instance that memorizes order values
+     * {@code hOrder} {@code "JSON"} helper
      **/
-    protected ArrayList<OrderValues> orderValues;
+    protected final JsonHelper hOrder;
+    /**
+     * {@code orders} is instance that memorizes order values
+     **/
+    protected ArrayList<Order> orders;
 
     /**
      * Constructor to init {@link OrderDetails} object
@@ -68,10 +88,11 @@ public class OrderDetails {
      * @param listClientOrderId: list client order id
      * @param transactionTime:   transaction time of the order
      * @param symbol:            symbol used in the order
-     * @param orderValues:       list of {@link OrderValues}
+     * @param orders:            list of {@link Order}
      **/
-    public OrderDetails(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
-                        String listClientOrderId, long transactionTime, String symbol, ArrayList<OrderValues> orderValues) {
+    public OrderDetails(long orderListId, String contingencyType, Status listStatusType, Status listOrderStatus,
+                        String listClientOrderId, long transactionTime, String symbol,
+                        ArrayList<Order> orders) {
         this.orderListId = orderListId;
         this.contingencyType = contingencyType;
         this.listStatusType = listStatusType;
@@ -79,7 +100,8 @@ public class OrderDetails {
         this.listClientOrderId = listClientOrderId;
         this.transactionTime = transactionTime;
         this.symbol = symbol;
-        this.orderValues = orderValues;
+        this.orders = orders;
+        hOrder = null;
     }
 
     /**
@@ -88,147 +110,149 @@ public class OrderDetails {
      * @param orderDetails: order details as {@link JSONObject}
      **/
     public OrderDetails(JSONObject orderDetails) {
-        orderListId = orderDetails.getLong("orderListId");
-        contingencyType = orderDetails.getString("contingencyType");
-        listStatusType = orderDetails.getString("listStatusType");
-        listOrderStatus = orderDetails.getString("listOrderStatus");
-        listClientOrderId = orderDetails.getString("listClientOrderId");
-        transactionTime = orderDetails.getLong("transactionTime");
-        symbol = orderDetails.getString("symbol");
-        loadOrderDetails(getJSONArray(orderDetails, "orders", new JSONArray()));
+        hOrder = new JsonHelper(orderDetails);
+        orderListId = hOrder.getLong("orderListId", 0);
+        contingencyType = hOrder.getString("contingencyType");
+        listStatusType = Status.valueOf(hOrder.getString("listStatusType", Status.CONFIRMED.name()));
+        listOrderStatus = Status.valueOf(hOrder.getString("listOrderStatus", Status.CONFIRMED.name()));
+        listClientOrderId = hOrder.getString("listClientOrderId");
+        transactionTime = hOrder.getLong("transactionTime", 0);
+        symbol = hOrder.getString("symbol");
+        orders = new ArrayList<>();
+        JSONArray jOrders = hOrder.getJSONArray("orders", new JSONArray());
+        for (int j = 0; j < jOrders.length(); j++)
+            orders.add(new Order(jOrders.getJSONObject(j)));
     }
 
     /**
-     * Method to load OrderValues list
+     * Method to get {@link #orderListId} instance <br>
+     * Any params required
      *
-     * @param list: obtained from Binance's request
-     *              load list with response data as ArrayList<OrderValues>
+     * @return {@link #orderListId} instance as long
      **/
-    private void loadOrderDetails(JSONArray list) {
-        orderValues = new ArrayList<>();
-        for (int j = 0; j < list.length(); j++)
-            orderValues.add(new OrderValues(list.getJSONObject(j)));
-    }
-
     public long getOrderListId() {
         return orderListId;
     }
 
+    /**
+     * Method to get {@link #contingencyType} instance <br>
+     * Any params required
+     *
+     * @return {@link #contingencyType} instance as {@link String}
+     **/
     public String getContingencyType() {
         return contingencyType;
     }
 
-    public String getListStatusType() {
+    /**
+     * Method to get {@link #listStatusType} instance <br>
+     * Any params required
+     *
+     * @return {@link #listStatusType} instance as {@link Status}
+     **/
+    public Status getListStatusType() {
         return listStatusType;
     }
 
-    public String getListOrderStatus() {
+    /**
+     * Method to get {@link #listOrderStatus} instance <br>
+     * Any params required
+     *
+     * @return {@link #listOrderStatus} instance as {@link Status}
+     **/
+    public Status getListOrderStatus() {
         return listOrderStatus;
     }
 
+    /**
+     * Method to get {@link #listClientOrderId} instance <br>
+     * Any params required
+     *
+     * @return {@link #listClientOrderId} instance as {@link String}
+     **/
     public String getListClientOrderId() {
         return listClientOrderId;
     }
 
+    /**
+     * Method to get {@link #transactionTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #transactionTime} instance as long
+     **/
     public long getTransactionTime() {
         return transactionTime;
     }
 
+    /**
+     * Method to get {@link #transactionTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #transactionTime} instance as {@link Date}
+     **/
+    public Date getTransactionDate() {
+        return TimeFormatter.getDate(transactionTime);
+    }
+
+    /**
+     * Method to get {@link #symbol} instance <br>
+     * Any params required
+     *
+     * @return {@link #symbol} instance as {@link String}
+     **/
     public String getSymbol() {
         return symbol;
     }
 
-    public ArrayList<OrderValues> getOrderValuesList() {
-        return orderValues;
-    }
-
-    public OrderValues getOrderValue(int index){
-        return orderValues.get(index);
-    }
-
-    @Override
-    public String toString() {
-        return "OrderDetails{" +
-                "orderListId=" + orderListId +
-                ", contingencyType='" + contingencyType + '\'' +
-                ", listStatusType='" + listStatusType + '\'' +
-                ", listOrderStatus='" + listOrderStatus + '\'' +
-                ", listClientOrderId='" + listClientOrderId + '\'' +
-                ", transactionTime=" + transactionTime +
-                ", symbol='" + symbol + '\'' +
-                ", orderValues=" + orderValues +
-                '}';
+    /**
+     * Method to get {@link #orders} instance <br>
+     * Any params required
+     *
+     * @return {@link #orders} instance as {@link ArrayList} of {@link Order}
+     **/
+    public ArrayList<Order> getOrdersList() {
+        return orders;
     }
 
     /**
-     * The {@code OrderValues} class is useful to adding values to an order
+     * Method to add a {@link Order} to {@link #orders}
      *
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade</a>
+     * @param order: order to add
      **/
+    public void insertOrder(Order order) {
+        if (!orders.contains(order))
+            orders.add(order);
+    }
 
-    public static class OrderValues {
+    /**
+     * Method to remove an {@link Order} from {@link #orders}
+     *
+     * @param order: order to remove
+     * @return result of operation as boolean
+     **/
+    public boolean removeOrder(Order order) {
+        return orders.remove(order);
+    }
 
-        /**
-         * {@code symbol} is instance that memorizes symbol used in the order
-         * **/
-        private final String symbol;
+    /**
+     * Method to get an order from {@link #orders} list
+     *
+     * @param index: index to fetch the order
+     * @return order as {@link Order}
+     **/
+    public Order getOrder(int index) {
+        return orders.get(index);
+    }
 
-        /**
-         * {@code orderId} is instance that memorizes order identifier
-         **/
-        private final long orderId;
-
-        /**
-         * {@code orderId} is instance that memorizes client order identifier
-         **/
-        private final String clientOrderId;
-
-        /**
-         * Constructor to init {@link OrderValues} object
-         *
-         * @param symbol:        symbol used in the order
-         * @param orderId:       order identifier
-         * @param clientOrderId: client order identifier
-         **/
-        public OrderValues(String symbol, long orderId, String clientOrderId) {
-            this.symbol = symbol;
-            this.orderId = orderId;
-            this.clientOrderId = clientOrderId;
-        }
-
-        /**
-         * Constructor to init {@link OrderBookTicker} object
-         *
-         * @param orderValues: fill details as {@link JSONObject}
-         **/
-        public OrderValues(JSONObject orderValues) {
-            symbol = orderValues.getString("symbol");
-            orderId = orderValues.getLong("orderId");
-            clientOrderId = orderValues.getString("clientOrderId");
-        }
-
-        public String getSymbol() {
-            return symbol;
-        }
-
-        public long getOrderId() {
-            return orderId;
-        }
-
-        public String getClientOrderId() {
-            return clientOrderId;
-        }
-
-        @Override
-        public String toString() {
-            return "OrderValues{" +
-                    "symbol='" + symbol + '\'' +
-                    ", orderId=" + orderId +
-                    ", clientOrderId='" + clientOrderId + '\'' +
-                    '}';
-        }
-
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
+    @Override
+    public String toString() {
+        return new JSONObject(this).toString();
     }
 
 }

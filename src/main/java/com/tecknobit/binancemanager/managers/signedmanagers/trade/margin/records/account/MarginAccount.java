@@ -6,13 +6,25 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code MarginAccount} class is useful to format {@code "Binance"} Margin Account
+ * The {@code MarginAccount} class is useful to format a {@code "Binance"} margin account
  *
  * @author N7ghtm4r3 - Tecknobit
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
+ * @apiNote see the official documentation at:
+ * <ul>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
+ *             Query Isolated Margin Account Info (USER_DATA)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
+ *             Query Cross Margin Account Details (USER_DATA)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+ *             Daily Account Snapshot (USER_DATA)</a>
+ *     </li>
+ * </ul>
  **/
-
 public class MarginAccount {
 
     /**
@@ -24,6 +36,7 @@ public class MarginAccount {
      * {@code hMarginAccount} is instance useful to work with margin account details in JSON format
      **/
     protected final JsonHelper hMarginAccount;
+
     /**
      * {@code totalLiabilityOfBtc} is instance that memorizes total liability of Bitcoin
      **/
@@ -76,6 +89,12 @@ public class MarginAccount {
             throw new IllegalArgumentException("Total net asset of BTC value cannot be less than 0");
     }
 
+    /**
+     * Method to get {@link #totalAssetOfBtc} instance <br>
+     * Any params required
+     *
+     * @return {@link #totalAssetOfBtc} instance as double
+     **/
     public double getTotalAssetOfBtc() {
         return totalAssetOfBtc;
     }
@@ -103,6 +122,12 @@ public class MarginAccount {
         return roundValue(totalAssetOfBtc, decimals);
     }
 
+    /**
+     * Method to get {@link #totalLiabilityOfBtc} instance <br>
+     * Any params required
+     *
+     * @return {@link #totalLiabilityOfBtc} instance as double
+     **/
     public double getTotalLiabilityOfBtc() {
         return totalLiabilityOfBtc;
     }
@@ -130,6 +155,12 @@ public class MarginAccount {
         this.totalLiabilityOfBtc = totalLiabilityOfBtc;
     }
 
+    /**
+     * Method to get {@link #totalNetAssetOfBtc} instance <br>
+     * Any params required
+     *
+     * @return {@link #totalNetAssetOfBtc} instance as double
+     **/
     public double getTotalNetAssetOfBtc() {
         return totalNetAssetOfBtc;
     }
@@ -157,13 +188,15 @@ public class MarginAccount {
         this.totalNetAssetOfBtc = totalNetAssetOfBtc;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "MarginAccount{" +
-                "totalAssetOfBtc=" + totalAssetOfBtc +
-                ", totalLiabilityOfBtc=" + totalLiabilityOfBtc +
-                ", totalNetAssetOfBtc=" + totalNetAssetOfBtc +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

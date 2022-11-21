@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import static com.tecknobit.apimanager.apis.APIRequest.*;
 import static com.tecknobit.binancemanager.constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.common.TradeConstants.*;
-import static com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.SpotOrder.*;
+import static com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.SpotOrder.*;
 
 /**
  * The {@code BinanceSpotManager} class is useful to manage all {@code "Binance"} Spot Endpoints

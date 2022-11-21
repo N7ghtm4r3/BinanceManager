@@ -1,85 +1,147 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.details;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
- * The {@code OpenMarginOrders} class is useful to asseble {@code "Binance"} Margin Account Cancel all Open Orders on a Symbol request
+ * The {@code OpenMarginOrders} class is useful to format a {@code "Binance"}'s margin list of an open orders on a symbol
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">
- * https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
+ * Margin Account Cancel all Open Orders on a Symbol (TRADE)</a>
  **/
-
 public class OpenMarginOrders {
 
     /**
-     * {@code detailMarginOrdersList} is instance that memorizes details margin orders data list
-     * **/
-    private ArrayList<DetailMarginOrder> detailMarginOrdersList;
+     * {@code marginOrdersDetails} is instance that memorizes details margin orders data list
+     **/
+    private ArrayList<MarginOrderDetails> marginOrdersDetails;
 
     /**
-     * {@code composedMarginOrderDetailsList} is instance that memorizes composed margin orders data list
-     * **/
-    private ArrayList<ComposedMarginOrderDetails> composedMarginOrderDetailsList;
+     * {@code composedMarginOrderDetails} is instance that memorizes composed margin orders data list
+     **/
+    private ArrayList<ComposedMarginOrderDetails> composedMarginOrderDetails;
 
-    /** Constructor to init {@link OpenMarginOrders} object
-     * @param detailMarginOrders: margin orders data list
+    /**
+     * Constructor to init {@link OpenMarginOrders} object
+     *
+     * @param marginOrderDetails:         margin orders data list
      * @param composedMarginOrderDetails: composed margin orders data list
-     * **/
-    public OpenMarginOrders(ArrayList<DetailMarginOrder> detailMarginOrders,
+     **/
+    public OpenMarginOrders(ArrayList<MarginOrderDetails> marginOrderDetails,
                             ArrayList<ComposedMarginOrderDetails> composedMarginOrderDetails) {
-        this.detailMarginOrdersList = detailMarginOrders;
-        this.composedMarginOrderDetailsList = composedMarginOrderDetails;
+        this.marginOrdersDetails = marginOrderDetails;
+        this.composedMarginOrderDetails = composedMarginOrderDetails;
     }
 
-    public ArrayList<DetailMarginOrder> getCancelMarginOrdersList() {
-        return detailMarginOrdersList;
+    /**
+     * Method to get {@link #marginOrdersDetails} instance <br>
+     * Any params required
+     *
+     * @return {@link #marginOrdersDetails} instance as {@link ArrayList} of {@link MarginOrderDetails}
+     **/
+    public ArrayList<MarginOrderDetails> getCancelMarginOrdersList() {
+        return marginOrdersDetails;
     }
 
-    public void setCancelMarginOrdersList(ArrayList<DetailMarginOrder> detailMarginOrdersList) {
-        this.detailMarginOrdersList = detailMarginOrdersList;
+    /**
+     * Method to set {@link #marginOrdersDetails} instance <br>
+     *
+     * @param marginOrdersDetails: list of {@link MarginOrderDetails} to set
+     **/
+    public void setCancelMarginOrdersList(ArrayList<MarginOrderDetails> marginOrdersDetails) {
+        this.marginOrdersDetails = marginOrdersDetails;
     }
 
-    public void insertCancelMarginOrder(DetailMarginOrder detailMarginOrder){
-        if(!detailMarginOrdersList.contains(detailMarginOrder))
-            detailMarginOrdersList.add(detailMarginOrder);
+    /**
+     * Method to add a margin orders details to {@link #marginOrdersDetails}
+     *
+     * @param marginOrderDetails: margin orders details to add
+     **/
+    public void insertCanceledMarginOrder(MarginOrderDetails marginOrderDetails) {
+        if (!marginOrdersDetails.contains(marginOrderDetails))
+            marginOrdersDetails.add(marginOrderDetails);
     }
 
-    public boolean removeCancelMarginOrder(DetailMarginOrder detailMarginOrder){
-        return detailMarginOrdersList.remove(detailMarginOrder);
+    /**
+     * Method to remove a margin orders details from {@link #marginOrdersDetails}
+     *
+     * @param marginOrderDetails: margin orders details to remove
+     * @return result of operation as boolean
+     **/
+    public boolean removeCanceledMarginOrder(MarginOrderDetails marginOrderDetails) {
+        return marginOrdersDetails.remove(marginOrderDetails);
     }
 
-    public DetailMarginOrder getCancelMarginOrder(int index){
-        return detailMarginOrdersList.get(index);
+    /**
+     * Method to get a margin orders details from {@link #marginOrdersDetails} list
+     *
+     * @param index: index to fetch the margin orders details
+     * @return margin orders details as {@link MarginOrderDetails}
+     **/
+    public MarginOrderDetails getCanceledMarginOrder(int index) {
+        return marginOrdersDetails.get(index);
     }
 
-    public ArrayList<ComposedMarginOrderDetails> getComposedMarginOrderDetailsList() {
-        return composedMarginOrderDetailsList;
+    /**
+     * Method to get {@link #composedMarginOrderDetails} instance <br>
+     * Any params required
+     *
+     * @return {@link #composedMarginOrderDetails} instance as {@link ArrayList} of {@link ComposedMarginOrderDetails}
+     **/
+    public ArrayList<ComposedMarginOrderDetails> getComposedMarginOrderDetails() {
+        return composedMarginOrderDetails;
     }
 
-    public void setComposedMarginOrderDetailsList(ArrayList<ComposedMarginOrderDetails> composedMarginOrderDetailsList) {
-        this.composedMarginOrderDetailsList = composedMarginOrderDetailsList;
+    /**
+     * Method to set {@link #composedMarginOrderDetails} instance <br>
+     *
+     * @param composedMarginOrderDetails: list of {@link ComposedMarginOrderDetails} to set
+     **/
+    public void setComposedMarginOrderDetails(ArrayList<ComposedMarginOrderDetails> composedMarginOrderDetails) {
+        this.composedMarginOrderDetails = composedMarginOrderDetails;
     }
 
-    public void insertComposedMarginOrder(ComposedMarginOrderDetails composedMarginOrderDetail){
-        if(!composedMarginOrderDetailsList.contains(composedMarginOrderDetail))
-            composedMarginOrderDetailsList.add(composedMarginOrderDetail);
+    /**
+     * Method to add a composed order to {@link #composedMarginOrderDetails}
+     *
+     * @param composedOrder: composed order to add
+     **/
+    public void insertComposedMarginOrder(ComposedMarginOrderDetails composedOrder) {
+        if (!composedMarginOrderDetails.contains(composedOrder))
+            composedMarginOrderDetails.add(composedOrder);
     }
 
-    public boolean removeComposedMarginOrder(ComposedMarginOrderDetails composedMarginOrderDetail){
-        return composedMarginOrderDetailsList.remove(composedMarginOrderDetail);
+    /**
+     * Method to remove a composed order from {@link #composedMarginOrderDetails}
+     *
+     * @param composedOrder: composed order to remove
+     * @return result of operation as boolean
+     **/
+    public boolean removeComposedMarginOrder(ComposedMarginOrderDetails composedOrder) {
+        return composedMarginOrderDetails.remove(composedOrder);
     }
 
-    public ComposedMarginOrderDetails getComposedMarginOrderDetails(int index){
-        return composedMarginOrderDetailsList.get(index);
+    /**
+     * Method to get a composed order from {@link #composedMarginOrderDetails} list
+     *
+     * @param index: index to fetch the composed order
+     * @return composed order as {@link ComposedMarginOrderDetails}
+     **/
+    public ComposedMarginOrderDetails getComposedMarginOrderDetails(int index) {
+        return composedMarginOrderDetails.get(index);
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "OpenMarginOrders{" +
-                "detailMarginOrdersList=" + detailMarginOrdersList +
-                ", composedMarginOrderDetailsList=" + composedMarginOrderDetailsList +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

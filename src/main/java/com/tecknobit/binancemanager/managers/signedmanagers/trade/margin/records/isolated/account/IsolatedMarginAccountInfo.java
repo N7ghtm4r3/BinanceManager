@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.account;
 
-import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.MarginAccountSnapshot;
+import com.tecknobit.apimanager.annotations.Returner;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.MarginAccountSnapshot.UserMarginAsset;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -9,93 +10,59 @@ import java.util.ArrayList;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code IsolatedMarginAccountInfo} class is useful to format {@code "Binance"} Isolated Margin Account Info request response
+ * The {@code IsolatedMarginAccountInfo} class is useful to format a {@code "Binance"}'s isolated margin account
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
+ * Query Isolated Margin Account Info (USER_DATA)</a>
  **/
-
 public class IsolatedMarginAccountInfo {
-
-    /**
-     * {@code MARGIN_LEVEL_STATUS_EXCESSIVE} is constant for excessive level status
-     * **/
-    public static final String MARGIN_LEVEL_STATUS_EXCESSIVE = "EXCESSIVE";
-
-    /**
-     * {@code NORMAL} is constant for normal level status
-     * **/
-    public static final String MARGIN_LEVEL_STATUS_NORMAL = "NORMAL";
-
-    /**
-     * {@code MARGIN_CALL} is constant for margin call level status
-     * **/
-    public static final String MARGIN_LEVEL_STATUS_MARGIN_CALL = "MARGIN_CALL";
-
-    /**
-     * {@code PRE_LIQUIDATION} is constant for pre liquidation level status
-     * **/
-    public static final String MARGIN_LEVEL_STATUS_PRE_LIQUIDATION = "PRE_LIQUIDATION";
-
-    /**
-     * {@code FORCE_LIQUIDATION} is constant for force liquidation level status
-     * **/
-    public static final String MARGIN_LEVEL_STATUS_FORCE_LIQUIDATION = "FORCE_LIQUIDATION";
-
-    /**
-     * {@code symbol} is instance that memorizes symbol used in the order
-     * **/
-    private final String symbol;
-
-    /**
-     * {@code isolatedCreated} is instance that memorizes if isolated has been created
-     * **/
-    private boolean isolatedCreated;
-
-    /**
-     * {@code enabled} is instance that memorizes f order has been enabled
-     * **/
-    private boolean enabled;
-
-    /**
-     * {@code marginLevel} is instance that memorizes margin level
-     * **/
-    private double marginLevel;
-
-    /**
-     * {@code marginLevelStatus} is instance that memorizes margin status level
-     * **/
-    private String marginLevelStatus;
-
-    /**
-     * {@code marginRatio} is instance that memorizes margin ratio
-     * **/
-    private double marginRatio;
-
-    /**
-     * {@code indexPrice} is instance that memorizes index price
-     * **/
-    private double indexPrice;
-
-    /**
-     * {@code liquidatePrice} is instance that memorizes liquidate price
-     * **/
-    private double liquidatePrice;
-
-    /**
-     * {@code liquidateRate} is instance that memorizes liquidate rate
-     * **/
-    private double liquidateRate;
 
     /**
      * {@code baseAsset} is instance that memorizes base asset
      **/
     private final IsolatedMarginAsset baseAsset;
+
+    /**
+     * {@code symbol} is instance that memorizes symbol used in the order
+     **/
+    private final String symbol;
     /**
      * {@code quoteAsset} is instance that memorizes quote asset
      **/
     private final IsolatedMarginAsset quoteAsset;
+    /**
+     * {@code isolatedCreated} is instance that memorizes if isolated has been created
+     **/
+    private boolean isolatedCreated;
+    /**
+     * {@code marginLevel} is instance that memorizes margin level
+     **/
+    private double marginLevel;
+    /**
+     * {@code enabled} is instance that memorizes if order has been enabled
+     **/
+    private boolean enabled;
+    /**
+     * {@code marginLevelStatus} is instance that memorizes margin status level
+     **/
+    private MarginLevelStatus marginLevelStatus;
+    /**
+     * {@code marginRatio} is instance that memorizes margin ratio
+     **/
+    private double marginRatio;
+    /**
+     * {@code indexPrice} is instance that memorizes index price
+     **/
+    private double indexPrice;
+    /**
+     * {@code liquidatePrice} is instance that memorizes liquidate price
+     **/
+    private double liquidatePrice;
+    /**
+     * {@code liquidateRate} is instance that memorizes liquidate rate
+     **/
+    private double liquidateRate;
     /**
      * {@code tradeEnabled} is flag that checks if trade has been enabled
      **/
@@ -106,7 +73,7 @@ public class IsolatedMarginAccountInfo {
      *
      * @param symbol:            symbol used in the order
      * @param isolatedCreated:   isolated has been created
-     * @param enabled:           order has been enabled
+     * @param enabled:           if order has been enabled
      * @param marginLevel:       margin level
      * @param marginLevelStatus: margin status level
      * @param marginRatio:       margin ratio
@@ -119,9 +86,9 @@ public class IsolatedMarginAccountInfo {
      * @throws IllegalArgumentException if parameters range is not respected
      **/
     public IsolatedMarginAccountInfo(String symbol, boolean isolatedCreated, boolean enabled, double marginLevel,
-                                     String marginLevelStatus, double marginRatio, double indexPrice, double liquidatePrice,
-                                     double liquidateRate, boolean tradeEnabled, IsolatedMarginAsset baseAsset,
-                                     IsolatedMarginAsset quoteAsset) {
+                                     MarginLevelStatus marginLevelStatus, double marginRatio, double indexPrice,
+                                     double liquidatePrice, double liquidateRate, boolean tradeEnabled,
+                                     IsolatedMarginAsset baseAsset, IsolatedMarginAsset quoteAsset) {
         this.symbol = symbol;
         this.isolatedCreated = isolatedCreated;
         this.enabled = enabled;
@@ -149,11 +116,7 @@ public class IsolatedMarginAccountInfo {
         marginLevel = isolatedMarginAccountInfo.getDouble("marginLevel");
         if (marginLevel < 0)
             throw new IllegalArgumentException("Margin level value cannot be less than 0");
-        marginLevelStatus = isolatedMarginAccountInfo.getString("marginLevelStatus");
-        if (!marginLevelStatusIsValid(marginLevelStatus)) {
-            throw new IllegalArgumentException("Margin level status can only be EXCESSIVE, NORMAL, MARGIN_CALL, " +
-                    "PRE_LIQUIDATION or FORCE_LIQUIDATION");
-        }
+        marginLevelStatus = MarginLevelStatus.valueOf(isolatedMarginAccountInfo.getString("marginLevelStatus"));
         marginRatio = isolatedMarginAccountInfo.getDouble("marginRatio");
         if (marginRatio < 0)
             throw new IllegalArgumentException("Margin ratio value cannot be less than 0");
@@ -177,6 +140,8 @@ public class IsolatedMarginAccountInfo {
      * @param jsonInfo: obtained from {@code "Binance"}'s request
      * @return a list as ArrayList<IsolatedMarginAccountInfo>
      **/
+    // TODO: 21/11/2022 CHECK TO REMOVE
+    @Returner
     public static ArrayList<IsolatedMarginAccountInfo> createIsolatedMarginAccountInfoList(JSONArray jsonInfo) {
         ArrayList<IsolatedMarginAccountInfo> isolatedMarginAccountInfo = new ArrayList<>();
         for (int j = 0; j < jsonInfo.length(); j++)
@@ -184,28 +149,72 @@ public class IsolatedMarginAccountInfo {
         return isolatedMarginAccountInfo;
     }
 
+    /**
+     * Method to get {@link #symbol} instance <br>
+     * Any params required
+     *
+     * @return {@link #symbol} instance as {@link String}
+     **/
     public String getSymbol() {
         return symbol;
     }
 
+    /**
+     * Method to get {@link #isolatedCreated} instance <br>
+     * Any params required
+     *
+     * @return {@link #isolatedCreated} instance as boolean
+     **/
     public boolean isIsolatedCreated() {
         return isolatedCreated;
     }
 
+    /**
+     * Method to set {@link #isolatedCreated}
+     *
+     * @param isolatedCreated: if isolated has been created
+     **/
     public void setIsolatedCreated(boolean isolatedCreated) {
         this.isolatedCreated = isolatedCreated;
     }
 
+    /**
+     * Method to get {@link #enabled} instance <br>
+     * Any params required
+     *
+     * @return {@link #enabled} instance as boolean
+     **/
     public boolean isEnabled() {
         return enabled;
     }
 
+    /**
+     * Method to set {@link #enabled}
+     *
+     * @param enabled: if order has been enabled
+     **/
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 
+    /**
+     * Method to get {@link #marginLevel} instance <br>
+     * Any params required
+     *
+     * @return {@link #marginLevel} instance as double
+     **/
     public double getMarginLevel() {
         return marginLevel;
+    }
+
+    /**
+     * Method to get {@link #marginLevelStatus} instance <br>
+     * Any params required
+     *
+     * @return {@link #marginLevelStatus} instance as {@link MarginLevelStatus}
+     **/
+    public MarginLevelStatus getMarginLevelStatus() {
+        return marginLevelStatus;
     }
 
     /**
@@ -219,7 +228,6 @@ public class IsolatedMarginAccountInfo {
         return roundValue(marginLevel, decimals);
     }
 
-
     /**
      * Method to set {@link #marginLevel}
      *
@@ -232,39 +240,34 @@ public class IsolatedMarginAccountInfo {
         this.marginLevel = marginLevel;
     }
 
-    public String getMarginLevelStatus() {
-        return marginLevelStatus;
-    }
-
-    /** Method to set {@link #marginLevelStatus}
+    /**
+     * Method to set {@link #marginLevelStatus}
+     *
      * @param marginLevelStatus: margin status level
      * @throws IllegalArgumentException when margin level status is not valid
-     * **/
-    public void setMarginLevelStatus(String marginLevelStatus) {
-        if(marginLevelStatusIsValid(marginLevelStatus))
-            this.marginLevelStatus = marginLevelStatus;
-        else {
-            throw new IllegalArgumentException("Margin level status can only be EXCESSIVE, NORMAL, MARGIN_CALL, " +
-                    "PRE_LIQUIDATION or FORCE_LIQUIDATION");
-        }
+     **/
+    public void setMarginLevelStatus(MarginLevelStatus marginLevelStatus) {
+        this.marginLevelStatus = marginLevelStatus;
     }
 
     /**
-     * Method to check {@link #marginLevelStatus} validity
+     * Method to get {@link #marginRatio} instance <br>
+     * Any params required
      *
-     * @param marginLevelStatus: margin status level
-     * @return validity of margin level status as boolean
+     * @return {@link #marginRatio} instance as double
      **/
-    private boolean marginLevelStatusIsValid(String marginLevelStatus) {
-        return marginLevelStatus.equals(MARGIN_LEVEL_STATUS_EXCESSIVE) ||
-                marginLevelStatus.equals(MARGIN_LEVEL_STATUS_NORMAL) ||
-                marginLevelStatus.equals(MARGIN_LEVEL_STATUS_FORCE_LIQUIDATION) ||
-                marginLevelStatus.equals(MARGIN_LEVEL_STATUS_PRE_LIQUIDATION) ||
-                marginLevelStatus.equals(MARGIN_LEVEL_STATUS_MARGIN_CALL);
-    }
-
     public double getMarginRatio() {
         return marginRatio;
+    }
+
+    /**
+     * Method to get {@link #indexPrice} instance <br>
+     * Any params required
+     *
+     * @return {@link #indexPrice} instance as double
+     **/
+    public double getIndexPrice() {
+        return indexPrice;
     }
 
     /**
@@ -290,8 +293,14 @@ public class IsolatedMarginAccountInfo {
         this.marginRatio = marginRatio;
     }
 
-    public double getIndexPrice() {
-        return indexPrice;
+    /**
+     * Method to get {@link #liquidatePrice} instance <br>
+     * Any params required
+     *
+     * @return {@link #liquidatePrice} instance as double
+     **/
+    public double getLiquidatePrice() {
+        return liquidatePrice;
     }
 
     /**
@@ -317,8 +326,14 @@ public class IsolatedMarginAccountInfo {
         this.indexPrice = indexPrice;
     }
 
-    public double getLiquidatePrice() {
-        return liquidatePrice;
+    /**
+     * Method to get {@link #liquidateRate} instance <br>
+     * Any params required
+     *
+     * @return {@link #liquidateRate} instance as double
+     **/
+    public double getLiquidateRate() {
+        return liquidateRate;
     }
 
     /**
@@ -344,8 +359,14 @@ public class IsolatedMarginAccountInfo {
         this.liquidatePrice = liquidatePrice;
     }
 
-    public double getLiquidateRate() {
-        return liquidateRate;
+    /**
+     * Method to get {@link #tradeEnabled} instance <br>
+     * Any params required
+     *
+     * @return {@link #tradeEnabled} instance as boolean
+     **/
+    public boolean isTradeEnabled() {
+        return tradeEnabled;
     }
 
     /**
@@ -371,45 +392,85 @@ public class IsolatedMarginAccountInfo {
         this.liquidateRate = liquidateRate;
     }
 
-    public boolean isTradeEnabled() {
-        return tradeEnabled;
-    }
-
+    /**
+     * Method to set {@link #tradeEnabled}
+     *
+     * @param tradeEnabled: flag that checks if trade has been enabled
+     **/
     public void setTradeEnabled(boolean tradeEnabled) {
         this.tradeEnabled = tradeEnabled;
     }
 
+    /**
+     * Method to get {@link #baseAsset} instance <br>
+     * Any params required
+     *
+     * @return {@link #baseAsset} instance as {@link IsolatedMarginAsset}
+     **/
     public IsolatedMarginAsset getBaseAsset() {
         return baseAsset;
     }
 
+    /**
+     * Method to get {@link #quoteAsset} instance <br>
+     * Any params required
+     *
+     * @return {@link #quoteAsset} instance as {@link IsolatedMarginAsset}
+     **/
     public IsolatedMarginAsset getQuoteAsset() {
         return quoteAsset;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "IsolatedMarginAccountInfo{" +
-                "symbol='" + symbol + '\'' +
-                ", isolatedCreated=" + isolatedCreated +
-                ", enabled=" + enabled +
-                ", marginLevel=" + marginLevel +
-                ", marginLevelStatus='" + marginLevelStatus + '\'' +
-                ", marginRatio=" + marginRatio +
-                ", indexPrice=" + indexPrice +
-                ", liquidatePrice=" + liquidatePrice +
-                ", liquidateRate=" + liquidateRate +
-                ", tradeEnabled=" + tradeEnabled +
-                ", baseAsset=" + baseAsset +
-                ", quoteAsset=" + quoteAsset +
-                '}';
+        return new JSONObject(this).toString();
+    }
+
+    /**
+     * {@code MarginLevelStatus} list of available margin level status
+     **/
+    public enum MarginLevelStatus {
+
+        /**
+         * {@code "EXCESSIVE"} margin level status
+         **/
+        EXCESSIVE,
+
+        /**
+         * {@code "NORMAL"} margin level status
+         **/
+        NORMAL,
+
+        /**
+         * {@code "MARGIN_CALL"} margin level status
+         **/
+        MARGIN_CALL,
+
+        /**
+         * {@code "PRE_LIQUIDATION"} margin level status
+         **/
+        PRE_LIQUIDATION,
+
+        /**
+         * {@code "FORCE_LIQUIDATION"} margin level status
+         **/
+        FORCE_LIQUIDATION
+
     }
 
     /**
      * The {@code IsolatedMarginAsset} class is useful to create an isolated margin asset object
+     *
+     * @author N7ghtm4r3 - Tecknobit
+     * @see UserMarginAsset
      **/
-
-    public static class IsolatedMarginAsset extends MarginAccountSnapshot.UserMarginAsset {
+    public static class IsolatedMarginAsset extends UserMarginAsset {
 
         /**
          * {@code borrowEnabled} is instance if borrow is enabled for asset
@@ -461,7 +522,6 @@ public class IsolatedMarginAccountInfo {
                 this.totalAsset = totalAsset;
         }
 
-
         /**
          * Constructor to init {@link IsolatedMarginAsset} object
          *
@@ -480,14 +540,31 @@ public class IsolatedMarginAccountInfo {
                 throw new IllegalArgumentException("Total asset value cannot be less than 0");
         }
 
+        /**
+         * Method to get {@link #borrowEnabled} instance <br>
+         * Any params required
+         *
+         * @return {@link #borrowEnabled} instance as boolean
+         **/
         public boolean isBorrowEnabled() {
             return borrowEnabled;
         }
 
+        /**
+         * Method to set {@link #borrowEnabled}
+         *
+         * @param borrowEnabled: if borrow is enabled for asset
+         **/
         public void setBorrowEnabled(boolean borrowEnabled) {
             this.borrowEnabled = borrowEnabled;
         }
 
+        /**
+         * Method to get {@link #netAssetOfBtc} instance <br>
+         * Any params required
+         *
+         * @return {@link #netAssetOfBtc} instance as double
+         **/
         public double getNetAssetOfBtc() {
             return netAssetOfBtc;
         }
@@ -515,14 +592,31 @@ public class IsolatedMarginAccountInfo {
             return roundValue(netAssetOfBtc, decimals);
         }
 
+        /**
+         * Method to get {@link #repayEnabled} instance <br>
+         * Any params required
+         *
+         * @return {@link #repayEnabled} instance as boolean
+         **/
         public boolean isRepayEnabled() {
             return repayEnabled;
         }
 
+        /**
+         * Method to set {@link #repayEnabled}
+         *
+         * @param repayEnabled: if repay is enabled for asset
+         **/
         public void setRepayEnabled(boolean repayEnabled) {
             this.repayEnabled = repayEnabled;
         }
 
+        /**
+         * Method to get {@link #totalAsset} instance <br>
+         * Any params required
+         *
+         * @return {@link #totalAsset} instance as double
+         **/
         public double getTotalAsset() {
             return totalAsset;
         }
@@ -548,22 +642,6 @@ public class IsolatedMarginAccountInfo {
          **/
         public double getTotalAsset(int decimals) {
             return roundValue(totalAsset, decimals);
-        }
-
-        @Override
-        public String toString() {
-            return "IsolatedMarginAsset{" +
-                    "borrowEnabled=" + borrowEnabled +
-                    ", netAssetOfBtc=" + netAssetOfBtc +
-                    ", repayEnabled=" + repayEnabled +
-                    ", totalAsset=" + totalAsset +
-                    ", borrowed=" + borrowed +
-                    ", interest=" + interest +
-                    ", netAsset=" + netAsset +
-                    ", asset='" + asset + '\'' +
-                    ", free=" + free +
-                    ", locked=" + locked +
-                    '}';
         }
 
     }

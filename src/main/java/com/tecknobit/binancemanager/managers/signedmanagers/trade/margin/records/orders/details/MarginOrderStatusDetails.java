@@ -1,18 +1,20 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.details;
 
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order.Status;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.OrderDetails;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 /**
- * The {@code MarginOrderStatusDetails} class is useful to format all {@code "Binance"} Margin Order Status request
+ * The {@code MarginOrderStatusDetails} class is useful to format a {@code "Binance"}'s margin order status
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
- * https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
+ * Margin Account Cancel Order (TRADE)</a>
+ * @see OrderDetails
  **/
-
 public class MarginOrderStatusDetails extends OrderDetails {
 
     /**
@@ -32,11 +34,11 @@ public class MarginOrderStatusDetails extends OrderDetails {
      * @param symbol:             symbol used in the order
      * @param isIsolated:         is isolated
      **/
-    public MarginOrderStatusDetails(long orderListId, String contingencyType, String listStatusType, String listOrderStatus,
+    public MarginOrderStatusDetails(long orderListId, String contingencyType, Status listStatusType, Status listOrderStatus,
                                     String listClientOrderId, long transactionTime, String symbol,
-                                    ArrayList<OrderValues> orderValues, boolean isIsolated) {
+                                    ArrayList<Order> orders, boolean isIsolated) {
         super(orderListId, contingencyType, listStatusType, listOrderStatus, listClientOrderId, transactionTime, symbol,
-                orderValues);
+                orders);
         this.isIsolated = isIsolated;
     }
 
@@ -47,26 +49,17 @@ public class MarginOrderStatusDetails extends OrderDetails {
      **/
     public MarginOrderStatusDetails(JSONObject marginOrderStatus) {
         super(marginOrderStatus);
-        isIsolated = marginOrderStatus.getBoolean("isIsolated");
+        isIsolated = hOrder.getBoolean("isIsolated");
     }
 
+    /**
+     * Method to get {@link #isIsolated} instance <br>
+     * Any params required
+     *
+     * @return {@link #isIsolated} instance as boolean
+     **/
     public boolean isIsolated() {
         return isIsolated;
-    }
-
-    @Override
-    public String toString() {
-        return "MarginOrderStatusDetails{" +
-                "isIsolated=" + isIsolated +
-                ", orderListId=" + orderListId +
-                ", contingencyType='" + contingencyType + '\'' +
-                ", listStatusType='" + listStatusType + '\'' +
-                ", listOrderStatus='" + listOrderStatus + '\'' +
-                ", listClientOrderId='" + listClientOrderId + '\'' +
-                ", transactionTime=" + transactionTime +
-                ", symbol='" + symbol + '\'' +
-                ", orderValues=" + orderValues +
-                '}';
     }
 
 }

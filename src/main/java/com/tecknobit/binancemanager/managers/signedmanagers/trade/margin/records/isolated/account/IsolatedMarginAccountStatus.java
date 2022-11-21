@@ -3,13 +3,12 @@ package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.record
 import org.json.JSONObject;
 
 /**
- * The {@code IsolatedMarginAccountStatus} class is useful to format {@code "Binance"} Isolated Margin Account Status request response
+ * The {@code IsolatedMarginAccountStatus} class is useful to format {@code "Binance"}'s isolated margin account status
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade">
- * https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade</a>
+ * Disable Isolated Margin Account (TRADE)</a>
  **/
-
 public class IsolatedMarginAccountStatus {
 
     /**
@@ -43,24 +42,44 @@ public class IsolatedMarginAccountStatus {
         symbol = isolatedMarginAccountStatus.getString("symbol");
     }
 
+    /**
+     * Method to get {@link #success} instance <br>
+     * Any params required
+     *
+     * @return {@link #success} instance as boolean
+     **/
     public boolean isSuccess() {
         return success;
     }
 
+    /**
+     * Method to set {@link #success}
+     *
+     * @param success: if account status is success
+     **/
     public void setSuccess(boolean success) {
         this.success = success;
     }
 
+    /**
+     * Method to get {@link #symbol} instance <br>
+     * Any params required
+     *
+     * @return {@link #symbol} instance as {@link String}
+     **/
     public String getSymbol() {
         return symbol;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "IsolatedMarginAccountStatus{" +
-                "success=" + success +
-                ", symbol='" + symbol + '\'' +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

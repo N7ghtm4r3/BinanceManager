@@ -5,13 +5,12 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code MarginAsset} class is useful to format {@code "Binance"} Get All Margin Assets request
+ * The {@code MarginAsset} class is useful to format a {@code "Binance"}'s margin asset
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-margin-assets-market_data">
- * https://binance-docs.github.io/apidocs/spot/en/#get-all-margin-assets-market_data</a>
+ * Get All Margin Assets (MARKET_DATA)</a>
  **/
-
 public class MarginAsset {
 
     /**
@@ -26,23 +25,23 @@ public class MarginAsset {
 
     /**
      * {@code isBorrowable} is instance that memorizes if is borrowable
-     * **/
-    private boolean isBorrowable;
+     **/
+    private final boolean isBorrowable;
 
     /**
      * {@code isMortgageable} is instance that memorizes if is mortgageable
-     * **/
-    private boolean isMortgageable;
+     **/
+    private final boolean isMortgageable;
 
     /**
      * {@code userMinBorrow} is instance that memorizes user min repay quote
-     * **/
-    private double userMinBorrow;
+     **/
+    private final double userMinBorrow;
 
     /**
      * {@code userMinRepay} is instance that memorizes user min repay quote
-     * **/
-    private double userMinRepay;
+     **/
+    private final double userMinRepay;
 
     /** Constructor to init {@link MarginAsset} object
      * @param assetFullName: asset full name
@@ -88,30 +87,52 @@ public class MarginAsset {
             throw new IllegalArgumentException("Min repay quote value cannot be less than 0");
     }
 
+    /**
+     * Method to get {@link #assetFullName} instance <br>
+     * Any params required
+     *
+     * @return {@link #assetFullName} instance as {@link String}
+     **/
     public String getAssetFullName() {
         return assetFullName;
     }
 
+    /**
+     * Method to get {@link #assetName} instance <br>
+     * Any params required
+     *
+     * @return {@link #assetName} instance as {@link String}
+     **/
     public String getAssetName() {
         return assetName;
     }
 
+    /**
+     * Method to get {@link #isBorrowable} instance <br>
+     * Any params required
+     *
+     * @return {@link #isBorrowable} instance as boolean
+     **/
     public boolean isBorrowable() {
         return isBorrowable;
     }
 
-    public void setBorrowable(boolean borrowable) {
-        isBorrowable = borrowable;
-    }
-
+    /**
+     * Method to get {@link #isMortgageable} instance <br>
+     * Any params required
+     *
+     * @return {@link #isMortgageable} instance as boolean
+     **/
     public boolean isMortgageable() {
         return isMortgageable;
     }
 
-    public void setMortgageable(boolean mortgageable) {
-        isMortgageable = mortgageable;
-    }
-
+    /**
+     * Method to get {@link #userMinBorrow} instance <br>
+     * Any params required
+     *
+     * @return {@link #userMinBorrow} instance as double
+     **/
     public double getUserMinBorrow() {
         return userMinBorrow;
     }
@@ -128,17 +149,11 @@ public class MarginAsset {
     }
 
     /**
-     * Method to set {@link #userMinBorrow}
+     * Method to get {@link #userMinRepay} instance <br>
+     * Any params required
      *
-     * @param userMinBorrow: min borrow quote
-     * @throws IllegalArgumentException when min borrow quote value is less than 0
+     * @return {@link #userMinRepay} instance as double
      **/
-    public void setUserMinBorrow(double userMinBorrow) {
-        if (userMinBorrow < 0)
-            throw new IllegalArgumentException("Min borrow quote value cannot be less than 0");
-        this.userMinBorrow = userMinBorrow;
-    }
-
     public double getUserMinRepay() {
         return userMinRepay;
     }
@@ -155,27 +170,14 @@ public class MarginAsset {
     }
 
     /**
-     * Method to set {@link #userMinRepay}
+     * Returns a string representation of the object <br>
+     * Any params required
      *
-     * @param userMinRepay: min repay quote
-     * @throws IllegalArgumentException when min repay quote value is less than 0
-     **/
-    public void setUserMinRepay(double userMinRepay) {
-        if (userMinRepay < 0)
-            throw new IllegalArgumentException("Min repay quote value cannot be less than 0");
-        this.userMinRepay = userMinRepay;
-    }
-
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "MarginAsset{" +
-                "assetFullName='" + assetFullName + '\'' +
-                ", assetName='" + assetName + '\'' +
-                ", isBorrowable=" + isBorrowable +
-                ", isMortgageable=" + isMortgageable +
-                ", userMinBorrow=" + userMinBorrow +
-                ", userMinRepay=" + userMinRepay +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

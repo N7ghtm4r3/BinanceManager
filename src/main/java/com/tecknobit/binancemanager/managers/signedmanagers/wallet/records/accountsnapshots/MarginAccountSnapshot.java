@@ -368,16 +368,15 @@ public class MarginAccountSnapshot extends AccountSnapshot {
             this.netAsset = netAsset;
         }
 
+        /**
+         * Returns a string representation of the object <br>
+         * Any params required
+         *
+         * @return a string representation of the object as {@link String}
+         */
         @Override
         public String toString() {
-            return "UserMarginAsset{" +
-                    "borrowed=" + borrowed +
-                    ", interest=" + interest +
-                    ", netAsset=" + netAsset +
-                    ", asset='" + asset + '\'' +
-                    ", free=" + free +
-                    ", locked=" + locked +
-                    '}';
+            return new JSONObject(this).toString();
         }
 
     }
