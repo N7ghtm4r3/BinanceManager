@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.lists;
 
+import com.tecknobit.binancemanager.managers.records.BinanceList;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order.Status;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.lists.LoansList.Loan;
 import org.json.JSONArray;
@@ -15,9 +16,9 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
  * Query Repay Record (USER_DATA)</a>
- * @see MarginList
+ * @see BinanceList
  **/
-public class RepaysList extends MarginList<RepaysList.Repay> {
+public class RepaysList extends BinanceList<RepaysList.Repay> {
 
     /**
      * Constructor to init {@link RepaysList} object
@@ -36,7 +37,7 @@ public class RepaysList extends MarginList<RepaysList.Repay> {
      **/
     public RepaysList(JSONObject jRepaysList) {
         super(jRepaysList);
-        JSONArray jRepays = hMarginList.getJSONArray("rows", new JSONArray());
+        JSONArray jRepays = hList.getJSONArray("rows", new JSONArray());
         for (int j = 0; j < jRepays.length(); j++)
             rows.add(new Repay(jRepays.getJSONObject(j)));
     }

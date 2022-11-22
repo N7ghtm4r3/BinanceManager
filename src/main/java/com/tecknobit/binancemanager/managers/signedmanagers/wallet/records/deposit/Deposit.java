@@ -1,17 +1,19 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit;
 
+import com.tecknobit.apimanager.formatters.TimeFormatter;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code Deposit} class is useful to manage Deposit {@code "Binance"} request
+ * The {@code Deposit} class is useful to format a {@code "Binance"}'s deposit
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data</a>
+ * Deposit History (supporting network) (USER_DATA)</a>
  **/
-
 public class Deposit {
 
     /**
@@ -46,8 +48,8 @@ public class Deposit {
 
     /**
      * {@code txId} is instance that memorizes tx identifier value
-     * **/
-    private String txId;
+     **/
+    private final String txId;
 
     /**
      * {@code insertTime} is instance that memorizes insert time value
@@ -116,28 +118,20 @@ public class Deposit {
      * @param deposit: deposit details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
      **/
+    // TODO: 22/11/2022 CHECK FOR TRANSFER TYPE ENUM
     public Deposit(JSONObject deposit) {
-        amount = deposit.getDouble("amount");
-        if (amount < 0)
-            throw new IllegalArgumentException("Amount value cannot be less than 0");
-        coin = deposit.getString("coin");
-        network = deposit.getString("network");
-        status = deposit.getInt("status");
-        if (status < 0 || status > 6)
-            throw new IllegalArgumentException("Status value can only be from 0 to 6");
-        address = deposit.getString("address");
-        addressTag = deposit.getString("addressTag");
-        txId = deposit.getString("txId");
-        insertTime = deposit.getLong("insertTime");
-        if (insertTime < 0)
-            throw new IllegalArgumentException("Insert time value cannot be less than 0");
-        transferType = deposit.getInt("transferType");
-        if (transferType < 0 || transferType > 1)
-            throw new IllegalArgumentException("Status value can only be from 0 to 1");
-        unlockConfirm = deposit.getString("unlockConfirm");
-        confirmTimes = deposit.getString("confirmTimes");
+        this(deposit.getDouble("amount"), deposit.getString("coin"), deposit.getString("network"),
+                deposit.getInt("status"), deposit.getString("address"), deposit.getString("addressTag"),
+                deposit.getString("txId"), deposit.getLong("insertTime"), deposit.getInt("transferType"),
+                deposit.getString("unlockConfirm"), deposit.getString("confirmTimes"));
     }
 
+    /**
+     * Method to get {@link #amount} instance <br>
+     * Any params required
+     *
+     * @return {@link #amount} instance as double
+     **/
     public double getAmount() {
         return amount;
     }
@@ -165,111 +159,197 @@ public class Deposit {
         this.amount = amount;
     }
 
+    /**
+     * Method to get {@link #coin} instance <br>
+     * Any params required
+     *
+     * @return {@link #coin} instance as {@link String}
+     **/
     public String getCoin() {
         return coin;
     }
 
+    /**
+     * Method to get {@link #network} instance <br>
+     * Any params required
+     *
+     * @return {@link #network} instance as {@link String}
+     **/
     public String getNetwork() {
         return network;
     }
 
+    /**
+     * Method to get {@link #status} instance <br>
+     * Any params required
+     *
+     * @return {@link #status} instance as int
+     **/
     public int getStatus() {
         return status;
     }
 
-    /** Method to set {@link #status}
+    /**
+     * Method to set {@link #status}
+     *
      * @param status: status value
      * @throws IllegalArgumentException when status value is less than 0
-     * **/
+     **/
     public void setStatus(int status) {
-        if(status < 0 || status > 6)
+        if (status < 0 || status > 6)
             throw new IllegalArgumentException("Status value can only be from 0 to 6");
         this.status = status;
     }
 
+    /**
+     * Method to get {@link #address} instance <br>
+     * Any params required
+     *
+     * @return {@link #address} instance as {@link String}
+     **/
     public String getAddress() {
         return address;
     }
 
+    /**
+     * Method to set {@link #address}
+     *
+     * @param address: address value
+     **/
     public void setAddress(String address) {
         this.address = address;
     }
 
+    /**
+     * Method to get {@link #addressTag} instance <br>
+     * Any params required
+     *
+     * @return {@link #addressTag} instance as {@link String}
+     **/
     public String getAddressTag() {
         return addressTag;
     }
 
+    /**
+     * Method to set {@link #addressTag}
+     *
+     * @param addressTag: address tag value
+     **/
     public void setAddressTag(String addressTag) {
         this.addressTag = addressTag;
     }
 
+    /**
+     * Method to get {@link #txId} instance <br>
+     * Any params required
+     *
+     * @return {@link #txId} instance as {@link String}
+     **/
     public String getTxId() {
         return txId;
     }
 
-    public void setTxId(String txId) {
-        this.txId = txId;
-    }
-
+    /**
+     * Method to get {@link #insertTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #insertTime} instance as long
+     **/
     public long getInsertTime() {
         return insertTime;
     }
 
-    /** Method to set {@link #insertTime}
+    /**
+     * Method to set {@link #insertTime}
+     *
      * @param insertTime: insert time value
      * @throws IllegalArgumentException when insert time value is less than 0
-     * **/
+     **/
     public void setInsertTime(long insertTime) {
-        if(insertTime < 0)
+        if (insertTime < 0)
             throw new IllegalArgumentException("Insert time value cannot be less than 0");
         this.insertTime = insertTime;
     }
 
+    /**
+     * Method to get {@link #insertTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #insertTime} instance as {@link Date}
+     **/
+    public Date getInsertDate() {
+        return TimeFormatter.getDate(insertTime);
+    }
+
+    /**
+     * Method to get {@link #transferType} instance <br>
+     * Any params required
+     *
+     * @return {@link #transferType} instance as int
+     **/
     public int getTransferType() {
         return transferType;
     }
 
-    /** Method to set {@link #transferType}
+    /**
+     * Method to set {@link #transferType}
+     *
      * @param transferType: transfer type value
      * @throws IllegalArgumentException when transfer type value is less than 0
-     * **/
+     **/
     public void setTransferType(int transferType) {
-        if(transferType < 0 || transferType > 1)
+        if (transferType < 0 || transferType > 1)
             throw new IllegalArgumentException("Status value can only be from 0 to 1");
         this.transferType = transferType;
     }
 
+    /**
+     * Method to get {@link #unlockConfirm} instance <br>
+     * Any params required
+     *
+     * @return {@link #unlockConfirm} instance as {@link String}
+     **/
     public String getUnlockConfirm() {
         return unlockConfirm;
     }
 
+    /**
+     * Method to set {@link #unlockConfirm}
+     *
+     * @param unlockConfirm: unlock confirm value
+     **/
     public void setUnlockConfirm(String unlockConfirm) {
         this.unlockConfirm = unlockConfirm;
     }
 
+    /**
+     * Method to get {@link #confirmTimes} instance <br>
+     * Any params required
+     *
+     * @return {@link #confirmTimes} instance as {@link String}
+     **/
     public String getConfirmTimes() {
         return confirmTimes;
     }
 
+    /**
+     * Method to set {@link #confirmTimes}
+     *
+     * @param confirmTimes: confirm times value
+     **/
     public void setConfirmTimes(String confirmTimes) {
         this.confirmTimes = confirmTimes;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "Deposit{" +
-                "amount=" + amount +
-                ", coin='" + coin + '\'' +
-                ", network='" + network + '\'' +
-                ", status=" + status +
-                ", address='" + address + '\'' +
-                ", addressTag='" + addressTag + '\'' +
-                ", txId='" + txId + '\'' +
-                ", insertTime=" + insertTime +
-                ", transferType=" + transferType +
-                ", unlockConfirm='" + unlockConfirm + '\'' +
-                ", confirmTimes='" + confirmTimes + '\'' +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

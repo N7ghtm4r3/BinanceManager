@@ -1,17 +1,21 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response;
 
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order;
 import org.json.JSONObject;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
+
 /**
- * The {@code FullOrder} class is useful to format all SpotOrder {@code "Binance"} request in ResultOrder format
+ * The {@code ResultSpotOrder} class is useful to format a {@code "Binance"}'s spot order in {@code "RESULT"} format
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
- * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
+ * New Order (TRADE)</a>
+ * @see Order
+ * @see SpotOrder
  **/
-
+// TODO: 22/11/2022 CHECK TO REMOVE
 public class ResultSpotOrder extends ACKSpotOrder {
 
     /**
@@ -36,23 +40,23 @@ public class ResultSpotOrder extends ACKSpotOrder {
 
     /**
      * {@code status} is instance that memorizes status of the order
-     * **/
-    protected final String status;
+     **/
+    protected final Status status;
 
     /**
      * {@code timeInForce} is instance that memorizes time in force of the order
-     * **/
-    protected final String timeInForce;
+     **/
+    protected final TimeInForce timeInForce;
 
     /**
      * {@code type} is instance that memorizes type of the order
      * **/
-    protected final String type;
+    protected final OrderType type;
 
     /**
      * {@code side} is instance that memorizes side of the order
      * **/
-    protected final String side;
+    protected final Side side;
 
     /** Constructor to init {@link ResultSpotOrder} object
      * @param symbol: symbol used in the order
@@ -71,7 +75,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * **/
     public ResultSpotOrder(String symbol, long orderId, long orderListId, String clientOrderId,
                            long transactTime, double price, double origQty, double executedQty, double cummulativeQuoteQty,
-                           String status, String timeInForce, String type, String side) {
+                           Status status, TimeInForce timeInForce, OrderType type, Side side) {
         super(symbol, orderId, orderListId, clientOrderId, transactTime);
         this.price = price;
         this.origQty = origQty;
@@ -94,12 +98,18 @@ public class ResultSpotOrder extends ACKSpotOrder {
         origQty = hOrder.getDouble("origQty");
         executedQty = hOrder.getDouble("executedQty");
         cummulativeQuoteQty = hOrder.getDouble("cummulativeQuoteQty");
-        status = hOrder.getString("status");
-        timeInForce = hOrder.getString("timeInForce");
-        type = hOrder.getString("type");
-        side = hOrder.getString("side");
+        status = Status.valueOf(hOrder.getString("status", Status.CONFIRMED.name()));
+        timeInForce = TimeInForce.valueOf(hOrder.getString("timeInForce", TimeInForce.GTC.name()));
+        type = OrderType.valueOf(hOrder.getString("type", OrderType.MARKET.name()));
+        side = Side.valueOf(hOrder.getString("side", Side.BUY.name()));
     }
 
+    /**
+     * Method to get {@link #price} instance <br>
+     * Any params required
+     *
+     * @return {@link #price} instance as double
+     **/
     public double getPrice() {
         return price;
     }
@@ -115,6 +125,12 @@ public class ResultSpotOrder extends ACKSpotOrder {
         return roundValue(price, decimals);
     }
 
+    /**
+     * Method to get {@link #origQty} instance <br>
+     * Any params required
+     *
+     * @return {@link #origQty} instance as double
+     **/
     public double getOrigQty() {
         return origQty;
     }
@@ -130,6 +146,12 @@ public class ResultSpotOrder extends ACKSpotOrder {
         return roundValue(origQty, decimals);
     }
 
+    /**
+     * Method to get {@link #executedQty} instance <br>
+     * Any params required
+     *
+     * @return {@link #executedQty} instance as double
+     **/
     public double getExecutedQty() {
         return executedQty;
     }
@@ -145,6 +167,12 @@ public class ResultSpotOrder extends ACKSpotOrder {
         return roundValue(executedQty, decimals);
     }
 
+    /**
+     * Method to get {@link #cummulativeQuoteQty} instance <br>
+     * Any params required
+     *
+     * @return {@link #cummulativeQuoteQty} instance as double
+     **/
     public double getCummulativeQuoteQty() {
         return cummulativeQuoteQty;
     }
@@ -160,39 +188,44 @@ public class ResultSpotOrder extends ACKSpotOrder {
         return roundValue(cummulativeQuoteQty, decimals);
     }
 
-    public String getStatus() {
+    /**
+     * Method to get {@link #status} instance <br>
+     * Any params required
+     *
+     * @return {@link #status} instance as {@link Status}
+     **/
+    public Status getStatus() {
         return status;
     }
 
-    public String getTimeInForce() {
+    /**
+     * Method to get {@link #timeInForce} instance <br>
+     * Any params required
+     *
+     * @return {@link #timeInForce} instance as {@link TimeInForce}
+     **/
+    public TimeInForce getTimeInForce() {
         return timeInForce;
     }
 
-    public String getType() {
+    /**
+     * Method to get {@link #type} instance <br>
+     * Any params required
+     *
+     * @return {@link #type} instance as {@link OrderType}
+     **/
+    public OrderType getType() {
         return type;
     }
 
-    public String getSide() {
+    /**
+     * Method to get {@link #side} instance <br>
+     * Any params required
+     *
+     * @return {@link #side} instance as {@link Side}
+     **/
+    public Side getSide() {
         return side;
-    }
-
-    @Override
-    public String toString() {
-        return "ResultSpotOrder{" +
-                "price=" + price +
-                ", origQty=" + origQty +
-                ", executedQty=" + executedQty +
-                ", cummulativeQuoteQty=" + cummulativeQuoteQty +
-                ", status='" + status + '\'' +
-                ", timeInForce='" + timeInForce + '\'' +
-                ", type='" + type + '\'' +
-                ", side='" + side + '\'' +
-                ", transactTime=" + transactTime +
-                ", orderListId=" + orderListId +
-                ", symbol='" + symbol + '\'' +
-                ", orderId=" + orderId +
-                ", clientOrderId='" + clientOrderId + '\'' +
-                '}';
     }
 
 }

@@ -1,52 +1,55 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots;
 
+import com.tecknobit.apimanager.annotations.Returner;
+import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.account.MarginAccount;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.SpotAccountSnapshot.SpotBalance;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code MarginAccountSnapshot} class is useful to obtain and format MarginAccountSnapshot object
+ * The {@code MarginAccountSnapshot} class is useful to format a {@code "Binance"}'s margin account snapshot
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
+ * Daily Account Snapshot (USER_DATA)</a>
+ * @see AccountSnapshot
  **/
-
 public class MarginAccountSnapshot extends AccountSnapshot {
 
     /**
-     * {@code marginsListData} is instance that memorizes list of {@link MarginData}
+     * {@code marginData} is instance that memorizes list of {@link MarginData}
      **/
-    private ArrayList<MarginData> marginsListData;
+    private ArrayList<MarginData> marginData;
 
     /**
      * Constructor to init {@link MarginAccountSnapshot} object
      *
      * @param code:           code of response
      * @param msg:            message of response
-     * @param type:           type of account
      * @param accountDetails: details as {@link JSONObject}
      * @param marginData:     list of {@link MarginData}
      **/
-    public MarginAccountSnapshot(int code, String msg, String type, JSONArray accountDetails, ArrayList<MarginData> marginData) {
-        super(code, msg, type, accountDetails);
-        this.marginsListData = marginData;
+    public MarginAccountSnapshot(int code, String msg, JSONArray accountDetails, ArrayList<MarginData> marginData) {
+        super(code, msg, AccountType.MARGIN, accountDetails);
+        this.marginData = marginData;
     }
 
     /**
-     * Constructor to init {@link FuturesAccountSnapshot} object
+     * Constructor to init {@link MarginAccountSnapshot} object
      *
      * @param marginAccount : margin account snapshot details as {@link JSONObject}
      **/
     public MarginAccountSnapshot(JSONObject marginAccount) {
-        super(marginAccount, MARGIN);
-        marginsListData = new ArrayList<>();
+        super(marginAccount, AccountType.MARGIN);
+        marginData = new ArrayList<>();
         for (int j = 0; j < snapshotVos.length(); j++)
-            marginsListData.add(new MarginData(snapshotVos.getJSONObject(j)));
+            marginData.add(new MarginData(snapshotVos.getJSONObject(j)));
     }
 
     /**
@@ -55,6 +58,8 @@ public class MarginAccountSnapshot extends AccountSnapshot {
      * @param jsonAssets: snapshotVos obtain by AccountSnapshot {@code "Binance"} request
      * @return list as {@link ArrayList} of {@link UserMarginAsset}
      **/
+    // TODO: 22/11/2022 CHECK TO REMOVE OR MODIFY
+    @Returner
     public static ArrayList<UserMarginAsset> assembleUserMarginAssetsList(JSONArray jsonAssets) {
         ArrayList<UserMarginAsset> userMarginAssets = new ArrayList<>();
         for (int j = 0; j < jsonAssets.length(); j++)
@@ -62,28 +67,61 @@ public class MarginAccountSnapshot extends AccountSnapshot {
         return userMarginAssets;
     }
 
+    /**
+     * Method to get {@link #marginData} instance <br>
+     * Any params required
+     *
+     * @return {@link #marginData} instance as {@link ArrayList} of {@link MarginData}
+     **/
     public ArrayList<MarginData> getDataMarginsList() {
-        return marginsListData;
-    }
-
-    public void setDataMarginsList(ArrayList<MarginData> marginsListData) {
-        this.marginsListData = marginsListData;
-    }
-
-    @Override
-    public String toString() {
-        return "MarginAccountSnapshot{" +
-                "marginsListData=" + marginsListData +
-                ", code=" + code +
-                ", msg='" + msg + '\'' +
-                ", type='" + type + '\'' +
-                '}';
+        return marginData;
     }
 
     /**
-     *  The {@code MarginData} class is useful to create margin data object
-     * **/
+     * Method to set {@link #marginData} instance <br>
+     *
+     * @param marginsListData: list of {@link MarginData} to set
+     **/
+    public void setDataMarginsList(ArrayList<MarginData> marginsListData) {
+        this.marginData = marginsListData;
+    }
 
+    /**
+     * Method to add a margin data  to {@link #marginData}
+     *
+     * @param marginData: margin data to add
+     **/
+    public void insertMarginData(MarginData marginData) {
+        if (!this.marginData.contains(marginData))
+            this.marginData.add(marginData);
+    }
+
+    /**
+     * Method to remove a margin data  from {@link #marginData}
+     *
+     * @param marginData: margin data  to remove
+     * @return result of operation as boolean
+     **/
+    public boolean removeMarginData(MarginData marginData) {
+        return this.marginData.remove(marginData);
+    }
+
+    /**
+     * Method to get a margin data from {@link #marginData} list
+     *
+     * @param index: index to fetch the futures data
+     * @return margin data as {@link MarginData}
+     **/
+    public MarginData getMarginData(int index) {
+        return marginData.get(index);
+    }
+
+    /**
+     * The {@code MarginData} class is useful to format a margin data
+     *
+     * @author N7ghtm4r3 - Tecknobit
+     * @see MarginAccount
+     **/
     public static class MarginData extends MarginAccount {
 
         /**
@@ -97,9 +135,9 @@ public class MarginAccountSnapshot extends AccountSnapshot {
         private long updateTime;
 
         /**
-         * {@code userMarginsListAsset} is instance that memorizes list of {@link UserMarginAsset}
+         * {@code userMarginAssets} is instance that memorizes list of {@link UserMarginAsset}
          **/
-        private ArrayList<UserMarginAsset> userMarginsListAsset;
+        private ArrayList<UserMarginAsset> userMarginAssets;
 
         /**
          * Constructor to init {@link MarginData} object
@@ -122,7 +160,7 @@ public class MarginAccountSnapshot extends AccountSnapshot {
                 throw new IllegalArgumentException("Update time value cannot be less than 0");
             else
                 this.updateTime = updateTime;
-            this.userMarginsListAsset = userAssetsMargin;
+            this.userMarginAssets = userAssetsMargin;
         }
 
         /**
@@ -139,9 +177,16 @@ public class MarginAccountSnapshot extends AccountSnapshot {
             updateTime = hMarginAccount.getLong("updateTime", 0);
             if (updateTime < 0)
                 throw new IllegalArgumentException("Update time value cannot be less than 0");
-            userMarginsListAsset = assembleUserMarginAssetsList(hMarginAccount.getJSONArray("userAssets", new JSONArray()));
+            userMarginAssets = assembleUserMarginAssetsList(hMarginAccount.getJSONArray("userAssets",
+                    new JSONArray()));
         }
 
+        /**
+         * Method to get {@link #marginLevel} instance <br>
+         * Any params required
+         *
+         * @return {@link #marginLevel} instance as double
+         **/
         public double getMarginLevel() {
             return marginLevel;
         }
@@ -169,6 +214,12 @@ public class MarginAccountSnapshot extends AccountSnapshot {
             this.marginLevel = marginLevel;
         }
 
+        /**
+         * Method to get {@link #updateTime} instance <br>
+         * Any params required
+         *
+         * @return {@link #updateTime} instance as long
+         **/
         public long getUpdateTime() {
             return updateTime;
         }
@@ -177,7 +228,7 @@ public class MarginAccountSnapshot extends AccountSnapshot {
          * Method to set {@link #updateTime}
          *
          * @param updateTime: update time value
-         * @throws IllegalArgumentException when update time value value is less than 0
+         * @throws IllegalArgumentException when update time value is less than 0
          **/
         public void setUpdateTime(long updateTime) {
             if (updateTime < 0)
@@ -185,46 +236,74 @@ public class MarginAccountSnapshot extends AccountSnapshot {
             this.updateTime = updateTime;
         }
 
+        /**
+         * Method to get {@link #updateTime} instance <br>
+         * Any params required
+         *
+         * @return {@link #updateTime} instance as {@link Date}
+         **/
+        public Date getUpdateDate() {
+            return TimeFormatter.getDate(updateTime);
+        }
+
+        /**
+         * Method to get {@link #userMarginAssets} instance <br>
+         * Any params required
+         *
+         * @return {@link #userMarginAssets} instance as {@link ArrayList} of {@link UserMarginAsset}
+         **/
         public ArrayList<UserMarginAsset> getUserAssetMarginsList() {
-            return userMarginsListAsset;
+            return userMarginAssets;
         }
 
+        /**
+         * Method to set {@link #userMarginAssets} instance <br>
+         *
+         * @param userMarginAssets: list of {@link UserMarginAsset} to set
+         **/
         public void setUserAssetsMargin(ArrayList<UserMarginAsset> userMarginAssets) {
-            this.userMarginsListAsset = userMarginAssets;
+            this.userMarginAssets = userMarginAssets;
         }
 
+        /**
+         * Method to add a margin asset  to {@link #userMarginAssets}
+         *
+         * @param userMarginAsset: margin asset to add
+         **/
         public void insertUserAssetMargin(UserMarginAsset userMarginAsset) {
-            if (!userMarginsListAsset.contains(userMarginAsset))
-                userMarginsListAsset.add(userMarginAsset);
+            if (!userMarginAssets.contains(userMarginAsset))
+                userMarginAssets.add(userMarginAsset);
         }
 
+        /**
+         * Method to remove a margin asset  from {@link #userMarginAssets}
+         *
+         * @param userMarginAsset: margin data  to remove
+         * @return result of operation as boolean
+         **/
         public boolean removeUserAssetMargin(UserMarginAsset userMarginAsset) {
-            return userMarginsListAsset.remove(userMarginAsset);
+            return userMarginAssets.remove(userMarginAsset);
         }
 
+        /**
+         * Method to get a margin asset from {@link #userMarginAssets} list
+         *
+         * @param index: index to fetch the futures data
+         * @return margin asset as {@link UserMarginAsset}
+         **/
         public UserMarginAsset getUserAssetMargin(int index) {
-            return userMarginsListAsset.get(index);
-        }
-
-        @Override
-        public String toString() {
-            return "MarginData{" +
-                    "marginLevel=" + marginLevel +
-                    ", updateTime=" + updateTime +
-                    ", userMarginsListAsset=" + userMarginsListAsset +
-                    ", totalAssetOfBtc=" + totalAssetOfBtc +
-                    ", totalLiabilityOfBtc=" + totalLiabilityOfBtc +
-                    ", totalNetAssetOfBtc=" + totalNetAssetOfBtc +
-                    '}';
+            return userMarginAssets.get(index);
         }
 
     }
 
     /**
-     * The {@code UserMarginAsset} class is useful to create a user margin asset type
+     * The {@code UserMarginAsset} class is useful to create a user margin asset
+     *
+     * @author N7ghtm4r3 - Tecknobit
+     * @see SpotBalance
      **/
-
-    public static class UserMarginAsset extends SpotAccountSnapshot.SpotBalance {
+    public static class UserMarginAsset extends SpotBalance {
 
         /**
          * {@code borrowed} is instance that memorizes amount of borrow from asset
@@ -287,6 +366,12 @@ public class MarginAccountSnapshot extends AccountSnapshot {
                 throw new IllegalArgumentException("Net asset value cannot be less than 0");
         }
 
+        /**
+         * Method to get {@link #borrowed} instance <br>
+         * Any params required
+         *
+         * @return {@link #borrowed} instance as double
+         **/
         public double getBorrowed() {
             return borrowed;
         }
@@ -314,6 +399,12 @@ public class MarginAccountSnapshot extends AccountSnapshot {
             this.borrowed = borrowed;
         }
 
+        /**
+         * Method to get {@link #interest} instance <br>
+         * Any params required
+         *
+         * @return {@link #interest} instance as double
+         **/
         public double getInterest() {
             return interest;
         }
@@ -341,6 +432,12 @@ public class MarginAccountSnapshot extends AccountSnapshot {
             this.interest = interest;
         }
 
+        /**
+         * Method to get {@link #netAsset} instance <br>
+         * Any params required
+         *
+         * @return {@link #netAsset} instance as double
+         **/
         public double getNetAsset() {
             return netAsset;
         }
@@ -366,17 +463,6 @@ public class MarginAccountSnapshot extends AccountSnapshot {
             if (netAsset < 0)
                 throw new IllegalArgumentException("Net asset value cannot be less than 0");
             this.netAsset = netAsset;
-        }
-
-        /**
-         * Returns a string representation of the object <br>
-         * Any params required
-         *
-         * @return a string representation of the object as {@link String}
-         */
-        @Override
-        public String toString() {
-            return new JSONObject(this).toString();
         }
 
     }

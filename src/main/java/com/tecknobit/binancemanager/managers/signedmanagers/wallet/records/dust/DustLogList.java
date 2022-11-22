@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust;
 
+import com.tecknobit.binancemanager.managers.records.BinanceList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -7,93 +8,45 @@ import java.util.ArrayList;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustItem.getListDribbletsDetails;
+import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustLogList.AssetDribblets;
 
 /**
- * The {@code DustLog} class is useful to create a {@code "Binance"}'s dust log
+ * The {@code DustLogList} class is useful to format a {@code "Binance"}'s dust log
  *
+ * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
+ * DustLogList(USER_DATA)</a>
+ * @see BinanceList
  **/
-
-public class DustLog {
-
-    /**
-     * {@code total} is instance that memorizes total size about {@link #userAssetDribbletlList}
-     * **/
-    private int total;
+public class DustLogList extends BinanceList<AssetDribblets> {
 
     /**
-     * {@code userAssetDribbletlList} is instance that memorizes list of {@link AssetDribblets}
-     * **/
-    private ArrayList<AssetDribblets> userAssetDribbletlList;
-
-    /**
-     * Constructor to init {@link DustLog} object
+     * Constructor to init {@link DustLogList} object
      *
-     * @param total:              total size about {@link #userAssetDribbletlList}
+     * @param total:              total size of {@link #rows}
      * @param userAssetDribblets: list of {@link AssetDribblets}
      **/
-    public DustLog(int total, ArrayList<AssetDribblets> userAssetDribblets) {
-        this.total = total;
-        this.userAssetDribbletlList = userAssetDribblets;
+    public DustLogList(int total, ArrayList<AssetDribblets> userAssetDribblets) {
+        super(total, userAssetDribblets);
     }
 
     /**
-     * Constructor to init {@link DustLog} object
+     * Constructor to init {@link DustLogList} object
      *
-     * @param dustLog: dust log details as {@link JSONObject}
+     * @param jDustLog: dust log details as {@link JSONObject}
      **/
-    public DustLog(JSONObject dustLog) {
-        total = dustLog.getInt("total");
-        userAssetDribbletlList = new ArrayList<>();
-        JSONArray assetDribblets = dustLog.getJSONArray("assetDribblets");
-        for (int j = 0; j < assetDribblets.length(); j++)
-            userAssetDribbletlList.add(new AssetDribblets(assetDribblets.getJSONObject(j)));
-    }
-
-    public int getTotal() {
-        return total;
-    }
-
-    public ArrayList<AssetDribblets> getUserAssetDribbletlList() {
-        return userAssetDribbletlList;
-    }
-
-    public void setUserAssetDribbletlList(ArrayList<AssetDribblets> userAssetDribbletlList) {
-        this.userAssetDribbletlList = userAssetDribbletlList;
-        total = userAssetDribbletlList.size();
-    }
-
-    public void insertAssetDribblet(AssetDribblets assetDribblets){
-        if(!userAssetDribbletlList.contains(assetDribblets)) {
-            userAssetDribbletlList.add(assetDribblets);
-            total += 1;
-        }
-    }
-
-    public boolean removeAssetDribblet(AssetDribblets assetDribblets){
-        boolean removed = userAssetDribbletlList.remove(assetDribblets);
-        if(removed)
-            total -= 1;
-        return removed;
-    }
-
-    public AssetDribblets getAssetDribblets(int index){
-        return userAssetDribbletlList.get(index);
-    }
-
-    @Override
-    public String toString() {
-        return "DustLog{" +
-                "total=" + total +
-                ", userAssetDribbletlList=" + userAssetDribbletlList +
-                '}';
+    public DustLogList(JSONObject jDustLog) {
+        super(jDustLog);
+        JSONArray jDribblets = jDustLog.getJSONArray("userAssetDribblets");
+        for (int j = 0; j < jDribblets.length(); j++)
+            rows.add(new AssetDribblets(jDribblets.getJSONObject(j)));
     }
 
     /**
-     * The {@code AssetDribblets} class is useful to create a {@code "Binance"}'s asset dribblets object
+     * The {@code AssetDribblets} class is useful to format a {@code "Binance"}'s asset dribblets
+     *
+     * @author N7ghtm4r3 - Tecknobit
      **/
-
     public static class AssetDribblets {
 
         /**
@@ -150,10 +103,22 @@ public class DustLog {
             assetDribbletsDetailsList = getListDribbletsDetails(assetDribblets.getJSONArray("userAssetDribbletDetails"));
         }
 
+        /**
+         * Method to get {@link #operateTime} instance <br>
+         * Any params required
+         *
+         * @return {@link #operateTime} instance as long
+         **/
         public long getOperateTime() {
             return operateTime;
         }
 
+        /**
+         * Method to get {@link #totalTransferedAmount} instance <br>
+         * Any params required
+         *
+         * @return {@link #totalTransferedAmount} instance as double
+         **/
         public double getTotalTransferedAmount() {
             return totalTransferedAmount;
         }
@@ -169,6 +134,12 @@ public class DustLog {
             return roundValue(totalTransferedAmount, decimals);
         }
 
+        /**
+         * Method to get {@link #totalServiceChargeAmount} instance <br>
+         * Any params required
+         *
+         * @return {@link #totalServiceChargeAmount} instance as double
+         **/
         public double getTotalServiceChargeAmount() {
             return totalServiceChargeAmount;
         }
@@ -184,36 +155,65 @@ public class DustLog {
             return roundValue(totalServiceChargeAmount, decimals);
         }
 
+        /**
+         * Method to get {@link #transId} instance <br>
+         * Any params required
+         *
+         * @return {@link #transId} instance as long
+         **/
         public long getTransId() {
             return transId;
         }
 
-        public ArrayList<DustItem> getAssetDribbletsDetailsList() {
+        /**
+         * Method to get {@link #assetDribbletsDetailsList} instance <br>
+         * Any params required
+         *
+         * @return {@link #assetDribbletsDetailsList} instance as {@link ArrayList} of {@link DustItem}
+         **/
+        public ArrayList<DustItem> getAssetDribbletsDetails() {
             return assetDribbletsDetailsList;
         }
 
+        /**
+         * Method to add an asset dribblets details  to {@link #assetDribbletsDetailsList}
+         *
+         * @param assetDribbletsDetails: asset dribblets details to add
+         **/
         public void insertAssetDribbletDetails(DustItem assetDribbletsDetails) {
             if (!assetDribbletsDetailsList.contains(assetDribbletsDetails))
                 assetDribbletsDetailsList.add(assetDribbletsDetails);
         }
 
+        /**
+         * Method to remove an asset dribblets details  from {@link #assetDribbletsDetailsList}
+         *
+         * @param assetDribbletsDetails: asset dribblets details  to remove
+         * @return result of operation as boolean
+         **/
         public boolean removeAssetDribbletDetails(DustItem assetDribbletsDetails) {
             return assetDribbletsDetailsList.remove(assetDribbletsDetails);
         }
 
+        /**
+         * Method to get a asset dribblets details from {@link #assetDribbletsDetailsList} list
+         *
+         * @param index: index to fetch the composed asset dribblets details
+         * @return asset dribblets details as {@link DustItem}
+         **/
         public DustItem getAssetDribbletDetails(int index) {
             return assetDribbletsDetailsList.get(index);
         }
 
+        /**
+         * Returns a string representation of the object <br>
+         * Any params required
+         *
+         * @return a string representation of the object as {@link String}
+         */
         @Override
         public String toString() {
-            return "AssetDribblets{" +
-                    "operateTime=" + operateTime +
-                    ", totalTransferedAmount=" + totalTransferedAmount +
-                    ", totalServiceChargeAmount=" + totalServiceChargeAmount +
-                    ", transId=" + transId +
-                    ", assetDribbletsDetailsList=" + assetDribbletsDetailsList +
-                    '}';
+            return new JSONObject(this).toString();
         }
 
     }

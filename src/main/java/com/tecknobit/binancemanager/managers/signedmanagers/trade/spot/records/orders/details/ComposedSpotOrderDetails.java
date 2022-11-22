@@ -9,18 +9,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * The {@code ComposedSpotOrderDetails} class is useful to format a ComposedSpotOrderDetails object
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade">
- *     https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade</a>
+ * The {@code ComposedSpotOrderDetails} class is useful to format a {@code "Binance"}'s composed spot order details object
+ *
  * @author N7ghtm4r3 - Tecknobit
- * **/
-
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade">
+ * Cancel all Open Orders on a Symbol (TRADE)</a>
+ * @see OrderDetails
+ **/
 public class ComposedSpotOrderDetails extends OrderDetails {
 
     /**
      * {@code orderReportsList} is instance that memorizes order reports list
-     * **/
-    private ArrayList<DetailSpotOrder> orderReportsList;
+     **/
+    private ArrayList<SpotOrderDetails> orderReportsList;
 
     /**
      * Constructor to init {@link ComposedSpotOrderDetails} object
@@ -33,11 +34,11 @@ public class ComposedSpotOrderDetails extends OrderDetails {
      * @param transactionTime:   transaction time of the order
      * @param symbol:            symbol used in the order
      * @param orders:            list of {@link Order}
-     * @param orderReportsList:  list of {@link DetailSpotOrder}
+     * @param orderReportsList:  list of {@link SpotOrderDetails}
      **/
     public ComposedSpotOrderDetails(long orderListId, String contingencyType, Status listStatusType, Status listOrderStatus,
                                     String listClientOrderId, long transactionTime, String symbol, ArrayList<Order> orders,
-                                    ArrayList<DetailSpotOrder> orderReportsList) {
+                                    ArrayList<SpotOrderDetails> orderReportsList) {
         super(orderListId, contingencyType, listStatusType, listOrderStatus, listClientOrderId, transactionTime, symbol,
                 orders);
         this.orderReportsList = orderReportsList;
@@ -50,55 +51,59 @@ public class ComposedSpotOrderDetails extends OrderDetails {
      **/
     public ComposedSpotOrderDetails(JSONObject composedSpotOrder) {
         super(composedSpotOrder);
-        loadOrderReports(composedSpotOrder.getJSONArray("orderReportsList"));
+        orderReportsList = new ArrayList<>();
+        JSONArray jOrders = hOrder.getJSONArray("orderReportsList", new JSONArray());
+        for (int j = 0; j < jOrders.length(); j++)
+            orderReportsList.add(new SpotOrderDetails(jOrders.getJSONObject(j)));
     }
 
     /**
-     * Method to load DetailSpotOrder list
+     * Method to get {@link #orderReportsList} instance <br>
+     * Any params required
      *
-     * @param list: obtained from {@code "Binance"}'s request
-     *              any return
+     * @return {@link #orderReportsList} instance as {@link ArrayList} of {@link SpotOrderDetails}
      **/
-    private void loadOrderReports(JSONArray list) {
-        orderReportsList = new ArrayList<>();
-        for (int j = 0; j < list.length(); j++)
-            orderReportsList.add(new DetailSpotOrder(list.getJSONObject(j)));
-    }
-
-    public ArrayList<DetailSpotOrder> getOrderReportsList() {
+    public ArrayList<SpotOrderDetails> getOrderReportsList() {
         return orderReportsList;
     }
 
-    public void setOrderReportsList(ArrayList<DetailSpotOrder> orderReportsList) {
+    /**
+     * Method to set {@link #orderReportsList} instance <br>
+     *
+     * @param orderReportsList: list of {@link SpotOrderDetails} to set
+     **/
+    public void setOrderReportsList(ArrayList<SpotOrderDetails> orderReportsList) {
         this.orderReportsList = orderReportsList;
     }
 
-    public void insertOrderReport(DetailSpotOrder orderReport){
-        if(!orderReportsList.contains(orderReport))
+    /**
+     * Method to add an order report  to {@link #orderReportsList}
+     *
+     * @param orderReport: order report to add
+     **/
+    public void insertOrderReport(SpotOrderDetails orderReport) {
+        if (!orderReportsList.contains(orderReport))
             orderReportsList.add(orderReport);
     }
 
-    public boolean removeOrderReport(DetailSpotOrder orderReport){
+    /**
+     * Method to remove an order report  from {@link #orderReportsList}
+     *
+     * @param orderReport: order report  to remove
+     * @return result of operation as boolean
+     **/
+    public boolean removeOrderReport(SpotOrderDetails orderReport) {
         return orderReportsList.remove(orderReport);
     }
 
-    public DetailSpotOrder getOrderReport(int index){
+    /**
+     * Method to get a details of the spot order from {@link #orderReportsList} list
+     *
+     * @param index: index to fetch the details of the spot order
+     * @return permission as {@link SpotOrderDetails}
+     **/
+    public SpotOrderDetails getOrderReport(int index) {
         return orderReportsList.get(index);
-    }
-
-    @Override
-    public String toString() {
-        return "ComposedSpotOrderDetails{" +
-                "orderReportsList=" + orderReportsList +
-                ", orderListId=" + orderListId +
-                ", contingencyType='" + contingencyType + '\'' +
-                ", listStatusType='" + listStatusType + '\'' +
-                ", listOrderStatus='" + listOrderStatus + '\'' +
-                ", listClientOrderId='" + listClientOrderId + '\'' +
-                ", transactionTime=" + transactionTime +
-                ", symbol='" + symbol + '\'' +
-                ", orders=" + orders +
-                '}';
     }
 
 }

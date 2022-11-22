@@ -78,7 +78,7 @@ public class ComposedMarginOrderDetails extends OrderDetails {
     /**
      * Method to add a margin order details  to {@link #canceledMarginOrders}
      *
-     * @param marginOrderDetails: row to add
+     * @param marginOrderDetails: margin order details to add
      **/
     public void insertDetailMarginOrder(MarginOrderDetails marginOrderDetails) {
         if (!canceledMarginOrders.contains(marginOrderDetails))

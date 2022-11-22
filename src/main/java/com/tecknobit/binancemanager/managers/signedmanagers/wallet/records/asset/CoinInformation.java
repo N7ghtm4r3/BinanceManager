@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code CoinInformation} class is useful to create a coin information object
+ * The {@code CoinInformation} class is useful to create a {@code "Binance"}'s coin information
  *
+ * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
+ * All Coins' Information (USER_DATA)</a>
  **/
-
 public class CoinInformation {
 
     /**
@@ -105,19 +105,20 @@ public class CoinInformation {
      * @throws IllegalArgumentException if parameters range is not respected
      * **/
     public CoinInformation(String coin, boolean depositAllEnable, double free, double freeze, double ipoable,
-                           double ipoing, boolean isLegalMoney, double locked, String name, ArrayList<NetworkItem> networkItems,
-                           double storage, boolean trading, boolean withdrawAllEnable, double withdrawing) {
+                           double ipoing, boolean isLegalMoney, double locked, String name,
+                           ArrayList<NetworkItem> networkItems, double storage, boolean trading, boolean withdrawAllEnable,
+                           double withdrawing) {
         this.coin = coin;
         this.depositAllEnable = depositAllEnable;
-        if(free < 0)
+        if (free < 0)
             throw new IllegalArgumentException("Free value cannot be less than 0");
         else
             this.free = free;
-        if(freeze < 0)
+        if (freeze < 0)
             throw new IllegalArgumentException("Freeze value cannot be less than 0");
         else
             this.freeze = freeze;
-        if(ipoable < 0)
+        if (ipoable < 0)
             throw new IllegalArgumentException("Ipoable value cannot be less than 0");
         else
             this.ipoable = ipoable;
@@ -147,55 +148,78 @@ public class CoinInformation {
     /**
      * Constructor to init {@link CoinInformation} object
      *
-     * @param coinInformation: coin information details as {@link JSONObject}
+     * @param jCoin: coin information details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
      **/
-    public CoinInformation(JSONObject coinInformation) {
-        coin = coinInformation.getString("coin");
-        depositAllEnable = coinInformation.getBoolean("depositAllEnable");
-        free = coinInformation.getDouble("free");
+    public CoinInformation(JSONObject jCoin) {
+        coin = jCoin.getString("coin");
+        depositAllEnable = jCoin.getBoolean("depositAllEnable");
+        free = jCoin.getDouble("free");
         if (free < 0)
             throw new IllegalArgumentException("Free value cannot be less than 0");
-        freeze = coinInformation.getDouble("freeze");
+        freeze = jCoin.getDouble("freeze");
         if (freeze < 0)
             throw new IllegalArgumentException("Freeze value cannot be less than 0");
-        ipoable = coinInformation.getDouble("ipoable");
+        ipoable = jCoin.getDouble("ipoable");
         if (ipoable < 0)
             throw new IllegalArgumentException("Ipoable value cannot be less than 0");
-        ipoing = coinInformation.getDouble("ipoing");
+        ipoing = jCoin.getDouble("ipoing");
         if (ipoing < 0)
             throw new IllegalArgumentException("Ipoing value cannot be less than 0");
-        isLegalMoney = coinInformation.getBoolean("isLegalMoney");
-        locked = coinInformation.getDouble("locked");
+        isLegalMoney = jCoin.getBoolean("isLegalMoney");
+        locked = jCoin.getDouble("locked");
         if (locked < 0)
             throw new IllegalArgumentException("Locked value cannot be less than 0");
-        name = coinInformation.getString("name");
-        JSONArray networkList = JsonHelper.getJSONArray(coinInformation, "networkList", new JSONArray());
+        name = jCoin.getString("name");
+        JSONArray networkList = JsonHelper.getJSONArray(jCoin, "networkList", new JSONArray());
         networkItemsList = new ArrayList<>();
         for (int j = 0; j < networkList.length(); j++)
             networkItemsList.add(new NetworkItem(networkList.getJSONObject(j)));
-        trading = coinInformation.getBoolean("trading");
-        storage = coinInformation.getDouble("storage");
+        trading = jCoin.getBoolean("trading");
+        storage = jCoin.getDouble("storage");
         if (storage < 0)
             throw new IllegalArgumentException("Storage value cannot be less than 0");
-        withdrawAllEnable = coinInformation.getBoolean("withdrawAllEnable");
-        withdrawing = coinInformation.getDouble("withdrawing");
+        withdrawAllEnable = jCoin.getBoolean("withdrawAllEnable");
+        withdrawing = jCoin.getDouble("withdrawing");
         if (withdrawing < 0)
             throw new IllegalArgumentException("Withdrawing value cannot be less than 0");
     }
 
+    /**
+     * Method to get {@link #coin} instance <br>
+     * Any params required
+     *
+     * @return {@link #coin} instance as {@link String}
+     **/
     public String getCoin() {
         return coin;
     }
 
-    public boolean isDepositAllEnable() {
+    /**
+     * Method to get {@link #depositAllEnable} instance <br>
+     * Any params required
+     *
+     * @return {@link #depositAllEnable} instance as boolean
+     **/
+    public boolean areDepositsAllEnabled() {
         return depositAllEnable;
     }
 
+    /**
+     * Method to set {@link #depositAllEnable}
+     *
+     * @param depositAllEnable: whether all deposits are enabled
+     **/
     public void setDepositAllEnable(boolean depositAllEnable) {
         this.depositAllEnable = depositAllEnable;
     }
 
+    /**
+     * Method to get {@link #free} instance <br>
+     * Any params required
+     *
+     * @return {@link #free} instance as double
+     **/
     public double getFree() {
         return free;
     }
@@ -223,6 +247,12 @@ public class CoinInformation {
         this.free = free;
     }
 
+    /**
+     * Method to get {@link #freeze} instance <br>
+     * Any params required
+     *
+     * @return {@link #freeze} instance as double
+     **/
     public double getFreeze() {
         return freeze;
     }
@@ -250,6 +280,12 @@ public class CoinInformation {
         this.freeze = freeze;
     }
 
+    /**
+     * Method to get {@link #ipoable} instance <br>
+     * Any params required
+     *
+     * @return {@link #ipoable} instance as double
+     **/
     public double getIpoable() {
         return ipoable;
     }
@@ -277,6 +313,12 @@ public class CoinInformation {
         this.ipoable = ipoable;
     }
 
+    /**
+     * Method to get {@link #ipoing} instance <br>
+     * Any params required
+     *
+     * @return {@link #ipoing} instance as double
+     **/
     public double getIpoing() {
         return ipoing;
     }
@@ -304,14 +346,31 @@ public class CoinInformation {
         this.ipoing = ipoing;
     }
 
+    /**
+     * Method to get {@link #isLegalMoney} instance <br>
+     * Any params required
+     *
+     * @return {@link #isLegalMoney} instance as boolean
+     **/
     public boolean isLegalMoney() {
         return isLegalMoney;
     }
 
+    /**
+     * Method to set {@link #isLegalMoney}
+     *
+     * @param legalMoney: whether is a legal money
+     **/
     public void setLegalMoney(boolean legalMoney) {
         isLegalMoney = legalMoney;
     }
 
+    /**
+     * Method to get {@link #locked} instance <br>
+     * Any params required
+     *
+     * @return {@link #locked} instance as double
+     **/
     public double getLocked() {
         return locked;
     }
@@ -339,31 +398,71 @@ public class CoinInformation {
         this.locked = locked;
     }
 
+    /**
+     * Method to get {@link #name} instance <br>
+     * Any params required
+     *
+     * @return {@link #name} instance as {@link String}
+     **/
     public String getName() {
         return name;
     }
 
+    /**
+     * Method to get {@link #networkItemsList} instance <br>
+     * Any params required
+     *
+     * @return {@link #networkItemsList} instance as {@link ArrayList} of {@link NetworkItem}
+     **/
     public ArrayList<NetworkItem> getNetworkItemsList() {
         return networkItemsList;
     }
 
+    /**
+     * Method to set {@link #networkItemsList} instance <br>
+     *
+     * @param networkItemsList: list of {@link NetworkItem} to set
+     **/
     public void setNetworkItemsList(ArrayList<NetworkItem> networkItemsList) {
         this.networkItemsList = networkItemsList;
     }
 
-    public void insertNetworkItem(NetworkItem networkItem){
-        if(!networkItemsList.contains(networkItem))
+    /**
+     * Method to add a network item  to {@link #networkItemsList}
+     *
+     * @param networkItem: network item to add
+     **/
+    public void insertNetworkItem(NetworkItem networkItem) {
+        if (!networkItemsList.contains(networkItem))
             networkItemsList.add(networkItem);
     }
 
+    /**
+     * Method to remove a network item  from {@link #networkItemsList}
+     *
+     * @param networkItem: network item  to remove
+     * @return result of operation as boolean
+     **/
     public boolean removeNetworkItem(NetworkItem networkItem) {
         return networkItemsList.remove(networkItem);
     }
 
+    /**
+     * Method to get a network item  from {@link #networkItemsList} list
+     *
+     * @param index: index to fetch the network item
+     * @return network item  as {@link NetworkItem}
+     **/
     public NetworkItem getNetWorkItem(int index) {
         return networkItemsList.get(index);
     }
 
+    /**
+     * Method to get {@link #storage} instance <br>
+     * Any params required
+     *
+     * @return {@link #storage} instance as double
+     **/
     public double getStorage() {
         return storage;
     }
@@ -391,22 +490,50 @@ public class CoinInformation {
         this.storage = storage;
     }
 
-    public boolean isTrading() {
+    /**
+     * Method to get {@link #trading} instance <br>
+     * Any params required
+     *
+     * @return {@link #trading} instance as boolean
+     **/
+    public boolean canTrading() {
         return trading;
     }
 
+    /**
+     * Method to set {@link #trading}
+     *
+     * @param trading: whether the trading is enabled
+     **/
     public void setTrading(boolean trading) {
         this.trading = trading;
     }
 
+    /**
+     * Method to get {@link #withdrawAllEnable} instance <br>
+     * Any params required
+     *
+     * @return {@link #withdrawAllEnable} instance as boolean
+     **/
     public boolean isWithdrawAllEnable() {
         return withdrawAllEnable;
     }
 
-    public void setWithdrawAllEnable(boolean withdrawAllEnable) {
+    /**
+     * Method to set {@link #withdrawAllEnable}
+     *
+     * @param withdrawAllEnable: whether the withdrawals are enabled
+     **/
+    public void setWithdrawAllEnabled(boolean withdrawAllEnable) {
         this.withdrawAllEnable = withdrawAllEnable;
     }
 
+    /**
+     * Method to get {@link #withdrawing} instance <br>
+     * Any params required
+     *
+     * @return {@link #withdrawing} instance as double
+     **/
     public double getWithdrawing() {
         return withdrawing;
     }
@@ -434,30 +561,22 @@ public class CoinInformation {
         this.withdrawing = withdrawing;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "CoinInformation{" +
-                "coin='" + coin + '\'' +
-                ", depositAllEnable=" + depositAllEnable +
-                ", free=" + free +
-                ", freeze=" + freeze +
-                ", ipoable=" + ipoable +
-                ", ipoing=" + ipoing +
-                ", isLegalMoney=" + isLegalMoney +
-                ", locked=" + locked +
-                ", name='" + name + '\'' +
-                ", networkItemsList=" + networkItemsList +
-                ", storage=" + storage +
-                ", trading=" + trading +
-                ", withdrawAllEnable=" + withdrawAllEnable +
-                ", withdrawing=" + withdrawing +
-                '}';
+        return new JSONObject(this).toString();
     }
 
     /**
-     * The {@code NetworkItem} class is useful to obtain and create a network item object
+     * The {@code NetworkItem} class is useful to format a network item
+     *
+     * @author N7ghtm4r3 - Tecknobit
      **/
-
     public static class NetworkItem {
 
         /**
@@ -615,77 +734,167 @@ public class CoinInformation {
             depositEnable = hNetworkItem.getBoolean("depositEnable");
             isDefault = hNetworkItem.getBoolean("isDefault");
             memoRegex = hNetworkItem.getString("memoRegex");
-            minConfirm = hNetworkItem.getInt("minConfirm");
+            minConfirm = hNetworkItem.getInt("minConfirm", 0);
             name = hNetworkItem.getString("name");
             network = hNetworkItem.getString("network");
             resetAddressStatus = hNetworkItem.getBoolean("resetAddressStatus");
             specialTips = hNetworkItem.getString("specialTips", "Any special tips");
-            unLockConfirm = hNetworkItem.getInt("unLockConfirm");
+            unLockConfirm = hNetworkItem.getInt("unLockConfirm", 0);
             withdrawDesc = hNetworkItem.getString("withdrawDesc");
             withdrawEnable = hNetworkItem.getBoolean("withdrawEnable");
-            withdrawFee = hNetworkItem.getDouble("withdrawFee");
-            withdrawIntegerMultiple = hNetworkItem.getDouble("withdrawIntegerMultiple");
-            withdrawMax = hNetworkItem.getDouble("withdrawMax");
-            withdrawMin = hNetworkItem.getDouble("withdrawMin");
+            withdrawFee = hNetworkItem.getDouble("withdrawFee", 0);
+            withdrawIntegerMultiple = hNetworkItem.getDouble("withdrawIntegerMultiple", 0);
+            withdrawMax = hNetworkItem.getDouble("withdrawMax", 0);
+            withdrawMin = hNetworkItem.getDouble("withdrawMin", 0);
             sameAddress = hNetworkItem.getBoolean("sameAddress");
         }
 
+        /**
+         * Method to get {@link #addressRegex} instance <br>
+         * Any params required
+         *
+         * @return {@link #addressRegex} instance as {@link String}
+         **/
         public String getAddressRegex() {
             return addressRegex;
         }
 
+        /**
+         * Method to get {@link #coin} instance <br>
+         * Any params required
+         *
+         * @return {@link #coin} instance as {@link String}
+         **/
         public String getCoin() {
             return coin;
         }
 
+        /**
+         * Method to get {@link #depositDesc} instance <br>
+         * Any params required
+         *
+         * @return {@link #depositDesc} instance as {@link String}
+         **/
         public String getDepositDesc() {
             return depositDesc;
         }
 
-        public boolean isDepositEnable() {
+        /**
+         * Method to get {@link #depositEnable} instance <br>
+         * Any params required
+         *
+         * @return {@link #depositEnable} instance as boolean
+         **/
+        public boolean isDepositEnabled() {
             return depositEnable;
         }
 
+        /**
+         * Method to get {@link #isDefault} instance <br>
+         * Any params required
+         *
+         * @return {@link #isDefault} instance as boolean
+         **/
         public boolean isDefault() {
             return isDefault;
         }
 
+        /**
+         * Method to get {@link #memoRegex} instance <br>
+         * Any params required
+         *
+         * @return {@link #memoRegex} instance as {@link String}
+         **/
         public String getMemoRegex() {
             return memoRegex;
         }
 
+        /**
+         * Method to get {@link #minConfirm} instance <br>
+         * Any params required
+         *
+         * @return {@link #minConfirm} instance as int
+         **/
         public int getMinConfirm() {
             return minConfirm;
         }
 
+        /**
+         * Method to get {@link #name} instance <br>
+         * Any params required
+         *
+         * @return {@link #name} instance as {@link String}
+         **/
         public String getName() {
             return name;
         }
 
+        /**
+         * Method to get {@link #network} instance <br>
+         * Any params required
+         *
+         * @return {@link #network} instance as {@link String}
+         **/
         public String getNetwork() {
             return network;
         }
 
+        /**
+         * Method to get {@link #resetAddressStatus} instance <br>
+         * Any params required
+         *
+         * @return {@link #resetAddressStatus} instance as boolean
+         **/
         public boolean isResetAddressStatus() {
             return resetAddressStatus;
         }
 
+        /**
+         * Method to get {@link #specialTips} instance <br>
+         * Any params required
+         *
+         * @return {@link #specialTips} instance as {@link String}
+         **/
         public String getSpecialTips() {
             return specialTips;
         }
 
+        /**
+         * Method to get {@link #unLockConfirm} instance <br>
+         * Any params required
+         *
+         * @return {@link #unLockConfirm} instance as int
+         **/
         public int getUnLockConfirm() {
             return unLockConfirm;
         }
 
+        /**
+         * Method to get {@link #withdrawDesc} instance <br>
+         * Any params required
+         *
+         * @return {@link #withdrawDesc} instance as {@link String}
+         **/
         public String getWithdrawDesc() {
             return withdrawDesc;
         }
 
-        public boolean isWithdrawEnable() {
+        /**
+         * Method to get {@link #withdrawEnable} instance <br>
+         * Any params required
+         *
+         * @return {@link #withdrawEnable} instance as boolean
+         **/
+        public boolean isWithdrawEnabled() {
             return withdrawEnable;
         }
 
+        /**
+         * Method to get {@link #withdrawFee} instance <br>
+         * Any params required
+         *
+         * @return {@link #withdrawFee} instance as double
+         **/
         public double getWithdrawFee() {
             return withdrawFee;
         }
@@ -701,6 +910,12 @@ public class CoinInformation {
             return roundValue(withdrawFee, decimals);
         }
 
+        /**
+         * Method to get {@link #withdrawIntegerMultiple} instance <br>
+         * Any params required
+         *
+         * @return {@link #withdrawIntegerMultiple} instance as double
+         **/
         public double getWithdrawIntegerMultiple() {
             return withdrawIntegerMultiple;
         }
@@ -716,6 +931,12 @@ public class CoinInformation {
             return roundValue(withdrawIntegerMultiple, decimals);
         }
 
+        /**
+         * Method to get {@link #withdrawMax} instance <br>
+         * Any params required
+         *
+         * @return {@link #withdrawMax} instance as double
+         **/
         public double getWithdrawMax() {
             return withdrawMax;
         }
@@ -731,6 +952,12 @@ public class CoinInformation {
             return roundValue(withdrawMax, decimals);
         }
 
+        /**
+         * Method to get {@link #withdrawMin} instance <br>
+         * Any params required
+         *
+         * @return {@link #withdrawMin} instance as double
+         **/
         public double getWithdrawMin() {
             return withdrawMin;
         }
@@ -746,33 +973,25 @@ public class CoinInformation {
             return roundValue(withdrawMin, decimals);
         }
 
+        /**
+         * Method to get {@link #sameAddress} instance <br>
+         * Any params required
+         *
+         * @return {@link #sameAddress} instance as boolean
+         **/
         public boolean isSameAddress() {
             return sameAddress;
         }
 
+        /**
+         * Returns a string representation of the object <br>
+         * Any params required
+         *
+         * @return a string representation of the object as {@link String}
+         */
         @Override
         public String toString() {
-            return "NetworkItem{" +
-                    "addressRegex='" + addressRegex + '\'' +
-                    ", coin='" + coin + '\'' +
-                    ", depositDesc='" + depositDesc + '\'' +
-                    ", depositEnable=" + depositEnable +
-                    ", isDefault=" + isDefault +
-                    ", memoRegex='" + memoRegex + '\'' +
-                    ", minConfirm=" + minConfirm +
-                    ", name='" + name + '\'' +
-                    ", network='" + network + '\'' +
-                    ", resetAddressStatus=" + resetAddressStatus +
-                    ", specialTips='" + specialTips + '\'' +
-                    ", unLockConfirm=" + unLockConfirm +
-                    ", withdrawDesc='" + withdrawDesc + '\'' +
-                    ", withdrawEnable=" + withdrawEnable +
-                    ", withdrawFee=" + withdrawFee +
-                    ", withdrawIntegerMultiple=" + withdrawIntegerMultiple +
-                    ", withdrawMax=" + withdrawMax +
-                    ", withdrawMin=" + withdrawMin +
-                    ", sameAddress=" + sameAddress +
-                    '}';
+            return new JSONObject(this).toString();
         }
 
     }

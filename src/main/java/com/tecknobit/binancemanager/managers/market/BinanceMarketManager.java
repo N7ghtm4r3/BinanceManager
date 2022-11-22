@@ -25,31 +25,80 @@ import static com.tecknobit.binancemanager.constants.EndpointsList.*;
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#market-data-endpoints">
- * https://binance-docs.github.io/apidocs/spot/en/#market-data-endpoints</a>
+ * Market Data Endpoints</a>
+ * @see BinanceManager
  **/
-
 public class BinanceMarketManager extends BinanceManager {
 
-    /** Constructor with an endpoint give by parameter
-     * @param baseEndpoint base endpoint choose from BASE_ENDPOINTS array
-     * **/
+    /**
+     * Constructor to init a {@link BinanceMarketManager}
+     *
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param defaultErrorMessage : custom error to show when is not a request error
+     * @param timeout             :             custom timeout for request
+     **/
+    public BinanceMarketManager(String baseEndpoint, String defaultErrorMessage,
+                                int timeout) throws SystemException, IOException {
+        super(baseEndpoint, defaultErrorMessage, timeout);
+    }
+
+    /**
+     * Constructor to init a {@link BinanceMarketManager}
+     *
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param defaultErrorMessage : custom error to show when is not a request error
+     **/
+    public BinanceMarketManager(String baseEndpoint, String defaultErrorMessage) throws SystemException, IOException {
+        super(baseEndpoint, defaultErrorMessage);
+    }
+
+    /**
+     * Constructor to init a {@link BinanceMarketManager}
+     *
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param timeout      :             custom timeout for request
+     **/
+    public BinanceMarketManager(String baseEndpoint, int timeout) throws SystemException, IOException {
+        super(baseEndpoint, timeout);
+    }
+
+    /**
+     * Constructor to init a {@link BinanceMarketManager}
+     *
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     **/
     public BinanceMarketManager(String baseEndpoint) throws SystemException, IOException {
         super(baseEndpoint);
     }
 
     /**
-     * Constructor with an endpoint give by list auto research
-     * **/
-    public BinanceMarketManager() throws SystemException, IOException {
-        super(null);
+     * Constructor to init a {@link BinanceMarketManager} <br>
+     * Any params required
+     *
+     * @throws IllegalArgumentException when a parameterized constructor has not been called before this constructor
+     * @apiNote this constructor is useful to instantiate a new {@link BinanceMarketManager}'s manager without re-insert
+     * the credentials and is useful in those cases if you need to use different manager at the same time:
+     * <pre>
+     *     {@code
+     *        //You need to insert all credentials requested
+     *        BinanceManager firstManager = new BinanceManager("defaultErrorMessage", timeout);
+     *        //You don't need to insert all credentials to make manager work
+     *        BinanceManager secondManager = new BinanceManager(); //same credentials used
+     *     }
+     * </pre>
+     **/
+    public BinanceMarketManager() {
+        super();
     }
 
-    /** Request to get if service is avaible
+    /**
+     * Request to get if service is available
      * any param required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-connectivity">
-     *     https://binance-docs.github.io/apidocs/spot/en/#test-connectivity</a>
+     *
      * @return response as boolean
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-connectivity">
+     * https://binance-docs.github.io/apidocs/spot/en/#test-connectivity</a>
+     **/
     public boolean isMarketServiceWork() throws IOException {
         return getRequestResponse(TEST_CONNECTIVITY_ENDPOINT, "", GET_METHOD).equals("{}");
     }

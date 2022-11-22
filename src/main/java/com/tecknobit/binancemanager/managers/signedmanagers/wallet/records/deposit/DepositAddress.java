@@ -3,13 +3,12 @@ package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.depo
 import org.json.JSONObject;
 
 /**
- * The {@code DepositAddress} class is useful to manage DepositAddress {@code "Binance"} request
+ * The {@code DepositAddress} class is useful to format a {@code "Binance"}'s deposit address
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data</a>
+ * Deposit Address (supporting network) (USER_DATA)</a>
  **/
-
 public class DepositAddress {
 
     /**
@@ -48,39 +47,62 @@ public class DepositAddress {
     /**
      * Constructor to init {@link DepositAddress} object
      *
-     * @param depositAddress: deposit address details as {@link JSONObject}
+     * @param jDeposit: deposit address details as {@link JSONObject}
      **/
-    public DepositAddress(JSONObject depositAddress) {
-        address = depositAddress.getString("address");
-        coin = depositAddress.getString("coin");
-        tag = depositAddress.getString("tag");
-        url = depositAddress.getString("url");
+    public DepositAddress(JSONObject jDeposit) {
+        this(jDeposit.getString("address"), jDeposit.getString("coin"), jDeposit.getString("tag"),
+                jDeposit.getString("url"));
     }
 
-    public String address() {
+    /**
+     * Method to get {@link #address} instance <br>
+     * Any params required
+     *
+     * @return {@link #address} instance as {@link String}
+     **/
+    public String getAddress() {
         return address;
     }
 
-    public String coin() {
+    /**
+     * Method to get {@link #coin} instance <br>
+     * Any params required
+     *
+     * @return {@link #coin} instance as {@link String}
+     **/
+    public String getCoin() {
         return coin;
     }
 
-    public String tag() {
+    /**
+     * Method to get {@link #tag} instance <br>
+     * Any params required
+     *
+     * @return {@link #tag} instance as {@link String}
+     **/
+    public String getTag() {
         return tag;
     }
 
-    public String url() {
+    /**
+     * Method to get {@link #url} instance <br>
+     * Any params required
+     *
+     * @return {@link #url} instance as {@link String}
+     **/
+    public String getUrl() {
         return url;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "DepositAddress{" +
-                "address='" + address + '\'' +
-                ", coin='" + coin + '\'' +
-                ", tag='" + tag + '\'' +
-                ", url='" + url + '\'' +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

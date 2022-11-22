@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.lists;
 
+import com.tecknobit.binancemanager.managers.records.BinanceList;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order.Status;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,9 +16,9 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
  * Get Cross Margin Transfer History (USER_DATA)</a>
- * @see MarginList
+ * @see BinanceList
  **/
-public class TransfersHistoryList extends MarginList<Transfer> {
+public class TransfersHistoryList extends BinanceList<Transfer> {
 
     /**
      * Constructor to init {@link TransfersHistoryList} object
@@ -36,7 +37,7 @@ public class TransfersHistoryList extends MarginList<Transfer> {
      **/
     public TransfersHistoryList(JSONObject jTransfersHistoryList) {
         super(jTransfersHistoryList);
-        JSONArray jTransfers = hMarginList.getJSONArray("rows", new JSONArray());
+        JSONArray jTransfers = hList.getJSONArray("rows", new JSONArray());
         for (int j = 0; j < jTransfers.length(); j++)
             rows.add(new Transfer(jTransfers.getJSONObject(j)));
     }

@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers;
 
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.apis.APIRequest;
 import com.tecknobit.apimanager.trading.TradingTools;
 import com.tecknobit.binancemanager.exceptions.SystemException;
@@ -7,6 +8,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import static com.tecknobit.apimanager.apis.APIRequest.GET_METHOD;
 import static com.tecknobit.apimanager.trading.TradingTools.computeAssetPercent;
@@ -21,61 +23,227 @@ import static java.lang.System.currentTimeMillis;
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
- * https://binance-docs.github.io/apidocs/spot/en/#introduction</a>
+ * Introduction</a>
  **/
-
 public class BinanceManager {
 
     /**
-     * {@code BASE_ENDPOINTS} is a list constant that contains list of {@code "Binance"}'s main endpoints
-     * **/
-    public static final String[] BASE_ENDPOINTS = new String[]{"https://api.binance.com", "https://api1.binance.com",
-            "https://api2.binance.com", "https://api3.binance.com"};
-
+     * {@code properties} is a local instance used to instantiate a new {@link BinanceManager}'s manager without
+     * re-insert credentials
+     **/
+    protected static final Properties properties = new Properties();
+    /**
+     * {@code baseEndpoint} is instance that  memorizes main endpoint where {@link BinanceManager}'s managers work on
+     **/
+    protected final String baseEndpoint;
     /**
      * {@code apiRequest} is instance that contains list of {@code "Binance"}'s main endpoints
-     * **/
+     **/
     protected APIRequest apiRequest;
 
     /**
-     * {@code baseEndpoint} is instance that  memorizes main endpoint where {@link BinanceManager}'s managers work on
-     * **/
-    protected final String baseEndpoint;
-
-    /** Constructor to init a {@code "Binance"} manager
-     * @param baseEndpoint base endpoint to work on
-     * **/
-    public BinanceManager(String baseEndpoint) throws SystemException, IOException {
-        apiRequest = new APIRequest();
-        if(baseEndpoint != null)
+     * Constructor to init a {@link BinanceManager}
+     *
+     * @param baseEndpoint         base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param defaultErrorMessage: custom error to show when is not a request error
+     * @param timeout:             custom timeout for request
+     **/
+    public BinanceManager(String baseEndpoint, String defaultErrorMessage, int timeout) throws SystemException, IOException {
+        apiRequest = new APIRequest(defaultErrorMessage, timeout);
+        if (baseEndpoint != null)
             this.baseEndpoint = baseEndpoint;
         else
             this.baseEndpoint = getDefaultBaseEndpoint();
+        storeProperties(this.baseEndpoint, defaultErrorMessage, timeout);
     }
 
-    /** Method to set automatically a working endpoint <br>
+    /**
+     * Constructor to init a {@link BinanceManager}
+     *
+     * @param baseEndpoint         base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param defaultErrorMessage: custom error to show when is not a request error
+     **/
+    public BinanceManager(String baseEndpoint, String defaultErrorMessage) throws SystemException, IOException {
+        this(baseEndpoint, defaultErrorMessage, -1);
+    }
+
+    /**
+     * Constructor to init a {@link BinanceManager}
+     *
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param timeout:     custom timeout for request
+     **/
+    public BinanceManager(String baseEndpoint, int timeout) throws SystemException, IOException {
+        this(baseEndpoint, null, timeout);
+    }
+
+    /**
+     * Constructor to init a {@link BinanceManager}
+     *
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     **/
+    public BinanceManager(String baseEndpoint) throws SystemException, IOException {
+        this(baseEndpoint, null, -1);
+    }
+
+    /**
+     * Constructor to init a {@link BinanceManager} <br>
      * Any params required
-     * **/
+     *
+     * @throws IllegalArgumentException when a parameterized constructor has not been called before this constructor
+     * @apiNote this constructor is useful to instantiate a new {@link BinanceManager}'s manager without re-insert
+     * the credentials and is useful in those cases if you need to use different manager at the same time:
+     * <pre>
+     *     {@code
+     *        //You need to insert all credentials requested
+     *        BinanceManager firstManager = new BinanceManager("defaultErrorMessage", timeout);
+     *        //You don't need to insert all credentials to make manager work
+     *        BinanceManager secondManager = new BinanceManager(); //same credentials used
+     *     }
+     * </pre>
+     **/
+    public BinanceManager() {
+        baseEndpoint = properties.getProperty("baseEndpoint");
+        if (baseEndpoint == null)
+            throw new IllegalArgumentException("You need to call a parameterized constructor first");
+        String defaultErrorMessage = properties.getProperty("defaultErrorMessage");
+        int timeout;
+        try {
+            timeout = Integer.parseInt(properties.getProperty("timeout"));
+        } catch (NumberFormatException e) {
+            timeout = -1;
+        }
+        if (defaultErrorMessage != null && timeout != -1)
+            apiRequest = new APIRequest(defaultErrorMessage, timeout);
+        else if (defaultErrorMessage != null)
+            apiRequest = new APIRequest(defaultErrorMessage);
+        else if (timeout != -1)
+            apiRequest = new APIRequest(timeout);
+        else
+            apiRequest = new APIRequest();
+    }
+
+    /**
+     * Method to store some properties
+     *
+     * @param baseEndpoint         base endpoint to work on
+     * @param defaultErrorMessage: custom error to show when is not a request error
+     * @param timeout:             custom timeout for request
+     **/
+    protected void storeProperties(String baseEndpoint, String defaultErrorMessage, int timeout) {
+        properties.clear();
+        properties.setProperty("baseEndpoint", baseEndpoint);
+        if (defaultErrorMessage != null)
+            properties.setProperty("defaultErrorMessage", defaultErrorMessage);
+        if (timeout != -1)
+            properties.setProperty("timeout", String.valueOf(timeout));
+    }
+
+    /**
+     * Method to set automatically a working endpoint <br>
+     * Any params required
+     **/
     protected String getDefaultBaseEndpoint() throws SystemException, IOException {
-        for (String string : BASE_ENDPOINTS)
-            if(isSystemAvailable(string))
-                return string;
+        for (BinanceEndpoint endpoint : BinanceEndpoint.values())
+            if (isSystemAvailable(endpoint.endpoint))
+                return endpoint.endpoint;
         throw new SystemException();
     }
 
-    /** Request to get system status
+    /**
+     * Request to get system status
+     *
      * @param baseEndpoint endpoint to request status
-     * **/
+     **/
     public boolean isSystemAvailable(String baseEndpoint) throws IOException {
         apiRequest.sendAPIRequest(baseEndpoint + SYSTEM_STATUS_ENDPOINT, GET_METHOD);
         return new JSONObject(apiRequest.getResponse()).getInt("status") == 0;
     }
 
-    /** Request to get server timestamp or your current timestamp
+    /**
+     * {@code BinanceEndpoint} list of available {@code "Binance"}'s endpoints
+     **/
+    public enum BinanceEndpoint {
+
+        /**
+         * {@code "MAIN_ENDPOINT"} principal endpoint
+         **/
+        MAIN_ENDPOINT("https://api.binance.com"),
+
+        /**
+         * {@code "SECOND_ENDPOINT"} second endpoint
+         **/
+        SECOND_ENDPOINT("https://api1.binance.com"),
+
+        /**
+         * {@code "THIRD_ENDPOINT"} third endpoint
+         **/
+        THIRD_ENDPOINT("https://api3.binance.com"),
+
+        /**
+         * {@code "FOURTH_ENDPOINT"} forth endpoint
+         **/
+        FOURTH_ENDPOINT("https://api3.binance.com");
+
+        /**
+         * {@code "endpoint"} value
+         **/
+        private final String endpoint;
+
+        /**
+         * Constructor to init a {@link BinanceEndpoint}
+         *
+         * @param endpoint endpoint value
+         **/
+        BinanceEndpoint(String endpoint) {
+            this.endpoint = endpoint;
+        }
+
+        /**
+         * Method to get {@link #endpoint} instance <br>
+         * Any params required
+         *
+         * @return {@link #endpoint} instance as {@link String}
+         **/
+        @Override
+        public String toString() {
+            return endpoint;
+        }
+
+    }
+
+    /**
+     * {@code ReturnFormat} is the instance to pass in {@link Returner} methods to format as you want the response by
+     * {@code "Binance"}
+     *
+     * @apiNote you can choose between:
+     * <ul>
+     * <li>
+     * {@link Returner.ReturnFormat#STRING} -> returns the response formatted as {@link String}
+     * </li>
+     * <li>
+     * {@link Returner.ReturnFormat#JSON} -> returns the response formatted as {@code "JSON"}
+     * </li>
+     * <li>
+     * {@link Returner.ReturnFormat#LIBRARY_OBJECT} -> returns the response formatted as custom object offered by library that uses this list
+     * </li>
+     * </ul>
+     **/
+    public enum ReturnFormat {
+
+        STRING,
+        JSON,
+        LIBRARY_OBJECT
+
+    }
+
+    /**
+     * Request to get server timestamp or your current timestamp
      * any param required
+     *
      * @return es. 1566247363776
-     * **/
-    public long getTimestamp(){
+     **/
+    public long getTimestamp() {
         try {
             apiRequest.sendAPIRequest(baseEndpoint + TIMESTAMP_ENDPOINT, GET_METHOD);
             return new JSONObject(apiRequest.getResponse()).getLong("serverTime");

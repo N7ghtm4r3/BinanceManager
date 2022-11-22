@@ -1,19 +1,21 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust;
 
+import com.tecknobit.apimanager.formatters.TimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code DustItem} class is useful to obtain and format dust item object
+ * The {@code DustItem} class is useful to format a {@code "Binance"}'s dust item
  *
+ * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
+ * DustLogList(USER_DATA)</a>
  **/
-
 public class DustItem {
 
     /**
@@ -69,15 +71,12 @@ public class DustItem {
     /**
      * Constructor to init {@link DustItem} object
      *
-     * @param dustItem: dust item details as {@link JSONObject}
+     * @param jDustItem: dust item details as {@link JSONObject}
      **/
-    public DustItem(JSONObject dustItem) {
-        transId = dustItem.getLong("transId");
-        serviceChargeAmount = dustItem.getDouble("serviceChargeAmount");
-        amount = dustItem.getDouble("amount");
-        operateTime = dustItem.getLong("operateTime");
-        transferedAmount = dustItem.getDouble("transferedAmount");
-        fromAsset = dustItem.getString("fromAsset");
+    public DustItem(JSONObject jDustItem) {
+        this(jDustItem.getLong("transId"), jDustItem.getDouble("serviceChargeAmount"),
+                jDustItem.getDouble("amount"), jDustItem.getLong("operateTime"),
+                jDustItem.getDouble("transferedAmount"), jDustItem.getString("fromAsset"));
     }
 
     /**
@@ -86,6 +85,7 @@ public class DustItem {
      * @param userAssetDribbletDetails: list of items
      * @return list as {@link ArrayList} of {@link DustItem}
      **/
+    // TODO: 22/11/2022 CHECK TO REMOVE OR MODIFY
     public static ArrayList<DustItem> getListDribbletsDetails(JSONArray userAssetDribbletDetails) {
         ArrayList<DustItem> dustItems = new ArrayList<>();
         for (int j = 0; j < userAssetDribbletDetails.length(); j++)
@@ -93,10 +93,22 @@ public class DustItem {
         return dustItems;
     }
 
+    /**
+     * Method to get {@link #transId} instance <br>
+     * Any params required
+     *
+     * @return {@link #transId} instance as long
+     **/
     public long getTransId() {
         return transId;
     }
 
+    /**
+     * Method to get {@link #serviceChargeAmount} instance <br>
+     * Any params required
+     *
+     * @return {@link #serviceChargeAmount} instance as double
+     **/
     public double getServiceChargeAmount() {
         return serviceChargeAmount;
     }
@@ -112,6 +124,12 @@ public class DustItem {
         return roundValue(serviceChargeAmount, decimals);
     }
 
+    /**
+     * Method to get {@link #amount} instance <br>
+     * Any params required
+     *
+     * @return {@link #amount} instance as double
+     **/
     public double getAmount() {
         return amount;
     }
@@ -127,10 +145,32 @@ public class DustItem {
         return roundValue(amount, decimals);
     }
 
+    /**
+     * Method to get {@link #operateTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #operateTime} instance as long
+     **/
     public long getOperateTime() {
         return operateTime;
     }
 
+    /**
+     * Method to get {@link #operateTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #operateTime} instance as {@link Date}
+     **/
+    public Date getOperateDate() {
+        return TimeFormatter.getDate(operateTime);
+    }
+
+    /**
+     * Method to get {@link #transferedAmount} instance <br>
+     * Any params required
+     *
+     * @return {@link #transferedAmount} instance as double
+     **/
     public double getTransferedAmount() {
         return transferedAmount;
     }
@@ -146,20 +186,25 @@ public class DustItem {
         return roundValue(transferedAmount, decimals);
     }
 
+    /**
+     * Method to get {@link #fromAsset} instance <br>
+     * Any params required
+     *
+     * @return {@link #fromAsset} instance as {@link String}
+     **/
     public String getFromAsset() {
         return fromAsset;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "DustItem{" +
-                "transId=" + transId +
-                ", serviceChargeAmount=" + serviceChargeAmount +
-                ", amount=" + amount +
-                ", operateTime=" + operateTime +
-                ", transferedAmount=" + transferedAmount +
-                ", fromAsset='" + fromAsset + '\'' +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

@@ -1,17 +1,19 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot;
 
 import com.tecknobit.binancemanager.exceptions.SystemException;
+import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.OrderDetails;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.TradeConstants;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.account.OrderCountUsage;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.account.SpotAccountInformation;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.account.SpotAccountTradeList;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.account.SpotAccountTradesList;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.details.ComposedSpotOrderDetails;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.details.DetailSpotOrder;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.details.OpenSpotOrders;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.details.SpotOrderCAS;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.details.SpotOrderDetails;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.ACKSpotOrder;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.ACKSpotOrder.ReplaceMode;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.FullSpotOrder;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.ResultSpotOrder;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.SpotOrderStatus;
@@ -32,27 +34,81 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.re
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#spot-account-trade">
- * https://binance-docs.github.io/apidocs/spot/en/#spot-account-trade</a>
+ * Spot Account/Trade</a>
+ * @see BinanceManager
+ * @see BinanceSignedManager
  **/
-
 public class BinanceSpotManager extends BinanceSignedManager {
 
-    /** Constructor to init BinanceSpotManager
-     * @param baseEndpoint base endpoint to work on
-     * @param apiKey your api key
-     * @param secretKey your secret key
-     * **/
+    /**
+     * Constructor to init a {@link BinanceSpotManager}
+     *
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param defaultErrorMessage : custom error to show when is not a request error
+     * @param timeout             :             custom timeout for request
+     * @param apiKey              your api key
+     * @param secretKey           your secret key
+     **/
+    public BinanceSpotManager(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
+                              String secretKey) throws SystemException, IOException {
+        super(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
+    }
+
+    /**
+     * Constructor to init a {@link BinanceSpotManager}
+     *
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param defaultErrorMessage : custom error to show when is not a request error
+     * @param apiKey              your api key
+     * @param secretKey           your secret key
+     **/
+    public BinanceSpotManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
+                              String secretKey) throws SystemException, IOException {
+        super(baseEndpoint, defaultErrorMessage, apiKey, secretKey);
+    }
+
+    /**
+     * Constructor to init a {@link BinanceSpotManager}
+     *
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param timeout      :             custom timeout for request
+     * @param apiKey       your api key
+     * @param secretKey    your secret key
+     **/
+    public BinanceSpotManager(String baseEndpoint, int timeout, String apiKey,
+                              String secretKey) throws SystemException, IOException {
+        super(baseEndpoint, timeout, apiKey, secretKey);
+    }
+
+    /**
+     * Constructor to init {@link BinanceSignedManager"}
+     *
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param apiKey       your api key
+     * @param secretKey    your secret key
+     **/
     public BinanceSpotManager(String baseEndpoint, String apiKey, String secretKey) throws SystemException, IOException {
         super(baseEndpoint, apiKey, secretKey);
     }
 
-    /** Constructor to init BinanceSpotManager
-     * @param apiKey your api key
-     * @param secretKey your secret key
-     * automatically set a working endpoint
-     * **/
-    public BinanceSpotManager(String apiKey, String secretKey) throws SystemException, IOException {
-        super(null, apiKey, secretKey);
+    /**
+     * Constructor to init a {@link BinanceSpotManager} <br>
+     * Any params required
+     *
+     * @throws IllegalArgumentException when a parameterized constructor has not been called before this constructor
+     * @apiNote this constructor is useful to instantiate a new {@link BinanceSpotManager}'s manager without re-insert
+     * the credentials and is useful in those cases if you need to use different manager at the same time:
+     * <pre>
+     *     {@code
+     *        //You need to insert all credentials requested
+     *        BinanceSignedManager firstManager = new BinanceSignedManager("apiKey", "apiSecret");
+     *        //You don't need to insert all credentials to make manager work
+     *        BinanceSignedManager secondManager = new BinanceSignedManager(); //same credentials used
+     *     }
+     * </pre>
+     **/
+    public BinanceSpotManager() {
+        super();
     }
 
     /**
@@ -1551,82 +1607,94 @@ public class BinanceSpotManager extends BinanceSignedManager {
         }
     }
 
-    /** Request to cancel an SpotOrder
-     * @param symbol: symbol used in the request es. BTCBUSD
+    /**
+     * Request to cancel an SpotOrder
+     *
+     * @param symbol:  symbol used in the request es. BTCBUSD
      * @param orderId: identifier of the order es. 1232065
+     * @return result of SpotOrderDetails operation as {@link String}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
-     * @return result of DetailSpotOrder operation as {@link String}
-     * **/
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
+     **/
     public String cancelOrder(String symbol, long orderId) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&orderId=" + orderId;
         return sendSignedRequest(SPOT_ORDER_ENDPOINT, params, DELETE_METHOD);
     }
 
-    /** Request to cancel an SpotOrder
-     * @param symbol: symbol used in the request es. BTCBUSD
+    /**
+     * Request to cancel an SpotOrder
+     *
+     * @param symbol:  symbol used in the request es. BTCBUSD
      * @param orderId: identifier of the order es. 1232065
+     * @return result of SpotOrderDetails operation as {@link JSONObject}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
-     * @return result of DetailSpotOrder operation as {@link JSONObject}
-     * **/
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
+     **/
     public JSONObject cancelOrderJSON(String symbol, long orderId) throws Exception {
-       return new JSONObject(cancelOrder(symbol, orderId));
+        return new JSONObject(cancelOrder(symbol, orderId));
     }
 
-    /** Request to cancel an SpotOrder
-     * @param symbol: symbol used in the request es. BTCBUSD
+    /**
+     * Request to cancel an SpotOrder
+     *
+     * @param symbol:  symbol used in the request es. BTCBUSD
      * @param orderId: identifier of the order es. 1232065
+     * @return result of SpotOrderDetails operation as {@link SpotOrderDetails} object
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
-     * @return result of DetailSpotOrder operation as {@link DetailSpotOrder} object
-     * **/
-    public DetailSpotOrder cancelOrderObject(String symbol, long orderId) throws Exception {
-        return new DetailSpotOrder(new JSONObject(cancelOrderJSON(symbol, orderId)));
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
+     **/
+    public SpotOrderDetails cancelOrderObject(String symbol, long orderId) throws Exception {
+        return new SpotOrderDetails(new JSONObject(cancelOrderJSON(symbol, orderId)));
     }
 
-    /** Request to cancel an SpotOrder
-     * @param symbol: symbol used in the request es. BTCBUSD
+    /**
+     * Request to cancel an SpotOrder
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
      * @param origClientOrderId: identifier of the client order es. myOrder1
+     * @return result of SpotOrderDetails operation as {@link String}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
-     * @return result of DetailSpotOrder operation as {@link String}
-     * **/
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
+     **/
     public String cancelOrder(String symbol, String origClientOrderId) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId ;
         return sendSignedRequest(SPOT_ORDER_ENDPOINT, params, DELETE_METHOD);
     }
 
-    /** Request to cancel an SpotOrder
-     * @param symbol: symbol used in the request es. BTCBUSD
+    /**
+     * Request to cancel an SpotOrder
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
      * @param origClientOrderId: identifier of the client order es. myOrder1
+     * @return result of SpotOrderDetails operation as {@link JSONObject}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
-     * @return result of DetailSpotOrder operation as {@link JSONObject}
-     * **/
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
+     **/
     public JSONObject cancelOrderJSON(String symbol, String origClientOrderId) throws Exception {
         return new JSONObject(cancelOrder(symbol, origClientOrderId));
     }
 
-    /** Request to cancel an SpotOrder
-     * @param symbol: symbol used in the request es. BTCBUSD
+    /**
+     * Request to cancel an SpotOrder
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
      * @param origClientOrderId: identifier of the client order es. myOrder1
+     * @return result of SpotOrderDetails operation as {@link SpotOrderDetails} object
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
-     * @return result of DetailSpotOrder operation as {@link DetailSpotOrder} object
-     * **/
-    public DetailSpotOrder cancelOrderObject(String symbol, String origClientOrderId) throws Exception {
-        return new DetailSpotOrder(new JSONObject(cancelOrderJSON(symbol, origClientOrderId)));
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
+     **/
+    public SpotOrderDetails cancelOrderObject(String symbol, String origClientOrderId) throws Exception {
+        return new SpotOrderDetails(new JSONObject(cancelOrderJSON(symbol, origClientOrderId)));
     }
 
     /** Request to cancel an SpotOrder
      * @param symbol: symbol used in the request es. BTCBUSD
      * @param orderId: identifier of the order es. 1232065
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
+     * @implSpec (keys accepted are orderId, origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
-     * @return result of DetailSpotOrder operation as {@link String}
+     * @return result of SpotOrderDetails operation as {@link String}
      * **/
     public String cancelOrder(String symbol, long orderId, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&orderId=" + orderId;
@@ -1634,40 +1702,44 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return sendSignedRequest(SPOT_ORDER_ENDPOINT, params, DELETE_METHOD);
     }
 
-    /** Request to cancel an SpotOrder
-     * @param symbol: symbol used in the request es. BTCBUSD
-     * @param orderId: identifier of the order es. 1232065
+    /**
+     * Request to cancel an SpotOrder
+     *
+     * @param symbol:      symbol used in the request es. BTCBUSD
+     * @param orderId:     identifier of the order es. 1232065
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
+     * @return result of SpotOrderDetails operation as {@link JSONObject}
+     * @implSpec (keys accepted are orderId, origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
-     * @return result of DetailSpotOrder operation as {@link JSONObject}
-     * **/
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
+     **/
     public JSONObject cancelOrderJSON(String symbol, long orderId, Params extraParams) throws Exception {
         return new JSONObject(cancelOrder(symbol, orderId, extraParams));
     }
 
-    /** Request to cancel an SpotOrder
-     * @param symbol: symbol used in the request es. BTCBUSD
-     * @param orderId: identifier of the order es. 1232065
+    /**
+     * Request to cancel an SpotOrder
+     *
+     * @param symbol:      symbol used in the request es. BTCBUSD
+     * @param orderId:     identifier of the order es. 1232065
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
+     * @return result of SpotOrderDetails operation as {@link SpotOrderDetails} object
+     * @implSpec (keys accepted are orderId, origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
-     * @return result of DetailSpotOrder operation as {@link DetailSpotOrder} object
-     * **/
-    public DetailSpotOrder cancelOrderObject(String symbol, long orderId, Params extraParams) throws Exception {
-        return new DetailSpotOrder(new JSONObject(cancelOrderJSON(symbol, orderId, extraParams)));
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
+     **/
+    public SpotOrderDetails cancelOrderObject(String symbol, long orderId, Params extraParams) throws Exception {
+        return new SpotOrderDetails(new JSONObject(cancelOrderJSON(symbol, orderId, extraParams)));
     }
 
     /** Request to cancel an SpotOrder
      * @param symbol: symbol used in the request es. BTCBUSD
      * @param origClientOrderId: identifier of the client order es. myOrder1
      * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
+     * @implSpec (keys accepted are orderId, origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
      *     https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
-     * @return result of DetailSpotOrder operation as {@link String}
+     * @return result of SpotOrderDetails operation as {@link String}
      * **/
     public String cancelOrder(String symbol, String origClientOrderId, Params extraParams) throws Exception {
         String params = getParamTimestamp() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId;
@@ -1675,31 +1747,35 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return sendSignedRequest(SPOT_ORDER_ENDPOINT, params, DELETE_METHOD);
     }
 
-    /** Request to cancel an SpotOrder
-     * @param symbol: symbol used in the request es. BTCBUSD
+    /**
+     * Request to cancel an SpotOrder
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
      * @param origClientOrderId: identifier of the client order es. myOrder1
-     * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
+     * @param extraParams:       extra params of the request
+     * @return result of SpotOrderDetails operation as {@link JSONObject}
+     * @implSpec (keys accepted are orderId, origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
-     * @return result of DetailSpotOrder operation as {@link JSONObject}
-     * **/
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
+     **/
     public JSONObject cancelOrderJSON(String symbol, String origClientOrderId, Params extraParams) throws Exception {
         return new JSONObject(cancelOrder(symbol, origClientOrderId, extraParams));
     }
 
-    /** Request to cancel an SpotOrder
-     * @param symbol: symbol used in the request es. BTCBUSD
+    /**
+     * Request to cancel an SpotOrder
+     *
+     * @param symbol:            symbol used in the request es. BTCBUSD
      * @param origClientOrderId: identifier of the client order es. myOrder1
-     * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are orderId,origClientOrderId, newClientOrderId, recvWindow)
+     * @param extraParams:       extra params of the request
+     * @return result of SpotOrderDetails operation as {@link SpotOrderDetails} object
+     * @implSpec (keys accepted are orderId, origClientOrderId, newClientOrderId, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
-     * @return result of DetailSpotOrder operation as {@link DetailSpotOrder} object
-     * **/
-    public DetailSpotOrder cancelOrderObject(String symbol, String origClientOrderId,
-                                             Params extraParams) throws Exception {
-        return new DetailSpotOrder(new JSONObject(cancelOrderJSON(symbol, origClientOrderId, extraParams)));
+     * https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade</a>
+     **/
+    public SpotOrderDetails cancelOrderObject(String symbol, String origClientOrderId,
+                                              Params extraParams) throws Exception {
+        return new SpotOrderDetails(new JSONObject(cancelOrderJSON(symbol, origClientOrderId, extraParams)));
     }
 
     /** Request to cancel all open orders on a symbol
@@ -1767,20 +1843,22 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return cancelAllOpenOrdersObject(new JSONArray(cancelAllOpenOrders(symbol, recvWindow)));
     }
 
-    /** Method to assemble an OpenSpotOrders object
+    /**
+     * Method to assemble an OpenSpotOrders object
+     *
      * @param jsonOrders: obtained from {@code "Binance"}'s request
      * @return an OpenSpotOrders object with response data
-     * **/
-    private OpenSpotOrders cancelAllOpenOrdersObject(JSONArray jsonOrders){
+     **/
+    private OpenSpotOrders cancelAllOpenOrdersObject(JSONArray jsonOrders) {
         ArrayList<ComposedSpotOrderDetails> cancelOrderComposed = new ArrayList<>();
-        ArrayList<DetailSpotOrder> cancelOrders = new ArrayList<>();
-        for (int j = 0; j < jsonOrders.length(); j++){
+        ArrayList<SpotOrderDetails> cancelOrders = new ArrayList<>();
+        for (int j = 0; j < jsonOrders.length(); j++) {
             JSONObject order = jsonOrders.getJSONObject(j);
             try {
                 String contingencyType = order.getString("contingencyType");
                 cancelOrderComposed.add(new ComposedSpotOrderDetails(order));
-            }catch (JSONException e){
-                cancelOrders.add(new DetailSpotOrder(order));
+            } catch (JSONException e){
+                cancelOrders.add(new SpotOrderDetails(order));
             }
         }
         return new OpenSpotOrders(cancelOrders, cancelOrderComposed);
@@ -2078,8 +2156,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param timeInForce:       time in force for the order
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
@@ -2102,8 +2180,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param timeInForce:       time in force for the order
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
@@ -2125,8 +2203,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param timeInForce:       time in force for the order
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
@@ -2149,8 +2227,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quantity:          quantity value in the order
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link String}
@@ -2171,8 +2249,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quantity:          quantity value in the order
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
@@ -2192,8 +2270,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quantity:          quantity value in the order
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
@@ -2213,8 +2291,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quoteQuantity:     quote quantity value in the order
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link String}
@@ -2235,8 +2313,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quoteQuantity:     quote quantity value in the order
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link JSONObject}
@@ -2255,8 +2333,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quoteQuantity:     quote quantity value in the order
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
@@ -2276,8 +2354,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quantity:          quantity value in the order
      * @param stopPrice:         stop price value for the order
      * @param extraParams:       additional params of the request, insert null if there are no extra params
@@ -2298,8 +2376,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quantity:          quantity value in the order
      * @param stopPrice:         stop price value for the order
      * @param extraParams:       additional params of the request, insert null if there are no extra params
@@ -2319,8 +2397,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quantity:          quantity value in the order
      * @param stopPrice:         stop price value for the order
      * @param extraParams:       additional params of the request, insert null if there are no extra params
@@ -2341,8 +2419,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quantity:          quantity value in the order
      * @param trailingDelta:     stop price value for the order
      * @param extraParams:       additional params of the request, insert null if there are no extra params
@@ -2363,8 +2441,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quantity:          quantity value in the order
      * @param trailingDelta:     stop price value for the order
      * @param extraParams:       additional params of the request, insert null if there are no extra params
@@ -2384,8 +2462,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quantity:          quantity value in the order
      * @param trailingDelta:     stop price value for the order
      * @param extraParams:       additional params of the request, insert null if there are no extra params
@@ -2406,8 +2484,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param timeInForce:       time in force for the order
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
@@ -2430,8 +2508,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param timeInForce:       time in force for the order
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
@@ -2455,8 +2533,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param timeInForce:       time in force for the order
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
@@ -2480,8 +2558,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param timeInForce:       time in force for the order
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
@@ -2505,8 +2583,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param timeInForce:       time in force for the order
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
@@ -2530,8 +2608,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param timeInForce:       time in force for the order
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
@@ -2555,8 +2633,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quantity:          quantity value in the order
      * @param stopPrice:         stop price value
      * @param extraParams:       additional params of the request, insert null if there are no extra params
@@ -2577,8 +2655,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quantity:          quantity value in the order
      * @param stopPrice:         stop price value
      * @param extraParams:       additional params of the request, insert null if there are no extra params
@@ -2598,8 +2676,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quantity:          quantity value in the order
      * @param stopPrice:         stop price value
      * @param extraParams:       additional params of the request, insert null if there are no extra params
@@ -2620,8 +2698,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quantity:          quantity value in the order
      * @param trailingDelta:     trailing delta value
      * @param extraParams:       additional params of the request, insert null if there are no extra params
@@ -2642,8 +2720,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quantity:          quantity value in the order
      * @param trailingDelta:     trailing delta value
      * @param extraParams:       additional params of the request, insert null if there are no extra params
@@ -2663,8 +2741,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quantity:          quantity value in the order
      * @param trailingDelta:     trailing delta value
      * @param extraParams:       additional params of the request, insert null if there are no extra params
@@ -2686,8 +2764,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param timeInForce:       time in force for the order
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
@@ -2711,8 +2789,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param timeInForce:       time in force for the order
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
@@ -2736,8 +2814,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param timeInForce:       time in force for the order
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
@@ -2761,8 +2839,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param timeInForce:       time in force for the order
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
@@ -2786,8 +2864,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param timeInForce:       time in force for the order
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
@@ -2811,8 +2889,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param timeInForce:       time in force for the order
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
@@ -2836,8 +2914,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
      * @param extraParams:       additional params of the request, insert null if there are no extra params
@@ -2857,8 +2935,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
      * @param extraParams:       additional params of the request, insert null if there are no extra params
@@ -2878,8 +2956,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param quantity:          quantity value in the order
      * @param price:             price value in the order
      * @param extraParams:       additional params of the request, insert null if there are no extra params
@@ -2901,8 +2979,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @param symbol:            symbol used in the request es. BTCBUSD
      * @param side:              side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
      * @param type:              LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
-     * @param cancelReplaceMode: mode to replace order -> {@link ACKSpotOrder#STOP_ON_FAILURE_REPLACE_MODE}
-     *                           or {@link ACKSpotOrder#ALLOW_FAILURE_REPLACE_MODE}
+     * @param cancelReplaceMode: mode to replace order -> {@link ReplaceMode#STOP_ON_FAILURE}
+     *                           or {@link ReplaceMode#ALLOW_FAILURE}
      * @param extraParams:       additional params of the request, insert null if there are no extra params
      * @return result of cancellation of an order and creation of a new order as {@link String}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
@@ -3719,23 +3797,27 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return sendSignedRequest(SPOT_ACCOUNT_TRADE_LIST_ENDPOINT, params, GET_METHOD);
     }
 
-    /** Request to get Account Trade List
+    /**
+     * Request to get Account Trade List
+     *
      * @param #symbol: symbol used in AccountTradeList es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data</a>
      * @return Account Trade List response as {@link JSONArray}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data</a>
+     **/
     public JSONArray getJSONAccountTradeList(String symbol) throws Exception {
         return new JSONArray(getAccountTradeList(symbol));
     }
 
-    /** Request to get Account Trade List
+    /**
+     * Request to get Account Trade List
+     *
      * @param #symbol: symbol used in AccountTradeList es. BTCBUSD
+     * @return Account Trade List response as ArrayList<SpotAccountTradesList>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data</a>
-     * @return Account Trade List response as ArrayList<SpotAccountTradeList>
-     * **/
-    public ArrayList<SpotAccountTradeList> getObjectAccountTradeList(String symbol) throws Exception {
+     * https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data</a>
+     **/
+    public ArrayList<SpotAccountTradesList> getObjectAccountTradeList(String symbol) throws Exception {
         return assembleSpotAccountTradeList(new JSONArray(getAccountTradeList(symbol)));
     }
 
@@ -3753,41 +3835,45 @@ public class BinanceSpotManager extends BinanceSignedManager {
         return sendSignedRequest(SPOT_ACCOUNT_TRADE_LIST_ENDPOINT, params, GET_METHOD);
     }
 
-    /** Request to get Account Trade List
-     * @param #symbol: symbol used in AccountTradeList es. BTCBUSD
+    /**
+     * Request to get Account Trade List
+     *
+     * @param #symbol:     symbol used in AccountTradeList es. BTCBUSD
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted orderId,startTime,endTime,fromId,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data</a>
      * @return Account Trade List response as {@link JSONArray}
-     * **/
+     * @implSpec (keys accepted orderId, startTime, endTime, fromId, limit, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data</a>
+     **/
     public JSONArray getJSONAccountTradeList(String symbol, Params extraParams) throws Exception {
         return new JSONArray(getAccountTradeList(symbol, extraParams));
     }
 
-    /** Request to get Account Trade List
-     * @param #symbol: symbol used in AccountTradeList es. BTCBUSD
+    /**
+     * Request to get Account Trade List
+     *
+     * @param #symbol:     symbol used in AccountTradeList es. BTCBUSD
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted orderId,startTime,endTime,fromId,limit,recvWindow)
+     * @return Account Trade List response as ArrayList<SpotAccountTradesList>
+     * @implSpec (keys accepted orderId, startTime, endTime, fromId, limit, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data</a>
-     * @return Account Trade List response as ArrayList<SpotAccountTradeList>
-     * **/
-    public ArrayList<SpotAccountTradeList> getObjectAccountTradeList(String symbol, Params extraParams)
+     * https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data</a>
+     **/
+    public ArrayList<SpotAccountTradesList> getObjectAccountTradeList(String symbol, Params extraParams)
             throws Exception {
-        return assembleSpotAccountTradeList(new JSONArray(getAccountTradeList(symbol,extraParams)));
+        return assembleSpotAccountTradeList(new JSONArray(getAccountTradeList(symbol, extraParams)));
     }
 
     /**
-     * Method to assemble an SpotAccountTradeList object
+     * Method to assemble an SpotAccountTradesList object
      *
      * @param #jsonTrades: obtained from {@code "Binance"}'s request
-     * @return a SpotAccountTradeList object with response data
+     * @return a SpotAccountTradesList object with response data
      **/
-    private ArrayList<SpotAccountTradeList> assembleSpotAccountTradeList(JSONArray jsonTrades) {
-        ArrayList<SpotAccountTradeList> spotAccountTradeLists = new ArrayList<>();
+    private ArrayList<SpotAccountTradesList> assembleSpotAccountTradeList(JSONArray jsonTrades) {
+        ArrayList<SpotAccountTradesList> spotAccountTradeLists = new ArrayList<>();
         for (int j = 0; j < jsonTrades.length(); j++)
-            spotAccountTradeLists.add(new SpotAccountTradeList(jsonTrades.getJSONObject(j)));
+            spotAccountTradeLists.add(new SpotAccountTradesList(jsonTrades.getJSONObject(j)));
         return spotAccountTradeLists;
     }
 

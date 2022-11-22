@@ -1,122 +1,26 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust;
 
+import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order.Status;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code UniversalTransfer} class is useful to manage all UniversalTransfer {@code "Binance"} requests
+ * The {@code UniversalTransfer} class is useful to format a {@code "Binance"}'s universal transfer
  *
+ * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
+ * User Universal Transfer (USER_DATA)</a>
  **/
-
 public class UniversalTransfer {
 
     /**
-     * {@code MAIN_UMFUTURE} is constant for MAIN_UMFUTURE transfer's type
-     * **/
-    public static final String MAIN_UMFUTURE = "MAIN_UMFUTURE";
-
-    /**
-     * {@code MAIN_CMFUTURE} is constant for MAIN_CMFUTURE transfer's type
-     * **/
-    public static final String MAIN_CMFUTURE = "MAIN_CMFUTURE";
-
-    /**
-     * {@code MAIN_MARGIN} is constant for MAIN_MARGIN transfer's type
-     * **/
-    public static final String MAIN_MARGIN = "MAIN_MARGIN";
-
-    /**
-     * {@code UMFUTURE_MAIN} is constant for UMFUTURE_MAIN transfer's type
-     * **/
-    public static final String UMFUTURE_MAIN = "UMFUTURE_MAIN";
-
-    /**
-     * {@code UMFUTURE_MARGIN} is constant for UMFUTURE_MARGIN transfer's type
-     * **/
-    public static final String UMFUTURE_MARGIN = "UMFUTURE_MARGIN";
-
-    /**
-     * {@code CMFUTURE_MAIN} is constant for CMFUTURE_MAIN transfer's type
-     * **/
-    public static final String CMFUTURE_MAIN = "CMFUTURE_MAIN";
-
-    /**
-     * {@code CMFUTURE_MARGIN} is constant for CMFUTURE_MARGIN transfer's type
-     * **/
-    public static final String CMFUTURE_MARGIN = "CMFUTURE_MARGIN";
-
-    /**
-     * {@code MARGIN_MAIN} is constant for MARGIN_MAIN transfer's type
-     * **/
-    public static final String MARGIN_MAIN = "MARGIN_MAIN";
-
-    /**
-     * {@code MARGIN_UMFUTURE} is constant for MARGIN_UMFUTURE transfer's type
-     * **/
-    public static final String MARGIN_UMFUTURE = "MARGIN_UMFUTURE";
-
-    /**
-     * {@code MARGIN_CMFUTURE} is constant for MARGIN_CMFUTURE transfer's type
-     * **/
-    public static final String MARGIN_CMFUTURE = "MARGIN_CMFUTURE";
-
-    /**
-     * {@code ISOLATEDMARGIN_MARGIN} is constant for ISOLATEDMARGIN_MARGIN transfer's type
-     * **/
-    public static final String ISOLATEDMARGIN_MARGIN = "ISOLATEDMARGIN_MARGIN";
-
-    /**
-     * {@code MARGIN_ISOLATEDMARGIN} is constant for MARGIN_ISOLATEDMARGIN transfer's type
-     * **/
-    public static final String MARGIN_ISOLATEDMARGIN = "MARGIN_ISOLATEDMARGIN";
-
-    /**
-     * {@code ISOLATEDMARGIN_ISOLATEDMARGIN} is constant for ISOLATEDMARGIN_ISOLATEDMARGIN transfer's type
-     * **/
-    public static final String ISOLATEDMARGIN_ISOLATEDMARGIN = "ISOLATEDMARGIN_ISOLATEDMARGIN";
-
-    /**
-     * {@code MAIN_FUNDING} is constant for MAIN_FUNDING transfer's type
-     * **/
-    public static final String MAIN_FUNDING = "MAIN_FUNDING";
-
-    /**
-     * {@code FUNDING_MAIN} is constant for FUNDING_MAIN transfer's type
-     * **/
-    public static final String FUNDING_MAIN = "FUNDING_MAIN";
-
-    /**
-     * {@code FUNDING_UMFUTURE} is constant for FUNDING_UMFUTURE transfer's type
-     * **/
-    public static final String FUNDING_UMFUTURE = "MAIN_UMFUTURE";
-
-    /**
-     * {@code UMFUTURE_FUNDING} is constant for UMFUTURE_FUNDING transfer's type
-     * **/
-    public static final String UMFUTURE_FUNDING = "UMFUTURE_FUNDING";
-
-    /**
-     * {@code MARGIN_FUNDING} is constant for MARGIN_FUNDING transfer's type
-     * **/
-    public static final String MARGIN_FUNDING = "MARGIN_FUNDING";
-
-    /**
-     * {@code FUNDING_MARGIN} is constant for FUNDING_MARGIN transfer's type
-     * **/
-    public static final String FUNDING_MARGIN = "FUNDING_MARGIN";
-
-    /**
-     * {@code FUNDING_CMFUTURE} is constant for FUNDING_CMFUTURE transfer's type
-     * **/
-    public static final String FUNDING_CMFUTURE = "FUNDING_CMFUTURE";
-
-    /**
-     * {@code CMFUTURE_FUNDING} is constant for CMFUTURE_FUNDING transfer's type
-     * **/
-    public static final String CMFUTURE_FUNDING = "CMFUTURE_FUNDING";
+     * {@code type} is instance that memorizes type value
+     **/
+    private final TransferType type;
 
     /**
      * {@code asset} is instance that memorizes asset value
@@ -125,27 +29,19 @@ public class UniversalTransfer {
 
     /**
      * {@code amount} is instance that memorizes amount value
-     * **/
+     **/
     private final double amount;
-
-    /**
-     * {@code type} is instance that memorizes type value
-     * **/
-    private final String type;
-
     /**
      * {@code status} is instance that memorizes status value
-     * **/
-    private final String status;
-
+     **/
+    private final Status status;
     /**
      * {@code tranId} is instance that memorizes transaction identifier value
-     * **/
+     **/
     private final long tranId;
-
     /**
      * {@code timestamp} is instance that memorizes timestamp value
-     * **/
+     **/
     private final long timestamp;
 
     /** Constructor to init {@link UniversalTransfer} object
@@ -156,7 +52,7 @@ public class UniversalTransfer {
      * @param tranId: transaction identifier value
      * @param timestamp: timestamp value
      * **/
-    public UniversalTransfer(String asset, double amount, String type, String status, long tranId, long timestamp) {
+    public UniversalTransfer(String asset, double amount, TransferType type, Status status, long tranId, long timestamp) {
         this.asset = asset;
         this.amount = amount;
         this.type = type;
@@ -168,23 +64,43 @@ public class UniversalTransfer {
     /**
      * Constructor to init {@link UniversalTransfer} object
      *
-     * @param universalTransfer: universal transfer details as {@link JSONObject}
+     * @param jTransfer: universal transfer details as {@link JSONObject}
      **/
-    public UniversalTransfer(JSONObject universalTransfer) {
-        asset = universalTransfer.getString("asset");
-        amount = universalTransfer.getDouble("amount");
-        type = universalTransfer.getString("type");
-        status = universalTransfer.getString("status");
-        tranId = universalTransfer.getLong("tranId");
-        timestamp = universalTransfer.getLong("timestamp");
+    public UniversalTransfer(JSONObject jTransfer) {
+        this(jTransfer.getString("asset"), jTransfer.getDouble("amount"),
+                TransferType.valueOf(jTransfer.getString("type")),
+                Status.valueOf(jTransfer.getString("status")), jTransfer.getLong("tranId"),
+                jTransfer.getLong("timestamp"));
     }
 
+    /**
+     * Method to get {@link #asset} instance <br>
+     * Any params required
+     *
+     * @return {@link #asset} instance as {@link String}
+     **/
     public String getAsset() {
         return asset;
     }
 
+    /**
+     * Method to get {@link #amount} instance <br>
+     * Any params required
+     *
+     * @return {@link #amount} instance as double
+     **/
     public double getAmount() {
         return amount;
+    }
+
+    /**
+     * Method to get {@link #type} instance <br>
+     * Any params required
+     *
+     * @return {@link #type} instance as {@link TransferType}
+     **/
+    public TransferType getType() {
+        return type;
     }
 
     /**
@@ -198,32 +114,167 @@ public class UniversalTransfer {
         return roundValue(amount, decimals);
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public String getStatus() {
+    /**
+     * Method to get {@link #status} instance <br>
+     * Any params required
+     *
+     * @return {@link #status} instance as {@link Status}
+     **/
+    public Status getStatus() {
         return status;
     }
 
+    /**
+     * Method to get {@link #tranId} instance <br>
+     * Any params required
+     *
+     * @return {@link #tranId} instance as long
+     **/
     public long getTranId() {
         return tranId;
     }
 
+    /**
+     * Method to get {@link #timestamp} instance <br>
+     * Any params required
+     *
+     * @return {@link #timestamp} instance as long
+     **/
     public long getTimestamp() {
         return timestamp;
     }
 
+    /**
+     * Method to get {@link #timestamp} instance <br>
+     * Any params required
+     *
+     * @return {@link #timestamp} instance as {@link Date}
+     **/
+    public Date getDate() {
+        return TimeFormatter.getDate(timestamp);
+    }
+
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "UniversalTransfer{" +
-                "asset='" + asset + '\'' +
-                ", amount=" + amount +
-                ", type='" + type + '\'' +
-                ", status='" + status + '\'' +
-                ", tranId=" + tranId +
-                ", timestamp=" + timestamp +
-                '}';
+        return new JSONObject(this).toString();
+    }
+
+    /**
+     * {@code TransferType} list of available transfer types
+     **/
+    public enum TransferType {
+
+        /**
+         * {@code "MAIN_UMFUTURE"} transfer type
+         **/
+        MAIN_UMFUTURE,
+
+        /**
+         * {@code "MAIN_CMFUTURE"} transfer type
+         **/
+        MAIN_CMFUTURE,
+
+        /**
+         * {@code "MAIN_MARGIN"} transfer type
+         **/
+        MAIN_MARGIN,
+
+        /**
+         * {@code "UMFUTURE_MAIN"} transfer type
+         **/
+        UMFUTURE_MAIN,
+
+        /**
+         * {@code "UMFUTURE_MARGIN"} transfer type
+         **/
+        UMFUTURE_MARGIN,
+
+        /**
+         * {@code "CMFUTURE_MAIN"} transfer type
+         **/
+        CMFUTURE_MAIN,
+
+        /**
+         * {@code "CMFUTURE_MARGIN"} transfer type
+         **/
+        CMFUTURE_MARGIN,
+
+        /**
+         * {@code "MARGIN_MAIN"} transfer type
+         **/
+        MARGIN_MAIN,
+
+        /**
+         * {@code "MARGIN_UMFUTURE"} transfer type
+         **/
+        MARGIN_UMFUTURE,
+
+        /**
+         * {@code "MARGIN_CMFUTURE"} transfer type
+         **/
+        MARGIN_CMFUTURE,
+
+        /**
+         * {@code "ISOLATEDMARGIN_MARGIN"} transfer type
+         **/
+        ISOLATEDMARGIN_MARGIN,
+
+        /**
+         * {@code "MARGIN_ISOLATEDMARGIN"} transfer type
+         **/
+        MARGIN_ISOLATEDMARGIN,
+
+        /**
+         * {@code "ISOLATEDMARGIN_ISOLATEDMARGIN"} transfer type
+         **/
+        ISOLATEDMARGIN_ISOLATEDMARGIN,
+
+        /**
+         * {@code "MAIN_FUNDING"} transfer type
+         **/
+        MAIN_FUNDING,
+
+        /**
+         * {@code "FUNDING_MAIN"} transfer type
+         **/
+        FUNDING_MAIN,
+
+        /**
+         * {@code "FUNDING_UMFUTURE"} transfer type
+         **/
+        FUNDING_UMFUTURE,
+
+        /**
+         * {@code "UMFUTURE_FUNDING"} transfer type
+         **/
+        UMFUTURE_FUNDING,
+
+        /**
+         * {@code "MARGIN_FUNDING"} transfer type
+         **/
+        MARGIN_FUNDING,
+
+        /**
+         * {@code "FUNDING_MARGIN"} transfer type
+         **/
+        FUNDING_MARGIN,
+
+        /**
+         * {@code "FUNDING_CMFUTURE"} transfer type
+         **/
+        FUNDING_CMFUTURE,
+
+        /**
+         * {@code "CMFUTURE_FUNDING"} transfer type
+         **/
+        CMFUTURE_FUNDING
+
     }
 
 }

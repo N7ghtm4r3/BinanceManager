@@ -1,26 +1,32 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response;
 
-import com.tecknobit.binancemanager.managers.BinanceManager;
+import com.tecknobit.binancemanager.managers.BinanceManager.BinanceResponse;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Fill;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.details.SpotOrderDetails;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 /**
- * The {@code FullOrder} class is useful to format all SpotOrder {@code "Binance"} request in FullOrder format
+ * The {@code ResultSpotOrder} class is useful to format a {@code "Binance"}'s spot order status details
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
- * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
+ * New Order (TRADE)</a>
+ * @see BinanceResponse
+ * @see Order
+ * @see SpotOrder
+ * @see ResultSpotOrder
  **/
-
-public class FullSpotOrder extends ResultSpotOrder implements BinanceManager.BinanceResponse {
+// TODO: 22/11/2022 CHECK TO REMOVE
+public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
 
     /**
-     * {@code fillsList} is instance that memorizes fills list
-     * **/
-    private ArrayList<FillSpot> fillsList;
+     * {@code fills} is instance that memorizes fills list
+     **/
+    private ArrayList<FillSpot> fills;
 
     /** Constructor to init {@link FullSpotOrder} object
      * @param symbol: symbol used in the order
@@ -36,64 +42,76 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceManager.Bin
      * @param timeInForce: time in force of the order
      * @param type: type of the order
      * @param side: side of the order
-     * @param fills: fills details as {@link JSONObject}
+     * @param fills: fills list 
      * **/
-    public FullSpotOrder(String symbol, long orderId, long orderListId, String clientOrderId, long transactTime, double price,
-                         double origQty, double executedQty, double cummulativeQuoteQty, String status, String timeInForce,
-                         String type, String side, JSONArray fills) {
+    public FullSpotOrder(String symbol, long orderId, long orderListId, String clientOrderId, long transactTime,
+                         double price, double origQty, double executedQty, double cummulativeQuoteQty, Status status,
+                         TimeInForce timeInForce, OrderType type, Side side, ArrayList<FillSpot> fills) {
         super(symbol, orderId, orderListId, clientOrderId, transactTime, price, origQty, executedQty, cummulativeQuoteQty,
                 status, timeInForce, type, side);
-        loadFills(fills);
+        this.fills = fills;
     }
 
     /**
      * Constructor to init {@link FullSpotOrder} object
      *
-     * @param fullSpotOrder: full spot order details as {@link JSONObject}
+     * @param fullSpotOrder: full spot details as {@link JSONObject}
      **/
     public FullSpotOrder(JSONObject fullSpotOrder) {
         super(fullSpotOrder);
-        loadFills(hOrder.getJSONArray("fills", new JSONArray()));
+        fills = new ArrayList<>();
+        JSONArray jFills = hOrder.getJSONArray("fills", new JSONArray());
+        for (int j = 0; j < jFills.length(); j++)
+            fills.add(new FillSpot(jFills.getJSONObject(j)));
     }
 
     /**
-     * Method to load fillsList list
+     * Method to get {@link #fills} instance <br>
+     * Any params required
      *
-     * @param fillsArray: obtained from {@code "Binance"}'s request
-     *                    any return
+     * @return {@link #fills} instance as {@link ArrayList} of {@link FillSpot}
      **/
-    private void loadFills(JSONArray fillsArray) {
-        fillsList = new ArrayList<>();
-        for (int j = 0; j < fillsArray.length(); j++) {
-            JSONObject fill = fillsArray.getJSONObject(j);
-            fillsList.add(new FillSpot(fill.getDouble("price"),
-                    fill.getDouble("qty"),
-                    fill.getDouble("commission"),
-                    fill.getString("commissionAsset"),
-                    fill.getLong("tradeId")
-            ));
-        }
+    public ArrayList<FillSpot> getFills() {
+        return fills;
     }
 
-    public ArrayList<FillSpot> getFillsList() {
-        return fillsList;
+    /**
+     * Method to set {@link #fills} instance <br>
+     *
+     * @param fills: list of {@link SpotOrderDetails} to set
+     **/
+    public void setFills(ArrayList<FillSpot> fills) {
+        this.fills = fills;
     }
 
-    public void setFillsList(ArrayList<FillSpot> fillsList) {
-        this.fillsList = fillsList;
+    /**
+     * Method to add a fill spot  to {@link #fills}
+     *
+     * @param fillSpot: fill spot to add
+     **/
+    public void insertFill(FillSpot fillSpot) {
+        if (!fills.contains(fillSpot))
+            fills.add(fillSpot);
     }
 
-    public void insertFill(FillSpot fillSpot){
-        if(!fillsList.contains(fillSpot))
-            fillsList.add(fillSpot);
-    }
-
+    /**
+     * Method to remove a fill spot  from {@link #fills}
+     *
+     * @param fillSpot: fill spot  to remove
+     * @return result of operation as boolean
+     **/
     public boolean removeFill(FillSpot fillSpot) {
-        return fillsList.remove(fillSpot);
+        return fills.remove(fillSpot);
     }
 
+    /**
+     * Method to get a fill spot from {@link #fills} list
+     *
+     * @param index: index to fetch the composed fill spot
+     * @return fill spot as {@link SpotOrderDetails}
+     **/
     public FillSpot getFill(int index) {
-        return fillsList.get(index);
+        return fills.get(index);
     }
 
     /**
@@ -126,26 +144,6 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceManager.Bin
         return null;
     }
 
-    @Override
-    public String toString() {
-        return "FullSpotOrder{" +
-                "fillsList=" + fillsList +
-                ", price=" + price +
-                ", origQty=" + origQty +
-                ", executedQty=" + executedQty +
-                ", cummulativeQuoteQty=" + cummulativeQuoteQty +
-                ", status='" + status + '\'' +
-                ", timeInForce='" + timeInForce + '\'' +
-                ", type='" + type + '\'' +
-                ", side='" + side + '\'' +
-                ", transactTime=" + transactTime +
-                ", orderListId=" + orderListId +
-                ", symbol='" + symbol + '\'' +
-                ", orderId=" + orderId +
-                ", clientOrderId='" + clientOrderId + '\'' +
-                '}';
-    }
-
     /**
      * The {@code FillSpot} class is useful to obtain and format FillSpot object
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
@@ -170,19 +168,24 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceManager.Bin
             this.tradeId = tradeId;
         }
 
-        public long getTradeId() {
-            return tradeId;
+        /**
+         * Constructor to init {@link Fill} object
+         *
+         * @param jFillSpot: fill spot details as {@link JSONObject}
+         **/
+        public FillSpot(JSONObject jFillSpot) {
+            super(jFillSpot);
+            this.tradeId = jFillSpot.getLong("tradeId");
         }
 
-        @Override
-        public String toString() {
-            return "FillSpot{" +
-                    "tradeId=" + tradeId +
-                    ", price=" + price +
-                    ", qty=" + qty +
-                    ", commission=" + commission +
-                    ", commissionAsset='" + commissionAsset + '\'' +
-                    '}';
+        /**
+         * Method to get {@link #tradeId} instance <br>
+         * Any params required
+         *
+         * @return {@link #tradeId} instance as long
+         **/
+        public long getTradeId() {
+            return tradeId;
         }
 
     }

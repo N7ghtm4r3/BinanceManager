@@ -1,7 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.details;
 
 import com.tecknobit.apimanager.formatters.JsonHelper;
-import com.tecknobit.binancemanager.managers.BinanceManager;
+import com.tecknobit.binancemanager.managers.BinanceManager.BinanceResponse;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.FullSpotOrder;
 import org.json.JSONObject;
 
@@ -11,25 +11,25 @@ import org.json.JSONObject;
  * @author N7ghtm4r3 - Tecknobit
  * @implNote CAS means CANCEL AND SEND
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
- * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
+ * Cancel an Existing Order and Send a New Order (TRADE)</a>
+ * @see BinanceResponse
  **/
-
-public class SpotOrderCAS implements BinanceManager.BinanceResponse {
+public class SpotOrderCAS implements BinanceResponse {
 
     /**
      * {@code cancelResult} is instance that memorizes result of cancellation of the past order
-     * **/
+     **/
     private final String cancelResult;
 
     /**
      * {@code newOrderResult} is instance that memorizes result of creation of the new order
-     * **/
+     **/
     private final String newOrderResult;
 
     /**
-     * {@code orderCanceled} is instance that memorizes order canceled details as {@link DetailSpotOrder}
-     * **/
-    private final DetailSpotOrder orderCanceled;
+     * {@code orderCanceled} is instance that memorizes order canceled details as {@link SpotOrderDetails}
+     **/
+    private final SpotOrderDetails orderCanceled;
 
     /**
      * {@code newOrder} is instance that memorizes new order details as {@link FullSpotOrder}
@@ -47,7 +47,7 @@ public class SpotOrderCAS implements BinanceManager.BinanceResponse {
      * @param orderCanceled: client order identifier
      * @param newOrder: list order identifier
      * **/
-    public SpotOrderCAS(String cancelResult, String newOrderResult, DetailSpotOrder orderCanceled, FullSpotOrder newOrder) {
+    public SpotOrderCAS(String cancelResult, String newOrderResult, SpotOrderDetails orderCanceled, FullSpotOrder newOrder) {
         this.cancelResult = cancelResult;
         this.newOrderResult = newOrderResult;
         this.orderCanceled = orderCanceled;
@@ -64,7 +64,7 @@ public class SpotOrderCAS implements BinanceManager.BinanceResponse {
         hSpotOrder = new JsonHelper(casOrder);
         cancelResult = hSpotOrder.getString("cancelResult");
         newOrderResult = hSpotOrder.getString("newOrderResult");
-        orderCanceled = new DetailSpotOrder(hSpotOrder.getJSONObject("cancelResponse", new JSONObject()));
+        orderCanceled = new SpotOrderDetails(hSpotOrder.getJSONObject("cancelResponse", new JSONObject()));
         JSONObject newOrderResponse = hSpotOrder.getJSONObject("newOrderResponse");
         if (newOrderResponse != null)
             newOrder = new FullSpotOrder(newOrderResponse);
@@ -72,18 +72,42 @@ public class SpotOrderCAS implements BinanceManager.BinanceResponse {
             newOrder = null;
     }
 
+    /**
+     * Method to get {@link #cancelResult} instance <br>
+     * Any params required
+     *
+     * @return {@link #cancelResult} instance as {@link String}
+     **/
     public String getCancelResult() {
         return cancelResult;
     }
 
+    /**
+     * Method to get {@link #newOrderResult} instance <br>
+     * Any params required
+     *
+     * @return {@link #newOrderResult} instance as {@link String}
+     **/
     public String getNewOrderResult() {
         return newOrderResult;
     }
 
-    public DetailSpotOrder getOrderCanceled() {
+    /**
+     * Method to get {@link #orderCanceled} instance <br>
+     * Any params required
+     *
+     * @return {@link #orderCanceled} instance as {@link SpotOrderDetails}
+     **/
+    public SpotOrderDetails getOrderCanceled() {
         return orderCanceled;
     }
 
+    /**
+     * Method to get {@link #newOrder} instance <br>
+     * Any params required
+     *
+     * @return {@link #newOrder} instance as {@link FullSpotOrder}
+     **/
     public FullSpotOrder getNewOrder() {
         return newOrder;
     }
@@ -118,14 +142,15 @@ public class SpotOrderCAS implements BinanceManager.BinanceResponse {
         return null;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "SpotOrderCAS{" +
-                "cancelResult='" + cancelResult + '\'' +
-                ", newOrderResult='" + newOrderResult + '\'' +
-                ", orderCanceled=" + orderCanceled +
-                ", newOrder=" + newOrder +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

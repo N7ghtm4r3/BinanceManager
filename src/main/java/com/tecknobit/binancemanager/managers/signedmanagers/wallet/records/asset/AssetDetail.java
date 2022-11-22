@@ -6,12 +6,11 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code AssetDetail} class is useful to manage AssetDetail {@code "Binance"} request
+ * The {@code AssetDetail} class is useful to format a {@code "Binance"} asset details
  *
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
+ * Asset Detail (USER_DATA)</a>
  **/
-
 public class AssetDetail {
 
     /**
@@ -75,6 +74,7 @@ public class AssetDetail {
      * @param assetDetail: asset details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
      **/
+    // TODO: 22/11/2022 REMOVE ASSET NAME
     public AssetDetail(String assetName, JSONObject assetDetail) {
         this.assetName = assetName;
         minWithdrawAmount = assetDetail.getDouble("minWithdrawAmount");
@@ -88,10 +88,22 @@ public class AssetDetail {
         depositTip = JsonHelper.getString(assetDetail, "depositTip", "No tip");
     }
 
+    /**
+     * Method to get {@link #assetName} instance <br>
+     * Any params required
+     *
+     * @return {@link #assetName} instance as {@link String}
+     **/
     public String getAssetName() {
         return assetName;
     }
 
+    /**
+     * Method to get {@link #minWithdrawAmount} instance <br>
+     * Any params required
+     *
+     * @return {@link #minWithdrawAmount} instance as double
+     **/
     public double getMinWithdrawAmount() {
         return minWithdrawAmount;
     }
@@ -107,10 +119,22 @@ public class AssetDetail {
         return roundValue(minWithdrawAmount, decimals);
     }
 
+    /**
+     * Method to get {@link #depositStatus} instance <br>
+     * Any params required
+     *
+     * @return {@link #depositStatus} instance as boolean
+     **/
     public boolean isDepositStatus() {
         return depositStatus;
     }
 
+    /**
+     * Method to get {@link #withdrawFee} instance <br>
+     * Any params required
+     *
+     * @return {@link #withdrawFee} instance as double
+     **/
     public double getWithdrawFee() {
         return withdrawFee;
     }
@@ -126,24 +150,35 @@ public class AssetDetail {
         return roundValue(withdrawFee, decimals);
     }
 
+    /**
+     * Method to get {@link #withdrawStatus} instance <br>
+     * Any params required
+     *
+     * @return {@link #withdrawStatus} instance as boolean
+     **/
     public boolean isWithdrawStatus() {
         return withdrawStatus;
     }
 
+    /**
+     * Method to get {@link #depositTip} instance <br>
+     * Any params required
+     *
+     * @return {@link #depositTip} instance as {@link String}
+     **/
     public String getDepositTip() {
         return depositTip;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "AssetDetail{" +
-                "assetName='" + assetName + '\'' +
-                ", minWithdrawAmount=" + minWithdrawAmount +
-                ", depositStatus=" + depositStatus +
-                ", withdrawFee=" + withdrawFee +
-                ", withdrawStatus=" + withdrawStatus +
-                ", depositTip='" + depositTip + '\'' +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

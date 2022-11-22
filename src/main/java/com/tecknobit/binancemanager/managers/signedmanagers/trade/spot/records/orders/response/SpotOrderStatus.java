@@ -1,17 +1,24 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response;
 
+import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code SpotOrderStatus} class is useful to format an SpotOrderStatus object
+ * The {@code ResultSpotOrder} class is useful to format a {@code "Binance"}'s spot order status details
  *
  * @author N7ghtm4r3 - Tecknobit
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data</a>
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
+ * New Order (TRADE)</a>
+ * @see Order
+ * @see SpotOrder
+ * @see ResultSpotOrder
  **/
-
+// TODO: 22/11/2022 CHECK TO REMOVE
 public class SpotOrderStatus extends ResultSpotOrder {
 
     /**
@@ -55,9 +62,9 @@ public class SpotOrderStatus extends ResultSpotOrder {
      * @param side: side of the order
      * **/
     public SpotOrderStatus(String symbol, long orderId, long orderListId, String clientOrderId, double price, double origQty,
-                           double executedQty, double cummulativeQuoteQty, String status, String timeInForce, String type,
-                           String side, double stopPrice, double icebergQty, long time, long updateTime, boolean isWorking,
-                           double origQuoteOrderQty) {
+                           double executedQty, double cummulativeQuoteQty, Status status, TimeInForce timeInForce,
+                           OrderType type, Side side, double stopPrice, double icebergQty, long time, long updateTime,
+                           boolean isWorking, double origQuoteOrderQty) {
         super(symbol, orderId, orderListId, clientOrderId, updateTime, price, origQty, executedQty, cummulativeQuoteQty,
                 status, timeInForce, type, side);
         this.stopPrice = stopPrice;
@@ -82,6 +89,12 @@ public class SpotOrderStatus extends ResultSpotOrder {
         transactTime = hOrder.getLong("updateTime");
     }
 
+    /**
+     * Method to get {@link #stopPrice} instance <br>
+     * Any params required
+     *
+     * @return {@link #stopPrice} instance as double
+     **/
     public double getStopPrice() {
         return stopPrice;
     }
@@ -97,6 +110,12 @@ public class SpotOrderStatus extends ResultSpotOrder {
         return roundValue(stopPrice, decimals);
     }
 
+    /**
+     * Method to get {@link #stopPrice} instance <br>
+     * Any params required
+     *
+     * @return {@link #stopPrice} instance as double
+     **/
     public double getIcebergQty() {
         return icebergQty;
     }
@@ -112,18 +131,62 @@ public class SpotOrderStatus extends ResultSpotOrder {
         return roundValue(icebergQty, decimals);
     }
 
+    /**
+     * Method to get {@link #stopPrice} instance <br>
+     * Any params required
+     *
+     * @return {@link #stopPrice} instance as long
+     **/
     public long getTime() {
         return time;
     }
 
+    /**
+     * Method to get {@link #time} instance <br>
+     * Any params required
+     *
+     * @return {@link #time} instance as {@link Date}
+     **/
+    public Date getDateTime() {
+        return TimeFormatter.getDate(time);
+    }
+
+    /**
+     * Method to get {@link #transactTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #transactTime} instance as long
+     **/
     public long getUpdateTime() {
         return transactTime;
     }
 
+    /**
+     * Method to get {@link #transactTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #transactTime} instance as {@link Date}
+     **/
+    public Date getUpdateDate() {
+        return TimeFormatter.getDate(transactTime);
+    }
+
+    /**
+     * Method to get {@link #isWorking} instance <br>
+     * Any params required
+     *
+     * @return {@link #isWorking} instance as boolean
+     **/
     public boolean isWorking() {
         return isWorking;
     }
 
+    /**
+     * Method to get {@link #origQuoteOrderQty} instance <br>
+     * Any params required
+     *
+     * @return {@link #origQuoteOrderQty} instance as double
+     **/
     public double getOrigQuoteOrderQty() {
         return origQuoteOrderQty;
     }
@@ -137,30 +200,6 @@ public class SpotOrderStatus extends ResultSpotOrder {
      **/
     public double getOrigQuoteOrderQty(int decimals) {
         return roundValue(origQuoteOrderQty, decimals);
-    }
-
-    @Override
-    public String toString() {
-        return "SpotOrderStatus{" +
-                "stopPrice=" + stopPrice +
-                ", icebergQty=" + icebergQty +
-                ", time=" + time +
-                ", isWorking=" + isWorking +
-                ", origQuoteOrderQty=" + origQuoteOrderQty +
-                ", price=" + price +
-                ", origQty=" + origQty +
-                ", executedQty=" + executedQty +
-                ", cummulativeQuoteQty=" + cummulativeQuoteQty +
-                ", status='" + status + '\'' +
-                ", timeInForce='" + timeInForce + '\'' +
-                ", type='" + type + '\'' +
-                ", side='" + side + '\'' +
-                ", transactTime=" + transactTime +
-                ", orderListId=" + orderListId +
-                ", symbol='" + symbol + '\'' +
-                ", orderId=" + orderId +
-                ", clientOrderId='" + clientOrderId + '\'' +
-                '}';
     }
 
 }

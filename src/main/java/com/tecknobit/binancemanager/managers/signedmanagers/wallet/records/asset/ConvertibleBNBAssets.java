@@ -9,18 +9,18 @@ import java.util.ArrayList;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code ConvertibleBNBAssets} class is useful to create a {@code "Binance"}'s convertible BNB Asset object
+ * The {@code ConvertibleBNBAssets} class is useful to format a {@code "Binance"}'s convertible BNB Asset
  *
+ * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data</a>
+ * Get Assets That Can Be Converted Into BNB (USER_DATA)</a>
  **/
-
 public class ConvertibleBNBAssets {
 
     /**
-     * {@code assetDividendDetailsList} is instance that memorizes list of {@link AssetDetails}
-     * **/
-    private ArrayList<AssetDetails> assetsDetailsList;
+     * {@code assetDividendDetailsList} is instance that memorizes list of {@link ConvertibleAssetDetails}
+     **/
+    private ArrayList<ConvertibleAssetDetails> assetsDetailsList;
 
     /**
      * {@code totalTransferBtc} is instance that memorizes total transfer of Bitcoin
@@ -37,13 +37,15 @@ public class ConvertibleBNBAssets {
      * **/
     private double dribbletPercentage;
 
-    /** Constructor to init {@link ConvertibleBNBAssets} object
-     * @param assetsDetails: list of {@link AssetDetails}
-     * @param totalTransferBtc: total transfer of Bitcoin
-     * @param totalTransferBNB: total transfer of BNB
+    /**
+     * Constructor to init {@link ConvertibleBNBAssets} object
+     *
+     * @param assetsDetails:      list of {@link ConvertibleAssetDetails}
+     * @param totalTransferBtc:   total transfer of Bitcoin
+     * @param totalTransferBNB:   total transfer of BNB
      * @param dribbletPercentage: dribblet percentage value
-     * **/
-    public ConvertibleBNBAssets(ArrayList<AssetDetails> assetsDetails, double totalTransferBtc, double totalTransferBNB,
+     **/
+    public ConvertibleBNBAssets(ArrayList<ConvertibleAssetDetails> assetsDetails, double totalTransferBtc, double totalTransferBNB,
                                 double dribbletPercentage) {
         this.assetsDetailsList = assetsDetails;
         this.totalTransferBtc = totalTransferBtc;
@@ -60,33 +62,67 @@ public class ConvertibleBNBAssets {
         assetsDetailsList = new ArrayList<>();
         JSONArray convertibleAssets = JsonHelper.getJSONArray(convertibleBNBAsset, "details", new JSONArray());
         for (int j = 0; j < convertibleAssets.length(); j++)
-            assetsDetailsList.add(new AssetDetails(convertibleAssets.getJSONObject(j)));
+            assetsDetailsList.add(new ConvertibleAssetDetails(convertibleAssets.getJSONObject(j)));
         totalTransferBtc = convertibleBNBAsset.getDouble("totalTransferBtc");
         totalTransferBNB = convertibleBNBAsset.getDouble("totalTransferBNB");
         dribbletPercentage = convertibleBNBAsset.getDouble("dribbletPercentage");
     }
 
-    public ArrayList<AssetDetails> getAssetsDetailsList() {
+    /**
+     * Method to get {@link #assetsDetailsList} instance <br>
+     * Any params required
+     *
+     * @return {@link #assetsDetailsList} instance as {@link ArrayList} of {@link ConvertibleAssetDetails}
+     **/
+    public ArrayList<ConvertibleAssetDetails> getAssetsDetailsList() {
         return assetsDetailsList;
     }
 
-    public void setAssetsDetailsList(ArrayList<AssetDetails> assetsDetailsList) {
+    /**
+     * Method to set {@link #assetsDetailsList} instance <br>
+     *
+     * @param assetsDetailsList: list of {@link ConvertibleAssetDetails} to set
+     **/
+    public void setAssetsDetailsList(ArrayList<ConvertibleAssetDetails> assetsDetailsList) {
         this.assetsDetailsList = assetsDetailsList;
     }
 
-    public void insertAssetDetails(AssetDetails assetDetails) {
+    /**
+     * Method to add a convertible asset details  to {@link #assetsDetailsList}
+     *
+     * @param assetDetails: convertible asset details to add
+     **/
+    public void insertAssetDetails(ConvertibleAssetDetails assetDetails) {
         if (!assetsDetailsList.contains(assetDetails))
             assetsDetailsList.add(assetDetails);
     }
 
-    public boolean removeAssetDetails(AssetDetails assetDetails){
+    /**
+     * Method to remove a convertible asset details  from {@link #assetsDetailsList}
+     *
+     * @param assetDetails: convertible asset details  to remove
+     * @return result of operation as boolean
+     **/
+    public boolean removeAssetDetails(ConvertibleAssetDetails assetDetails) {
         return assetsDetailsList.remove(assetDetails);
     }
 
-    public AssetDetails getAssetDetails(int index) {
+    /**
+     * Method to get a convertible asset details from {@link #assetsDetailsList} list
+     *
+     * @param index: index to fetch the composed convertible asset details
+     * @return convertible asset details as {@link ConvertibleAssetDetails}
+     **/
+    public ConvertibleAssetDetails getAssetDetails(int index) {
         return assetsDetailsList.get(index);
     }
 
+    /**
+     * Method to get {@link #totalTransferBtc} instance <br>
+     * Any params required
+     *
+     * @return {@link #totalTransferBtc} instance as double
+     **/
     public double getTotalTransferBtc() {
         return totalTransferBtc;
     }
@@ -114,6 +150,12 @@ public class ConvertibleBNBAssets {
         this.totalTransferBtc = totalTransferBtc;
     }
 
+    /**
+     * Method to get {@link #totalTransferBNB} instance <br>
+     * Any params required
+     *
+     * @return {@link #totalTransferBNB} instance as double
+     **/
     public double getTotalTransferBNB() {
         return totalTransferBNB;
     }
@@ -141,6 +183,12 @@ public class ConvertibleBNBAssets {
         this.totalTransferBNB = totalTransferBNB;
     }
 
+    /**
+     * Method to get {@link #dribbletPercentage} instance <br>
+     * Any params required
+     *
+     * @return {@link #dribbletPercentage} instance as double
+     **/
     public double getDribbletPercentage() {
         return dribbletPercentage;
     }
@@ -168,30 +216,32 @@ public class ConvertibleBNBAssets {
         this.dribbletPercentage = dribbletPercentage;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "ConvertibleBNBAssets{" +
-                "assetsDetailsList=" + assetsDetailsList +
-                ", totalTransferBtc=" + totalTransferBtc +
-                ", totalTransferBNB=" + totalTransferBNB +
-                ", dribbletPercentage=" + dribbletPercentage +
-                '}';
+        return new JSONObject(this).toString();
     }
 
     /**
-     * The {@code AssetDetail} class is useful to create an asset with its details
+     * The {@code ConvertibleAssetDetails} class is useful to format a convertible asset with its details
+     *
+     * @author N7ghtm4r3 - Tecknobit
      **/
-
-    public static final class AssetDetails {
+    public static final class ConvertibleAssetDetails {
 
         /**
          * {@code asset} is instance that memorizes asset value
-         * **/
+         **/
         private final String asset;
 
         /**
          * {@code assetFullName} is instance that memorizes asset full name
-         * **/
+         **/
         private final String assetFullName;
 
         /**
@@ -219,29 +269,31 @@ public class ConvertibleBNBAssets {
          * **/
         private double exchange;
 
-        /** Constructor to init {@link AssetDetails} object
-         * @param asset: asset value
-         * @param assetFullName: asset full name
-         * @param amountFree: amount free value
-         * @param toBTC: to Bitcoin value
-         * @param toBNB: to BNB value
+        /**
+         * Constructor to init {@link ConvertibleAssetDetails} object
+         *
+         * @param asset:            asset value
+         * @param assetFullName:    asset full name
+         * @param amountFree:       amount free value
+         * @param toBTC:            to Bitcoin value
+         * @param toBNB:            to BNB value
          * @param toBNBOffExchange: to BNB of exchange value
-         * @param exchange: exchange value
+         * @param exchange:         exchange value
          * @throws IllegalArgumentException if parameters range is not respected
-         * **/
-        public AssetDetails(String asset, String assetFullName, double amountFree, double toBTC,
-                            double toBNB, double toBNBOffExchange, double exchange) {
+         **/
+        public ConvertibleAssetDetails(String asset, String assetFullName, double amountFree, double toBTC,
+                                       double toBNB, double toBNBOffExchange, double exchange) {
             this.asset = asset;
             this.assetFullName = assetFullName;
-            if(amountFree < 0)
+            if (amountFree < 0)
                 throw new IllegalArgumentException("Amount free value cannot be less than 0");
             else
                 this.amountFree = amountFree;
-            if(toBTC < 0)
+            if (toBTC < 0)
                 throw new IllegalArgumentException("To BTC value cannot be less than 0");
             else
                 this.toBTC = toBTC;
-            if(toBNB < 0)
+            if (toBNB < 0)
                 throw new IllegalArgumentException("To BNB value cannot be less than 0");
             else
                 this.toBNB = toBNB;
@@ -256,39 +308,43 @@ public class ConvertibleBNBAssets {
         }
 
         /**
-         * Constructor to init {@link AssetDetails} object
+         * Constructor to init {@link ConvertibleAssetDetails} object
          *
-         * @param assetDetails: asset details as {@link JSONObject}
+         * @param jAsset: asset details as {@link JSONObject}
          * @throws IllegalArgumentException if parameters range is not respected
          **/
-        public AssetDetails(JSONObject assetDetails) {
-            asset = assetDetails.getString("asset");
-            assetFullName = assetDetails.getString("assetFullName");
-            amountFree = assetDetails.getDouble("amountFree");
-            if (amountFree < 0)
-                throw new IllegalArgumentException("Amount free value cannot be less than 0");
-            toBTC = assetDetails.getDouble("toBTC");
-            if (toBTC < 0)
-                throw new IllegalArgumentException("To BTC value cannot be less than 0");
-            toBNB = assetDetails.getDouble("toBNB");
-            if (toBNB < 0)
-                throw new IllegalArgumentException("To BNB value cannot be less than 0");
-            toBNBOffExchange = assetDetails.getDouble("toBNBOffExchange");
-            if (toBNBOffExchange < 0)
-                throw new IllegalArgumentException("To BNB off exchange value cannot be less than 0");
-            exchange = assetDetails.getDouble("exchange");
-            if (exchange < 0)
-                throw new IllegalArgumentException("Exchange value cannot be less than 0");
+        public ConvertibleAssetDetails(JSONObject jAsset) {
+            this(jAsset.getString("asset"), jAsset.getString("assetFullName"), jAsset.getDouble("amountFree"),
+                    jAsset.getDouble("toBTC"), jAsset.getDouble("toBNB"), jAsset.getDouble("toBNBOffExchange"),
+                    jAsset.getDouble("exchange"));
         }
 
+        /**
+         * Method to get {@link #asset} instance <br>
+         * Any params required
+         *
+         * @return {@link #asset} instance as {@link String}
+         **/
         public String getAsset() {
             return asset;
         }
 
+        /**
+         * Method to get {@link #assetFullName} instance <br>
+         * Any params required
+         *
+         * @return {@link #assetFullName} instance as {@link String}
+         **/
         public String getAssetFullName() {
             return assetFullName;
         }
 
+        /**
+         * Method to get {@link #amountFree} instance <br>
+         * Any params required
+         *
+         * @return {@link #amountFree} instance as double
+         **/
         public double getAmountFree() {
             return amountFree;
         }
@@ -316,6 +372,12 @@ public class ConvertibleBNBAssets {
             this.amountFree = amountFree;
         }
 
+        /**
+         * Method to get {@link #toBTC} instance <br>
+         * Any params required
+         *
+         * @return {@link #toBTC} instance as double
+         **/
         public double getToBTC() {
             return toBTC;
         }
@@ -343,6 +405,12 @@ public class ConvertibleBNBAssets {
             this.toBTC = toBTC;
         }
 
+        /**
+         * Method to get {@link #toBNB} instance <br>
+         * Any params required
+         *
+         * @return {@link #toBNB} instance as double
+         **/
         public double getToBNB() {
             return toBNB;
         }
@@ -370,6 +438,12 @@ public class ConvertibleBNBAssets {
             this.toBNB = toBNB;
         }
 
+        /**
+         * Method to get {@link #toBNBOffExchange} instance <br>
+         * Any params required
+         *
+         * @return {@link #toBNBOffExchange} instance as double
+         **/
         public double getToBNBOffExchange() {
             return toBNBOffExchange;
         }
@@ -397,6 +471,12 @@ public class ConvertibleBNBAssets {
             this.toBNBOffExchange = toBNBOffExchange;
         }
 
+        /**
+         * Method to get {@link #exchange} instance <br>
+         * Any params required
+         *
+         * @return {@link #exchange} instance as double
+         **/
         public double getExchange() {
             return exchange;
         }
@@ -424,17 +504,15 @@ public class ConvertibleBNBAssets {
             this.exchange = exchange;
         }
 
+        /**
+         * Returns a string representation of the object <br>
+         * Any params required
+         *
+         * @return a string representation of the object as {@link String}
+         */
         @Override
         public String toString() {
-            return "AssetDetails{" +
-                    "asset='" + asset + '\'' +
-                    ", assetFullName='" + assetFullName + '\'' +
-                    ", amountFree=" + amountFree +
-                    ", toBTC=" + toBTC +
-                    ", toBNB=" + toBNB +
-                    ", toBNBOffExchange=" + toBNBOffExchange +
-                    ", exchange=" + exchange +
-                    '}';
+            return new JSONObject(this).toString();
         }
 
     }

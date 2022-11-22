@@ -5,13 +5,12 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code FundingWallet} class is useful to manage FundingWallet {@code "Binance"} request
+ * The {@code FundingWallet} class is useful to format a {@code "Binance"}'s funding wallet
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data</a>
+ * Funding Wallet (USER_DATA)</a>
  **/
-
 public class FundingWallet {
 
     /**
@@ -80,32 +79,31 @@ public class FundingWallet {
     /**
      * Constructor to init {@link FundingWallet} object
      *
-     * @param fundingWallet: funding wallet details as {@link JSONObject}
+     * @param jFundingWallet: funding wallet details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
      **/
-    public FundingWallet(JSONObject fundingWallet) {
-        asset = fundingWallet.getString("asset");
-        free = fundingWallet.getDouble("free");
-        if (free < 0)
-            throw new IllegalArgumentException("Free value cannot be less than 0");
-        locked = fundingWallet.getDouble("locked");
-        if (locked < 0)
-            throw new IllegalArgumentException("Locked value cannot be less than 0");
-        freeze = fundingWallet.getDouble("freeze");
-        if (freeze < 0)
-            throw new IllegalArgumentException("Freeze value cannot be less than 0");
-        withdrawing = fundingWallet.getInt("withdrawing");
-        if (withdrawing < 0)
-            throw new IllegalArgumentException("Withdrawing value cannot be less than 0");
-        btcValuation = fundingWallet.getDouble("btcValuation");
-        if (btcValuation < 0)
-            throw new IllegalArgumentException("BTC valuation value cannot be less than 0");
+    public FundingWallet(JSONObject jFundingWallet) {
+        this(jFundingWallet.getString("asset"), jFundingWallet.getDouble("free"),
+                jFundingWallet.getDouble("locked"), jFundingWallet.getDouble("freeze"),
+                jFundingWallet.getInt("withdrawing"), jFundingWallet.getDouble("btcValuation"));
     }
 
+    /**
+     * Method to get {@link #asset} instance <br>
+     * Any params required
+     *
+     * @return {@link #asset} instance as {@link String}
+     **/
     public String getAsset() {
         return asset;
     }
 
+    /**
+     * Method to get {@link #free} instance <br>
+     * Any params required
+     *
+     * @return {@link #free} instance as double
+     **/
     public double getFree() {
         return free;
     }
@@ -133,6 +131,12 @@ public class FundingWallet {
         this.free = free;
     }
 
+    /**
+     * Method to get {@link #locked} instance <br>
+     * Any params required
+     *
+     * @return {@link #locked} instance as double
+     **/
     public double getLocked() {
         return locked;
     }
@@ -160,6 +164,12 @@ public class FundingWallet {
         this.locked = locked;
     }
 
+    /**
+     * Method to get {@link #freeze} instance <br>
+     * Any params required
+     *
+     * @return {@link #freeze} instance as double
+     **/
     public double getFreeze() {
         return freeze;
     }
@@ -187,20 +197,34 @@ public class FundingWallet {
         this.freeze = freeze;
     }
 
+    /**
+     * Method to get {@link #withdrawing} instance <br>
+     * Any params required
+     *
+     * @return {@link #withdrawing} instance as int
+     **/
     public int getWithdrawing() {
         return withdrawing;
     }
 
-    /** Method to set {@link #withdrawing}
+    /**
+     * Method to set {@link #withdrawing}
+     *
      * @param withdrawing: withdrawing value
      * @throws IllegalArgumentException when withdrawing value is less than 0
-     * **/
+     **/
     public void setWithdrawing(int withdrawing) {
         if (withdrawing < 0)
             throw new IllegalArgumentException("Withdrawing value cannot be less than 0");
         this.withdrawing = withdrawing;
     }
 
+    /**
+     * Method to get {@link #btcValuation} instance <br>
+     * Any params required
+     *
+     * @return {@link #btcValuation} instance as double
+     **/
     public double getBtcValuation() {
         return btcValuation;
     }
@@ -228,16 +252,15 @@ public class FundingWallet {
         this.btcValuation = btcValuation;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "FundingWallet{" +
-                "asset='" + asset + '\'' +
-                ", free=" + free +
-                ", locked=" + locked +
-                ", freeze=" + freeze +
-                ", withdrawing=" + withdrawing +
-                ", btcValuation=" + btcValuation +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

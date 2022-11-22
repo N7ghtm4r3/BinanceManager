@@ -69,10 +69,12 @@ public class OrderDetails {
      * {@code symbol} is instance that memorizes symbol used in the order
      **/
     protected final String symbol;
+
     /**
      * {@code hOrder} {@code "JSON"} helper
      **/
     protected final JsonHelper hOrder;
+
     /**
      * {@code orders} is instance that memorizes order values
      **/

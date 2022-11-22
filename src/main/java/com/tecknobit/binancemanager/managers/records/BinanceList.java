@@ -1,29 +1,32 @@
-package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.lists;
+package com.tecknobit.binancemanager.managers.records;
 
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order.Status;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.lists.ForceLiquidationList;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * The {@code MarginList} class is useful to create a {@code "Binance"}'s margin list
+ * The {@code BinanceList} class is useful to create a {@code "Binance"}'s records list
  *
  * @param <T> type of the item to insert in the list
  * @author N7ghtm4r3 - Tecknobit
  **/
-public class MarginList<T> {
+public class BinanceList<T> {
 
     /**
      * {@code rows} list of the items
      **/
     protected final ArrayList<T> rows;
+
     /**
-     * {@code hMarginList} {@code "JSON"} helper
+     * {@code hList} {@code "JSON"} helper
      **/
-    protected final JsonHelper hMarginList;
+    protected final JsonHelper hList;
+
     /**
      * {@code total} number of items
      **/
@@ -35,20 +38,20 @@ public class MarginList<T> {
      * @param total: number of items
      * @param rows:  list of the items
      **/
-    public MarginList(int total, ArrayList<T> rows) {
+    public BinanceList(int total, ArrayList<T> rows) {
         this.total = total;
         this.rows = rows;
-        hMarginList = null;
+        hList = null;
     }
 
     /**
-     * Constructor to init {@link MarginList}
+     * Constructor to init {@link BinanceList}
      *
      * @param jMarginList: list details as {@link JSONObject}
      **/
-    public MarginList(JSONObject jMarginList) {
-        hMarginList = new JsonHelper(jMarginList);
-        total = hMarginList.getInt("total", 0);
+    public BinanceList(JSONObject jMarginList) {
+        hList = new JsonHelper(jMarginList);
+        total = hList.getInt("total", 0);
         rows = new ArrayList<>();
     }
 

@@ -5,13 +5,12 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code TradeFee} class is useful to manage TradeFee {@code "Binance"} request
+ * The {@code TradeFee} class is useful to format a {@code "Binance"}'s trade fee
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data</a>
+ * Trade Fee (USER_DATA)</a>
  **/
-
 public class TradeFee {
 
     /**
@@ -43,18 +42,29 @@ public class TradeFee {
     /**
      * Constructor to init {@link TradeFee} object
      *
-     * @param tradeFee: trade fee details as {@link JSONObject}
+     * @param jTradeFee: trade fee details as {@link JSONObject}
      **/
-    public TradeFee(JSONObject tradeFee) {
-        symbol = tradeFee.getString("symbol");
-        makerCommission = tradeFee.getDouble("makerCommission");
-        takerCommission = tradeFee.getDouble("takerCommission");
+    public TradeFee(JSONObject jTradeFee) {
+        this(jTradeFee.getString("symbol"), jTradeFee.getDouble("makerCommission"),
+                jTradeFee.getDouble("takerCommission"));
     }
 
+    /**
+     * Method to get {@link #symbol} instance <br>
+     * Any params required
+     *
+     * @return {@link #symbol} instance as {@link String}
+     **/
     public String getSymbol() {
         return symbol;
     }
 
+    /**
+     * Method to get {@link #makerCommission} instance <br>
+     * Any params required
+     *
+     * @return {@link #makerCommission} instance as double
+     **/
     public double getMakerCommission() {
         return makerCommission;
     }
@@ -70,6 +80,12 @@ public class TradeFee {
         return roundValue(makerCommission, decimals);
     }
 
+    /**
+     * Method to get {@link #takerCommission} instance <br>
+     * Any params required
+     *
+     * @return {@link #takerCommission} instance as double
+     **/
     public double getTakerCommission() {
         return takerCommission;
     }
@@ -85,13 +101,15 @@ public class TradeFee {
         return roundValue(takerCommission, decimals);
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "TradeFee{" +
-                "symbol='" + symbol + '\'' +
-                ", makerCommission=" + makerCommission +
-                ", takerCommission=" + takerCommission +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

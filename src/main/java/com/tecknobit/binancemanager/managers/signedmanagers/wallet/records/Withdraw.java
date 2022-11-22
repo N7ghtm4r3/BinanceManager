@@ -1,17 +1,19 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records;
 
+import com.tecknobit.apimanager.formatters.TimeFormatter;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code Withdraw} class is useful to manage {@code "Binance"}'s withdraw request
+ * The {@code Withdraw} class is useful to format a {@code "Binance"}'s withdraw
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data</a>
+ * Withdraw History (supporting network) (USER_DATA)</a>
  **/
-
 public class Withdraw {
 
     /**
@@ -118,25 +120,29 @@ public class Withdraw {
      * @param withdraw: withdraw details as {@link JSONObject}
      **/
     public Withdraw(JSONObject withdraw) {
-        address = withdraw.getString("address");
-        amount = withdraw.getDouble("amount");
-        applyTime = withdraw.getString("applyTime");
-        coin = withdraw.getString("coin");
-        id = withdraw.getString("id");
-        withdrawOrderId = withdraw.getString("withdrawOrderId");
-        network = withdraw.getString("network");
-        transferType = withdraw.getInt("transferType");
-        status = withdraw.getInt("status");
-        transactionFee = withdraw.getDouble("transactionFee");
-        confirmNo = withdraw.getInt("confirmNo");
-        info = withdraw.getString("info");
-        txId = withdraw.getString("txId");
+        this(withdraw.getString("address"), withdraw.getDouble("amount"), withdraw.getString("applyTime"),
+                withdraw.getString("coin"), withdraw.getString("id"), withdraw.getString("withdrawOrderId"),
+                withdraw.getString("network"), withdraw.getInt("transferType"), withdraw.getInt("status"),
+                withdraw.getDouble("transactionFee"), withdraw.getInt("confirmNo"), withdraw.getString("info"),
+                withdraw.getString("txId"));
     }
 
+    /**
+     * Method to get {@link #address} instance <br>
+     * Any params required
+     *
+     * @return {@link #address} instance as {@link String}
+     **/
     public String getAddress() {
         return address;
     }
 
+    /**
+     * Method to get {@link #amount} instance <br>
+     * Any params required
+     *
+     * @return {@link #amount} instance as double
+     **/
     public double getAmount() {
         return amount;
     }
@@ -152,34 +158,103 @@ public class Withdraw {
         return roundValue(amount, decimals);
     }
 
+    /**
+     * Method to get {@link #applyTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #applyTime} instance as {@link String}
+     **/
     public String getApplyTime() {
         return applyTime;
     }
 
+    /**
+     * Method to get {@link #applyTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #applyTime} instance as long
+     **/
+    public long getApplyTimestamp() {
+        TimeFormatter.changeDefaultPattern("yyyy-mm-dd HH:mm:ss");
+        return TimeFormatter.getDateTimestamp(applyTime);
+    }
+
+    /**
+     * Method to get {@link #applyTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #applyTime} instance as {@link Date}
+     **/
+    public Date getApplyDate() {
+        return TimeFormatter.getDate(getApplyTimestamp());
+    }
+
+    /**
+     * Method to get {@link #coin} instance <br>
+     * Any params required
+     *
+     * @return {@link #coin} instance as {@link String}
+     **/
     public String getCoin() {
         return coin;
     }
 
+    /**
+     * Method to get {@link #id} instance <br>
+     * Any params required
+     *
+     * @return {@link #id} instance as {@link String}
+     **/
     public String getId() {
         return id;
     }
 
+    /**
+     * Method to get {@link #withdrawOrderId} instance <br>
+     * Any params required
+     *
+     * @return {@link #withdrawOrderId} instance as {@link String}
+     **/
     public String getWithdrawOrderId() {
         return withdrawOrderId;
     }
 
+    /**
+     * Method to get {@link #network} instance <br>
+     * Any params required
+     *
+     * @return {@link #network} instance as {@link String}
+     **/
     public String getNetwork() {
         return network;
     }
 
+    /**
+     * Method to get {@link #transferType} instance <br>
+     * Any params required
+     *
+     * @return {@link #transferType} instance as int
+     **/
     public int getTransferType() {
         return transferType;
     }
 
+    /**
+     * Method to get {@link #status} instance <br>
+     * Any params required
+     *
+     * @return {@link #status} instance as int
+     **/
     public int getStatus() {
         return status;
     }
 
+    /**
+     * Method to get {@link #transactionFee} instance <br>
+     * Any params required
+     *
+     * @return {@link #transactionFee} instance as double
+     **/
     public double getTransactionFee() {
         return transactionFee;
     }
@@ -195,35 +270,45 @@ public class Withdraw {
         return roundValue(transactionFee, decimals);
     }
 
+    /**
+     * Method to get {@link #confirmNo} instance <br>
+     * Any params required
+     *
+     * @return {@link #confirmNo} instance as int
+     **/
     public int getConfirmNo() {
         return confirmNo;
     }
 
+    /**
+     * Method to get {@link #info} instance <br>
+     * Any params required
+     *
+     * @return {@link #info} instance as {@link String}
+     **/
     public String getInfo() {
         return info;
     }
 
+    /**
+     * Method to get {@link #txId} instance <br>
+     * Any params required
+     *
+     * @return {@link #txId} instance as {@link String}
+     **/
     public String getTxId() {
         return txId;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "Withdraw{" +
-                "address='" + address + '\'' +
-                ", amount=" + amount +
-                ", applyTime='" + applyTime + '\'' +
-                ", coin='" + coin + '\'' +
-                ", id='" + id + '\'' +
-                ", withdrawOrderId='" + withdrawOrderId + '\'' +
-                ", network='" + network + '\'' +
-                ", transferType=" + transferType +
-                ", status=" + status +
-                ", transactionFee=" + transactionFee +
-                ", confirmNo=" + confirmNo +
-                ", info='" + info + '\'' +
-                ", txId='" + txId + '\'' +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

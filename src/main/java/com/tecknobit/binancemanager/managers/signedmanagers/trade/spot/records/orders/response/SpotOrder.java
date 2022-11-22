@@ -7,13 +7,13 @@ import org.json.JSONObject;
 import static com.tecknobit.apimanager.formatters.ScientificNotationParser.sNotationParse;
 
 /**
- * The {@code SpotOrder} class is useful to manage all SpotOrder {@code "Binance"} request
+ * The {@code SpotOrder} class is useful to format a {@code "Binance"}'s spot order
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#spot-account-trade">
- * https://binance-docs.github.io/apidocs/spot/en/#spot-account-trade</a>
+ * Spot Account/Trade</a>
+ * @see Order
  **/
-
 public abstract class SpotOrder extends Order {
 
     /**
@@ -144,16 +144,6 @@ public abstract class SpotOrder extends Order {
         if(extraParams != null)
             payload.mergeParams(extraParams);
         return payload;
-    }
-
-    @Override
-    public String toString() {
-        return "SpotOrder{" +
-                "orderListId=" + orderListId +
-                ", symbol='" + symbol + '\'' +
-                ", orderId=" + orderId +
-                ", clientOrderId='" + clientOrderId + '\'' +
-                '}';
     }
 
 }

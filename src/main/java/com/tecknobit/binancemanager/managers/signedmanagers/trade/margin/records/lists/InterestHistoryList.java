@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.lists;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.binancemanager.managers.records.BinanceList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -16,9 +17,9 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
  * Get Interest History (USER_DATA)</a>
- * @see MarginList
+ * @see BinanceList
  **/
-public class InterestHistoryList extends MarginList<Interest> {
+public class InterestHistoryList extends BinanceList<Interest> {
 
     /**
      * Constructor to init {@link InterestHistoryList} object
@@ -37,7 +38,7 @@ public class InterestHistoryList extends MarginList<Interest> {
      **/
     public InterestHistoryList(JSONObject jsonHistory) {
         super(jsonHistory);
-        JSONArray jHistoryList = hMarginList.getJSONArray("rows", new JSONArray());
+        JSONArray jHistoryList = hList.getJSONArray("rows", new JSONArray());
         for (int j = 0; j < jHistoryList.length(); j++)
             rows.add(new Interest(jHistoryList.getJSONObject(j)));
     }

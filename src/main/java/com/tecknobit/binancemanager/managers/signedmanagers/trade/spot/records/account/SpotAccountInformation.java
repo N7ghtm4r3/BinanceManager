@@ -1,23 +1,25 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.account;
 
 import com.tecknobit.apimanager.formatters.JsonHelper;
-import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.SpotAccountSnapshot;
+import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.details.MarginOrderDetails;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.SpotAccountSnapshot.SpotBalance;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.SpotAccountSnapshot.getBalancesSpot;
 
 /**
- *  The {@code SpotAccountInformation} class is useful to format SpotAccountInformation object
- *  @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data">
- *      https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data</a>
- *  @author N7ghtm4r3 - Tecknobit
- * **/
-
+ * The {@code SpotAccountInformation} class is useful to format a {@code "Binance"}'s spot account information
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data">
+ * Account Information (USER_DATA)</a>
+ **/
 public class SpotAccountInformation {
 
     /**
@@ -73,7 +75,7 @@ public class SpotAccountInformation {
     /**
      * {@code spotsListBalance} is instance that memorizes balance spot list
      **/
-    private ArrayList<SpotAccountSnapshot.SpotBalance> spotsListBalance;
+    private ArrayList<SpotBalance> spotsListBalance;
 
     /**
      * {@code permissionsList} is instance that memorizes permissions list
@@ -134,44 +136,40 @@ public class SpotAccountInformation {
      * @throws IllegalArgumentException if parameters range is not respected
      **/
     public SpotAccountInformation(JSONObject spotAccountInformation) {
-        makerCommission = spotAccountInformation.getDouble("makerCommission");
+        JsonHelper hSpotAccount = new JsonHelper(spotAccountInformation);
+        makerCommission = hSpotAccount.getDouble("makerCommission", 0);
         if (makerCommission < 0)
             throw new IllegalArgumentException("Maker commission value cannot be less than 0");
-        takerCommission = spotAccountInformation.getDouble("takerCommission");
+        takerCommission = hSpotAccount.getDouble("takerCommission", 0);
         if (takerCommission < 0)
             throw new IllegalArgumentException("Taker commission value cannot be less than 0");
-        buyerCommission = spotAccountInformation.getDouble("buyerCommission");
+        buyerCommission = hSpotAccount.getDouble("buyerCommission", 0);
         if (buyerCommission < 0)
             throw new IllegalArgumentException("Buyer commission value cannot be less than 0");
-        sellerCommission = spotAccountInformation.getDouble("sellerCommission");
+        sellerCommission = hSpotAccount.getDouble("sellerCommission", 0);
         if (sellerCommission < 0)
             throw new IllegalArgumentException("Seller commission value cannot be less than 0");
-        canTrade = spotAccountInformation.getBoolean("canTrade");
-        canWithdraw = spotAccountInformation.getBoolean("canWithdraw");
-        canDeposit = spotAccountInformation.getBoolean("canDeposit");
-        brokered = spotAccountInformation.getBoolean("brokered");
-        updateTime = spotAccountInformation.getLong("updateTime");
+        canTrade = hSpotAccount.getBoolean("canTrade");
+        canWithdraw = hSpotAccount.getBoolean("canWithdraw");
+        canDeposit = hSpotAccount.getBoolean("canDeposit");
+        brokered = hSpotAccount.getBoolean("brokered");
+        updateTime = hSpotAccount.getLong("updateTime", 0);
         if (updateTime < 0)
             throw new IllegalArgumentException("Update time value cannot be less than 0");
-        accountType = spotAccountInformation.getString("accountType");
-        JsonHelper hSpotAccount = new JsonHelper(spotAccountInformation);
+        accountType = hSpotAccount.getString("accountType");
         spotsListBalance = getBalancesSpot(hSpotAccount.getJSONArray("balances", new JSONArray()));
-        loadPermissionList(hSpotAccount.getJSONArray("permissionsList", new JSONArray()));
+        permissionsList = new ArrayList<>();
+        JSONArray jPermissions = hSpotAccount.getJSONArray("permissionsList", new JSONArray());
+        for (int j = 0; j < jPermissions.length(); j++)
+            permissionsList.add(new Permission(jPermissions.getString(j)));
     }
 
     /**
-     * Method to load Permissions list
+     * Method to get {@link #makerCommission} instance <br>
+     * Any params required
      *
-     * @param jsonPermissions: obtained from {@code "Binance"}'s request
-     *                         any return
+     * @return {@link #makerCommission} instance as double
      **/
-    private void loadPermissionList(JSONArray jsonPermissions) {
-        permissionsList = new ArrayList<>();
-        if (jsonPermissions != null)
-            for (int j = 0; j < jsonPermissions.length(); j++)
-                permissionsList.add(new Permission(jsonPermissions.getString(j)));
-    }
-
     public double getMakerCommission() {
         return makerCommission;
     }
@@ -199,6 +197,12 @@ public class SpotAccountInformation {
         this.makerCommission = makerCommission;
     }
 
+    /**
+     * Method to get {@link #takerCommission} instance <br>
+     * Any params required
+     *
+     * @return {@link #takerCommission} instance as double
+     **/
     public double getTakerCommission() {
         return takerCommission;
     }
@@ -226,6 +230,12 @@ public class SpotAccountInformation {
         this.takerCommission = takerCommission;
     }
 
+    /**
+     * Method to get {@link #buyerCommission} instance <br>
+     * Any params required
+     *
+     * @return {@link #buyerCommission} instance as double
+     **/
     public double getBuyerCommission() {
         return buyerCommission;
     }
@@ -253,6 +263,12 @@ public class SpotAccountInformation {
         this.buyerCommission = buyerCommission;
     }
 
+    /**
+     * Method to get {@link #sellerCommission} instance <br>
+     * Any params required
+     *
+     * @return {@link #sellerCommission} instance as double
+     **/
     public double getSellerCommission() {
         return sellerCommission;
     }
@@ -280,40 +296,100 @@ public class SpotAccountInformation {
         this.sellerCommission = sellerCommission;
     }
 
+    /**
+     * Method to get {@link #canTrade} instance <br>
+     * Any params required
+     *
+     * @return {@link #canTrade} instance as boolean
+     **/
     public boolean canTrade() {
         return canTrade;
     }
 
+    /**
+     * Method to set {@link #canTrade} instance <br>
+     *
+     * @param canTrade: if account can trade
+     **/
     public void setCanTrade(boolean canTrade) {
         this.canTrade = canTrade;
     }
 
+    /**
+     * Method to get {@link #canWithdraw} instance <br>
+     * Any params required
+     *
+     * @return {@link #canWithdraw} instance as boolean
+     **/
     public boolean canWithdraw() {
         return canWithdraw;
     }
 
+    /**
+     * Method to set {@link #canWithdraw} instance <br>
+     *
+     * @param canWithdraw: if account can withdraw
+     **/
     public void setCanWithdraw(boolean canWithdraw) {
         this.canWithdraw = canWithdraw;
     }
 
+    /**
+     * Method to get {@link #canDeposit} instance <br>
+     * Any params required
+     *
+     * @return {@link #canDeposit} instance as boolean
+     **/
     public boolean canDeposit() {
         return canDeposit;
     }
 
+    /**
+     * Method to set {@link #canDeposit} instance <br>
+     *
+     * @param canDeposit: if account can deposit
+     **/
     public void setCanDeposit(boolean canDeposit) {
         this.canDeposit = canDeposit;
     }
 
+    /**
+     * Method to get {@link #brokered} instance <br>
+     * Any params required
+     *
+     * @return {@link #brokered} instance as boolean
+     **/
     public boolean isBrokered() {
         return brokered;
     }
 
+    /**
+     * Method to set {@link #brokered} instance <br>
+     *
+     * @param brokered: if account is brokered
+     **/
     public void setBrokered(boolean brokered) {
         this.brokered = brokered;
     }
 
+    /**
+     * Method to get {@link #updateTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #updateTime} instance as long
+     **/
     public long getUpdateTime() {
         return updateTime;
+    }
+
+    /**
+     * Method to get {@link #updateTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #updateTime} instance as {@link Date}
+     **/
+    public Date getUpdateDate() {
+        return TimeFormatter.getDate(updateTime);
     }
 
     /**
@@ -328,98 +404,167 @@ public class SpotAccountInformation {
         this.updateTime = updateTime;
     }
 
+    /**
+     * Method to get {@link #accountType} instance <br>
+     * Any params required
+     *
+     * @return {@link #accountType} instance as {@link String}
+     **/
     public String getAccountType() {
         return accountType;
     }
 
-    public ArrayList<SpotAccountSnapshot.SpotBalance> getBalancesSpotsList() {
+    /**
+     * Method to get {@link #spotsListBalance} instance <br>
+     * Any params required
+     *
+     * @return {@link #spotsListBalance} instance as {@link ArrayList} of {@link SpotBalance}
+     **/
+    public ArrayList<SpotBalance> getBalancesSpotsList() {
         return spotsListBalance;
     }
 
-    public void setBalancesSpotsList(ArrayList<SpotAccountSnapshot.SpotBalance> spotsListBalance) {
+    /**
+     * Method to set {@link #spotsListBalance} instance <br>
+     *
+     * @param spotsListBalance: list of {@link SpotBalance} to set
+     **/
+    public void setBalancesSpotsList(ArrayList<SpotBalance> spotsListBalance) {
         this.spotsListBalance = spotsListBalance;
     }
 
-    public void insertBalanceSpot(SpotAccountSnapshot.SpotBalance spotBalance) {
+    /**
+     * Method to add a balance spot to {@link #spotsListBalance}
+     *
+     * @param spotBalance: balance spot to add
+     **/
+    public void insertBalanceSpot(SpotBalance spotBalance) {
         if (!spotsListBalance.contains(spotBalance))
             spotsListBalance.add(spotBalance);
     }
 
-    public boolean removeBalanceSpot(SpotAccountSnapshot.SpotBalance spotBalance) {
-        return spotsListBalance.remove(spotBalance);
+    /**
+     * Method to balance spot from {@link #spotsListBalance}
+     *
+     * @param balanceSpot: balance spot to remove
+     * @return result of operation as boolean
+     **/
+    public boolean removeBalanceSpot(SpotBalance balanceSpot) {
+        return spotsListBalance.remove(balanceSpot);
     }
 
-    public SpotAccountSnapshot.SpotBalance getBalanceSpot(int index) {
+    /**
+     * Method to get a margin order details  from {@link #spotsListBalance} list
+     *
+     * @param index: index to fetch the margin order details
+     * @return margin order details  as {@link MarginOrderDetails}
+     **/
+    public SpotBalance getBalanceSpot(int index) {
         return spotsListBalance.get(index);
     }
 
+    /**
+     * Method to get {@link #permissionsList} instance <br>
+     * Any params required
+     *
+     * @return {@link #permissionsList} instance as {@link ArrayList} of {@link Permission}
+     **/
     public ArrayList<Permission> getPermissionsList() {
         return permissionsList;
     }
 
+    /**
+     * Method to set {@link #permissionsList} instance <br>
+     *
+     * @param permissionsList: list of {@link Permission} to set
+     **/
     public void setPermissionsList(ArrayList<Permission> permissionsList) {
         this.permissionsList = permissionsList;
     }
 
-    public void insertBalanceSpot(Permission permission){
-        if(!permissionsList.contains(permission))
+    /**
+     * Method to add a permission  to {@link #permissionsList}
+     *
+     * @param permission: permission to add
+     **/
+    public void insertBalanceSpot(Permission permission) {
+        if (!permissionsList.contains(permission))
             permissionsList.add(permission);
     }
 
-    public boolean removeBalanceSpot(Permission permission){
+    /**
+     * Method to remove a permission  from {@link #permissionsList}
+     *
+     * @param permission: permission  to remove
+     * @return result of operation as boolean
+     **/
+    public boolean removeBalanceSpot(Permission permission) {
         return permissionsList.remove(permission);
     }
 
-    public Permission getPermission(int index){
+    /**
+     * Method to get a permission from {@link #permissionsList} list
+     *
+     * @param index: index to fetch the permission
+     * @return permission as {@link Permission}
+     **/
+    public Permission getPermission(int index) {
         return permissionsList.get(index);
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "SpotAccountInformation{" +
-                "makerCommission=" + makerCommission +
-                ", takerCommission=" + takerCommission +
-                ", buyerCommission=" + buyerCommission +
-                ", sellerCommission=" + sellerCommission +
-                ", canTrade=" + canTrade +
-                ", canWithdraw=" + canWithdraw +
-                ", canDeposit=" + canDeposit +
-                ", updateTime=" + updateTime +
-                ", accountType='" + accountType + '\'' +
-                ", spotsListBalance=" + spotsListBalance +
-                ", permissionsList=" + permissionsList +
-                '}';
+        return new JSONObject(this).toString();
     }
 
     /**
-     * The {@code Permission} class is useful to obtain and format Permission object
+     * The {@code Permission} class is useful to obtain and format a permission for {@link SpotAccountInformation}
+     *
+     * @author N7ghtm4r3 - Tecknobit
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data</a>
-     * **/
-
+     * Account Information (USER_DATA)</a>
+     **/
     public static class Permission {
 
         /**
          * {@code permission} is instance that memorizes permission value
-         * **/
+         **/
         private final String permission;
 
-        /** Constructor to init {@link Permission} object
+        /**
+         * Constructor to init {@link Permission} object
+         *
          * @param permission: permission value
-         * **/
+         **/
         public Permission(String permission) {
             this.permission = permission;
         }
 
+        /**
+         * Method to get {@link #permission} instance <br>
+         * Any params required
+         *
+         * @return {@link #permission} instance as {@link String}
+         **/
         public String getPermission() {
             return permission;
         }
 
+        /**
+         * Returns a string representation of the object <br>
+         * Any params required
+         *
+         * @return a string representation of the object as {@link String}
+         */
         @Override
         public String toString() {
-            return "Permission{" +
-                    "permission='" + permission + '\'' +
-                    '}';
+            return new JSONObject(this).toString();
         }
 
     }

@@ -1,17 +1,19 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.api;
 
+import com.tecknobit.apimanager.formatters.TimeFormatter;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 import static com.tecknobit.apimanager.formatters.JsonHelper.getLong;
 
 /**
- * The {@code APIPermission} class is useful to manage APIPermission {@code "Binance"} request
+ * The {@code APIPermission} class is useful to format a {@code "Binance"}'s API permission
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data</a>
+ * Get API Key Permission (USER_DATA)</a>
  **/
-
 public class APIPermission {
 
     /**
@@ -121,88 +123,212 @@ public class APIPermission {
         tradingAuthorityExpirationTime = getLong(apiPermission, "tradingAuthorityExpirationTime");
     }
 
+    /**
+     * Method to get {@link #ipRestrict} instance <br>
+     * Any params required
+     *
+     * @return {@link #ipRestrict} instance as boolean
+     **/
     public boolean isIpRestrict() {
         return ipRestrict;
     }
 
+    /**
+     * Method to set {@link #ipRestrict}
+     *
+     * @param ipRestrict: whether the IP is restricted
+     **/
     public void setIpRestrict(boolean ipRestrict) {
         this.ipRestrict = ipRestrict;
     }
 
+    /**
+     * Method to get {@link #createTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #createTime} instance as long
+     **/
     public long getCreateTime() {
         return createTime;
     }
 
-    public boolean isEnableWithdrawals() {
+    /**
+     * Method to get {@link #createTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #createTime} instance as {@link Date}
+     **/
+    public Date getCreationDate() {
+        return TimeFormatter.getDate(createTime);
+    }
+
+    /**
+     * Method to get {@link #enableWithdrawals} instance <br>
+     * Any params required
+     *
+     * @return {@link #enableWithdrawals} instance as boolean
+     **/
+    public boolean areEnabledWithdrawals() {
         return enableWithdrawals;
     }
 
+    /**
+     * Method to set {@link #enableWithdrawals}
+     *
+     * @param enableWithdrawals: whether the withdrawals are enabled
+     **/
     public void setEnableWithdrawals(boolean enableWithdrawals) {
         this.enableWithdrawals = enableWithdrawals;
     }
 
-    public boolean isEnableInternalTransfer() {
+    /**
+     * Method to get {@link #enableInternalTransfer} instance <br>
+     * Any params required
+     *
+     * @return {@link #enableInternalTransfer} instance as boolean
+     **/
+    public boolean isEnabledInternalTransfer() {
         return enableInternalTransfer;
     }
 
-    public void setEnableInternalTransfer(boolean enableInternalTransfer) {
+    /**
+     * Method to set {@link #enableInternalTransfer}
+     *
+     * @param enableInternalTransfer: whether the internal transfers are enabled
+     **/
+    public void setInternalTransfer(boolean enableInternalTransfer) {
         this.enableInternalTransfer = enableInternalTransfer;
     }
 
-    public boolean isPermitsUniversalTransfer() {
+    /**
+     * Method to get {@link #permitsUniversalTransfer} instance <br>
+     * Any params required
+     *
+     * @return {@link #permitsUniversalTransfer} instance as boolean
+     **/
+    public boolean PermitsUniversalTransfer() {
         return permitsUniversalTransfer;
     }
 
-    public void setPermitsUniversalTransfer(boolean permitsUniversalTransfer) {
+    /**
+     * Method to set {@link #permitsUniversalTransfer}
+     *
+     * @param permitsUniversalTransfer: whether the universal transfers are enabled
+     **/
+    public void setUniversalTransfer(boolean permitsUniversalTransfer) {
         this.permitsUniversalTransfer = permitsUniversalTransfer;
     }
 
-    public boolean isEnableVanillaOptions() {
+    /**
+     * Method to get {@link #enableVanillaOptions} instance <br>
+     * Any params required
+     *
+     * @return {@link #enableVanillaOptions} instance as boolean
+     **/
+    public boolean areEnabledVanillaOptions() {
         return enableVanillaOptions;
     }
 
-    public void setEnableVanillaOptions(boolean enableVanillaOptions) {
+    /**
+     * Method to set {@link #enableVanillaOptions}
+     *
+     * @param enableVanillaOptions: whether the vanilla options are enabled
+     **/
+    public void setVanillaOptions(boolean enableVanillaOptions) {
         this.enableVanillaOptions = enableVanillaOptions;
     }
 
-    public boolean isEnableReading() {
+    /**
+     * Method to get {@link #enableReading} instance <br>
+     * Any params required
+     *
+     * @return {@link #enableReading} instance as boolean
+     **/
+    public boolean isEnabledReading() {
         return enableReading;
     }
 
-    public void setEnableReading(boolean enableReading) {
+    /**
+     * Method to set {@link #enableReading}
+     *
+     * @param enableReading: whether the reading is enabled
+     **/
+    public void setReading(boolean enableReading) {
         this.enableReading = enableReading;
     }
 
-    public boolean isEnableFutures() {
+    /**
+     * Method to get {@link #enableFutures} instance <br>
+     * Any params required
+     *
+     * @return {@link #enableFutures} instance as boolean
+     **/
+    public boolean isEnabledFutures() {
         return enableFutures;
     }
 
-    public void setEnableFutures(boolean enableFutures) {
+    /**
+     * Method to set {@link #enableFutures}
+     *
+     * @param enableFutures: whether the futures options are enabled
+     **/
+    public void setFutures(boolean enableFutures) {
         this.enableFutures = enableFutures;
     }
 
-    public boolean isEnableMargin() {
+    /**
+     * Method to get {@link #enableMargin} instance <br>
+     * Any params required
+     *
+     * @return {@link #enableMargin} instance as boolean
+     **/
+    public boolean isEnabledMargin() {
         return enableMargin;
     }
 
-    public void setEnableMargin(boolean enableMargin) {
+    /**
+     * Method to set {@link #enableMargin}
+     *
+     * @param enableMargin: whether the margin options are enabled
+     **/
+    public void setMargin(boolean enableMargin) {
         this.enableMargin = enableMargin;
     }
 
-    public boolean isEnableSpotAndMarginTrading() {
+    /**
+     * Method to get {@link #enableSpotAndMarginTrading} instance <br>
+     * Any params required
+     *
+     * @return {@link #enableSpotAndMarginTrading} instance as boolean
+     **/
+    public boolean isEnabledSpotAndMarginTrading() {
         return enableSpotAndMarginTrading;
     }
 
-    public void setEnableSpotAndMarginTrading(boolean enableSpotAndMarginTrading) {
+    /**
+     * Method to set {@link #enableSpotAndMarginTrading}
+     *
+     * @param enableSpotAndMarginTrading: whether the spot and margin trading are enabled
+     **/
+    public void setSpotAndMarginTrading(boolean enableSpotAndMarginTrading) {
         this.enableSpotAndMarginTrading = enableSpotAndMarginTrading;
     }
-
 
     /**
      * @implSpec if tradingAuthorityExpirationTime = -1 means that is not set for this api key
      **/
     public long getTradingAuthorityExpirationTime() {
         return tradingAuthorityExpirationTime;
+    }
+
+    /**
+     * Method to get {@link #tradingAuthorityExpirationTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #tradingAuthorityExpirationTime} instance as {@link Date}
+     **/
+    public Date getTradingAuthorityExpirationDate() {
+        return TimeFormatter.getDate(tradingAuthorityExpirationTime);
     }
 
     /**
@@ -217,21 +343,15 @@ public class APIPermission {
         this.tradingAuthorityExpirationTime = tradingAuthorityExpirationTime;
     }
 
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
     @Override
     public String toString() {
-        return "APIPermission{" +
-                "ipRestrict=" + ipRestrict +
-                ", createTime=" + createTime +
-                ", enableWithdrawals=" + enableWithdrawals +
-                ", enableInternalTransfer=" + enableInternalTransfer +
-                ", permitsUniversalTransfer=" + permitsUniversalTransfer +
-                ", enableVanillaOptions=" + enableVanillaOptions +
-                ", enableReading=" + enableReading +
-                ", enableFutures=" + enableFutures +
-                ", enableMargin=" + enableMargin +
-                ", enableSpotAndMarginTrading=" + enableSpotAndMarginTrading +
-                ", tradingAuthorityExpirationTime=" + tradingAuthorityExpirationTime +
-                '}';
+        return new JSONObject(this).toString();
     }
 
 }

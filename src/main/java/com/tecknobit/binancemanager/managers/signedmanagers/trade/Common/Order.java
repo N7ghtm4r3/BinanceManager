@@ -73,6 +73,18 @@ public class Order {
     }
 
     /**
+     * Constructor to init {@link Order} object
+     *
+     * @param order: order details as {@link JSONObject}
+     **/
+    public Order(JSONObject order) {
+        hOrder = new JsonHelper(order);
+        symbol = hOrder.getString("symbol");
+        orderId = hOrder.getLong("orderId");
+        clientOrderId = hOrder.getString("clientOrderId");
+    }
+
+    /**
      * Method to get {@link #symbol} instance <br>
      * Any params required
      *
@@ -128,18 +140,6 @@ public class Order {
          **/
         SELL
 
-    }
-
-    /**
-     * Constructor to init {@link Order} object
-     *
-     * @param order: order details as {@link JSONObject}
-     **/
-    public Order(JSONObject order) {
-        hOrder = new JsonHelper(order);
-        symbol = hOrder.getString("symbol");
-        orderId = hOrder.getLong("orderId");
-        clientOrderId = hOrder.getString("clientOrderId");
     }
 
     /**

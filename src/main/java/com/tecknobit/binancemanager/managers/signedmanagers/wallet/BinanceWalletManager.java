@@ -2,6 +2,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.wallet;
 
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.binancemanager.exceptions.SystemException;
+import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.FundingWallet;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.TradeFee;
@@ -13,12 +14,12 @@ import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accou
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.api.APIPermission;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.api.APIStatus;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.AssetDetail;
-import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.AssetDividend;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.AssetsDividendList;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.CoinInformation;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.ConvertibleBNBAssets;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.Deposit;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.DepositAddress;
-import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustLog;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustLogList;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustTransfer;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.UniversalTransfer;
 import org.json.JSONArray;
@@ -38,37 +39,92 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  * The {@code BinanceWalletManager} class is useful to manage all {@code "Binance"} Wallet Endpoints
  *
  * @author N7ghtm4r3 - Tecknobit
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#general-api-information">
- * https://binance-docs.github.io/apidocs/spot/en/#general-api-information</a>
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#wallet-endpoints">
+ * Wallet Endpoints</a>
+ * @see BinanceManager
+ * @see BinanceSignedManager
  **/
-
 public class BinanceWalletManager extends BinanceSignedManager {
 
-    /** Constructor with an endpoint give by parameter
-     * @param apiKey your api key
-     * @param secretKey your secret key
-     * @param baseEndpoint base endpoint choose from BASE_ENDPOINTS array
-     * **/
-    public BinanceWalletManager(String apiKey, String secretKey, String baseEndpoint) throws IOException, SystemException {
+    /**
+     * Constructor to init a {@link BinanceWalletManager}
+     *
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param defaultErrorMessage : custom error to show when is not a request error
+     * @param timeout             :             custom timeout for request
+     * @param apiKey              your api key
+     * @param secretKey           your secret key
+     **/
+    public BinanceWalletManager(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
+                                String secretKey) throws SystemException, IOException {
+        super(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
+    }
+
+    /**
+     * Constructor to init a {@link BinanceWalletManager}
+     *
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param defaultErrorMessage : custom error to show when is not a request error
+     * @param apiKey              your api key
+     * @param secretKey           your secret key
+     **/
+    public BinanceWalletManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
+                                String secretKey) throws SystemException, IOException {
+        super(baseEndpoint, defaultErrorMessage, apiKey, secretKey);
+    }
+
+    /**
+     * Constructor to init a {@link BinanceWalletManager}
+     *
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param timeout      :             custom timeout for request
+     * @param apiKey       your api key
+     * @param secretKey    your secret key
+     **/
+    public BinanceWalletManager(String baseEndpoint, int timeout, String apiKey,
+                                String secretKey) throws SystemException, IOException {
+        super(baseEndpoint, timeout, apiKey, secretKey);
+    }
+
+    /**
+     * Constructor to init {@link BinanceSignedManager"}
+     *
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param apiKey       your api key
+     * @param secretKey    your secret key
+     **/
+    public BinanceWalletManager(String baseEndpoint, String apiKey, String secretKey) throws SystemException, IOException {
         super(baseEndpoint, apiKey, secretKey);
-        if(!isSystemAvailable(baseEndpoint))
-            throw new SystemException();
     }
 
-    /** Constructor with an endpoint give by list auto research
-     * @param apiKey your api key
-     * @param secretKey your secret key
-     * **/
-    public BinanceWalletManager(String apiKey, String secretKey) throws SystemException, IOException {
-        super(null, apiKey, secretKey);
-    }
-
-    /** Request to get information of your coins available for deposit and withdraw <br>
+    /**
+     * Constructor to init a {@link BinanceWalletManager} <br>
      * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
+     *
+     * @throws IllegalArgumentException when a parameterized constructor has not been called before this constructor
+     * @apiNote this constructor is useful to instantiate a new {@link BinanceWalletManager}'s manager without re-insert
+     * the credentials and is useful in those cases if you need to use different manager at the same time:
+     * <pre>
+     *     {@code
+     *        //You need to insert all credentials requested
+     *        BinanceSignedManager firstManager = new BinanceSignedManager("apiKey", "apiSecret");
+     *        //You don't need to insert all credentials to make manager work
+     *        BinanceSignedManager secondManager = new BinanceSignedManager(); //same credentials used
+     *     }
+     * </pre>
+     **/
+    public BinanceWalletManager() {
+        super();
+    }
+
+    /**
+     * Request to get information of your coins available for deposit and withdraw <br>
+     * Any params required
+     *
      * @return all coin information as {@link String}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
+     **/
     public String getAllCoins() throws Exception {
         return sendSignedRequest(ALL_COINS_ENDPOINT, getParamTimestamp(), GET_METHOD);
     }
@@ -498,24 +554,28 @@ public class BinanceWalletManager extends BinanceSignedManager {
         return sendSignedRequest(DUST_LOG_ENDPOINT, getParamTimestamp(), GET_METHOD);
     }
 
-    /** Request to get dust log information <br>
+    /**
+     * Request to get dust log information <br>
      * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
+     *
      * @return dust log information as {@link JSONObject}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
+     **/
     public JSONObject getJSONDustLog() throws Exception {
         return new JSONObject(getDustLog());
     }
 
-    /** Request to get dust log information <br>
+    /**
+     * Request to get dust log information <br>
      * Any params required
+     *
+     * @return dust log information as DustLogList object
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
-     * @return dust log information as DustLog object
-     * **/
-    public DustLog getObjectDustLog() throws Exception {
-        return new DustLog(new JSONObject(getDustLog()));
+     * https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
+     **/
+    public DustLogList getObjectDustLog() throws Exception {
+        return new DustLogList(new JSONObject(getDustLog()));
     }
 
     /** Request to get dust log information
@@ -532,7 +592,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get dust log information
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are startTime,endTime,recvWindow)
+     * @implSpec (keys accepted are startTime, endTime, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
      * @return dust log information as {@link JSONObject}
@@ -541,15 +601,17 @@ public class BinanceWalletManager extends BinanceSignedManager {
         return new JSONObject(getDustLog(extraParams));
     }
 
-    /** Request to get dust log information
+    /**
+     * Request to get dust log information
+     *
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are startTime,endTime,recvWindow)
+     * @return dust log information as DustLogList object
+     * @implSpec (keys accepted are startTime, endTime, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
-     * @return dust log information as DustLog object
-     * **/
-    public DustLog getObjectDustLog(Params extraParams) throws Exception {
-        return new DustLog(new JSONObject(getDustLog(extraParams)));
+     * https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
+     **/
+    public DustLogList getObjectDustLog(Params extraParams) throws Exception {
+        return new DustLogList(new JSONObject(getDustLog(extraParams)));
     }
 
     /** Request to get convertible assets into BNB <br>
@@ -625,24 +687,28 @@ public class BinanceWalletManager extends BinanceSignedManager {
         return sendSignedRequest(ASSET_DIVIDEND_ENDPOINT, getParamTimestamp(), GET_METHOD);
     }
 
-    /** Request to get asset dividend <br>
+    /**
+     * Request to get asset dividend <br>
      * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
+     *
      * @return asset dividend as {@link JSONObject}
-     * **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
+     **/
     public JSONObject getJSONAssetDividend() throws Exception {
         return new JSONObject(getAssetDividend());
     }
 
-    /** Request to get asset dividend <br>
+    /**
+     * Request to get asset dividend <br>
      * Any params required
+     *
+     * @return asset dividend as AssetsDividendList object
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
-     * @return asset dividend as AssetDividend object
-     * **/
-    public AssetDividend getObjectAssetDividend() throws Exception {
-        return new AssetDividend(new JSONObject(getAssetDividend()));
+     * https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
+     **/
+    public AssetsDividendList getObjectAssetDividend() throws Exception {
+        return new AssetsDividendList(new JSONObject(getAssetDividend()));
     }
 
     /** Request to get asset dividend
@@ -659,24 +725,26 @@ public class BinanceWalletManager extends BinanceSignedManager {
 
     /** Request to get asset dividend
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are asset,startTime,endTime,limit,recvWindow)
+     * @implSpec (keys accepted are asset, startTime, endTime, limit, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
      *     https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
-     * @return  get asset dividend as {@link JSONObject}
+     * @return get asset dividend as {@link JSONObject}
      * **/
     public JSONObject getJSONAssetDividend(Params extraParams) throws Exception {
         return new JSONObject(getAssetDividend(extraParams));
     }
 
-    /** Request to get asset dividend
+    /**
+     * Request to get asset dividend
+     *
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are asset,startTime,endTime,limit,recvWindow)
+     * @return get asset dividend as AssetsDividendList object
+     * @implSpec (keys accepted are asset, startTime, endTime, limit, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
-     * @return  get asset dividend as AssetDividend object
-     * **/
-    public AssetDividend getObjectAssetDividend(Params extraParams) throws Exception {
-        return new AssetDividend(new JSONObject(getAssetDividend(extraParams)));
+     * https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
+     **/
+    public AssetsDividendList getObjectAssetDividend(Params extraParams) throws Exception {
+        return new AssetsDividendList(new JSONObject(getAssetDividend(extraParams)));
     }
 
     /** Request to get asset detail <br>

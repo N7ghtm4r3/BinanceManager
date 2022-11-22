@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.lists;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.binancemanager.managers.records.BinanceList;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order.Side;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order.TimeInForce;
 import org.json.JSONArray;
@@ -18,9 +19,9 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
  * Get Force Liquidation Record (USER_DATA)</a>
- * @see MarginList
+ * @see BinanceList
  **/
-public class ForceLiquidationList extends MarginList<Liquidation> {
+public class ForceLiquidationList extends BinanceList<Liquidation> {
 
     /**
      * Constructor to init {@link ForceLiquidationList} object
@@ -39,7 +40,7 @@ public class ForceLiquidationList extends MarginList<Liquidation> {
      **/
     public ForceLiquidationList(JSONObject jsonLiquidation) {
         super(jsonLiquidation);
-        JSONArray jList = hMarginList.getJSONArray("rows", new JSONArray());
+        JSONArray jList = hList.getJSONArray("rows", new JSONArray());
         for (int j = 0; j < jList.length(); j++)
             rows.add(new Liquidation(jList.getJSONObject(j)));
     }

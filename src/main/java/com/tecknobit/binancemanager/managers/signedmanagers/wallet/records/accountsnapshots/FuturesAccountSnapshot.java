@@ -1,41 +1,43 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots;
 
 import com.tecknobit.apimanager.formatters.JsonHelper;
+import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.details.MarginOrderDetails;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
- * The {@code FuturesAccountSnapshot} class is useful to obtain and format FuturesAccountSnapshot object
+ * The {@code FuturesAccountSnapshot} class is useful to format a {@code "Binance"}'s futures account snapshot
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
- * https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
+ * Daily Account Snapshot (USER_DATA)</a>
+ * @see AccountSnapshot
  **/
-
 public class FuturesAccountSnapshot extends AccountSnapshot {
 
     /**
-     * {@code futuresDataList} is instance that memorizes list of {@link FuturesData}
+     * {@code futuresData} is instance that memorizes list of {@link FuturesData}
      **/
-    private ArrayList<FuturesData> futuresDataList;
+    private ArrayList<FuturesData> futuresData;
 
     /**
      * Constructor to init {@link FuturesAccountSnapshot} object
      *
-     * @param code:            code of response
-     * @param msg:             message of response
-     * @param type:            type of account
-     * @param accountDetails:  details as {@link JSONObject}
-     * @param futuresDataList: list of {@link FuturesData}
+     * @param code:           code of response
+     * @param msg:            message of response
+     * @param accountDetails: details as {@link JSONObject}
+     * @param futuresData:    list of {@link FuturesData}
      **/
-    public FuturesAccountSnapshot(int code, String msg, String type, JSONArray accountDetails,
-                                  ArrayList<FuturesData> futuresDataList) {
-        super(code, msg, type, accountDetails);
-        this.futuresDataList = futuresDataList;
+    public FuturesAccountSnapshot(int code, String msg, JSONArray accountDetails,
+                                  ArrayList<FuturesData> futuresData) {
+        super(code, msg, AccountType.FUTURES, accountDetails);
+        this.futuresData = futuresData;
     }
 
     /**
@@ -44,47 +46,66 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
      * @param futuresAccount: futures account snapshot details as {@link JSONObject}
      **/
     public FuturesAccountSnapshot(JSONObject futuresAccount) {
-        super(futuresAccount, FUTURES);
-        futuresDataList = new ArrayList<>();
+        super(futuresAccount, AccountType.FUTURES);
+        futuresData = new ArrayList<>();
         for (int j = 0; j < snapshotVos.length(); j++)
-            futuresDataList.add(new FuturesData(snapshotVos.getJSONObject(j)));
+            futuresData.add(new FuturesData(snapshotVos.getJSONObject(j)));
     }
 
-    public ArrayList<FuturesData> getDataFuturesList() {
-        return futuresDataList;
+    /**
+     * Method to get {@link #futuresData} instance <br>
+     * Any params required
+     *
+     * @return {@link #futuresData} instance as {@link ArrayList} of {@link MarginOrderDetails}
+     **/
+    public ArrayList<FuturesData> getDataFutures() {
+        return futuresData;
     }
 
-    public void setDataFuturesList(ArrayList<FuturesData> futuresDataList) {
-        this.futuresDataList = futuresDataList;
+    /**
+     * Method to set {@link #futuresData} instance <br>
+     *
+     * @param futuresData: list of {@link FuturesData} to set
+     **/
+    public void setDataFuturesList(ArrayList<FuturesData> futuresData) {
+        this.futuresData = futuresData;
     }
 
+    /**
+     * Method to add a futures data  to {@link #futuresData}
+     *
+     * @param futuresData: futures data to add
+     **/
     public void insertDataFuture(FuturesData futuresData) {
-        if (!futuresDataList.contains(futuresData))
-            futuresDataList.add(futuresData);
+        if (!this.futuresData.contains(futuresData))
+            this.futuresData.add(futuresData);
     }
 
+    /**
+     * Method to remove a futures data  from {@link #futuresData}
+     *
+     * @param futuresData: futures data  to remove
+     * @return result of operation as boolean
+     **/
     public boolean removeDataFuture(FuturesData futuresData) {
-        return futuresDataList.remove(futuresData);
+        return this.futuresData.remove(futuresData);
     }
 
+    /**
+     * Method to get a futures data from {@link #futuresData} list
+     *
+     * @param index: index to fetch the futures data
+     * @return futures data as {@link FuturesData}
+     **/
     public FuturesData getDataFuture(int index) {
-        return futuresDataList.get(index);
-    }
-
-    @Override
-    public String toString() {
-        return "FuturesAccountSnapshot{" +
-                "futuresDataList=" + futuresDataList +
-                ", code=" + code +
-                ", msg='" + msg + '\'' +
-                ", type='" + type + '\'' +
-                '}';
+        return futuresData.get(index);
     }
 
     /**
      * The {@code FuturesData} class is useful to create a data futures object
+     *
+     * @author N7ghtm4r3 - Tecknobit
      **/
-
     public static class FuturesData {
 
         /**
@@ -93,14 +114,14 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
         private final long updateTime;
 
         /**
-         * {@code futuresAssetList} is instance that memorizes list of {@link FuturesAsset}
+         * {@code futuresAssets} is instance that memorizes list of {@link FuturesAsset}
          **/
-        private ArrayList<FuturesAsset> futuresAssetList;
+        private ArrayList<FuturesAsset> futuresAssets;
 
         /**
-         * {@code futuresPositionList} is instance that memorizes list of {@link FuturesPosition}
+         * {@code futuresPositions} is instance that memorizes list of {@link FuturesPosition}
          **/
-        private ArrayList<FuturesPosition> futuresPositionList;
+        private ArrayList<FuturesPosition> futuresPositions;
 
         /**
          * Constructor to init {@link FuturesData} object
@@ -111,8 +132,8 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          **/
         public FuturesData(long updateTime, ArrayList<FuturesAsset> futureAssets, ArrayList<FuturesPosition> futurePositions) {
             this.updateTime = updateTime;
-            this.futuresAssetList = futureAssets;
-            this.futuresPositionList = futurePositions;
+            this.futuresAssets = futureAssets;
+            this.futuresPositions = futurePositions;
         }
 
         /**
@@ -121,100 +142,154 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * @param dataFutures: futures data details as {@link JSONObject}
          **/
         public FuturesData(JSONObject dataFutures) {
+            JsonHelper hFutures = new JsonHelper(dataFutures);
             updateTime = dataFutures.getLong("updateTime");
-            futuresAssetList = getAssetsList(dataFutures);
-            futuresPositionList = getPositionsList(dataFutures);
+            futuresAssets = new ArrayList<>();
+            JSONArray jAssets = hFutures.getJSONArray("assets", new JSONArray());
+            for (int j = 0; j < jAssets.length(); j++)
+                futuresAssets.add(new FuturesAsset(jAssets.getJSONObject(j)));
+            futuresPositions = new ArrayList<>();
+            JSONArray jPositions = hFutures.getJSONArray("position", new JSONArray());
+            for (int j = 0; j < jPositions.length(); j++)
+                futuresPositions.add(new FuturesPosition(jPositions.getJSONObject(j)));
         }
 
         /**
-         * Method to assemble an {@link FuturesAsset} list
+         * Method to get {@link #updateTime} instance <br>
+         * Any params required
          *
-         * @param assets: list of assets obtain by AccountSnapshot {@code "Binance"} request
-         * @return list as {@link ArrayList} of {@link FuturesAsset}
+         * @return {@link #updateTime} instance as long
          **/
-        private ArrayList<FuturesAsset> getAssetsList(JSONObject assets) {
-            JSONArray assetsList = JsonHelper.getJSONArray(assets, "assets", new JSONArray());
-            ArrayList<FuturesAsset> futureAssets = new ArrayList<>();
-            for (int j = 0; j < assetsList.length(); j++)
-                futureAssets.add(new FuturesAsset(assetsList.getJSONObject(j)));
-            return futureAssets;
-        }
-
-        /**
-         * Method to assemble a {@link FuturesPosition} list
-         *
-         * @param positions: list of positions obtain by AccountSnapshot {@code "Binance"} request
-         * @return list as {@link ArrayList} of {@link FuturesPosition}
-         **/
-        private ArrayList<FuturesPosition> getPositionsList(JSONObject positions) {
-            JSONArray positionsList = JsonHelper.getJSONArray(positions, "position", new JSONArray());
-            ArrayList<FuturesPosition> futurePositions = new ArrayList<>();
-            for (int j = 0; j < positionsList.length(); j++)
-                futurePositions.add(new FuturesPosition(positionsList.getJSONObject(j)));
-            return futurePositions;
-        }
-
         public long getUpdateTime() {
             return updateTime;
         }
 
+        /**
+         * Method to get {@link #updateTime} instance <br>
+         * Any params required
+         *
+         * @return {@link #updateTime} instance as {@link Date}
+         **/
+        public Date getUpdateDate() {
+            return TimeFormatter.getDate(updateTime);
+        }
+
+        /**
+         * Method to get {@link #futuresAssets} instance <br>
+         * Any params required
+         *
+         * @return {@link #futuresAssets} instance as {@link ArrayList} of {@link FuturesAsset}
+         **/
         public ArrayList<FuturesAsset> getAssetFuturesList() {
-            return futuresAssetList;
+            return futuresAssets;
         }
 
-        public void setAssetFuturesList(ArrayList<FuturesAsset> futuresAssetList) {
-            this.futuresAssetList = futuresAssetList;
+        /**
+         * Method to set {@link #futuresData} instance <br>
+         *
+         * @param futuresAssets: list of {@link FuturesAsset} to set
+         **/
+        public void setAssetFuturesList(ArrayList<FuturesAsset> futuresAssets) {
+            this.futuresAssets = futuresAssets;
         }
 
+        /**
+         * Method to add a futures asset  to {@link #futuresAssets}
+         *
+         * @param futuresAsset: futures asset to add
+         **/
         public void insertAssetFuture(FuturesAsset futuresAsset) {
-            if (!futuresAssetList.contains(futuresAsset))
-                futuresAssetList.add(futuresAsset);
+            if (!futuresAssets.contains(futuresAsset))
+                futuresAssets.add(futuresAsset);
         }
 
+        /**
+         * Method to remove a futures asset  from {@link #futuresAssets}
+         *
+         * @param futuresAsset: futures asset  to remove
+         * @return result of operation as boolean
+         **/
         public boolean removeAssetFuture(FuturesAsset futuresAsset) {
-            return futuresAssetList.remove(futuresAsset);
+            return futuresAssets.remove(futuresAsset);
         }
 
+        /**
+         * Method to get a futures asset from {@link #futuresAssets} list
+         *
+         * @param index: index to fetch the futures asset
+         * @return futures asset as {@link FuturesAsset}
+         **/
         public FuturesAsset getAssetFutures(int index) {
-            return futuresAssetList.get(index);
+            return futuresAssets.get(index);
         }
 
+        /**
+         * Method to get {@link #futuresPositions} instance <br>
+         * Any params required
+         *
+         * @return {@link #futuresData} instance as {@link ArrayList} of {@link MarginOrderDetails}
+         **/
         public ArrayList<FuturesPosition> getPositionFuturesList() {
-            return futuresPositionList;
+            return futuresPositions;
         }
 
-        public void setPositionFuturesList(ArrayList<FuturesPosition> futuresPositionList) {
-            this.futuresPositionList = futuresPositionList;
+        /**
+         * Method to set {@link #futuresPositions} instance <br>
+         *
+         * @param futuresPositions: list of {@link FuturesPosition} to set
+         **/
+        public void setPositionFuturesList(ArrayList<FuturesPosition> futuresPositions) {
+            this.futuresPositions = futuresPositions;
         }
 
+        /**
+         * Method to add a futures position  to {@link #futuresData}
+         *
+         * @param futuresPosition: futures position to add
+         **/
         public void insertAssetFuture(FuturesPosition futuresPosition) {
-            if (!futuresPositionList.contains(futuresPosition))
-                futuresPositionList.add(futuresPosition);
+            if (!futuresPositions.contains(futuresPosition))
+                futuresPositions.add(futuresPosition);
         }
 
+        /**
+         * Method to remove a futures position  from {@link #futuresData}
+         *
+         * @param futuresPosition: futures position  to remove
+         * @return result of operation as boolean
+         **/
         public boolean removeAssetFuture(FuturesPosition futuresPosition) {
-            return futuresPositionList.remove(futuresPosition);
+            return futuresPositions.remove(futuresPosition);
         }
 
-        public FuturesPosition getPositionFuturesList(int index) {
-            return futuresPositionList.get(index);
+        /**
+         * Method to get a futures position from {@link #futuresPositions} list
+         *
+         * @param index: index to fetch the futures position
+         * @return position as {@link FuturesPosition}
+         **/
+        public FuturesPosition getPositionFutures(int index) {
+            return futuresPositions.get(index);
         }
 
+        /**
+         * Returns a string representation of the object <br>
+         * Any params required
+         *
+         * @return a string representation of the object as {@link String}
+         */
         @Override
         public String toString() {
-            return "FuturesData{" +
-                    "updateTime=" + updateTime +
-                    ", futuresAssetList=" + futuresAssetList +
-                    ", futuresPositionList=" + futuresPositionList +
-                    '}';
+            return new JSONObject(this).toString();
         }
 
     }
 
     /**
-     * The {@code FuturesAsset} class is useful to create a futures asset type
+     * The {@code FuturesAsset} class is useful to create a futures asset
+     *
+     * @author N7ghtm4r3 - Tecknobit
      **/
-
     public static class FuturesAsset {
 
         /**
@@ -259,19 +334,26 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * @throws IllegalArgumentException if parameters range is not respected
          **/
         public FuturesAsset(JSONObject futuresAsset) {
-            asset = futuresAsset.getString("asset");
-            marginBalance = futuresAsset.getDouble("marginBalance");
-            if (marginBalance < 0)
-                throw new IllegalArgumentException("Margin balance value cannot be less than 0");
-            walletBalance = futuresAsset.getDouble("walletBalance");
-            if (walletBalance < 0)
-                throw new IllegalArgumentException("Wallet balance value cannot be less than 0");
+            this(futuresAsset.getString("asset"), futuresAsset.getDouble("marginBalance"),
+                    futuresAsset.getDouble("walletBalance"));
         }
 
+        /**
+         * Method to get {@link #asset} instance <br>
+         * Any params required
+         *
+         * @return {@link #asset} instance as {@link String}
+         **/
         public String getAsset() {
             return asset;
         }
 
+        /**
+         * Method to get {@link #marginBalance} instance <br>
+         * Any params required
+         *
+         * @return {@link #marginBalance} instance as double
+         **/
         public double getMarginBalance() {
             return marginBalance;
         }
@@ -299,6 +381,12 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
             return roundValue(marginBalance, decimals);
         }
 
+        /**
+         * Method to get {@link #walletBalance} instance <br>
+         * Any params required
+         *
+         * @return {@link #walletBalance} instance as double
+         **/
         public double getWalletBalance() {
             return walletBalance;
         }
@@ -326,21 +414,24 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
             return roundValue(walletBalance, decimals);
         }
 
+        /**
+         * Returns a string representation of the object <br>
+         * Any params required
+         *
+         * @return a string representation of the object as {@link String}
+         */
         @Override
         public String toString() {
-            return "FuturesAsset{" +
-                    "asset='" + asset + '\'' +
-                    ", marginBalance=" + marginBalance +
-                    ", walletBalance=" + walletBalance +
-                    '}';
+            return new JSONObject(this).toString();
         }
 
     }
 
     /**
-     * The {@code FuturesPosition} class is useful to create a futures position object
+     * The {@code FuturesPosition} class is useful to create a futures position
+     *
+     * @author N7ghtm4r3 - Tecknobit
      **/
-
     public static class FuturesPosition {
 
         /**
@@ -373,7 +464,8 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * @param symbol:           symbol value
          * @param unRealizedProfit: unrealize profit value
          **/
-        public FuturesPosition(double entryPrice, double markPrice, double positionAmt, String symbol, double unRealizedProfit) {
+        public FuturesPosition(double entryPrice, double markPrice, double positionAmt, String symbol,
+                               double unRealizedProfit) {
             this.entryPrice = entryPrice;
             this.markPrice = markPrice;
             this.positionAmt = positionAmt;
@@ -394,6 +486,12 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
             unRealizedProfit = futuresPosition.getDouble("unRealizedProfit");
         }
 
+        /**
+         * Method to get {@link #entryPrice} instance <br>
+         * Any params required
+         *
+         * @return {@link #entryPrice} instance as double
+         **/
         public double getEntryPrice() {
             return entryPrice;
         }
@@ -421,6 +519,12 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
             return roundValue(entryPrice, decimals);
         }
 
+        /**
+         * Method to get {@link #markPrice} instance <br>
+         * Any params required
+         *
+         * @return {@link #markPrice} instance as double
+         **/
         public double getMarkPrice() {
             return markPrice;
         }
@@ -448,6 +552,12 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
             return roundValue(markPrice, decimals);
         }
 
+        /**
+         * Method to get {@link #positionAmt} instance <br>
+         * Any params required
+         *
+         * @return {@link #positionAmt} instance as double
+         **/
         public double getPositionAmt() {
             return positionAmt;
         }
@@ -475,10 +585,22 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
             return roundValue(positionAmt, decimals);
         }
 
+        /**
+         * Method to get {@link #symbol} instance <br>
+         * Any params required
+         *
+         * @return {@link #symbol} instance as {@link String}
+         **/
         public String getSymbol() {
             return symbol;
         }
 
+        /**
+         * Method to get {@link #unRealizedProfit} instance <br>
+         * Any params required
+         *
+         * @return {@link #unRealizedProfit} instance as double
+         **/
         public double getUnRealizedProfit() {
             return unRealizedProfit;
         }
@@ -506,15 +628,15 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
             return roundValue(unRealizedProfit, decimals);
         }
 
+        /**
+         * Returns a string representation of the object <br>
+         * Any params required
+         *
+         * @return a string representation of the object as {@link String}
+         */
         @Override
         public String toString() {
-            return "FuturesPosition{" +
-                    "entryPrice=" + entryPrice +
-                    ", markPrice=" + markPrice +
-                    ", positionAmt=" + positionAmt +
-                    ", symbol='" + symbol + '\'' +
-                    ", unRealizedProfit=" + unRealizedProfit +
-                    '}';
+            return new JSONObject(this).toString();
         }
 
     }
