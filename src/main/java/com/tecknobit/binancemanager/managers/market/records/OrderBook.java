@@ -54,16 +54,15 @@ public class OrderBook {
         this.symbol = symbol;
     }
 
-    // TODO: 20/11/2022 REMOVE EXTRA SYMBOL CHECK
     /**
      * Constructor to init {@link OrderBook} object
      *
      * @param orderBook: order book details as {@link JSONObject}
      **/
-    public OrderBook(JSONObject orderBook, String symbol) {
+    public OrderBook(JSONObject orderBook) {
         JsonHelper hBook = new JsonHelper(orderBook);
-        this.symbol = symbol;
-        lastUpdateId = orderBook.getLong("lastUpdateId");
+        symbol = hBook.getString("symbol");
+        lastUpdateId = hBook.getLong("lastUpdateId", 0);
         orderDetailsAsks = returnOrdersList(hBook.getJSONArray("bids", new JSONArray()));
         orderDetailsBids = returnOrdersList(hBook.getJSONArray("asks", new JSONArray()));
     }

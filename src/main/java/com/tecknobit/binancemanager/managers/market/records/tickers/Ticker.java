@@ -29,16 +29,6 @@ import org.json.JSONObject;
 public abstract class Ticker {
 
     /**
-     * Method to get {@link #symbol} instance <br>
-     * Any params required
-     *
-     * @return {@link #symbol} instance as {@link String}
-     **/
-    public String getSymbol() {
-        return symbol;
-    }
-
-    /**
      * {@code symbol} is instance that contains symbol of the ticker
      * **/
     protected final String symbol;
@@ -50,6 +40,16 @@ public abstract class Ticker {
      **/
     public Ticker(String symbol) {
         this.symbol = symbol;
+    }
+
+    /**
+     * Method to get {@link #symbol} instance <br>
+     * Any params required
+     *
+     * @return {@link #symbol} instance as {@link String}
+     **/
+    public String getSymbol() {
+        return symbol;
     }
 
     /**

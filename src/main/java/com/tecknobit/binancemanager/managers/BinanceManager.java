@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers;
 
+import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.apis.APIRequest;
 import com.tecknobit.apimanager.trading.TradingTools;
@@ -32,10 +33,12 @@ public class BinanceManager {
      * re-insert credentials
      **/
     protected static final Properties properties = new Properties();
+
     /**
      * {@code baseEndpoint} is instance that  memorizes main endpoint where {@link BinanceManager}'s managers work on
      **/
     protected final String baseEndpoint;
+
     /**
      * {@code apiRequest} is instance that contains list of {@code "Binance"}'s main endpoints
      **/
@@ -64,7 +67,12 @@ public class BinanceManager {
      * @param defaultErrorMessage: custom error to show when is not a request error
      **/
     public BinanceManager(String baseEndpoint, String defaultErrorMessage) throws SystemException, IOException {
-        this(baseEndpoint, defaultErrorMessage, -1);
+        apiRequest = new APIRequest(defaultErrorMessage);
+        if (baseEndpoint != null)
+            this.baseEndpoint = baseEndpoint;
+        else
+            this.baseEndpoint = getDefaultBaseEndpoint();
+        storeProperties(this.baseEndpoint, defaultErrorMessage, -1);
     }
 
     /**
@@ -74,7 +82,12 @@ public class BinanceManager {
      * @param timeout:     custom timeout for request
      **/
     public BinanceManager(String baseEndpoint, int timeout) throws SystemException, IOException {
-        this(baseEndpoint, null, timeout);
+        apiRequest = new APIRequest(timeout);
+        if (baseEndpoint != null)
+            this.baseEndpoint = baseEndpoint;
+        else
+            this.baseEndpoint = getDefaultBaseEndpoint();
+        storeProperties(this.baseEndpoint, null, timeout);
     }
 
     /**
@@ -83,7 +96,12 @@ public class BinanceManager {
      * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
      **/
     public BinanceManager(String baseEndpoint) throws SystemException, IOException {
-        this(baseEndpoint, null, -1);
+        apiRequest = new APIRequest();
+        if (baseEndpoint != null)
+            this.baseEndpoint = baseEndpoint;
+        else
+            this.baseEndpoint = getDefaultBaseEndpoint();
+        storeProperties(this.baseEndpoint, null, -1);
     }
 
     /**
@@ -239,11 +257,12 @@ public class BinanceManager {
 
     /**
      * Request to get server timestamp or your current timestamp
-     * any param required
+     * Any params required
      *
      * @return es. 1566247363776
      **/
-    public long getTimestamp() {
+    @RequestPath(path = "/api/v3/time")
+    public long getServerTime() {
         try {
             apiRequest.sendAPIRequest(baseEndpoint + TIMESTAMP_ENDPOINT, GET_METHOD);
             return new JSONObject(apiRequest.getResponse()).getLong("serverTime");
@@ -252,12 +271,14 @@ public class BinanceManager {
         }
     }
 
-    /** Method to get timestamp for request <br>
+    /**
+     * Method to get timestamp for request <br>
      * Any params required
-     * @return "?timestamp=" + getTimestamp() return value
-     * **/
-    public String getParamTimestamp(){
-        return "?timestamp=" + getTimestamp();
+     *
+     * @return "?timestamp=" + getServerTime() return value
+     **/
+    public String getTimestampParam() {
+        return "?timestamp=" + getServerTime();
     }
 
     /** Method to execute and get response of a request
@@ -283,35 +304,52 @@ public class BinanceManager {
         return apiRequest.getResponse();
     }
 
-    /** Method to get status code of request response <br>
+    /**
+     * Method to get status code of request response <br>
      * Any params required
+     *
      * @return status code of request response
-     * **/
-    public int getStatusResponse(){
+     **/
+    public int getStatusResponse() {
         return apiRequest.getResponseStatusCode();
     }
 
-    /** Method to get error response of an HTTP request <br>
+    /**
+     * Method to get error response of an HTTP request <br>
      * Any params required
+     *
      * @return apiRequest.getErrorResponse();
-     * **/
+     **/
     public String getErrorResponse() {
         return apiRequest.getErrorResponse();
     }
 
-    /** Method to print error response of an HTTP request  <br>
+    /**
+     * Method to get error response of an HTTP request <br>
      * Any params required
-     * **/
+     *
+     * @return apiRequest.getErrorResponse() as
+     **/
+    public <T> T getJSONErrorResponse() {
+        return apiRequest.getJSONErrorResponse();
+    }
+
+    /**
+     * Method to print error response of an HTTP request  <br>
+     * Any params required
+     **/
     public void printErrorResponse() {
         apiRequest.printErrorResponse();
     }
 
-    /** Method to round a value
-     * @param value: value to round
+    /**
+     * Method to round a value
+     *
+     * @param value:         value to round
      * @param decimalDigits: number of digits to round final value
      * @return value rounded with decimalDigits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     * **/
+     **/
     public double roundValue(double value, int decimalDigits){
         return TradingTools.roundValue(value, decimalDigits);
     }
@@ -389,12 +427,13 @@ public class BinanceManager {
      * @implSpec look this library <a href="https://github.com/N7ghtm4r3/APIManager">here</a>
      * @see APIRequest.Params
      **/
-
     public static class Params extends APIRequest.Params {
     }
 
     /**
      * The {@code BinanceResponse} interface is useful to format base {@code "Binance"}'s errors responses
+     *
+     * @author N7ghtm4r3 - Tecknobit
      **/
     public interface BinanceResponse {
 

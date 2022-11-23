@@ -1,5 +1,7 @@
 package com.tecknobit.binancemanager.managers.market.records.tickers;
 
+import org.json.JSONObject;
+
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
 /**
@@ -26,6 +28,16 @@ public class PriceTicker extends Ticker {
     public PriceTicker(String symbol, double price) {
         super(symbol);
         this.price = price;
+    }
+
+    /**
+     * Constructor to init {@link PriceTicker} object
+     *
+     * @param jPriceTicker: price ticker details as {@link JSONObject}
+     **/
+    public PriceTicker(JSONObject jPriceTicker) {
+        super(jPriceTicker.getString("symbol"));
+        price = jPriceTicker.getDouble("price");
     }
 
     /**

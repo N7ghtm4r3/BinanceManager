@@ -136,7 +136,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return result transfer as {@link String}
      * **/
     public String executeCrossMarginAccountTransfer(String asset, double amount, int type) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset + "&amount=" + asset + "&type=" + type;
+        String params = getTimestampParam() + "&asset=" + asset + "&amount=" + asset + "&type=" + type;
         return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, params, POST_METHOD);
     }
 
@@ -177,7 +177,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return result transfer as {@link String}
      * **/
     public String executeCrossMarginAccountTransfer(String asset, double amount, int type, long recvWindow) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset + "&amount=" + amount+ "&type=" + type +
+        String params = getTimestampParam() + "&asset=" + asset + "&amount=" + amount + "&type=" + type +
                 "&recvWindow=" + recvWindow;
         return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, params, POST_METHOD);
     }
@@ -218,7 +218,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return result of margin account borrow request as {@link String}
      * **/
     public String applyMarginAccountBorrow(String asset, double amount) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset + "&amount=" +amount;
+        String params = getTimestampParam() + "&asset=" + asset + "&amount=" + amount;
         return sendSignedRequest(MARGIN_LOAN_ENDPOINT, params, POST_METHOD);
     }
 
@@ -254,7 +254,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return result of margin account borrow request as {@link String}
      * **/
     public String applyMarginAccountBorrow(String asset, double amount, Params extraParams) throws Exception {
-        String params = getParamTimestamp()+ "&asset=" + asset + "&amount=" +amount;
+        String params = getTimestampParam() + "&asset=" + asset + "&amount=" + amount;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_LOAN_ENDPOINT, params, POST_METHOD);
     }
@@ -293,7 +293,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return result of repay margin account request as {@link String}
      * **/
     public String repayMarginAccount(String asset, double amount) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset +" &amount="+ amount;
+        String params = getTimestampParam() + "&asset=" + asset + " &amount=" + amount;
         return sendSignedRequest(MARGIN_REPAY_ENDPOINT, params, POST_METHOD);
     }
 
@@ -329,7 +329,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return result of repay margin account request as {@link String}
      * **/
     public String repayMarginAccount(String asset, double amount, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset + "&amount=" + amount;
+        String params = getTimestampParam() + "&asset=" + asset + "&amount=" + amount;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_REPAY_ENDPOINT, params, POST_METHOD);
     }
@@ -376,7 +376,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return detail's asset as {@link String}
      * **/
     public String queryMarginAsset(String asset) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset;
+        String params = getTimestampParam() + "&asset=" + asset;
         return sendSignedRequest(QUERY_MARGIN_ASSET_ENDPOINT, params, GET_METHOD);
     }
 
@@ -441,7 +441,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cross margin pair as {@link String}
      * **/
     public String queryCrossMarginPair(String asset) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset;
+        String params = getTimestampParam() + "&asset=" + asset;
         return sendSignedRequest(QUERY_CROSS_MARGIN_PAIR_ENDPOINT, params, GET_METHOD);
     }
 
@@ -541,7 +541,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * **/
     public String sendNewMarginOrder(String symbol, String side, String type, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&side=" + side +"&type=" + type;
+        String params = getTimestampParam() + "&symbol=" + symbol + "&side=" + side + "&type=" + type;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_ORDER_ENDPOINT, params, POST_METHOD);
     }
@@ -597,7 +597,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String sendNewMarginOrder(String symbol, String side, String type, String newOrderRespType,
                                      Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&side=" + side + "&type=" + type + "&newOrderRespType="
+        String params = getTimestampParam() + "&symbol=" + symbol + "&side=" + side + "&type=" + type + "&newOrderRespType="
                 + newOrderRespType;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_ORDER_ENDPOINT, params, POST_METHOD);
@@ -656,7 +656,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cancel a margin order response as {@link String}
      * **/
     public String cancelMarginOrder(String symbol) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol;
+        String params = getTimestampParam() + "&symbol=" + symbol;
         return sendSignedRequest(MARGIN_ORDER_ENDPOINT, params, DELETE_METHOD);
     }
 
@@ -693,7 +693,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cancel a margin order response as {@link String}
      * **/
     public String cancelMarginOrder(String symbol, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol;
+        String params = getTimestampParam() + "&symbol=" + symbol;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_ORDER_ENDPOINT, params, DELETE_METHOD);
     }
@@ -733,7 +733,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cancel all margin order response as {@link String}
      * **/
     public String cancelAllMarginOrders(String symbol) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol;
+        String params = getTimestampParam() + "&symbol=" + symbol;
         return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, params, DELETE_METHOD);
     }
 
@@ -766,7 +766,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cancel all margin order response as {@link String}
      * **/
     public String cancelAllMarginOrders(String symbol, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol;
+        String params = getTimestampParam() + "&symbol=" + symbol;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, params, DELETE_METHOD);
     }
@@ -825,7 +825,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      **/
     public String getCrossMarginTransferHistory() throws Exception {
-        return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, getParamTimestamp(), GET_METHOD);
+        return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, getTimestampParam(), GET_METHOD);
     }
 
     /**
@@ -862,7 +862,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      **/
     public String getCrossMarginTransferHistory(Params extraParams) throws Exception {
-        return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, apiRequest.encodeAdditionalParams(getParamTimestamp(),
+        return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, apiRequest.encodeAdditionalParams(getTimestampParam(),
                 extraParams), GET_METHOD);
     }
 
@@ -899,7 +899,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cross margin transfer history response as {@link String}
      * **/
     public String getCrossMarginTransferHistory(String asset) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset;
+        String params = getTimestampParam() + "&asset=" + asset;
         return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, params, GET_METHOD);
     }
 
@@ -939,7 +939,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
      **/
     public String getCrossMarginTransferHistory(String asset, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset;
+        String params = getTimestampParam() + "&asset=" + asset;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, params, GET_METHOD);
     }
@@ -982,7 +982,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
      **/
     public String getQueryLoanRecord(String asset) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset;
+        String params = getTimestampParam() + "&asset=" + asset;
         return sendSignedRequest(MARGIN_LOAN_ENDPOINT, params, GET_METHOD);
     }
 
@@ -1021,7 +1021,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
      **/
     public String getQueryLoanRecord(String asset, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset;
+        String params = getTimestampParam() + "&asset=" + asset;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_LOAN_ENDPOINT, params, GET_METHOD);
     }
@@ -1063,7 +1063,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
      **/
     public String getQueryRepayRecord(String asset) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset;
+        String params = getTimestampParam() + "&asset=" + asset;
         return sendSignedRequest(MARGIN_REPAY_ENDPOINT, params, GET_METHOD);
     }
 
@@ -1102,7 +1102,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
      **/
     public String getQueryRepayRecord(String asset, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset;
+        String params = getTimestampParam() + "&asset=" + asset;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_REPAY_ENDPOINT, params, GET_METHOD);
     }
@@ -1144,7 +1144,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      **/
     public String getInterestHistory() throws Exception {
-        return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT, getParamTimestamp(), GET_METHOD);
+        return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT, getTimestampParam(), GET_METHOD);
     }
 
     /**
@@ -1181,7 +1181,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      **/
     public String getInterestHistory(Params extraParams) throws Exception {
-        return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT, apiRequest.encodeAdditionalParams(getParamTimestamp(),
+        return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT, apiRequest.encodeAdditionalParams(getTimestampParam(),
                 extraParams), GET_METHOD);
     }
 
@@ -1220,7 +1220,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      **/
     public String getInterestHistory(String asset) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset;
+        String params = getTimestampParam() + "&asset=" + asset;
         return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT, params, GET_METHOD);
     }
 
@@ -1259,7 +1259,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
      **/
     public String getInterestHistory(String asset, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset;
+        String params = getTimestampParam() + "&asset=" + asset;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT, params, GET_METHOD);
     }
@@ -1301,7 +1301,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
      **/
     public String getMarginForceLiquidation() throws Exception {
-        return sendSignedRequest(MARGIN_FORCE_LIQUIDATION_ENDPOINT, getParamTimestamp(), GET_METHOD);
+        return sendSignedRequest(MARGIN_FORCE_LIQUIDATION_ENDPOINT, getTimestampParam(), GET_METHOD);
     }
 
     /**
@@ -1338,7 +1338,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
      **/
     public String getMarginForceLiquidation(Params extraParams) throws Exception {
-        return sendSignedRequest(MARGIN_FORCE_LIQUIDATION_ENDPOINT, apiRequest.encodeAdditionalParams(getParamTimestamp(),
+        return sendSignedRequest(MARGIN_FORCE_LIQUIDATION_ENDPOINT, apiRequest.encodeAdditionalParams(getTimestampParam(),
                 extraParams), GET_METHOD);
     }
 
@@ -1375,7 +1375,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cross margin account details response as {@link String}
      * **/
     public String getCrossMarginAccountDetails() throws Exception {
-        return sendSignedRequest(CROSS_MARGIN_ACCOUNT_DETAILS_ENDPOINT, getParamTimestamp(), GET_METHOD);
+        return sendSignedRequest(CROSS_MARGIN_ACCOUNT_DETAILS_ENDPOINT, getTimestampParam(), GET_METHOD);
     }
 
     /** Request to get cross margin account details <br>
@@ -1405,8 +1405,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cross margin account details response as {@link String}
      * **/
     public String getCrossMarginAccountDetails(long recvWindow) throws Exception {
-        String params = getParamTimestamp() + "&recvWindow=" + recvWindow;
-        return sendSignedRequest(CROSS_MARGIN_ACCOUNT_DETAILS_ENDPOINT, getParamTimestamp(), GET_METHOD);
+        String params = getTimestampParam() + "&recvWindow=" + recvWindow;
+        return sendSignedRequest(CROSS_MARGIN_ACCOUNT_DETAILS_ENDPOINT, getTimestampParam(), GET_METHOD);
     }
 
     /** Request to get cross margin account details
@@ -1436,7 +1436,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return margin status order response as {@link String}
      * **/
     public String getMarginOrderStatus(String symbol) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol;
+        String params = getTimestampParam() + "&symbol=" + symbol;
         return sendSignedRequest(MARGIN_ORDER_ENDPOINT, params, GET_METHOD);
     }
 
@@ -1469,7 +1469,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return margin status order response as {@link String}
      * **/
     public String getMarginOrderStatus(String symbol, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol;
+        String params = getTimestampParam() + "&symbol=" + symbol;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_ORDER_ENDPOINT, params, GET_METHOD);
     }
@@ -1505,7 +1505,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all margin open orders as {@link String}
      * **/
     public String getAllMarginOpenOrders() throws Exception {
-        return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, getParamTimestamp(), GET_METHOD);
+        return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, getTimestampParam(), GET_METHOD);
     }
 
     /** Request to get all margin open orders <br>
@@ -1535,7 +1535,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all margin open orders as {@link String}
      * **/
     public String getAllMarginOpenOrders(String symbol) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&isIsolated=true";
+        String params = getTimestampParam() + "&symbol=" + symbol + "&isIsolated=true";
         return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, params, GET_METHOD);
     }
 
@@ -1567,7 +1567,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all margin open orders as {@link String}
      * **/
     public String getAllMarginOpenOrders(Params extraParams) throws Exception {
-        String params = apiRequest.encodeAdditionalParams(getParamTimestamp(), extraParams);
+        String params = apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams);
         return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, params, GET_METHOD);
     }
 
@@ -1602,7 +1602,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all margin open orders as {@link String}
      * **/
     public String getAllMarginOpenOrders(String symbol, long recvWindow) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&isIsolated=true" + "&recvWindow=" + recvWindow;
+        String params = getTimestampParam() + "&symbol=" + symbol + "&isIsolated=true" + "&recvWindow=" + recvWindow;
         return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, params, GET_METHOD);
     }
 
@@ -1635,7 +1635,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all margin orders as {@link String}
      * **/
     public String getAllMarginOrders(String symbol) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol;
+        String params = getTimestampParam() + "&symbol=" + symbol;
         return sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
     }
 
@@ -1668,7 +1668,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all margin orders as {@link String}
      * **/
     public String getAllMarginOrders(String symbol, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol;
+        String params = getTimestampParam() + "&symbol=" + symbol;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
     }
@@ -1719,7 +1719,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return new OCO margin order response as {@link String}
      * **/
     public String sendNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&side=" + side + "&quantity=" + quantity
+        String params = getTimestampParam() + "&symbol=" + symbol + "&side=" + side + "&quantity=" + quantity
                 + "&price=" + price + "&stopPrice=" + stopPrice;
         return sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT, params, POST_METHOD);
     }
@@ -1769,7 +1769,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String sendNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice,
                                         Params extraParams ) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&side=" + side + "&quantity=" + quantity +
+        String params = getTimestampParam() + "&symbol=" + symbol + "&side=" + side + "&quantity=" + quantity +
                 "&price=" + price + "&stopPrice=" + stopPrice;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT, params, POST_METHOD);
@@ -1827,7 +1827,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String sendNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice,
                                         double stopLimitPrice, String stopLimitTimeInForce) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol+ "&side=" + side + "&quantity=" + quantity +
+        String params = getTimestampParam() + "&symbol=" + symbol + "&side=" + side + "&quantity=" + quantity +
                 "&price=" + price + "&stopPrice=" + stopPrice + "&stopLimitPrice=" + stopLimitPrice +
                 "&stopLimitTimeInForce=" + stopLimitTimeInForce;
         return sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT, params, POST_METHOD);
@@ -1888,7 +1888,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     public String sendNewOCOMarginOrder(String symbol, String side, double quantity, double price, double stopPrice,
                                         double stopLimitPrice, String stopLimitTimeInForce,
                                         Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&side=" + side + "&quantity=" + quantity +
+        String params = getTimestampParam() + "&symbol=" + symbol + "&side=" + side + "&quantity=" + quantity +
                 "&price=" + price + "&stopPrice=" + stopPrice + "&stopLimitPrice=" + stopLimitPrice +
                 "&stopLimitTimeInForce=" + stopLimitTimeInForce;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
@@ -1948,7 +1948,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cancel OCO margin order response as {@link String}
      * **/
     public String cancelOCOMarginOrder(String symbol, long orderListId) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&orderListId=" + orderListId;
+        String params = getTimestampParam() + "&symbol=" + symbol + "&orderListId=" + orderListId;
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, DELETE_METHOD);
     }
 
@@ -1982,7 +1982,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cancel OCO margin order response as {@link String}
      * **/
     public String cancelOCOMarginOrder(String symbol, String listClientOrderId) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&listClientOrderId=" + listClientOrderId;
+        String params = getTimestampParam() + "&symbol=" + symbol + "&listClientOrderId=" + listClientOrderId;
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, DELETE_METHOD);
     }
 
@@ -2018,7 +2018,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cancel OCO margin order response as {@link String}
      * **/
     public String cancelOCOMarginOrder(String symbol, long orderListId, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&orderListId=" + orderListId;
+        String params = getTimestampParam() + "&symbol=" + symbol + "&orderListId=" + orderListId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, DELETE_METHOD);
     }
@@ -2060,7 +2060,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cancel OCO margin order response as {@link String}
      * **/
     public String cancelOCOMarginOrder(String symbol, String listClientOrderId, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&listClientOrderId=" + listClientOrderId;
+        String params = getTimestampParam() + "&symbol=" + symbol + "&listClientOrderId=" + listClientOrderId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, DELETE_METHOD);
     }
@@ -2100,7 +2100,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return OCO margin order status response as {@link String}
      * **/
     public String getOCOMarginOrderStatus(String symbol, long orderListId) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true;
+        String params = getTimestampParam() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true;
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,GET_METHOD);
     }
 
@@ -2134,7 +2134,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return OCO margin order status response as {@link String}
      * **/
     public String getOCOMarginOrderStatus(String symbol, String origClientOrderId) throws Exception {
-        String params = getParamTimestamp()+ "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId +
+        String params = getTimestampParam() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId +
                 "&isIsolated=" + true;
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, GET_METHOD);
     }
@@ -2168,7 +2168,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return OCO margin order status response as {@link String}
      * **/
     public String getOCOMarginOrderStatus(long orderListId) throws Exception {
-        String params = getParamTimestamp() + "&orderListId=" + orderListId;
+        String params = getTimestampParam() + "&orderListId=" + orderListId;
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, GET_METHOD);
     }
 
@@ -2199,7 +2199,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return OCO margin order status response as {@link String}
      * **/
     public String getOCOMarginOrderStatus(String origClientOrderId) throws Exception {
-        String params = getParamTimestamp() + "&origClientOrderId=" + origClientOrderId;
+        String params = getTimestampParam() + "&origClientOrderId=" + origClientOrderId;
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, GET_METHOD);
     }
 
@@ -2233,7 +2233,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return OCO margin order status response as {@link String}
      * **/
     public String getOCOMarginOrderStatus(String symbol, long orderListId, Params extraParams) throws Exception {
-        String params = getParamTimestamp()+ "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true;
+        String params = getTimestampParam() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, GET_METHOD);
     }
@@ -2275,7 +2275,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return OCO margin order status response as {@link String}
      * **/
     public String getOCOMarginOrderStatus(String symbol, String origClientOrderId,Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId +
+        String params = getTimestampParam() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId +
                 "&isIsolated=" + true;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, GET_METHOD);
@@ -2316,7 +2316,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return OCO margin order status response as {@link String}
      * **/
     public String getOCOMarginOrderStatus(long orderListId, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&orderListId=" + orderListId;
+        String params = getTimestampParam() + "&orderListId=" + orderListId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, GET_METHOD);
     }
@@ -2354,7 +2354,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return OCO margin order status response as {@link String}
      * **/
     public String getOCOMarginOrderStatus(String origClientOrderId, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&origClientOrderId=" + origClientOrderId;
+        String params = getTimestampParam() + "&origClientOrderId=" + origClientOrderId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, GET_METHOD);
     }
@@ -2392,7 +2392,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as {@link String}
      * **/
     public String getAllOCOMarginOrders(String symbol, long orderListId) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true;
+        String params = getTimestampParam() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true;
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
     }
 
@@ -2426,7 +2426,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as {@link String}
      * **/
     public String getAllOCOMarginOrders(String symbol, String origClientOrderId) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId
+        String params = getTimestampParam() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId
                 + "&isIsolated=" + true;
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
     }
@@ -2464,9 +2464,9 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as {@link String}
      * **/
     public String getAllOCOMarginOrders(String symbol, long orderListId, long fromId, String keyTime, long valueTime) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true
-                + "&"+ keyTime + "=" + valueTime + "&fromId=" + fromId;
-        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
+        String params = getTimestampParam() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true
+                + "&" + keyTime + "=" + valueTime + "&fromId=" + fromId;
+        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
     }
 
     /** Request to get all OCO margin orders status
@@ -2511,7 +2511,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getAllOCOMarginOrders(String symbol, String origClientOrderId, long fromId, String keyTime,
                                         long valueTime) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId
+        String params = getTimestampParam() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId
                 + "&isIsolated=" + true + "&" + keyTime + "=" + valueTime + "&fromId=" + fromId;
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
     }
@@ -2554,7 +2554,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as {@link String}
      * **/
     public String getAllOCOMarginOrders(long orderListId) throws Exception {
-        String params = getParamTimestamp() + "&orderListId=" + orderListId;
+        String params = getTimestampParam() + "&orderListId=" + orderListId;
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
     }
 
@@ -2585,7 +2585,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as {@link String}
      * **/
     public String getAllOCOMarginOrders(String origClientOrderId) throws Exception {
-        String params = getParamTimestamp() + "&origClientOrderId=" + origClientOrderId;
+        String params = getTimestampParam() + "&origClientOrderId=" + origClientOrderId;
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
     }
 
@@ -2619,9 +2619,9 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as {@link String}
      * **/
     public String getAllOCOMarginOrders(long orderListId, long fromId, String keyTime, long valueTime) throws Exception {
-        String params = getParamTimestamp() + "&orderListId=" + orderListId + "&" + keyTime + "=" + valueTime
-                 + "&fromId=" + fromId;
-        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,params,GET_METHOD);
+        String params = getTimestampParam() + "&orderListId=" + orderListId + "&" + keyTime + "=" + valueTime
+                + "&fromId=" + fromId;
+        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
     }
 
     /** Request to get all OCO margin orders status
@@ -2663,8 +2663,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getAllOCOMarginOrders(String origClientOrderId, long fromId, String keyTime,
                                         long valueTime) throws Exception {
-        String params = getParamTimestamp() + "&origClientOrderId=" + origClientOrderId + "&" + keyTime + "=" + valueTime
-                 + "&fromId=" + fromId;
+        String params = getTimestampParam() + "&origClientOrderId=" + origClientOrderId + "&" + keyTime + "=" + valueTime
+                + "&fromId=" + fromId;
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
     }
 
@@ -2707,7 +2707,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as {@link String}
      * **/
     public String getAllOCOMarginOrders(String symbol, long orderListId, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true;
+        String params = getTimestampParam() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
     }
@@ -2749,8 +2749,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as {@link String}
      * **/
     public String getAllOCOMarginOrders(String symbol, String origClientOrderId, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId
-                 + "&isIsolated=" + true;
+        String params = getTimestampParam() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId
+                + "&isIsolated=" + true;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
     }
@@ -2796,8 +2796,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getAllOCOMarginOrders(String symbol, long orderListId, long fromId, String keyTime, long valueTime,
                                         Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true
-                 + "&" + keyTime + "=" + valueTime + "&fromId=" + fromId;
+        String params = getTimestampParam() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true
+                + "&" + keyTime + "=" + valueTime + "&fromId=" + fromId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
     }
@@ -2852,7 +2852,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getAllOCOMarginOrders(String symbol, String origClientOrderId, long fromId, String keyTime,
                                         long valueTime, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId
+        String params = getTimestampParam() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId
                 + "&isIsolated=" + true + "&" + keyTime + "=" + valueTime + "&fromId=" + fromId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
@@ -2903,7 +2903,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as {@link String}
      * **/
     public String getAllOCOMarginOrders(long orderListId, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&orderListId=" + orderListId;
+        String params = getTimestampParam() + "&orderListId=" + orderListId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
     }
@@ -2941,7 +2941,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all OCO margin orders status response as {@link String}
      * **/
     public String getAllOCOMarginOrders(String origClientOrderId, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&origClientOrderId=" + origClientOrderId;
+        String params = getTimestampParam() + "&origClientOrderId=" + origClientOrderId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
     }
@@ -2984,7 +2984,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getAllOCOMarginOrders(long orderListId, long fromId, String keyTime,
                                         long valueTime, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&orderListId=" + orderListId + "&" + keyTime + "=" + valueTime +
+        String params = getTimestampParam() + "&orderListId=" + orderListId + "&" + keyTime + "=" + valueTime +
                 "&fromId=" + fromId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
@@ -3036,8 +3036,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getAllOCOMarginOrders(String origClientOrderId, long fromId, String keyTime,
                                         long valueTime, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&origClientOrderId=" + origClientOrderId+ "&" + keyTime + "=" + valueTime
-                 + "&fromId=" + fromId;
+        String params = getTimestampParam() + "&origClientOrderId=" + origClientOrderId + "&" + keyTime + "=" + valueTime
+                + "&fromId=" + fromId;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
     }
@@ -3093,7 +3093,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all open OCO margin orders response as {@link String}
      * **/
     public String getAllOCOMarginOpenOrders(String symbol) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&isIsolated=" + true;
+        String params = getTimestampParam() + "&symbol=" + symbol + "&isIsolated=" + true;
         return sendSignedRequest(MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT, params, GET_METHOD);
     }
 
@@ -3124,7 +3124,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all open OCO margin orders response as {@link String}
      * **/
     public String getAllOCOMarginOpenOrders() throws Exception {
-        return sendSignedRequest(MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT, getParamTimestamp(), GET_METHOD);
+        return sendSignedRequest(MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT, getTimestampParam(), GET_METHOD);
     }
 
     /** Request to get all open OCO margin orders <br>
@@ -3155,7 +3155,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all open OCO margin orders response as {@link String}
      * **/
     public String getAllOCOMarginOpenOrders(String symbol, long recvWindow) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&isIsolated=" + true;
+        String params = getTimestampParam() + "&symbol=" + symbol + "&isIsolated=" + true;
         return sendSignedRequest(MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT, params, GET_METHOD);
     }
 
@@ -3189,7 +3189,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all open OCO margin orders response as {@link String}
      * **/
     public String getAllOCOMarginOpenOrders(Params extraParams) throws Exception {
-        String params = apiRequest.encodeAdditionalParams(getParamTimestamp(), extraParams);
+        String params = apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams);
         return sendSignedRequest(MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT, params, GET_METHOD);
     }
 
@@ -3221,7 +3221,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return margin trade list as {@link String}
      * **/
     public String getMarginTradeList(String symbol) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol;
+        String params = getTimestampParam() + "&symbol=" + symbol;
         return sendSignedRequest(MARGIN_TRADES_LIST_ENDPOINT, params, GET_METHOD);
     }
 
@@ -3254,7 +3254,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return margin trade list as {@link String}
      * **/
     public String getMarginTradeList(String symbol, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol;
+        String params = getTimestampParam() + "&symbol=" + symbol;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_TRADES_LIST_ENDPOINT, params, GET_METHOD);
     }
@@ -3305,7 +3305,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return max borrow as {@link String}
      * **/
     public String getMaxBorrow(String asset) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset;
+        String params = getTimestampParam() + "&asset=" + asset;
         return sendSignedRequest(GET_MAX_MARGIN_BORROW_ENDPOINT, params, GET_METHOD);
     }
 
@@ -3338,7 +3338,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return max borrow as {@link String}
      * **/
     public String getMaxBorrow(String asset, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset;
+        String params = getTimestampParam() + "&asset=" + asset;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(GET_MAX_MARGIN_BORROW_ENDPOINT, params, GET_METHOD);
     }
@@ -3374,7 +3374,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return max transfer out amount as {@link String}
      * **/
     public String getMaxTransferOutAmount(String asset) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset;
+        String params = getTimestampParam() + "&asset=" + asset;
         return sendSignedRequest(GET_MAX_MARGIN_TRANSFER_ENDPOINT, params, GET_METHOD);
     }
 
@@ -3407,7 +3407,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return max transfer out amount as {@link String}
      * **/
     public String getMaxTransferOutAmount(String asset, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset;
+        String params = getTimestampParam() + "&asset=" + asset;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(GET_MAX_MARGIN_TRANSFER_ENDPOINT, params, GET_METHOD);
     }
@@ -3457,8 +3457,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getMarginIsolatedTransfer(String asset, String symbol, String transFrom, String transTo,
                                             double amount) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset + "&symbol=" + symbol + "&transFrom=" + transFrom
-                 + "&transTo=" + transTo + "&amount=" + amount;
+        String params = getTimestampParam() + "&asset=" + asset + "&symbol=" + symbol + "&transFrom=" + transFrom
+                + "&transTo=" + transTo + "&amount=" + amount;
         return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT, params, POST_METHOD);
     }
 
@@ -3505,8 +3505,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * **/
     public String getMarginIsolatedTransfer(String asset, String symbol, String transFrom, String transTo,
                                              double amount, long recvWindow) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset + "&symbol=" + symbol + "&transFrom=" + transFrom
-                 + "&transTo=" + transTo + "&amount=" + amount + "&recvWindow=" + recvWindow;
+        String params = getTimestampParam() + "&asset=" + asset + "&symbol=" + symbol + "&transFrom=" + transFrom
+                + "&transTo=" + transTo + "&amount=" + amount + "&recvWindow=" + recvWindow;
         return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT, params, POST_METHOD);
     }
 
@@ -3551,7 +3551,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
      **/
     public String getMarginIsolatedTransferHistory(String symbol) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol;
+        String params = getTimestampParam() + "&symbol=" + symbol;
         return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT, params, GET_METHOD);
     }
 
@@ -3590,7 +3590,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
      **/
     public String getMarginIsolatedTransferHistory(String symbol, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol;
+        String params = getTimestampParam() + "&symbol=" + symbol;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT, params, GET_METHOD);
     }
@@ -3630,7 +3630,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return margin account info as {@link String}
      * **/
     public String getMarginIsolatedAccountInfo() throws Exception {
-        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT, getParamTimestamp(), GET_METHOD);
+        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT, getTimestampParam(), GET_METHOD);
     }
 
     /** Request to get margin isolated account info <br>
@@ -3660,7 +3660,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return margin account info as {@link String}
      * **/
     public String getMarginIsolatedAccountInfo(long recvWindow) throws Exception {
-        String params = getParamTimestamp() + "&recvWindow=" + recvWindow;
+        String params = getTimestampParam() + "&recvWindow=" + recvWindow;
         return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT, params, GET_METHOD);
     }
 
@@ -3691,7 +3691,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return margin account info as {@link String}
      * **/
     public String getMarginIsolatedAccountInfo(ArrayList<String> symbols) throws Exception {
-        String params = getParamTimestamp() + "&symbols=" + assembleSymbolsList(symbols);
+        String params = getTimestampParam() + "&symbols=" + assembleSymbolsList(symbols);
         return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT, params, GET_METHOD);
     }
 
@@ -3756,7 +3756,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return margin account info as {@link String}
      * **/
     public String getMarginIsolatedAccountInfo(ArrayList<String> symbols, long recvWindow) throws Exception {
-        String params = getParamTimestamp() + "&symbols=" + assembleSymbolsList(symbols) + "&recvWindow=" + recvWindow;
+        String params = getTimestampParam() + "&symbols=" + assembleSymbolsList(symbols) + "&recvWindow=" + recvWindow;
         return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT, params, GET_METHOD);
     }
 
@@ -3829,7 +3829,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
         String method = DELETE_METHOD;
         if(enableIsolated)
             method = POST_METHOD;
-        String params = getParamTimestamp() + "&symbol=" + symbol;
+        String params = getTimestampParam() + "&symbol=" + symbol;
         return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT, params, method);
     }
 
@@ -3867,7 +3867,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
         String method = DELETE_METHOD;
         if(enableIsolated)
             method = POST_METHOD;
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&recvWindow=" + recvWindow;
+        String params = getTimestampParam() + "&symbol=" + symbol + "&recvWindow=" + recvWindow;
         return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT, params, method);
     }
 
@@ -3902,7 +3902,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return isolate margin account limit as {@link String}
      * **/
     public String getIsolateMarginAccountLimit() throws Exception {
-        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_LIMIT_ENDPOINT, getParamTimestamp(), GET_METHOD);
+        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_LIMIT_ENDPOINT, getTimestampParam(), GET_METHOD);
     }
 
     /** Request to get isolate margin account limit <br>
@@ -3932,7 +3932,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return isolate margin account limit as {@link String}
      * **/
     public String getIsolateMarginAccountLimit(long recvWindow) throws Exception {
-        String params = getParamTimestamp() + "&recvWindow=" + recvWindow;
+        String params = getTimestampParam() + "&recvWindow=" + recvWindow;
         return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_LIMIT_ENDPOINT, params, GET_METHOD);
     }
 
@@ -3963,7 +3963,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return isolate margin symbol as {@link String}
      * **/
     public String getIsolatedMarginSymbol(String symbol) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol;
+        String params = getTimestampParam() + "&symbol=" + symbol;
         return sendSignedRequest(QUERY_ISOLATED_MARGIN_SYMBOL_ENDPOINT, params, GET_METHOD);
     }
 
@@ -3995,7 +3995,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return isolate margin symbol as {@link String}
      * **/
     public String getIsolatedMarginSymbol(String symbol, long recvWindow) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol + "&recvWindow=" + recvWindow;
+        String params = getTimestampParam() + "&symbol=" + symbol + "&recvWindow=" + recvWindow;
         return sendSignedRequest(QUERY_ISOLATED_MARGIN_SYMBOL_ENDPOINT, params, GET_METHOD);
     }
 
@@ -4028,7 +4028,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all isolate margin symbols as {@link String}
      * **/
     public String getAllIsolatedMarginSymbol() throws Exception {
-        return sendSignedRequest(QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT, getParamTimestamp(), GET_METHOD);
+        return sendSignedRequest(QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT, getTimestampParam(), GET_METHOD);
     }
 
     /** Request to get all isolate margin symbols <br>
@@ -4058,7 +4058,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return all isolate margin symbols as {@link String}
      * **/
     public String getAllIsolatedMarginSymbol(long recvWindow) throws Exception {
-        String params = getParamTimestamp() + "&recvWindow=" + recvWindow;
+        String params = getTimestampParam() + "&recvWindow=" + recvWindow;
         return sendSignedRequest(QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT, params, GET_METHOD);
     }
 
@@ -4106,7 +4106,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return toggle BNB on trade interest as {@link String}
      * **/
     public String toggleBNBOnTradeInterest() throws Exception {
-        return sendSignedRequest(MARGIN_BNB_ENDPOINT, getParamTimestamp(), POST_METHOD);
+        return sendSignedRequest(MARGIN_BNB_ENDPOINT, getTimestampParam(), POST_METHOD);
     }
 
     /** Request to get toggle BNB on trade interest <br>
@@ -4137,7 +4137,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return toggle BNB on trade interest as {@link String}
      * **/
     public String toggleBNBOnTradeInterest(Params extraParams) throws Exception {
-        String params = apiRequest.encodeAdditionalParams(getParamTimestamp(), extraParams);
+        String params = apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams);
         return sendSignedRequest(MARGIN_BNB_ENDPOINT, params, POST_METHOD);
     }
 
@@ -4170,7 +4170,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return BNB burn status as {@link String}
      * **/
     public String getBNBBurnStatus() throws Exception {
-        return sendSignedRequest(MARGIN_BNB_ENDPOINT, getParamTimestamp(), GET_METHOD);
+        return sendSignedRequest(MARGIN_BNB_ENDPOINT, getTimestampParam(), GET_METHOD);
     }
 
     /** Request to get BNB burn status <br>
@@ -4200,8 +4200,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return BNB burn status as {@link String}
      * **/
     public String getBNBBurnStatus(long recvWindow) throws Exception {
-        String params = getParamTimestamp() + "&recvWindow=" + recvWindow;
-        return sendSignedRequest(MARGIN_BNB_ENDPOINT, getParamTimestamp(), GET_METHOD);
+        String params = getTimestampParam() + "&recvWindow=" + recvWindow;
+        return sendSignedRequest(MARGIN_BNB_ENDPOINT, getTimestampParam(), GET_METHOD);
     }
 
     /** Request to get BNB burn status
@@ -4231,7 +4231,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return margin interest rate history as {@link String}
      * **/
     public String getMarginInterestRateHistory(String asset) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset;
+        String params = getTimestampParam() + "&asset=" + asset;
         return sendSignedRequest(MARGIN_INTEREST_RATE_HISTORY_ENDPOINT, params, GET_METHOD);
     }
 
@@ -4264,7 +4264,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return margin interest rate history as {@link String}
      * **/
     public String getMarginInterestRateHistory(String asset, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&asset=" + asset;
+        String params = getTimestampParam() + "&asset=" + asset;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(MARGIN_INTEREST_RATE_HISTORY_ENDPOINT, params, GET_METHOD);
     }
@@ -4311,7 +4311,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cross margin fee data as {@link String}
      * **/
     public String getCrossMarginFeeData() throws Exception {
-        return sendSignedRequest(CROSS_MARGIN_DATA_ENDPOINT, getParamTimestamp(), GET_METHOD);
+        return sendSignedRequest(CROSS_MARGIN_DATA_ENDPOINT, getTimestampParam(), GET_METHOD);
     }
 
     /** Request to get cross margin fee data <br>
@@ -4342,7 +4342,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return cross margin fee data as {@link String}
      * **/
     public String getCrossMarginFeeData(Params extraParams) throws Exception {
-        String params = apiRequest.encodeAdditionalParams(getParamTimestamp(), extraParams);
+        String params = apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams);
         return sendSignedRequest(CROSS_MARGIN_DATA_ENDPOINT, params, GET_METHOD);
     }
 
@@ -4386,7 +4386,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return isolated margin fee data as {@link String}
      * **/
     public String getIsolatedMarginFee() throws Exception {
-        return sendSignedRequest(ISOLATED_MARGIN_DATA_ENDPOINT, getParamTimestamp(), GET_METHOD);
+        return sendSignedRequest(ISOLATED_MARGIN_DATA_ENDPOINT, getTimestampParam(), GET_METHOD);
     }
 
     /** Request to get isolated margin fee data <br>
@@ -4417,7 +4417,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return isolated margin fee data as {@link String}
      * **/
     public String getIsolatedMarginFee(Params extraParams) throws Exception {
-        String params = apiRequest.encodeAdditionalParams(getParamTimestamp(), extraParams);
+        String params = apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams);
         return sendSignedRequest(ISOLATED_MARGIN_DATA_ENDPOINT, params, GET_METHOD);
     }
 
@@ -4461,7 +4461,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return isolated margin tier data as {@link String}
      * **/
     public String getIsolatedMarginTierData(String symbol) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol;
+        String params = getTimestampParam() + "&symbol=" + symbol;
         return sendSignedRequest(ISOLATED_MARGIN_TIER_DATA_ENDPOINT, params, GET_METHOD);
     }
 
@@ -4494,7 +4494,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @return isolated margin tier data as {@link String}
      * **/
     public String getIsolatedMarginTierData(String symbol, Params extraParams) throws Exception {
-        String params = getParamTimestamp() + "&symbol=" + symbol;
+        String params = getTimestampParam() + "&symbol=" + symbol;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
         return sendSignedRequest(ISOLATED_MARGIN_TIER_DATA_ENDPOINT, params, GET_METHOD);
     }
