@@ -30,7 +30,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.trade.common.
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.SpotOrder.*;
 
 /**
- * The {@code BinanceSpotManager} class is useful to manage all {@code "Binance"} Spot Endpoints
+ * The {@code BinanceSpotManager} class is useful to manage all {@code "Binance"}'s Spot Endpoints
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#spot-account-trade">

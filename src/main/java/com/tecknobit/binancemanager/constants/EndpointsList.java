@@ -1,7 +1,7 @@
 package com.tecknobit.binancemanager.constants;
 
 /**
- * The {@code EndpointsList} class is a container class for all {@code "Binance"}'s endpoints of the service API
+ * The {@code EndpointsList} class is a container class for all {@code "Binance"}'s's endpoints of the service API
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">

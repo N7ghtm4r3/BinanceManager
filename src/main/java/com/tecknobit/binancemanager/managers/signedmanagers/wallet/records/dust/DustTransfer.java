@@ -132,7 +132,7 @@ public class DustTransfer {
      * @param transferResult: transfer result   to remove
      * @return result of operation as boolean
      **/
-    public boolean canRemoveTransferResult(DustItem transferResult) {
+    public boolean removeTransferResult(DustItem transferResult) {
         return transferResultsList.remove(transferResult);
     }
 

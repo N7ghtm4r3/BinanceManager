@@ -3,8 +3,6 @@ package com.tecknobit.binancemanager.managers.signedmanagers.wallet;
 import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.annotations.WrappedRequest;
-import com.tecknobit.apimanager.formatters.JsonHelper;
-import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.FundingWallet;
@@ -21,15 +19,16 @@ import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.api.A
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.AssetDetail;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.AssetsDividendList;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.CoinInformation;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.CoinInformation.NetworkItem;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.ConvertibleBNBAssets;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.Deposit;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.Deposit.DepositStatus;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.DepositAddress;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustLogList;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustTransfer;
-import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.UniversalTransfer;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.UniversalTransferHistory;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.UniversalTransferHistory.TransferType;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -41,7 +40,7 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 
 /**
- * The {@code BinanceWalletManager} class is useful to manage all {@code "Binance"} Wallet Endpoints
+ * The {@code BinanceWalletManager} class is useful to manage all {@code "Binance"}'s Wallet Endpoints
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#wallet-endpoints">
@@ -61,7 +60,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param secretKey           your secret key
      **/
     public BinanceWalletManager(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
-                                String secretKey) throws SystemException, Exception {
+                                String secretKey) throws Exception {
         super(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
     }
 
@@ -74,7 +73,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param secretKey           your secret key
      **/
     public BinanceWalletManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
-                                String secretKey) throws SystemException, Exception {
+                                String secretKey) throws Exception {
         super(baseEndpoint, defaultErrorMessage, apiKey, secretKey);
     }
 
@@ -86,8 +85,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/
-    public BinanceWalletManager(String baseEndpoint, int timeout, String apiKey,
-                                String secretKey) throws SystemException, Exception {
+    public BinanceWalletManager(String baseEndpoint, int timeout, String apiKey, String secretKey) throws Exception {
         super(baseEndpoint, timeout, apiKey, secretKey);
     }
 
@@ -98,7 +96,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/
-    public BinanceWalletManager(String baseEndpoint, String apiKey, String secretKey) throws SystemException, Exception {
+    public BinanceWalletManager(String baseEndpoint, String apiKey, String secretKey) throws Exception {
         super(baseEndpoint, apiKey, secretKey);
     }
 
@@ -659,7 +657,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                                {@code "addressTag"} -> secondary address identifier for coins like XRP,XMR etc - [STRING]
      *                           </li>
      *                           <li>
-     *                                {@code "transactionFeeFlag"} -> hen making internal transfer, true for returning
+     *                                {@code "transactionFeeFlag"} -> when making internal transfer, true for returning
      *                                the fee to the destination account; false for returning the fee back to the departure
      *                                account - [BOOLEAN, default false]
      *                           </li>
@@ -715,7 +713,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                                {@code "addressTag"} -> secondary address identifier for coins like XRP,XMR etc - [STRING]
      *                           </li>
      *                           <li>
-     *                                {@code "transactionFeeFlag"} -> hen making internal transfer, true for returning
+     *                                {@code "transactionFeeFlag"} -> when making internal transfer, true for returning
      *                                the fee to the destination account; false for returning the fee back to the departure
      *                                account - [BOOLEAN, default false]
      *                           </li>
@@ -773,7 +771,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                                {@code "addressTag"} -> secondary address identifier for coins like XRP,XMR etc - [STRING]
      *                           </li>
      *                           <li>
-     *                                {@code "transactionFeeFlag"} -> hen making internal transfer, true for returning
+     *                                {@code "transactionFeeFlag"} -> when making internal transfer, true for returning
      *                                the fee to the destination account; false for returning the fee back to the departure
      *                                account - [BOOLEAN, default false]
      *                           </li>
@@ -829,7 +827,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                                {@code "addressTag"} -> secondary address identifier for coins like XRP,XMR etc - [STRING]
      *                           </li>
      *                           <li>
-     *                                {@code "transactionFeeFlag"} -> hen making internal transfer, true for returning
+     *                                {@code "transactionFeeFlag"} -> when making internal transfer, true for returning
      *                                the fee to the destination account; false for returning the fee back to the departure
      *                                account - [BOOLEAN, default false]
      *                           </li>
@@ -1082,9 +1080,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
-     * Deposit Address (supporting network)</a>
+     * Withdraw History (supporting network) (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    @RequestPath(path = "/sapi/v1/capital/withdraw/history")
     public ArrayList<Withdraw> getWithdrawHistory() throws Exception {
         return getWithdrawHistory(LIBRARY_OBJECT);
     }
@@ -1107,9 +1105,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
-     * Deposit Address (supporting network)</a>
+     * Withdraw History (supporting network) (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    @RequestPath(path = "/sapi/v1/capital/withdraw/history")
     public <T> T getWithdrawHistory(ReturnFormat format) throws Exception {
         return returnWithdrawHistory(sendSignedRequest(WITHDRAW_HISTORY_ENDPOINT, getTimestampParam(), GET_METHOD), format);
     }
@@ -1159,11 +1157,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * @implSpec (keys accepted are coin, withdrawOrderId, status, offset, limit, startTime, endTime, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
-     * Deposit Address (supporting network)</a>
+     * Withdraw History (supporting network) (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    @RequestPath(path = "/sapi/v1/capital/withdraw/history")
     public ArrayList<Withdraw> getWithdrawHistory(Params extraParams) throws Exception {
         return getWithdrawHistory(extraParams, LIBRARY_OBJECT);
     }
@@ -1213,11 +1210,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * @implSpec (keys accepted are coin, withdrawOrderId, status, offset, limit, startTime, endTime, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
-     * Deposit Address (supporting network)</a>
+     * Withdraw History (supporting network) (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    @RequestPath(path = "/sapi/v1/capital/withdraw/history")
     public <T> T getWithdrawHistory(Params extraParams, ReturnFormat format) throws Exception {
         return returnWithdrawHistory(sendSignedRequest(WITHDRAW_HISTORY_ENDPOINT,
                 apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET_METHOD), format);
@@ -1246,590 +1242,1529 @@ public class BinanceWalletManager extends BinanceSignedManager {
         }
     }
 
-    /** Request to get deposit address
-     * @param coin: symbol of coin used to fetch address es. BTC
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data</a>
+    /**
+     * Request to get deposit address
+     *
+     * @param coin: coin used to fetch address
      * @return deposit address information as {@link DepositAddress} custom object
-     * **/
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
+     * Deposit Address (supporting network) (USER_DATA)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    public DepositAddress getDepositAddress(CoinInformation coin) throws Exception {
+        return getDepositAddress(coin.getCoin(), LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get deposit address
+     *
+     * @param coin:   coin used to fetch address
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return deposit address information as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
+     * Deposit Address (supporting network) (USER_DATA)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    public <T> T getDepositAddress(CoinInformation coin, ReturnFormat format) throws Exception {
+        return getDepositAddress(coin.getCoin(), format);
+    }
+
+    /**
+     * Request to get deposit address
+     *
+     * @param coin: symbol of coin used to fetch address es. BTC
+     * @return deposit address information as {@link DepositAddress} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
+     * Deposit Address (supporting network) (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/capital/deposit/address")
     public DepositAddress getDepositAddress(String coin) throws Exception {
-        String params = getTimestampParam() + "&coin=" + coin;
-        return new DepositAddress(new JSONObject(sendSignedRequest(DEPOSIT_ADDRESS_ENDPOINT, params, GET_METHOD)));
+        return getDepositAddress(coin, LIBRARY_OBJECT);
     }
 
-    /** Request to get deposit address
-     * @param coin: symbol of coin used to fetch address es. BTC
-     * @param network: network used to fetch address es. BTC
+    /**
+     * Request to get deposit address
+     *
+     * @param coin:   symbol of coin used to fetch address es. BTC
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return deposit address information as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data</a>
+     * Deposit Address (supporting network) (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    public <T> T getDepositAddress(String coin, ReturnFormat format) throws Exception {
+        return returnDepositAddress(sendSignedRequest(DEPOSIT_ADDRESS_ENDPOINT, getTimestampParam() + "&coin=" +
+                coin, GET_METHOD), format);
+    }
+
+    /**
+     * Request to get deposit address
+     *
+     * @param coin:    coin used to fetch address
+     * @param network: network used to fetch address
      * @return deposit address information as {@link DepositAddress} custom object
-     * **/
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
+     * Deposit Address (supporting network) (USER_DATA)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    public DepositAddress getDepositAddress(CoinInformation coin, NetworkItem network) throws Exception {
+        return getDepositAddress(coin.getCoin(), network.getNetwork(), LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get deposit address
+     *
+     * @param coin:    coin used to fetch address
+     * @param network: network used to fetch address
+     * @param format:  return type formatter -> {@link ReturnFormat}
+     * @return deposit address information as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
+     * Deposit Address (supporting network) (USER_DATA)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    public <T> T getDepositAddress(CoinInformation coin, NetworkItem network, ReturnFormat format) throws Exception {
+        return getDepositAddress(coin.getCoin(), network.getNetwork(), format);
+    }
+
+    /**
+     * Request to get deposit address
+     *
+     * @param coin:    symbol of coin used to fetch address es. BTC
+     * @param network: network used to fetch address es. BTC
+     * @return deposit address information as {@link DepositAddress} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
+     * Deposit Address (supporting network) (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/capital/deposit/address")
     public DepositAddress getDepositAddress(String coin, String network) throws Exception {
-        String params = getTimestampParam() + "&coin=" + coin + "&network=" + network;
-        return new DepositAddress(new JSONObject(sendSignedRequest(DEPOSIT_ADDRESS_ENDPOINT, params, GET_METHOD)));
+        return getDepositAddress(coin, network, LIBRARY_OBJECT);
     }
 
-    /** Request to get account status <br>
+    /**
+     * Request to get deposit address
+     *
+     * @param coin:    symbol of coin used to fetch address es. BTC
+     * @param network: network used to fetch address es. BTC
+     * @param format:  return type formatter -> {@link ReturnFormat}
+     * @return deposit address information as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
+     * Deposit Address (supporting network) (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    public <T> T getDepositAddress(String coin, String network, ReturnFormat format) throws Exception {
+        return returnDepositAddress(sendSignedRequest(DEPOSIT_ADDRESS_ENDPOINT, getTimestampParam() + "&coin="
+                + coin + "&network=" + network, GET_METHOD), format);
+    }
+
+    /**
+     * Method to create a deposit address object
+     *
+     * @param depositAddressResponse: obtained from Binance's response
+     * @param format:                 return type formatter -> {@link ReturnFormat}
+     * @return deposit address as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnDepositAddress(String depositAddressResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(depositAddressResponse);
+            case LIBRARY_OBJECT:
+                return (T) new DepositAddress(new JSONObject(depositAddressResponse));
+            default:
+                return (T) depositAddressResponse;
+        }
+    }
+
+    /**
+     * Request to get account status <br>
      * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-status-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#account-status-user_data</a>
+     *
      * @return account status as {@link String}
-     * **/
-    public String getAccountStatus() throws Exception {
-        return sendSignedRequest(ACCOUNT_STATUS_ENDPOINT, getTimestampParam(), GET_METHOD);
-    }
-
-    /** Request to get account status <br>
-     * Any params required
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-status-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#account-status-user_data</a>
-     * @return account status as {@link JSONObject}
-     * **/
-    public JSONObject getJSONAccountStatus() throws Exception {
-        return new JSONObject(getAccountStatus());
+     * Account Status (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/account/status")
+    public String getAccountStatus() throws Exception {
+        return getAccountStatus(LIBRARY_OBJECT);
     }
 
-    /** Request to get API trading status <br>
+    /**
+     * Request to get account status
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return account status  as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-status-user_data">
+     * Account Status (USER_DATA)</a>
+     * @implSpec in this case {@link ReturnFormat#LIBRARY_OBJECT} will return the status value as {@link String}
+     **/
+    @Returner
+    @RequestPath(path = "/sapi/v1/account/status")
+    public <T> T getAccountStatus(ReturnFormat format) throws Exception {
+        String accountStatusResponse = sendSignedRequest(ACCOUNT_STATUS_ENDPOINT, getTimestampParam(), GET_METHOD);
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(accountStatusResponse);
+            case LIBRARY_OBJECT:
+                return (T) new JSONObject(accountStatusResponse).getString("data");
+            default:
+                return (T) accountStatusResponse;
+        }
+    }
+
+    /**
+     * Request to get API trading status <br>
      * Any params required
+     *
+     * @return API trading status as {@link APIStatus} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data</a>
-     * @return API trading status as {@link String}
-     * **/
-    public String getAPITradingStatus() throws Exception {
-        return sendSignedRequest(API_TRADING_STATUS_ENDPOINT, getTimestampParam(), GET_METHOD);
+     * Account API Trading Status (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/account/apiTradingStatus")
+    public APIStatus getAPITradingStatus() throws Exception {
+        return getAPITradingStatus(LIBRARY_OBJECT);
     }
 
-    /** Request to get API trading status <br>
-     * Any params required
+    /**
+     * Request to get API trading status
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return API trading status as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data</a>
-     * @return API trading status as {@link JSONObject}
-     * **/
-    public JSONObject getJSONAPITradingStatus() throws Exception {
-        return new JSONObject(getAPITradingStatus());
-    }
-
-    /** Request to get API trading status <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data</a>
-     * @return API trading status as APIStatus object
-     * **/
-    public APIStatus getObjectAPITradingStatus() throws Exception {
-        return new APIStatus(new JSONObject(getAPITradingStatus()).getJSONObject("data"));
-    }
-
-    /** Request to get dust log information <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
-     * @return dust log information as {@link String}
-     * **/
-    public String getDustLog() throws Exception {
-        return sendSignedRequest(DUST_LOG_ENDPOINT, getTimestampParam(), GET_METHOD);
+     * Account API Trading Status (USER_DATA)</a>
+     **/
+    @Returner
+    @RequestPath(path = "/sapi/v1/account/apiTradingStatus")
+    public <T> T getAPITradingStatus(ReturnFormat format) throws Exception {
+        String tradingStatusResponse = sendSignedRequest(API_TRADING_STATUS_ENDPOINT, getTimestampParam(), GET_METHOD);
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(tradingStatusResponse);
+            case LIBRARY_OBJECT:
+                return (T) new APIStatus(new JSONObject(tradingStatusResponse).getJSONObject("data"));
+            default:
+                return (T) tradingStatusResponse;
+        }
     }
 
     /**
      * Request to get dust log information <br>
      * Any params required
      *
-     * @return dust log information as {@link JSONObject}
+     * @return dust log information as {@link DustLogList} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
+     * DustLog(USER_DATA)</a>
      **/
-    public JSONObject getJSONDustLog() throws Exception {
-        return new JSONObject(getDustLog());
-    }
-
-    /**
-     * Request to get dust log information <br>
-     * Any params required
-     *
-     * @return dust log information as DustLogList object
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
-     **/
-    public DustLogList getObjectDustLog() throws Exception {
-        return new DustLogList(new JSONObject(getDustLog()));
-    }
-
-    /** Request to get dust log information
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are startTime,endTime,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
-     * @return dust log information as {@link String}
-     * **/
-    public String getDustLog(Params extraParams) throws Exception {
-        String params = apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams);
-        return sendSignedRequest(DUST_LOG_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get dust log information
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are startTime, endTime, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
-     * @return dust log information as {@link JSONObject}
-     * **/
-    public JSONObject getJSONDustLog(Params extraParams) throws Exception {
-        return new JSONObject(getDustLog(extraParams));
+    @RequestPath(path = "/sapi/v1/asset/dribblet")
+    public DustLogList getDustLog() throws Exception {
+        return getDustLog(LIBRARY_OBJECT);
     }
 
     /**
      * Request to get dust log information
      *
-     * @param extraParams: additional params of the request
-     * @return dust log information as DustLogList object
-     * @implSpec (keys accepted are startTime, endTime, recvWindow)
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return dust log information as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data</a>
+     * DustLog(USER_DATA)</a>
      **/
-    public DustLogList getObjectDustLog(Params extraParams) throws Exception {
-        return new DustLogList(new JSONObject(getDustLog(extraParams)));
+    @RequestPath(path = "/sapi/v1/asset/dribblet")
+    public <T> T getDustLog(ReturnFormat format) throws Exception {
+        return returnDustLog(sendSignedRequest(DUST_LOG_ENDPOINT, getTimestampParam(), GET_METHOD), format);
+    }
+
+    /**
+     * Request to get dust log information
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate dust log - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate dust log - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return dust log information as {@link DustLogList} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
+     * DustLog(USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/dribblet")
+    public DustLogList getDustLog(Params extraParams) throws Exception {
+        return getDustLog(extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get dust log information
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate dust log - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate dust log - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return dust log information as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
+     * DustLog(USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/dribblet")
+    public <T> T getDustLog(Params extraParams, ReturnFormat format) throws Exception {
+        return returnDustLog(sendSignedRequest(DUST_LOG_ENDPOINT, apiRequest.encodeAdditionalParams(getTimestampParam(),
+                extraParams), GET_METHOD), format);
+    }
+
+    /**
+     * Method to create a dust log object
+     *
+     * @param dustLogResponse: obtained from Binance's response
+     * @param format:          return type formatter -> {@link ReturnFormat}
+     * @return dust log as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnDustLog(String dustLogResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(dustLogResponse);
+            case LIBRARY_OBJECT:
+                return (T) new DustLogList(new JSONObject(dustLogResponse));
+            default:
+                return (T) dustLogResponse;
+        }
     }
 
     /** Request to get convertible assets into BNB <br>
      * Any params required
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data</a>
-     * @return convertible assets into BNB as {@link String}
+     *     Get Assets That Can Be Converted Into BNB (USER_DATA)</a>
+     * @return convertible assets into BNB as {@link ConvertibleBNBAssets} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getConvertibleBNBAssets() throws Exception {
-        return sendSignedRequest(ASSET_CONVERTIBLE_BNB_ENDPOINT, getTimestampParam(), POST_METHOD);
+    @RequestPath(path = "/sapi/v1/asset/dust-btc")
+    public ConvertibleBNBAssets getConvertibleBNBAssets() throws Exception {
+        return getConvertibleBNBAssets(LIBRARY_OBJECT);
     }
 
-    /** Request to get convertible assets into BNB <br>
-     * Any params required
+    /**
+     * Request to get convertible assets into BNB
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return convertible assets into BNB as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data</a>
-     * @return convertible assets into BNB as {@link JSONObject}
-     * **/
-    public JSONObject getJSONConvertibleBNBAssets() throws Exception {
-        return new JSONObject(getConvertibleBNBAssets());
-    }
-
-    /** Request to get convertible assets into BNB <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data</a>
-     * @return convertible assets into BNB as ConvertibleBNBAssets object
-     * **/
-    public ConvertibleBNBAssets getObjectConvertibleBNBAssets() throws Exception {
-        return new ConvertibleBNBAssets(new JSONObject(getConvertibleBNBAssets()));
-    }
-
-    /** Request to get dust transfer
-     * @param assets: list of assets to request dust transfer es. BTC,ETH,SOL
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-user_data</a>
-     * @return dust transfer as {@link String}
-     * **/
-    public String getDustTransfer(ArrayList<String> assets) throws Exception {
-        StringBuilder params = new StringBuilder(getTimestampParam());
-        for (String asset : assets)
-            params.append("&asset=").append(asset);
-        return sendSignedRequest(DUST_TRANSFER_ENDPOINT, params.toString(), POST_METHOD);
+     * Get Assets That Can Be Converted Into BNB (USER_DATA)</a>
+     **/
+    @Returner
+    @RequestPath(path = "/sapi/v1/asset/dust-btc")
+    public <T> T getConvertibleBNBAssets(ReturnFormat format) throws Exception {
+        String assetsResponse = sendSignedRequest(ASSET_CONVERTIBLE_BNB_ENDPOINT, getTimestampParam(), POST_METHOD);
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(assetsResponse);
+            case LIBRARY_OBJECT:
+                return (T) new ConvertibleBNBAssets(new JSONObject(assetsResponse));
+            default:
+                return (T) assetsResponse;
+        }
     }
 
     /** Request to get dust transfer
      * @param assets: list of assets to request dust transfer es. BTC,ETH,SOL
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-user_data</a>
-     * @return dust transfer as {@link JSONObject}
+     *     Dust Transfer (USER_DATA)</a>
+     * @return dust transfer as {@link DustTransfer} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONObject getJSONDustTransfer(ArrayList<String> assets) throws Exception {
-        return new JSONObject(getDustTransfer(assets));
+    @RequestPath(path = "/sapi/v1/asset/dust")
+    public DustTransfer getDustTransfer(ArrayList<String> assets) throws Exception {
+        return getDustTransfer(assets, LIBRARY_OBJECT);
     }
 
     /** Request to get dust transfer
      * @param assets: list of assets to request dust transfer es. BTC,ETH,SOL
+     * @param format:                      return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-user_data</a>
-     * @return dust transfer as DustTransfer object
+     *     Dust Transfer (USER_DATA)</a>
+     * @return dust transfer as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public DustTransfer getObjectDustTransfer(ArrayList<String> assets) throws Exception {
-        return new DustTransfer(new JSONObject(getDustTransfer(assets)));
-    }
-
-    /** Request to get asset dividend <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
-     * @return asset dividend as {@link String}
-     * **/
-    public String getAssetDividend() throws Exception {
-        return sendSignedRequest(ASSET_DIVIDEND_ENDPOINT, getTimestampParam(), GET_METHOD);
+    @Returner
+    @RequestPath(path = "/sapi/v1/asset/dust")
+    public <T> T getDustTransfer(ArrayList<String> assets, ReturnFormat format) throws Exception {
+        String dustResponse = sendSignedRequest(DUST_TRANSFER_ENDPOINT, getTimestampParam() + "&" +
+                apiRequest.concatenateParamsList("", "asset", assets), POST_METHOD);
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(dustResponse);
+            case LIBRARY_OBJECT:
+                return (T) new DustTransfer(new JSONObject(dustResponse));
+            default:
+                return (T) dustResponse;
+        }
     }
 
     /**
      * Request to get asset dividend <br>
      * Any params required
      *
-     * @return asset dividend as {@link JSONObject}
+     * @return asset dividend as {@link AssetsDividendList} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
+     * Asset Dividend Record (USER_DATA)</a>
      **/
-    public JSONObject getJSONAssetDividend() throws Exception {
-        return new JSONObject(getAssetDividend());
+    @RequestPath(path = "/sapi/v1/asset/assetDividend")
+    public AssetsDividendList getAssetsDividend() throws Exception {
+        return getAssetsDividend(LIBRARY_OBJECT);
     }
 
     /**
-     * Request to get asset dividend <br>
-     * Any params required
+     * Request to get asset dividend
+     * @param format:                      return type formatter -> {@link ReturnFormat}
      *
-     * @return asset dividend as AssetsDividendList object
+     * @return asset dividend as {@code "format"} defines
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
-     **/
-    public AssetsDividendList getObjectAssetDividend() throws Exception {
-        return new AssetsDividendList(new JSONObject(getAssetDividend()));
-    }
-
-    /** Request to get asset dividend
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are asset,startTime,endTime,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
-     * @return  get asset dividend as {@link String}
+     * Asset Dividend Record (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getAssetDividend(Params extraParams) throws Exception {
-        return sendSignedRequest(ASSET_DIVIDEND_ENDPOINT, apiRequest.encodeAdditionalParams(getTimestampParam(),
-                extraParams), GET_METHOD);
-    }
-
-    /** Request to get asset dividend
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are asset, startTime, endTime, limit, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
-     * @return get asset dividend as {@link JSONObject}
-     * **/
-    public JSONObject getJSONAssetDividend(Params extraParams) throws Exception {
-        return new JSONObject(getAssetDividend(extraParams));
+    @RequestPath(path = "/sapi/v1/asset/assetDividend")
+    public <T> T getAssetsDividend(ReturnFormat format) throws Exception {
+        return returnAssetsDividend(sendSignedRequest(ASSET_DIVIDEND_ENDPOINT, getTimestampParam(), GET_METHOD), format);
     }
 
     /**
      * Request to get asset dividend
      *
-     * @param extraParams: additional params of the request
-     * @return get asset dividend as AssetsDividendList object
-     * @implSpec (keys accepted are asset, startTime, endTime, limit, recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "asset"} -> asset of the dividend - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate asset dividend - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate asset dividend - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> limit results, max 500 - [INTEGER, default 20]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return asset dividend as {@link AssetsDividendList} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data</a>
+     * Asset Dividend Record (USER_DATA)</a>
      **/
-    public AssetsDividendList getObjectAssetDividend(Params extraParams) throws Exception {
-        return new AssetsDividendList(new JSONObject(getAssetDividend(extraParams)));
+    @RequestPath(path = "/sapi/v1/asset/assetDividend")
+    public AssetsDividendList getAssetsDividend(Params extraParams) throws Exception {
+        return getAssetsDividend(extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get asset dividend
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "asset"} -> asset of the dividend - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate asset dividend - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate asset dividend - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> limit results, max 500 - [INTEGER, default 20]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return asset dividend as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
+     * Asset Dividend Record (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/assetDividend")
+    public <T> T getAssetsDividend(Params extraParams, ReturnFormat format) throws Exception {
+        return returnAssetsDividend(sendSignedRequest(ASSET_DIVIDEND_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET_METHOD), format);
+    }
+
+    /**
+     * Method to create an assets dividend list
+     *
+     * @param assetsDividendResponse: obtained from Binance's response
+     * @param format:                 return type formatter -> {@link ReturnFormat}
+     * @return assets dividend list as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnAssetsDividend(String assetsDividendResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(assetsDividendResponse);
+            case LIBRARY_OBJECT:
+                return (T) new AssetsDividendList(new JSONObject(assetsDividendResponse));
+            default:
+                return (T) assetsDividendResponse;
+        }
     }
 
     /** Request to get asset detail <br>
      * Any params required
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
-     * @return asset detail as {@link String}
+     *     Asset Detail (USER_DATA)</a>
+     * @return asset detail list as {@link ArrayList} of {@link AssetDetail}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getAssetDetail() throws Exception {
-        return sendSignedRequest(ASSET_DETAIL_ENDPOINT, getTimestampParam(), GET_METHOD);
-    }
-
-    /** Request to get asset detail <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
-     * @return asset detail as {@link JSONObject}
-     * **/
-    public JSONObject getJSONAssetDetail() throws Exception {
-        return new JSONObject(getAssetDetail());
-    }
-
-    /** Request to get asset detail <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
-     * @return asset detail list as ArrayList<AssetDetail>
-     * **/
-    public ArrayList<AssetDetail> getAssetDetailList() throws Exception {
-        JSONObject assetDetail = new JSONObject(getAssetDetail());
-        ArrayList<AssetDetail> assetDetailList = new ArrayList<>();
-        for (String key : new ArrayList<>(assetDetail.keySet()))
-            assetDetailList.add(new AssetDetail(key, assetDetail.getJSONObject(key)));
-        return assetDetailList;
+    @RequestPath(path = "/sapi/v1/asset/assetDetail")
+    public ArrayList<AssetDetail> getAssetsDetail() throws Exception {
+        return getAssetsDetail(LIBRARY_OBJECT);
     }
 
     /** Request to get asset detail
-     * @param asset: asset to get details es BTC
+     * @param format:                      return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
-     * @return asset detail as {@link String}
+     *     Asset Detail (USER_DATA)</a>
+     * @return asset detail list as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getAssetDetail(String asset) throws Exception {
-        String params = getTimestampParam() + "&asset=" + asset;
-        return sendSignedRequest(ASSET_DETAIL_ENDPOINT, params, GET_METHOD);
-    }
+    @Returner
+    @RequestPath(path = "/sapi/v1/asset/assetDetail")
+    public <T> T getAssetsDetail(ReturnFormat format) throws Exception {
+        String assetsResponse = sendSignedRequest(ASSET_DETAIL_ENDPOINT, getTimestampParam(), GET_METHOD);
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(assetsResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<AssetDetail> assetsDetail = new ArrayList<>();
+                JSONObject jAssetDetail = new JSONObject(assetsResponse);
+                for (String key : new ArrayList<>(jAssetDetail.keySet()))
+                    assetsDetail.add(new AssetDetail(jAssetDetail.getJSONObject(key).put("assetName", key)));
+                return (T) assetsDetail;
+            default:
+                return (T) assetsResponse;
 
-    /** Request to get asset detail
-     * @param asset: asset to get details es BTC
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
-     * @return asset detail as {@link JSONObject}
-     * **/
-    public JSONObject getJSONAssetDetail(String asset) throws Exception {
-        return new JSONObject(getAssetDetail(asset));
+        }
     }
 
     /** Custom request to get single asset detail
      * @param asset: asset to get details es BTC
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
-     * @return asset detail as AssetDetail object
+     *     Asset Detail (USER_DATA)</a>
+     * @return asset detail as {@link AssetDetail} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public AssetDetail getObjectAssetDetail(String asset) throws Exception {
-        return new AssetDetail(asset, new JSONObject(getAssetDetail(asset)).getJSONObject(asset));
+    @RequestPath(path = "/sapi/v1/asset/assetDetail")
+    public AssetDetail getAssetDetail(String asset) throws Exception {
+        return getAssetDetail(asset, LIBRARY_OBJECT);
     }
 
-    /** Method to get depositTip
-     * @param jsonObject: jsonObject assembled from request to {@code "Binance"}
-     * @return depositTip as {@link String}
+    /** Custom request to get single asset detail
+     * @param asset: asset to get details es BTC
+     * @param format:                      return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
+     *     Asset Detail (USER_DATA)</a>
+     * @return asset detail as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    private String getDepositTip(JSONObject jsonObject){
-        try {
-            return jsonObject.getString("depositTip");
-        }catch (JSONException jsonException){
-            return "No tip";
+    @Returner
+    @RequestPath(path = "/sapi/v1/asset/assetDetail")
+    public <T> T getAssetDetail(String asset, ReturnFormat format) throws Exception {
+        String assetResponse = sendSignedRequest(ASSET_DETAIL_ENDPOINT, getTimestampParam() + "&asset=" + asset,
+                GET_METHOD);
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(assetResponse);
+            case LIBRARY_OBJECT:
+                return (T) new AssetDetail(new JSONObject(assetResponse).put("assetName", asset));
+            default:
+                return (T) assetResponse;
         }
     }
 
     /** Request to get asset trade fee <br>
      * Any params required
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data</a>
-     * @return asset trade fee as {@link String}
+     *     Trade Fee (USER_DATA)</a>
+     * @return asset trade fee list as {@link ArrayList} of {@link TradeFee}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getTradeFee() throws Exception {
-        return sendSignedRequest(TRADE_FEE_ENDPOINT, getTimestampParam(), GET_METHOD);
+    @Returner
+    @RequestPath(path = "/sapi/v1/asset/tradeFee")
+    public ArrayList<TradeFee> getTradeFees() throws Exception {
+        return getTradeFees(LIBRARY_OBJECT);
     }
 
-    /** Request to get asset trade fee <br>
-     * Any params required
+    /** Request to get asset trade fee
+     * @param format:                      return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data</a>
-     * @return asset trade fee as {@link JSONArray}
+     *     Trade Fee (USER_DATA)</a>
+     * @return asset trade fee list as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONArray getJSONTradeFee() throws Exception {
-        return new JSONArray(getTradeFee());
-    }
-
-    /** Request to get asset trade fee <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
-     * @return asset trade fee list as ArrayList<TradeFee>
-     * **/
-    public ArrayList<TradeFee> getTradeFeeList() throws Exception {
-        ArrayList<TradeFee> tradeFeesList = new ArrayList<>();
-        JSONArray tradeFees = new JSONArray(getTradeFee());
-        for (int j = 0; j < tradeFees.length(); j++)
-            tradeFeesList.add(new TradeFee(tradeFees.getJSONObject(j)));
-        return tradeFeesList;
-    }
-
-    /** Request to get asset trade fee
-     * @param symbol: asset to get details es BTCUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
-     * @return asset trade fee as {@link String}
-     * **/
-    public String getTradeFee(String symbol) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol;
-        return sendSignedRequest(TRADE_FEE_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get asset trade fee
-     * @param symbol: asset to get details es BTCUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
-     * @return asset trade fee as {@link JSONArray}
-     * **/
-    public JSONArray getJSONTradeFee(String symbol) throws Exception {
-        return new JSONArray(getTradeFee(symbol));
+    @Returner
+    @RequestPath(path = "/sapi/v1/asset/tradeFee")
+    public <T> T getTradeFees(ReturnFormat format) throws Exception {
+        String feeResponse = sendSignedRequest(TRADE_FEE_ENDPOINT, getTimestampParam(), GET_METHOD);
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(feeResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<TradeFee> tradeFees = new ArrayList<>();
+                JSONArray jTradeFees = new JSONArray(feeResponse);
+                for (int j = 0; j < jTradeFees.length(); j++)
+                    tradeFees.add(new TradeFee(jTradeFees.getJSONObject(j)));
+                return (T) tradeFees;
+            default:
+                return (T) feeResponse;
+        }
     }
 
     /** Request to get asset trade fee
      * @param symbol: asset to get details es BTCUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data</a>
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data">
+     *     Trade Fee (USER_DATA)</a>
      * @return asset trade fee as {@link TradeFee} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public TradeFee getObjectTradeFee(String symbol) throws Exception {
-        return new TradeFee(new JSONArray(getTradeFee(symbol)).getJSONObject(0));
+    @Returner
+    @RequestPath(path = "/sapi/v1/asset/tradeFee")
+    public TradeFee getTradeFee(String symbol) throws Exception {
+        return getTradeFee(symbol, LIBRARY_OBJECT);
+    }
+
+    /** Request to get asset trade fee
+     * @param symbol: asset to get details es BTCUSD
+     * @param format:                      return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#trade-fee-user_data">
+     *     Trade Fee (USER_DATA)</a>
+     * @return asset trade fee as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @Returner
+    @RequestPath(path = "/sapi/v1/asset/tradeFee")
+    public <T> T getTradeFee(String symbol, ReturnFormat format) throws Exception {
+        String feeResponse = sendSignedRequest(TRADE_FEE_ENDPOINT, getTimestampParam() + "&symbol=" + symbol,
+                GET_METHOD);
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(feeResponse);
+            case LIBRARY_OBJECT:
+                return (T) new TradeFee(new JSONArray(feeResponse).getJSONObject(0));
+            default:
+                return (T) feeResponse;
+        }
     }
 
     /** Request to get universal transfer
-     * @param type: type for the request es. MAIN_UMFUTURE
+     * @param type: type for the request
      * @param asset: asset for the request es. BTC
      * @param amount: amount for the request
-     * @implNote in case type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
-     * @implNote in case type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
-     * @return universal transfer as {@link String}
+     *    User Universal Transfer (USER_DATA)</a>
+     * @return universal transfer as {@link String} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getUniversalTransfer(String type, String asset, double amount) throws Exception {
-        String params = getTimestampParam() + "&type=" + type + "&asset=" + asset + "&amount=" + amount;
-        return sendSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT, params, POST_METHOD);
+    @RequestPath(path = "/sapi/v1/asset/transfer")
+    public String getUniversalTransfer(TransferType type, String asset, double amount) throws Exception {
+        return getUniversalTransfer(type, asset, amount, LIBRARY_OBJECT);
     }
 
     /** Request to get universal transfer
-     * @param type: type for the request es. MAIN_UMFUTURE
+     * @param type: type for the request
      * @param asset: asset for the request es. BTC
      * @param amount: amount for the request
-     * @implNote in case type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
-     * @implNote in case type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
+     * @param format:                      return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
-     * @return universal transfer as {@link JSONObject}
+     *    User Universal Transfer (USER_DATA)</a>
+     * @return universal transfer as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONObject getJSONUniversalTransfer(String type, String asset, double amount) throws Exception {
-        return new JSONObject(getUniversalTransfer(type, asset, amount));
+    @RequestPath(path = "/sapi/v1/asset/transfer")
+    public <T> T getUniversalTransfer(TransferType type, String asset, double amount, ReturnFormat format) throws Exception {
+        return returnUniversalTransfer(sendSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT, getTimestampParam() +
+                "&type=" + type + "&asset=" + asset + "&amount=" + amount, POST_METHOD), format);
     }
 
     /** Request to get universal transfer
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are fromSymbol,toSymbol,recvWindow)
-     * @implNote in case type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
-     * @implNote in case type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
+     * @param type: type for the request
+     * @param asset: asset for the request es. BTC
+     * @param amount: amount for the request
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "fromSymbol"} -> from symbol - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "toSymbol"} -> to symbol - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
-     * @return universal transfer as {@link String}
+     *    User Universal Transfer (USER_DATA)</a>
+     * @return universal transfer as {@link String} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getUniversalTransfer(String type, String asset, double amount, Params extraParams) throws Exception {
-        return sendSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT, apiRequest.encodeAdditionalParams(getTimestampParam(),
-                extraParams), POST_METHOD);
+    @RequestPath(path = "/sapi/v1/asset/transfer")
+    public String getUniversalTransfer(TransferType type, String asset, double amount,
+                                       Params extraParams) throws Exception {
+        return getUniversalTransfer(type, asset, amount, extraParams, LIBRARY_OBJECT);
     }
 
     /** Request to get universal transfer
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are fromSymbol,toSymbol,recvWindow)
-     * @implNote in case type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
-     * @implNote in case type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
+     * @param type: type for the request
+     * @param asset: asset for the request es. BTC
+     * @param amount: amount for the request
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "fromSymbol"} -> from symbol - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "toSymbol"} -> to symbol - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:                      return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
-     * @return universal transfer as {@link JSONObject}
+     *    User Universal Transfer (USER_DATA)</a>
+     * @return universal transfer as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONObject getJSONUniversalTransfer(String type, String asset, double amount,
-                                               Params extraParams) throws Exception {
-        return new JSONObject(getUniversalTransfer(type, asset, amount, extraParams));
-    }
-
-    /** Request to get universal transfer history
-     * @param type: type to fetch history
-     * @implNote in case type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
-     * @implNote in case type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
-     * @return universal transfer history as ArrayList<UniversalTransfer>
-     * **/
-    public ArrayList<UniversalTransfer> getUniversalTransferHistory(String type) throws Exception {
-        String params = getTimestampParam() + "&type=" + type;
-        return getUniversalTransferHistorySender(params);
-    }
-
-    /** Request to get universal transfer history
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are startTime,endTime,current,size,fromSymbol,toSymbol,recvWindow)
-     * @implNote in case type is ISOLATEDMARGIN_MARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass fromSymbol
-     * @implNote in case type is MARGIN_ISOLATEDMARGIN or ISOLATEDMARGIN_ISOLATEDMARGIN you MUST pass toSymbol
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
-     * @return universal transfer history as ArrayList<UniversalTransfer>
-     * **/
-    public ArrayList<UniversalTransfer> getUniversalTransferHistory(String type, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&type=" + type;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return getUniversalTransferHistorySender(params);
+    @RequestPath(path = "/sapi/v1/asset/transfer")
+    public <T> T getUniversalTransfer(TransferType type, String asset, double amount, Params extraParams,
+                                      ReturnFormat format) throws Exception {
+        return returnUniversalTransfer(sendSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), POST_METHOD), format);
     }
 
     /**
-     * Method to submit get universal transfer history
+     * Method to create a universal transfer
      *
-     * @param params: params of request
-     * @return universal transfer history as ArrayList<UniversalTransfer>
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data</a>
+     * @param universalTransferResponse: obtained from Binance's response
+     * @param format:                    return type formatter -> {@link ReturnFormat}
+     * @return universal transfer as {@code "format"} defines
+     * @apiNote in this case {@link ReturnFormat#LIBRARY_OBJECT} will return the id value as {@link String}
      **/
-    private ArrayList<UniversalTransfer> getUniversalTransferHistorySender(String params) throws Exception {
-        ArrayList<UniversalTransfer> universalTransfersHistory = new ArrayList<>();
-        JSONArray transfers = JsonHelper.getJSONArray(new JSONObject(sendSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT, params, GET_METHOD)),
-                "rows", new JSONArray());
-        for (int j = 0; j < transfers.length(); j++)
-            universalTransfersHistory.add(new UniversalTransfer(transfers.getJSONObject(j)));
-        return universalTransfersHistory;
+    @Returner
+    private <T> T returnUniversalTransfer(String universalTransferResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(universalTransferResponse);
+            case LIBRARY_OBJECT:
+                return (T) new JSONObject(universalTransferResponse).getString("tranId");
+            default:
+                return (T) universalTransferResponse;
+        }
+    }
+
+    /**
+     * Request to get universal transfer history
+     *
+     * @param type: type of the history to fetch
+     * @return universal transfer history as {@link UniversalTransferHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
+     * User Universal Transfer (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/transfer")
+    public UniversalTransferHistory getUniversalTransferHistory(TransferType type) throws Exception {
+        return getUniversalTransferHistory(type, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get universal transfer history
+     *
+     * @param type:   type of the history to fetch
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return universal transfer history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
+     * User Universal Transfer (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/transfer")
+    public <T> T getUniversalTransferHistory(TransferType type, ReturnFormat format) throws Exception {
+        return returnUniversalTransferHistory(sendSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT, getTimestampParam()
+                + "&type=" + type, GET_METHOD), format);
+    }
+
+    /**
+     * Request to get universal transfer history
+     *
+     * @param type:        type of the history to fetch
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate transfers records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate transfers records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> current value - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromSymbol"} -> from symbol - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "toSymbol"} -> to symbol - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return universal transfer history as {@link UniversalTransferHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
+     * User Universal Transfer (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/transfer")
+    public UniversalTransferHistory getUniversalTransferHistory(TransferType type, Params extraParams) throws Exception {
+        return getUniversalTransferHistory(type, extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get universal transfer history
+     *
+     * @param type:        type of the history to fetch
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate transfers records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate transfers records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> current value - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromSymbol"} -> from symbol - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "toSymbol"} -> to symbol - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return universal transfer history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
+     * User Universal Transfer (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/transfer")
+    public <T> T getUniversalTransferHistory(TransferType type, Params extraParams, ReturnFormat format) throws Exception {
+        return returnUniversalTransferHistory(sendSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&type=" + type, extraParams),
+                GET_METHOD), format);
+    }
+
+    /**
+     * Method to create a universal transfer history
+     *
+     * @param universalTransferResponse: obtained from Binance's response
+     * @param format:                    return type formatter -> {@link ReturnFormat}
+     * @return universal transfer history as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnUniversalTransferHistory(String universalTransferResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(universalTransferResponse);
+            case LIBRARY_OBJECT:
+                return (T) new UniversalTransferHistory(new JSONObject(universalTransferResponse));
+            default:
+                return (T) universalTransferResponse;
+        }
     }
 
     /** Request to get funding wallet <br>
      * Any params required
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data</a>
-     * @return funding wallet as ArrayList<FundingWallet>
+     *     Funding Wallet (USER_DATA)</a>
+     * @return funding wallet as {@link ArrayList} of {@link FundingWallet}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestPath(path = "/sapi/v1/asset/get-funding-asset")
     public ArrayList<FundingWallet> getFundingWallet() throws Exception {
-        return getFundingWallet(getTimestampParam());
+        return getFundingWallet(LIBRARY_OBJECT);
     }
 
-    /** Request to get universal transfer history
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are asset,needBtcValuation,recvWindow)
+    /**
+     * Request to get funding wallet
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return funding wallet as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data</a>
-     * @return funding wallet as ArrayList<FundingWallet>
-     * **/
+     * Funding Wallet (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/get-funding-asset")
+    public <T> T getFundingWallet(ReturnFormat format) throws Exception {
+        return returnFundingWallets(sendSignedRequest(FUNDING_WALLET_ENDPOINT, getTimestampParam(), POST_METHOD), format);
+    }
+
+    /**
+     * Request to get universal transfer history
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "asset"} -> asset of the funding wallet - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "needBtcValuation"} -> true or false whether the valuation is needed in BTC - [BOOLEAN]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return funding wallet as {@link ArrayList} of {@link FundingWallet}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data">
+     * Funding Wallet (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/get-funding-asset")
     public ArrayList<FundingWallet> getFundingWallet(Params extraParams) throws Exception {
-        return getFundingWallet(apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams));
+        return getFundingWallet(extraParams, LIBRARY_OBJECT);
     }
 
-    /** Method to submit get funding wallet request
-     * @param params: params of request
+    /**
+     * Request to get universal transfer history
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "asset"} -> asset of the funding wallet - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "needBtcValuation"} -> true or false whether the valuation is needed in BTC - [BOOLEAN]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return funding wallet as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data</a>
-     * @return funding wallet as ArrayList<FundingWallet>
-     * **/
-    private ArrayList<FundingWallet> getFundingWallet(String params) throws Exception {
-        ArrayList<FundingWallet> fundingWalletsList = new ArrayList<>();
-        JSONArray fundingList = new JSONArray(sendSignedRequest(FUNDING_WALLET_ENDPOINT, params, POST_METHOD));
-        for (int j = 0; j < fundingList.length(); j++)
-            fundingWalletsList.add(new FundingWallet(fundingList.getJSONObject(j)));
-        return fundingWalletsList;
+     * Funding Wallet (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/get-funding-asset")
+    public <T> T getFundingWallet(Params extraParams, ReturnFormat format) throws Exception {
+        return returnFundingWallets(sendSignedRequest(FUNDING_WALLET_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), POST_METHOD), format);
     }
 
-    /** Request to get API key permission <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data</a>
-     * @return API key permission as {@link String}
-     * **/
-    public String getAPIKeyPermission() throws Exception {
-        return sendSignedRequest(API_KEY_PERMISSION_ENDPOINT, getTimestampParam(), GET_METHOD);
+    /**
+     * Method to create a funding wallets list
+     *
+     * @param fundingWalletsResponse: obtained from Binance's response
+     * @param format:                 return type formatter -> {@link ReturnFormat}
+     * @return funding wallets history as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnFundingWallets(String fundingWalletsResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(fundingWalletsResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<FundingWallet> wallets = new ArrayList<>();
+                JSONArray jWallets = new JSONArray(fundingWalletsResponse);
+                for (int j = 0; j < jWallets.length(); j++)
+                    wallets.add(new FundingWallet(jWallets.getJSONObject(j)));
+                return (T) wallets;
+            default:
+                return (T) fundingWalletsResponse;
+        }
     }
 
-    /** Request to get API key permission <br>
+    /**
+     * Request to get API key permission <br>
      * Any params required
+     *
+     * @return API key permission as {@link APIPermission} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data</a>
-     * @return API key permission as {@link JSONObject}
-     * **/
-    public JSONObject getJSONAPIKeyPermission() throws Exception {
-        return new JSONObject(getAPIKeyPermission());
+     * Get API Key Permission (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/account/apiRestrictions")
+    public APIPermission getAPIKeyPermission() throws Exception {
+        return getAPIKeyPermission(LIBRARY_OBJECT);
     }
 
-    /** Request to get API key permission <br>
-     * Any params required
+    /**
+     * Request to get API key permission
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return API key permission as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data</a>
-     * @implSpec if tradingAuthorityExpirationTime = -1 means that is not set for this api key
-     * @return API key permission as APIPermission object
-     * **/
-    public APIPermission getObjectAPIKeyPermission() throws Exception {
-        return new APIPermission(new JSONObject(getAPIKeyPermission()));
+     * Get API Key Permission (USER_DATA)</a>
+     **/
+    @Returner
+    @RequestPath(path = "/sapi/v1/account/apiRestrictions")
+    public <T> T getAPIKeyPermission(ReturnFormat format) throws Exception {
+        String permissionResponse = sendSignedRequest(API_KEY_PERMISSION_ENDPOINT, getTimestampParam(), GET_METHOD);
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(permissionResponse);
+            case LIBRARY_OBJECT:
+                return (T) new APIPermission(new JSONObject(permissionResponse));
+            default:
+                return (T) permissionResponse;
+        }
     }
 
 }

@@ -35,7 +35,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.
 
 
 /**
- * The {@code BinanceMarginManager} class is useful to manage all {@code "Binance"} Margin Endpoints
+ * The {@code BinanceMarginManager} class is useful to manage all {@code "Binance"}'s Margin Endpoints
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-trade">

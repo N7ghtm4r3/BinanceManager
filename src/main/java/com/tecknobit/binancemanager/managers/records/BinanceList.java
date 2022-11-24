@@ -3,7 +3,6 @@ package com.tecknobit.binancemanager.managers.records;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order.Status;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.lists.ForceLiquidationList;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public class BinanceList<T> {
     protected int total;
 
     /**
-     * Constructor to init {@link ForceLiquidationList} object
+     * Constructor to init {@link BinanceList} object
      *
      * @param total: number of items
      * @param rows:  list of the items
@@ -47,10 +46,10 @@ public class BinanceList<T> {
     /**
      * Constructor to init {@link BinanceList}
      *
-     * @param jMarginList: list details as {@link JSONObject}
+     * @param jList: list details as {@link JSONObject}
      **/
-    public BinanceList(JSONObject jMarginList) {
-        hList = new JsonHelper(jMarginList);
+    public BinanceList(JSONObject jList) {
+        hList = new JsonHelper(jList);
         total = hList.getInt("total", 0);
         rows = new ArrayList<>();
     }

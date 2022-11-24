@@ -19,7 +19,7 @@ import static com.tecknobit.binancemanager.constants.EndpointsList.TIMESTAMP_END
 import static java.lang.System.currentTimeMillis;
 
 /**
- * The {@code BinanceManager} class is useful to manage all {@code "Binance"} Endpoints
+ * The {@code BinanceManager} class is useful to manage all {@code "Binance"}'s Endpoints
  * giving basics methods for others {@code "Binance"} managers and basics endpoints for API request
  *
  * @author N7ghtm4r3 - Tecknobit

@@ -120,7 +120,7 @@ public class APIPermission {
         enableFutures = apiPermission.getBoolean("enableFutures");
         enableMargin = apiPermission.getBoolean("enableMargin");
         enableSpotAndMarginTrading = apiPermission.getBoolean("enableSpotAndMarginTrading");
-        tradingAuthorityExpirationTime = getLong(apiPermission, "tradingAuthorityExpirationTime");
+        tradingAuthorityExpirationTime = getLong(apiPermission, "tradingAuthorityExpirationTime", -1);
     }
 
     /**
@@ -206,7 +206,7 @@ public class APIPermission {
      *
      * @return {@link #permitsUniversalTransfer} instance as boolean
      **/
-    public boolean PermitsUniversalTransfer() {
+    public boolean permitsUniversalTransfer() {
         return permitsUniversalTransfer;
     }
 
@@ -315,7 +315,11 @@ public class APIPermission {
     }
 
     /**
-     * @implSpec if tradingAuthorityExpirationTime = -1 means that is not set for this api key
+     * Method to get {@link #tradingAuthorityExpirationTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #tradingAuthorityExpirationTime} instance as long
+     * @apiNote if {@code "tradingAuthorityExpirationTime"} = -1 means that is not set for this api key
      **/
     public long getTradingAuthorityExpirationTime() {
         return tradingAuthorityExpirationTime;
@@ -326,8 +330,11 @@ public class APIPermission {
      * Any params required
      *
      * @return {@link #tradingAuthorityExpirationTime} instance as {@link Date}
+     * @apiNote if {@code "tradingAuthorityExpirationTime"} = -1 will be returned {@code "null"}
      **/
     public Date getTradingAuthorityExpirationDate() {
+        if (tradingAuthorityExpirationTime == -1)
+            return null;
         return TimeFormatter.getDate(tradingAuthorityExpirationTime);
     }
 

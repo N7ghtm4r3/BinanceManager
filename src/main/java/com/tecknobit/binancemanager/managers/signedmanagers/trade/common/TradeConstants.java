@@ -1,7 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.common;
 
 /**
- * The {@code TradeConstants} class contains all {@code "Binance"}'s Trade Constants to do trade's request
+ * The {@code TradeConstants} class contains all {@code "Binance"}'s's Trade Constants to do trade's request
  *
  * @deprecated this class will be removed in the next update, use enums of constants in {@link Order} instead
  **/

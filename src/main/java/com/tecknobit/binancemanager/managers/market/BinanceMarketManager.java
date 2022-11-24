@@ -31,7 +31,7 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 
 /**
- * The {@code BinanceMarketManager} class is useful to manage all {@code "Binance"} Market Endpoints
+ * The {@code BinanceMarketManager} class is useful to manage all {@code "Binance"}'s Market Endpoints
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#market-data-endpoints">

@@ -1,10 +1,12 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust;
 
+import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.BinanceList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustItem.getListDribbletsDetails;
@@ -111,6 +113,16 @@ public class DustLogList extends BinanceList<AssetDribblets> {
          **/
         public long getOperateTime() {
             return operateTime;
+        }
+
+        /**
+         * Method to get {@link #operateTime} instance <br>
+         * Any params required
+         *
+         * @return {@link #operateTime} instance as {@link Date}
+         **/
+        public Date getOperateDate() {
+            return TimeFormatter.getDate(operateTime);
         }
 
         /**

@@ -115,7 +115,6 @@ public class Deposit {
      * @param deposit: deposit details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
      **/
-    // TODO: 22/11/2022 CHECK FOR TRANSFER TYPE ENUM
     public Deposit(JSONObject deposit) {
         this(deposit.getDouble("amount"), deposit.getString("coin"), deposit.getString("network"),
                 valueOf(deposit.getInt("status")), deposit.getString("address"), deposit.getString("addressTag"),

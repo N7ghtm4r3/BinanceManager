@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust;
 
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -74,7 +75,7 @@ public class DustItem {
      * @param jDustItem: dust item details as {@link JSONObject}
      **/
     public DustItem(JSONObject jDustItem) {
-        this(jDustItem.getLong("transId"), jDustItem.getDouble("serviceChargeAmount"),
+        this(jDustItem.getLong("tranId"), jDustItem.getDouble("serviceChargeAmount"),
                 jDustItem.getDouble("amount"), jDustItem.getLong("operateTime"),
                 jDustItem.getDouble("transferedAmount"), jDustItem.getString("fromAsset"));
     }
@@ -85,7 +86,7 @@ public class DustItem {
      * @param userAssetDribbletDetails: list of items
      * @return list as {@link ArrayList} of {@link DustItem}
      **/
-    // TODO: 22/11/2022 CHECK TO REMOVE OR MODIFY
+    @Returner
     public static ArrayList<DustItem> getListDribbletsDetails(JSONArray userAssetDribbletDetails) {
         ArrayList<DustItem> dustItems = new ArrayList<>();
         for (int j = 0; j < userAssetDribbletDetails.length(); j++)

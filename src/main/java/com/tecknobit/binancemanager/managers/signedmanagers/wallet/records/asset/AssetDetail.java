@@ -74,9 +74,8 @@ public class AssetDetail {
      * @param assetDetail: asset details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
      **/
-    // TODO: 22/11/2022 REMOVE ASSET NAME
-    public AssetDetail(String assetName, JSONObject assetDetail) {
-        this.assetName = assetName;
+    public AssetDetail(JSONObject assetDetail) {
+        assetName = assetDetail.getString("assetName");
         minWithdrawAmount = assetDetail.getDouble("minWithdrawAmount");
         if (minWithdrawAmount < 0)
             throw new IllegalArgumentException("Min withdraw amount value cannot be less than 0");

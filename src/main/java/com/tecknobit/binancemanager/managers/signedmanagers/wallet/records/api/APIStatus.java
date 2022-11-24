@@ -85,12 +85,9 @@ public class APIStatus {
         if (updateTime < 0)
             throw new IllegalArgumentException("Update time value cannot be less than 0");
         triggerConditions = new HashMap<>();
-        JSONObject oTriggerConditions = apiStatus.getJSONObject("triggerConditions");
-        ArrayList<String> keys = new ArrayList<>(oTriggerConditions.keySet());
-        for (int j = 0; j < oTriggerConditions.length(); j++) {
-            String key = keys.get(j);
-            triggerConditions.put(key, oTriggerConditions.getInt(key));
-        }
+        JSONObject jTriggerConditions = apiStatus.getJSONObject("triggerCondition");
+        for (String key : jTriggerConditions.keySet())
+            triggerConditions.put(key, jTriggerConditions.getInt(key));
         loadListsValues();
     }
 
