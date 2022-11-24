@@ -77,4 +77,26 @@ public abstract class MarginOrder extends Order {
         return TimeFormatter.getDate(transactTime);
     }
 
+    /**
+     * {@code SideEffectType} list of available side effect types
+     **/
+    public enum SideEffectType {
+
+        /**
+         * {@code "NO_SIDE_EFFECT"} side effect type
+         **/
+        NO_SIDE_EFFECT,
+
+        /**
+         * {@code "MARGIN_BUY"} side effect type
+         **/
+        MARGIN_BUY,
+
+        /**
+         * {@code "AUTO_REPAY"} side effect type
+         **/
+        AUTO_REPAY
+
+    }
+
 }

@@ -81,7 +81,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     }
 
     /**
-     * Constructor to init {@link BinanceSignedManager"}
+     * Constructor to init {@link BinanceSpotManager}
      *
      * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
      * @param apiKey       your api key

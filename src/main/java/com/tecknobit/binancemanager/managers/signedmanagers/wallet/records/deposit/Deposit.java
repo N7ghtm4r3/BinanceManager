@@ -316,6 +316,36 @@ public class Deposit {
     }
 
     /**
+     * Method to get {@link #confirmTimes} instance <br>
+     * Any params required
+     *
+     * @return {@link #confirmTimes} instance as {@link String}
+     **/
+    public String getConfirmTimes() {
+        return confirmTimes;
+    }
+
+    /**
+     * Method to set {@link #confirmTimes}
+     *
+     * @param confirmTimes: confirm times value
+     **/
+    public void setConfirmTimes(String confirmTimes) {
+        this.confirmTimes = confirmTimes;
+    }
+
+    /**
+     * Returns a string representation of the object <br>
+     * Any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
+    @Override
+    public String toString() {
+        return new JSONObject(this).toString();
+    }
+
+    /**
      * {@code DepositStatus} list of available deposit statutes
      **/
     public enum DepositStatus {
@@ -377,36 +407,6 @@ public class Deposit {
             return String.valueOf(status);
         }
 
-    }
-
-    /**
-     * Method to get {@link #confirmTimes} instance <br>
-     * Any params required
-     *
-     * @return {@link #confirmTimes} instance as {@link String}
-     **/
-    public String getConfirmTimes() {
-        return confirmTimes;
-    }
-
-    /**
-     * Method to set {@link #confirmTimes}
-     *
-     * @param confirmTimes: confirm times value
-     **/
-    public void setConfirmTimes(String confirmTimes) {
-        this.confirmTimes = confirmTimes;
-    }
-
-    /**
-     * Returns a string representation of the object <br>
-     * Any params required
-     *
-     * @return a string representation of the object as {@link String}
-     */
-    @Override
-    public String toString() {
-        return new JSONObject(this).toString();
     }
 
 }
