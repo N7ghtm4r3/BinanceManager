@@ -687,7 +687,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                           </li>
      *                     </ul>
      * @param format:      return type formatter -> {@link ReturnFormat}
-     * @return old trade as {@code "format"} definese}
+     * @return old trade as {@code "format"} defines
      * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
      *                     <ul>
      *                         <li>

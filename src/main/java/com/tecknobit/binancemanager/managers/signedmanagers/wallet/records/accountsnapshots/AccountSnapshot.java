@@ -1,9 +1,8 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots;
 
+import com.tecknobit.apimanager.formatters.JsonHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import static com.tecknobit.apimanager.formatters.JsonHelper.getJSONArray;
 
 /**
  * The {@code AccountSnapshot} class is useful to format a {@code "Binance"}'s account snapshot
@@ -15,30 +14,20 @@ import static com.tecknobit.apimanager.formatters.JsonHelper.getJSONArray;
 public class AccountSnapshot {
 
     /**
-     * {@code SPOT} is constant for spot type account
-     **/
-    public static final String SPOT = "SPOT";
-    /**
-     * {@code MARGIN} is constant for margin type account
-     **/
-    public static final String MARGIN = "MARGIN";
-    /**
      * {@code code} is instance that memorizes code of response
      **/
     protected final int code;
 
     /**
-     * {@code FUTURES} is constant for futures type account
-     **/
-    public static final String FUTURES = "FUTURES";
-    /**
      * {@code msg} is instance that memorizes message of response
      **/
     protected final String msg;
+
     /**
      * {@code type} is instance that memorizes type of account
      **/
     protected final AccountType type;
+
     /**
      * {@code snapshotVos} is instance that memorizes account details as {@link JSONArray}
      **/
@@ -50,9 +39,8 @@ public class AccountSnapshot {
      * @param code:        code of response
      * @param msg:         message of response
      * @param type:        type of account
-     * @param snapshotVos: details as {@link JSONObject}
+     * @param snapshotVos: details as {@link JSONArray}
      **/
-    // TODO: 22/11/2022 TRANSFORM JSONARRAY IN SOMEONE ELSE
     public AccountSnapshot(int code, String msg, AccountType type, JSONArray snapshotVos) {
         this.code = code;
         this.msg = msg;
@@ -63,14 +51,41 @@ public class AccountSnapshot {
     /**
      * Constructor to init {@link AccountSnapshot} object
      *
+     * @param code:        code of response
+     * @param msg:         message of response
+     * @param type:        type of account
+     * @param snapshotVos: details as {@link String}
+     * @apiNote this constructor is useful to pass a {@code "JSON"} array in {@link String} format
+     **/
+    public AccountSnapshot(int code, String msg, AccountType type, String snapshotVos) {
+        this(code, msg, type, new JSONArray(snapshotVos));
+    }
+
+    /**
+     * Constructor to init {@link AccountSnapshot} object
+     *
+     * @param code:        code of response
+     * @param msg:         message of response
+     * @param type:        type of account
+     * @param snapshotVos: details as {@link String}
+     * @apiNote this constructor is useful to pass a {@code "JSON"} array in {@link String} format
+     **/
+    public <T> AccountSnapshot(int code, String msg, AccountType type, T snapshotVos) {
+        this(code, msg, type, new JSONArray(snapshotVos.toString()));
+    }
+
+    /**
+     * Constructor to init {@link AccountSnapshot} object
+     *
      * @param accountSnapshot: account snapshot details as {@link JSONObject}
      **/
-    // TODO: 22/11/2022 CHECK TO REMOVE TYPE
-    public AccountSnapshot(JSONObject accountSnapshot, AccountType type) {
-        snapshotVos = getJSONArray(accountSnapshot, "snapshotVos", new JSONArray());
-        code = accountSnapshot.getInt("code");
-        msg = accountSnapshot.getString("msg");
-        this.type = type;
+    public AccountSnapshot(JSONObject accountSnapshot) {
+        JsonHelper hAccount = new JsonHelper(accountSnapshot);
+        code = hAccount.getInt("code", 0);
+        msg = hAccount.getString("msg");
+        snapshotVos = hAccount.getJSONArray("snapshotVos", new JSONArray());
+        hAccount.setJSONArraySource(snapshotVos);
+        type = AccountType.valueOf(hAccount.getJSONObject(0).getString("type"));
     }
 
     /**
@@ -109,9 +124,18 @@ public class AccountSnapshot {
      *
      * @return {@link #snapshotVos} instance as {@link JSONArray}
      **/
-    // TODO: 22/11/2022 CHECK TO REMOVE TYPE
     public JSONArray getSnapshotVos() {
         return snapshotVos;
+    }
+
+    /**
+     * Method to get {@link #snapshotVos} instance <br>
+     * Any params required
+     *
+     * @return {@link #snapshotVos} instance as {@link String}
+     **/
+    public String getSnapshotVosStringed() {
+        return snapshotVos.toString();
     }
 
     /**
@@ -131,19 +155,19 @@ public class AccountSnapshot {
     public enum AccountType {
 
         /**
-         * {@code "SPOT"} account type
+         * {@code "spot"} account type
          **/
-        SPOT,
+        spot,
 
         /**
-         * {@code "MARGIN"} account type
+         * {@code "margin"} account type
          **/
-        MARGIN,
+        margin,
 
         /**
-         * {@code "FUTURES"} account type
+         * {@code "futures"} account type
          **/
-        FUTURES
+        futures
 
     }
 

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
+import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.AccountSnapshot.AccountType.futures;
 
 /**
  * The {@code FuturesAccountSnapshot} class is useful to format a {@code "Binance"}'s futures account snapshot
@@ -29,15 +30,38 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
     /**
      * Constructor to init {@link FuturesAccountSnapshot} object
      *
-     * @param code:           code of response
-     * @param msg:            message of response
-     * @param accountDetails: details as {@link JSONObject}
-     * @param futuresData:    list of {@link FuturesData}
+     * @param code:        code of response
+     * @param msg:         message of response
+     * @param snapshotVos: details as {@link JSONArray}
+     * @param futuresData: list of {@link FuturesData}
      **/
-    public FuturesAccountSnapshot(int code, String msg, JSONArray accountDetails,
-                                  ArrayList<FuturesData> futuresData) {
-        super(code, msg, AccountType.FUTURES, accountDetails);
+    public FuturesAccountSnapshot(int code, String msg, JSONArray snapshotVos, ArrayList<FuturesData> futuresData) {
+        super(code, msg, futures, snapshotVos);
         this.futuresData = futuresData;
+    }
+
+    /**
+     * Constructor to init {@link FuturesAccountSnapshot} object
+     *
+     * @param code:        code of response
+     * @param msg:         message of response
+     * @param snapshotVos: details as {@link String}
+     * @apiNote this constructor is useful to pass a {@code "JSON"} array in {@link String} format
+     **/
+    public FuturesAccountSnapshot(int code, String msg, String snapshotVos) {
+        super(code, msg, futures, snapshotVos);
+    }
+
+    /**
+     * Constructor to init {@link FuturesAccountSnapshot} object
+     *
+     * @param code:        code of response
+     * @param msg:         message of response
+     * @param snapshotVos: details as {@link String}
+     * @apiNote this constructor is useful to pass a {@code "JSON"} array in {@link String} format
+     **/
+    public <T> FuturesAccountSnapshot(int code, String msg, T snapshotVos) {
+        super(code, msg, futures, snapshotVos);
     }
 
     /**
@@ -46,7 +70,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
      * @param futuresAccount: futures account snapshot details as {@link JSONObject}
      **/
     public FuturesAccountSnapshot(JSONObject futuresAccount) {
-        super(futuresAccount, AccountType.FUTURES);
+        super(futuresAccount);
         futuresData = new ArrayList<>();
         for (int j = 0; j < snapshotVos.length(); j++)
             futuresData.add(new FuturesData(snapshotVos.getJSONObject(j)));

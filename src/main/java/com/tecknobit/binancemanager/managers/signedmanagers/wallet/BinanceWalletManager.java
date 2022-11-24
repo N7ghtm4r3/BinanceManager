@@ -1,5 +1,8 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet;
 
+import com.tecknobit.apimanager.annotations.RequestPath;
+import com.tecknobit.apimanager.annotations.Returner;
+import com.tecknobit.apimanager.annotations.WrappedRequest;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
@@ -7,7 +10,9 @@ import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.FundingWallet;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.TradeFee;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.Withdraw;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.Withdraw.WithdrawStatus;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.AccountSnapshot;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.AccountSnapshot.AccountType;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.FuturesAccountSnapshot;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.MarginAccountSnapshot;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.SpotAccountSnapshot;
@@ -18,6 +23,7 @@ import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.CoinInformation;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.ConvertibleBNBAssets;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.Deposit;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.Deposit.DepositStatus;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.DepositAddress;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustLogList;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustTransfer;
@@ -26,14 +32,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.tecknobit.apimanager.apis.APIRequest.GET_METHOD;
 import static com.tecknobit.apimanager.apis.APIRequest.POST_METHOD;
 import static com.tecknobit.binancemanager.constants.EndpointsList.*;
-import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.AccountSnapshot.MARGIN;
-import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.AccountSnapshot.SPOT;
+import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.JSON;
+import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 
 /**
  * The {@code BinanceWalletManager} class is useful to manage all {@code "Binance"} Wallet Endpoints
@@ -56,7 +61,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param secretKey           your secret key
      **/
     public BinanceWalletManager(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
-                                String secretKey) throws SystemException, IOException {
+                                String secretKey) throws SystemException, Exception {
         super(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
     }
 
@@ -69,7 +74,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param secretKey           your secret key
      **/
     public BinanceWalletManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
-                                String secretKey) throws SystemException, IOException {
+                                String secretKey) throws SystemException, Exception {
         super(baseEndpoint, defaultErrorMessage, apiKey, secretKey);
     }
 
@@ -82,7 +87,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param secretKey    your secret key
      **/
     public BinanceWalletManager(String baseEndpoint, int timeout, String apiKey,
-                                String secretKey) throws SystemException, IOException {
+                                String secretKey) throws SystemException, Exception {
         super(baseEndpoint, timeout, apiKey, secretKey);
     }
 
@@ -93,7 +98,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/
-    public BinanceWalletManager(String baseEndpoint, String apiKey, String secretKey) throws SystemException, IOException {
+    public BinanceWalletManager(String baseEndpoint, String apiKey, String secretKey) throws SystemException, Exception {
         super(baseEndpoint, apiKey, secretKey);
     }
 
@@ -121,354 +126,1124 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * Request to get information of your coins available for deposit and withdraw <br>
      * Any params required
      *
-     * @return all coin information as {@link String}
+     * @return all coin information as {@link ArrayList} of {@link CoinInformation}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
+     * All Coins' Information (USER_DATA)</a>
      **/
-    public String getAllCoins() throws Exception {
-        return sendSignedRequest(ALL_COINS_ENDPOINT, getTimestampParam(), GET_METHOD);
-    }
-
-    /** Request to get information of your coins available for deposit and withdraw <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
-     * @return all coin information as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllCoins() throws Exception {
-        return new JSONArray(getAllCoins());
-    }
-
-    /** Request to get information of your coins available for deposit and withdraw <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
-     * @return all coin information as ArrayList<CoinInformation>
-     * **/
-    public ArrayList<CoinInformation> getAllCoinsList() throws Exception {
-        JSONArray coinsInformation = new JSONArray(getAllCoins());
-        ArrayList<CoinInformation> coinInformationList = new ArrayList<>();
-        for (int j = 0; j < coinsInformation.length(); j++)
-            coinInformationList.add(new CoinInformation(coinsInformation.getJSONObject(j)));
-        return coinInformationList;
-    }
-
-    /** Custom request to get information of your coin available for deposit and withdraw
-     * @param coin: identifier of coin to fetch es. BTC
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
-     * @return single coin information as {@link String}
-     * **/
-    public String getSingleCoin(String coin) throws Exception {
-        return getSingleCoin(coin, "coin").toString();
-    }
-
-    /** Custom request to get information of your coin available for deposit and withdraw
-     * @param coin: identifier of coin to fetch es. BTC
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
-     * @return single coin information as {@link JSONObject}
-     * **/
-    public JSONObject getSingleCoinJSON(String coin) throws Exception {
-        return getSingleCoin(coin, "coin");
-    }
-
-    /** Custom request to get information of your coin available for deposit and withdraw
-     * @param coin: identifier of coin to fetch es. BTC
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
-     * @return single coin information as {@link CoinInformation} object
-     * **/
-    public CoinInformation getSingleCoinObject(String coin) throws Exception {
-        return new CoinInformation(getSingleCoin(coin, "coin"));
-    }
-
-    /** Custom request to get information of your coin available for deposit and withdraw
-     * @param name: identifier of coin to fetch by name es. Bitcoin
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
-     * @return single coin information as {@link String}
-     * **/
-    public String getSingleCoinByName(String name) throws Exception {
-        return getSingleCoin(name, "name").toString();
-    }
-
-    /** Custom request to get information of your coin available for deposit and withdraw
-     * @param name: identifier of coin to fetch by name es. Bitcoin
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
-     * @return single coin information as {@link JSONObject}
-     * **/
-    public JSONObject getSingleCoinByNameJSON(String name) throws Exception {
-        return getSingleCoin(name, "name");
-    }
-
-    /** Custom request to get information of your coin available for deposit and withdraw
-     * @param name: identifier of coin to fetch by name es. Bitcoin
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
-     * @return single coin information as {@link CoinInformation} object
-     * **/
-    public CoinInformation getSingleCoinByNameObject(String name) throws Exception {
-        return new CoinInformation(getSingleCoin(name, "name"));
-    }
-
-    /** Method to get information of your coin available
-     * @param keyValue: name or coin es Bitcoin or BTC
-     * @param keySearch: name or coin param
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data</a>
-     * @return coin corresponding to params as {@link JSONObject}
-     * **/
-    private JSONObject getSingleCoin(String keyValue, String keySearch) throws Exception {
-        JSONArray coins = getJSONAllCoins();
-        keyValue = keyValue.toUpperCase();
-        for (int j = 0; j < coins.length(); j++) {
-            JSONObject coin = coins.getJSONObject(j);
-            if(coin.getString(keySearch).toUpperCase().equals(keyValue))
-                return coin;
-        }
-        throw new IllegalArgumentException("No coin found with this property");
-    }
-
-    /** Request to get your daily account snapshot
-     * @param type: SPOT,MARGIN OR FUTURES
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
-     * @return account snapshot as {@link String}
-     * **/
-    public String getAccountSnapshot(String type) throws Exception {
-        String params = getTimestampParam() + "&type=" + type;
-        return sendSignedRequest(DAILY_ACCOUNT_SNAPSHOT_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get your daily account snapshot
-     * @param type: SPOT,MARGIN OR FUTURES
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
-     * @return account snapshot as {@link JSONObject}
-     * **/
-    public JSONObject getJSONAccountSnapshot(String type) throws Exception {
-        return new JSONObject(getAccountSnapshot(type));
-    }
-
-    /** Request to get your daily account snapshot
-     * @param type: SPOT,MARGIN OR FUTURES
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
-     * @return account snapshot as AccountSnapshot - {type} object.
-     * **/
-    public <T extends AccountSnapshot> T getObjectAccountSnapshot(String type) throws Exception {
-        return getObjectAccountSnapshot(type, new JSONObject(getAccountSnapshot(type)));
-    }
-
-    /** Request to get your daily account snapshot
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
-     * @return account snapshot as {@link String}
-     * **/
-    public String getAccountSnapshot(String type, Params extraParams) throws Exception {
-        String params = apiRequest.encodeAdditionalParams(getTimestampParam() + "&type=" + type,
-                extraParams);
-        return sendSignedRequest(DAILY_ACCOUNT_SNAPSHOT_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get your daily account snapshot
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
-     * @return account snapshot as {@link JSONObject}
-     * **/
-    public JSONObject getJSONAccountSnapshot(String type, Params extraParams) throws Exception {
-        return new JSONObject(getAccountSnapshot(type, extraParams));
-    }
-
-    /** Request to get your daily account snapshot
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are startTime,endTime,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
-     * @return account snapshot as AccountSnapshot - {type} object.
-     * **/
-    public <T extends AccountSnapshot> T getObjectAccountSnapshot(String type, Params extraParams) throws Exception {
-        return getObjectAccountSnapshot(type, new JSONObject(getAccountSnapshot(type, extraParams)));
+    @RequestPath(path = "/sapi/v1/capital/config/getall")
+    public ArrayList<CoinInformation> getAllCoins() throws Exception {
+        return getAllCoins(LIBRARY_OBJECT);
     }
 
     /**
-     * Method to get your daily account snapshot
+     * Request to get information of your coins available for deposit and withdraw
      *
-     * @param type:        SPOT,MARGIN OR FUTURES
-     * @param jsonAccount: obtain by request to binance
-     * @return account snapshot as AccountSnapshot - {type} object.
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data</a>
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return all coin information as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+     * All Coins' Information (USER_DATA)</a>
      **/
-    private <T extends AccountSnapshot> T getObjectAccountSnapshot(String type, JSONObject jsonAccount) {
-        switch (type) {
-            case SPOT:
-                return (T) new SpotAccountSnapshot(jsonAccount);
-            case MARGIN:
-                return (T) new MarginAccountSnapshot(jsonAccount);
+    @Returner
+    @RequestPath(path = "/sapi/v1/capital/config/getall")
+    public <T> T getAllCoins(ReturnFormat format) throws Exception {
+        String coinsResponse = sendSignedRequest(ALL_COINS_ENDPOINT, getTimestampParam(), GET_METHOD);
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(coinsResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<CoinInformation> coins = new ArrayList<>();
+                JSONArray jList = new JSONArray(coinsResponse);
+                for (int j = 0; j < jList.length(); j++)
+                    coins.add(new CoinInformation(jList.getJSONObject(j)));
+                return (T) coins;
             default:
-                return (T) new FuturesAccountSnapshot(jsonAccount);
+                return (T) coinsResponse;
         }
     }
 
-    /** Request to get enable or disable fast withdraw
-     * @param enableFastWithdraw: true,false
-     * true: endpoint will be ENABLE_FAST_WITHDRAW_ENDPOINT
-     * false: endpoint will be DISABLE_FAST_WITHDRAW_ENDPOINT
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-fast-withdraw-switch-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#disable-fast-withdraw-switch-user_data</a>
-     * @return successful or not of operation (true or false)
+    /** Custom request to get information of your coin available for deposit and withdraw
+     * @param coin: identifier of coin to fetch es. BTC
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+     *     All Coins' Information (USER_DATA)</a>
+     * @return single coin information as {@link CoinInformation} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public boolean switchFastWithdraw(boolean enableFastWithdraw) throws Exception {
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/capital/config/getall")
+    public CoinInformation getSingleCoin(String coin) throws Exception {
+        return getSingleCoin(coin, LIBRARY_OBJECT);
+    }
+
+    /** Custom request to get information of your coin available for deposit and withdraw
+     * @param coin: identifier of coin to fetch es. BTC
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+     *     All Coins' Information (USER_DATA)</a>
+     * @return single coin information as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/capital/config/getall")
+    public <T> T getSingleCoin(String coin, ReturnFormat format) throws Exception {
+        return returnSingleCoin("coin", coin, format);
+    }
+
+    /** Custom request to get information of your coin available for deposit and withdraw
+     * @param name: identifier of coin to fetch by name es. Bitcoin
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+     *     All Coins' Information (USER_DATA)</a>
+     * @return single coin information as {@link CoinInformation} object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/capital/config/getall")
+    public CoinInformation getSingleCoinByName(String name) throws Exception {
+        return getSingleCoinByName(name, LIBRARY_OBJECT);
+    }
+
+    /** Custom request to get information of your coin available for deposit and withdraw
+     * @param name: identifier of coin to fetch by name es. Bitcoin
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
+     *     All Coins' Information (USER_DATA)</a>
+     * @return single coin information as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/capital/config/getall")
+    public <T> T getSingleCoinByName(String name, ReturnFormat format) throws Exception {
+        return returnSingleCoin("name", name, format);
+    }
+
+    /** Method to get information of your coin available
+     * @param key: name or coin es Bitcoin or BTC
+     * @param value: name or coin param
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return coin corresponding to params as {@code "format"} defines
+     * **/
+    @Returner
+    private <T> T returnSingleCoin(String key, String value, ReturnFormat format) throws Exception {
+        value = value.toUpperCase();
+        JSONArray coins = getAllCoins(JSON);
+        boolean found = false;
+        JSONObject jCoin = null;
+        for (int j = 0; j < coins.length() && !found; j++) {
+            jCoin = coins.getJSONObject(j);
+            if (jCoin.getString(key).toUpperCase().equals(value))
+                found = true;
+        }
+        if (found) {
+            switch (format) {
+                case JSON:
+                    return (T) jCoin;
+                case LIBRARY_OBJECT:
+                    return (T) new CoinInformation(jCoin);
+                default:
+                    return (T) jCoin.toString();
+            }
+        } else
+            throw new IllegalArgumentException("No coin found with this property");
+    }
+
+    /** Request to get your daily account snapshot
+     * @param type: SPOT,MARGIN OR FUTURES
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+     *     Daily Account Snapshot (USER_DATA)</a>
+     * @return account snapshot as {@link AccountSnapshot} cast custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/accountSnapshot")
+    public <T> T getAccountSnapshot(AccountType type) throws Exception {
+        return getAccountSnapshot(type, LIBRARY_OBJECT);
+    }
+
+    /** Request to get your daily account snapshot
+     * @param type: SPOT, MARGIN OR FUTURES
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+     *     Daily Account Snapshot (USER_DATA)</a>
+     * @return account snapshot as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/accountSnapshot")
+    public <T> T getAccountSnapshot(AccountType type, ReturnFormat format) throws Exception {
+        String params = getTimestampParam() + "&type=" + type.toString().toUpperCase();
+        return returnAccountSnapshot(type, sendSignedRequest(DAILY_ACCOUNT_SNAPSHOT_ENDPOINT, params, GET_METHOD), format);
+    }
+
+    /** Request to get your daily account snapshot
+     * @param type: SPOT, MARGIN OR FUTURES
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "limit"} -> limit results: min 7, max 30, default 7 - [INT, default 7]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate snapshots - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate snapshots - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+     *     Daily Account Snapshot (USER_DATA)</a>
+     * @return account snapshot as {@link AccountSnapshot} cast custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/accountSnapshot")
+    public <T> T getAccountSnapshot(AccountType type, Params extraParams) throws Exception {
+        return getAccountSnapshot(type, extraParams, LIBRARY_OBJECT);
+    }
+
+    /** Request to get your daily account snapshot
+     * @param type: SPOT, MARGIN OR FUTURES
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "limit"} -> limit results: min 7, max 30, default 7 - [INT, default 7]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate snapshots - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate snapshots - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
+     *     Daily Account Snapshot (USER_DATA)</a>
+     * @return account snapshot as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/accountSnapshot")
+    public <T> T getAccountSnapshot(AccountType type, Params extraParams, ReturnFormat format) throws Exception {
+        return returnAccountSnapshot(type, sendSignedRequest(DAILY_ACCOUNT_SNAPSHOT_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&type=" + type.toString().toUpperCase(),
+                        extraParams), GET_METHOD), format);
+    }
+
+    /**
+     * Method to create an account object
+     *
+     * @param type: SPOT, MARGIN OR FUTURES
+     * @param accountResponse: obtained from Binance's response
+     * @param format:                      return type formatter -> {@link ReturnFormat}
+     * @return account as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnAccountSnapshot(AccountType type, String accountResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(accountResponse);
+            case LIBRARY_OBJECT:
+                switch (type) {
+                    case spot:
+                        return (T) new SpotAccountSnapshot(new JSONObject(accountResponse));
+                    case margin:
+                        return (T) new MarginAccountSnapshot(new JSONObject(accountResponse));
+                    default:
+                        return (T) new FuturesAccountSnapshot(new JSONObject(accountResponse));
+                }
+            default:
+                return (T) accountResponse;
+        }
+    }
+
+    /**
+     * Request to disable fast withdraw <br>
+     * Any params required
+     *
+     * @return result of the operation -> {@code "true"} is successful, {@code "false"} if not successful
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-fast-withdraw-switch-user_data">
+     * Disable Fast Withdraw Switch (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/account/disableFastWithdrawSwitch")
+    public boolean disableFastWithdraw() throws Exception {
+        return switchFastWithdraw(false);
+    }
+
+    /**
+     * Request to enable fast withdraw <br>
+     * Any params required
+     *
+     * @return result of the operation -> {@code "true"} is successful, {@code "false"} if not successful
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-fast-withdraw-switch-user_data">
+     * Enable Fast Withdraw Switch (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/account/enableFastWithdrawSwitch")
+    public boolean enableFastWithdraw() throws Exception {
+        return switchFastWithdraw(true);
+    }
+
+    /**
+     * Request to enable or disable fast withdraw
+     *
+     * @param enableFastWithdraw: true, false
+     * @return result of the operation -> {@code "true"} is successful, {@code "false"} if not successful
+     **/
+    private boolean switchFastWithdraw(boolean enableFastWithdraw) throws Exception {
         String switchOperationEndpoint = DISABLE_FAST_WITHDRAW_ENDPOINT;
-        if(enableFastWithdraw)
+        if (enableFastWithdraw)
             switchOperationEndpoint = ENABLE_FAST_WITHDRAW_ENDPOINT;
         return sendSignedRequest(switchOperationEndpoint, getTimestampParam(), POST_METHOD).equals("{}");
     }
 
-    /** Request to submit withdraw
-     * @param coinSymbol: symbol of coin used es. BTC
-     * @param address: address used
-     * @param amount: amount to withdraw
+    /**
+     * Request to submit withdraw
+     *
+     * @param withdraw: withdraw to submit
+     * @return id of withdraw if operation is successful as {@link String}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data</a>
-     * @return id of transaction if operation is successful as {@link String}
-     * **/
-    public String submitWithdraw(String coinSymbol, String address, double amount) throws Exception {
-        String params = getTimestampParam() + "&coin=" + coinSymbol + "&address=" + address + "&amount=" + amount;
-        return submitWithdraw(params);
-    }
-
-    /** Request to submit withdraw
-     * @param coinSymbol: symbol of coin used es. BTC
-     * @param address: address used
-     * @param amount: amount to withdraw
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data</a>
-     * @return id of transaction if operation is successful as {@link JSONObject}
-     * **/
-    public JSONObject submitJSONWithdraw(String coinSymbol, String address, double amount) throws Exception {
-        return new JSONObject(submitWithdraw(coinSymbol, address, amount));
-    }
-
-    /** Request to submit withdraw with extraParams
-     * @param coinSymbol: symbol of coin used es. BTC
-     * @param address: address used
-     * @param amount: amount to withdraw
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are withdrawOrderId,network,addressTag,transactionFeeFlag,name,walletType,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data</a>
-     * @return id of transaction if operation is successful as {@link String}
-     * **/
-    public String submitWithdraw(String coinSymbol, String address, double amount, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&coin=" + coinSymbol + "&address=" + address + "&amount=" + amount;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return submitWithdraw(params);
-    }
-
-    /** Request to submit withdraw with extraParams
-     * @param coinSymbol: symbol of coin used es. BTC
-     * @param address: address used
-     * @param amount: amount to withdraw
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are withdrawOrderId,network,addressTag,transactionFeeFlag,name,walletType,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data</a>
-     * @return id of transaction if operation is successful as {@link JSONObject}
-     * **/
-    public JSONObject submitJSONWithdraw(String coinSymbol, String address, double amount, Params extraParams) throws Exception {
-        return new JSONObject(submitWithdraw(coinSymbol,address,amount,extraParams));
-    }
-
-    /** Method to submit withdraw request
-     * @param params: params of request
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data</a>
-     * @return id of transaction if operation is successful as {@link String}
-     * **/
-    private String submitWithdraw(String params) throws Exception {
-        return sendSignedRequest(SUBMIT_WITHDRAW_ENDPOINT, params, POST_METHOD);
-    }
-
-    /** Request to get deposit history <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data</a>
-     * @return list of deposits as ArrayList<Deposit>
-     * **/
-    public ArrayList<Deposit> getDepositHistory() throws Exception {
-        return getDepositHistory(getTimestampParam());
-    }
-
-    /** Request to get deposit history
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are coin,status,startTime,endTime,offset,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data</a>
-     * @return list of deposits as ArrayList<Deposit>
-     * **/
-    public ArrayList<Deposit> getDepositHistory(Params extraParams) throws Exception {
-        String params = apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams);
-        return getDepositHistory(params);
-    }
-
-    /** Method to submit get deposit history request
-     * @param params: params of request
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data</a>
-     * @return list of deposits as ArrayList<Deposit>
-     * **/
-    private ArrayList<Deposit> getDepositHistory(String params) throws Exception {
-        ArrayList<Deposit> depositHistory = new ArrayList<>();
-        JSONArray deposits = new JSONArray(sendSignedRequest(DEPOSIT_HISTORY_ENDPOINT, params, GET_METHOD));
-        for (int j = 0; j < deposits.length(); j++)
-            depositHistory.add(new Deposit(deposits.getJSONObject(j)));
-        return depositHistory;
-    }
-
-    /** Request to get withdraw history <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data</a>
-     * @return list of withdraws as ArrayList<Withdraw>
-     * **/
-    public ArrayList<Withdraw> getWithdrawHistory() throws Exception {
-        return getWithdrawHistory(getTimestampParam());
-    }
-
-    /** Request to get withdraw history
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are coin, withdrawOrderId, status, offset, limit, startTime, endTime, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data</a>
-     * @return list of withdraws as ArrayList<Withdraw>
-     * **/
-    public ArrayList<Withdraw> getWithdrawHistory(Params extraParams) throws Exception {
-        String params = apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams);
-        return getWithdrawHistory(params);
+     * Withdraw(USER_DATA)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/capital/withdraw/apply")
+    public String submitWithdraw(Withdraw withdraw) throws Exception {
+        return submitWithdraw(withdraw.getCoin(), withdraw.getAddress(), withdraw.getAmount(), LIBRARY_OBJECT);
     }
 
     /**
-     * Method to submit get withdraw history request
+     * Request to submit withdraw
      *
-     * @param params: params of request
-     * @return list of withdraws as {@link ArrayList} of {@link Withdraw}
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data</a>
+     * @param withdraw: withdraw to submit
+     * @param format:   return type formatter -> {@link ReturnFormat}
+     * @return id of withdraw if operation is successful as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
+     * Withdraw(USER_DATA)</a>
      **/
-    private ArrayList<Withdraw> getWithdrawHistory(String params) throws Exception {
-        ArrayList<Withdraw> withdrawsHistory = new ArrayList<>();
-        JSONArray withdraws = new JSONArray(sendSignedRequest(WITHDRAW_HISTORY_ENDPOINT, params, GET_METHOD));
-        for (int j = 0; j < withdraws.length(); j++)
-            withdrawsHistory.add(new Withdraw(withdraws.getJSONObject(j)));
-        return withdrawsHistory;
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/capital/withdraw/apply")
+    public <T> T submitWithdraw(Withdraw withdraw, ReturnFormat format) throws Exception {
+        return submitWithdraw(withdraw.getCoin(), withdraw.getAddress(), withdraw.getAmount(), format);
+    }
+
+    /**
+     * Request to submit withdraw
+     *
+     * @param coin:    symbol of coin used es. BTC
+     * @param address: address used
+     * @param amount:  amount to withdraw
+     * @return id of withdraw if operation is successful as {@link String}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
+     * Withdraw(USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/capital/withdraw/apply")
+    public String submitWithdraw(String coin, String address, double amount) throws Exception {
+        return submitWithdraw(coin, address, amount, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to submit withdraw
+     *
+     * @param coin:    symbol of coin used es. BTC
+     * @param address: address used
+     * @param amount:  amount to withdraw
+     * @param format:  return type formatter -> {@link ReturnFormat}
+     * @return id of withdraw if operation is successful as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
+     * Withdraw(USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/capital/withdraw/apply")
+    public <T> T submitWithdraw(String coin, String address, double amount, ReturnFormat format) throws Exception {
+        String params = getTimestampParam() + "&coin=" + coin + "&address=" + address + "&amount=" + amount;
+        return returnWithdrawId(sendSignedRequest(SUBMIT_WITHDRAW_ENDPOINT, params, POST_METHOD), format);
+    }
+
+    /**
+     * Request to submit withdraw with extra params
+     *
+     * @param withdraw:    withdraw to submit
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "withdrawOrderId"} -> client id for withdraw - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "network"} -> network - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "addressTag"} -> secondary address identifier for coins like XRP,XMR etc - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "transactionFeeFlag"} -> hen making internal transfer, true for returning
+     *                                the fee to the destination account; false for returning the fee back to the departure
+     *                                account - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "name"} -> description of the address. Space in name should be encoded into
+     *                                %20 - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "walletType"} -> the wallet type for withdraw，0-spot wallet ，1-funding wallet.
+     *                                Default walletType is the current "selected wallet"
+     *                                under wallet->Fiat and Spot/Funding->Deposit - [INTEGER]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return id of withdraw if operation is successful as {@link String}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @implSpec (keys accepted are withdrawOrderId, network, addressTag, transactionFeeFlag, name, walletType, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
+     * Withdraw(USER_DATA)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/capital/withdraw/apply")
+    public String submitWithdraw(Withdraw withdraw, Params extraParams) throws Exception {
+        return submitWithdraw(withdraw.getCoin(), withdraw.getAddress(), withdraw.getAmount(), extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to submit withdraw with extra params
+     *
+     * @param withdraw:    withdraw to submit
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "withdrawOrderId"} -> client id for withdraw - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "network"} -> network - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "addressTag"} -> secondary address identifier for coins like XRP,XMR etc - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "transactionFeeFlag"} -> hen making internal transfer, true for returning
+     *                                the fee to the destination account; false for returning the fee back to the departure
+     *                                account - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "name"} -> description of the address. Space in name should be encoded into
+     *                                %20 - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "walletType"} -> the wallet type for withdraw，0-spot wallet ，1-funding wallet.
+     *                                Default walletType is the current "selected wallet"
+     *                                under wallet->Fiat and Spot/Funding->Deposit - [INTEGER]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return id of withdraw if operation is successful as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
+     * Withdraw(USER_DATA)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/capital/withdraw/apply")
+    public <T> T submitWithdraw(Withdraw withdraw, Params extraParams, ReturnFormat format) throws Exception {
+        return submitWithdraw(withdraw.getCoin(), withdraw.getAddress(), withdraw.getAmount(), extraParams, format);
+    }
+
+    /**
+     * Request to submit withdraw with extra params
+     *
+     * @param coin:        symbol of coin used es. BTC
+     * @param address:     address used
+     * @param amount:      amount to withdraw
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "withdrawOrderId"} -> client id for withdraw - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "network"} -> network - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "addressTag"} -> secondary address identifier for coins like XRP,XMR etc - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "transactionFeeFlag"} -> hen making internal transfer, true for returning
+     *                                the fee to the destination account; false for returning the fee back to the departure
+     *                                account - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "name"} -> description of the address. Space in name should be encoded into
+     *                                %20 - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "walletType"} -> the wallet type for withdraw，0-spot wallet ，1-funding wallet.
+     *                                Default walletType is the current "selected wallet"
+     *                                under wallet->Fiat and Spot/Funding->Deposit - [INTEGER]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return id of withdraw if operation is successful as {@link String}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
+     * Withdraw(USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/capital/withdraw/apply")
+    public String submitWithdraw(String coin, String address, double amount, Params extraParams) throws Exception {
+        return submitWithdraw(coin, address, amount, extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to submit withdraw with extra params
+     *
+     * @param coin:        symbol of coin used es. BTC
+     * @param address:     address used
+     * @param amount:      amount to withdraw
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "withdrawOrderId"} -> client id for withdraw - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "network"} -> network - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "addressTag"} -> secondary address identifier for coins like XRP,XMR etc - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "transactionFeeFlag"} -> hen making internal transfer, true for returning
+     *                                the fee to the destination account; false for returning the fee back to the departure
+     *                                account - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "name"} -> description of the address. Space in name should be encoded into
+     *                                %20 - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "walletType"} -> the wallet type for withdraw，0-spot wallet ，1-funding wallet.
+     *                                Default walletType is the current "selected wallet"
+     *                                under wallet->Fiat and Spot/Funding->Deposit - [INTEGER]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return id of withdraw if operation is successful as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
+     * Withdraw(USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/capital/withdraw/apply")
+    public <T> T submitWithdraw(String coin, String address, double amount, Params extraParams,
+                                ReturnFormat format) throws Exception {
+        String params = getTimestampParam() + "&coin=" + coin + "&address=" + address + "&amount=" + amount;
+        params = apiRequest.encodeAdditionalParams(params, extraParams);
+        return returnWithdrawId(sendSignedRequest(SUBMIT_WITHDRAW_ENDPOINT, params, POST_METHOD), format);
+    }
+
+    /**
+     * Method to create a withdrawal id
+     *
+     * @param withdrawResponse: obtained from Binance's response
+     * @param format:           return type formatter -> {@link ReturnFormat}
+     * @return withdrawal id as {@code "format"} defines
+     * @apiNote in this case {@link ReturnFormat#LIBRARY_OBJECT} will return the id value as {@link String}
+     **/
+    @Returner
+    private <T> T returnWithdrawId(String withdrawResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(withdrawResponse);
+            case LIBRARY_OBJECT:
+                return (T) new JSONObject(withdrawResponse).getString("id");
+            default:
+                return (T) withdrawResponse;
+        }
+    }
+
+    /**
+     * Request to get deposit history <br>
+     * Any params required
+     *
+     * @return list of deposits as {@link ArrayList} of {@link Deposit}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
+     * Deposit History (supporting network) (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/capital/deposit/hisrec")
+    public ArrayList<Deposit> getDepositHistory() throws Exception {
+        return getDepositHistory(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get deposit history
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return list of deposits as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
+     * Deposit History (supporting network) (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/capital/deposit/hisrec")
+    public <T> T getDepositHistory(ReturnFormat format) throws Exception {
+        return returnDepositHistory(sendSignedRequest(DEPOSIT_HISTORY_ENDPOINT, getTimestampParam(), GET_METHOD), format);
+    }
+
+    /**
+     * Request to get deposit history
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "coin"} -> coin of the deposit - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "status"} -> 0(0:pending,6: credited but cannot withdraw, 1:success),
+     *                                constants available {@link DepositStatus} - [INTEGER]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate history - [LONG, default 90 days from current timestamp]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate history - [LONG, default present timestamp]
+     *                           </li>
+     *                           <li>
+     *                                {@code "offset"} -> offset - [INTEGER, default, 0]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> limit results, max 1000 - [INTEGER, default 1000]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return list of deposits as {@link ArrayList} of {@link Deposit}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
+     * Deposit History (supporting network) (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/capital/deposit/hisrec")
+    public ArrayList<Deposit> getDepositHistory(Params extraParams) throws Exception {
+        return getDepositHistory(extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get deposit history
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "coin"} -> coin of the deposit - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "status"} -> 0(0:pending,6: credited but cannot withdraw, 1:success),
+     *                                constants available {@link DepositStatus} - [INTEGER]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate history - [LONG, default 90 days from current timestamp]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate history - [LONG, default present timestamp]
+     *                           </li>
+     *                           <li>
+     *                                {@code "offset"} -> offset - [INTEGER, default, 0]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> limit results, max 1000 - [INTEGER, default 1000]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return list of deposits as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
+     * Deposit History (supporting network) (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/capital/deposit/hisrec")
+    public <T> T getDepositHistory(Params extraParams, ReturnFormat format) throws Exception {
+        return returnDepositHistory(sendSignedRequest(DEPOSIT_HISTORY_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET_METHOD), format);
+    }
+
+    /**
+     * Method to create a deposit history
+     *
+     * @param depositHistoryResponse: obtained from Binance's response
+     * @param format:                 return type formatter -> {@link ReturnFormat}
+     * @return deposits history as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnDepositHistory(String depositHistoryResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(depositHistoryResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<Deposit> depositHistory = new ArrayList<>();
+                JSONArray jDeposits = new JSONArray(depositHistoryResponse);
+                for (int j = 0; j < jDeposits.length(); j++)
+                    depositHistory.add(new Deposit(jDeposits.getJSONObject(j)));
+                return (T) depositHistory;
+            default:
+                return (T) depositHistoryResponse;
+        }
+    }
+
+    /**
+     * Request to get withdraw history <br>
+     * Any params required
+     *
+     * @return list of withdraws as {@link ArrayList} of {@link Withdraw}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
+     * Deposit Address (supporting network)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    public ArrayList<Withdraw> getWithdrawHistory() throws Exception {
+        return getWithdrawHistory(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get withdraw history <br>
+     * Any params required
+     *
+     * @return list of withdraws as {@link ArrayList} of {@link Withdraw}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
+     * Deposit Address (supporting network)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    public <T> T getWithdrawHistory(ReturnFormat format) throws Exception {
+        return returnWithdrawHistory(sendSignedRequest(WITHDRAW_HISTORY_ENDPOINT, getTimestampParam(), GET_METHOD), format);
+    }
+
+    /**
+     * Request to get withdraw history
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "coin"} -> coin of the withdraw - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "withdrawOrderId"} -> client id for withdraw - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "status"} -> 0(0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected
+     *                                4:Processing 5:Failure 6:Completed),
+     *                                constants available {@link WithdrawStatus} - [INTEGER]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate history - [LONG, default 90 days from current timestamp]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate history - [LONG, default present timestamp]
+     *                           </li>
+     *                           <li>
+     *                                {@code "offset"} -> offset - [INTEGER, default, 0]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> limit results, max 1000 - [INTEGER, default 1000]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return list of withdraws as {@link ArrayList} of {@link Withdraw}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @implSpec (keys accepted are coin, withdrawOrderId, status, offset, limit, startTime, endTime, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
+     * Deposit Address (supporting network)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    public ArrayList<Withdraw> getWithdrawHistory(Params extraParams) throws Exception {
+        return getWithdrawHistory(extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get withdraw history
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "coin"} -> coin of the withdraw - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "withdrawOrderId"} -> client id for withdraw - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "status"} -> 0(0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected
+     *                                4:Processing 5:Failure 6:Completed),
+     *                                constants available {@link WithdrawStatus} - [INTEGER]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate history - [LONG, default 90 days from current timestamp]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate history - [LONG, default present timestamp]
+     *                           </li>
+     *                           <li>
+     *                                {@code "offset"} -> offset - [INTEGER, default, 0]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> limit results, max 1000 - [INTEGER, default 1000]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return list of withdraws as {@link ArrayList} of {@link Withdraw}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @implSpec (keys accepted are coin, withdrawOrderId, status, offset, limit, startTime, endTime, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
+     * Deposit Address (supporting network)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    public <T> T getWithdrawHistory(Params extraParams, ReturnFormat format) throws Exception {
+        return returnWithdrawHistory(sendSignedRequest(WITHDRAW_HISTORY_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET_METHOD), format);
+    }
+
+    /**
+     * Method to create a withdrawal history
+     *
+     * @param withdrawHistoryResponse: obtained from Binance's response
+     * @param format:                  return type formatter -> {@link ReturnFormat}
+     * @return withdrawal history as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnWithdrawHistory(String withdrawHistoryResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(withdrawHistoryResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<Withdraw> withdrawsHistory = new ArrayList<>();
+                JSONArray jWithdraws = new JSONArray(withdrawHistoryResponse);
+                for (int j = 0; j < jWithdraws.length(); j++)
+                    withdrawsHistory.add(new Withdraw(jWithdraws.getJSONObject(j)));
+                return (T) withdrawsHistory;
+            default:
+                return (T) withdrawHistoryResponse;
+        }
     }
 
     /** Request to get deposit address

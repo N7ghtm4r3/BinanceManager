@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
+import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.Deposit.DepositStatus.valueOf;
 
 /**
  * The {@code Deposit} class is useful to format a {@code "Binance"}'s deposit
@@ -17,24 +18,28 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 public class Deposit {
 
     /**
+     * {@code status} is instance that memorizes status value
+     **/
+    private DepositStatus status;
+
+    /**
      * {@code amount} is instance that memorizes amount value
-     * **/
+     **/
     private double amount;
 
     /**
      * {@code coin} is instance that memorizes coin value
-     * **/
+     **/
     private final String coin;
 
     /**
      * {@code network} is instance that memorizes network value
      * **/
     private final String network;
-
     /**
-     * {@code status} is instance that memorizes status value
-     * **/
-    private int status;
+     * {@code unlockConfirm} is instance that memorizes unlock confirm value
+     **/
+    private int unlockConfirm;
 
     /**
      * {@code address} is instance that memorizes address value
@@ -61,16 +66,6 @@ public class Deposit {
      * **/
     private int transferType;
 
-    /**
-     * {@code unlockConfirm} is instance that memorizes unlock confirm value
-     * **/
-    private String unlockConfirm;
-
-    /**
-     * {@code confirmTimes} is instance that memorizes confirm times value
-     * **/
-    private String confirmTimes;
-
     /** Constructor to init {@link Deposit} object
      * @param amount: amount value
      * @param coin: coin value
@@ -85,18 +80,15 @@ public class Deposit {
      * @param confirmTimes: confirm times value
      * @throws IllegalArgumentException if parameters range is not respected
      * **/
-    public Deposit(double amount, String coin, String network, int status, String address, String addressTag,
-                   String txId, long insertTime, int transferType, String unlockConfirm, String confirmTimes) {
-        if(amount < 0)
+    public Deposit(double amount, String coin, String network, DepositStatus status, String address, String addressTag,
+                   String txId, long insertTime, int transferType, int unlockConfirm, String confirmTimes) {
+        if (amount < 0)
             throw new IllegalArgumentException("Amount value cannot be less than 0");
         else
             this.amount = amount;
         this.coin = coin;
         this.network = network;
-        if(status < 0 || status > 6)
-            throw new IllegalArgumentException("Status value can only be from 0 to 6");
-        else
-            this.status = status;
+        this.status = status;
         this.address = address;
         this.addressTag = addressTag;
         this.txId = txId;
@@ -113,6 +105,11 @@ public class Deposit {
     }
 
     /**
+     * {@code confirmTimes} is instance that memorizes confirm times value
+     **/
+    private String confirmTimes;
+
+    /**
      * Constructor to init {@link Deposit} object
      *
      * @param deposit: deposit details as {@link JSONObject}
@@ -121,9 +118,19 @@ public class Deposit {
     // TODO: 22/11/2022 CHECK FOR TRANSFER TYPE ENUM
     public Deposit(JSONObject deposit) {
         this(deposit.getDouble("amount"), deposit.getString("coin"), deposit.getString("network"),
-                deposit.getInt("status"), deposit.getString("address"), deposit.getString("addressTag"),
+                valueOf(deposit.getInt("status")), deposit.getString("address"), deposit.getString("addressTag"),
                 deposit.getString("txId"), deposit.getLong("insertTime"), deposit.getInt("transferType"),
-                deposit.getString("unlockConfirm"), deposit.getString("confirmTimes"));
+                deposit.getInt("unlockConfirm"), deposit.getString("confirmTimes"));
+    }
+
+    /**
+     * Method to get {@link #status} instance <br>
+     * Any params required
+     *
+     * @return {@link #status} instance as int
+     **/
+    public DepositStatus getStatus() {
+        return status;
     }
 
     /**
@@ -180,25 +187,22 @@ public class Deposit {
     }
 
     /**
-     * Method to get {@link #status} instance <br>
-     * Any params required
-     *
-     * @return {@link #status} instance as int
-     **/
-    public int getStatus() {
-        return status;
-    }
-
-    /**
      * Method to set {@link #status}
      *
      * @param status: status value
-     * @throws IllegalArgumentException when status value is less than 0
      **/
-    public void setStatus(int status) {
-        if (status < 0 || status > 6)
-            throw new IllegalArgumentException("Status value can only be from 0 to 6");
+    public void setStatus(DepositStatus status) {
         this.status = status;
+    }
+
+    /**
+     * Method to get {@link #unlockConfirm} instance <br>
+     * Any params required
+     *
+     * @return {@link #unlockConfirm} instance as int
+     **/
+    public int getUnlockConfirm() {
+        return unlockConfirm;
     }
 
     /**
@@ -304,22 +308,76 @@ public class Deposit {
     }
 
     /**
-     * Method to get {@link #unlockConfirm} instance <br>
-     * Any params required
-     *
-     * @return {@link #unlockConfirm} instance as {@link String}
-     **/
-    public String getUnlockConfirm() {
-        return unlockConfirm;
-    }
-
-    /**
      * Method to set {@link #unlockConfirm}
      *
      * @param unlockConfirm: unlock confirm value
      **/
-    public void setUnlockConfirm(String unlockConfirm) {
+    public void setUnlockConfirm(int unlockConfirm) {
         this.unlockConfirm = unlockConfirm;
+    }
+
+    /**
+     * {@code DepositStatus} list of available deposit statutes
+     **/
+    public enum DepositStatus {
+
+        /**
+         * {@code "pending"} status
+         **/
+        pending(0),
+
+        /**
+         * {@code "credited_but_cannot_withdraw"} status
+         **/
+        credited_but_cannot_withdraw(6),
+
+        /**
+         * {@code "success"} status
+         **/
+        success(1);
+
+        /**
+         * {@code "status"} value
+         **/
+        private final int status;
+
+        /**
+         * Constructor to init {@link DepositStatus}
+         *
+         * @param status: status value
+         **/
+        DepositStatus(int status) {
+            this.status = status;
+        }
+
+        /**
+         * Method to get the {@link DepositStatus} by an int <br>
+         * Any params required
+         *
+         * @return {@link DepositStatus} corresponding value
+         **/
+        public static DepositStatus valueOf(int status) {
+            switch (status) {
+                case 0:
+                    return pending;
+                case 6:
+                    return credited_but_cannot_withdraw;
+                default:
+                    return success;
+            }
+        }
+
+        /**
+         * Method to get {@link #status} instance <br>
+         * Any params required
+         *
+         * @return {@link #status} instance as {@link String}
+         **/
+        @Override
+        public String toString() {
+            return String.valueOf(status);
+        }
+
     }
 
     /**

@@ -42,7 +42,7 @@ public class BinanceSignedManager extends BinanceManager {
         super(baseEndpoint, defaultErrorMessage, timeout);
         this.apiKey = apiKey;
         this.secretKey = secretKey;
-        storeProperties(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
+        storeKeys(apiKey, secretKey);
     }
 
     /**
@@ -55,7 +55,10 @@ public class BinanceSignedManager extends BinanceManager {
      **/
     public BinanceSignedManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
                                 String secretKey) throws SystemException, IOException {
-        this(baseEndpoint, defaultErrorMessage, -1, apiKey, secretKey);
+        super(baseEndpoint, defaultErrorMessage);
+        this.apiKey = apiKey;
+        this.secretKey = secretKey;
+        storeKeys(apiKey, secretKey);
     }
 
     /**
@@ -68,7 +71,10 @@ public class BinanceSignedManager extends BinanceManager {
      **/
     public BinanceSignedManager(String baseEndpoint, int timeout, String apiKey,
                                 String secretKey) throws SystemException, IOException {
-        this(baseEndpoint, null, timeout, apiKey, secretKey);
+        super(baseEndpoint, timeout);
+        this.apiKey = apiKey;
+        this.secretKey = secretKey;
+        storeKeys(apiKey, secretKey);
     }
 
     /**
@@ -79,7 +85,10 @@ public class BinanceSignedManager extends BinanceManager {
      * @param secretKey    your secret key
      **/
     public BinanceSignedManager(String baseEndpoint, String apiKey, String secretKey) throws SystemException, IOException {
-        this(baseEndpoint, null, -1, apiKey, secretKey);
+        super(baseEndpoint);
+        this.apiKey = apiKey;
+        this.secretKey = secretKey;
+        storeKeys(apiKey, secretKey);
     }
 
     /**
@@ -107,15 +116,10 @@ public class BinanceSignedManager extends BinanceManager {
     /**
      * Method to store some properties
      *
-     * @param baseEndpoint         base endpoint to work on
-     * @param defaultErrorMessage: custom error to show when is not a request error
-     * @param timeout:             custom timeout for request
-     * @param apiKey               your api key
-     * @param secretKey            your secret key
+     * @param apiKey    your api key
+     * @param secretKey your secret key
      **/
-    protected void storeProperties(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
-                                   String secretKey) {
-        storeProperties(baseEndpoint, defaultErrorMessage, timeout);
+    protected void storeKeys(String apiKey, String secretKey) {
         properties.setProperty("apiKey", apiKey);
         properties.setProperty("secretKey", secretKey);
     }

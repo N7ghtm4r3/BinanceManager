@@ -10,14 +10,15 @@
       <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/BinanceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/BinanceManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/market/BinanceMarketManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/market/BinanceMarketManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/market/records/OrderBook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/market/records/OrderBook.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/market/records/tickers/PriceTicker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/market/records/tickers/PriceTicker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/market/records/tickers/Ticker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/market/records/tickers/Ticker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/BinanceMarginManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/BinanceMarginManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/spot/BinanceSpotManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/spot/BinanceSpotManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/BinanceSignedManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/BinanceSignedManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/BinanceWalletManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/BinanceWalletManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/Withdraw.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/Withdraw.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/accountsnapshots/AccountSnapshot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/accountsnapshots/AccountSnapshot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/accountsnapshots/FuturesAccountSnapshot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/accountsnapshots/FuturesAccountSnapshot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/accountsnapshots/MarginAccountSnapshot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/accountsnapshots/MarginAccountSnapshot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/accountsnapshots/SpotAccountSnapshot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/accountsnapshots/SpotAccountSnapshot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/deposit/Deposit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/deposit/Deposit.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,13 +124,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1644858734218</updated>
-    </task>
-    <task id="LOCAL-00169" summary="Fix some code snippets and added tools class">
-      <created>1651259295424</created>
-      <option name="number" value="00169" />
-      <option name="presentableId" value="LOCAL-00169" />
-      <option name="project" value="LOCAL" />
-      <updated>1651259295424</updated>
     </task>
     <task id="LOCAL-00170" summary="Fix some code snippets and added tools class">
       <created>1651259708725</created>
@@ -467,7 +461,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669149389597</updated>
     </task>
-    <option name="localTasksCounter" value="218" />
+    <task id="LOCAL-00218" summary="Massive reorganization of the library">
+      <created>1669233201617</created>
+      <option name="number" value="00218" />
+      <option name="presentableId" value="LOCAL-00218" />
+      <option name="project" value="LOCAL" />
+      <updated>1669233201617</updated>
+    </task>
+    <option name="localTasksCounter" value="219" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

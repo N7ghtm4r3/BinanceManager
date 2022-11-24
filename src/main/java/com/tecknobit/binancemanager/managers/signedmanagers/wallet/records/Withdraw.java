@@ -1,11 +1,15 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records;
 
+import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.Deposit;
 import org.json.JSONObject;
 
 import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
+import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.Withdraw.WithdrawStatus.Processing;
+import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.Withdraw.WithdrawStatus.valueOf;
 
 /**
  * The {@code Withdraw} class is useful to format a {@code "Binance"}'s withdraw
@@ -17,13 +21,18 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 public class Withdraw {
 
     /**
+     * {@code status} is instance that memorizes transfer status value
+     **/
+    private final WithdrawStatus status;
+
+    /**
      * {@code address} is instance that memorizes address value
-     * **/
+     **/
     private final String address;
 
     /**
      * {@code amount} is instance that memorizes amount value
-     * **/
+     **/
     private final double amount;
 
     /**
@@ -56,31 +65,6 @@ public class Withdraw {
      * **/
     private final int transferType;
 
-    /**
-     * {@code status} is instance that memorizes transfer status value
-     * **/
-    private final int status;
-
-    /**
-     * {@code transactionFee} is instance that memorizes transaction fee value
-     * **/
-    private final double transactionFee;
-
-    /**
-     * {@code confirmNo} is instance that memorizes confirms number value
-     * **/
-    private final int confirmNo;
-
-    /**
-     * {@code info} is instance that memorizes info value
-     * **/
-    private final String info;
-
-    /**
-     * {@code txId} is instance that memorizes transaction identifier value
-     * **/
-    private final String txId;
-
     /** Constructor to init {@link Withdraw} object
      * @param address: address value
      * @param amount: amount value
@@ -97,8 +81,8 @@ public class Withdraw {
      * @param txId: transaction identifier value
      * **/
     public Withdraw(String address, double amount, String applyTime, String coin, String id, String withdrawOrderId,
-                    String network, int transferType, int status, double transactionFee, int confirmNo, String info,
-                    String txId) {
+                    String network, int transferType, WithdrawStatus status, double transactionFee, int confirmNo,
+                    String info, String txId) {
         this.address = address;
         this.amount = amount;
         this.applyTime = applyTime;
@@ -115,16 +99,67 @@ public class Withdraw {
     }
 
     /**
+     * {@code transactionFee} is instance that memorizes transaction fee value
+     **/
+    private final double transactionFee;
+
+    /**
+     * {@code confirmNo} is instance that memorizes confirms number value
+     **/
+    private final int confirmNo;
+
+    /**
+     * {@code info} is instance that memorizes info value
+     **/
+    private final String info;
+
+    /**
+     * {@code txId} is instance that memorizes transaction identifier value
+     **/
+    private final String txId;
+
+    /**
+     * Constructor to init {@link Withdraw} object
+     *
+     * @param address: address value
+     * @param amount:  amount value
+     * @param coin:    coin value
+     * @apiNote this constructor is useful to create a  {@link Withdraw} only with the mandatory params
+     **/
+    public Withdraw(String address, double amount, String coin) {
+        this(address, amount, null, coin, null, null, null, -1, Processing, 0, 0, null, null);
+    }
+
+    /**
      * Constructor to init {@link Withdraw} object
      *
      * @param withdraw: withdraw details as {@link JSONObject}
      **/
     public Withdraw(JSONObject withdraw) {
-        this(withdraw.getString("address"), withdraw.getDouble("amount"), withdraw.getString("applyTime"),
-                withdraw.getString("coin"), withdraw.getString("id"), withdraw.getString("withdrawOrderId"),
-                withdraw.getString("network"), withdraw.getInt("transferType"), withdraw.getInt("status"),
-                withdraw.getDouble("transactionFee"), withdraw.getInt("confirmNo"), withdraw.getString("info"),
-                withdraw.getString("txId"));
+        JsonHelper hWithdraw = new JsonHelper(withdraw);
+        address = hWithdraw.getString("address");
+        amount = hWithdraw.getDouble("amount", 0);
+        applyTime = hWithdraw.getString("applyTime");
+        coin = hWithdraw.getString("coin");
+        id = hWithdraw.getString("id");
+        withdrawOrderId = hWithdraw.getString("withdrawOrderId");
+        network = hWithdraw.getString("network");
+        transferType = hWithdraw.getInt("transferType", 0);
+        status = valueOf(hWithdraw.getInt("status", 0));
+        transactionFee = hWithdraw.getDouble("transactionFee", 0);
+        confirmNo = hWithdraw.getInt("confirmNo", 0);
+        info = hWithdraw.getString("info");
+        txId = hWithdraw.getString("txId");
+    }
+
+    /**
+     * Method to get {@link #status} instance <br>
+     * Any params required
+     *
+     * @return {@link #status} instance as int
+     **/
+    public WithdrawStatus getStatus() {
+        return status;
     }
 
     /**
@@ -240,13 +275,93 @@ public class Withdraw {
     }
 
     /**
-     * Method to get {@link #status} instance <br>
-     * Any params required
-     *
-     * @return {@link #status} instance as int
+     * {@code WithdrawStatus} list of available withdraw statutes
      **/
-    public int getStatus() {
-        return status;
+    public enum WithdrawStatus {
+
+        /**
+         * {@code "Email_Sent"} status
+         * **/
+        Email_Sent(0),
+
+        /**
+         * {@code "Cancelled"} status
+         * **/
+        Cancelled(1),
+
+        /**
+         * {@code "Awaiting_Approval"} status
+         * **/
+        Awaiting_Approval(2),
+
+        /**
+         * {@code "Rejected"} status
+         * **/
+        Rejected(3),
+
+        /**
+         * {@code "Processing"} status
+         * **/
+        Processing(4),
+
+        /**
+         * {@code "Failure"} status
+         * **/
+        Failure(5),
+
+        /**
+         * {@code "Completed"} status
+         * **/
+        Completed(6);
+
+        /**
+         * {@code "status"} value
+         * **/
+        private final int status;
+
+        /** Constructor to init {@link Deposit.DepositStatus}
+         * @param status: status value
+         * **/
+        WithdrawStatus(int status) {
+            this.status = status;
+        }
+
+        /**
+         * Method to get the {@link WithdrawStatus} by an int <br>
+         * Any params required
+         *
+         * @return {@link WithdrawStatus} corresponding value
+         **/
+        public static WithdrawStatus valueOf(int status) {
+            switch (status) {
+                case 0:
+                    return Email_Sent;
+                case 1:
+                    return Cancelled;
+                case 2:
+                    return Awaiting_Approval;
+                case 3:
+                    return Rejected;
+                case 4:
+                    return Processing;
+                case 5:
+                    return Failure;
+                default:
+                    return Completed;
+            }
+        }
+
+        /**
+         * Method to get {@link #status} instance <br>
+         * Any params required
+         *
+         * @return {@link #status} instance as {@link String}
+         **/
+        @Override
+        public String toString() {
+            return String.valueOf(status);
+        }
+
     }
 
     /**

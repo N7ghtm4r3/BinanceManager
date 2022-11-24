@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
+import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.AccountSnapshot.AccountType.margin;
 
 /**
  * The {@code MarginAccountSnapshot} class is useful to format a {@code "Binance"}'s margin account snapshot
@@ -30,14 +31,38 @@ public class MarginAccountSnapshot extends AccountSnapshot {
     /**
      * Constructor to init {@link MarginAccountSnapshot} object
      *
-     * @param code:           code of response
-     * @param msg:            message of response
-     * @param accountDetails: details as {@link JSONObject}
-     * @param marginData:     list of {@link MarginData}
+     * @param code:        code of response
+     * @param msg:         message of response
+     * @param snapshotVos: details as {@link JSONArray}
+     * @param marginData:  list of {@link MarginData}
      **/
-    public MarginAccountSnapshot(int code, String msg, JSONArray accountDetails, ArrayList<MarginData> marginData) {
-        super(code, msg, AccountType.MARGIN, accountDetails);
+    public MarginAccountSnapshot(int code, String msg, JSONArray snapshotVos, ArrayList<MarginData> marginData) {
+        super(code, msg, margin, snapshotVos);
         this.marginData = marginData;
+    }
+
+    /**
+     * Constructor to init {@link MarginAccountSnapshot} object
+     *
+     * @param code:        code of response
+     * @param msg:         message of response
+     * @param snapshotVos: details as {@link String}
+     * @apiNote this constructor is useful to pass a {@code "JSON"} array in {@link String} format
+     **/
+    public MarginAccountSnapshot(int code, String msg, String snapshotVos) {
+        super(code, msg, margin, snapshotVos);
+    }
+
+    /**
+     * Constructor to init {@link MarginAccountSnapshot} object
+     *
+     * @param code:        code of response
+     * @param msg:         message of response
+     * @param snapshotVos: details as {@link String}
+     * @apiNote this constructor is useful to pass a {@code "JSON"} array in {@link String} format
+     **/
+    public <T> MarginAccountSnapshot(int code, String msg, T snapshotVos) {
+        super(code, msg, margin, snapshotVos);
     }
 
     /**
@@ -46,7 +71,7 @@ public class MarginAccountSnapshot extends AccountSnapshot {
      * @param marginAccount : margin account snapshot details as {@link JSONObject}
      **/
     public MarginAccountSnapshot(JSONObject marginAccount) {
-        super(marginAccount, AccountType.MARGIN);
+        super(marginAccount);
         marginData = new ArrayList<>();
         for (int j = 0; j < snapshotVos.length(); j++)
             marginData.add(new MarginData(snapshotVos.getJSONObject(j)));

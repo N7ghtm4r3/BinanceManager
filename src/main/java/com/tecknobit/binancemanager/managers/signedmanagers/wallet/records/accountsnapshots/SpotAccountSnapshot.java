@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
+import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.AccountSnapshot.AccountType.spot;
 
 /**
  * The {@code SpotAccountSnapshot} class is useful to format a {@code "Binance"}'s spot account snapshot
@@ -31,12 +32,36 @@ public class SpotAccountSnapshot extends AccountSnapshot {
      *
      * @param code:           code of response
      * @param msg:            message of response
-     * @param accountDetails: details as {@link JSONObject}
+     * @param snapshotVos:    details as {@link JSONArray}
      * @param assetsSpotData: list of {@link SpotData}
      **/
-    public SpotAccountSnapshot(int code, String msg, JSONArray accountDetails, ArrayList<SpotData> assetsSpotData) {
-        super(code, msg, AccountType.SPOT, accountDetails);
+    public SpotAccountSnapshot(int code, String msg, JSONArray snapshotVos, ArrayList<SpotData> assetsSpotData) {
+        super(code, msg, spot, snapshotVos);
         this.assetsSpotData = assetsSpotData;
+    }
+
+    /**
+     * Constructor to init {@link SpotAccountSnapshot} object
+     *
+     * @param code:        code of response
+     * @param msg:         message of response
+     * @param snapshotVos: details as {@link String}
+     * @apiNote this constructor is useful to pass a {@code "JSON"} array in {@link String} format
+     **/
+    public SpotAccountSnapshot(int code, String msg, String snapshotVos) {
+        super(code, msg, spot, snapshotVos);
+    }
+
+    /**
+     * Constructor to init {@link SpotAccountSnapshot} object
+     *
+     * @param code:        code of response
+     * @param msg:         message of response
+     * @param snapshotVos: details as {@link String}
+     * @apiNote this constructor is useful to pass a {@code "JSON"} array in {@link String} format
+     **/
+    public <T> SpotAccountSnapshot(int code, String msg, T snapshotVos) {
+        super(code, msg, spot, snapshotVos);
     }
 
     /**
@@ -45,7 +70,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
      * @param spotAccount: futures account snapshot details as {@link JSONObject}
      **/
     public SpotAccountSnapshot(JSONObject spotAccount) {
-        super(spotAccount, AccountType.SPOT);
+        super(spotAccount);
         assetsSpotData = new ArrayList<>();
         for (int j = 0; j < snapshotVos.length(); j++)
             assetsSpotData.add(new SpotData(snapshotVos.getJSONObject(j)));
