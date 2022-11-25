@@ -1,7 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.details;
 
 import com.tecknobit.binancemanager.managers.BinanceManager.BinanceResponse;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.ACKSpotOrder;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.ResultSpotOrder;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.SpotOrder;

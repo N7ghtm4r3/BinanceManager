@@ -1,7 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.response;
 
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Fill;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Fill;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.details.ComposedMarginOrderDetails;
 import org.json.JSONArray;
 import org.json.JSONObject;

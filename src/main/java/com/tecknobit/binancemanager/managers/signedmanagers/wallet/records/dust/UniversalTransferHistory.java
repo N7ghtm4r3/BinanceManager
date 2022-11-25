@@ -2,7 +2,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.BinanceList;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

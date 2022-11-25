@@ -1,7 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.account;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Fill;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Fill;
 import org.json.JSONObject;
 
 import java.util.Date;

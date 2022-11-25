@@ -2,7 +2,7 @@ package com.tecknobit.binancemanager.managers.records;
 
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order.Status;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.Status;
 import org.json.JSONObject;
 
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.lists;
 
 import com.tecknobit.binancemanager.managers.records.BinanceList;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order.Status;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.Status;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.lists.LoansList.Loan;
 import org.json.JSONArray;
 import org.json.JSONObject;

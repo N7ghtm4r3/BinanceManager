@@ -1,6 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.properties;
 
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

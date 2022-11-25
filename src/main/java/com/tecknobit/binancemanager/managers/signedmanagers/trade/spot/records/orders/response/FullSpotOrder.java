@@ -1,8 +1,8 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response;
 
 import com.tecknobit.binancemanager.managers.BinanceManager.BinanceResponse;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Fill;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Fill;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.details.SpotOrderDetails;
 import org.json.JSONArray;
 import org.json.JSONObject;

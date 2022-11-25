@@ -4,8 +4,8 @@ import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.OrderDetails;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.TradeConstants;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.OrderDetails;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.TradeConstants;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.account.OrderCountUsage;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.account.SpotAccountInformation;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.account.SpotAccountTradesList;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 import static com.tecknobit.apimanager.apis.APIRequest.*;
 import static com.tecknobit.binancemanager.constants.EndpointsList.*;
-import static com.tecknobit.binancemanager.managers.signedmanagers.trade.common.TradeConstants.*;
+import static com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.TradeConstants.*;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.SpotOrder.*;
 
 /**

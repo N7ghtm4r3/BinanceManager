@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.managers.signedmanagers.trade.common;
+package com.tecknobit.binancemanager.managers.signedmanagers.trade.commons;
 
 /**
  * The {@code TradeConstants} class contains all {@code "Binance"}'s's Trade Constants to do trade's request

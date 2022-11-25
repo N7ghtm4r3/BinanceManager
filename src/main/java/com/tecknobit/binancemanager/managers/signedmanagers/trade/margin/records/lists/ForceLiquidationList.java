@@ -2,8 +2,8 @@ package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.record
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.BinanceList;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order.Side;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order.TimeInForce;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.Side;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.TimeInForce;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
