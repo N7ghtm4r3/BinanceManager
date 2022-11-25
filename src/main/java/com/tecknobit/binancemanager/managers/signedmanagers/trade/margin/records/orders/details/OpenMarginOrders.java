@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.details;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -33,6 +34,23 @@ public class OpenMarginOrders {
                             ArrayList<ComposedMarginOrderDetails> composedMarginOrderDetails) {
         this.marginOrdersDetails = marginOrderDetails;
         this.composedMarginOrderDetails = composedMarginOrderDetails;
+    }
+
+    /**
+     * Constructor to init {@link OpenMarginOrders} object
+     *
+     * @param jOpenMarginOrders: open margin orders details as {@link JSONObject}
+     **/
+    public OpenMarginOrders(JSONArray jOpenMarginOrders) {
+        marginOrdersDetails = new ArrayList<>();
+        composedMarginOrderDetails = new ArrayList<>();
+        for (int j = 0; j < jOpenMarginOrders.length(); j++) {
+            JSONObject openMarginOrder = jOpenMarginOrders.getJSONObject(j);
+            if (openMarginOrder.has("contingencyType"))
+                composedMarginOrderDetails.add(new ComposedMarginOrderDetails(openMarginOrder));
+            else
+                marginOrdersDetails.add(new MarginOrderDetails(openMarginOrder));
+        }
     }
 
     /**

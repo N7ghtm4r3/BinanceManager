@@ -2,12 +2,12 @@ package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.apimanager.annotations.Returner;
+import com.tecknobit.apimanager.annotations.WrappedRequest;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order.OrderType;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order.Side;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.common.TradeConstants;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.account.CrossMarginAccountDetails;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.account.MarginAccountTrade;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.account.MarginMaxBorrow;
@@ -22,11 +22,10 @@ import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.lists.*;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.marginproperties.*;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.details.*;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.response.ACKMarginOrder;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.response.FullMarginOrder;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.response.MarginOrderStatus;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.response.ResultMarginOrder;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.response.*;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.response.MarginOrder.SideEffectType;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.Deposit;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.UniversalTransferHistory.TransferType;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -38,8 +37,6 @@ import static com.tecknobit.apimanager.apis.APIRequest.*;
 import static com.tecknobit.binancemanager.constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.common.Order.OrderType.*;
-import static com.tecknobit.binancemanager.managers.signedmanagers.trade.common.TradeConstants.NEW_ORDER_RESP_TYPE_FULL;
-import static com.tecknobit.binancemanager.managers.signedmanagers.trade.common.TradeConstants.NEW_ORDER_RESP_TYPE_RESULT;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.account.IsolatedMarginAccountInfo.createIsolatedMarginAccountInfoList;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.SpotOrder.*;
 
@@ -885,1065 +882,1836 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /**
-     * Request to send a limit spot order
+     * Request to send a limit margin order
      *
      * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param side:        side of the order
      * @param timeInForce: time in force for the order
      * @param quantity:    quantity value in the order
      * @param price:       price value in the order
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link String}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                     keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                             {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                             if not sent - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "icebergQty"} -> to create an iceberg order - [DECIMAL]
+     *                         </li>
+     *                         <li>
+     *                             {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newOrderRespType"} -> set the response JSON. ACK, RESULT, or FULL;
+     *                             MARKET and LIMIT order types default to FULL, all other orders default to ACK - [STRING, default FULL]
+     *                         </li>
+     *                         <li>
+     *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                              - [ENUM, default NO_SIDE_EFFECT]
+     *                          </li>
+     *                         <li>
+     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                          </li>
+     *                     </ul>
+     * @return result of the order as {@link FullMarginOrder}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
      **/
-    public String sendLimitMarginOrder(String symbol, Side side, String timeInForce, double quantity,
-                                       double price, Params extraParams) throws Exception {
-        return sendNewMarginOrder(symbol, side, LIMIT, getLimitPayload(timeInForce, quantity, price, extraParams));
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T extends MarginOrder> T sendLimitOrder(String symbol, Side side, TimeInForce timeInForce, double quantity,
+                                                    double price, Params extraParams) throws Exception {
+        return returnNewMarginOrder(symbol, side, null, LIMIT, getLimitPayload(timeInForce, quantity,
+                price, extraParams), LIBRARY_OBJECT);
     }
 
     /**
-     * Request to send a limit spot order
+     * Request to send a limit margin order
      *
      * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param side:        side of the order
      * @param timeInForce: time in force for the order
      * @param quantity:    quantity value in the order
      * @param price:       price value in the order
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link JSONObject}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                     keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                             {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                             if not sent - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "icebergQty"} -> to create an iceberg order - [DECIMAL]
+     *                         </li>
+     *                         <li>
+     *                             {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newOrderRespType"} -> set the response JSON. ACK, RESULT, or FULL;
+     *                             MARKET and LIMIT order types default to FULL, all other orders default to ACK - [STRING, default FULL]
+     *                         </li>
+     *                         <li>
+     *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                              - [ENUM, default NO_SIDE_EFFECT]
+     *                          </li>
+     *                         <li>
+     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                          </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return result of the order as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
      **/
-    public JSONObject sendLimitOrderJSON(String symbol, Side side, String timeInForce, double quantity,
-                                         double price, Params extraParams) throws Exception {
-        return new JSONObject(sendLimitMarginOrder(symbol, side, timeInForce, quantity, price, extraParams));
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T sendLimitOrder(String symbol, Side side, TimeInForce timeInForce, double quantity, double price,
+                                Params extraParams, ReturnFormat format) throws Exception {
+        return returnNewMarginOrder(symbol, side, null, LIMIT, getLimitPayload(timeInForce, quantity,
+                price, extraParams), format);
     }
 
     /**
-     * Request to send a limit spot order
+     * Request to send a market margin order with quantity
      *
      * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param timeInForce: time in force for the order
+     * @param side:        side of the order
      * @param quantity:    quantity value in the order
-     * @param price:       price value in the order
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link ACKMarginOrder}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                     keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                             {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                         </li>
+     *                         <li>
+     *                             {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                             if not sent - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newOrderRespType"} -> set the response JSON. ACK, RESULT, or FULL;
+     *                             MARKET and LIMIT order types default to FULL, all other orders default to ACK - [STRING, default FULL]
+     *                         </li>
+     *                         <li>
+     *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                              - [ENUM, default NO_SIDE_EFFECT]
+     *                          </li>
+     *                         <li>
+     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
+     *                     </ul>
+     * @return result of the order as {@link FullMarginOrder}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
      **/
-    public <T extends ACKMarginOrder> T sendLimitOrderObject(String symbol, Side side, String timeInForce, double quantity,
-                                                             double price, Params extraParams) throws Exception {
-        return sendObjectNewMarginMarginOrder(symbol, side, LIMIT, getLimitPayload(timeInForce, quantity, price, extraParams));
-    }
-
-    /**
-     * Request to send a market spot order with quantity
-     *
-     * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param quantity:    quantity value in the order
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link String}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public String sendMarketOrderQty(String symbol, Side side, double quantity,
-                                     Params extraParams) throws Exception {
-        return sendNewMarginOrder(symbol, side, MARKET, getMarketPayload("quantity", quantity, extraParams));
-    }
-
-    /**
-     * Request to send a market spot order with quantity
-     *
-     * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param quantity:    quantity value in the order
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link JSONObject}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public JSONObject sendMarketOrderQtyJSON(String symbol, Side side, double quantity,
-                                             Params extraParams) throws Exception {
-        return new JSONObject(sendMarketOrderQty(symbol, side, quantity, extraParams));
-    }
-
-    /**
-     * Request to send a market spot order with quantity
-     *
-     * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param quantity:    quantity value in the order
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link ACKMarginOrder}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public <T extends ACKMarginOrder> T sendMarketOrderQtyObject(String symbol, Side side, double quantity,
-                                                                 Params extraParams) throws Exception {
-        return sendObjectNewMarginMarginOrder(symbol, side, MARKET, getMarketPayload("quantity", quantity, extraParams));
-    }
-
-    /**
-     * Request to send a market spot order with quote quantity
-     *
-     * @param symbol:        symbol used in the request es. BTCBUSD
-     * @param side:          side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param quoteQuantity: quote quantity value in the order
-     * @param extraParams:   additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link String}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public String sendMarketOrderQuoteQty(String symbol, Side side, double quoteQuantity,
-                                          Params extraParams) throws Exception {
-        return sendNewMarginOrder(symbol, side, MARKET, getMarketPayload("quoteOrderQty", quoteQuantity, extraParams));
-    }
-
-    /**
-     * Request to send a market spot order with quote quantity
-     *
-     * @param symbol:        symbol used in the request es. BTCBUSD
-     * @param side:          side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param quoteQuantity: quote quantity value in the order
-     * @param extraParams:   additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link JSONObject}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public JSONObject sendMarketOrderQuoteQtyJSON(String symbol, Side side, double quoteQuantity,
-                                                  Params extraParams) throws Exception {
-        return new JSONObject(sendMarketOrderQuoteQty(symbol, side, quoteQuantity, extraParams));
-    }
-
-    /**
-     * Request to send a market spot order with quote quantity
-     *
-     * @param symbol:        symbol used in the request es. BTCBUSD
-     * @param side:          side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param quoteQuantity: quote quantity value in the order
-     * @param extraParams:   additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link ACKMarginOrder}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public <T extends ACKMarginOrder> T sendMarketOrderQuoteQtyObject(String symbol, Side side, double quoteQuantity,
-                                                                      Params extraParams) throws Exception {
-        return sendObjectNewMarginMarginOrder(symbol, side, MARKET, getMarketPayload("quoteOrderQty", quoteQuantity,
-                extraParams));
-    }
-
-    /**
-     * Request to send a stop loss spot order with stopPrice
-     *
-     * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param quantity:    quantity value in the order
-     * @param stopPrice:   stop price value for the order
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link String}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public String sendStopLossOrderPrice(String symbol, Side side, double quantity, double stopPrice,
-                                         Params extraParams) throws Exception {
-        return sendNewMarginOrder(symbol, side, STOP_LOSS, getLevelPayload(quantity, "stopPrice", stopPrice,
-                extraParams));
-    }
-
-    /**
-     * Request to send a stop loss spot order with stopPrice
-     *
-     * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param quantity:    quantity value in the order
-     * @param stopPrice:   stop price value for the order
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link JSONObject}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public JSONObject sendStopLossOrderPriceJSON(String symbol, Side side, double quantity, double stopPrice,
-                                                 Params extraParams) throws Exception {
-        return new JSONObject(sendStopLossOrderPrice(symbol, side, quantity, stopPrice, extraParams));
-    }
-
-    /**
-     * Request to send a stop loss spot order with stopPrice
-     *
-     * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param quantity:    quantity value in the order
-     * @param stopPrice:   stop price value for the order
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link ACKMarginOrder}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public <T extends ACKMarginOrder> T sendStopLossOrderPriceObject(String symbol, Side side, double quantity, double stopPrice,
-                                                                     Params extraParams) throws Exception {
-        return sendObjectNewMarginMarginOrder(symbol, side, STOP_LOSS, getLevelPayload(quantity, "stopPrice", stopPrice,
-                extraParams));
-    }
-
-    /**
-     * Request to send a stop loss limit spot order with stop price
-     *
-     * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param timeInForce: time in force for the order
-     * @param quantity:    quantity value in the order
-     * @param price:       price value in the order
-     * @param stopPrice:   stop price value for the order
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link String}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public String sendStopLossLimitOrderPrice(String symbol, Side side, String timeInForce, double quantity,
-                                              double price, double stopPrice, Params extraParams) throws Exception {
-        return sendNewMarginOrder(symbol, side, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
-                "stopPrice", stopPrice, extraParams));
-    }
-
-    /**
-     * Request to send a stop loss limit spot order with stop price
-     *
-     * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param timeInForce: time in force for the order
-     * @param quantity:    quantity value in the order
-     * @param price:       price value in the order
-     * @param stopPrice:   stop price value for the order
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link JSONObject}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public JSONObject sendStopLossLimitOrderPriceJSON(String symbol, Side side, String timeInForce, double quantity,
-                                                      double price, double stopPrice, Params extraParams) throws Exception {
-        return new JSONObject(sendStopLossLimitOrderPrice(symbol, side, timeInForce, quantity, price, stopPrice, extraParams));
-    }
-
-    /**
-     * Request to send a stop loss limit spot order with stop price
-     *
-     * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param timeInForce: time in force for the order
-     * @param quantity:    quantity value in the order
-     * @param price:       price value in the order
-     * @param stopPrice:   stop price value for the order
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link ACKMarginOrder}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public <T extends ACKMarginOrder> T sendStopLossLimitOrderPriceObject(String symbol, Side side, String timeInForce,
-                                                                          double quantity, double price, double stopPrice,
-                                                                          Params extraParams) throws Exception {
-        return sendObjectNewMarginMarginOrder(symbol, side, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
-                "stopPrice", stopPrice, extraParams));
-    }
-
-    /**
-     * Request to send a take profit spot order with stop price
-     *
-     * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param quantity:    quantity value in the order
-     * @param stopPrice:   stop price value
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link String}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public String sendTakeProfitOrderPrice(String symbol, Side side, double quantity, double stopPrice,
-                                           Params extraParams) throws Exception {
-        return sendNewMarginOrder(symbol, side, TAKE_PROFIT, getLevelPayload(quantity, "stopPrice", stopPrice,
-                extraParams));
-    }
-
-    /**
-     * Request to send a take profit spot order with stop price
-     *
-     * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param quantity:    quantity value in the order
-     * @param stopPrice:   stop price value
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link JSONObject}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public JSONObject sendTakeProfitOrderPriceJSON(String symbol, Side side, double quantity, double stopPrice,
-                                                   Params extraParams) throws Exception {
-        return new JSONObject(sendTakeProfitOrderPrice(symbol, side, quantity, stopPrice, extraParams));
-    }
-
-    /**
-     * Request to send a take profit spot order with stop price
-     *
-     * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param quantity:    quantity value in the order
-     * @param stopPrice:   stop price value
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link ACKMarginOrder}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public <T extends ACKMarginOrder> T sendTakeProfitOrderPriceObject(String symbol, Side side, double quantity,
-                                                                       double stopPrice, Params extraParams) throws Exception {
-        return sendObjectNewMarginMarginOrder(symbol, side, TAKE_PROFIT, getLevelPayload(quantity, "stopPrice", stopPrice,
-                extraParams));
-    }
-
-    /**
-     * Request to send a take profit limit spot order with stop price value
-     *
-     * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param timeInForce: time in force for the order
-     * @param quantity:    quantity value in the order
-     * @param price:       price value in the order
-     * @param stopPrice:   stop price value
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link String}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public String sendTakeProfitLimitOrderPrice(String symbol, Side side, String timeInForce, double quantity,
-                                                double price, double stopPrice, Params extraParams) throws Exception {
-        return sendNewMarginOrder(symbol, side, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
-                "stopPrice", stopPrice, extraParams));
-    }
-
-    /**
-     * Request to send a take profit limit spot order with stop price value
-     *
-     * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param timeInForce: time in force for the order
-     * @param quantity:    quantity value in the order
-     * @param price:       price value in the order
-     * @param stopPrice:   stop price value
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link JSONObject}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public JSONObject sendTakeProfitLimitOrderPriceJSON(String symbol, Side side, String timeInForce, double quantity,
-                                                        double price, double stopPrice, Params extraParams) throws Exception {
-        return new JSONObject(sendStopLossLimitOrderPrice(symbol, side, timeInForce, quantity, price, stopPrice, extraParams));
-    }
-
-    /**
-     * Request to send a take profit limit spot order with stop price value
-     *
-     * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param timeInForce: time in force for the order
-     * @param quantity:    quantity value in the order
-     * @param price:       price value in the order
-     * @param stopPrice:   stop price value
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link ACKMarginOrder}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public <T extends ACKMarginOrder> T sendTakeProfitLimitOrderPriceObject(String symbol, Side side, String timeInForce,
-                                                                            double quantity, double price, double stopPrice,
-                                                                            Params extraParams) throws Exception {
-        return sendObjectNewMarginMarginOrder(symbol, side, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
-                "stopPrice", stopPrice, extraParams));
-    }
-
-    /**
-     * Request to send a limit maker spot order with trailing delta
-     *
-     * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param quantity:    quantity value in the order
-     * @param price:       price value in the order
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link String}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public String sendLimitMakerMarginOrder(String symbol, Side side, double quantity, double price,
-                                            Params extraParams) throws Exception {
-        return sendNewMarginOrder(symbol, side, LIMIT_MAKER, getLimitMakerPayload(quantity, price, extraParams));
-    }
-
-    /**
-     * Request to send a limit maker spot order with trailing delta
-     *
-     * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param quantity:    quantity value in the order
-     * @param price:       price value in the order
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link JSONObject}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public JSONObject sendLimitMakerOrderJSON(String symbol, Side side, double quantity, double price,
-                                              Params extraParams) throws Exception {
-        return new JSONObject(sendLimitMakerMarginOrder(symbol, side, quantity, price, extraParams));
-    }
-
-    /**
-     * Request to send a limit maker spot order with trailing delta
-     *
-     * @param symbol:      symbol used in the request es. BTCBUSD
-     * @param side:        side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param quantity:    quantity value in the order
-     * @param price:       price value in the order
-     * @param extraParams: additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link ACKMarginOrder}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public <T extends ACKMarginOrder> T sendLimitMakerOrderObject(String symbol, Side side, double quantity, double price,
-                                                                  Params extraParams) throws Exception {
-        return sendObjectNewMarginMarginOrder(symbol, side, LIMIT_MAKER, getLimitMakerPayload(quantity, price, extraParams));
-    }
-
-    /**
-     * Request to send a limit spot order
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param price:            price value in the order
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link String}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public String sendLimitMarginOrder(String symbol, Side side, String newOrderRespType, String timeInForce, double quantity,
-                                       double price, Params extraParams) throws Exception {
-        return sendNewMarginOrder(symbol, side, newOrderRespType, LIMIT, getLimitPayload(timeInForce, quantity, price, extraParams));
-    }
-
-    /**
-     * Request to send a limit spot order
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param price:            price value in the order
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link JSONObject}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public JSONObject sendLimitOrderJSON(String symbol, Side side, String newOrderRespType, String timeInForce, double quantity,
-                                         double price, Params extraParams) throws Exception {
-        return new JSONObject(sendLimitMarginOrder(symbol, side, newOrderRespType, timeInForce, quantity, price, extraParams));
-    }
-
-    /**
-     * Request to send a limit spot order
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param price:            price value in the order
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link ACKMarginOrder}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public <T extends ACKMarginOrder> T sendLimitOrderObject(String symbol, Side side, String newOrderRespType,
-                                                             String timeInForce, double quantity, double price,
-                                                             Params extraParams) throws Exception {
-        return sendObjectNewMarginMarginOrder(symbol, side, newOrderRespType, LIMIT, getLimitPayload(timeInForce, quantity, price,
-                extraParams));
-    }
-
-    /**
-     * Request to send a market spot order with quantity
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param quantity:         quantity value in the order
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link String}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public String sendMarketOrderQty(String symbol, Side side, String newOrderRespType, double quantity,
-                                     Params extraParams) throws Exception {
-        return sendNewMarginOrder(symbol, side, newOrderRespType, MARKET, getMarketPayload("quantity", quantity,
-                extraParams));
-    }
-
-    /**
-     * Request to send a market spot order with quantity
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param quantity:         quantity value in the order
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link JSONObject}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public JSONObject sendMarketOrderQtyJSON(String symbol, Side side, String newOrderRespType, double quantity,
-                                             Params extraParams) throws Exception {
-        return new JSONObject(sendMarketOrderQty(symbol, side, newOrderRespType, quantity, extraParams));
-    }
-
-    /**
-     * Request to send a market spot order with quantity
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param quantity:         quantity value in the order
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link ACKMarginOrder}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public <T extends ACKMarginOrder> T sendMarketOrderQtyObject(String symbol, Side side, String newOrderRespType,
-                                                                 double quantity, Params extraParams) throws Exception {
-        return sendObjectNewMarginMarginOrder(symbol, side, newOrderRespType, MARKET, getMarketPayload("quantity", quantity,
-                extraParams));
-    }
-
-    /**
-     * Request to send a market spot order with quote quantity
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param quoteQuantity:    quote quantity value in the order
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link String}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public String sendMarketOrderQuoteQty(String symbol, Side side, String newOrderRespType, double quoteQuantity,
-                                          Params extraParams) throws Exception {
-        return sendNewMarginOrder(symbol, side, newOrderRespType, MARKET, getMarketPayload("quoteOrderQty", quoteQuantity,
-                extraParams));
-    }
-
-    /**
-     * Request to send a market spot order with quote quantity
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param quoteQuantity:    quote quantity value in the order
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link JSONObject}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public JSONObject sendMarketOrderQuoteQtyJSON(String symbol, Side side, String newOrderRespType, double quoteQuantity,
-                                                  Params extraParams) throws Exception {
-        return new JSONObject(sendMarketOrderQuoteQty(symbol, side, newOrderRespType, quoteQuantity, extraParams));
-    }
-
-    /**
-     * Request to send a market spot order with quote quantity
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param quoteQuantity:    quote quantity value in the order
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link ACKMarginOrder}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public <T extends ACKMarginOrder> T sendMarketOrderQuoteQtyObject(String symbol, Side side, String newOrderRespType,
-                                                                      double quoteQuantity, Params extraParams) throws Exception {
-        return sendObjectNewMarginMarginOrder(symbol, side, newOrderRespType, MARKET, getMarketPayload("quoteOrderQty",
-                quoteQuantity, extraParams));
-    }
-
-    /**
-     * Request to send a stop loss spot order with stopPrice
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param quantity:         quantity value in the order
-     * @param stopPrice:        stop price value for the order
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link String}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public String sendStopLossOrderPrice(String symbol, Side side, String newOrderRespType, double quantity, double stopPrice,
-                                         Params extraParams) throws Exception {
-        return sendNewMarginOrder(symbol, side, newOrderRespType, STOP_LOSS, getLevelPayload(quantity, "stopPrice", stopPrice,
-                extraParams));
-    }
-
-    /**
-     * Request to send a stop loss spot order with stopPrice
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param quantity:         quantity value in the order
-     * @param stopPrice:        stop price value for the order
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link JSONObject}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public JSONObject sendStopLossOrderPriceJSON(String symbol, Side side, String newOrderRespType, double quantity,
-                                                 double stopPrice, Params extraParams) throws Exception {
-        return new JSONObject(sendStopLossOrderPrice(symbol, side, newOrderRespType, quantity, stopPrice, extraParams));
-    }
-
-    /**
-     * Request to send a stop loss spot order with stopPrice
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param quantity:         quantity value in the order
-     * @param stopPrice:        stop price value for the order
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link ACKMarginOrder}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public <T extends ACKMarginOrder> T sendStopLossOrderPriceObject(String symbol, Side side, String newOrderRespType,
-                                                                     double quantity, double stopPrice,
-                                                                     Params extraParams) throws Exception {
-        return sendObjectNewMarginMarginOrder(symbol, side, newOrderRespType, STOP_LOSS, getLevelPayload(quantity, "stopPrice",
-                stopPrice, extraParams));
-    }
-
-    /**
-     * Request to send a stop loss limit spot order with stop price
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param timeInForce:      time in force for the order
-     * @param quantity:         quantity value in the order
-     * @param price:            price value in the order
-     * @param stopPrice:        stop price value for the order
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link String}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public String sendStopLossLimitOrderPrice(String symbol, Side side, String newOrderRespType, String timeInForce,
-                                              double quantity, double price, double stopPrice,
-                                              Params extraParams) throws Exception {
-        return sendNewMarginOrder(symbol, side, newOrderRespType, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce, quantity,
-                price, "stopPrice", stopPrice, extraParams));
-    }
-
-    /**
-     * Request to send a stop loss limit spot order with stop price
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param timeInForce:      time in force for the order
-     * @param quantity:         quantity value in the order
-     * @param price:            price value in the order
-     * @param stopPrice:        stop price value for the order
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link JSONObject}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public JSONObject sendStopLossLimitOrderPriceJSON(String symbol, Side side, String newOrderRespType, String timeInForce,
-                                                      double quantity, double price, double stopPrice,
-                                                      Params extraParams) throws Exception {
-        return new JSONObject(sendStopLossLimitOrderPrice(symbol, side, newOrderRespType, timeInForce, quantity, price,
-                stopPrice, extraParams));
-    }
-
-    /**
-     * Request to send a stop loss limit spot order with stop price
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param timeInForce:      time in force for the order
-     * @param quantity:         quantity value in the order
-     * @param price:            price value in the order
-     * @param stopPrice:        stop price value for the order
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link ACKMarginOrder}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public <T extends ACKMarginOrder> T sendStopLossLimitOrderPriceObject(String symbol, Side side, String newOrderRespType,
-                                                                          String timeInForce, double quantity, double price,
-                                                                          double stopPrice, Params extraParams) throws Exception {
-        return sendObjectNewMarginMarginOrder(symbol, side, newOrderRespType, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce,
-                quantity, price, "stopPrice", stopPrice, extraParams));
-    }
-
-    /**
-     * Request to send a take profit spot order with stop price
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param quantity:         quantity value in the order
-     * @param stopPrice:        stop price value
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link String}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public String sendTakeProfitOrderPrice(String symbol, Side side, String newOrderRespType, double quantity,
-                                           double stopPrice, Params extraParams) throws Exception {
-        return sendNewMarginOrder(symbol, side, newOrderRespType, TAKE_PROFIT, getLevelPayload(quantity, "stopPrice", stopPrice,
-                extraParams));
-    }
-
-    /**
-     * Request to send a take profit spot order with stop price
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param quantity:         quantity value in the order
-     * @param stopPrice:        stop price value
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link JSONObject}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public JSONObject sendTakeProfitOrderPriceJSON(String symbol, Side side, String newOrderRespType, double quantity,
-                                                   double stopPrice, Params extraParams) throws Exception {
-        return new JSONObject(sendTakeProfitOrderPrice(symbol, side, newOrderRespType, quantity, stopPrice, extraParams));
-    }
-
-    /**
-     * Request to send a take profit spot order with stop price
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param quantity:         quantity value in the order
-     * @param stopPrice:        stop price value
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link ACKMarginOrder}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public <T extends ACKMarginOrder> T sendTakeProfitOrderPriceObject(String symbol, Side side, String newOrderRespType,
-                                                                       double quantity, double stopPrice,
-                                                                       Params extraParams) throws Exception {
-        return sendObjectNewMarginMarginOrder(symbol, side, newOrderRespType, TAKE_PROFIT, getLevelPayload(quantity, "stopPrice",
-                stopPrice, extraParams));
-    }
-
-    /**
-     * Request to send a take profit limit spot order with stop price value
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param timeInForce:      time in force for the order
-     * @param quantity:         quantity value in the order
-     * @param price:            price value in the order
-     * @param stopPrice:        stop price value
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link String}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public String sendTakeProfitLimitOrderPrice(String symbol, Side side, String newOrderRespType, String timeInForce,
-                                                double quantity, double price, double stopPrice,
-                                                Params extraParams) throws Exception {
-        return sendNewMarginOrder(symbol, side, newOrderRespType, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce, quantity,
-                price, "stopPrice", stopPrice, extraParams));
-    }
-
-    /**
-     * Request to send a take profit limit spot order with stop price value
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param timeInForce:      time in force for the order
-     * @param quantity:         quantity value in the order
-     * @param price:            price value in the order
-     * @param stopPrice:        stop price value
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link JSONObject}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public JSONObject sendTakeProfitLimitOrderPriceJSON(String symbol, Side side, String newOrderRespType,
-                                                        String timeInForce, double quantity, double price, double stopPrice,
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T extends MarginOrder> T sendMarketOrderQty(String symbol, Side side, double quantity,
                                                         Params extraParams) throws Exception {
-        return new JSONObject(sendStopLossLimitOrderPrice(symbol, side, newOrderRespType, timeInForce, quantity, price,
-                stopPrice, extraParams));
+        return returnNewMarginOrder(symbol, side, null, MARKET, getMarketPayload("quantity",
+                quantity, extraParams), LIBRARY_OBJECT);
     }
 
     /**
-     * Request to send a take profit limit spot order with stop price value
+     * Request to send a market margin order with quantity
+     *
+     * @param symbol:      symbol used in the request es. BTCBUSD
+     * @param side:        side of the order
+     * @param quantity:    quantity value in the order
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                     keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                             {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                         </li>
+     *                         <li>
+     *                             {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                             if not sent - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newOrderRespType"} -> set the response JSON. ACK, RESULT, or FULL;
+     *                             MARKET and LIMIT order types default to FULL, all other orders default to ACK - [STRING, default FULL]
+     *                         </li>
+     *                         <li>
+     *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                              - [ENUM, default NO_SIDE_EFFECT]
+     *                          </li>
+     *                         <li>
+     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return result of the order as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T sendMarketOrderQty(String symbol, Side side, double quantity, Params extraParams,
+                                    ReturnFormat format) throws Exception {
+        return returnNewMarginOrder(symbol, side, null, MARKET, getMarketPayload("quantity",
+                quantity, extraParams), format);
+    }
+
+    /**
+     * Request to send a market margin order with quote quantity
+     *
+     * @param symbol:        symbol used in the request es. BTCBUSD
+     * @param side:          side of the order
+     * @param quoteQuantity: quote quantity value in the order
+     * @param extraParams:   additional params of the request (insert {@code "null"} if there are no extra params),
+     *                       keys accepted are:
+     *                       <ul>
+     *                           <li>
+     *                               {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                           </li>
+     *                           <li>
+     *                               {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                               if not sent - [STRING]
+     *                           </li>
+     *                           <li>
+     *                               {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                               {@code "newOrderRespType"} -> set the response JSON. ACK, RESULT, or FULL;
+     *                               MARKET and LIMIT order types default to FULL, all other orders default to ACK - [STRING, default FULL]
+     *                           </li>
+     *                           <li>
+     *                                {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                                - [ENUM, default NO_SIDE_EFFECT]
+     *                            </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                       </ul>
+     * @return result of the order as {@link FullMarginOrder}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T extends MarginOrder> T sendMarketOrderQuoteQty(String symbol, Side side, double quoteQuantity,
+                                                             Params extraParams) throws Exception {
+        return returnNewMarginOrder(symbol, side, null, MARKET, getMarketPayload("quoteOrderQty",
+                quoteQuantity, extraParams), LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to send a market margin order with quote quantity
+     *
+     * @param symbol:        symbol used in the request es. BTCBUSD
+     * @param side:          side of the order
+     * @param quoteQuantity: quote quantity value in the order
+     * @param extraParams:   additional params of the request (insert {@code "null"} if there are no extra params),
+     *                       keys accepted are:
+     *                       <ul>
+     *                           <li>
+     *                               {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                           </li>
+     *                           <li>
+     *                               {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                               if not sent - [STRING]
+     *                           </li>
+     *                           <li>
+     *                               {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                               {@code "newOrderRespType"} -> set the response JSON. ACK, RESULT, or FULL;
+     *                               MARKET and LIMIT order types default to FULL, all other orders default to ACK - [STRING, default FULL]
+     *                           </li>
+     *                           <li>
+     *                                {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                                - [ENUM, default NO_SIDE_EFFECT]
+     *                            </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                       </ul>
+     * @param format:        return type formatter -> {@link ReturnFormat}
+     * @return result of the order as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T sendMarketOrderQuoteQty(String symbol, Side side, double quoteQuantity, Params extraParams,
+                                         ReturnFormat format) throws Exception {
+        return returnNewMarginOrder(symbol, side, null, MARKET, getMarketPayload("quoteOrderQty",
+                quoteQuantity, extraParams), format);
+    }
+
+    /**
+     * Request to send a stop loss margin order with stopPrice
+     *
+     * @param symbol:      symbol used in the request es. BTCBUSD
+     * @param side:        side of the order
+     * @param quantity:    quantity value in the order
+     * @param stopPrice:   stop price value for the order
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                     keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                             {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                         </li>
+     *                         <li>
+     *                             {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                             if not sent - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newOrderRespType"} -> set the response JSON. ACK, RESULT, or FULL;
+     *                             MARKET and LIMIT order types default to FULL, all other orders default to ACK - [STRING, default ACK]
+     *                         </li>
+     *                         <li>
+     *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                              - [ENUM, default NO_SIDE_EFFECT]
+     *                          </li>
+     *                         <li>
+     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
+     *                     </ul>
+     * @return result of the order as {@link ACKMarginOrder}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T sendStopLossOrderPrice(String symbol, Side side, double quantity, double stopPrice,
+                                        Params extraParams) throws Exception {
+        return returnNewMarginOrder(symbol, side, null, STOP_LOSS, getLevelPayload(quantity,
+                "stopPrice", stopPrice, extraParams), LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to send a stop loss margin order with stopPrice
+     *
+     * @param symbol:      symbol used in the request es. BTCBUSD
+     * @param side:        side of the order
+     * @param quantity:    quantity value in the order
+     * @param stopPrice:   stop price value for the order
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                     keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                             {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                         </li>
+     *                         <li>
+     *                             {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                             if not sent - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newOrderRespType"} -> set the response JSON. ACK, RESULT, or FULL;
+     *                             MARKET and LIMIT order types default to FULL, all other orders default to ACK - [STRING, default ACK]
+     *                         </li>
+     *                         <li>
+     *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                              - [ENUM, default NO_SIDE_EFFECT]
+     *                          </li>
+     *                         <li>
+     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return result of the order as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T sendStopLossOrderPrice(String symbol, Side side, double quantity, double stopPrice,
+                                        Params extraParams, ReturnFormat format) throws Exception {
+        return returnNewMarginOrder(symbol, side, null, STOP_LOSS, getLevelPayload(quantity,
+                "stopPrice", stopPrice, extraParams), format);
+    }
+
+    /**
+     * Request to send a stop loss limit margin order with stop price
+     *
+     * @param symbol:      symbol used in the request es. BTCBUSD
+     * @param side:        side of the order
+     * @param timeInForce: time in force for the order
+     * @param quantity:    quantity value in the order
+     * @param price:       price value in the order
+     * @param stopPrice:   stop price value for the order
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                     keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                             {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                             if not sent - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newOrderRespType"} -> set the response JSON. ACK, RESULT, or FULL;
+     *                             MARKET and LIMIT order types default to FULL, all other orders default to ACK - [STRING, default ACK]
+     *                         </li>
+     *                         <li>
+     *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                              - [ENUM, default NO_SIDE_EFFECT]
+     *                          </li>
+     *                         <li>
+     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
+     *                     </ul>
+     * @return result of the order as {@link ACKMarginOrder}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T extends MarginOrder> T sendStopLossLimitOrderPrice(String symbol, Side side, TimeInForce timeInForce,
+                                                                 double quantity, double price, double stopPrice,
+                                                                 Params extraParams) throws Exception {
+        return returnNewMarginOrder(symbol, side, null, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce,
+                quantity, price, "stopPrice", stopPrice, extraParams), LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to send a stop loss limit margin order with stop price
+     *
+     * @param symbol:      symbol used in the request es. BTCBUSD
+     * @param side:        side of the order
+     * @param timeInForce: time in force for the order
+     * @param quantity:    quantity value in the order
+     * @param price:       price value in the order
+     * @param stopPrice:   stop price value for the order
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                     keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                             {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                             if not sent - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newOrderRespType"} -> set the response JSON. ACK, RESULT, or FULL;
+     *                             MARKET and LIMIT order types default to FULL, all other orders default to ACK - [STRING, default ACK]
+     *                         </li>
+     *                         <li>
+     *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                              - [ENUM, default NO_SIDE_EFFECT]
+     *                          </li>
+     *                         <li>
+     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return result of the order as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T sendStopLossLimitOrderPrice(String symbol, Side side, TimeInForce timeInForce, double quantity,
+                                             double price, double stopPrice, Params extraParams,
+                                             ReturnFormat format) throws Exception {
+        return returnNewMarginOrder(symbol, side, null, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce,
+                quantity, price, "stopPrice", stopPrice, extraParams), format);
+    }
+
+    /**
+     * Request to send a take profit margin order with stop price
+     *
+     * @param symbol:      symbol used in the request es. BTCBUSD
+     * @param side:        side of the order
+     * @param quantity:    quantity value in the order
+     * @param stopPrice:   stop price value
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                     keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                             {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                         </li>
+     *                         <li>
+     *                             {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                             if not sent - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newOrderRespType"} -> set the response JSON. ACK, RESULT, or FULL;
+     *                             MARKET and LIMIT order types default to FULL, all other orders default to ACK - [STRING, default ACK]
+     *                         </li>
+     *                         <li>
+     *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                              - [ENUM, default NO_SIDE_EFFECT]
+     *                          </li>
+     *                         <li>
+     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
+     *                     </ul>
+     * @return result of the order as {@link ACKMarginOrder}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T extends MarginOrder> T sendTakeProfitOrderPrice(String symbol, Side side, double quantity, double stopPrice,
+                                                              Params extraParams) throws Exception {
+        return returnNewMarginOrder(symbol, side, null, TAKE_PROFIT, getLevelPayload(quantity,
+                "stopPrice", stopPrice, extraParams), LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to send a take profit margin order with stop price
+     *
+     * @param symbol:      symbol used in the request es. BTCBUSD
+     * @param side:        side of the order
+     * @param quantity:    quantity value in the order
+     * @param stopPrice:   stop price value
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                     keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                             {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                         </li>
+     *                         <li>
+     *                             {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                             if not sent - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newOrderRespType"} -> set the response JSON. ACK, RESULT, or FULL;
+     *                             MARKET and LIMIT order types default to FULL, all other orders default to ACK - [STRING, default ACK]
+     *                         </li>
+     *                         <li>
+     *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                              - [ENUM, default NO_SIDE_EFFECT]
+     *                          </li>
+     *                         <li>
+     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return result of the order as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T sendTakeProfitOrderPrice(String symbol, Side side, double quantity, double stopPrice,
+                                          Params extraParams, ReturnFormat format) throws Exception {
+        return returnNewMarginOrder(symbol, side, null, TAKE_PROFIT, getLevelPayload(quantity,
+                "stopPrice", stopPrice, extraParams), format);
+    }
+
+    /**
+     * Request to send a take profit limit margin order with stop price value
+     *
+     * @param symbol:      symbol used in the request es. BTCBUSD
+     * @param side:        side of the order
+     * @param timeInForce: time in force for the order
+     * @param quantity:    quantity value in the order
+     * @param price:       price value in the order
+     * @param stopPrice:   stop price value
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                     keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                             {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                             if not sent - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newOrderRespType"} -> set the response JSON. ACK, RESULT, or FULL;
+     *                             MARKET and LIMIT order types default to FULL, all other orders default to ACK - [STRING, default ACK]
+     *                         </li>
+     *                         <li>
+     *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                              - [ENUM, default NO_SIDE_EFFECT]
+     *                          </li>
+     *                         <li>
+     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
+     *                     </ul>
+     * @return result of the order as {@link ACKMarginOrder}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T extends MarginOrder> T sendTakeProfitLimitOrderPrice(String symbol, Side side, TimeInForce timeInForce,
+                                                                   double quantity, double price, double stopPrice,
+                                                                   Params extraParams) throws Exception {
+        return returnNewMarginOrder(symbol, side, null, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce,
+                quantity, price, "stopPrice", stopPrice, extraParams), LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to send a take profit limit margin order with stop price value
+     *
+     * @param symbol:      symbol used in the request es. BTCBUSD
+     * @param side:        side of the order
+     * @param timeInForce: time in force for the order
+     * @param quantity:    quantity value in the order
+     * @param price:       price value in the order
+     * @param stopPrice:   stop price value
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                     keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                             {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                             if not sent - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newOrderRespType"} -> set the response JSON. ACK, RESULT, or FULL;
+     *                             MARKET and LIMIT order types default to FULL, all other orders default to ACK - [STRING, default ACK]
+     *                         </li>
+     *                         <li>
+     *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                              - [ENUM, default NO_SIDE_EFFECT]
+     *                          </li>
+     *                         <li>
+     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return result of the order as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T sendTakeProfitLimitOrderPrice(String symbol, Side side, TimeInForce timeInForce, double quantity,
+                                               double price, double stopPrice, Params extraParams,
+                                               ReturnFormat format) throws Exception {
+        return returnNewMarginOrder(symbol, side, null, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce,
+                quantity, price, "stopPrice", stopPrice, extraParams), format);
+    }
+
+    /**
+     * Request to send a limit maker margin order with trailing delta
+     *
+     * @param symbol:      symbol used in the request es. BTCBUSD
+     * @param side:        side of the order
+     * @param quantity:    quantity value in the order
+     * @param price:       price value in the order
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                   keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                       </li>
+     *                       <li>
+     *                           {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                       </li>
+     *                       <li>
+     *                           {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                           if not sent - [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                           {@code "newOrderRespType"} -> set the response JSON. ACK, RESULT, or FULL;
+     *                           MARKET and LIMIT order types default to FULL, all other orders default to ACK - [STRING, default ACK]
+     *                       </li>
+     *                       <li>
+     *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                            - [ENUM, default NO_SIDE_EFFECT]
+     *                        </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
+     * @return result of the order as {@link ACKMarginOrder}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T extends MarginOrder> T sendLimitMakerOrder(String symbol, Side side, double quantity, double price,
+                                                         Params extraParams) throws Exception {
+        return returnNewMarginOrder(symbol, side, null, LIMIT_MAKER, getLimitMakerPayload(quantity, price,
+                extraParams), LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to send a limit maker margin order with trailing delta
+     *
+     * @param symbol:      symbol used in the request es. BTCBUSD
+     * @param side:        side of the order
+     * @param quantity:    quantity value in the order
+     * @param price:       price value in the order
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                   keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                       </li>
+     *                       <li>
+     *                           {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                       </li>
+     *                       <li>
+     *                           {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                           if not sent - [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                           {@code "newOrderRespType"} -> set the response JSON. ACK, RESULT, or FULL;
+     *                           MARKET and LIMIT order types default to FULL, all other orders default to ACK - [STRING, default ACK]
+     *                       </li>
+     *                       <li>
+     *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                            - [ENUM, default NO_SIDE_EFFECT]
+     *                        </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return result of the order as {@code "format"} defines
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T sendLimitMakerOrder(String symbol, Side side, double quantity, double price, Params extraParams,
+                                     ReturnFormat format) throws Exception {
+        return returnNewMarginOrder(symbol, side, null, LIMIT_MAKER, getLimitMakerPayload(quantity, price,
+                extraParams), format);
+    }
+
+    /**
+     * Request to send a limit margin order
      *
      * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param side:             side of the order
+     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param price:            price value in the order
+     * @param extraParams:      additional params of the request (insert {@code "null"} if there are no extra params),
+     *                          keys accepted are:
+     *                          <ul>
+     *                              <li>
+     *                                  {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                                  if not sent - [STRING]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                              </li>
+     *                              <li>
+     *                                   {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                                   - [ENUM, default NO_SIDE_EFFECT]
+     *                               </li>
+     *                              <li>
+     *                                   {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                              </li>
+     *                          </ul>
+     * @return result of the order as {@link FullMarginOrder}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T extends MarginOrder> T sendLimitOrder(String symbol, Side side, OrderResponseType newOrderRespType,
+                                                    TimeInForce timeInForce, double quantity, double price,
+                                                    Params extraParams) throws Exception {
+        return returnNewMarginOrder(symbol, side, newOrderRespType, LIMIT, getLimitPayload(timeInForce, quantity, price,
+                extraParams), LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to send a limit margin order
+     *
+     * @param symbol:           symbol used in the request es. BTCBUSD
+     * @param side:             side of the order
+     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param price:            price value in the order
+     * @param extraParams:      additional params of the request (insert {@code "null"} if there are no extra params),
+     *                          keys accepted are:
+     *                          <ul>
+     *                              <li>
+     *                                  {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                                  if not sent - [STRING]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                              </li>
+     *                              <li>
+     *                                   {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                                   - [ENUM, default NO_SIDE_EFFECT]
+     *                               </li>
+     *                              <li>
+     *                                   {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                              </li>
+     *                          </ul>
+     * @param format:           return type formatter -> {@link ReturnFormat}
+     * @return result of the order as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T sendLimitOrder(String symbol, Side side, OrderResponseType newOrderRespType, TimeInForce timeInForce,
+                                double quantity, double price, Params extraParams, ReturnFormat format) throws Exception {
+        return returnNewMarginOrder(symbol, side, newOrderRespType, LIMIT, getLimitPayload(timeInForce, quantity, price,
+                extraParams), format);
+    }
+
+    /**
+     * Request to send a market margin order with quantity
+     *
+     * @param symbol:           symbol used in the request es. BTCBUSD
+     * @param side:             side of the order
+     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param quantity:         quantity value in the order
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                   keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                       </li>
+     *                       <li>
+     *                           {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                       </li>
+     *                       <li>
+     *                           {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                           if not sent - [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                            - [ENUM, default NO_SIDE_EFFECT]
+     *                        </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
+     * @return result of the order as {@link FullMarginOrder}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T extends MarginOrder> T sendMarketOrderQty(String symbol, Side side, OrderResponseType newOrderRespType,
+                                                        double quantity, Params extraParams) throws Exception {
+        return returnNewMarginOrder(symbol, side, newOrderRespType, MARKET, getMarketPayload("quantity", quantity,
+                extraParams), LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to send a market margin order with quantity
+     *
+     * @param symbol:           symbol used in the request es. BTCBUSD
+     * @param side:             side of the order
+     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param quantity:         quantity value in the order
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                   keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                       </li>
+     *                       <li>
+     *                           {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                       </li>
+     *                       <li>
+     *                           {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                           if not sent - [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                            - [ENUM, default NO_SIDE_EFFECT]
+     *                        </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return result of the order as {@code "format"} defines
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T sendMarketOrderQty(String symbol, Side side, OrderResponseType newOrderRespType, double quantity,
+                                    Params extraParams, ReturnFormat format) throws Exception {
+        return returnNewMarginOrder(symbol, side, newOrderRespType, MARKET, getMarketPayload("quantity", quantity,
+                extraParams), format);
+    }
+
+    /**
+     * Request to send a market margin order with quote quantity
+     *
+     * @param symbol:           symbol used in the request es. BTCBUSD
+     * @param side:             side of the order
+     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param quoteQuantity:    quote quantity value in the order
+     * @param extraParams:      additional params of the request (insert {@code "null"} if there are no extra params),
+     *                          keys accepted are:
+     *                          <ul>
+     *                              <li>
+     *                                  {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                                  if not sent - [STRING]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                              </li>
+     *                              <li>
+     *                                   {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                                   - [ENUM, default NO_SIDE_EFFECT]
+     *                               </li>
+     *                              <li>
+     *                                   {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                              </li>
+     *                          </ul>
+     * @return result of the order as {@link ACKMarginOrder}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T extends MarginOrder> T sendMarketOrderQuoteQty(String symbol, Side side, OrderResponseType newOrderRespType,
+                                                             double quoteQuantity, Params extraParams) throws Exception {
+        return returnNewMarginOrder(symbol, side, newOrderRespType, MARKET, getMarketPayload("quoteOrderQty",
+                quoteQuantity, extraParams), LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to send a market margin order with quote quantity
+     *
+     * @param symbol:           symbol used in the request es. BTCBUSD
+     * @param side:             side of the order
+     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param quoteQuantity:    quote quantity value in the order
+     * @param extraParams:      additional params of the request (insert {@code "null"} if there are no extra params),
+     *                          keys accepted are:
+     *                          <ul>
+     *                              <li>
+     *                                  {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                                  if not sent - [STRING]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                              </li>
+     *                              <li>
+     *                                   {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                                   - [ENUM, default NO_SIDE_EFFECT]
+     *                               </li>
+     *                              <li>
+     *                                   {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                              </li>
+     *                          </ul>
+     * @param format:           return type formatter -> {@link ReturnFormat}
+     * @return result of the order as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T sendMarketOrderQuoteQty(String symbol, Side side, OrderResponseType newOrderRespType,
+                                         double quoteQuantity, Params extraParams, ReturnFormat format) throws Exception {
+        return returnNewMarginOrder(symbol, side, newOrderRespType, MARKET, getMarketPayload("quoteOrderQty",
+                quoteQuantity, extraParams), format);
+    }
+
+    /**
+     * Request to send a stop loss margin order with stopPrice
+     *
+     * @param symbol:           symbol used in the request es. BTCBUSD
+     * @param side:             side of the order
+     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param quantity:         quantity value in the order
+     * @param stopPrice:        stop price value for the order
+     * @param extraParams:      additional params of the request (insert {@code "null"} if there are no extra params),
+     *                          keys accepted are:
+     *                          <ul>
+     *                              <li>
+     *                                  {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                                  if not sent - [STRING]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                              </li>
+     *                              <li>
+     *                                   {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                                   - [ENUM, default NO_SIDE_EFFECT]
+     *                               </li>
+     *                              <li>
+     *                                   {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                              </li>
+     *                          </ul>
+     * @return result of the order as {@link ACKMarginOrder}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T extends MarginOrder> T sendStopLossOrderPrice(String symbol, Side side, OrderResponseType newOrderRespType,
+                                                            double quantity, double stopPrice,
+                                                            Params extraParams) throws Exception {
+        return returnNewMarginOrder(symbol, side, newOrderRespType, STOP_LOSS, getLevelPayload(quantity, "stopPrice",
+                stopPrice, extraParams), LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to send a stop loss margin order with stopPrice
+     *
+     * @param symbol:           symbol used in the request es. BTCBUSD
+     * @param side:             side of the order
+     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param quantity:         quantity value in the order
+     * @param stopPrice:        stop price value for the order
+     * @param extraParams:      additional params of the request (insert {@code "null"} if there are no extra params),
+     *                          keys accepted are:
+     *                          <ul>
+     *                              <li>
+     *                                  {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                                  if not sent - [STRING]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                              </li>
+     *                              <li>
+     *                                   {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                                   - [ENUM, default NO_SIDE_EFFECT]
+     *                               </li>
+     *                              <li>
+     *                                   {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                              </li>
+     *                          </ul>
+     * @param format:           return type formatter -> {@link ReturnFormat}
+     * @return result of the order as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T sendStopLossOrderPrice(String symbol, Side side, OrderResponseType newOrderRespType, double quantity,
+                                        double stopPrice, Params extraParams, ReturnFormat format) throws Exception {
+        return returnNewMarginOrder(symbol, side, newOrderRespType, STOP_LOSS, getLevelPayload(quantity, "stopPrice",
+                stopPrice, extraParams), format);
+    }
+
+    /**
+     * Request to send a stop loss limit margin order with stop price
+     *
+     * @param symbol:           symbol used in the request es. BTCBUSD
+     * @param side:             side of the order
+     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param timeInForce:      time in force for the order
+     * @param quantity:         quantity value in the order
+     * @param price:            price value in the order
+     * @param stopPrice:        stop price value for the order
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                   keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                       </li>
+     *                       <li>
+     *                           {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                           if not sent - [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                            - [ENUM, default NO_SIDE_EFFECT]
+     *                        </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
+     * @return result of the order as {@link ACKMarginOrder}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T extends MarginOrder> T sendStopLossLimitOrderPrice(String symbol, Side side, OrderResponseType newOrderRespType,
+                                                                 TimeInForce timeInForce, double quantity, double price,
+                                                                 double stopPrice, Params extraParams) throws Exception {
+        return returnNewMarginOrder(symbol, side, newOrderRespType, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce,
+                quantity, price, "stopPrice", stopPrice, extraParams), LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to send a stop loss limit margin order with stop price
+     *
+     * @param symbol:           symbol used in the request es. BTCBUSD
+     * @param side:             side of the order
+     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param timeInForce:      time in force for the order
+     * @param quantity:         quantity value in the order
+     * @param price:            price value in the order
+     * @param stopPrice:        stop price value for the order
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                   keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                       </li>
+     *                       <li>
+     *                           {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                           if not sent - [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                            - [ENUM, default NO_SIDE_EFFECT]
+     *                        </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return result of the order as {@code "format"} defines
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T sendStopLossLimitOrderPrice(String symbol, Side side, OrderResponseType newOrderRespType,
+                                             TimeInForce timeInForce, double quantity, double price, double stopPrice,
+                                             Params extraParams, ReturnFormat format) throws Exception {
+        return returnNewMarginOrder(symbol, side, newOrderRespType, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce,
+                quantity, price, "stopPrice", stopPrice, extraParams), format);
+    }
+
+    /**
+     * Request to send a take profit margin order with stop price
+     *
+     * @param symbol:           symbol used in the request es. BTCBUSD
+     * @param side:             side of the order
+     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param quantity:         quantity value in the order
+     * @param stopPrice:        stop price value
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                   keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                       </li>
+     *                       <li>
+     *                           {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                       </li>
+     *                       <li>
+     *                           {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                           if not sent - [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                            - [ENUM, default NO_SIDE_EFFECT]
+     *                        </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
+     * @return result of the order as {@link ACKMarginOrder}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T extends MarginOrder> T sendTakeProfitOrderPrice(String symbol, Side side, OrderResponseType newOrderRespType,
+                                                              double quantity, double stopPrice,
+                                                              Params extraParams) throws Exception {
+        return returnNewMarginOrder(symbol, side, newOrderRespType, TAKE_PROFIT, getLevelPayload(quantity, "stopPrice",
+                stopPrice, extraParams), LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to send a take profit margin order with stop price
+     *
+     * @param symbol:           symbol used in the request es. BTCBUSD
+     * @param side:             side of the order
+     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param quantity:         quantity value in the order
+     * @param stopPrice:        stop price value
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                   keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                       </li>
+     *                       <li>
+     *                           {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                       </li>
+     *                       <li>
+     *                           {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                           if not sent - [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                            - [ENUM, default NO_SIDE_EFFECT]
+     *                        </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return result of the order as {@code "format"} defines
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T sendTakeProfitOrderPrice(String symbol, Side side, OrderResponseType newOrderRespType, double quantity,
+                                          double stopPrice, Params extraParams, ReturnFormat format) throws Exception {
+        return returnNewMarginOrder(symbol, side, newOrderRespType, TAKE_PROFIT, getLevelPayload(quantity, "stopPrice",
+                stopPrice, extraParams), format);
+    }
+
+    /**
+     * Request to send a take profit limit margin order with stop price value
+     *
+     * @param symbol:           symbol used in the request es. BTCBUSD
+     * @param side:             side of the order
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param timeInForce:      time in force for the order
      * @param quantity:         quantity value in the order
      * @param price:            price value in the order
      * @param stopPrice:        stop price value
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                   keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                       </li>
+     *                       <li>
+     *                           {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                           if not sent - [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                            - [ENUM, default NO_SIDE_EFFECT]
+     *                        </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
      * @return result of the order as {@link ACKMarginOrder}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public <T extends ACKMarginOrder> T sendTakeProfitLimitOrderPriceObject(String symbol, Side side, String newOrderRespType,
-                                                                            String timeInForce, double quantity, double price,
-                                                                            double stopPrice,
-                                                                            Params extraParams) throws Exception {
-        return sendObjectNewMarginMarginOrder(symbol, side, newOrderRespType, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce,
-                quantity, price, "stopPrice", stopPrice, extraParams));
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T extends MarginOrder> T sendTakeProfitLimitOrderPrice(String symbol, Side side, OrderResponseType newOrderRespType,
+                                                                   TimeInForce timeInForce, double quantity, double price,
+                                                                   double stopPrice, Params extraParams) throws Exception {
+        return returnNewMarginOrder(symbol, side, newOrderRespType, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce,
+                quantity, price, "stopPrice", stopPrice, extraParams), LIBRARY_OBJECT);
     }
 
     /**
-     * Request to send a limit maker spot order with trailing delta
+     * Request to send a take profit limit margin order with stop price value
      *
      * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param side:             side of the order
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
+     * @param timeInForce:      time in force for the order
      * @param quantity:         quantity value in the order
      * @param price:            price value in the order
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link String}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public String sendLimitMakerMarginOrder(String symbol, Side side, String newOrderRespType, double quantity, double price,
-                                            Params extraParams) throws Exception {
-        return sendNewMarginOrder(symbol, side, newOrderRespType, LIMIT_MAKER, getLimitMakerPayload(quantity, price, extraParams));
+     * @param stopPrice:        stop price value
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                   keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                       </li>
+     *                       <li>
+     *                           {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                           if not sent - [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                            - [ENUM, default NO_SIDE_EFFECT]
+     *                        </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return result of the order as {@code "format"} defines
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T sendTakeProfitLimitOrderPrice(String symbol, Side side, OrderResponseType newOrderRespType,
+                                               TimeInForce timeInForce, double quantity, double price, double stopPrice,
+                                               Params extraParams, ReturnFormat format) throws Exception {
+        return returnNewMarginOrder(symbol, side, newOrderRespType, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce,
+                quantity, price, "stopPrice", stopPrice, extraParams), format);
     }
 
     /**
-     * Request to send a limit maker spot order with trailing delta
+     * Request to send a limit maker margin order with trailing delta
      *
      * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
+     * @param side:             side of the order
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param quantity:         quantity value in the order
      * @param price:            price value in the order
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
-     * @return result of the order as {@link JSONObject}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public JSONObject sendLimitMakerOrderJSON(String symbol, Side side, String newOrderRespType, double quantity,
-                                              double price, Params extraParams) throws Exception {
-        return new JSONObject(sendLimitMakerMarginOrder(symbol, side, quantity, price, extraParams));
-    }
-
-    /**
-     * Request to send a limit maker spot order with trailing delta
-     *
-     * @param symbol:           symbol used in the request es. BTCBUSD
-     * @param side:             side of the order -> {@link TradeConstants#BUY} or {@link TradeConstants#SELL}
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param quantity:         quantity value in the order
-     * @param price:            price value in the order
-     * @param extraParams:      additional params of the request, insert null if there are no extra params
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                   keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                       </li>
+     *                       <li>
+     *                           {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                       </li>
+     *                       <li>
+     *                           {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                           if not sent - [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                            - [ENUM, default NO_SIDE_EFFECT]
+     *                        </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
      * @return result of the order as {@link ACKMarginOrder}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
-    public <T extends ACKMarginOrder> T sendLimitMakerOrderObject(String symbol, Side side, String newOrderRespType,
-                                                                  double quantity, double price,
-                                                                  Params extraParams) throws Exception {
-        return sendObjectNewMarginMarginOrder(symbol, side, newOrderRespType, LIMIT_MAKER, getLimitMakerPayload(quantity, price,
-                extraParams));
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T extends MarginOrder> T sendLimitMakerOrder(String symbol, Side side, OrderResponseType newOrderRespType,
+                                                         double quantity, double price, Params extraParams) throws Exception {
+        return returnNewMarginOrder(symbol, side, newOrderRespType, LIMIT_MAKER, getLimitMakerPayload(quantity, price,
+                extraParams), LIBRARY_OBJECT);
     }
 
     /**
-     * Request to send a new margin order
+     * Request to send a limit maker margin order with trailing delta
      *
-     * @param symbol:      symbol used to the order es. BTCBUSD
-     * @param side:        BUY or SELL order
-     * @param type:        LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
-     * @param extraParams: additional params of the request
-     * @return result of the order as {@link String}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, sideEffectType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
-     **/
-    public String sendNewMarginOrder(String symbol, Side side, OrderType type, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&side=" + side + "&type=" + type;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_ORDER_ENDPOINT, params, POST_METHOD);
-    }
-
-    /** Request to send a new margin order
-     * @param symbol: symbol used to the order es. BTCBUSD
-     * @param side: BUY or SELL order
-     * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, sideEffectType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
-     * @return result of the order as {@link JSONObject}
-     * **/
-    public JSONObject sendJSONNewMarginMarginOrder(String symbol, Side side, OrderType type, Params extraParams) throws Exception {
-        return new JSONObject(sendNewMarginOrder(symbol, side, type, extraParams));
-    }
-
-    /** Request to send a spot order
-     * @param symbol: symbol used in the request es. BTCBUSD
-     * @param side: BUY or SELL order
-     * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
-     * @return result of the order
-     * @implNote if type LIMIT or MARKET will be must cast in {@link FullMarginOrder} object
-     * @implNote with other types will be an {@link ACKMarginOrder} object
-     * **/
-    public <T extends ACKMarginOrder> T sendObjectNewMarginMarginOrder(String symbol, Side side, OrderType type,
-                                                                       Params extraParams) throws Exception {
-        JSONObject order = new JSONObject(sendJSONNewMarginMarginOrder(symbol, side, type, extraParams));
-        if (type.equals(LIMIT) || type.equals(MARKET))
-            return (T) new FullMarginOrder(order);
-        else
-            return (T) new ACKMarginOrder(order);
-    }
-
-    /** Request to send a new margin order
-     * @param symbol: symbol used to the order es. BTCBUSD
-     * @param side: BUY or SELL order
-     * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
+     * @param symbol:           symbol used in the request es. BTCBUSD
+     * @param side:             side of the order
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, sideEffectType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
+     * @param quantity:         quantity value in the order
+     * @param price:            price value in the order
+     * @param extraParams: additional params of the request (insert {@code "null"} if there are no extra params),
+     *                   keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "timeInForce"} -> time in force, constants available {@link TimeInForce} - [ENUM]
+     *                       </li>
+     *                       <li>
+     *                           {@code "quoteOrderQty"} -> quote order quantity - [DECIMAL]
+     *                       </li>
+     *                       <li>
+     *                           {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                           if not sent - [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                            - [ENUM, default NO_SIDE_EFFECT]
+     *                        </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return result of the order as {@code "format"} defines
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
-     * @return result of the order as {@link String}
+     * Margin Account New Order (TRADE)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String sendNewMarginOrder(String symbol, Side side, String newOrderRespType, OrderType type,
-                                     Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&side=" + side + "&type=" + type + "&newOrderRespType="
-                + newOrderRespType;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_ORDER_ENDPOINT, params, POST_METHOD);
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T sendLimitMakerOrder(String symbol, Side side, OrderResponseType newOrderRespType, double quantity,
+                                     double price, Params extraParams, ReturnFormat format) throws Exception {
+        return returnNewMarginOrder(symbol, side, newOrderRespType, LIMIT_MAKER, getLimitMakerPayload(quantity, price,
+                extraParams), format);
     }
 
     /**
@@ -1954,1126 +2722,344 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param type:             LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
      * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
      * @param extraParams:      additional params of the request
-     * @return result of the order as {@link JSONObject}
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, sideEffectType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
+     * @param format:           return type formatter -> {@link ReturnFormat}
+     * @return result of the order as {@code "format"} defines
      **/
-    public JSONObject sendJSONNewMarginMarginOrder(String symbol, Side side, String newOrderRespType, OrderType type,
-                                                   Params extraParams) throws Exception {
-        return new JSONObject(sendNewMarginOrder(symbol, side, newOrderRespType, type, extraParams));
-    }
-
-    /** Request to send a new margin order
-     * @param symbol: symbol used to the order es. BTCBUSD
-     * @param side: BUY or SELL order
-     * @param type: LIMIT, MARKET,STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER
-     * @param newOrderRespType: format response of the order request (ACK, RESULT,FULL)
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
-     *newOrderRespType, sideEffectType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade</a>
-     * @return result of the order
-     * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_RESULT object will be {@link ResultMarginOrder}
-     * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_FULL object will be {@link FullMarginOrder}
-     * @implNote if newOrderRespType = NEW_ORDER_RESP_TYPE_ACK object will be {@link ACKMarginOrder}
-     * **/
-    public <T extends ACKMarginOrder> T sendObjectNewMarginMarginOrder(String symbol, Side side, String newOrderRespType,
-                                                                       OrderType type, Params extraParams) throws Exception {
-        JSONObject order = new JSONObject(sendJSONNewMarginMarginOrder(symbol, side, newOrderRespType, type, extraParams));
-        switch (newOrderRespType) {
-            case NEW_ORDER_RESP_TYPE_RESULT:
-                return (T) new ResultMarginOrder(order);
-            case NEW_ORDER_RESP_TYPE_FULL:
-                return (T) new FullMarginOrder(order);
+    @Returner
+    private <T> T returnNewMarginOrder(String symbol, Side side, OrderResponseType newOrderRespType, OrderType type,
+                                       Params extraParams, ReturnFormat format) throws Exception {
+        String payload = apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol +
+                "&side=" + side + "&type=" + type + "&newOrderRespType=" + newOrderRespType, extraParams);
+        String orderResponse = sendSignedRequest(MARGIN_ORDER_ENDPOINT, payload, POST_METHOD);
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(orderResponse);
+            case LIBRARY_OBJECT:
+                JSONObject orderResult = new JSONObject(orderResponse);
+                if (newOrderRespType != null) {
+                    switch (newOrderRespType) {
+                        case RESULT:
+                            return (T) new ResultMarginOrder(orderResult);
+                        case FULL:
+                            return (T) new FullMarginOrder(orderResult);
+                        default:
+                            return (T) new ACKMarginOrder(orderResult);
+                    }
+                } else {
+                    if (type.equals(LIMIT) || type.equals(MARKET))
+                        return (T) new FullMarginOrder(orderResult);
+                    else
+                        return (T) new ACKMarginOrder(orderResult);
+                }
             default:
-                return (T) new ACKMarginOrder(order);
+                return (T) orderResponse;
         }
     }
 
     /**
      * Request to get cancel a margin order
      *
-     * @param symbol: symbol used in the order es. BTCBUSD
-     * @return cancel a margin order response as {@link String}
+     * @param order: order to delete
+     * @return cancel a margin order response as {@link MarginOrderDetails} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
+     * Margin Account Cancel Order (TRADE)</a>
      **/
-    public String cancelMarginMarginOrder(String symbol) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol;
-        return sendSignedRequest(MARGIN_ORDER_ENDPOINT, params, DELETE_METHOD);
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public MarginOrderDetails cancelMarginOrder(MarginOrder order) throws Exception {
+        return cancelMarginOrder(order.getSymbol(), LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get cancel a margin order
+     *
+     * @param order:  order to delete
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return cancel a margin order response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
+     * Margin Account Cancel Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T cancelMarginOrder(MarginOrder order, ReturnFormat format) throws Exception {
+        return cancelMarginOrder(order.getSymbol(), format);
     }
 
     /**
      * Request to get cancel a margin order
      *
      * @param symbol: symbol used in the order es. BTCBUSD
-     * @return cancel a margin order response as {@link JSONObject}
+     * @return cancel a margin order response as {@link MarginOrderDetails} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
+     * Margin Account Cancel Order (TRADE)</a>
      **/
-    public JSONObject cancelJSONMarginMarginOrder(String symbol) throws Exception {
-        return new JSONObject(cancelMarginMarginOrder(symbol));
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public MarginOrderDetails cancelMarginOrder(String symbol) throws Exception {
+        return cancelMarginOrder(symbol, LIBRARY_OBJECT);
     }
 
     /**
      * Request to get cancel a margin order
      *
      * @param symbol: symbol used in the order es. BTCBUSD
-     * @return cancel a margin order response as {@link MarginOrderDetails} object
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return cancel a margin order response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
+     * Margin Account Cancel Order (TRADE)</a>
      **/
-    public MarginOrderDetails cancelObjectMarginMarginOrder(String symbol) throws Exception {
-        return new MarginOrderDetails(new JSONObject(cancelMarginMarginOrder(symbol)));
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T cancelMarginOrder(String symbol, ReturnFormat format) throws Exception {
+        return returnMarginOrderDetails(sendSignedRequest(MARGIN_ORDER_ENDPOINT, getTimestampParam() + "&symbol="
+                + symbol, DELETE_METHOD), format);
+    }
+
+    /**
+     * Request to get cancel a margin order
+     *
+     * @param order:       order to delete
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                             {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                             if not sent - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                         </li>
+     *                         <li>
+     *                             {@code "orderId"} -> order identifier - [LONG]
+     *                         </li>
+     *                         <li>
+     *                             {@code "origClientOrderId"} -> orig client order identifier - [STRING]
+     *                         </li>
+     *                         <li>
+     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
+     *                     </ul>
+     * @return cancel a margin order response as {@link MarginOrderDetails} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
+     * Margin Account Cancel Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public MarginOrderDetails cancelMarginMarginOrder(MarginOrder order, Params extraParams) throws Exception {
+        return cancelMarginMarginOrder(order.getSymbol(), extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get cancel a margin order
+     *
+     * @param order:       order to delete
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                             {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                             if not sent - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                         </li>
+     *                         <li>
+     *                             {@code "orderId"} -> order identifier - [LONG]
+     *                         </li>
+     *                         <li>
+     *                             {@code "origClientOrderId"} -> orig client order identifier - [STRING]
+     *                         </li>
+     *                         <li>
+     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return cancel a margin order response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
+     * Margin Account Cancel Order (TRADE)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T cancelMarginMarginOrder(MarginOrder order, Params extraParams, ReturnFormat format) throws Exception {
+        return cancelMarginMarginOrder(order.getSymbol(), extraParams, format);
     }
 
     /**
      * Request to get cancel a margin order
      *
      * @param symbol:      symbol used in the order es. BTCBUSD
-     * @param extraParams: extra params of the request
-     * @return cancel a margin order response as {@link String}
-     * @implSpec (keys accepted are isIsolated, orderId, origClientOrderId, newClientOrderId, recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                           if not sent - [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                           {@code "orderId"} -> order identifier - [LONG]
+     *                       </li>
+     *                       <li>
+     *                           {@code "origClientOrderId"} -> orig client order identifier - [STRING]
+     *                       </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
+     * @return cancel a margin order response as {@link MarginOrderDetails} custom object
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
-     **/
-    public String cancelMarginMarginOrder(String symbol, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_ORDER_ENDPOINT, params, DELETE_METHOD);
+     * Margin Account Cancel Order (TRADE)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public MarginOrderDetails cancelMarginMarginOrder(String symbol, Params extraParams) throws Exception {
+        return cancelMarginMarginOrder(symbol, extraParams, LIBRARY_OBJECT);
     }
 
     /**
      * Request to get cancel a margin order
      *
      * @param symbol:      symbol used in the order es. BTCBUSD
-     * @param extraParams: extra params of the request
-     * @return cancel a margin order response as {@link JSONObject}
-     * @implSpec (keys accepted are isIsolated, orderId, origClientOrderId, newClientOrderId, recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                           if not sent - [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                           {@code "orderId"} -> order identifier - [LONG]
+     *                       </li>
+     *                       <li>
+     *                           {@code "origClientOrderId"} -> orig client order identifier - [STRING]
+     *                       </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return cancel a margin order response as {@code "format"} defines
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
-     **/
-    public JSONObject cancelJSONMarginMarginOrder(String symbol, Params extraParams) throws Exception {
-        return new JSONObject(cancelMarginMarginOrder(symbol, extraParams));
+     * Margin Account Cancel Order (TRADE)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T cancelMarginMarginOrder(String symbol, Params extraParams, ReturnFormat format) throws Exception {
+        String params = apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol,
+                extraParams);
+        return returnMarginOrderDetails(sendSignedRequest(MARGIN_ORDER_ENDPOINT, params, DELETE_METHOD), format);
     }
 
     /**
-     * Request to get cancel a margin order
+     * Method to create a margin details id
      *
-     * @param symbol:      symbol used in the order es. BTCBUSD
-     * @param extraParams: extra params of the request
-     * @return cancel a margin order response as {@link MarginOrderDetails} object
-     * @implSpec (keys accepted are isIsolated, orderId, origClientOrderId, newClientOrderId, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade</a>
+     * @param marginDetailsResponse: obtained from Binance's response
+     * @param format:                return type formatter -> {@link ReturnFormat}
+     * @return margin details as {@code "format"} defines
      **/
-    public MarginOrderDetails cancelObjectMarginMarginOrder(String symbol, Params extraParams) throws Exception {
-        return new MarginOrderDetails(new JSONObject(cancelMarginMarginOrder(symbol, extraParams)));
-    }
-
-    /** Request to send new OCO margin order
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #side: BUY or SELL
-     * @param #quantity: used in the order es. 0.00542
-     * @param #price: used in the order, price of symbol es. BTC = {39016.21} BUSD
-     * @param #stopPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
-     * @return new OCO margin order response as {@link String}
-     * **/
-    public String sendNewOCOMarginOrder(String symbol, Side side, double quantity, double price, double stopPrice) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&side=" + side + "&quantity=" + quantity
-                + "&price=" + price + "&stopPrice=" + stopPrice;
-        return sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT, params, POST_METHOD);
-    }
-
-    /** Request to get cancel all a margin orders
-     * @param symbol: symbol used in the orders es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
-     * @return cancel all margin order response as {@link String}
-     * **/
-    public String cancelAllMarginOrders(String symbol) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol;
-        return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, params, DELETE_METHOD);
-    }
-
-    /** Request to get cancel all a margin orders
-     * @param symbol: symbol used in the orders es. BTCBUSD
-     * @apiNote see the official documentation at:<a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
-     * @return cancel all margin order response as {@link JSONArray}
-     * **/
-    public JSONArray cancelJSONAllMarginOrders(String symbol) throws Exception {
-        return new JSONArray(cancelAllMarginOrders(symbol));
-    }
-
-    /** Request to get cancel all a margin orders
-     * @param symbol: symbol used in the orders es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
-     * @return cancel all margin order response as {@link OpenMarginOrders} object
-     * **/
-    public OpenMarginOrders cancelObjectAllMarginOrders(String symbol) throws Exception {
-        return assembleOpenMarginOrdersObject(new JSONArray(cancelAllMarginOrders(symbol)));
-    }
-
-    /** Request to get cancel all a margin orders
-     * @param symbol: symbol used in the orders es. BTCBUSD
-     * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are isIsolated,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
-     * @return cancel all margin order response as {@link String}
-     * **/
-    public String cancelAllMarginOrders(String symbol, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, params, DELETE_METHOD);
-    }
-
-    /** Request to get cancel all a margin orders
-     * @param symbol: symbol used in the orders es. BTCBUSD
-     * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are isIsolated, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
-     * @return cancel all margin order response as {@link JSONObject}
-     * **/
-    public JSONArray cancelJSONAllMarginOrders(String symbol, Params extraParams) throws Exception {
-        return new JSONArray(cancelAllMarginOrders(symbol, extraParams));
-    }
-
-    /**
-     * Request to get cancel all a margin orders
-     *
-     * @param symbol:      symbol used in the orders es. BTCBUSD
-     * @param extraParams: extra params of the request
-     * @return cancel all margin order response as ArrayList<{@link OpenMarginOrders}>
-     * @implSpec (keys accepted are isIsolated, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade</a>
-     **/
-    public OpenMarginOrders cancelObjectAllMarginOrders(String symbol, Params extraParams) throws Exception {
-        return assembleOpenMarginOrdersObject(new JSONArray(cancelAllMarginOrders(symbol, extraParams)));
-    }
-
-    /**
-     * Method to assemble an {@link OpenMarginOrders} object
-     *
-     * @param jsonArray: obtained from {@code "Binance"}'s request
-     * @return a {@link OpenMarginOrders} list as ArrayList
-     **/
-    private OpenMarginOrders assembleOpenMarginOrdersObject(JSONArray jsonArray) {
-        ArrayList<MarginOrderDetails> marginOrderDetails = new ArrayList<>();
-        ArrayList<ComposedMarginOrderDetails> composedMarginOrderDetails = new ArrayList<>();
-        for (int j = 0; j < jsonArray.length(); j++) {
-            JSONObject openMarginOrder = jsonArray.getJSONObject(j);
-            if (!openMarginOrder.getString("contingencyType").isEmpty())
-                composedMarginOrderDetails.add(new ComposedMarginOrderDetails(openMarginOrder));
-            else
-                marginOrderDetails.add(new MarginOrderDetails(openMarginOrder));
+    @Returner
+    private <T> T returnMarginOrderDetails(String marginDetailsResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(marginDetailsResponse);
+            case LIBRARY_OBJECT:
+                return (T) new MarginOrderDetails(new JSONObject(marginDetailsResponse));
+            default:
+                return (T) marginDetailsResponse;
         }
-        return new OpenMarginOrders(marginOrderDetails, composedMarginOrderDetails);
-    }
-
-    /**
-     * Request to get cross margin transfer history <br>
-     * Any params required
-     *
-     * @return cross margin transfer history response as {@link String}
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
-     **/
-    public String getCrossMarginTransferHistory() throws Exception {
-        return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, getTimestampParam(), GET_METHOD);
-    }
-
-    /**
-     * Request to get cross margin transfer history <br>
-     * Any params required
-     *
-     * @return cross margin transfer history response as {@link JSONObject}
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
-     **/
-    public JSONObject getJSONCrossMarginTransferHistory() throws Exception {
-        return new JSONObject(getCrossMarginTransferHistory());
-    }
-
-    /**
-     * Request to get cross margin transfer history <br>
-     * Any params required
-     *
-     * @return cross margin transfer history response as {@link TransfersHistoryList} object
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
-     **/
-    public TransfersHistoryList getObjectCrossMarginTransferHistory() throws Exception {
-        return new TransfersHistoryList(new JSONObject(getCrossMarginTransferHistory()));
-    }
-
-    /**
-     * Request to get cross margin transfer history
-     *
-     * @param extraParams: extra params of the request
-     * @return cross margin transfer history response as {@link String}
-     * @implSpec (keys accepted are asset, type, startTime, endTime, current, size, archived, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
-     **/
-    public String getCrossMarginTransferHistory(Params extraParams) throws Exception {
-        return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, apiRequest.encodeAdditionalParams(getTimestampParam(),
-                extraParams), GET_METHOD);
-    }
-
-    /**
-     * Request to get cross margin transfer history
-     *
-     * @param extraParams: extra params of the request
-     * @return cross margin transfer history response as {@link JSONObject}
-     * @implSpec (keys accepted are asset, type, startTime, endTime, current, size, archived, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
-     **/
-    public JSONObject getJSONCrossMarginTransferHistory(Params extraParams) throws Exception {
-        return new JSONObject(getCrossMarginTransferHistory(extraParams));
-    }
-
-    /**
-     * Request to get cross margin transfer history
-     *
-     * @param extraParams: extra params of the request
-     * @return cross margin transfer history response as {@link TransfersHistoryList} object
-     * @implSpec (keys accepted are asset, type, startTime, endTime, current, size, archived, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
-     **/
-    public TransfersHistoryList getObjectCrossMarginTransferHistory(Params extraParams) throws Exception {
-        return new TransfersHistoryList(new JSONObject(getCrossMarginTransferHistory(extraParams)));
-    }
-
-    /** Request to get cross margin transfer history
-     * @param asset: asset used to request es BTC
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
-     * @return cross margin transfer history response as {@link String}
-     * **/
-    public String getCrossMarginTransferHistory(String asset) throws Exception {
-        String params = getTimestampParam() + "&asset=" + asset;
-        return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, params, GET_METHOD);
-    }
-
-    /**
-     * Request to get cross margin transfer history
-     *
-     * @param asset: asset used to request es BTC
-     * @return cross margin transfer history response as {@link JSONObject}
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
-     **/
-    public JSONObject getJSONCrossMarginTransferHistory(String asset) throws Exception {
-        return new JSONObject(getCrossMarginTransferHistory(asset));
-    }
-
-    /**
-     * Request to get cross margin transfer history
-     *
-     * @param asset: asset used to request es BTC
-     * @return cross margin transfer history response as {@link TransfersHistoryList} object
-     * @apiNote see the official documentation at:
-     * <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
-     **/
-    public TransfersHistoryList getObjectCrossMarginTransferHistory(String asset) throws Exception {
-        return new TransfersHistoryList(new JSONObject(getCrossMarginTransferHistory(asset)));
-    }
-
-    /**
-     * Request to get cross margin transfer history
-     *
-     * @param asset:       asset used to request es BTC
-     * @param extraParams: extra params of the request
-     * @return cross margin transfer history response as {@link String}
-     * @implSpec (keys accepted are asset, type, startTime, endTime, current, size, archived, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
-     **/
-    public String getCrossMarginTransferHistory(String asset, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&asset=" + asset;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, params, GET_METHOD);
-    }
-
-    /**
-     * Request to get cross margin transfer history
-     *
-     * @param asset:       asset used to request es BTC
-     * @param extraParams: extra params of the request
-     * @return cross margin transfer history response as {@link JSONObject}
-     * @implSpec (keys accepted are asset, type, startTime, endTime, current, size, archived, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
-     **/
-    public JSONObject getJSONCrossMarginTransferHistory(String asset, Params extraParams) throws Exception {
-        return new JSONObject(getCrossMarginTransferHistory(asset, extraParams));
-    }
-
-    /**
-     * Request to get cross margin transfer history
-     *
-     * @param asset:       asset used to request es BTC
-     * @param extraParams: extra params of the request
-     * @return cross margin transfer history response as {@link TransfersHistoryList} object
-     * @implSpec (keys accepted are asset, type, startTime, endTime, current, size, archived, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data</a>
-     **/
-    public TransfersHistoryList getObjectCrossMarginTransferHistory(String asset, Params extraParams)
-            throws Exception {
-        return new TransfersHistoryList(new JSONObject(getCrossMarginTransferHistory(asset, extraParams)));
-    }
-
-    /**
-     * Request to get query loan record
-     *
-     * @param asset: asset used to request es BTC
-     * @return query loan record as {@link String}
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
-     **/
-    public String getQueryLoanRecord(String asset) throws Exception {
-        String params = getTimestampParam() + "&asset=" + asset;
-        return sendSignedRequest(MARGIN_LOAN_ENDPOINT, params, GET_METHOD);
-    }
-
-    /**
-     * Request to get query loan record
-     *
-     * @param asset: asset used to request es BTC
-     * @return query loan record as {@link JSONObject}
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
-     **/
-    public JSONObject getJSONQueryLoanRecord(String asset) throws Exception {
-        return new JSONObject(getQueryLoanRecord(asset));
-    }
-
-    /**
-     * Request to get query loan record
-     *
-     * @param asset: asset used to request es BTC
-     * @return query loan record as {@link LoansList} object
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
-     **/
-    public LoansList getObjectQueryLoanRecord(String asset) throws Exception {
-        return new LoansList(new JSONObject(getQueryLoanRecord(asset)));
-    }
-
-    /**
-     * Request to get query loan record
-     *
-     * @param asset:       asset used to request es BTC
-     * @param extraParams: extra params of the request
-     * @return query loan record as {@link String}
-     * @implSpec (keys accepted are isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
-     **/
-    public String getQueryLoanRecord(String asset, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&asset=" + asset;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_LOAN_ENDPOINT, params, GET_METHOD);
-    }
-
-    /**
-     * Request to get query loan record
-     *
-     * @param asset:       asset used to request es BTC
-     * @param extraParams: extra params of the request
-     * @return query loan record as {@link JSONObject}
-     * @implSpec (keys accepted are isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
-     **/
-    public JSONObject getJSONQueryLoanRecord(String asset, Params extraParams) throws Exception {
-        return new JSONObject(getQueryLoanRecord(asset, extraParams));
-    }
-
-    /**
-     * Request to get query loan record
-     *
-     * @param asset:       asset used to request es BTC
-     * @param extraParams: extra params of the request
-     * @return query loan record as {@link LoansList} object
-     * @implSpec (keys accepted are isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data</a>
-     **/
-    public LoansList getObjectQueryLoanRecord(String asset, Params extraParams) throws Exception {
-        return new LoansList(new JSONObject(getQueryLoanRecord(asset, extraParams)));
-    }
-
-    /**
-     * Request to get query repay record
-     *
-     * @param asset: asset used to request es BTC
-     * @return query repay record as {@link String}
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
-     **/
-    public String getQueryRepayRecord(String asset) throws Exception {
-        String params = getTimestampParam() + "&asset=" + asset;
-        return sendSignedRequest(MARGIN_REPAY_ENDPOINT, params, GET_METHOD);
-    }
-
-    /**
-     * Request to get query repay record
-     *
-     * @param asset: asset used to request es BTC
-     * @return query repay record as {@link JSONObject}
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
-     **/
-    public JSONObject getJSONRepayRecord(String asset) throws Exception {
-        return new JSONObject(getQueryRepayRecord(asset));
-    }
-
-    /**
-     * Request to get query repay record
-     *
-     * @param asset: asset used to request es BTC
-     * @return query repay record as {@link RepaysList} object
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
-     **/
-    public RepaysList getObjectRepayRecord(String asset) throws Exception {
-        return new RepaysList(new JSONObject(getQueryRepayRecord(asset)));
-    }
-
-    /**
-     * Request to get query repay record
-     *
-     * @param asset:       asset used to request es BTC
-     * @param extraParams: extra params of the request
-     * @return query repay record as {@link String}
-     * @implSpec (keys accepted are isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
-     **/
-    public String getQueryRepayRecord(String asset, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&asset=" + asset;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_REPAY_ENDPOINT, params, GET_METHOD);
-    }
-
-    /**
-     * Request to get query repay record
-     *
-     * @param asset:       asset used to request es BTC
-     * @param extraParams: extra params of the request
-     * @return query repay record as {@link JSONObject}
-     * @implSpec (keys accepted are isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
-     **/
-    public JSONObject getJSONRepayRecord(String asset, Params extraParams) throws Exception {
-        return new JSONObject(getQueryRepayRecord(asset, extraParams));
-    }
-
-    /**
-     * Request to get query repay record
-     *
-     * @param asset:       asset used to request es BTC
-     * @param extraParams: extra params of the request
-     * @return query repay record as {@link RepaysList} object
-     * @implSpec (keys accepted are isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data</a>
-     **/
-    public RepaysList getObjectRepayRecord(String asset, Params extraParams) throws Exception {
-        return new RepaysList(new JSONObject(getQueryRepayRecord(asset, extraParams)));
-    }
-
-    /**
-     * Request to get interest history <br>
-     * Any params required
-     *
-     * @return interest history response as {@link String}
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
-     **/
-    public String getInterestHistory() throws Exception {
-        return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT, getTimestampParam(), GET_METHOD);
-    }
-
-    /**
-     * Request to get interest history <br>
-     * Any params required
-     *
-     * @return interest history response as {@link JSONObject}
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
-     **/
-    public JSONObject getJSONInterestHistory() throws Exception {
-        return new JSONObject(getInterestHistory());
-    }
-
-    /**
-     * Request to get interest history <br>
-     * Any params required
-     *
-     * @return interest history response as {@link InterestHistoryList} object
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
-     **/
-    public InterestHistoryList getObjectInterestHistory() throws Exception {
-        return new InterestHistoryList(new JSONObject(getInterestHistory()));
-    }
-
-    /**
-     * Request to get interest history
-     *
-     * @param extraParams: extra params of the request
-     * @return interest history response as {@link String}
-     * @implSpec (keys accepted are asset, isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
-     **/
-    public String getInterestHistory(Params extraParams) throws Exception {
-        return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT, apiRequest.encodeAdditionalParams(getTimestampParam(),
-                extraParams), GET_METHOD);
-    }
-
-    /**
-     * Request to get interest history
-     *
-     * @param extraParams: extra params of the request
-     * @return interest history response as {@link JSONObject}
-     * @implSpec (keys accepted are asset, isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
-     **/
-    public JSONObject getJSONInterestHistory(Params extraParams) throws Exception {
-        return new JSONObject(getInterestHistory(extraParams));
-    }
-
-    /**
-     * Request to get interest history
-     *
-     * @param extraParams: extra params of the request
-     * @return interest history response as {@link InterestHistoryList} object
-     * @implSpec (keys accepted are asset, isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
-     **/
-    public InterestHistoryList getObjectInterestHistory(Params extraParams) throws Exception {
-        return new InterestHistoryList(new JSONObject(getInterestHistory(extraParams)));
-    }
-
-    /**
-     * Request to get interest history
-     *
-     * @param asset: asset used to request es BTC
-     * @return interest history response as {@link String}
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
-     **/
-    public String getInterestHistory(String asset) throws Exception {
-        String params = getTimestampParam() + "&asset=" + asset;
-        return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT, params, GET_METHOD);
-    }
-
-    /**
-     * Request to get interest history
-     *
-     * @param asset: asset used to request es BTC
-     * @return interest history response as {@link JSONObject}
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
-     **/
-    public JSONObject getJSONInterestHistory(String asset) throws Exception {
-        return new JSONObject(getInterestHistory(asset));
-    }
-
-    /**
-     * Request to get interest history
-     *
-     * @param asset: asset used to request es BTC
-     * @return interest history response as {@link InterestHistoryList} object
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
-     **/
-    public InterestHistoryList getObjectInterestHistory(String asset) throws Exception {
-        return new InterestHistoryList(new JSONObject(getInterestHistory(asset)));
-    }
-
-    /**
-     * Request to get interest history
-     *
-     * @param asset:       asset used to request es BTC
-     * @param extraParams: extra params of the request
-     * @return interest history response as {@link String}
-     * @implSpec (keys accepted are asset, isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
-     **/
-    public String getInterestHistory(String asset, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&asset=" + asset;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT, params, GET_METHOD);
-    }
-
-    /**
-     * Request to get interest history
-     *
-     * @param asset:       asset used to request es BTC
-     * @param extraParams: extra params of the request
-     * @return interest history response as {@link String}
-     * @implSpec (keys accepted are asset, isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
-     **/
-    public JSONObject getJSONInterestHistory(String asset, Params extraParams) throws Exception {
-        return new JSONObject(getInterestHistory(asset, extraParams));
-    }
-
-    /**
-     * Request to get interest history
-     *
-     * @param asset:       asset used to request es BTC
-     * @param extraParams: extra params of the request
-     * @return interest history response as {@link InterestHistoryList} object
-     * @implSpec (keys accepted are asset, isolatedSymbol, txId, startTime, endTime, current, size, archived, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data</a>
-     **/
-    public InterestHistoryList getObjectInterestHistory(String asset, Params extraParams) throws Exception {
-        return new InterestHistoryList(new JSONObject(getInterestHistory(asset, extraParams)));
-    }
-
-    /**
-     * Request to get margin force liquidation <br>
-     * Any params required
-     *
-     * @return margin force liquidation response as {@link String}
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
-     **/
-    public String getMarginForceLiquidation() throws Exception {
-        return sendSignedRequest(MARGIN_FORCE_LIQUIDATION_ENDPOINT, getTimestampParam(), GET_METHOD);
-    }
-
-    /**
-     * Request to get margin force liquidation <br>
-     * Any params required
-     *
-     * @return margin force liquidation response as {@link JSONObject}
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
-     **/
-    public JSONObject getJSONMarginForceLiquidation() throws Exception {
-        return new JSONObject(getMarginForceLiquidation());
-    }
-
-    /**
-     * Request to get margin force liquidation <br>
-     * Any params required
-     *
-     * @return margin force liquidation response as {@link ForceLiquidationList} object
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
-     **/
-    public ForceLiquidationList getObjectMarginForceLiquidation() throws Exception {
-        return new ForceLiquidationList(new JSONObject(getMarginForceLiquidation()));
-    }
-
-    /**
-     * Request to get margin force liquidation
-     *
-     * @param extraParams: extra params of the request
-     * @return margin force liquidation response as {@link String}
-     * @implSpec (keys accepted are isolatedSymbol, startTime, endTime, current, size, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
-     **/
-    public String getMarginForceLiquidation(Params extraParams) throws Exception {
-        return sendSignedRequest(MARGIN_FORCE_LIQUIDATION_ENDPOINT, apiRequest.encodeAdditionalParams(getTimestampParam(),
-                extraParams), GET_METHOD);
-    }
-
-    /**
-     * Request to get margin force liquidation
-     *
-     * @param extraParams: extra params of the request
-     * @return margin force liquidation response as {@link JSONObject}
-     * @implSpec (keys accepted are isolatedSymbol, startTime, endTime, current, size, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
-     **/
-    public JSONObject getJSONMarginForceLiquidation(Params extraParams) throws Exception {
-        return new JSONObject(getMarginForceLiquidation(extraParams));
-    }
-
-    /**
-     * Request to get margin force liquidation
-     *
-     * @param extraParams: extra params of the request
-     * @return margin force liquidation response as {@link ForceLiquidationList} object
-     * @implSpec (keys accepted are isolatedSymbol, startTime, endTime, current, size, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data</a>
-     **/
-    public ForceLiquidationList getObjectMarginForceLiquidation(Params extraParams) throws Exception {
-        return new ForceLiquidationList(new JSONObject(getMarginForceLiquidation(extraParams)));
-    }
-
-    /** Request to get cross margin account details <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
-     * @return cross margin account details response as {@link String}
-     * **/
-    public String getCrossMarginAccountDetails() throws Exception {
-        return sendSignedRequest(CROSS_MARGIN_ACCOUNT_DETAILS_ENDPOINT, getTimestampParam(), GET_METHOD);
-    }
-
-    /** Request to get cross margin account details <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
-     * @return cross margin account details response as {@link JSONObject}
-     * **/
-    public JSONObject getJSONCrossMarginAccountDetails() throws Exception {
-        return new JSONObject(getCrossMarginAccountDetails());
-    }
-
-    /** Request to get cross margin account details <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
-     * @return cross margin account details response as {@link CrossMarginAccountDetails} object
-     * **/
-    public CrossMarginAccountDetails getObjectCrossMarginAccountDetails() throws Exception {
-        return new CrossMarginAccountDetails(new JSONObject(getCrossMarginAccountDetails()));
-    }
-
-    /** Request to get cross margin account details
-     * @param recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
-     * @return cross margin account details response as {@link String}
-     * **/
-    public String getCrossMarginAccountDetails(long recvWindow) throws Exception {
-        String params = getTimestampParam() + "&recvWindow=" + recvWindow;
-        return sendSignedRequest(CROSS_MARGIN_ACCOUNT_DETAILS_ENDPOINT, getTimestampParam(), GET_METHOD);
-    }
-
-    /** Request to get cross margin account details
-     * @param recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
-     * @return cross margin account details response as {@link JSONObject}
-     * **/
-    public JSONObject getJSONCrossMarginAccountDetails(long recvWindow) throws Exception {
-        return new JSONObject(getCrossMarginAccountDetails(recvWindow));
-    }
-
-    /** Request to get cross margin account details
-     * @param recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data</a>
-     * @return cross margin account details response as {@link CrossMarginAccountDetails} object
-     * **/
-    public CrossMarginAccountDetails getObjectCrossMarginAccountDetails(long recvWindow) throws Exception {
-        return new CrossMarginAccountDetails(new JSONObject(getCrossMarginAccountDetails(recvWindow)));
-    }
-
-    /** Request to get margin status order
-     * @param symbol: used in the order es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data</a>
-     * @return margin status order response as {@link String}
-     * **/
-    public String getMarginOrderStatus(String symbol) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol;
-        return sendSignedRequest(MARGIN_ORDER_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get margin status order
-     * @param symbol: used in the order es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data</a>
-     * @return margin status order response as {@link JSONObject}
-     * **/
-    public JSONObject getJSONMarginOrderStatus(String symbol) throws Exception {
-        return new JSONObject(getMarginOrderStatus(symbol));
-    }
-
-    /** Request to get margin status order
-     * @param symbol: used in the order es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data</a>
-     * @return margin status order response as {@link MarginOrderStatus} object
-     * **/
-    public MarginOrderStatus getObjectMarginOrderStatus(String symbol) throws Exception {
-        return new MarginOrderStatus(new JSONObject(getMarginOrderStatus(symbol)));
-    }
-
-    /** Request to get margin status order
-     * @param symbol: used in the order es. BTCBUSD
-     * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are isIsolated,orderId,origClientOrderId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data</a>
-     * @return margin status order response as {@link String}
-     * **/
-    public String getMarginOrderStatus(String symbol, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_ORDER_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get margin status order
-     * @param symbol: used in the order es. BTCBUSD
-     * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are isIsolated,orderId,origClientOrderId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data</a>
-     * @return margin status order response as {@link JSONObject}
-     * **/
-    public JSONObject getJSONMarginOrderStatus(String symbol, Params extraParams) throws Exception {
-        return new JSONObject(getMarginOrderStatus(symbol, extraParams));
-    }
-
-    /** Request to get margin status order
-     * @param symbol: used in the order es. BTCBUSD
-     * @param extraParams: extra params of the request
-     * @implSpec (keys accepted are isIsolated,orderId,origClientOrderId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data</a>
-     * @return margin status order response as {@link MarginOrderStatus} object
-     * **/
-    public MarginOrderStatus getObjectMarginOrderStatus(String symbol, Params extraParams) throws Exception {
-        return new MarginOrderStatus(new JSONObject(getMarginOrderStatus(symbol, extraParams)));
-    }
-
-    /** Request to get all margin open orders <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data</a>
-     * @return all margin open orders as {@link String}
-     * **/
-    public String getAllMarginOpenOrders() throws Exception {
-        return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, getTimestampParam(), GET_METHOD);
-    }
-
-    /** Request to get all margin open orders <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data</a>
-     * @return all margin open orders as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllMarginOpenOrders() throws Exception {
-        return new JSONArray(getAllMarginOpenOrders());
-    }
-
-    /** Request to get all margin open orders <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data</a>
-     * @return all margin open orders as ArrayList<{@link MarginOrderStatus}>
-     * **/
-    public ArrayList<MarginOrderStatus> getAllMarginOpenOrdersList() throws Exception {
-        return assembleMarginOrdersList(new JSONArray(getAllMarginOpenOrders()));
-    }
-
-    /** Request to get all margin open orders on a symbol
-     * @param #symbol: used in the order es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data</a>
-     * @return all margin open orders as {@link String}
-     * **/
-    public String getAllMarginOpenOrders(String symbol) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&isIsolated=true";
-        return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get all margin open orders on a symbol
-     * @param #symbol: used in the order es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data</a>
-     * @return all margin open orders as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllMarginOpenOrders(String symbol) throws Exception {
-        return new JSONArray(getAllMarginOpenOrders(symbol));
-    }
-
-    /** Request to get all margin open orders on a symbol
-     * @param #symbol: used in the order es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data</a>
-     * @return all margin open orders as ArrayList<{@link MarginOrderStatus}>
-     * **/
-    public ArrayList<MarginOrderStatus> getAllMarginOpenOrdersList(String symbol) throws Exception {
-        return assembleMarginOrdersList(new JSONArray(getAllMarginOpenOrders(symbol)));
-    }
-
-    /** Request to get all margin open orders
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,symbol,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data</a>
-     * @return all margin open orders as {@link String}
-     * **/
-    public String getAllMarginOpenOrders(Params extraParams) throws Exception {
-        String params = apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams);
-        return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get all margin open orders
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,symbol,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data</a>
-     * @return all margin open orders as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllMarginOpenOrders(Params extraParams) throws Exception {
-        return new JSONArray(getAllMarginOpenOrders(extraParams));
-    }
-
-    /** Request to get all margin open orders
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,symbol,recvWindow)
-     * @apiNote see the official documentation at:
-     * <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data</a>
-     * @return all margin open orders as ArrayList<{@link MarginOrderStatus}>
-     * **/
-    public ArrayList<MarginOrderStatus> getAllMarginOpenOrdersList(Params extraParams) throws Exception {
-        return assembleMarginOrdersList(new JSONArray(getAllMarginOpenOrders(extraParams)));
-    }
-
-    /** Request to get all margin open orders on a symbol
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data</a>
-     * @return all margin open orders as {@link String}
-     * **/
-    public String getAllMarginOpenOrders(String symbol, long recvWindow) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&isIsolated=true" + "&recvWindow=" + recvWindow;
-        return sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get all margin open orders on a symbol
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data</a>
-     * @return all margin open orders as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllMarginOpenOrders(String symbol, long recvWindow) throws Exception {
-        return new JSONArray(getAllMarginOpenOrders(symbol, recvWindow));
-    }
-
-    /** Request to get all margin open orders on a symbol
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data</a>
-     * @return all margin open orders as ArrayList<{@link MarginOrderStatus}>
-     * **/
-    public ArrayList<MarginOrderStatus> getAllMarginOpenOrdersList(String symbol, long recvWindow) throws Exception {
-        return assembleMarginOrdersList(new JSONArray(getAllMarginOpenOrders(symbol, recvWindow)));
-    }
-
-    /** Request to get all margin orders on a symbol
-     * @param #symbol: used in the order es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data</a>
-     * @return all margin orders as {@link String}
-     * **/
-    public String getAllMarginOrders(String symbol) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol;
-        return sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get all margin orders on a symbol
-     * @param #symbol: used in the order es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data</a>
-     * @return all margin orders as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllMarginOrders(String symbol) throws Exception {
-        return new JSONArray(getAllMarginOrders(symbol));
-    }
-
-    /** Request to get all margin orders on a symbol
-     * @param #symbol: used in the order es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data</a>
-     * @return all margin orders as ArrayList<{@link MarginOrderStatus}>
-     * **/
-    public ArrayList<MarginOrderStatus> getAllMarginOrdersList(String symbol) throws Exception {
-        return assembleMarginOrdersList(new JSONArray(getAllMarginOrders(symbol)));
-    }
-
-    /** Request to get all margin orders on a symbol
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,orderId,startTime,endTime,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data</a>
-     * @return all margin orders as {@link String}
-     * **/
-    public String getAllMarginOrders(String symbol, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
-    }
-
-    /**
-     * Request to get all margin orders on a symbol
-     *
-     * @param #symbol:     used in the order es. BTCBUSD
-     * @param extraParams: additional params of the request
-     * @return all margin orders as {@link JSONArray}
-     * @implSpec (keys accepted are isIsolated, orderId, startTime, endTime, limit, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data</a>
-     **/
-    public JSONArray getJSONAllMarginOrders(String symbol, Params extraParams) throws Exception {
-        return new JSONArray(getAllMarginOrders(symbol, extraParams));
-    }
-
-    /** Request to get all margin orders on a symbol
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated, orderId, startTime, endTime, limit, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data</a>
-     * @return all margin orders as ArrayList<{@link MarginOrderStatus}>
-     * **/
-    public ArrayList<MarginOrderStatus> getAllMarginOrdersList(String symbol, Params extraParams) throws Exception {
-        return assembleMarginOrdersList(new JSONArray(getAllMarginOrders(symbol, extraParams)));
-    }
-
-    /**
-     * Method to assemble a MarginOrderStatus list
-     *
-     * @param #jsonOrder: obtained from {@code "Binance"}'s request
-     * @return a list as ArrayList<MarginOrderStatus>
-     **/
-    private ArrayList<MarginOrderStatus> assembleMarginOrdersList(JSONArray jsonOrder) {
-        ArrayList<MarginOrderStatus> marginOrderStatus = new ArrayList<>();
-        for (int j = 0; j < jsonOrder.length(); j++)
-            marginOrderStatus.add(new MarginOrderStatus(jsonOrder.getJSONObject(j)));
-        return marginOrderStatus;
     }
 
     /**
@@ -3084,124 +3070,260 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param #quantity:  used in the order es. 0.00542
      * @param #price:     used in the order, price of symbol es. BTC = {39016.21} BUSD
      * @param #stopPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD
-     * @return new OCO margin order response as {@link JSONObject}
+     * @return new OCO margin order response as {@link OCOMarginOrder} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
+     * Margin Account New OCO (TRADE)</a>
      **/
-    public JSONObject sendJSONNewOCOMarginOrder(String symbol, Side side, double quantity, double price, double stopPrice) throws Exception {
-        return new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice));
+    @RequestPath(path = "/sapi/v1/margin/order/oco")
+    public OCOMarginOrder sendNewOCOMarginOrder(String symbol, Side side, double quantity, double price,
+                                                double stopPrice) throws Exception {
+        return sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice, LIBRARY_OBJECT);
     }
 
-    /** Request to send new OCO margin order
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #side: BUY or SELL
-     * @param #quantity: used in the order es. 0.00542
-     * @param #price: used in the order, price of symbol es. BTC = {39016.21} BUSD
+    /**
+     * Request to send new OCO margin order
+     *
+     * @param #symbol:    used in the order es. BTCBUSD
+     * @param #side:      BUY or SELL
+     * @param #quantity:  used in the order es. 0.00542
+     * @param #price:     used in the order, price of symbol es. BTC = {39016.21} BUSD
      * @param #stopPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return new OCO margin order response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
-     * @return new OCO margin order response as {@link OCOMarginOrder} object
-     * **/
-    public OCOMarginOrder sendObjectNewOCOMarginOrder(String symbol, Side side, double quantity, double price,
-                                                      double stopPrice) throws Exception {
-        return new OCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice)));
+     * Margin Account New OCO (TRADE)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/order/oco")
+    public <T> T sendNewOCOMarginOrder(String symbol, Side side, double quantity, double price,
+                                       double stopPrice, ReturnFormat format) throws Exception {
+        String params = getTimestampParam() + "&symbol=" + symbol + "&side=" + side + "&quantity=" + quantity
+                + "&price=" + price + "&stopPrice=" + stopPrice;
+        return returnOCOMarginOrder(sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT, params, POST_METHOD), format);
     }
 
-    /** Request to send new OCO margin order
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #side: BUY or SELL
-     * @param #quantity: used in the order es. 0.00542
-     * @param #price: used in the order, price of symbol es. BTC = {39016.21} BUSD
-     * @param #stopPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated, listClientOrderId, limitClientOrderId, limitIcebergQty, stopClientOrderId,
-     *stopLimitPrice, stopIcebergQty, stopLimitTimeInForce, newOrderRespType, sideEffectType, recvWindow),
-     * see official {@code "Binance"}'s documentation to implement in the right combination
+    /**
+     * Request to send new OCO margin order
+     *
+     * @param #symbol:     used in the order es. BTCBUSD
+     * @param #side:       BUY or SELL
+     * @param #quantity:   used in the order es. 0.00542
+     * @param #price:      used in the order, price of symbol es. BTC = {39016.21} BUSD
+     * @param #stopPrice:  used to SELL if price reaches the target price es. BTC = {40000} BUSD
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                             {@code "stopLimitTimeInForce"} -> stop limit time in force, constants available {@link TimeInForce} - [ENUM]
+     *                         </li>
+     *                         <li>
+     *                             {@code "listClientOrderId"} -> a unique Id for the entire orderList- [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "orderId"} -> a unique Id for the limit order - [LONG]
+     *                         </li>
+     *                         <li>
+     *                             {@code "stopClientOrderId"} -> a unique Id for the stop loss/stop loss limit leg - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "stopIcebergQty"} -> stop iceberg quantity - [DECIMAL]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newOrderRespType"} -> set the response {@code "JSON"} - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                             if not sent - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                         </li>
+     *                         <li>
+     *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                              - [ENUM, default NO_SIDE_EFFECT]
+     *                          </li>
+     *                         <li>
+     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
+     *                     </ul>
+     * @return new OCO margin order response as {@link OCOMarginOrder} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
-     * @return new OCO margin order response as {@link String}
-     * **/
-    public String sendNewOCOMarginOrder(String symbol, Side side, double quantity, double price, double stopPrice,
-                                        Params extraParams) throws Exception {
+     * Margin Account New OCO (TRADE)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/order/oco")
+    public OCOMarginOrder sendNewOCOMarginOrder(String symbol, Side side, double quantity, double price,
+                                                double stopPrice, Params extraParams) throws Exception {
+        return sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice, extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to send new OCO margin order
+     *
+     * @param #symbol:     used in the order es. BTCBUSD
+     * @param #side:       BUY or SELL
+     * @param #quantity:   used in the order es. 0.00542
+     * @param #price:      used in the order, price of symbol es. BTC = {39016.21} BUSD
+     * @param #stopPrice:  used to SELL if price reaches the target price es. BTC = {40000} BUSD
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                             {@code "stopLimitTimeInForce"} -> stop limit time in force, constants available {@link TimeInForce} - [ENUM]
+     *                         </li>
+     *                         <li>
+     *                             {@code "listClientOrderId"} -> a unique Id for the entire orderList- [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "orderId"} -> a unique Id for the limit order - [LONG]
+     *                         </li>
+     *                         <li>
+     *                             {@code "stopClientOrderId"} -> a unique Id for the stop loss/stop loss limit leg - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "stopIcebergQty"} -> stop iceberg quantity - [DECIMAL]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newOrderRespType"} -> set the response {@code "JSON"} - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                             if not sent - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                         </li>
+     *                         <li>
+     *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                              - [ENUM, default NO_SIDE_EFFECT]
+     *                          </li>
+     *                         <li>
+     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return new OCO margin order response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
+     * Margin Account New OCO (TRADE)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/order/oco")
+    public <T> T sendNewOCOMarginOrder(String symbol, Side side, double quantity, double price, double stopPrice,
+                                       Params extraParams, ReturnFormat format) throws Exception {
         String params = getTimestampParam() + "&symbol=" + symbol + "&side=" + side + "&quantity=" + quantity +
                 "&price=" + price + "&stopPrice=" + stopPrice;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT, params, POST_METHOD);
+        return returnOCOMarginOrder(sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT, params, POST_METHOD), format);
     }
 
-    /** Request to send new OCO margin order
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #side: BUY or SELL
-     * @param #quantity: used in the order es. 0.00542
-     * @param #price: used in the order, price of symbol es. BTC = {39016.21} BUSD
-     * @param #stopPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated, listClientOrderId, limitClientOrderId, limitIcebergQty, stopClientOrderId,
-     *stopLimitPrice, stopIcebergQty, stopLimitTimeInForce, newOrderRespType, sideEffectType, recvWindow),
-     * see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
-     * @return new OCO margin order response as {@link JSONObject}
-     * **/
-    public JSONObject sendJSONNewOCOMarginOrder(String symbol, Side side, double quantity, double price, double stopPrice,
-                                                Params extraParams) throws Exception {
-        return new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice, extraParams));
-    }
-
-    /** Request to send new OCO margin order
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #side: BUY or SELL
-     * @param #quantity: used in the order es. 0.00542
-     * @param #price: used in the order, price of symbol es. BTC = {39016.21} BUSD
-     * @param #stopPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated, listClientOrderId, limitClientOrderId, limitIcebergQty, stopClientOrderId,
-     *stopLimitPrice, stopIcebergQty, stopLimitTimeInForce, newOrderRespType, sideEffectType, recvWindow),
-     * see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
-     * @return new OCO margin order response as {@link OCOMarginOrder} object
-     * **/
-    public OCOMarginOrder sendObjectNewOCOMarginOrder(String symbol, Side side, double quantity, double price,
-                                                      double stopPrice, Params extraParams) throws Exception {
-        return new OCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice, extraParams)));
-    }
-
-    /** Request to send new OCO margin order
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #side: BUY or SELL
-     * @param #quantity: used in the order es. 0.00542
-     * @param #price: used in the order, price of symbol es. BTC = {39016.21} BUSD
-     * @param #stopPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD
-     * @param #stopLimitPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD (limit)
+    /**
+     * Request to send new OCO margin order
+     *
+     * @param #symbol:               used in the order es. BTCBUSD
+     * @param #side:                 BUY or SELL
+     * @param #quantity:             used in the order es. 0.00542
+     * @param #price:                used in the order, price of symbol es. BTC = {39016.21} BUSD
+     * @param #stopPrice:            used to SELL if price reaches the target price es. BTC = {40000} BUSD
+     * @param #stopLimitPrice:       used to SELL if price reaches the target price es. BTC = {40000} BUSD (limit)
      * @param #stopLimitTimeInForce: GTC, FOK or IOC
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
-     * @return new OCO margin order response as {@link String}
-     * **/
-    public String sendNewOCOMarginOrder(String symbol, Side side, double quantity, double price, double stopPrice,
-                                        double stopLimitPrice, String stopLimitTimeInForce) throws Exception {
+     * @return new OCO margin order response as {@link OCOMarginOrder} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     **/
+    @RequestPath(path = "/sapi/v1/margin/order/oco")
+    public OCOMarginOrder sendNewOCOMarginOrder(String symbol, Side side, double quantity, double price,
+                                                double stopPrice, double stopLimitPrice,
+                                                TimeInForce stopLimitTimeInForce) throws Exception {
+        return sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice, stopLimitPrice, stopLimitTimeInForce,
+                LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to send new OCO margin order
+     *
+     * @param #symbol:               used in the order es. BTCBUSD
+     * @param #side:                 BUY or SELL
+     * @param #quantity:             used in the order es. 0.00542
+     * @param #price:                used in the order, price of symbol es. BTC = {39016.21} BUSD
+     * @param #stopPrice:            used to SELL if price reaches the target price es. BTC = {40000} BUSD
+     * @param #stopLimitPrice:       used to SELL if price reaches the target price es. BTC = {40000} BUSD (limit)
+     * @param #stopLimitTimeInForce: GTC, FOK or IOC
+     * @param format:                return type formatter -> {@link ReturnFormat}
+     * @return new OCO margin order response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     **/
+    @RequestPath(path = "/sapi/v1/margin/order/oco")
+    public <T> T sendNewOCOMarginOrder(String symbol, Side side, double quantity, double price, double stopPrice,
+                                       double stopLimitPrice, TimeInForce stopLimitTimeInForce,
+                                       ReturnFormat format) throws Exception {
         String params = getTimestampParam() + "&symbol=" + symbol + "&side=" + side + "&quantity=" + quantity +
                 "&price=" + price + "&stopPrice=" + stopPrice + "&stopLimitPrice=" + stopLimitPrice +
                 "&stopLimitTimeInForce=" + stopLimitTimeInForce;
-        return sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT, params, POST_METHOD);
-    }
-
-    /** Request to send new OCO margin order
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #side: BUY or SELL
-     * @param #quantity: used in the order es. 0.00542
-     * @param #price: used in the order, price of symbol es. BTC = {39016.21} BUSD
-     * @param #stopPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD
-     * @param #stopLimitPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD (limit)
-     * @param #stopLimitTimeInForce: GTC, FOK or IOC
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
-     * @return new OCO margin order response as {@link JSONObject}
-     * **/
-    public JSONObject sendJSONNewOCOMarginOrder(String symbol, Side side, double quantity, double price, double stopPrice,
-                                                double stopLimitPrice, String stopLimitTimeInForce) throws Exception {
-        return new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice, stopLimitPrice, stopLimitTimeInForce));
+        return returnOCOMarginOrder(sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT, params, POST_METHOD), format);
     }
 
     /**
@@ -3214,15 +3336,60 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param #stopPrice:            used to SELL if price reaches the target price es. BTC = {40000} BUSD
      * @param #stopLimitPrice:       used to SELL if price reaches the target price es. BTC = {40000} BUSD (limit)
      * @param #stopLimitTimeInForce: GTC, FOK or IOC
-     * @return new OCO margin order response as {@link OCOMarginOrder} object
+     * @param extraParams:           additional params of the request, keys accepted are:
+     *                               <ul>
+     *                                   <li>
+     *                                       {@code "listClientOrderId"} -> a unique Id for the entire orderList- [STRING]
+     *                                   </li>
+     *                                   <li>
+     *                                       {@code "orderId"} -> a unique Id for the limit order - [LONG]
+     *                                   </li>
+     *                                   <li>
+     *                                       {@code "stopClientOrderId"} -> a unique Id for the stop loss/stop loss limit leg - [STRING]
+     *                                   </li>
+     *                                   <li>
+     *                                       {@code "stopIcebergQty"} -> stop iceberg quantity - [DECIMAL]
+     *                                   </li>
+     *                                   <li>
+     *                                       {@code "newOrderRespType"} -> set the response {@code "JSON"} - [STRING]
+     *                                   </li>
+     *                                   <li>
+     *                                       {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                                       if not sent - [STRING]
+     *                                   </li>
+     *                                   <li>
+     *                                       {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                                   </li>
+     *                                   <li>
+     *                                        {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                                        - [ENUM, default NO_SIDE_EFFECT]
+     *                                    </li>
+     *                                   <li>
+     *                                        {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                   </li>
+     *                               </ul>
+     * @return new OCO margin order response as {@link OCOMarginOrder} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
+     * Margin Account New OCO (TRADE)</a>
      **/
-    public OCOMarginOrder sendObjectNewOCOMarginOrder(String symbol, Side side, double quantity, double price,
-                                                      double stopPrice, double stopLimitPrice,
-                                                                  String stopLimitTimeInForce) throws Exception {
-        return new OCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice,
-                stopLimitPrice, stopLimitTimeInForce)));
+    @RequestPath(path = "/sapi/v1/margin/order/oco")
+    public OCOMarginOrder sendNewOCOMarginOrder(String symbol, Side side, double quantity, double price, double stopPrice,
+                                                double stopLimitPrice, TimeInForce stopLimitTimeInForce,
+                                                Params extraParams) throws Exception {
+        return sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice, stopLimitPrice, stopLimitTimeInForce,
+                extraParams, LIBRARY_OBJECT);
     }
 
     /**
@@ -3235,1352 +3402,4076 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param #stopPrice:            used to SELL if price reaches the target price es. BTC = {40000} BUSD
      * @param #stopLimitPrice:       used to SELL if price reaches the target price es. BTC = {40000} BUSD (limit)
      * @param #stopLimitTimeInForce: GTC, FOK or IOC
-     * @param extraParams:           additional params of the request
-     * @return new OCO margin order response as {@link String}
-     * @implSpec (keys accepted are isIsolated, listClientOrderId, limitClientOrderId, limitIcebergQty, stopClientOrderId,
-     *stopIcebergQty, newOrderRespType, sideEffectType, recvWindow),
-     * see official {@code "Binance"}'s documentation to implement in the right combination
+     * @param extraParams:           additional params of the request, keys accepted are:
+     *                               <ul>
+     *                                   <li>
+     *                                       {@code "listClientOrderId"} -> a unique Id for the entire orderList- [STRING]
+     *                                   </li>
+     *                                   <li>
+     *                                       {@code "orderId"} -> a unique Id for the limit order - [LONG]
+     *                                   </li>
+     *                                   <li>
+     *                                       {@code "stopClientOrderId"} -> a unique Id for the stop loss/stop loss limit leg - [STRING]
+     *                                   </li>
+     *                                   <li>
+     *                                       {@code "stopIcebergQty"} -> stop iceberg quantity - [DECIMAL]
+     *                                   </li>
+     *                                   <li>
+     *                                       {@code "newOrderRespType"} -> set the response {@code "JSON"} - [STRING]
+     *                                   </li>
+     *                                   <li>
+     *                                       {@code "newClientOrderId"} -> a unique id among open orders. Automatically generated
+     *                                       if not sent - [STRING]
+     *                                   </li>
+     *                                   <li>
+     *                                       {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                                   </li>
+     *                                   <li>
+     *                                        {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
+     *                                        - [ENUM, default NO_SIDE_EFFECT]
+     *                                    </li>
+     *                                   <li>
+     *                                        {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                   </li>
+     *                               </ul>
+     * @param format:                return type formatter -> {@link ReturnFormat}
+     * @return new OCO margin order response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
+     * Margin Account New OCO (TRADE)</a>
      **/
-    public String sendNewOCOMarginOrder(String symbol, Side side, double quantity, double price, double stopPrice,
-                                        double stopLimitPrice, String stopLimitTimeInForce,
-                                        Params extraParams) throws Exception {
+    @RequestPath(path = "/sapi/v1/margin/order/oco")
+    public <T> T sendNewOCOMarginOrder(String symbol, Side side, double quantity, double price, double stopPrice,
+                                       double stopLimitPrice, TimeInForce stopLimitTimeInForce, Params extraParams,
+                                       ReturnFormat format) throws Exception {
         String params = getTimestampParam() + "&symbol=" + symbol + "&side=" + side + "&quantity=" + quantity +
                 "&price=" + price + "&stopPrice=" + stopPrice + "&stopLimitPrice=" + stopLimitPrice +
                 "&stopLimitTimeInForce=" + stopLimitTimeInForce;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT, params, POST_METHOD);
+        return returnOCOMarginOrder(sendSignedRequest(MARGIN_OCO_ORDER_ENDPOINT, params, POST_METHOD), format);
     }
 
     /**
-     * Request to send new OCO margin order
+     * Method to create an OCO margin order
      *
-     * @param #symbol:               used in the order es. BTCBUSD
-     * @param #side:                 BUY or SELL
-     * @param #quantity:             used in the order es. 0.00542
-     * @param #price:                used in the order, price of symbol es. BTC = {39016.21} BUSD
-     * @param #stopPrice:            used to SELL if price reaches the target price es. BTC = {40000} BUSD
-     * @param #stopLimitPrice:       used to SELL if price reaches the target price es. BTC = {40000} BUSD (limit)
-     * @param #stopLimitTimeInForce: GTC, FOK or IOC
-     * @param extraParams:           additional params of the request
-     * @return new OCO margin order response as {@link JSONObject}
-     * @implSpec (keys accepted are isIsolated, listClientOrderId, limitClientOrderId, limitIcebergQty, stopClientOrderId,
-     *stopIcebergQty, newOrderRespType, sideEffectType, recvWindow),
-     * see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
+     * @param OCOMarginOrderResponse: obtained from Binance's response
+     * @param format:                 return type formatter -> {@link ReturnFormat}
+     * @return OCO margin order as {@code "format"} defines
      **/
-    public JSONObject sendJSONNewOCOMarginOrder(String symbol, Side side, double quantity, double price, double stopPrice,
-                                                double stopLimitPrice, String stopLimitTimeInForce,
-                                                Params extraParams) throws Exception {
-        return new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice, stopLimitPrice,
-                stopLimitTimeInForce, extraParams));
+    @Returner
+    private <T> T returnOCOMarginOrder(String OCOMarginOrderResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(OCOMarginOrderResponse);
+            case LIBRARY_OBJECT:
+                return (T) new OCOMarginOrder(new JSONObject(OCOMarginOrderResponse));
+            default:
+                return (T) OCOMarginOrderResponse;
+        }
     }
 
-    /** Request to send new OCO margin order
+    /**
+     * Request to get cancel all a margin orders
+     *
+     * @param symbol: symbol used in the orders es. BTCBUSD
+     * @return cancel all margin order response as {@link OpenMarginOrders} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">
+     * Margin Account Cancel all Open Orders on a Symbol (TRADE)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/openOrders")
+    public OpenMarginOrders cancelAllMarginOrders(String symbol) throws Exception {
+        return cancelAllMarginOrders(symbol, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get cancel all a margin orders
+     *
+     * @param symbol: symbol used in the orders es. BTCBUSD
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return cancel all margin order response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">
+     * Margin Account Cancel all Open Orders on a Symbol (TRADE)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/openOrders")
+    public <T> T cancelAllMarginOrders(String symbol, ReturnFormat format) throws Exception {
+        return returnOpenMarginOrders(sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, getTimestampParam() +
+                "&symbol=" + symbol, DELETE_METHOD), format);
+    }
+
+    /**
+     * Request to get cancel all a margin orders
+     *
+     * @param symbol:      symbol used in the orders es. BTCBUSD
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                             {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                         </li>
+     *                         <li>
+     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
+     *                     </ul>
+     * @return cancel all margin order response as {@link OpenMarginOrders} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">
+     * Margin Account Cancel all Open Orders on a Symbol (TRADE)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/openOrders")
+    public OpenMarginOrders cancelAllMarginOrders(String symbol, Params extraParams) throws Exception {
+        return cancelAllMarginOrders(symbol, extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get cancel all a margin orders
+     *
+     * @param symbol:      symbol used in the orders es. BTCBUSD
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
+     * @param format:           return type formatter -> {@link ReturnFormat}
+     * @return cancel all margin order response as {@code "format"} defines
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">
+     * Margin Account Cancel all Open Orders on a Symbol (TRADE)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/openOrders")
+    public <T> T cancelAllMarginOrders(String symbol, Params extraParams, ReturnFormat format) throws Exception {
+        String params = getTimestampParam() + "&symbol=" + symbol;
+        params = apiRequest.encodeAdditionalParams(params, extraParams);
+        return returnOpenMarginOrders(sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, params, DELETE_METHOD), format);
+    }
+
+    /**
+     * Method to create an open margin orders list
+     *
+     * @param ordersResponse: obtained from Binance's response
+     * @param format:         return type formatter -> {@link ReturnFormat}
+     * @return open margin orders as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnOpenMarginOrders(String ordersResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(ordersResponse);
+            case LIBRARY_OBJECT:
+                return (T) new OpenMarginOrders(new JSONArray(ordersResponse));
+            default:
+                return (T) ordersResponse;
+        }
+    }
+
+    /**
+     * Request to get cross margin transfer history <br>
+     * Any params required
+     *
+     * @return cross margin transfer history response as {@link TransfersHistoryList} custom object
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
+     * Get Cross Margin Transfer History (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/transfer")
+    public TransfersHistoryList getCrossMarginTransfersHistory() throws Exception {
+        return getCrossMarginTransfersHistory(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get cross margin transfer history
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return cross margin transfer history response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
+     * Get Cross Margin Transfer History (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/transfer")
+    public <T> T getCrossMarginTransfersHistory(ReturnFormat format) throws Exception {
+        return returnTransfersHistoryList(sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, getTimestampParam(),
+                GET_METHOD), format);
+    }
+
+    /**
+     * Request to get cross margin transfer history
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "asset"} -> asset value - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "type"} -> transfer type, constants available {@link TransferType} - [ENUM]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate transfers records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate transfers records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page. Start from 1 - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "archived"} -> set to true for archived data from 6 months ago - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return cross margin transfer history response as {@link TransfersHistoryList} custom object
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
+     * Get Cross Margin Transfer History (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/transfer")
+    public TransfersHistoryList getCrossMarginTransfersHistory(Params extraParams) throws Exception {
+        return getCrossMarginTransfersHistory(extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get cross margin transfer history
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "asset"} -> asset value - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "type"} -> transfer type, constants available {@link TransferType} - [ENUM]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate transfers records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate transfers records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page. Start from 1 - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "archived"} -> set to true for archived data from 6 months ago - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @return cross margin transfer history response as {@code "format"} defines
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
+     * Get Cross Margin Transfer History (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/transfer")
+    public <T> T getCrossMarginTransfersHistory(Params extraParams, ReturnFormat format) throws Exception {
+        return returnTransfersHistoryList(sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET_METHOD), format);
+    }
+
+    /**
+     * Request to get cross margin transfer history
+     *
+     * @param asset: asset used to request es BTC
+     * @return cross margin transfer history response as {@link TransfersHistoryList} custom object
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
+     * Get Cross Margin Transfer History (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/transfer")
+    public TransfersHistoryList getCrossMarginTransfersHistory(String asset) throws Exception {
+        return getCrossMarginTransfersHistory(asset, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get cross margin transfer history
+     *
+     * @param asset:  asset used to request es BTC
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return cross margin transfer history response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
+     * Get Cross Margin Transfer History (USER_DATA)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/transfer")
+    public <T> T getCrossMarginTransfersHistory(String asset, ReturnFormat format) throws Exception {
+        return returnTransfersHistoryList(sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, getTimestampParam()
+                + "&asset=" + asset, GET_METHOD), format);
+    }
+
+    /**
+     * Request to get cross margin transfer history
+     *
+     * @param asset:       asset used to request es BTC
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "type"} -> transfer type, constants available {@link TransferType} - [ENUM]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate transfers records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate transfers records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page. Start from 1 - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "archived"} -> set to true for archived data from 6 months ago - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return cross margin transfer history response as {@link TransfersHistoryList} custom object
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
+     * Get Cross Margin Transfer History (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/transfer")
+    public TransfersHistoryList getCrossMarginTransferHistory(String asset, Params extraParams) throws Exception {
+        return getCrossMarginTransferHistory(asset, extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get cross margin transfer history
+     *
+     * @param asset:       asset used to request es BTC
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "type"} -> transfer type, constants available {@link TransferType} - [ENUM]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate transfers records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate transfers records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page. Start from 1 - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "archived"} -> set to true for archived data from 6 months ago - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return cross margin transfer history response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
+     * Get Cross Margin Transfer History (USER_DATA)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/transfer")
+    public <T> T getCrossMarginTransferHistory(String asset, Params extraParams, ReturnFormat format) throws Exception {
+        String params = getTimestampParam() + "&asset=" + asset;
+        params = apiRequest.encodeAdditionalParams(params, extraParams);
+        return returnTransfersHistoryList(sendSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, params, GET_METHOD), format);
+    }
+
+    /**
+     * Method to create a transfers history list
+     *
+     * @param transfersHistoryResponse: obtained from Binance's response
+     * @param format:                   return type formatter -> {@link ReturnFormat}
+     * @return transfers history list as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnTransfersHistoryList(String transfersHistoryResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(transfersHistoryResponse);
+            case LIBRARY_OBJECT:
+                return (T) new TransfersHistoryList(new JSONObject(transfersHistoryResponse));
+            default:
+                return (T) transfersHistoryResponse;
+        }
+    }
+
+    /**
+     * Request to get query loan record
+     *
+     * @param asset: asset used to request es BTC
+     * @return query loan record as {@link LoansList} custom object
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
+     * Query Loan Record (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/loan")
+    public LoansList getLoansList(String asset) throws Exception {
+        return getLoansList(asset, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get query loan record
+     *
+     * @param asset:  asset used to request es BTC
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return query loan record as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
+     * Query Loan Record (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/loan")
+    public <T> T getLoansList(String asset, ReturnFormat format) throws Exception {
+        return returnLoansList(sendSignedRequest(MARGIN_LOAN_ENDPOINT, getTimestampParam() + "&asset=" + asset,
+                GET_METHOD), format);
+    }
+
+    /**
+     * Request to get query loan record
+     *
+     * @param asset:       asset used to request es BTC
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "isolatedSymbol"} -> isolated symbol - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "txId"} -> the tranId in POST /sapi/v1/margin/loan - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate loans records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate loans records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page. Start from 1 - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "archived"} -> set to true for archived data from 6 months ago - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return query loan record as {@link LoansList} custom object
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
+     * Query Loan Record (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/loan")
+    public LoansList getLoansList(String asset, Params extraParams) throws Exception {
+        return getLoansList(asset, extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get query loan record
+     *
+     * @param asset:       asset used to request es BTC
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "isolatedSymbol"} -> isolated symbol - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "txId"} -> the tranId in POST /sapi/v1/margin/loan - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate loans records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate loans records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page. Start from 1 - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "archived"} -> set to true for archived data from 6 months ago - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @return query loan record as {@code "format"} defines
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
+     * Query Loan Record (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/loan")
+    public <T> T getLoansList(String asset, Params extraParams, ReturnFormat format) throws Exception {
+        return returnLoansList(sendSignedRequest(MARGIN_LOAN_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&asset=" + asset, extraParams),
+                GET_METHOD), format);
+    }
+
+    /**
+     * Method to create a loans list
+     *
+     * @param loansResponse: obtained from Binance's response
+     * @param format:        return type formatter -> {@link ReturnFormat}
+     * @return loans list as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnLoansList(String loansResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(loansResponse);
+            case LIBRARY_OBJECT:
+                return (T) new LoansList(new JSONObject(loansResponse));
+            default:
+                return (T) loansResponse;
+        }
+    }
+
+    /**
+     * Request to get query repay record
+     *
+     * @param asset: asset used to request es BTC
+     * @return query repay record as {@link RepaysList} custom object
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
+     * Query Repay Record (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/repay")
+    public RepaysList getRepaysList(String asset) throws Exception {
+        return getRepaysList(asset, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get query repay record
+     *
+     * @param asset: asset used to request es BTC
+     * @return query repay record as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
+     * Query Repay Record (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/repay")
+    public <T> T getRepaysList(String asset, ReturnFormat format) throws Exception {
+        return returnRepaysList(sendSignedRequest(MARGIN_REPAY_ENDPOINT, getTimestampParam() + "&asset=" + asset,
+                GET_METHOD), format);
+    }
+
+    /**
+     * Request to get query repay record
+     *
+     * @param asset:       asset used to request es BTC
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "isolatedSymbol"} -> isolated symbol - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "txId"} -> the tranId in POST /sapi/v1/margin/loan - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate repays records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate repays records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page. Start from 1 - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "archived"} -> set to true for archived data from 6 months ago - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return query repay record as {@link RepaysList} custom object
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
+     * Query Repay Record (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/repay")
+    public RepaysList getRepaysList(String asset, Params extraParams) throws Exception {
+        return getRepaysList(asset, extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get query repay record
+     *
+     * @param asset:       asset used to request es BTC
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "isolatedSymbol"} -> isolated symbol - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "txId"} -> the tranId in POST /sapi/v1/margin/loan - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate repays records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate repays records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page. Start from 1 - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "archived"} -> set to true for archived data from 6 months ago - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @return query repay record as {@code "format"} defines
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
+     * Query Repay Record (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/repay")
+    public <T> T getRepaysList(String asset, Params extraParams, ReturnFormat format) throws Exception {
+        return returnRepaysList(sendSignedRequest(MARGIN_REPAY_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&asset=" + asset, extraParams),
+                GET_METHOD), format);
+    }
+
+    /**
+     * Method to create a repays list
+     *
+     * @param repaysResponse: obtained from Binance's response
+     * @param format:         return type formatter -> {@link ReturnFormat}
+     * @return repays list as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnRepaysList(String repaysResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(repaysResponse);
+            case LIBRARY_OBJECT:
+                return (T) new RepaysList(new JSONObject(repaysResponse));
+            default:
+                return (T) repaysResponse;
+        }
+    }
+
+    /**
+     * Request to get interest history <br>
+     * Any params required
+     *
+     * @return interest history response as {@link InterestHistoryList} custom object
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
+     * Get Interest History (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/interestHistory")
+    public InterestHistoryList getInterestHistory() throws Exception {
+        return getInterestHistory(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get interest history
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return interest history response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
+     * Get Interest History (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/interestHistory")
+    public <T> T getInterestHistory(ReturnFormat format) throws Exception {
+        return returnInterestHistoryList(sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT, getTimestampParam(),
+                GET_METHOD), format);
+    }
+
+    /**
+     * Request to get interest history
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "asset"} -> asset value - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "isolatedSymbol"} -> isolated symbol - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "txId"} -> the tranId in POST /sapi/v1/margin/loan - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate interest records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate interest records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page. Start from 1 - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "archived"} -> set to true for archived data from 6 months ago - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return interest history response as {@link InterestHistoryList} custom object
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
+     * Get Interest History (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/interestHistory")
+    public InterestHistoryList getInterestHistory(Params extraParams) throws Exception {
+        return getInterestHistory(extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get interest history
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "asset"} -> asset value - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "isolatedSymbol"} -> isolated symbol - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "txId"} -> the tranId in POST /sapi/v1/margin/loan - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate interest records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate interest records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page. Start from 1 - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "archived"} -> set to true for archived data from 6 months ago - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @return interest history response as {@code "format"} defines
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
+     * Get Interest History (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/interestHistory")
+    public <T> T getInterestHistory(Params extraParams, ReturnFormat format) throws Exception {
+        return returnInterestHistoryList(sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET_METHOD), format);
+    }
+
+    /**
+     * Request to get interest history
+     *
+     * @param asset: asset used to request es BTC
+     * @return interest history response as {@link InterestHistoryList} custom object
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
+     * Get Interest History (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/interestHistory")
+    public InterestHistoryList getInterestHistory(String asset) throws Exception {
+        return getInterestHistory(asset, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get interest history
+     *
+     * @param asset:  asset used to request es BTC
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return interest history response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
+     * Get Interest History (USER_DATA)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/interestHistory")
+    public <T> T getInterestHistory(String asset, ReturnFormat format) throws Exception {
+        return returnInterestHistoryList(sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT, getTimestampParam()
+                + "&asset=" + asset, GET_METHOD), format);
+    }
+
+    /**
+     * Request to get interest history
+     *
+     * @param asset:       asset used to request es BTC
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "isolatedSymbol"} -> isolated symbol - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "txId"} -> the tranId in POST /sapi/v1/margin/loan - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate interest records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate interest records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page. Start from 1 - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "archived"} -> set to true for archived data from 6 months ago - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return interest history response as {@link InterestHistoryList} custom object
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
+     * Get Interest History (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/interestHistory")
+    public InterestHistoryList getInterestHistory(String asset, Params extraParams) throws Exception {
+        return getInterestHistory(asset, extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get interest history
+     *
+     * @param asset:       asset used to request es BTC
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "isolatedSymbol"} -> isolated symbol - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "txId"} -> the tranId in POST /sapi/v1/margin/loan - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate interest records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate interest records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page. Start from 1 - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "archived"} -> set to true for archived data from 6 months ago - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @return interest history response as {@code "format"} defines
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
+     * Get Interest History (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/interestHistory")
+    public <T> T getInterestHistory(String asset, Params extraParams, ReturnFormat format) throws Exception {
+        return returnInterestHistoryList(sendSignedRequest(MARGIN_INTEREST_HISTORY_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&asset=" + asset, extraParams),
+                GET_METHOD), format);
+    }
+
+    /**
+     * Method to create an interests list
+     *
+     * @param interestHistoryListResponse: obtained from Binance's response
+     * @param format:                      return type formatter -> {@link ReturnFormat}
+     * @return interests list as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnInterestHistoryList(String interestHistoryListResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(interestHistoryListResponse);
+            case LIBRARY_OBJECT:
+                return (T) new InterestHistoryList(new JSONObject(interestHistoryListResponse));
+            default:
+                return (T) interestHistoryListResponse;
+        }
+    }
+
+    /**
+     * Request to get margin force liquidation <br>
+     * Any params required
+     *
+     * @return margin force liquidation response as {@link ForceLiquidationList} custom object
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
+     * Get Force Liquidation Record (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    public ForceLiquidationList getForceLiquidation() throws Exception {
+        return getForceLiquidation(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get margin force liquidation
+     * * @param format:            return type formatter -> {@link ReturnFormat}
+     *
+     * @return margin force liquidation response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
+     * Get Force Liquidation Record (USER_DATA)</a>
+     **/
+    public <T> T getForceLiquidation(ReturnFormat format) throws Exception {
+        return returnForceLiquidationList(sendSignedRequest(MARGIN_FORCE_LIQUIDATION_ENDPOINT, getTimestampParam(),
+                GET_METHOD), format);
+    }
+
+    /**
+     * Request to get margin force liquidation
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "isolatedSymbol"} -> isolated symbol - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate interest records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate interest records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page. Start from 1 - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "archived"} -> set to true for archived data from 6 months ago - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return margin force liquidation response as {@link ForceLiquidationList} custom object
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
+     * Get Force Liquidation Record (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/forceLiquidationRec")
+    public ForceLiquidationList getForceLiquidation(Params extraParams) throws Exception {
+        return getForceLiquidation(extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get margin force liquidation
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "isolatedSymbol"} -> isolated symbol - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate interest records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate interest records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page. Start from 1 - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "archived"} -> set to true for archived data from 6 months ago - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return margin force liquidation response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
+     * Get Force Liquidation Record (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/forceLiquidationRec")
+    public <T> T getForceLiquidation(Params extraParams, ReturnFormat format) throws Exception {
+        return returnForceLiquidationList(sendSignedRequest(MARGIN_FORCE_LIQUIDATION_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET_METHOD), format);
+    }
+
+    /**
+     * Method to create a force liquidation list
+     *
+     * @param forceLiquidationListResponse: obtained from Binance's response
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @return force liquidation list as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnForceLiquidationList(String forceLiquidationListResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(forceLiquidationListResponse);
+            case LIBRARY_OBJECT:
+                return (T) new ForceLiquidationList(new JSONObject(forceLiquidationListResponse));
+            default:
+                return (T) forceLiquidationListResponse;
+        }
+    }
+
+    /** Request to get cross margin account details <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
+     *     Query Cross Margin Account Details (USER_DATA)</a>
+     * @return cross margin account details response as {@link CrossMarginAccountDetails} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/account")
+    public CrossMarginAccountDetails getCrossMarginAccountDetails() throws Exception {
+        return getCrossMarginAccountDetails(LIBRARY_OBJECT);
+    }
+
+    /** Request to get cross margin account details
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
+     *     Query Cross Margin Account Details (USER_DATA)</a>
+     * @return cross margin account details response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/account")
+    public <T> T getCrossMarginAccountDetails(ReturnFormat format) throws Exception {
+        return returnCrossMarginAccountDetails(sendSignedRequest(CROSS_MARGIN_ACCOUNT_DETAILS_ENDPOINT,
+                getTimestampParam(), GET_METHOD), format);
+    }
+
+    /**
+     * Request to get cross margin account details
+     *
+     * @param recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @return cross margin account details response as {@link CrossMarginAccountDetails} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
+     * Query Cross Margin Account Details (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/account")
+    public CrossMarginAccountDetails getCrossMarginAccountDetails(long recvWindow) throws Exception {
+        return getCrossMarginAccountDetails(recvWindow, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get cross margin account details
+     *
+     * @param recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return cross margin account details response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
+     * Query Cross Margin Account Details (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/account")
+    public <T> T getCrossMarginAccountDetails(long recvWindow, ReturnFormat format) throws Exception {
+        return returnCrossMarginAccountDetails(sendSignedRequest(CROSS_MARGIN_ACCOUNT_DETAILS_ENDPOINT,
+                getTimestampParam() + "&recvWindow=" + recvWindow, GET_METHOD), format);
+    }
+
+    /**
+     * Method to create a cross margin account object
+     *
+     * @param crossAccountResponse: obtained from Binance's response
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @return cross margin account object as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnCrossMarginAccountDetails(String crossAccountResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(crossAccountResponse);
+            case LIBRARY_OBJECT:
+                return (T) new CrossMarginAccountDetails(new JSONObject(crossAccountResponse));
+            default:
+                return (T) crossAccountResponse;
+        }
+    }
+
+    /** Request to get margin status order
+     * @param symbol: used in the order es. BTCBUSD
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data">
+     *    Query Margin Account's Order (USER_DATA)</a>
+     * @return margin status order response as {@link MarginOrderStatus} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public MarginOrderStatus getMarginOrderStatus(String symbol) throws Exception {
+        return getMarginOrderStatus(symbol, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get margin status order
+     *
+     * @param symbol: used in the order es. BTCBUSD
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return margin status order response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data">
+     * Query Margin Account's Order (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T getMarginOrderStatus(String symbol, ReturnFormat format) throws Exception {
+        return returnMarginOrderStatus(sendSignedRequest(MARGIN_ORDER_ENDPOINT, getTimestampParam() + "&symbol="
+                + symbol, GET_METHOD), format);
+    }
+
+    /** Request to get margin status order
+     * @param symbol: used in the order es. BTCBUSD
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                           {@code "orderId"} -> order identifier - [LONG]
+     *                       </li>
+     *                       <li>
+     *                           {@code "origClientOrderId"} -> orig client order identifier - [STRING]
+     *                       </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data">
+     *    Query Margin Account's Order (USER_DATA)</a>
+     * @return margin status order response as {@link MarginOrderStatus} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public MarginOrderStatus getMarginOrderStatus(String symbol, Params extraParams) throws Exception {
+        return getMarginOrderStatus(symbol, extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get margin status order
+     *
+     * @param symbol:      used in the order es. BTCBUSD
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                             {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                         </li>
+     *                         <li>
+     *                             {@code "orderId"} -> order identifier - [LONG]
+     *                         </li>
+     *                         <li>
+     *                             {@code "origClientOrderId"} -> orig client order identifier - [STRING]
+     *                         </li>
+     *                         <li>
+     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return margin status order response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data">
+     * Query Margin Account's Order (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/order")
+    public <T> T getMarginOrderStatus(String symbol, Params extraParams, ReturnFormat format) throws Exception {
+        return returnMarginOrderStatus(sendSignedRequest(MARGIN_ORDER_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol, extraParams),
+                GET_METHOD), format);
+    }
+
+    /**
+     * Method to create a margin order status object
+     *
+     * @param marginOrderStatusResponse: obtained from Binance's response
+     * @param format:                    return type formatter -> {@link ReturnFormat}
+     * @return margin order status object as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnMarginOrderStatus(String marginOrderStatusResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(marginOrderStatusResponse);
+            case LIBRARY_OBJECT:
+                return (T) new MarginOrderStatus(new JSONObject(marginOrderStatusResponse));
+            default:
+                return (T) marginOrderStatusResponse;
+        }
+    }
+
+    /** Request to get all margin open orders <br>
+     * Any params required
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
+     *     Query Margin Account's Open Orders (USER_DATA)</a>
+     * @return all margin open orders as {@link ArrayList} of {@link MarginOrderStatus}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/openOrders")
+    public ArrayList<MarginOrderStatus> getAllOpenOrders() throws Exception {
+        return getAllOpenOrders(LIBRARY_OBJECT);
+    }
+
+    /** Request to get all margin open orders 
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
+     *     Query Margin Account's Open Orders (USER_DATA)</a>
+     * @return all margin open orders as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/openOrders")
+    public <T> T getAllOpenOrders(ReturnFormat format) throws Exception {
+        return returnAllOrders(sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, getTimestampParam(), GET_METHOD), format);
+    }
+
+    /** Request to get all margin open orders on a symbol
      * @param #symbol: used in the order es. BTCBUSD
-     * @param #side: BUY or SELL
-     * @param #quantity: used in the order es. 0.00542
-     * @param #price: used in the order, price of symbol es. BTC = {39016.21} BUSD
-     * @param #stopPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD
-     * @param #stopLimitPrice: used to SELL if price reaches the target price es. BTC = {40000} BUSD (limit)
-     * @param #stopLimitTimeInForce: GTC, FOK or IOC
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated, listClientOrderId, limitClientOrderId, limitIcebergQty, stopClientOrderId,
-     *stopIcebergQty, newOrderRespType, sideEffectType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
-     * @return new OCO margin order response as {@link OCOMarginOrder} object
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
+     *     Query Margin Account's Open Orders (USER_DATA)</a>
+     * @return all margin open orders as {@link ArrayList} of {@link MarginOrderStatus}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public OCOMarginOrder sendObjectNewOCOMarginOrder(String symbol, Side side, double quantity, double price,
-                                                      double stopPrice, double stopLimitPrice,
-                                                      String stopLimitTimeInForce, Params extraParams) throws Exception {
-        return new OCOMarginOrder(new JSONObject(sendNewOCOMarginOrder(symbol, side, quantity, price, stopPrice,
-                stopLimitPrice, stopLimitTimeInForce, extraParams)));
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/openOrders")
+    public ArrayList<MarginOrderStatus> getAllOpenOrders(String symbol) throws Exception {
+        return getAllOpenOrders(symbol, LIBRARY_OBJECT);
     }
 
-    /** Method to get tranId value
-     * @param stringSource: obtained from {@code "Binance"}'s request
-     * @return tranId value as long
+    /**
+     * Request to get all margin open orders on a symbol
+     *
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param format:  return type formatter -> {@link ReturnFormat}
+     * @return all margin open orders as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
+     * Query Margin Account's Open Orders (USER_DATA)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/openOrders")
+    public <T> T getAllOpenOrders(String symbol, ReturnFormat format) throws Exception {
+        return returnAllOrders(sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, getTimestampParam() + "&symbol=" +
+                symbol, GET_METHOD), format);
+    }
+
+    /** Request to get all margin open orders
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "symbol"} -> symbol value - [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
+     * @apiNote see the official documentation at:
+     * <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
+     *     Query Margin Account's Open Orders (USER_DATA)</a>
+     * @return all margin open orders as {@link ArrayList} of {@link MarginOrderStatus}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    private long getTransactionId(String stringSource){
-        JSONObject transaction = new JSONObject(stringSource);
-        return transaction.getLong("tranId");
+    @RequestPath(path = "/sapi/v1/margin/openOrders")
+    public ArrayList<MarginOrderStatus> getAllOpenOrders(Params extraParams) throws Exception {
+        return getAllOpenOrders(extraParams, LIBRARY_OBJECT);
+    }
+
+    /** Request to get all margin open orders
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "symbol"} -> symbol value - [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at:
+     * <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
+     *     Query Margin Account's Open Orders (USER_DATA)</a>
+     * @return all margin open orders as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/openOrders")
+    public <T> T getAllOpenOrders(Params extraParams, ReturnFormat format) throws Exception {
+        return returnAllOrders(sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET_METHOD), format);
+    }
+
+    /** Request to get all margin open orders on a symbol
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
+     *     Query Margin Account's Open Orders (USER_DATA)</a>
+     * @return all margin open orders as {@link ArrayList} of {@link MarginOrderStatus}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/openOrders")
+    public ArrayList<MarginOrderStatus> getAllOpenOrders(String symbol, long recvWindow) throws Exception {
+        return getAllOpenOrders(symbol, recvWindow, LIBRARY_OBJECT);
+    }
+
+    /** Request to get all margin open orders on a symbol
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
+     *     Query Margin Account's Open Orders (USER_DATA)</a>
+     * @return all margin open orders as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/openOrders")
+    public <T> T getAllOpenOrders(String symbol, long recvWindow, ReturnFormat format) throws Exception {
+        return returnAllOrders(sendSignedRequest(MARGIN_OPEN_ORDERS_ENDPOINT, getTimestampParam() +
+                "&symbol=" + symbol + "&recvWindow=" + recvWindow, GET_METHOD), format);
+    }
+
+    /** Request to get all margin orders on a symbol
+     * @param #symbol: used in the order es. BTCBUSD
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data">
+     *     Query Margin Account's All Orders (USER_DATA)</a>
+     * @return all margin orders as {@link ArrayList} of {@link MarginOrderStatus}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/allOrders")
+    public ArrayList<MarginOrderStatus> getAllOrders(String symbol) throws Exception {
+        return getAllOrders(symbol, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get all margin orders on a symbol
+     *
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param format:  return type formatter -> {@link ReturnFormat}
+     * @return all margin orders as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data">
+     * Query Margin Account's All Orders (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/allOrders")
+    public <T> T getAllOrders(String symbol, ReturnFormat format) throws Exception {
+        return returnAllOrders(sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT, getTimestampParam() +
+                "&symbol=" + symbol, GET_METHOD), format);
+    }
+
+    /** Request to get all margin orders on a symbol
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul> 
+     *                          <li>
+     *                                {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate trades from INCLUSIVE - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate trades until INCLUSIVE - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                 {@code "orderId"} -> order identifier - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> limit results - [INT, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data">
+     *     Query Margin Account's All Orders (USER_DATA)</a>
+     * @return all margin orders as {@link ArrayList} of {@link MarginOrderStatus}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/allOrders")
+    public ArrayList<MarginOrderStatus> getAllOrders(String symbol, Params extraParams) throws Exception {
+        return getAllOrders(symbol, extraParams, LIBRARY_OBJECT);
+    }
+
+    /** Request to get all margin orders on a symbol
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul> 
+     *                          <li>
+     *                                {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate trades from INCLUSIVE - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate trades until INCLUSIVE - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                 {@code "orderId"} -> order identifier - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> limit results - [INT, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data">
+     *     Query Margin Account's All Orders (USER_DATA)</a>
+     * @return all margin orders as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/allOrders")
+    public <T> T getAllOrders(String symbol, Params extraParams, ReturnFormat format) throws Exception {
+        return returnAllOrders(sendSignedRequest(MARGIN_ALL_ORDERS_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol, extraParams),
+                GET_METHOD), format);
+    }
+
+    /**
+     * Method to create an all open margin orders list
+     *
+     * @param ordersResponse: obtained from Binance's response
+     * @param format:         return type formatter -> {@link ReturnFormat}
+     * @return all open margin orders as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnAllOrders(String ordersResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(ordersResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<MarginOrderStatus> marginOrderStatus = new ArrayList<>();
+                JSONArray jOrders = new JSONArray(ordersResponse);
+                for (int j = 0; j < jOrders.length(); j++)
+                    marginOrderStatus.add(new MarginOrderStatus(jOrders.getJSONObject(j)));
+                return (T) marginOrderStatus;
+            default:
+                return (T) ordersResponse;
+        }
     }
 
     /** Request to cancel OCO margin order
      * @param #symbol: used in the order es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade</a>
-     * @return cancel OCO margin order response as {@link String}
+     *     Margin Account Cancel OCO (TRADE)</a>
+     * @return cancel OCO margin order response as {@link ComposedMarginOrderDetails} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String cancelOCOMarginOrder(String symbol, long orderListId) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&orderListId=" + orderListId;
-        return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, DELETE_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/orderList")
+    public ComposedMarginOrderDetails cancelOCOMarginOrder(String symbol, long orderListId) throws Exception {
+        return cancelOCOMarginOrder(symbol, orderListId, LIBRARY_OBJECT);
     }
 
     /** Request to cancel OCO margin order
      * @param #symbol: used in the order es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade</a>
-     * @return cancel OCO margin order response as {@link JSONObject}
+     *     Margin Account Cancel OCO (TRADE)</a>
+     * @return cancel OCO margin order response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONObject cancelJSONOCOMarginOrder(String symbol, long orderListId) throws Exception {
-        return new JSONObject(cancelOCOMarginOrder(symbol, orderListId));
-    }
-
-    /** Request to cancel OCO margin order
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #orderListId: identifier od order list es. 1
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade</a>
-     * @return cancel OCO margin order response as {@link ComposedMarginOrderDetails} object
-     * **/
-    public ComposedMarginOrderDetails cancelObjectOCOMarginOrder(String symbol, long orderListId) throws Exception {
-        return new ComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, orderListId)));
+    @RequestPath(path = "/sapi/v1/margin/orderList")
+    public <T> T cancelOCOMarginOrder(String symbol, long orderListId, ReturnFormat format) throws Exception {
+        return returnComposedMarginOrderDetails(sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, getTimestampParam()
+                + "&symbol=" + symbol + "&orderListId=" + orderListId, DELETE_METHOD), format);
     }
 
     /** Request to cancel OCO margin order
      * @param #symbol: used in the order es. BTCBUSD
      * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade</a>
-     * @return cancel OCO margin order response as {@link String}
+     *     Margin Account Cancel OCO (TRADE)</a>
+     * @return cancel OCO margin order response as {@link ComposedMarginOrderDetails} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String cancelOCOMarginOrder(String symbol, String listClientOrderId) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&listClientOrderId=" + listClientOrderId;
-        return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, DELETE_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/orderList")
+    public ComposedMarginOrderDetails cancelOCOMarginOrder(String symbol, String listClientOrderId) throws Exception {
+        return cancelOCOMarginOrder(symbol, listClientOrderId, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to cancel OCO margin order
+     *
+     * @param #symbol:            used in the order es. BTCBUSD
+     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @param format:             return type formatter -> {@link ReturnFormat}
+     * @return cancel OCO margin order response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade">
+     * Margin Account Cancel OCO (TRADE)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/orderList")
+    public <T> T cancelOCOMarginOrder(String symbol, String listClientOrderId, ReturnFormat format) throws Exception {
+        return returnComposedMarginOrderDetails(sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, getTimestampParam()
+                + "&symbol=" + symbol + "&listClientOrderId=" + listClientOrderId, DELETE_METHOD), format);
+    }
+
+    /** Request to cancel OCO margin order
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "listClientOrderId"} -> a unique Id for the entire orderList- [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "newClientOrderId"} -> used to uniquely identify this cancel.
+     *                           Automatically generated by default - [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade">
+     *     Margin Account Cancel OCO (TRADE)</a>
+     * @return cancel OCO margin order response as {@link ComposedMarginOrderDetails} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/orderList")
+    public ComposedMarginOrderDetails cancelOCOMarginOrder(String symbol, long orderListId,
+                                                           Params extraParams) throws Exception {
+        return cancelOCOMarginOrder(symbol, orderListId, extraParams, LIBRARY_OBJECT);
+    }
+
+    /** Request to cancel OCO margin order
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "listClientOrderId"} -> a unique Id for the entire orderList- [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "newClientOrderId"} -> used to uniquely identify this cancel.
+     *                           Automatically generated by default - [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade">
+     *     Margin Account Cancel OCO (TRADE)</a>
+     * @return cancel OCO margin order response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/orderList")
+    public <T> T cancelOCOMarginOrder(String symbol, long orderListId, Params extraParams,
+                                      ReturnFormat format) throws Exception {
+        return returnComposedMarginOrderDetails(sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol +
+                        "&orderListId=" + orderListId, extraParams), DELETE_METHOD), format);
     }
 
     /** Request to cancel OCO margin order
      * @param #symbol: used in the order es. BTCBUSD
      * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                   <ul>
+     *                       <li>
+     *                           {@code "listClientOrderId"} -> a unique Id for the entire orderList- [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "newClientOrderId"} -> used to uniquely identify this cancel.
+     *                           Automatically generated by default - [STRING]
+     *                       </li>
+     *                       <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                       </li>
+     *                       <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                       </li>
+     *                   </ul>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade</a>
-     * @return cancel OCO margin order response as {@link JSONObject}
+     *     Margin Account Cancel OCO (TRADE)</a>
+     * @return cancel OCO margin order response as {@link ComposedMarginOrderDetails} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONObject cancelJSONOCOMarginOrder(String symbol, String listClientOrderId) throws Exception {
-        return new JSONObject(cancelOCOMarginOrder(symbol, listClientOrderId));
+    @RequestPath(path = "/sapi/v1/margin/orderList")
+    public ComposedMarginOrderDetails cancelOCOMarginOrder(String symbol, String listClientOrderId,
+                                                           Params extraParams) throws Exception {
+        return cancelOCOMarginOrder(symbol, listClientOrderId, extraParams, LIBRARY_OBJECT);
     }
 
-    /** Request to cancel OCO margin order
-     * @param #symbol: used in the order es. BTCBUSD
+    /**
+     * Request to cancel OCO margin order
+     *
+     * @param #symbol:            used in the order es. BTCBUSD
      * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
+     * @param extraParams:        additional params of the request, keys accepted are:
+     *                            <ul>
+     *                                <li>
+     *                                    {@code "listClientOrderId"} -> a unique Id for the entire orderList- [STRING]
+     *                                </li>
+     *                                <li>
+     *                                    {@code "newClientOrderId"} -> used to uniquely identify this cancel.
+     *                                    Automatically generated by default - [STRING]
+     *                                </li>
+     *                                <li>
+     *                                    {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                                </li>
+     *                                <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                </li>
+     *                            </ul>
+     * @param format:             return type formatter -> {@link ReturnFormat}
+     * @return cancel OCO margin order response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade</a>
-     * @return cancel OCO margin order response as {@link ComposedMarginOrderDetails} object
-     * **/
-    public ComposedMarginOrderDetails cancelObjectOCOMarginOrder(String symbol, String listClientOrderId ) throws Exception {
-        return new ComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, listClientOrderId)));
+     * Margin Account Cancel OCO (TRADE)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/orderList")
+    public <T> T cancelOCOMarginOrder(String symbol, String listClientOrderId, Params extraParams,
+                                      ReturnFormat format) throws Exception {
+        return returnComposedMarginOrderDetails(sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol +
+                        "&listClientOrderId=" + listClientOrderId, extraParams), DELETE_METHOD), format);
     }
 
-    /** Request to cancel OCO margin order
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #orderListId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,listClientOrderId,newClientOrderId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade</a>
-     * @return cancel OCO margin order response as {@link String}
-     * **/
-    public String cancelOCOMarginOrder(String symbol, long orderListId, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&orderListId=" + orderListId;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, DELETE_METHOD);
-    }
-
-    /** Request to cancel OCO margin order
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #orderListId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,listClientOrderId,newClientOrderId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade</a>
-     * @return cancel OCO margin order response as {@link JSONObject}
-     * **/
-    public JSONObject cancelJSONOCOMarginOrder(String symbol, long orderListId, Params extraParams) throws Exception {
-        return new JSONObject(cancelOCOMarginOrder(symbol, orderListId, extraParams));
-    }
-
-    /** Request to cancel OCO margin order
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #orderListId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,listClientOrderId,newClientOrderId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade</a>
-     * @return cancel OCO margin order response as {@link ComposedMarginOrderDetails} object
-     * **/
-    public ComposedMarginOrderDetails cancelObjectOCOMarginOrder(String symbol, long orderListId,
-                                                                 Params extraParams) throws Exception {
-        return new ComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, orderListId, extraParams)));
-    }
-
-    /** Request to cancel OCO margin order
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,orderListId,newClientOrderId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade</a>
-     * @return cancel OCO margin order response as {@link String}
-     * **/
-    public String cancelOCOMarginOrder(String symbol, String listClientOrderId, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&listClientOrderId=" + listClientOrderId;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, DELETE_METHOD);
-    }
-
-    /** Request to cancel OCO margin order
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,orderListId,newClientOrderId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade</a>
-     * @return cancel OCO margin order response as {@link JSONObject}
-     * **/
-    public JSONObject cancelJSONOCOMarginOrder(String symbol, String listClientOrderId, Params extraParams) throws Exception {
-        return new JSONObject(cancelOCOMarginOrder(symbol, listClientOrderId, extraParams));
-    }
-
-    /** Request to cancel OCO margin order
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #listClientOrderId: identifier od client order list es. C3wyj4WVEktd7u9aVBRXcN
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,orderListId,newClientOrderId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade</a>
-     * @return cancel OCO margin order response as {@link ComposedMarginOrderDetails} object
-     * **/
-    public ComposedMarginOrderDetails cancelObjectOCOMarginOrder(String symbol, String listClientOrderId,
-                                                                 Params extraParams) throws Exception {
-        return new ComposedMarginOrderDetails(new JSONObject(cancelOCOMarginOrder(symbol, listClientOrderId, extraParams)));
+    /**
+     * Method to create a composed margin order details object
+     *
+     * @param composedOrderResponse: obtained from Binance's response
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @return composed margin order details object as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnComposedMarginOrderDetails(String composedOrderResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(composedOrderResponse);
+            case LIBRARY_OBJECT:
+                return (T) new ComposedMarginOrderDetails(new JSONObject(composedOrderResponse));
+            default:
+                return (T) composedOrderResponse;
+        }
     }
 
     /** Request to get OCO margin order status
      * @param #symbol: used in the order es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link String}
+     *     Query Margin Account's OCO (USER_DATA)</a>
+     * @return OCO margin order status response as {@link MarginOrderStatusDetails} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getOCOMarginOrderStatus(String symbol, long orderListId) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true;
-        return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT,params,GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/orderList")
+    public MarginOrderStatusDetails getOCOMarginOrderStatus(String symbol, long orderListId) throws Exception {
+        return getOCOMarginOrderStatus(symbol, orderListId, LIBRARY_OBJECT);
     }
 
     /** Request to get OCO margin order status
      * @param #symbol: used in the order es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link JSONObject}
+     *     Query Margin Account's OCO (USER_DATA)</a>
+     * @return OCO margin order status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONObject getJSONOCOMarginOrderStatus(String symbol, long orderListId) throws Exception {
-       return new JSONObject(getOCOMarginOrderStatus(symbol, orderListId));
-    }
-
-    /** Request to get OCO margin order status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #orderListId: identifier od order list es. 1
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
-     * **/
-    public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String symbol, long orderListId) throws Exception {
-        return new MarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, orderListId)));
+    @RequestPath(path = "/sapi/v1/margin/orderList")
+    public <T> T getOCOMarginOrderStatus(String symbol, long orderListId, ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetails(sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, getTimestampParam() +
+                "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true, GET_METHOD), format);
     }
 
     /** Request to get OCO margin order status
      * @param #symbol: used in the order es. BTCBUSD
      * @param #origClientOrderId: identifier od order list es. 1
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link String}
+     *     Query Margin Account's OCO (USER_DATA)</a>
+     * @return OCO margin order status response as {@link MarginOrderStatusDetails} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getOCOMarginOrderStatus(String symbol, String origClientOrderId) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId +
-                "&isIsolated=" + true;
-        return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/orderList")
+    public MarginOrderStatusDetails getOCOMarginOrderStatus(String symbol, String origClientOrderId) throws Exception {
+        return getOCOMarginOrderStatus(symbol, origClientOrderId, LIBRARY_OBJECT);
     }
 
     /** Request to get OCO margin order status
      * @param #symbol: used in the order es. BTCBUSD
      * @param #origClientOrderId: identifier od order list es. 1
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link JSONObject}
+     *     Query Margin Account's OCO (USER_DATA)</a>
+     * @return OCO margin order status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONObject getJSONOCOMarginOrderStatus(String symbol, String origClientOrderId) throws Exception {
-        return new JSONObject(getOCOMarginOrderStatus(symbol, origClientOrderId));
-    }
-
-    /** Request to get OCO margin order status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
-     * **/
-    public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String symbol, String origClientOrderId) throws Exception {
-        return new MarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, origClientOrderId)));
-    }
-
-    /** Request to get OCO margin order status
-     * @param #orderListId: identifier od order list es. 1
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link String}
-     * **/
-    public String getOCOMarginOrderStatus(long orderListId) throws Exception {
-        String params = getTimestampParam() + "&orderListId=" + orderListId;
-        return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/orderList")
+    public <T> T getOCOMarginOrderStatus(String symbol, String origClientOrderId, ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetails(sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, getTimestampParam() +
+                        "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId + "&isIsolated=" + true, GET_METHOD),
+                format);
     }
 
     /** Request to get OCO margin order status
      * @param #orderListId: identifier od order list es. 1
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link JSONObject}
+     *     Query Margin Account's OCO (USER_DATA)</a>
+     * @return OCO margin order status response as {@link MarginOrderStatusDetails} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONObject getJSONOCOMarginOrderStatus(long orderListId) throws Exception {
-        return new JSONObject(getOCOMarginOrderStatus(orderListId));
+    @RequestPath(path = "/sapi/v1/margin/orderList")
+    public MarginOrderStatusDetails getOCOMarginOrderStatus(long orderListId) throws Exception {
+        return getOCOMarginOrderStatus(orderListId, LIBRARY_OBJECT);
     }
 
     /** Request to get OCO margin order status
      * @param #orderListId: identifier od order list es. 1
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
+     *     Query Margin Account's OCO (USER_DATA)</a>
+     * @return OCO margin order status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(long orderListId) throws Exception {
-        return new MarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(orderListId)));
+    @RequestPath(path = "/sapi/v1/margin/orderList")
+    public <T> T getOCOMarginOrderStatus(long orderListId, ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetails(sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, getTimestampParam()
+                + "&orderListId=" + orderListId, GET_METHOD), format);
     }
 
-    /** Request to get OCO margin order status
+    /**
+     * Request to get OCO margin order status
+     *
      * @param #origClientOrderId: identifier od order list es. 1
+     * @return OCO margin order status response as {@link MarginOrderStatusDetails} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link String}
-     * **/
-    public String getOCOMarginOrderStatus(String origClientOrderId) throws Exception {
-        String params = getTimestampParam() + "&origClientOrderId=" + origClientOrderId;
-        return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, GET_METHOD);
+     * Query Margin Account's OCO (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/orderList")
+    public MarginOrderStatusDetails getOCOMarginOrderStatus(String origClientOrderId) throws Exception {
+        return getOCOMarginOrderStatus(origClientOrderId, LIBRARY_OBJECT);
     }
 
-    /** Request to get OCO margin order status
+    /**
+     * Request to get OCO margin order status
+     *
      * @param #origClientOrderId: identifier od order list es. 1
+     * @param format:             return type formatter -> {@link ReturnFormat}
+     * @return OCO margin order status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link JSONObject}
-     * **/
-    public JSONObject getJSONOCOMarginOrderStatus(String origClientOrderId) throws Exception {
-        return new JSONObject(getOCOMarginOrderStatus(origClientOrderId));
+     * Query Margin Account's OCO (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/orderList")
+    public <T> T getOCOMarginOrderStatus(String origClientOrderId, ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetails(sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, getTimestampParam() +
+                "&origClientOrderId=" + origClientOrderId, GET_METHOD), format);
     }
 
-    /** Request to get OCO margin order status
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
-     * **/
-    public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String origClientOrderId) throws Exception {
-        return new MarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(origClientOrderId)));
-    }
-
-    /** Request to get OCO margin order status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #orderListId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,origClientOrderId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link String}
-     * **/
-    public String getOCOMarginOrderStatus(String symbol, long orderListId, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get OCO margin order status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #orderListId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,origClientOrderId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link JSONObject}
-     * **/
-    public JSONObject getJSONOCOMarginOrderStatus(String symbol, long orderListId, Params extraParams) throws Exception {
-        return new JSONObject(getOCOMarginOrderStatus(symbol, orderListId, extraParams));
-    }
-
-    /** Request to get OCO margin order status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #orderListId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,origClientOrderId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
-     * **/
-    public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String symbol, long orderListId,
-                                                                  Params extraParams) throws Exception {
-        return new MarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, orderListId, extraParams)));
-    }
-
-    /** Request to get OCO margin order status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,orderListId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link String}
-     * **/
-    public String getOCOMarginOrderStatus(String symbol, String origClientOrderId,Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId +
-                "&isIsolated=" + true;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get OCO margin order status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,orderListId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link JSONObject}
-     * **/
-    public JSONObject getJSONOCOMarginOrderStatus(String symbol, String origClientOrderId, Params extraParams) throws Exception {
-        return new JSONObject(getOCOMarginOrderStatus(symbol, origClientOrderId, extraParams));
-    }
-
-    /** Request to get OCO margin order status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,orderListId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
-     * **/
-    public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String symbol, String origClientOrderId,
-                                                                  Params extraParams) throws Exception {
-        return new MarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(symbol, origClientOrderId, extraParams)));
-    }
-
-    /** Request to get OCO margin order status
-     * @param #orderListId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,origClientOrderId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link String}
-     * **/
-    public String getOCOMarginOrderStatus(long orderListId, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&orderListId=" + orderListId;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get OCO margin order status
-     * @param #orderListId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,origClientOrderId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link JSONObject}
-     * **/
-    public JSONObject getJSONOCOMarginOrderStatus(long orderListId, Params extraParams) throws Exception {
-        return new JSONObject(getOCOMarginOrderStatus(orderListId, extraParams));
-    }
-
-    /** Request to get OCO margin order status
-     * @param #orderListId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,origClientOrderId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
-     * **/
-    public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(long orderListId, Params extraParams) throws Exception {
-        return new MarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(orderListId, extraParams)));
-    }
-
-    /** Request to get OCO margin order status
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,orderListId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link String}
-     * **/
-    public String getOCOMarginOrderStatus(String origClientOrderId, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&origClientOrderId=" + origClientOrderId;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_OCO_ORDERS_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get OCO margin order status
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,orderListId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link JSONObject}
-     * **/
-    public JSONObject getJSONOCOMarginOrderStatus(String origClientOrderId, Params extraParams) throws Exception {
-        return new JSONObject(getOCOMarginOrderStatus(origClientOrderId, extraParams));
-    }
-
-    /** Request to get OCO margin order status
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,orderListId,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data</a>
-     * @return OCO margin order status response as {@link MarginOrderStatusDetails} object
-     * **/
-    public MarginOrderStatusDetails getObjectOCOMarginOrderStatus(String origClientOrderId,
-                                                                  Params extraParams) throws Exception {
-        return new MarginOrderStatusDetails(new JSONObject(getOCOMarginOrderStatus(origClientOrderId, extraParams)));
+    /**
+     * Method to create an order status details object
+     *
+     * @param orderStatusResponse: obtained from Binance's response
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @return an order status details object as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnMarginOrderStatusDetails(String orderStatusResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(orderStatusResponse);
+            case LIBRARY_OBJECT:
+                return (T) new MarginOrderStatusDetails(new JSONObject(orderStatusResponse));
+            default:
+                return (T) orderStatusResponse;
+        }
     }
 
     /** Request to get all OCO margin orders status
      * @param #symbol: used in the order es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link String}
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@link ArrayList} of {@link MarginOrderStatusDetails}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getAllOCOMarginOrders(String symbol, long orderListId) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true;
-        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOrders(String symbol, long orderListId) throws Exception {
+        return getAllOCOOrders(symbol, orderListId, LIBRARY_OBJECT);
     }
 
     /** Request to get all OCO margin orders status
      * @param #symbol: used in the order es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link JSONArray}
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONArray getJSONAllOCOMarginOrders(String symbol, long orderListId) throws Exception {
-        return new JSONArray(getAllOCOMarginOrders(symbol, orderListId));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #orderListId: identifier od order list es. 1
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
-     * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, long orderListId) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(symbol, orderListId)));
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public <T> T getAllOCOOrders(String symbol, long orderListId, ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,
+                getTimestampParam() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true,
+                GET_METHOD), format);
     }
 
     /** Request to get all OCO margin orders status
      * @param #symbol: used in the order es. BTCBUSD
      * @param #origClientOrderId: identifier od order list es. 1
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link String}
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@link ArrayList} of {@link MarginOrderStatusDetails}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getAllOCOMarginOrders(String symbol, String origClientOrderId) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId
-                + "&isIsolated=" + true;
-        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOrders(String symbol, String origClientOrderId) throws Exception {
+        return getAllOCOOrders(symbol, origClientOrderId, LIBRARY_OBJECT);
     }
 
-    /** Request to get all OCO margin orders status
-     * @param #symbol: used in the order es. BTCBUSD
+    /**
+     * Request to get all OCO margin orders status
+     *
+     * @param #symbol:            used in the order es. BTCBUSD
      * @param #origClientOrderId: identifier od order list es. 1
+     * @param format:             return type formatter -> {@link ReturnFormat}
+     * @return all OCO margin orders status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllOCOMarginOrders(String symbol, String origClientOrderId) throws Exception {
-        return new JSONArray(getAllOCOMarginOrders(symbol, origClientOrderId));
+     * Query Margin Account's all OCO (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public <T> T getAllOCOOrders(String symbol, String origClientOrderId, ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,
+                getTimestampParam() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId +
+                        "&isIsolated=" + true, GET_METHOD), format);
     }
 
-    /** Request to get all OCO margin orders status
-     * @param #symbol: used in the order es. BTCBUSD
+    /**
+     * Request to get all OCO margin orders status
+     *
+     * @param #symbol:      used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #fromId:      order from start request es. 124564
+     * @param #keyTime:     {@code "startTime"} or {@code "endTime"} key filter for the research
+     * @param #valueTime:   value of keyTime es. 152221
+     * @return all OCO margin orders status response as {@link ArrayList} of {@link MarginOrderStatusDetails}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
+     * Query Margin Account's all OCO (USER_DATA)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOrders(String symbol, long orderListId, long fromId,
+                                                               String keyTime, long valueTime) throws Exception {
+        return getAllOCOOrders(symbol, orderListId, fromId, keyTime, valueTime, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get all OCO margin orders status
+     *
+     * @param #symbol:      used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param #fromId:      order from start request es. 124564
+     * @param #keyTime:     {@code "startTime"} or {@code "endTime"} key filter for the research
+     * @param #valueTime:   value of keyTime es. 152221
+     * @param format:       return type formatter -> {@link ReturnFormat}
+     * @return all OCO margin orders status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
+     * Query Margin Account's all OCO (USER_DATA)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public <T> T getAllOCOOrders(String symbol, long orderListId, long fromId, String keyTime, long valueTime,
+                                 ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, getTimestampParam()
+                + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true + "&" + keyTime + "=" +
+                valueTime + "&fromId=" + fromId, GET_METHOD), format);
+    }
+
+    /**
+     * Request to get all OCO margin orders status
+     *
+     * @param #symbol:            used in the order es. BTCBUSD
      * @param #origClientOrderId: identifier od order list es. 1
+     * @param #fromId:            order from start request es. 124564
+     * @param #keyTime:           {@code "startTime"} or {@code "endTime"} key filter for the research
+     * @param #valueTime:         value of keyTime es. 152221
+     * @return all OCO margin orders status response as {@link ArrayList} of {@link MarginOrderStatusDetails}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
-     * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, String origClientOrderId) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(symbol, origClientOrderId)));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #orderListId: identifier od order list es. 1
-     * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
-     * @param #valueTime: value of keyTime es. 152221
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link String}
-     * **/
-    public String getAllOCOMarginOrders(String symbol, long orderListId, long fromId, String keyTime, long valueTime) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true
-                + "&" + keyTime + "=" + valueTime + "&fromId=" + fromId;
-        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #orderListId: identifier od order list es. 1
-     * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
-     * @param #valueTime: value of keyTime es. 152221
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllOCOMarginOrders(String symbol, long orderListId, long fromId, String keyTime, long valueTime) throws Exception {
-        return new JSONArray(getAllOCOMarginOrders(symbol, orderListId, fromId, keyTime, valueTime));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #orderListId: identifier od order list es. 1
-     * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
-     * @param #valueTime: value of keyTime es. 152221
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
-     * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, long orderListId, long fromId,
-                                                                         String keyTime, long valueTime) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(symbol, orderListId,
-                fromId, keyTime, valueTime)));
+     * Query Margin Account's all OCO (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOrders(String symbol, String origClientOrderId, long fromId,
+                                                               String keyTime, long valueTime) throws Exception {
+        return getAllOCOOrders(symbol, origClientOrderId, fromId, keyTime, valueTime, LIBRARY_OBJECT);
     }
 
     /** Request to get all OCO margin orders status
      * @param #symbol: used in the order es. BTCBUSD
      * @param #origClientOrderId: identifier od order list es. 1
      * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #keyTime: {@code "startTime"} or {@code "endTime"}
      * @param #valueTime: value of keyTime es. 152221
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link String}
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getAllOCOMarginOrders(String symbol, String origClientOrderId, long fromId, String keyTime,
-                                        long valueTime) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId
-                + "&isIsolated=" + true + "&" + keyTime + "=" + valueTime + "&fromId=" + fromId;
-        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public <T> T getAllOCOOrders(String symbol, String origClientOrderId, long fromId, String keyTime,
+                                 long valueTime, ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, getTimestampParam()
+                + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId + "&isIsolated=" + true + "&" + keyTime
+                + "=" + valueTime + "&fromId=" + fromId, GET_METHOD), format);
+    }
+
+    /** Request to get all OCO margin orders status
+     * @param #orderListId: identifier od order list es. 1
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@link ArrayList} of {@link MarginOrderStatusDetails}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOrders(long orderListId) throws Exception {
+        return getAllOCOOrders(orderListId, LIBRARY_OBJECT);
+    }
+
+    /** Request to get all OCO margin orders status
+     * @param #orderListId: identifier od order list es. 1
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public <T> T getAllOCOOrders(long orderListId, ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,
+                getTimestampParam() + "&orderListId=" + orderListId, GET_METHOD), format);
+    }
+
+    /** Request to get all OCO margin orders status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@link ArrayList} of {@link MarginOrderStatusDetails}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOrders(String origClientOrderId) throws Exception {
+        return getAllOCOOrders(origClientOrderId, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get all OCO margin orders status
+     *
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param format:             return type formatter -> {@link ReturnFormat}
+     * @return all OCO margin orders status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
+     * Query Margin Account's all OCO (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public <T> T getAllOCOOrders(String origClientOrderId, ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,
+                getTimestampParam() + "&origClientOrderId=" + origClientOrderId, GET_METHOD), format);
+    }
+
+    /**
+     * Request to get all OCO margin orders status
+     *
+     * @param #orderListId: identifier od order list es. 1
+     * @param #fromId:      order from start request es. 124564
+     * @param #keyTime:     {@code "startTime"} or {@code "endTime"} key filter for the research
+     * @param #valueTime:   value of keyTime es. 152221
+     * @return all OCO margin orders status response as {@link ArrayList} of {@link MarginOrderStatusDetails}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
+     * Query Margin Account's all OCO (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOrders(long orderListId, long fromId, String keyTime,
+                                                               long valueTime) throws Exception {
+        return getAllOCOOrders(orderListId, fromId, keyTime, valueTime, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get all OCO margin orders status
+     *
+     * @param #orderListId: identifier od order list es. 1
+     * @param #fromId:      order from start request es. 124564
+     * @param #keyTime:     {@code "startTime"} or {@code "endTime"} key filter for the research
+     * @param #valueTime:   value of keyTime es. 152221
+     * @param format:       return type formatter -> {@link ReturnFormat}
+     * @return all OCO margin orders status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
+     * Query Margin Account's all OCO (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public <T> T getAllOCOOrders(long orderListId, long fromId, String keyTime, long valueTime,
+                                 ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,
+                getTimestampParam() + "&orderListId=" + orderListId + "&" + keyTime + "=" + valueTime +
+                        "&fromId=" + fromId, GET_METHOD), format);
+    }
+
+    /**
+     * Request to get all OCO margin orders status
+     *
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #fromId:            order from start request es. 124564
+     * @param #keyTime:           {@code "startTime"} or {@code "endTime"} key filter for the research
+     * @param #valueTime:         value of keyTime es. 152221
+     * @return all OCO margin orders status response as {@link ArrayList} of {@link MarginOrderStatusDetails}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
+     * Query Margin Account's all OCO (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOrders(String origClientOrderId, long fromId, String keyTime,
+                                                               long valueTime) throws Exception {
+        return getAllOCOOrders(origClientOrderId, fromId, keyTime, valueTime, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get all OCO margin orders status
+     *
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #fromId:            order from start request es. 124564
+     * @param #keyTime:           {@code "startTime"} or {@code "endTime"} key filter for the research
+     * @param #valueTime:         value of keyTime es. 152221
+     * @param format:             return type formatter -> {@link ReturnFormat}
+     * @return all OCO margin orders status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
+     * Query Margin Account's all OCO (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public <T> T getAllOCOOrders(String origClientOrderId, long fromId, String keyTime, long valueTime,
+                                 ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,
+                getTimestampParam() + "&origClientOrderId=" + origClientOrderId + "&" + keyTime + "=" + valueTime
+                        + "&fromId=" + fromId, GET_METHOD), format);
+    }
+
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                          </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromId"} -> if supplied, neither startTime or endTime can be provided - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size value, max 1000 - [INTEGER, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@link ArrayList} of {@link MarginOrderStatusDetails}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOrders(String symbol, long orderListId,
+                                                               Params extraParams) throws Exception {
+        return getAllOCOOrders(symbol, orderListId, extraParams, LIBRARY_OBJECT);
+    }
+
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #orderListId: identifier od order list es. 1
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                          </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromId"} -> if supplied, neither startTime or endTime can be provided - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size value, max 1000 - [INTEGER, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public <T> T getAllOCOOrders(String symbol, long orderListId, Params extraParams, ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, GET_METHOD,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol +
+                        "&orderListId=" + orderListId, extraParams)), LIBRARY_OBJECT);
     }
 
     /** Request to get all OCO margin orders status
      * @param #symbol: used in the order es. BTCBUSD
      * @param #origClientOrderId: identifier od order list es. 1
-     * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
-     * @param #valueTime: value of keyTime es. 152221
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllOCOMarginOrders(String symbol, String origClientOrderId, long fromId, String keyTime,
-                                               long valueTime) throws Exception {
-        return new JSONArray(getAllOCOMarginOrders(symbol, origClientOrderId, fromId, keyTime, valueTime));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
-     * @param #valueTime: value of keyTime es. 152221
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
-     * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, String origClientOrderId,
-                                                                         long fromId, String keyTime, long valueTime) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(symbol, origClientOrderId,
-                fromId, keyTime, valueTime)));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #orderListId: identifier od order list es. 1
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link String}
-     * **/
-    public String getAllOCOMarginOrders(long orderListId) throws Exception {
-        String params = getTimestampParam() + "&orderListId=" + orderListId;
-        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #orderListId: identifier od order list es. 1
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllOCOMarginOrders(long orderListId) throws Exception {
-        return new JSONArray(getAllOCOMarginOrders(orderListId));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #orderListId: identifier od order list es. 1
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
-     * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(long orderListId) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(orderListId)));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link String}
-     * **/
-    public String getAllOCOMarginOrders(String origClientOrderId) throws Exception {
-        String params = getTimestampParam() + "&origClientOrderId=" + origClientOrderId;
-        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllOCOMarginOrders(String origClientOrderId) throws Exception {
-        return new JSONArray(getAllOCOMarginOrders(origClientOrderId));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
-     * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String origClientOrderId) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(origClientOrderId)));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #orderListId: identifier od order list es. 1
-     * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
-     * @param #valueTime: value of keyTime es. 152221
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link String}
-     * **/
-    public String getAllOCOMarginOrders(long orderListId, long fromId, String keyTime, long valueTime) throws Exception {
-        String params = getTimestampParam() + "&orderListId=" + orderListId + "&" + keyTime + "=" + valueTime
-                + "&fromId=" + fromId;
-        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #orderListId: identifier od order list es. 1
-     * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
-     * @param #valueTime: value of keyTime es. 152221
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllOCOMarginOrders(long orderListId, long fromId, String keyTime, long valueTime) throws Exception {
-        return new JSONArray(getAllOCOMarginOrders(orderListId, fromId, keyTime, valueTime));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #orderListId: identifier od order list es. 1
-     * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
-     * @param #valueTime: value of keyTime es. 152221
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
-     * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(long orderListId, long fromId, String keyTime,
-                                                                         long valueTime) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(orderListId, fromId, keyTime,
-                valueTime)));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
-     * @param #valueTime: value of keyTime es. 152221
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link String}
-     * **/
-    public String getAllOCOMarginOrders(String origClientOrderId, long fromId, String keyTime,
-                                        long valueTime) throws Exception {
-        String params = getTimestampParam() + "&origClientOrderId=" + origClientOrderId + "&" + keyTime + "=" + valueTime
-                + "&fromId=" + fromId;
-        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
-     * @param #valueTime: value of keyTime es. 152221
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllOCOMarginOrders(String origClientOrderId, long fromId, String keyTime,
-                                               long valueTime) throws Exception {
-        return new JSONArray(getAllOCOMarginOrders(origClientOrderId, fromId, keyTime, valueTime));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
-     * @param #valueTime: value of keyTime es. 152221
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
-     * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String origClientOrderId, long fromId, String keyTime,
-                                                                         long valueTime) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(origClientOrderId, fromId,
-                keyTime, valueTime)));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #orderListId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,fromId,origClientOrderId,startTime,endTime,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link String}
-     * **/
-    public String getAllOCOMarginOrders(String symbol, long orderListId, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #orderListId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,fromId,origClientOrderId.startTime,endTime,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllOCOMarginOrders(String symbol, long orderListId, Params extraParams) throws Exception {
-        return new JSONArray(getAllOCOMarginOrders(symbol, orderListId, extraParams));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #orderListId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,fromId,orderListId,startTime,endTime,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
-     * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, long orderListId,
-                                                                         Params extraParams) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(symbol, orderListId, extraParams)));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,fromId,orderListId,startTime,endTime,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link String}
-     * **/
-    public String getAllOCOMarginOrders(String symbol, String origClientOrderId, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId
-                + "&isIsolated=" + true;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,fromId,orderListId,startTime,endTime,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllOCOMarginOrders(String symbol, String origClientOrderId, Params extraParams) throws Exception {
-        return new JSONArray(getAllOCOMarginOrders(symbol, origClientOrderId, extraParams));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,fromId,orderListId,startTime,endTime,limit,recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                          </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromId"} -> if supplied, neither startTime or endTime can be provided - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size value, max 1000 - [INTEGER, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
+     * @return all OCO margin orders status response as {@link ArrayList} of {@link MarginOrderStatusDetails}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, String origClientOrderId,
-                                                                         Params extraParams) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(symbol, origClientOrderId,
-                extraParams)));
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOrders(String symbol, String origClientOrderId,
+                                                               Params extraParams) throws Exception {
+        return getAllOCOOrders(symbol, origClientOrderId, extraParams, LIBRARY_OBJECT);
+    }
+
+    /** Request to get all OCO margin orders status
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                          </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromId"} -> if supplied, neither startTime or endTime can be provided - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size value, max 1000 - [INTEGER, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
+     * @return all OCO margin orders status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public <T> T getAllOCOOrders(String symbol, String origClientOrderId, Params extraParams,
+                                 ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol +
+                        "&origClientOrderId=" + origClientOrderId, extraParams), GET_METHOD), format);
     }
 
     /** Request to get all OCO margin orders status
      * @param #symbol: used in the order es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
      * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #keyTime: {@code "startTime"} or {@code "endTime"} key filter for the research
      * @param #valueTime: value of keyTime es. 152221
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,origClientOrderId,startTime,endTime,limit,recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                          </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromId"} -> if supplied, neither startTime or endTime can be provided - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size value, max 1000 - [INTEGER, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link String}
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@link ArrayList} of {@link MarginOrderStatusDetails}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getAllOCOMarginOrders(String symbol, long orderListId, long fromId, String keyTime, long valueTime,
-                                        Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&orderListId=" + orderListId + "&isIsolated=" + true
-                + "&" + keyTime + "=" + valueTime + "&fromId=" + fromId;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOrders(String symbol, long orderListId, long fromId,
+                                                               String keyTime, long valueTime,
+                                                               Params extraParams) throws Exception {
+        return getAllOCOOrders(symbol, orderListId, fromId, keyTime, valueTime, extraParams, LIBRARY_OBJECT);
     }
 
     /** Request to get all OCO margin orders status
      * @param #symbol: used in the order es. BTCBUSD
      * @param #orderListId: identifier od order list es. 1
      * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #keyTime: {@code "startTime"} or {@code "endTime"} key filter for the research
      * @param #valueTime: value of keyTime es. 152221
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,origClientOrderId,startTime,endTime,limit,recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                          </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromId"} -> if supplied, neither startTime or endTime can be provided - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size value, max 1000 - [INTEGER, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link JSONArray}
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONArray getJSONAllOCOMarginOrders(String symbol, long orderListId, long fromId, String keyTime, long valueTime,
-                                               Params extraParams) throws Exception {
-        return new JSONArray(getAllOCOMarginOrders(symbol, orderListId, fromId, keyTime, valueTime));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #orderListId: identifier od order list es. 1
-     * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
-     * @param #valueTime: value of keyTime es. 152221
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,origClientOrderId,fromId,startTime,endTime,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
-     * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, long orderListId, long fromId,
-                                                                         String keyTime, long valueTime,
-                                                                         Params extraParams) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(symbol, orderListId,
-                fromId, keyTime, valueTime)));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
-     * @param #valueTime: value of keyTime es. 152221
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,orderListId,fromId,startTime,endTime,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link String}
-     * **/
-    public String getAllOCOMarginOrders(String symbol, String origClientOrderId, long fromId, String keyTime,
-                                        long valueTime, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId
-                + "&isIsolated=" + true + "&" + keyTime + "=" + valueTime + "&fromId=" + fromId;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public <T> T getAllOCOOrders(String symbol, long orderListId, long fromId, String keyTime, long valueTime,
+                                 Params extraParams, ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol +
+                                "&orderListId=" + orderListId + "&" + keyTime + "=" + valueTime + "&fromId=" + fromId,
+                        extraParams), GET_METHOD), format);
     }
 
     /** Request to get all OCO margin orders status
      * @param #symbol: used in the order es. BTCBUSD
      * @param #origClientOrderId: identifier od order list es. 1
      * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #keyTime: {@code "startTime"} or {@code "endTime"} key filter for the research
      * @param #valueTime: value of keyTime es. 152221
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,orderListId,fromId,startTime,endTime,limit,recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                          </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromId"} -> if supplied, neither startTime or endTime can be provided - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size value, max 1000 - [INTEGER, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link JSONArray}
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@link ArrayList} of {@link MarginOrderStatusDetails}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONArray getJSONAllOCOMarginOrders(String symbol, String origClientOrderId, long fromId, String keyTime,
-                                               long valueTime, Params extraParams) throws Exception {
-        return new JSONArray(getAllOCOMarginOrders(symbol, origClientOrderId, fromId, keyTime, valueTime));
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOrders(String symbol, String origClientOrderId,
+                                                               long fromId, String keyTime, long valueTime,
+                                                               Params extraParams) throws Exception {
+        return getAllOCOOrders(symbol, origClientOrderId, fromId, keyTime, valueTime, extraParams, LIBRARY_OBJECT);
     }
 
     /** Request to get all OCO margin orders status
      * @param #symbol: used in the order es. BTCBUSD
      * @param #origClientOrderId: identifier od order list es. 1
      * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #keyTime: {@code "startTime"} or {@code "endTime"} key filter for the research
      * @param #valueTime: value of keyTime es. 152221
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,orderListId,fromId,startTime,endTime,limit,recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                          </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromId"} -> if supplied, neither startTime or endTime can be provided - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size value, max 1000 - [INTEGER, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String symbol, String origClientOrderId,
-                                                                         long fromId, String keyTime, long valueTime,
-                                                                         Params extraParams) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(symbol, origClientOrderId,
-                fromId, keyTime, valueTime)));
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public <T> T getAllOCOOrders(String symbol, String origClientOrderId, long fromId, String keyTime, long valueTime,
+                                 Params extraParams, ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol +
+                        "&origClientOrderId=" + origClientOrderId + "&" + keyTime + "=" + valueTime +
+                        "&fromId=" + fromId, extraParams), GET_METHOD), format);
     }
 
     /** Request to get all OCO margin orders status
      * @param #orderListId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are symbol,isIsolated,fromId,origClientOrderId,startTime,endTime,limit,recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                          </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromId"} -> if supplied, neither startTime or endTime can be provided - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size value, max 1000 - [INTEGER, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link String}
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@link ArrayList} of {@link MarginOrderStatusDetails}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getAllOCOMarginOrders(long orderListId, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&orderListId=" + orderListId;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOrders(long orderListId, Params extraParams) throws Exception {
+        return getAllOCOOrders(orderListId, extraParams, LIBRARY_OBJECT);
     }
 
     /** Request to get all OCO margin orders status
      * @param #orderListId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are symbol,isIsolated,fromId,origClientOrderId,startTime,endTime,limit,recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                          </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromId"} -> if supplied, neither startTime or endTime can be provided - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size value, max 1000 - [INTEGER, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link JSONArray}
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONArray getJSONAllOCOMarginOrders(long orderListId, Params extraParams) throws Exception {
-        return new JSONArray(getAllOCOMarginOrders(orderListId));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #orderListId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are symbol,isIsolated,fromId,origClientOrderId,startTime,endTime,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
-     * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(long orderListId, Params extraParams) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(orderListId)));
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public <T> T getAllOCOOrders(long orderListId, Params extraParams, ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&orderListId=" + orderListId,
+                        extraParams), GET_METHOD), format);
     }
 
     /** Request to get all OCO margin orders status
      * @param #origClientOrderId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are symbol,isIsolated,fromId,orderListId,startTime,endTime,limit,recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                          </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromId"} -> if supplied, neither startTime or endTime can be provided - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size value, max 1000 - [INTEGER, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link String}
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@link ArrayList} of {@link MarginOrderStatusDetails}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getAllOCOMarginOrders(String origClientOrderId, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&origClientOrderId=" + origClientOrderId;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOrders(String origClientOrderId, Params extraParams) throws Exception {
+        return getAllOCOOrders(origClientOrderId, extraParams, LIBRARY_OBJECT);
     }
 
     /** Request to get all OCO margin orders status
      * @param #origClientOrderId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are symbol,isIsolated,fromId,orderListId,startTime,endTime,limit,recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                          </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromId"} -> if supplied, neither startTime or endTime can be provided - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size value, max 1000 - [INTEGER, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link JSONArray}
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONArray getJSONAllOCOMarginOrders(String origClientOrderId, Params extraParams) throws Exception {
-        return new JSONArray(getAllOCOMarginOrders(origClientOrderId));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are symbol,isIsolated,fromId,orderListId,startTime,endTime,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
-     * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String origClientOrderId,
-                                                                         Params extraParams) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(origClientOrderId)));
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public <T> T getAllOCOOrders(String origClientOrderId, Params extraParams, ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&origClientOrderId=" +
+                        origClientOrderId, extraParams), GET_METHOD), format);
     }
 
     /** Request to get all OCO margin orders status
      * @param #orderListId: identifier od order list es. 1
      * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #keyTime: {@code "startTime"} or {@code "endTime"} key filter for the research
      * @param #valueTime: value of keyTime es. 152221
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are symbol,isIsolated,origClientOrderId,startTime,endTime,limit,recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                          </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromId"} -> if supplied, neither startTime or endTime can be provided - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size value, max 1000 - [INTEGER, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link String}
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getAllOCOMarginOrders(long orderListId, long fromId, String keyTime,
-                                        long valueTime, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&orderListId=" + orderListId + "&" + keyTime + "=" + valueTime +
-                "&fromId=" + fromId;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOrders(long orderListId, long fromId, String keyTime,
+                                                               long valueTime, Params extraParams) throws Exception {
+        return getAllOCOOrders(orderListId, fromId, keyTime, valueTime, extraParams, LIBRARY_OBJECT);
     }
 
     /** Request to get all OCO margin orders status
      * @param #orderListId: identifier od order list es. 1
      * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #keyTime: {@code "startTime"} or {@code "endTime"} key filter for the research
      * @param #valueTime: value of keyTime es. 152221
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are symbol,isIsolated,origClientOrderId,startTime,endTime,limit,recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                          </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromId"} -> if supplied, neither startTime or endTime can be provided - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size value, max 1000 - [INTEGER, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link JSONArray}
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONArray getJSONAllOCOMarginOrders(long orderListId, long fromId, String keyTime,
-                                               long valueTime, Params extraParams) throws Exception {
-        return new JSONArray(getAllOCOMarginOrders(orderListId, fromId, keyTime, valueTime));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #orderListId: identifier od order list es. 1
-     * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
-     * @param #valueTime: value of keyTime es. 152221
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are symbol,isIsolated,origClientOrderId,startTime,endTime,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
-     * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(long orderListId, long fromId, String keyTime,
-                                                                         long valueTime, Params extraParams) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(orderListId, fromId, keyTime,
-                valueTime)));
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
-     * @param #valueTime: value of keyTime es. 152221
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are symbol,isIsolated,orderListId,startTime,endTime,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link String}
-     * **/
-    public String getAllOCOMarginOrders(String origClientOrderId, long fromId, String keyTime,
-                                        long valueTime, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&origClientOrderId=" + origClientOrderId + "&" + keyTime + "=" + valueTime
-                + "&fromId=" + fromId;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get all OCO margin orders status
-     * @param #origClientOrderId: identifier od order list es. 1
-     * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
-     * @param #valueTime: value of keyTime es. 152221
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are symbol,isIsolated,orderListId,startTime,endTime,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllOCOMarginOrders(String origClientOrderId, long fromId, String keyTime,
-                                               long valueTime, Params extraParams) throws Exception {
-        return new JSONArray(getAllOCOMarginOrders(origClientOrderId, fromId, keyTime, valueTime));
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public <T> T getAllOCOOrders(long orderListId, long fromId, String keyTime, long valueTime, Params extraParams,
+                                 ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&orderListId=" + orderListId +
+                        "&" + keyTime + "=" + valueTime + "&fromId=" + fromId, extraParams),
+                GET_METHOD), format);
     }
 
     /** Request to get all OCO margin orders status
      * @param #origClientOrderId: identifier od order list es. 1
      * @param #fromId: order from start request es. 124564
-     * @param #keyTime: startTime or endTime key filter for the research
+     * @param #keyTime: {@code "startTime"} or {@code "endTime"} key filter for the research
      * @param #valueTime: value of keyTime es. 152221
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are symbol,isIsolated,orderListId,startTime,endTime,limit,recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                          </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromId"} -> if supplied, neither startTime or endTime can be provided - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size value, max 1000 - [INTEGER, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data</a>
-     * @return all OCO margin orders status response as ArrayList<{@link MarginOrderStatusDetails}>
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@link ArrayList} of {@link MarginOrderStatusDetails}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOrdersList(String origClientOrderId, long fromId, String keyTime,
-                                                                         long valueTime, Params extraParams) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOrders(origClientOrderId, fromId,
-                keyTime, valueTime)));
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOrders(String origClientOrderId, long fromId, String keyTime,
+                                                               long valueTime, Params extraParams) throws Exception {
+        return getAllOCOOrders(origClientOrderId, fromId, keyTime, valueTime, extraParams, LIBRARY_OBJECT);
     }
 
-    /** Method to assemble a MarginOrderStatusDetails list
-     * @param #jsonOrderStatus: obtained from {@code "Binance"}'s request
-     * @return a list as ArrayList<MarginOrderStatusDetails>
+    /** Request to get all OCO margin orders status
+     * @param #origClientOrderId: identifier od order list es. 1
+     * @param #fromId: order from start request es. 124564
+     * @param #keyTime: {@code "startTime"} or {@code "endTime"} key filter for the research
+     * @param #valueTime: value of keyTime es. 152221
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                          </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromId"} -> if supplied, neither startTime or endTime can be provided - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size value, max 1000 - [INTEGER, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
+     *    Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all OCO margin orders status response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    private ArrayList<MarginOrderStatusDetails> assembleMarginOrderStatusDetailsList(JSONArray jsonOrderStatus) {
-        ArrayList<MarginOrderStatusDetails> marginOrderStatusDetails = new ArrayList<>();
-        for (int j = 0; j < jsonOrderStatus.length(); j++)
-            marginOrderStatusDetails.add(new MarginOrderStatusDetails(jsonOrderStatus.getJSONObject(j)));
-        return marginOrderStatusDetails;
+    @RequestPath(path = "/sapi/v1/margin/allOrderList")
+    public <T> T getAllOCOOrders(String origClientOrderId, long fromId, String keyTime, long valueTime, Params extraParams,
+                                 ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_ORDERS_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&origClientOrderId=" +
+                        origClientOrderId + "&" + keyTime + "=" + valueTime + "&fromId=" + fromId, extraParams),
+                GET_METHOD), format);
     }
 
     /** Request to get all open OCO margin orders
      * @param #symbol: used in the order es. BTCBUSD
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data</a>
-     * @return all open OCO margin orders response as {@link String}
+     *     Query Margin Account's Open OCO (USER_DATA)</a>
+     * @return all open OCO margin orders response as {@link ArrayList} of {@link MarginOrderStatusDetails}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getAllOCOMarginOpenOrders(String symbol) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&isIsolated=" + true;
-        return sendSignedRequest(MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT, params, GET_METHOD);
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/openOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOpenOrders(String symbol) throws Exception {
+        return getAllOCOOpenOrders(symbol, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get all open OCO margin orders
+     *
+     * @param #symbol: used in the order es. BTCBUSD
+     * @param format:  return type formatter -> {@link ReturnFormat}
+     * @return all open OCO margin orders response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data">
+     * Query Margin Account's Open OCO (USER_DATA)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/openOrderList")
+    public <T> T getAllOCOOpenOrders(String symbol, ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT,
+                        getTimestampParam() + "&symbol=" + symbol + "&isIsolated=" + true, GET_METHOD),
+                format);
+    }
+
+    /**
+     * Request to get all open OCO margin orders <br>
+     * Any params required
+     *
+     * @return all open OCO margin orders response as {@link ArrayList} of {@link MarginOrderStatusDetails}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data">
+     * Query Margin Account's Open OCO (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/openOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOpenOrders() throws Exception {
+        return getAllOCOOpenOrders(LIBRARY_OBJECT);
     }
 
     /** Request to get all open OCO margin orders
-     * @param #symbol: used in the order es. BTCBUSD
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data</a>
-     * @return all open OCO margin orders response as {@link JSONArray}
+     *     Query Margin Account's Open OCO (USER_DATA)</a>
+     * @return all open OCO margin orders response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONArray getJSONAllOCOMarginOpenOrders(String symbol) throws Exception {
-        return new JSONArray(getAllOCOMarginOpenOrders(symbol));
-    }
-
-    /** Request to get all open OCO margin orders
-     * @param #symbol: used in the order es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data</a>
-     * @return all open OCO margin orders response as ArrayList<{@link MarginOrderStatusDetails}>
-     * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOpenOrdersList(String symbol) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOpenOrders(symbol)));
-    }
-
-    /** Request to get all open OCO margin orders <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data</a>
-     * @return all open OCO margin orders response as {@link String}
-     * **/
-    public String getAllOCOMarginOpenOrders() throws Exception {
-        return sendSignedRequest(MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT, getTimestampParam(), GET_METHOD);
-    }
-
-    /** Request to get all open OCO margin orders <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data</a>
-     * @return all open OCO margin orders response as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllOCOMarginOpenOrders() throws Exception {
-        return new JSONArray(getAllOCOMarginOpenOrders());
-    }
-
-    /** Request to get all open OCO margin orders <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data</a>
-     * @return all open OCO margin orders response as ArrayList<{@link MarginOrderStatusDetails}>
-     * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOpenOrdersList() throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOpenOrders()));
+    @RequestPath(path = "/sapi/v1/margin/openOrderList")
+    public <T> T getAllOCOOpenOrders(ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT,
+                getTimestampParam(), GET_METHOD), format);
     }
 
     /** Request to get all open OCO margin orders
      * @param #symbol: used in the order es. BTCBUSD
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data</a>
-     * @return all open OCO margin orders response as {@link String}
+     *     Query Margin Account's Open OCO (USER_DATA)</a>
+     * @return all open OCO margin orders response as {@link ArrayList} of {@link MarginOrderStatusDetails}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getAllOCOMarginOpenOrders(String symbol, long recvWindow) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&isIsolated=" + true;
-        return sendSignedRequest(MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT, params, GET_METHOD);
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/openOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOpenOrders(String symbol, long recvWindow) throws Exception {
+        return getAllOCOOpenOrders(symbol, recvWindow, LIBRARY_OBJECT);
     }
 
-    /** Request to get all open OCO margin orders
-     * @param #symbol: used in the order es. BTCBUSD
+    /**
+     * Request to get all open OCO margin orders
+     *
+     * @param #symbol:     used in the order es. BTCBUSD
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return all open OCO margin orders response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data</a>
-     * @return all open OCO margin orders response as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllOCOMarginOpenOrders(String symbol, long recvWindow) throws Exception {
-        return new JSONArray(getAllOCOMarginOpenOrders(symbol, recvWindow));
+     * Query Margin Account's Open OCO (USER_DATA)</a>
+     **/
+    @WrappedRequest
+    @RequestPath(path = "/sapi/v1/margin/openOrderList")
+    public <T> T getAllOCOOpenOrders(String symbol, long recvWindow, ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT,
+                getTimestampParam() + "&symbol=" + symbol + "&isIsolated=" + true, GET_METHOD), format);
     }
 
     /** Request to get all open OCO margin orders
-     * @param #symbol: used in the order es. BTCBUSD
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                          </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromId"} -> if supplied, neither startTime or endTime can be provided - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size value, max 1000 - [INTEGER, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data</a>
-     * @return all open OCO margin orders response as ArrayList<{@link MarginOrderStatusDetails}>
+     *     Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all open OCO margin orders response as {@link ArrayList} of {@link MarginOrderStatusDetails}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOpenOrdersList(String symbol, long recvWindow) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOpenOrders(symbol, recvWindow)));
+    @RequestPath(path = "/sapi/v1/margin/openOrderList")
+    public ArrayList<MarginOrderStatusDetails> getAllOCOOpenOrders(Params extraParams) throws Exception {
+        return getAllOCOOpenOrders(extraParams, LIBRARY_OBJECT);
     }
 
     /** Request to get all open OCO margin orders
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are symbol,isIsolated,recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                           {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                          </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate orders records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromId"} -> if supplied, neither startTime or endTime can be provided - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size value, max 1000 - [INTEGER, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data</a>
-     * @return all open OCO margin orders response as {@link String}
+     *     Query Margin Account's all OCO (USER_DATA)</a>
+     * @return all open OCO margin orders response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getAllOCOMarginOpenOrders(Params extraParams) throws Exception {
-        String params = apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams);
-        return sendSignedRequest(MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/openOrderList")
+    public <T> T getAllOCOOpenOrders(Params extraParams, ReturnFormat format) throws Exception {
+        return returnMarginOrderStatusDetailsList(sendSignedRequest(MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET_METHOD), format);
     }
 
-    /** Request to get all open OCO margin orders
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are symbol,isIsolated,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data</a>
-     * @return all open OCO margin orders response as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllOCOMarginOpenOrders(Params extraParams) throws Exception {
-        return new JSONArray(getAllOCOMarginOpenOrders(extraParams));
-    }
-
-    /** Request to get all open OCO margin orders
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are symbol,isIsolated,recvWindow)
-     * @apiNote see the official documentation at:<a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data">https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data</a>
-     * @return all open OCO margin orders response as ArrayList<{@link MarginOrderStatusDetails}>
-     * **/
-    public ArrayList<MarginOrderStatusDetails> getAllOCOMarginOpenOrdersList(Params extraParams) throws Exception {
-        return assembleMarginOrderStatusDetailsList(new JSONArray(getAllOCOMarginOpenOrders(extraParams)));
+    /**
+     * Method to create an order status details list
+     *
+     * @param orderStatusResponse: obtained from Binance's response
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @return an order status details list as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnMarginOrderStatusDetailsList(String orderStatusResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(orderStatusResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<MarginOrderStatusDetails> marginOrderStatusDetails = new ArrayList<>();
+                JSONArray jList = new JSONArray(orderStatusResponse);
+                for (int j = 0; j < jList.length(); j++)
+                    marginOrderStatusDetails.add(new MarginOrderStatusDetails(jList.getJSONObject(j)));
+                return (T) marginOrderStatusDetails;
+            default:
+                return (T) orderStatusResponse;
+        }
     }
 
     /** Request to get margin trade list
@@ -4913,58 +7804,13 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return getTransactionId(getMarginIsolatedTransfer(asset, symbol, transFrom, transTo, amount, recvWindow));
     }
 
-    /**
-     * {@code MarginTransferType} list of available transfer type
-     **/
-    public enum MarginTransferType {
-
-        /**
-         * {@code "pending"} status
-         **/
-        MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT(1),
-
-        /**
-         * {@code "credited_but_cannot_withdraw"} status
-         **/
-        CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT(2);
-
-        /**
-         * {@code "status"} value
-         **/
-        private final int transferType;
-
-        /**
-         * Constructor to init {@link Deposit.DepositStatus}
-         *
-         * @param transferType: status value
-         **/
-        MarginTransferType(int transferType) {
-            this.transferType = transferType;
-        }
-
-        /**
-         * Method to get the {@link MarginTransferType} by an int <br>
-         * Any params required
-         *
-         * @return {@link MarginTransferType} corresponding value
-         **/
-        public static MarginTransferType valueOf(int status) {
-            if (status == 1)
-                return MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT;
-            return CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT;
-        }
-
-        /**
-         * Method to get {@link #transferType} instance <br>
-         * Any params required
-         *
-         * @return {@link #transferType} instance as {@link String}
-         **/
-        @Override
-        public String toString() {
-            return String.valueOf(transferType);
-        }
-
+    /** Method to get tranId value
+     * @param stringSource: obtained from {@code "Binance"}'s request
+     * @return tranId value as long
+     * **/
+    private long getTransactionId(String stringSource){
+        JSONObject transaction = new JSONObject(stringSource);
+        return transaction.getLong("tranId");
     }
 
     /**
@@ -5924,26 +8770,30 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return sendSignedRequest(ISOLATED_MARGIN_TIER_DATA_ENDPOINT, params, GET_METHOD);
     }
 
-    /** Request to get isolated margin tier data
-     * @param #symbol: used in the request es. BTCBUSD
+    /**
+     * Request to get isolated margin tier data
+     *
+     * @param #symbol:     used in the request es. BTCBUSD
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are tier,symbol,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data</a>
      * @return isolated margin tier data as {@link JSONArray}
-     * **/
+     * @implSpec (keys accepted are tier, symbol, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data</a>
+     **/
     public JSONArray getJSONIsolatedMarginTierData(String symbol, Params extraParams) throws Exception {
         return new JSONArray(getIsolatedMarginTierData(symbol, extraParams));
     }
 
-    /** Request to get isolated margin tier data list
-     * @param #symbol: used in the request es. BTCBUSD
+    /**
+     * Request to get isolated margin tier data list
+     *
+     * @param #symbol:     used in the request es. BTCBUSD
      * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are tier,symbol,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data</a>
      * @return isolated margin tier data as ArrayList<{@link IsolatedMarginTierData}>
-     * **/
+     * @implSpec (keys accepted are tier, symbol, recvWindow)
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data">
+     * https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data</a>
+     **/
     public ArrayList<IsolatedMarginTierData> getIsolatedMarginTierDataList(String symbol, Params extraParams) throws Exception {
         return assembleIsolatedMarginTierDataList(new JSONArray(getIsolatedMarginTierData(symbol, extraParams)));
     }
@@ -5957,6 +8807,60 @@ public class BinanceMarginManager extends BinanceSignedManager {
         for (int j = 0; j < jsonTierData.length(); j++)
             isolatedMarginTierData.add(new IsolatedMarginTierData(jsonTierData.getJSONObject(j)));
         return isolatedMarginTierData;
+    }
+    
+    /**
+     * {@code MarginTransferType} list of available transfer type
+     **/
+    public enum MarginTransferType {
+
+        /**
+         * {@code "pending"} status
+         **/
+        MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT(1),
+
+        /**
+         * {@code "credited_but_cannot_withdraw"} status
+         **/
+        CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT(2);
+
+        /**
+         * {@code "status"} value
+         **/
+        private final int transferType;
+
+        /**
+         * Constructor to init {@link Deposit.DepositStatus}
+         *
+         * @param transferType: status value
+         **/
+        MarginTransferType(int transferType) {
+            this.transferType = transferType;
+        }
+
+        /**
+         * Method to get the {@link MarginTransferType} by an int <br>
+         * Any params required
+         *
+         * @return {@link MarginTransferType} corresponding value
+         **/
+        public static MarginTransferType valueOf(int status) {
+            if (status == 1)
+                return MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT;
+            return CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT;
+        }
+
+        /**
+         * Method to get {@link #transferType} instance <br>
+         * Any params required
+         *
+         * @return {@link #transferType} instance as {@link String}
+         **/
+        @Override
+        public String toString() {
+            return String.valueOf(transferType);
+        }
+
     }
 
 }

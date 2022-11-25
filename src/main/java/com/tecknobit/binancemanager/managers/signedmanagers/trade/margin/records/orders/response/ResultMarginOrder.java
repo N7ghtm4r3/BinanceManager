@@ -15,7 +15,6 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see MarginOrder
  * @see ACKMarginOrder
  **/
-// TODO: 21/11/2022 CHECK TO REMOVE
 public class ResultMarginOrder extends ACKMarginOrder {
 
     /**

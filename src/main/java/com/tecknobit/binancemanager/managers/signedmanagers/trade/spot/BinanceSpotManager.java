@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot;
 
+import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
@@ -163,7 +164,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
      * **/
-    public String sendLimitOrder(String symbol, String side, String timeInForce, double quantity,
+    public String sendLimitOrder(String symbol, String side, TimeInForce timeInForce, double quantity,
                                  double price, Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, LIMIT, getLimitPayload(timeInForce, quantity, price, extraParams));
     }
@@ -181,7 +182,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
      * **/
-    public JSONObject sendLimitOrderJSON(String symbol, String side, String timeInForce, double quantity,
+    public JSONObject sendLimitOrderJSON(String symbol, String side, TimeInForce timeInForce, double quantity,
                                          double price, Params extraParams) throws Exception {
         return new JSONObject(sendLimitOrder(symbol, side, timeInForce, quantity, price, extraParams));
     }
@@ -199,7 +200,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
      * **/
-    public <T extends ACKSpotOrder> T sendLimitOrderObject(String symbol, String side, String timeInForce, double quantity,
+    public <T extends ACKSpotOrder> T sendLimitOrderObject(String symbol, String side, TimeInForce timeInForce, double quantity,
                                                            double price, Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, LIMIT, getLimitPayload(timeInForce, quantity, price, extraParams));
     }
@@ -422,7 +423,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
      * **/
-    public String sendStopLossLimitOrderPrice(String symbol, String side, String timeInForce, double quantity,
+    public String sendStopLossLimitOrderPrice(String symbol, String side, TimeInForce timeInForce, double quantity,
                                               double price, double stopPrice, Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
                 "stopPrice", stopPrice, extraParams));
@@ -442,7 +443,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
      * **/
-    public JSONObject sendStopLossLimitOrderPriceJSON(String symbol, String side, String timeInForce, double quantity,
+    public JSONObject sendStopLossLimitOrderPriceJSON(String symbol, String side, TimeInForce timeInForce, double quantity,
                                                       double price, double stopPrice, Params extraParams) throws Exception {
         return new JSONObject(sendStopLossLimitOrderPrice(symbol, side, timeInForce, quantity, price, stopPrice, extraParams));
     }
@@ -461,7 +462,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
      * **/
-    public <T extends ACKSpotOrder> T sendStopLossLimitOrderPriceObject(String symbol, String side, String timeInForce,
+    public <T extends ACKSpotOrder> T sendStopLossLimitOrderPriceObject(String symbol, String side, TimeInForce timeInForce,
                                                                         double quantity, double price, double stopPrice,
                                                                         Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
@@ -482,7 +483,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
      * **/
-    public String sendStopLossLimitOrderDelta(String symbol, String side, String timeInForce, double quantity,
+    public String sendStopLossLimitOrderDelta(String symbol, String side, TimeInForce timeInForce, double quantity,
                                               double price, double trailingDelta, Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce, quantity, trailingDelta,
                 "trailingDelta", trailingDelta, extraParams));
@@ -502,7 +503,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
      * **/
-    public JSONObject sendStopLossLimitOrderDeltaJSON(String symbol, String side, String timeInForce, double quantity,
+    public JSONObject sendStopLossLimitOrderDeltaJSON(String symbol, String side, TimeInForce timeInForce, double quantity,
                                                       double price, double trailingDelta, Params extraParams) throws Exception {
         return new JSONObject(sendStopLossLimitOrderDelta(symbol, side, timeInForce, quantity, price, trailingDelta, extraParams));
     }
@@ -521,7 +522,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
      * **/
-    public <T extends ACKSpotOrder> T sendStopLossLimitOrderDeltaObject(String symbol, String side, String timeInForce,
+    public <T extends ACKSpotOrder> T sendStopLossLimitOrderDeltaObject(String symbol, String side, TimeInForce timeInForce,
                                                                         double quantity, double price, double trailingDelta,
                                                                         Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
@@ -649,7 +650,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
      * **/
-    public String sendTakeProfitLimitOrderPrice(String symbol, String side, String timeInForce, double quantity,
+    public String sendTakeProfitLimitOrderPrice(String symbol, String side, TimeInForce timeInForce, double quantity,
                                                 double price, double stopPrice, Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
                 "stopPrice", stopPrice, extraParams));
@@ -669,7 +670,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
      * **/
-    public JSONObject sendTakeProfitLimitOrderPriceJSON(String symbol, String side, String timeInForce, double quantity,
+    public JSONObject sendTakeProfitLimitOrderPriceJSON(String symbol, String side, TimeInForce timeInForce, double quantity,
                                                         double price, double stopPrice, Params extraParams) throws Exception {
         return new JSONObject(sendStopLossLimitOrderPrice(symbol, side, timeInForce, quantity, price, stopPrice, extraParams));
     }
@@ -688,7 +689,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
      * **/
-    public <T extends ACKSpotOrder> T sendTakeProfitLimitOrderPriceObject(String symbol, String side, String timeInForce,
+    public <T extends ACKSpotOrder> T sendTakeProfitLimitOrderPriceObject(String symbol, String side, TimeInForce timeInForce,
                                                                           double quantity, double price, double stopPrice,
                                                                           Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
@@ -709,7 +710,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
      * **/
-    public String sendTakeProfitLimitOrderDelta(String symbol, String side, String timeInForce, double quantity,
+    public String sendTakeProfitLimitOrderDelta(String symbol, String side, TimeInForce timeInForce, double quantity,
                                                 double price, double trailingDelta, Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce, quantity, trailingDelta,
                 "trailingDelta", trailingDelta, extraParams));
@@ -729,7 +730,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
      * **/
-    public JSONObject sendTakeProfitLimitOrderDeltaJSON(String symbol, String side, String timeInForce, double quantity,
+    public JSONObject sendTakeProfitLimitOrderDeltaJSON(String symbol, String side, TimeInForce timeInForce, double quantity,
                                                         double price, double trailingDelta, Params extraParams) throws Exception {
         return new JSONObject(sendTakeProfitLimitOrderDelta(symbol, side, timeInForce, quantity, price, trailingDelta, extraParams));
     }
@@ -748,7 +749,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link ACKSpotOrder}
      * **/
-    public <T extends ACKSpotOrder> T sendTakeProfitLimitOrderDeltaObject(String symbol, String side, String timeInForce,
+    public <T extends ACKSpotOrder> T sendTakeProfitLimitOrderDeltaObject(String symbol, String side, TimeInForce timeInForce,
                                                                           double quantity, double price, double trailingDelta,
                                                                           Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce, quantity, price,
@@ -856,7 +857,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
      * **/
-    public String sendLimitOrder(String symbol, String side, String newOrderRespType, String timeInForce, double quantity,
+    public String sendLimitOrder(String symbol, String side, String newOrderRespType, TimeInForce timeInForce, double quantity,
                                  double price, Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, newOrderRespType, LIMIT, getLimitPayload(timeInForce, quantity, price, extraParams));
     }
@@ -873,7 +874,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
      * **/
-    public JSONObject sendLimitOrderJSON(String symbol, String side, String newOrderRespType, String timeInForce, double quantity,
+    public JSONObject sendLimitOrderJSON(String symbol, String side, String newOrderRespType, TimeInForce timeInForce, double quantity,
                                          double price, Params extraParams) throws Exception {
         return new JSONObject(sendLimitOrder(symbol, side, newOrderRespType, timeInForce, quantity, price, extraParams));
     }
@@ -891,7 +892,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link ACKSpotOrder}
      * **/
     public <T extends ACKSpotOrder> T sendLimitOrderObject(String symbol, String side, String newOrderRespType,
-                                                           String timeInForce, double quantity, double price,
+                                                           TimeInForce timeInForce, double quantity, double price,
                                                            Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, newOrderRespType, LIMIT, getLimitPayload(timeInForce, quantity, price,
                 extraParams));
@@ -1132,7 +1133,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
      * **/
-    public String sendStopLossLimitOrderPrice(String symbol, String side, String newOrderRespType, String timeInForce,
+    public String sendStopLossLimitOrderPrice(String symbol, String side, String newOrderRespType, TimeInForce timeInForce,
                                               double quantity, double price, double stopPrice,
                                               Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, newOrderRespType, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce, quantity,
@@ -1154,7 +1155,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
      * **/
-    public JSONObject sendStopLossLimitOrderPriceJSON(String symbol, String side, String newOrderRespType, String timeInForce,
+    public JSONObject sendStopLossLimitOrderPriceJSON(String symbol, String side, String newOrderRespType, TimeInForce timeInForce,
                                                       double quantity, double price, double stopPrice,
                                                       Params extraParams) throws Exception {
         return new JSONObject(sendStopLossLimitOrderPrice(symbol, side, newOrderRespType, timeInForce, quantity, price,
@@ -1177,7 +1178,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link ACKSpotOrder}
      * **/
     public <T extends ACKSpotOrder> T sendStopLossLimitOrderPriceObject(String symbol, String side, String newOrderRespType,
-                                                                        String timeInForce, double quantity, double price,
+                                                                        TimeInForce timeInForce, double quantity, double price,
                                                                         double stopPrice, Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, newOrderRespType, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce,
                 quantity, price, "stopPrice", stopPrice, extraParams));
@@ -1198,7 +1199,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
      * **/
-    public String sendStopLossLimitOrderDelta(String symbol, String side, String newOrderRespType, String timeInForce,
+    public String sendStopLossLimitOrderDelta(String symbol, String side, String newOrderRespType, TimeInForce timeInForce,
                                               double quantity, double price, double trailingDelta,
                                               Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, newOrderRespType, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce, quantity,
@@ -1220,7 +1221,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link JSONObject}
      * **/
-    public JSONObject sendStopLossLimitOrderDeltaJSON(String symbol, String side, String newOrderRespType, String timeInForce,
+    public JSONObject sendStopLossLimitOrderDeltaJSON(String symbol, String side, String newOrderRespType, TimeInForce timeInForce,
                                                       double quantity, double price, double trailingDelta,
                                                       Params extraParams) throws Exception {
         return new JSONObject(sendStopLossLimitOrderDelta(symbol, side, newOrderRespType, timeInForce, quantity, price,
@@ -1243,7 +1244,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link ACKSpotOrder}
      * **/
     public <T extends ACKSpotOrder> T sendStopLossLimitOrderDeltaObject(String symbol, String side, String newOrderRespType,
-                                                                        String timeInForce, double quantity, double price,
+                                                                        TimeInForce timeInForce, double quantity, double price,
                                                                         double trailingDelta,
                                                                         Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, newOrderRespType, STOP_LOSS_LIMIT, getLevelLimitPayload(timeInForce,
@@ -1379,7 +1380,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
      * **/
-    public String sendTakeProfitLimitOrderPrice(String symbol, String side, String newOrderRespType, String timeInForce,
+    public String sendTakeProfitLimitOrderPrice(String symbol, String side, String newOrderRespType, TimeInForce timeInForce,
                                                 double quantity, double price, double stopPrice,
                                                 Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, newOrderRespType, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce, quantity,
@@ -1402,7 +1403,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendTakeProfitLimitOrderPriceJSON(String symbol, String side, String newOrderRespType,
-                                                        String timeInForce, double quantity, double price, double stopPrice,
+                                                        TimeInForce timeInForce, double quantity, double price, double stopPrice,
                                                         Params extraParams) throws Exception {
         return new JSONObject(sendStopLossLimitOrderPrice(symbol, side, newOrderRespType, timeInForce, quantity, price,
                 stopPrice, extraParams));
@@ -1424,7 +1425,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link ACKSpotOrder}
      * **/
     public <T extends ACKSpotOrder> T sendTakeProfitLimitOrderPriceObject(String symbol, String side, String newOrderRespType,
-                                                                          String timeInForce, double quantity, double price,
+                                                                          TimeInForce timeInForce, double quantity, double price,
                                                                           double stopPrice,
                                                                           Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, newOrderRespType, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce,
@@ -1446,7 +1447,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *     https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
      * @return result of the order as {@link String}
      * **/
-    public String sendTakeProfitLimitOrderDelta(String symbol, String side, String newOrderRespType, String timeInForce,
+    public String sendTakeProfitLimitOrderDelta(String symbol, String side, String newOrderRespType, TimeInForce timeInForce,
                                                 double quantity, double price, double trailingDelta,
                                                 Params extraParams) throws Exception {
         return sendNewOrder(symbol, side, newOrderRespType, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce, quantity,
@@ -1469,7 +1470,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link JSONObject}
      * **/
     public JSONObject sendTakeProfitLimitOrderDeltaJSON(String symbol, String side, String newOrderRespType,
-                                                        String timeInForce, double quantity, double price, double trailingDelta,
+                                                        TimeInForce timeInForce, double quantity, double price, double trailingDelta,
                                                         Params extraParams) throws Exception {
         return new JSONObject(sendTakeProfitLimitOrderDelta(symbol, side, newOrderRespType, timeInForce, quantity, price,
                 trailingDelta, extraParams));
@@ -1491,7 +1492,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link ACKSpotOrder}
      * **/
     public <T extends ACKSpotOrder> T sendTakeProfitLimitOrderDeltaObject(String symbol, String side, String newOrderRespType,
-                                                                          String timeInForce, double quantity, double price,
+                                                                          TimeInForce timeInForce, double quantity, double price,
                                                                           double trailingDelta,
                                                                           Params extraParams) throws Exception {
         return sendNewOrderObject(symbol, side, newOrderRespType, TAKE_PROFIT_LIMIT, getLevelLimitPayload(timeInForce,
@@ -1565,9 +1566,22 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @return result of the order as {@link String}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
      *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     **/
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-order-trade">
+     * Margin Account New Order (TRADE)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/order")
     private String sendNewOrder(String symbol, String side, String type, String newOrderRespType,
                                 Params extraParams) throws Exception {
         String params = getTimestampParam() + "&symbol=" + symbol + "&side=" + side + "&type=" + type
@@ -2169,7 +2183,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
-    public String casLimitOrder(String symbol, String side, String cancelReplaceMode, String timeInForce,
+    public String casLimitOrder(String symbol, String side, String cancelReplaceMode, TimeInForce timeInForce,
                                 double quantity, double price, Params extraParams) throws Exception {
         return cancelAndSendOrder(symbol, side, LIMIT, cancelReplaceMode, getLimitPayload(timeInForce, quantity, price,
                 extraParams));
@@ -2193,7 +2207,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
-    public JSONObject casLimitOrderJSON(String symbol, String side, String cancelReplaceMode, String timeInForce,
+    public JSONObject casLimitOrderJSON(String symbol, String side, String cancelReplaceMode, TimeInForce timeInForce,
                                         double quantity, double price, Params extraParams) throws Exception {
         return new JSONObject(casLimitOrder(symbol, side, cancelReplaceMode, timeInForce, quantity, price, extraParams));
     }
@@ -2216,7 +2230,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
-    public SpotOrderCAS casLimitOrderObject(String symbol, String side, String cancelReplaceMode, String timeInForce,
+    public SpotOrderCAS casLimitOrderObject(String symbol, String side, String cancelReplaceMode, TimeInForce timeInForce,
                                             double quantity, double price, Params extraParams) throws Exception {
         return new SpotOrderCAS(new JSONObject(casLimitOrder(symbol, side, cancelReplaceMode, timeInForce, quantity,
                 price, extraParams)));
@@ -2497,7 +2511,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
-    public String casStopLossLimitOrderPrice(String symbol, String side, String cancelReplaceMode, String timeInForce,
+    public String casStopLossLimitOrderPrice(String symbol, String side, String cancelReplaceMode, TimeInForce timeInForce,
                                              double quantity, double price, double stopPrice, Params extraParams) throws Exception {
         return cancelAndSendOrder(symbol, side, STOP_LOSS_LIMIT, cancelReplaceMode, getLevelLimitPayload(timeInForce, quantity, price,
                 "stopPrice", stopPrice, extraParams));
@@ -2521,7 +2535,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
-    public JSONObject casStopLossLimitOrderPriceJSON(String symbol, String side, String cancelReplaceMode, String timeInForce,
+    public JSONObject casStopLossLimitOrderPriceJSON(String symbol, String side, String cancelReplaceMode, TimeInForce timeInForce,
                                                      double quantity, double price, double stopPrice,
                                                      Params extraParams) throws Exception {
         return new JSONObject(casStopLossLimitOrderPrice(symbol, side, cancelReplaceMode, timeInForce, quantity, price,
@@ -2547,7 +2561,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
     public SpotOrderCAS casStopLossLimitOrderPriceObject(String symbol, String side, String cancelReplaceMode,
-                                                         String timeInForce, double quantity, double price,
+                                                         TimeInForce timeInForce, double quantity, double price,
                                                          double stopPrice, Params extraParams) throws Exception {
         return new SpotOrderCAS(new JSONObject(casStopLossLimitOrderPrice(symbol, side, cancelReplaceMode, timeInForce,
                 quantity, price, stopPrice, extraParams)));
@@ -2571,7 +2585,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
-    public String casStopLossLimitOrderDelta(String symbol, String side, String cancelReplaceMode, String timeInForce,
+    public String casStopLossLimitOrderDelta(String symbol, String side, String cancelReplaceMode, TimeInForce timeInForce,
                                              double quantity, double price, double trailingDelta,
                                              Params extraParams) throws Exception {
         return cancelAndSendOrder(symbol, side, STOP_LOSS_LIMIT, cancelReplaceMode, getLevelLimitPayload(timeInForce,
@@ -2596,7 +2610,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
-    public JSONObject casStopLossLimitOrderDeltaJSON(String symbol, String side, String cancelReplaceMode, String timeInForce,
+    public JSONObject casStopLossLimitOrderDeltaJSON(String symbol, String side, String cancelReplaceMode, TimeInForce timeInForce,
                                                      double quantity, double price, double trailingDelta,
                                                      Params extraParams) throws Exception {
         return new JSONObject(casStopLossLimitOrderDelta(symbol, side, cancelReplaceMode, timeInForce, quantity, price,
@@ -2622,7 +2636,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
     public SpotOrderCAS casStopLossLimitOrderDeltaObject(String symbol, String side, String cancelReplaceMode,
-                                                         String timeInForce, double quantity, double price,
+                                                         TimeInForce timeInForce, double quantity, double price,
                                                          double trailingDelta, Params extraParams) throws Exception {
         return new SpotOrderCAS(new JSONObject(casStopLossLimitOrderDelta(symbol, side, cancelReplaceMode, timeInForce,
                 quantity, price, trailingDelta, extraParams)));
@@ -2777,7 +2791,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
-    public String casTakeProfitLimitOrderPrice(String symbol, String side, String cancelReplaceMode, String timeInForce,
+    public String casTakeProfitLimitOrderPrice(String symbol, String side, String cancelReplaceMode, TimeInForce timeInForce,
                                                double quantity, double price, double stopPrice,
                                                Params extraParams) throws Exception {
         return cancelAndSendOrder(symbol, side, TAKE_PROFIT_LIMIT, cancelReplaceMode, getLevelLimitPayload(timeInForce,
@@ -2803,7 +2817,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
     public JSONObject casTakeProfitLimitOrderPriceJSON(String symbol, String side, String cancelReplaceMode,
-                                                       String timeInForce, double quantity, double price, double stopPrice,
+                                                       TimeInForce timeInForce, double quantity, double price, double stopPrice,
                                                        Params extraParams) throws Exception {
         return new JSONObject(casTakeProfitLimitOrderPrice(symbol, side, cancelReplaceMode, timeInForce, quantity, price,
                 stopPrice, extraParams));
@@ -2828,7 +2842,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
     public SpotOrderCAS casTakeProfitLimitOrderPriceObject(String symbol, String side, String cancelReplaceMode,
-                                                           String timeInForce, double quantity, double price,
+                                                           TimeInForce timeInForce, double quantity, double price,
                                                            double stopPrice, Params extraParams) throws Exception {
         return new SpotOrderCAS(new JSONObject(casTakeProfitLimitOrderPrice(symbol, side, cancelReplaceMode, timeInForce,
                 quantity, price, stopPrice, extraParams)));
@@ -2852,7 +2866,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
-    public String casTakeProfitLimitOrderDelta(String symbol, String side, String cancelReplaceMode, String timeInForce,
+    public String casTakeProfitLimitOrderDelta(String symbol, String side, String cancelReplaceMode, TimeInForce timeInForce,
                                                double quantity, double price, double trailingDelta,
                                                Params extraParams) throws Exception {
         return cancelAndSendOrder(symbol, side, TAKE_PROFIT_LIMIT, cancelReplaceMode, getLevelLimitPayload(timeInForce, quantity,
@@ -2878,7 +2892,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
     public JSONObject casTakeProfitLimitOrderDeltaJSON(String symbol, String side, String cancelReplaceMode,
-                                                       String timeInForce, double quantity, double price,
+                                                       TimeInForce timeInForce, double quantity, double price,
                                                        double trailingDelta, Params extraParams) throws Exception {
         return new JSONObject(casTakeProfitLimitOrderDelta(symbol, side, cancelReplaceMode, timeInForce, quantity, price,
                 trailingDelta, extraParams));
@@ -2903,7 +2917,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade</a>
      **/
     public SpotOrderCAS casTakeProfitLimitOrderDeltaObject(String symbol, String side, String cancelReplaceMode,
-                                                           String timeInForce, double quantity, double price,
+                                                           TimeInForce timeInForce, double quantity, double price,
                                                            double trailingDelta, Params extraParams) throws Exception {
         return new SpotOrderCAS(new JSONObject(casTakeProfitLimitOrderDelta(symbol, side, cancelReplaceMode, timeInForce,
                 quantity, price, trailingDelta, extraParams)));
