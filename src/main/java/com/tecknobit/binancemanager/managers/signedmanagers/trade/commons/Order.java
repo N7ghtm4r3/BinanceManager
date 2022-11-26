@@ -101,7 +101,7 @@ public class Order {
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
      *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
+     * Test New Order (TRADE)</a>
      **/
     public static BinanceManager.Params getLimitPayload(TimeInForce timeInForce, double quantity, double price, BinanceManager.Params extraParams) {
         BinanceManager.Params payload = new BinanceManager.Params();
@@ -123,7 +123,7 @@ public class Order {
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
      *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
+     * Test New Order (TRADE)</a>
      **/
     public static BinanceManager.Params getMarketPayload(String keyQty, double qty, BinanceManager.Params extraParams) {
         BinanceManager.Params payload = new BinanceManager.Params();
@@ -144,7 +144,7 @@ public class Order {
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
      *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
+     * Test New Order (TRADE)</a>
      **/
     public static BinanceManager.Params getLevelPayload(double quantity, String key, double value, BinanceManager.Params extraParams) {
         BinanceManager.Params payload = new BinanceManager.Params();
@@ -168,7 +168,7 @@ public class Order {
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
      *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
+     * Test New Order (TRADE)</a>
      **/
     public static BinanceManager.Params getLevelLimitPayload(TimeInForce timeInForce, double quantity, double price, String key, double value,
                                                              BinanceManager.Params extraParams) {
@@ -187,7 +187,7 @@ public class Order {
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
      *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
-     * https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade</a>
+     * Test New Order (TRADE)</a>
      **/
     public static BinanceManager.Params getLimitMakerPayload(double quantity, double price, BinanceManager.Params extraParams) {
         BinanceManager.Params payload = new BinanceManager.Params();

@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.details;
 
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.details.OpenMarginOrders;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -30,9 +31,27 @@ public class OpenSpotOrders {
      * @param singleOrders:         spot orders data list
      * @param cancelOrderComposeds: composed spot orders data list
      **/
-    public OpenSpotOrders(ArrayList<SpotOrderDetails> singleOrders, ArrayList<ComposedSpotOrderDetails> cancelOrderComposeds) {
+    public OpenSpotOrders(ArrayList<SpotOrderDetails> singleOrders,
+                          ArrayList<ComposedSpotOrderDetails> cancelOrderComposeds) {
         this.spotOrdersDetails = singleOrders;
         this.composedSpotOrderDetails = cancelOrderComposeds;
+    }
+
+    /**
+     * Constructor to init {@link OpenSpotOrders} object
+     *
+     * @param jOpenSpotOrders: open margin orders details as {@link JSONArray}
+     **/
+    public OpenSpotOrders(JSONArray jOpenSpotOrders) {
+        spotOrdersDetails = new ArrayList<>();
+        composedSpotOrderDetails = new ArrayList<>();
+        for (int j = 0; j < jOpenSpotOrders.length(); j++) {
+            JSONObject openSpotOrder = jOpenSpotOrders.getJSONObject(j);
+            if (openSpotOrder.has("contingencyType"))
+                composedSpotOrderDetails.add(new ComposedSpotOrderDetails(openSpotOrder));
+            else
+                spotOrdersDetails.add(new SpotOrderDetails(openSpotOrder));
+        }
     }
 
     /**

@@ -20,7 +20,6 @@ import java.util.ArrayList;
  * @see SpotOrder
  * @see ResultSpotOrder
  **/
-// TODO: 22/11/2022 CHECK TO REMOVE
 public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
 
     /**

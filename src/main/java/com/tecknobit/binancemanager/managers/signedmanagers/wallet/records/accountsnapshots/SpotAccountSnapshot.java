@@ -82,7 +82,6 @@ public class SpotAccountSnapshot extends AccountSnapshot {
      * @param jsonBalances: snapshotVos obtain by AccountSnapshot {@code "Binance"} request
      * @return list as {@link ArrayList} of {@link SpotBalance}
      **/
-    // TODO: 22/11/2022 CHECK TO REMOVE OR MODIFY 
     @Returner
     public static ArrayList<SpotBalance> getBalancesSpot(JSONArray jsonBalances) {
         ArrayList<SpotBalance> spotBalances = new ArrayList<>();

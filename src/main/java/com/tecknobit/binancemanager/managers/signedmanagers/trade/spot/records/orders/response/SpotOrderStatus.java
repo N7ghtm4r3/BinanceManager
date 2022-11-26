@@ -18,7 +18,6 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see SpotOrder
  * @see ResultSpotOrder
  **/
-// TODO: 22/11/2022 CHECK TO REMOVE
 public class SpotOrderStatus extends ResultSpotOrder {
 
     /**

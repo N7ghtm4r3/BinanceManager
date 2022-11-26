@@ -39,7 +39,7 @@ public class OpenMarginOrders {
     /**
      * Constructor to init {@link OpenMarginOrders} object
      *
-     * @param jOpenMarginOrders: open margin orders details as {@link JSONObject}
+     * @param jOpenMarginOrders: open margin orders details as {@link JSONArray}
      **/
     public OpenMarginOrders(JSONArray jOpenMarginOrders) {
         marginOrdersDetails = new ArrayList<>();

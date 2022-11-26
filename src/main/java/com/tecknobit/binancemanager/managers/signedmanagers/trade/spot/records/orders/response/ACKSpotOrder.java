@@ -15,7 +15,6 @@ import java.util.Date;
  * @see Order
  * @see SpotOrder
  **/
-// TODO: 22/11/2022 CHECK TO REMOVE
 public class ACKSpotOrder extends SpotOrder {
 
     /**

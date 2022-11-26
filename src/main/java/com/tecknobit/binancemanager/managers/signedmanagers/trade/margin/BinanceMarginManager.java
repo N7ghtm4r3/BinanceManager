@@ -3041,11 +3041,11 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /**
-     * Method to create a margin details id
+     * Method to create a margin order details
      *
      * @param marginDetailsResponse: obtained from Binance's response
      * @param format:                return type formatter -> {@link ReturnFormat}
-     * @return margin details as {@code "format"} defines
+     * @return margin order details as {@code "format"} defines
      **/
     @Returner
     private <T> T returnMarginOrderDetails(String marginDetailsResponse, ReturnFormat format) {
@@ -5369,7 +5369,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                                 {@code "orderId"} -> order identifier - [LONG]
      *                           </li>
      *                           <li>
-     *                                {@code "limit"} -> limit results - [INT, default 500]
+     *                                {@code "limit"} -> limit results, max 1000 - [INT, default 500]
      *                           </li>
      *                           <li>
      *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -5413,7 +5413,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                                 {@code "orderId"} -> order identifier - [LONG]
      *                           </li>
      *                           <li>
-     *                                {@code "limit"} -> limit results - [INT, default 500]
+     *                                {@code "limit"} -> limit results, max 1000 - [INT, default 500]
      *                           </li>
      *                           <li>
      *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -7540,7 +7540,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                                 {@code "fromId"} -> tradeId to fetch from - [STRING, default gets most recent trades]
      *                           </li>
      *                           <li>
-     *                                {@code "limit"} -> limit results - [INT, default 500]
+     *                                {@code "limit"} -> limit results, max 1000 - [INT, default 500]
      *                           </li>
      *                           <li>
      *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -7586,7 +7586,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                                 {@code "fromId"} -> tradeId to fetch from - [STRING, default gets most recent trades]
      *                           </li>
      *                           <li>
-     *                                {@code "limit"} -> limit results - [INT, default 500]
+     *                                {@code "limit"} -> limit results, max 1000 - [INT, default 500]
      *                           </li>
      *                           <li>
      *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]

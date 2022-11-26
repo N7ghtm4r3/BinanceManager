@@ -645,7 +645,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @param extraParams: additional params of the request, keys accepted are:
      *                     <ul>
      *                           <li>
-     *                                {@code "limit"} -> limit results - [INT, default 500]
+     *                                {@code "limit"} -> limit results, max 1000 - [INT, default 500]
      *                           </li>
      *                           <li>
      *                                {@code "fromId"} -> rade id to fetch from. Default gets most recent trades - [LONG]
@@ -680,7 +680,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @param extraParams: additional params of the request, keys accepted are:
      *                     <ul>
      *                           <li>
-     *                                {@code "limit"} -> limit results - [INT, default 500]
+     *                                {@code "limit"} -> limit results, max 1000 - [INT, default 500]
      *                           </li>
      *                           <li>
      *                                {@code "fromId"} -> rade id to fetch from. Default gets most recent trades - [LONG]
@@ -801,7 +801,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                                {@code "endTime"} -> timestamp in ms to get aggregate trades until INCLUSIVE - [LONG]
      *                           </li>
      *                           <li>
-     *                                {@code "limit"} -> limit results - [INT, default 500]
+     *                                {@code "limit"} -> limit results, max 1000 - [INT, default 500]
      *                           </li>
      *                     </ul>
      * @return compressed trade list as {@link ArrayList} of {@link CompressedTrade}
@@ -841,7 +841,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                                {@code "endTime"} -> timestamp in ms to get aggregate trades until INCLUSIVE - [LONG]
      *                           </li>
      *                           <li>
-     *                                {@code "limit"} -> limit results - [INT, default 500]
+     *                                {@code "limit"} -> limit results, max 1000 - [INT, default 500]
      *                           </li>
      *                     </ul>
      * @param format:      return type formatter -> {@link ReturnFormat}
@@ -959,7 +959,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                                {@code "endTime"} -> timestamp in ms to get aggregate trades until INCLUSIVE - [LONG]
      *                           </li>
      *                           <li>
-     *                                {@code "limit"} -> limit results - [INT, default 500]
+     *                                {@code "limit"} -> limit results, max 1000 - [INT, default 500]
      *                           </li>
      *                     </ul>
      * @return candlestick data as {@link ArrayList} of {@link Candlestick}
@@ -998,7 +998,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                                {@code "endTime"} -> timestamp in ms to get aggregate trades until INCLUSIVE - [LONG]
      *                           </li>
      *                           <li>
-     *                                {@code "limit"} -> limit results - [INT, default 500]
+     *                                {@code "limit"} -> limit results, max 1000 - [INT, default 500]
      *                           </li>
      *                     </ul>
      * @param format:      return type formatter -> {@link ReturnFormat}
@@ -1091,7 +1091,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                              {@code "endTime"} -> timestamp in ms to get aggregate trades until INCLUSIVE - [LONG]
      *                         </li>
      *                         <li>
-     *                              {@code "limit"} -> limit results - [INT, default 500]
+     *                              {@code "limit"} -> limit results, max 1000 - [INT, default 500]
      *                         </li>
      *                   </ul>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#uiklines">
@@ -1130,7 +1130,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                                {@code "endTime"} -> timestamp in ms to get aggregate trades until INCLUSIVE - [LONG]
      *                           </li>
      *                           <li>
-     *                                {@code "limit"} -> limit results - [INT, default 500]
+     *                                {@code "limit"} -> limit results, max 1000 - [INT, default 500]
      *                           </li>
      *                     </ul>
      * @param format:      return type formatter -> {@link ReturnFormat}
