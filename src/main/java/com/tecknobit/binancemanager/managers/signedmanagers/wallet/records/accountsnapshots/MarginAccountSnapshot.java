@@ -83,7 +83,6 @@ public class MarginAccountSnapshot extends AccountSnapshot {
      * @param jsonAssets: snapshotVos obtain by AccountSnapshot {@code "Binance"} request
      * @return list as {@link ArrayList} of {@link UserMarginAsset}
      **/
-    // TODO: 22/11/2022 CHECK TO REMOVE OR MODIFY
     @Returner
     public static ArrayList<UserMarginAsset> assembleUserMarginAssetsList(JSONArray jsonAssets) {
         ArrayList<UserMarginAsset> userMarginAssets = new ArrayList<>();

@@ -12,7 +12,6 @@ import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.account.MarginAccountTrade;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.account.MarginMaxBorrow;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.account.ComposedIMarginAccountInfo;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.account.IsolatedMarginAccountInfo;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.account.IsolatedMarginAccountLimit;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.account.IsolatedMarginAccountStatus;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.properties.BNBBurn;
@@ -31,13 +30,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static com.tecknobit.apimanager.apis.APIRequest.*;
 import static com.tecknobit.binancemanager.constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.OrderType.*;
-import static com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.account.IsolatedMarginAccountInfo.createIsolatedMarginAccountInfoList;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.SpotOrder.*;
 
 
@@ -7474,318 +7471,560 @@ public class BinanceMarginManager extends BinanceSignedManager {
         }
     }
 
-    /** Request to get margin trade list
+    /**
+     * Request to get margin trade list
+     *
      * @param #symbol: used in the request es. BTCBUSD
+     * @return margin trade list as {@link ArrayList} of {@link MarginAccountTrade}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data</a>
-     * @return margin trade list as {@link String}
-     * **/
-    public String getMarginTradeList(String symbol) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol;
-        return sendSignedRequest(MARGIN_TRADES_LIST_ENDPOINT, params, GET_METHOD);
+     * Query Margin Account's Trade List (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/myTrades")
+    public ArrayList<MarginAccountTrade> getTradesList(String symbol) throws Exception {
+        return getTradesList(symbol, LIBRARY_OBJECT);
     }
 
     /** Request to get margin trade list
      * @param #symbol: used in the request es. BTCBUSD
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data</a>
-     * @return margin trade list as {@link JSONArray}
+     *    Query Margin Account's Trade List (USER_DATA)</a>
+     * @return margin trade list as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONArray getJSONMarginTradeList(String symbol) throws Exception {
-        return new JSONArray(getMarginTradeList(symbol));
-    }
-
-    /** Request to get margin trade list
-     * @param #symbol: used in the request es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data</a>
-     * @return margin trade list as ArrayList<{@link MarginAccountTrade}>
-     * **/
-    public ArrayList<MarginAccountTrade> getMarginTradesList(String symbol) throws Exception {
-        return assembleMarginTradesList(new JSONArray(getMarginTradeList(symbol)));
-    }
-
-    /** Request to get margin trade list
-     * @param #symbol: used in the request es. BTCBUSD
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,startTime,endTime,fromId,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data</a>
-     * @return margin trade list as {@link String}
-     * **/
-    public String getMarginTradeList(String symbol, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_TRADES_LIST_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get margin trade list
-     * @param #symbol: used in the request es. BTCBUSD
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,startTime,endTime,fromId,limit,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data</a>
-     * @return margin trade list as {@link JSONArray}
-     * **/
-    public JSONArray getJSONMarginTradeList(String symbol, Params extraParams) throws Exception {
-        return new JSONArray(getMarginTradeList(symbol, extraParams));
+    @RequestPath(path = "/sapi/v1/margin/myTrades")
+    public <T> T getTradesList(String symbol, ReturnFormat format) throws Exception {
+        return returnTradesList(sendSignedRequest(MARGIN_TRADES_LIST_ENDPOINT, getTimestampParam() +
+                "&symbol=" + symbol, GET_METHOD), format);
     }
 
     /**
      * Request to get margin trade list
      *
      * @param #symbol:     used in the request es. BTCBUSD
-     * @param extraParams: additional params of the request
-     * @return margin trade list as ArrayList<{@link MarginAccountTrade}>
-     * @implSpec (keys accepted are isIsolated, startTime, endTime, fromId, limit, recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                                {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate trades from INCLUSIVE - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate trades until INCLUSIVE - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                 {@code "fromId"} -> tradeId to fetch from - [STRING, default gets most recent trades]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> limit results - [INT, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return margin trade list as {@link ArrayList} of {@link MarginAccountTrade}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data</a>
+     * Query Margin Account's Trade List (USER_DATA)</a>
      **/
-    public ArrayList<MarginAccountTrade> getMarginTradesList(String symbol, Params extraParams) throws Exception {
-        return assembleMarginTradesList(new JSONArray(getMarginTradeList(symbol, extraParams)));
+    @RequestPath(path = "/sapi/v1/margin/myTrades")
+    public ArrayList<MarginAccountTrade> getTradesList(String symbol, Params extraParams) throws Exception {
+        return getTradesList(symbol, extraParams, LIBRARY_OBJECT);
     }
 
     /**
-     * Method to assemble a {@link MarginAccountTrade} list
+     * Request to get margin trade list
      *
-     * @param #jsonMarginTrades: obtained from {@code "Binance"}'s request
-     * @return a list as {@link ArrayList} of {@link MarginAccountTrade}
+     * @param #symbol:     used in the request es. BTCBUSD
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                                {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate trades from INCLUSIVE - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate trades until INCLUSIVE - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                 {@code "fromId"} -> tradeId to fetch from - [STRING, default gets most recent trades]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> limit results - [INT, default 500]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return margin trade list as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data">
+     * Query Margin Account's Trade List (USER_DATA)</a>
      **/
-    private ArrayList<MarginAccountTrade> assembleMarginTradesList(JSONArray jsonMarginTrades) {
-        ArrayList<MarginAccountTrade> marginAccountTrades = new ArrayList<>();
-        for (int j = 0; j < jsonMarginTrades.length(); j++)
-            marginAccountTrades.add(new MarginAccountTrade(jsonMarginTrades.getJSONObject(j)));
-        return marginAccountTrades;
+    @RequestPath(path = "/sapi/v1/margin/myTrades")
+    public <T> T getTradesList(String symbol, Params extraParams, ReturnFormat format) throws Exception {
+        return returnTradesList(sendSignedRequest(MARGIN_TRADES_LIST_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol, extraParams),
+                GET_METHOD), format);
+    }
+
+    /**
+     * Method to create a trades list
+     *
+     * @param tradesListResponse: obtained from Binance's response
+     * @param format:             return type formatter -> {@link ReturnFormat}
+     * @return a trades list as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnTradesList(String tradesListResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(tradesListResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<MarginAccountTrade> marginAccountTrades = new ArrayList<>();
+                JSONArray jTrades = new JSONArray(tradesListResponse);
+                for (int j = 0; j < jTrades.length(); j++)
+                    marginAccountTrades.add(new MarginAccountTrade(jTrades.getJSONObject(j)));
+                return (T) marginAccountTrades;
+            default:
+                return (T) tradesListResponse;
+        }
     }
 
     /** Request to get max borrow
      * @param #asset: used in the request es. BTC
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-borrow-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-max-borrow-user_data</a>
-     * @return max borrow as {@link String}
+     *     Query Max Borrow (USER_DATA)</a>
+     * @return max borrow as {@link MarginMaxBorrow} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getMaxBorrow(String asset) throws Exception {
-        String params = getTimestampParam() + "&asset=" + asset;
-        return sendSignedRequest(GET_MAX_MARGIN_BORROW_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/maxBorrowable")
+    public MarginMaxBorrow getMaxBorrow(String asset) throws Exception {
+        return getMaxBorrow(asset, LIBRARY_OBJECT);
     }
 
     /** Request to get max borrow
      * @param #asset: used in the request es. BTC
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-borrow-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-max-borrow-user_data</a>
-     * @return max borrow as {@link JSONObject}
+     *     Query Max Borrow (USER_DATA)</a>
+     * @return max borrow as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONObject getJSONMaxBorrow(String asset) throws Exception {
-        return new JSONObject(getMaxBorrow(asset));
+    @RequestPath(path = "/sapi/v1/margin/maxBorrowable")
+    public <T> T getMaxBorrow(String asset, ReturnFormat format) throws Exception {
+        return returnMaxBorrow(sendSignedRequest(GET_MAX_MARGIN_BORROW_ENDPOINT, getTimestampParam() +
+                "&asset=" + asset, GET_METHOD), format);
     }
 
     /** Request to get max borrow
      * @param #asset: used in the request es. BTC
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                                {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-borrow-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-max-borrow-user_data</a>
-     * @return max borrow as {@link MarginMaxBorrow}
+     *     Query Max Borrow (USER_DATA)</a>
+     * @return max borrow as {@link MarginMaxBorrow} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public MarginMaxBorrow getObjectMarginBorrow(String asset) throws Exception {
-        return new MarginMaxBorrow(new JSONObject(getMaxBorrow(asset)));
+    @RequestPath(path = "/sapi/v1/margin/maxBorrowable")
+    public MarginMaxBorrow getMaxBorrow(String asset, Params extraParams) throws Exception {
+        return getMaxBorrow(asset, extraParams, LIBRARY_OBJECT);
     }
 
     /** Request to get max borrow
      * @param #asset: used in the request es. BTC
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                                {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-borrow-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-max-borrow-user_data</a>
-     * @return max borrow as {@link String}
+     *     Query Max Borrow (USER_DATA)</a>
+     * @return max borrow as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getMaxBorrow(String asset, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&asset=" + asset;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(GET_MAX_MARGIN_BORROW_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/maxBorrowable")
+    public <T> T getMaxBorrow(String asset, Params extraParams, ReturnFormat format) throws Exception {
+        return returnMaxBorrow(sendSignedRequest(GET_MAX_MARGIN_BORROW_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&asset=" + asset, extraParams),
+                GET_METHOD), format);
     }
 
-    /** Request to get max borrow
-     * @param #asset: used in the request es. BTC
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-borrow-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-max-borrow-user_data</a>
-     * @return max borrow as {@link JSONObject}
-     * **/
-    public JSONObject getJSONMaxBorrow(String asset, Params extraParams) throws Exception {
-        return new JSONObject(getMaxBorrow(asset, extraParams));
+    /**
+     * Method to create a max borrow object
+     *
+     * @param maxBorrowResponse: obtained from Binance's response
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @return a max borrow as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnMaxBorrow(String maxBorrowResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(maxBorrowResponse);
+            case LIBRARY_OBJECT:
+                return (T) new MarginMaxBorrow(new JSONObject(maxBorrowResponse));
+            default:
+                return (T) maxBorrowResponse;
+        }
     }
 
-    /** Request to get max borrow
-     * @param #asset: used in the request es. BTC
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-borrow-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-max-borrow-user_data</a>
-     * @return max borrow as {@link MarginMaxBorrow}
-     * **/
-    public MarginMaxBorrow getObjectMarginBorrow(String asset, Params extraParams) throws Exception {
-        return new MarginMaxBorrow(new JSONObject(getMaxBorrow(asset, extraParams)));
-    }
-
-    /** Request to get max transfer out amount
-     * @param #asset: used in the request es. BTC
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data</a>
-     * @return max transfer out amount as {@link String}
-     * **/
-    public String getMaxTransferOutAmount(String asset) throws Exception {
-        String params = getTimestampParam() + "&asset=" + asset;
-        return sendSignedRequest(GET_MAX_MARGIN_TRANSFER_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get max transfer out amount
-     * @param #asset: used in the request es. BTC
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data</a>
-     * @return max transfer out amount as {@link JSONObject}
-     * **/
-    public JSONObject getJSONMaxTransferOutAmount(String asset) throws Exception {
-        return new JSONObject(getMaxTransferOutAmount(asset));
-    }
-
-    /** Request to get max transfer out amount
-     * @param #asset: used in the request es. BTC
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data</a>
+    /**
+     * Request to get max transfer out amount
+     *
+     * @param #asset:   used in the request es. BTC
+     * @param decimals: number of digits to round final value
      * @return max transfer out amount as double
-     * **/
-    public double getMaxTransferOutAmountValue(String asset) throws Exception {
-        return getMaxTransferAmountValue(getMaxTransferOutAmount(asset));
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data">
+     * Query Max Transfer-Out Amount (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/maxTransferable")
+    public double getMaxTransferOutAmount(String asset, int decimals) throws Exception {
+        return roundValue(Double.parseDouble(getMaxTransferOutAmount(asset, LIBRARY_OBJECT)), decimals);
     }
 
     /** Request to get max transfer out amount
      * @param #asset: used in the request es. BTC
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data</a>
-     * @return max transfer out amount as {@link String}
-     * **/
-    public String getMaxTransferOutAmount(String asset, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&asset=" + asset;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(GET_MAX_MARGIN_TRANSFER_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get max transfer out amount
-     * @param #asset: used in the request es. BTC
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data</a>
-     * @return max transfer out amount as {@link JSONObject}
-     * **/
-    public JSONObject getJSONMaxTransferOutAmount(String asset, Params extraParams) throws Exception {
-        return new JSONObject(getMaxTransferOutAmount(asset, extraParams));
-    }
-
-    /** Request to get max transfer out amount
-     * @param #asset: used in the request es. BTC
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are isIsolated,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data</a>
+     *    Query Max Transfer-Out Amount (USER_DATA)</a>
      * @return max transfer out amount as double
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public double getMaxTransferOutAmountValue(String asset, Params extraParams) throws Exception {
-        return getMaxTransferAmountValue(getMaxTransferOutAmount(asset, extraParams));
+    @RequestPath(path = "/sapi/v1/margin/maxTransferable")
+    public double getMaxTransferOutAmount(String asset) throws Exception {
+        return Double.parseDouble(getMaxTransferOutAmount(asset, LIBRARY_OBJECT));
     }
 
-    /** Method to get amount value
-     * @param #stringSource: obtained from {@code "Binance"}'s request
-     * @return amount value as double
-     * **/
-    private double getMaxTransferAmountValue(String stringSource){
-        JSONObject maxTransfer = new JSONObject(stringSource);
-        return maxTransfer.getDouble("amount");
-    }
-
-    /** Request to get margin isolated transfer
+    /** Request to get max transfer out amount
      * @param #asset: used in the request es. BTC
-     * @param #symbol: used in the request es. BTCBUSD
-     * @param #transFrom: SPOT or ISOLATED_MARGIN
-     * @param #transTo: SPOT or ISOLATED_MARGIN
-     * @param #amount: used in the request to transfer es. 1
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin">
-     *     https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin</a>
-     * @return margin isolated transfer as {@link String}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data">
+     *    Query Max Transfer-Out Amount (USER_DATA)</a>
+     * @return max transfer out amount as double
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getMarginIsolatedTransfer(String asset, String symbol, String transFrom, String transTo,
-                                            double amount) throws Exception {
-        String params = getTimestampParam() + "&asset=" + asset + "&symbol=" + symbol + "&transFrom=" + transFrom
-                + "&transTo=" + transTo + "&amount=" + amount;
-        return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT, params, POST_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/maxTransferable")
+    public <T> T getMaxTransferOutAmount(String asset, ReturnFormat format) throws Exception {
+        return returnMaxTransferAmount(sendSignedRequest(GET_MAX_MARGIN_TRANSFER_ENDPOINT,
+                getTimestampParam() + "&asset=" + asset, GET_METHOD), format);
     }
 
-    /** Request to get margin isolated transfer
+    /** Request to get max transfer out amount
      * @param #asset: used in the request es. BTC
-     * @param #symbol: used in the request es. BTCBUSD
-     * @param #transFrom: SPOT or ISOLATED_MARGIN
-     * @param #transTo: SPOT or ISOLATED_MARGIN
-     * @param #amount: used in the request to transfer es. 1
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin">
-     *     https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin</a>
-     * @return margin isolated transfer as {@link JSONObject}
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                                {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param decimals: number of digits to round final value
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data">
+     *    Query Max Transfer-Out Amount (USER_DATA)</a>
+     * @return max transfer out amount as double
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONObject getJSONMarginIsolatedTransfer(String asset, String symbol, String transFrom, String transTo,
-                                            double amount) throws Exception {
-        return new JSONObject(getMarginIsolatedTransfer(asset, symbol, transFrom, transTo, amount));
+    @RequestPath(path = "/sapi/v1/margin/maxTransferable")
+    public double getMaxTransferOutAmount(String asset, Params extraParams, int decimals) throws Exception {
+        return roundValue(Double.parseDouble(getMaxTransferOutAmount(asset, extraParams, LIBRARY_OBJECT)), decimals);
     }
 
-    /** Request to get margin isolated transfer
+    /** Request to get max transfer out amount
      * @param #asset: used in the request es. BTC
-     * @param #symbol: used in the request es. BTCBUSD
-     * @param #transFrom: SPOT or ISOLATED_MARGIN
-     * @param #transTo: SPOT or ISOLATED_MARGIN
-     * @param #amount: used in the request to transfer es. 1
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin">
-     *     https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin</a>
-     * @return margin isolated transferId as long
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                                {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data">
+     *    Query Max Transfer-Out Amount (USER_DATA)</a>
+     * @return max transfer out amount as double
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public long getMarginIsolatedTransferId(String asset, String symbol, String transFrom, String transTo,
-                                            double amount) throws Exception {
-        return getTransactionId(getMarginIsolatedTransfer(asset, symbol, transFrom, transTo, amount));
+    @RequestPath(path = "/sapi/v1/margin/maxTransferable")
+    public double getMaxTransferOutAmount(String asset, Params extraParams) throws Exception {
+        return Double.parseDouble(getMaxTransferOutAmount(asset, extraParams, LIBRARY_OBJECT));
     }
 
-    /** Request to get margin isolated transfer
+    /** Request to get max transfer out amount
      * @param #asset: used in the request es. BTC
-     * @param #symbol: used in the request es. BTCBUSD
-     * @param #transFrom: SPOT or ISOLATED_MARGIN
-     * @param #transTo: SPOT or ISOLATED_MARGIN
-     * @param #amount: used in the request to transfer es. 1
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin">
-     *     https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin</a>
-     * @return margin isolated transfer as {@link String}
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                                {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE" - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data">
+     *    Query Max Transfer-Out Amount (USER_DATA)</a>
+     * @return max transfer out amount as double
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getMarginIsolatedTransfer(String asset, String symbol, String transFrom, String transTo,
-                                            double amount, long recvWindow) throws Exception {
-        String params = getTimestampParam() + "&asset=" + asset + "&symbol=" + symbol + "&transFrom=" + transFrom
-                + "&transTo=" + transTo + "&amount=" + amount + "&recvWindow=" + recvWindow;
-        return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT, params, POST_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/maxTransferable")
+    public <T> T getMaxTransferOutAmount(String asset, Params extraParams, ReturnFormat format) throws Exception {
+        return returnMaxTransferAmount(sendSignedRequest(GET_MAX_MARGIN_TRANSFER_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&asset=" + asset, extraParams),
+                GET_METHOD), format);
+    }
+
+    /**
+     * Method to get a max transfer amount
+     *
+     * @param maxTransferAmountResponse: obtained from Binance's response
+     * @param format:                    return type formatter -> {@link ReturnFormat}
+     * @return max transfer amount as {@code "format"} defines
+     * @implSpec in this case {@link ReturnFormat#LIBRARY_OBJECT} will return the amount value as double
+     **/
+    @Returner
+    private <T> T returnMaxTransferAmount(String maxTransferAmountResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(maxTransferAmountResponse);
+            case LIBRARY_OBJECT:
+                return (T) new JSONObject(maxTransferAmountResponse).getString("amount");
+            default:
+                return (T) maxTransferAmountResponse;
+        }
     }
 
     /**
      * Request to get margin isolated transfer
      *
-     * @param #asset:      used in the request es. BTC
-     * @param #symbol:     used in the request es. BTCBUSD
-     * @param #transFrom:  SPOT or ISOLATED_MARGIN
-     * @param #transTo:    SPOT or ISOLATED_MARGIN
-     * @param #amount:     used in the request to transfer es. 1
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @return margin isolated transfer as {@link String}
+     * @param #asset:     used in the request es. BTC
+     * @param #symbol:    used in the request es. BTCBUSD
+     * @param #transFrom: SPOT or ISOLATED_MARGIN
+     * @param #transTo:   SPOT or ISOLATED_MARGIN
+     * @param #amount:    used in the request to transfer es. 1
+     * @return margin isolated transferId as long
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin">
-     * https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin</a>
+     * Isolated Margin Account Transfer (MARGIN)</a>
      **/
-    public JSONObject getJSONMarginIsolatedTransfer(String asset, String symbol, String transFrom, String transTo,
-                                                    double amount, long recvWindow) throws Exception {
-        return new JSONObject(getMarginIsolatedTransfer(asset, symbol, transFrom, transTo, amount, recvWindow));
+    @RequestPath(path = "/sapi/v1/margin/isolated/transfer")
+    public long execIsolatedMarginAccountTransfer(String asset, String symbol, String transFrom, String transTo,
+                                                  double amount) throws Exception {
+        return Long.parseLong(execIsolatedMarginAccountTransfer(asset, symbol, transFrom, transTo, amount,
+                LIBRARY_OBJECT));
+    }
+
+    /** Request to get margin isolated transfer
+     * @param #asset: used in the request es. BTC
+     * @param #symbol: used in the request es. BTCBUSD
+     * @param #transFrom: SPOT or ISOLATED_MARGIN
+     * @param #transTo: SPOT or ISOLATED_MARGIN
+     * @param #amount: used in the request to transfer es. 1
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin">
+     *     Isolated Margin Account Transfer (MARGIN)</a>
+     * @return margin isolated transferId as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/isolated/transfer")
+    public <T> T execIsolatedMarginAccountTransfer(String asset, String symbol, String transFrom, String transTo,
+                                                   double amount, ReturnFormat format) throws Exception {
+        return returnIsolatedTransferId(sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT,
+                getTimestampParam() + "&asset=" + asset + "&symbol=" + symbol + "&transFrom=" + transFrom +
+                        "&transTo=" + transTo + "&amount=" + amount, POST_METHOD), format);
     }
 
     /** Request to get margin isolated transfer
@@ -7796,1019 +8035,1838 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param #amount: used in the request to transfer es. 1
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin">
-     *     https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin</a>
-     * @return margin isolated transfer as {@link String}
+     *     Isolated Margin Account Transfer (MARGIN)</a>
+     * @return margin isolated transfer as long
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public long getMarginIsolatedTransferId(String asset, String symbol, String transFrom, String transTo,
-                                            double amount, long recvWindow) throws Exception {
-        return getTransactionId(getMarginIsolatedTransfer(asset, symbol, transFrom, transTo, amount, recvWindow));
+    @RequestPath(path = "/sapi/v1/margin/isolated/transfer")
+    public long execIsolatedMarginAccountTransfer(String asset, String symbol, String transFrom, String transTo,
+                                                  double amount, long recvWindow) throws Exception {
+        return execIsolatedMarginAccountTransfer(asset, symbol, transFrom, transTo, amount, recvWindow, LIBRARY_OBJECT);
     }
 
-    /** Method to get tranId value
-     * @param stringSource: obtained from {@code "Binance"}'s request
-     * @return tranId value as long
+    /** Request to get margin isolated transfer
+     * @param #asset: used in the request es. BTC
+     * @param #symbol: used in the request es. BTCBUSD
+     * @param #transFrom: SPOT or ISOLATED_MARGIN
+     * @param #transTo: SPOT or ISOLATED_MARGIN
+     * @param #amount: used in the request to transfer es. 1
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin">
+     *     Isolated Margin Account Transfer (MARGIN)</a>
+     * @return margin isolated transfer as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    private long getTransactionId(String stringSource){
-        JSONObject transaction = new JSONObject(stringSource);
-        return transaction.getLong("tranId");
+    @RequestPath(path = "/sapi/v1/margin/isolated/transfer")
+    public <T> T execIsolatedMarginAccountTransfer(String asset, String symbol, String transFrom, String transTo,
+                                                   double amount, long recvWindow, ReturnFormat format) throws Exception {
+        return returnIsolatedTransferId(sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT,
+                getTimestampParam() + "&asset=" + asset + "&symbol=" + symbol + "&transFrom=" + transFrom +
+                        "&transTo=" + transTo + "&amount=" + amount + "&recvWindow=" + recvWindow, POST_METHOD), format);
+    }
+
+    /**
+     * Method to get an isolated transfer id
+     *
+     * @param isolatedTransferIdResponse: obtained from Binance's response
+     * @param format:                     return type formatter -> {@link ReturnFormat}
+     * @return isolated transfer id as {@code "format"} defines
+     * @implSpec in this case {@link ReturnFormat#LIBRARY_OBJECT} will return the transaction id as long
+     **/
+    @Returner
+    private <T> T returnIsolatedTransferId(String isolatedTransferIdResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(isolatedTransferIdResponse);
+            case LIBRARY_OBJECT:
+                return (T) new JSONObject(isolatedTransferIdResponse).getString("tranId");
+            default:
+                return (T) isolatedTransferIdResponse;
+        }
     }
 
     /**
      * Request to get margin isolated transfer history
      *
      * @param #symbol: used in the request es. BTCBUSD
-     * @return margin isolated transfer history as {@link String}
+     * @return margin isolated transfer history as {@link IsolatedTransferHistoryList} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
+     * Get Isolated Margin Transfer History (USER_DATA)</a>
      **/
-    public String getMarginIsolatedTransferHistory(String symbol) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol;
-        return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/isolated/transfer")
+    public IsolatedTransferHistoryList getIsolatedTransferHistory(String symbol) throws Exception {
+        return getIsolatedTransferHistory(symbol, LIBRARY_OBJECT);
     }
 
     /**
      * Request to get margin isolated transfer history
      *
      * @param #symbol: used in the request es. BTCBUSD
-     * @return margin isolated transfer history as {@link JSONObject}
+     * @param format:  return type formatter -> {@link ReturnFormat}
+     * @return margin isolated transfer history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
+     * Get Isolated Margin Transfer History (USER_DATA)</a>
      **/
-    public JSONObject getJSONMarginIsolatedTransferHistory(String symbol) throws Exception {
-        return new JSONObject(getMarginIsolatedTransferHistory(symbol));
-    }
-
-    /**
-     * Request to get margin isolated transfer history
-     *
-     * @param #symbol: used in the request es. BTCBUSD
-     * @return margin isolated transfer history as {@link IsolatedTransferHistoryList} object
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
-     **/
-    public IsolatedTransferHistoryList getObjectMarginIsolatedTransferHistory(String symbol) throws Exception {
-        return new IsolatedTransferHistoryList(new JSONObject(getMarginIsolatedTransferHistory(symbol)));
-    }
-
-    /**
-     * Request to get margin isolated transfer history
-     *
-     * @param #symbol:     used in the request es. BTCBUSD
-     * @param extraParams: additional params of the request
-     * @return margin isolated transfer history as {@link String}
-     * @implSpec (keys accepted are asset, transFrom, transTo, startTime, endTime, current, size, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
-     **/
-    public String getMarginIsolatedTransferHistory(String symbol, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/isolated/transfer")
+    public <T> T getIsolatedTransferHistory(String symbol, ReturnFormat format) throws Exception {
+        return returnIsolatedTransferHistoryList(sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT,
+                getTimestampParam() + "&symbol=" + symbol, GET_METHOD), format);
     }
 
     /**
      * Request to get margin isolated transfer history
      *
      * @param #symbol:     used in the request es. BTCBUSD
-     * @param extraParams: additional params of the request
-     * @return margin isolated transfer history as {@link JSONObject}
-     * @implSpec (keys accepted are asset, transFrom, transTo, startTime, endTime, current, size, recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "asset"} -> asset value - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "transFrom"} -> "SPOT", "ISOLATED_MARGIN" constants available {@link TransferType} - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "transFrom"} -> "SPOT", "ISOLATED_MARGIN" constants available {@link TransferType} - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate transfer records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate transfer records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page. Start from 1 - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "archived"} -> set to true for archived data from 6 months ago- [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return margin isolated transfer history as {@link IsolatedTransferHistoryList} custom object
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
-     **/
-    public JSONObject getJSONMarginIsolatedTransferHistory(String symbol, Params extraParams) throws Exception {
-        return new JSONObject(getMarginIsolatedTransferHistory(symbol, extraParams));
-    }
-
-    /**
-     * Request to get margin isolated transfer history
-     *
-     * @param #symbol:     used in the request es. BTCBUSD
-     * @param extraParams: additional params of the request
-     * @return margin isolated transfer history as {@link IsolatedTransferHistoryList} object
-     * @implSpec (keys accepted are asset, transFrom, transTo, startTime, endTime, current, size, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data</a>
-     **/
-    public IsolatedTransferHistoryList getObjectMarginIsolatedTransferHistory(String symbol, Params extraParams) throws Exception {
-        return new IsolatedTransferHistoryList(new JSONObject(getMarginIsolatedTransferHistory(symbol, extraParams)));
-    }
-
-    /** Request to get margin isolated account info <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
-     * @return margin account info as {@link String}
+     * Get Isolated Margin Transfer History (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getMarginIsolatedAccountInfo() throws Exception {
-        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT, getTimestampParam(), GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/isolated/transfer")
+    public IsolatedTransferHistoryList getIsolatedTransferHistory(String symbol, Params extraParams) throws Exception {
+        return getIsolatedTransferHistory(symbol, extraParams, LIBRARY_OBJECT);
     }
 
-    /** Request to get margin isolated account info <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
-     * @return margin account info as {@link JSONObject}
+    /**
+     * Request to get margin isolated transfer history
+     *
+     * @param #symbol:     used in the request es. BTCBUSD
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "asset"} -> asset value - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "transFrom"} -> "SPOT", "ISOLATED_MARGIN" constants available {@link TransferType} - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "transFrom"} -> "SPOT", "ISOLATED_MARGIN" constants available {@link TransferType} - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate transfer records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate transfer records - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page. Start from 1 - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "archived"} -> set to true for archived data from 6 months ago- [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @return margin isolated transfer history as {@code "format"} defines
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
+     * Get Isolated Margin Transfer History (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONObject getJSONMarginIsolatedAccountInfo() throws Exception {
-        return new JSONObject(getMarginIsolatedAccountInfo());
+    @RequestPath(path = "/sapi/v1/margin/isolated/transfer")
+    public <T> T getIsolatedTransferHistory(String symbol, Params extraParams, ReturnFormat format) throws Exception {
+        return returnIsolatedTransferHistoryList(sendSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol, extraParams),
+                GET_METHOD), format);
+    }
+
+    /**
+     * Method to create an isolated transfer history id
+     *
+     * @param isolatedTransferHistoryResponse: obtained from Binance's response
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @return isolated transfer history as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnIsolatedTransferHistoryList(String isolatedTransferHistoryResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(isolatedTransferHistoryResponse);
+            case LIBRARY_OBJECT:
+                return (T) new IsolatedTransferHistoryList(new JSONObject(isolatedTransferHistoryResponse));
+            default:
+                return (T) isolatedTransferHistoryResponse;
+        }
     }
 
     /** Request to get margin isolated account info <br>
      * Any params required
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
+     *     Query Isolated Margin Account Info (USER_DATA)</a>
      * @return margin account info as {@link ComposedIMarginAccountInfo} object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public ComposedIMarginAccountInfo getObjectMarginIsolatedAccount() throws Exception {
-        return new ComposedIMarginAccountInfo(new JSONObject(getMarginIsolatedAccountInfo()));
+    @RequestPath(path = "/sapi/v1/margin/isolated/account")
+    public ComposedIMarginAccountInfo getMarginIsolatedAccount() throws Exception {
+        return getMarginIsolatedAccount(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get margin isolated account info
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return margin account info as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
+     * Query Isolated Margin Account Info (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/isolated/account")
+    public <T> T getMarginIsolatedAccount(ReturnFormat format) throws Exception {
+        return returnComposedAccountInfo(sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT, getTimestampParam(),
+                GET_METHOD), format);
     }
 
     /** Request to get margin isolated account info
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "symbols"} -> max 5 symbols can be sent; separated by ",". e.g. "BTCUSDT,BNBUSDT,ADAUSDT"
+     *                                - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
-     * @return margin account info as {@link String}
-     * **/
-    public String getMarginIsolatedAccountInfo(long recvWindow) throws Exception {
-        String params = getTimestampParam() + "&recvWindow=" + recvWindow;
-        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get margin isolated account info
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
-     * @return margin account info as {@link JSONObject}
-     * **/
-    public JSONObject getJSONMarginIsolatedAccountInfo(long recvWindow) throws Exception {
-        return new JSONObject(getMarginIsolatedAccountInfo(recvWindow));
-    }
-
-    /** Request to get margin isolated account info
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
+     *     Query Isolated Margin Account Info (USER_DATA)</a>
      * @return margin account info as {@link ComposedIMarginAccountInfo} object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public ComposedIMarginAccountInfo getObjectMarginIsolatedAccount(long recvWindow) throws Exception {
-        return new ComposedIMarginAccountInfo(new JSONObject(getMarginIsolatedAccountInfo(recvWindow)));
+    @RequestPath(path = "/sapi/v1/margin/isolated/account")
+    public ComposedIMarginAccountInfo getMarginIsolatedAccount(Params extraParams) throws Exception {
+        return getMarginIsolatedAccount(extraParams, LIBRARY_OBJECT);
     }
 
     /** Request to get margin isolated account info
-     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "symbols"} -> max 5 symbols can be sent; separated by ",". e.g. "BTCUSDT,BNBUSDT,ADAUSDT"
+     *                                - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
-     * @return margin account info as {@link String}
+     *     Query Isolated Margin Account Info (USER_DATA)</a>
+     * @return margin account info as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getMarginIsolatedAccountInfo(ArrayList<String> symbols) throws Exception {
-        String params = getTimestampParam() + "&symbols=" + assembleSymbolsList(symbols);
-        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/isolated/account")
+    public <T> T getMarginIsolatedAccount(Params extraParams, ReturnFormat format) throws Exception {
+        return returnComposedAccountInfo(sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET_METHOD), format);
     }
 
-    /** Request to get margin isolated account info
-     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
-     * @return margin account info as {@link JSONObject}
-     * **/
-    public JSONObject getJSONMarginIsolatedAccountInfo(ArrayList<String> symbols) throws Exception {
-        return new JSONObject(getMarginIsolatedAccountInfo(symbols));
+    /**
+     * Method to create a composed account object
+     *
+     * @param composedAccountResponse: obtained from Binance's response
+     * @param format:                  return type formatter -> {@link ReturnFormat}
+     * @return composed account object as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnComposedAccountInfo(String composedAccountResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(composedAccountResponse);
+            case LIBRARY_OBJECT:
+                return (T) new ComposedIMarginAccountInfo(new JSONObject(composedAccountResponse));
+            default:
+                return (T) composedAccountResponse;
+        }
     }
 
-    /** Request to get margin isolated account info list
-     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
-     * @return margin account info as ArrayList<{@link IsolatedMarginAccountInfo}>
-     * **/
-    public ArrayList<IsolatedMarginAccountInfo> getMarginIsolatedAccountList(ArrayList<String> symbols) throws Exception {
-        return createIsolatedMarginAccountInfoList(new JSONObject(getMarginIsolatedAccountInfo(symbols))
-                .getJSONArray("assets"));
-    }
-
-    /** Request to get margin isolated account info
-     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
-     * @return margin account info as {@link String}
-     * **/
-    public String getMarginIsolatedAccountInfo(String[] symbols) throws Exception {
-       return getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols)));
-    }
-
-    /** Request to get margin isolated account info
-     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
-     * @return margin account info as {@link JSONObject}
-     * **/
-    public JSONObject getJSONMarginIsolatedAccountInfo(String[] symbols) throws Exception {
-        return new JSONObject(getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols))));
-    }
-
-    /** Request to get margin isolated account info list
-     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
-     * @return margin account info as ArrayList<{@link IsolatedMarginAccountInfo}>
-     * **/
-    public ArrayList<IsolatedMarginAccountInfo> getMarginIsolatedAccountList(String[] symbols) throws Exception {
-        JSONArray marginAccountList = new JSONObject(getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols))))
-                .getJSONArray("assets");
-        return createIsolatedMarginAccountInfoList(marginAccountList);
-    }
-
-    /** Request to get margin isolated account info
-     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
-     * @return margin account info as {@link String}
-     * **/
-    public String getMarginIsolatedAccountInfo(ArrayList<String> symbols, long recvWindow) throws Exception {
-        String params = getTimestampParam() + "&symbols=" + assembleSymbolsList(symbols) + "&recvWindow=" + recvWindow;
-        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get margin isolated account info
-     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
-     * @return margin account info as {@link JSONObject}
-     * **/
-    public JSONObject getJSONMarginIsolatedAccountInfo(ArrayList<String> symbols, long recvWindow) throws Exception {
-        return new JSONObject(getMarginIsolatedAccountInfo(symbols, recvWindow));
-    }
-
-    /** Request to get margin isolated account info list
-     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
-     * @return margin account info as ArrayList<{@link IsolatedMarginAccountInfo}>
-     * **/
-    public ArrayList<IsolatedMarginAccountInfo> getMarginIsolatedAccountList(ArrayList<String> symbols, long recvWindow) throws Exception {
-        JSONArray jsonArray = new JSONObject(getMarginIsolatedAccountInfo(symbols, recvWindow)).getJSONArray("assets");
-        return createIsolatedMarginAccountInfoList(jsonArray);
-    }
-
-    /** Request to get margin isolated account info
-     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
-     * @return margin account info as {@link String}
-     * **/
-    public String getMarginIsolatedAccountInfo(String[] symbols, long recvWindow) throws Exception {
-        return getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols)), recvWindow);
-    }
-
-    /** Request to get margin isolated account info
-     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
-     * @return margin account info as {@link JSONObject}
-     * **/
-    public JSONObject getJSONMarginIsolatedAccountInfo(String[] symbols, long recvWindow) throws Exception {
-        return new JSONObject(getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols)), recvWindow));
-    }
-
-    /** Request to get margin isolated account info list
-     * @param #symbols: symbols used in the request es. BTCUSDT,BNBUSDT,ADAUSDT
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data</a>
-     * @return margin account info as ArrayList<{@link IsolatedMarginAccountInfo}>
-     * **/
-    public ArrayList<IsolatedMarginAccountInfo> getMarginIsolatedAccountList(String[] symbols, long recvWindow) throws Exception {
-        JSONArray marginAccountList = new JSONObject(getMarginIsolatedAccountInfo(new ArrayList<>(Arrays.asList(symbols)),
-                recvWindow)).getJSONArray("assets");
-        return createIsolatedMarginAccountInfoList(marginAccountList);
-    }
-
-    /** Request to enable or disable isolated margin account status
+    /**
+     * Request to disable isolated margin account on a symbol
+     *
      * @param #symbol: symbol used in the request es. BTCUSDT
-     * @param #enableIsolated: enable or disable isolated margin account status
+     * @return margin account status as {@link IsolatedMarginAccountStatus} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade</a>
-     * @return result of enable or disable isolated margin account status as {@link String}
+     * Disable Isolated Margin Account (TRADE)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/isolated/account")
+    public IsolatedMarginAccountStatus disableIsolatedMarginAccount(String symbol) throws Exception {
+        return changeMarginAccountStatus(symbol, false, -1, LIBRARY_OBJECT);
+    }
+
+    /** Request to disable isolated margin account on a symbol
+     * @param #symbol: symbol used in the request es. BTCUSDT
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade">
+     *     Disable Isolated Margin Account (TRADE)</a>
+     * @return margin account status as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String switchIMarginAccountStatus(String symbol, boolean enableIsolated) throws Exception {
+    @RequestPath(path = "/sapi/v1/margin/isolated/account")
+    public <T> T disableIsolatedMarginAccount(String symbol, ReturnFormat format) throws Exception {
+        return changeMarginAccountStatus(symbol, false, -1, format);
+    }
+
+    /** Request to disable isolated margin account on a symbol
+     * @param #symbol: symbol used in the request es. BTCUSDT
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade">
+     *     Disable Isolated Margin Account (TRADE)</a>
+     * @return margin account status as {@link IsolatedMarginAccountStatus} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/isolated/account")
+    public IsolatedMarginAccountStatus disableIsolatedMarginAccount(String symbol, long recvWindow) throws Exception {
+        return changeMarginAccountStatus(symbol, false, recvWindow, LIBRARY_OBJECT);
+    }
+
+    /** Request to disable isolated margin account on a symbol
+     * @param #symbol: symbol used in the request es. BTCUSDT
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade">
+     *     Disable Isolated Margin Account (TRADE)</a>
+     * @return margin account status as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/isolated/account")
+    public <T> T disableIsolatedMarginAccount(String symbol, long recvWindow, ReturnFormat format) throws Exception {
+        return changeMarginAccountStatus(symbol, false, recvWindow, format);
+    }
+
+    /**
+     * Request to enable isolated margin account on a symbol
+     *
+     * @param #symbol: symbol used in the request es. BTCUSDT
+     * @return margin account status as {@link IsolatedMarginAccountStatus} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-isolated-margin-account-trade">
+     * Enable Isolated Margin Account (TRADE)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/isolated/account")
+    public IsolatedMarginAccountStatus enableIsolatedMarginAccount(String symbol) throws Exception {
+        return changeMarginAccountStatus(symbol, true, -1, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to enable isolated margin account on a symbol
+     *
+     * @param #symbol: symbol used in the request es. BTCUSDT
+     * @param format:  return type formatter -> {@link ReturnFormat}
+     * @return margin account status as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-isolated-margin-account-trade">
+     * Enable Isolated Margin Account (TRADE)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/isolated/account")
+    public <T> T enableIsolatedMarginAccount(String symbol, ReturnFormat format) throws Exception {
+        return changeMarginAccountStatus(symbol, true, -1, format);
+    }
+
+    /**
+     * Request to enable isolated margin account on a symbol
+     *
+     * @param #symbol:     symbol used in the request es. BTCUSDT
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @return margin account status as {@link IsolatedMarginAccountStatus} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-isolated-margin-account-trade">
+     * Enable Isolated Margin Account (TRADE)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/isolated/account")
+    public IsolatedMarginAccountStatus enableIsolatedMarginAccount(String symbol, long recvWindow) throws Exception {
+        return changeMarginAccountStatus(symbol, true, recvWindow, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to enable isolated margin account on a symbol
+     *
+     * @param #symbol:     symbol used in the request es. BTCUSDT
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return margin account status as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-isolated-margin-account-trade">
+     * Enable Isolated Margin Account (TRADE)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/isolated/account")
+    public <T> T enableIsolatedMarginAccount(String symbol, long recvWindow, ReturnFormat format) throws Exception {
+        return changeMarginAccountStatus(symbol, true, recvWindow, format);
+    }
+
+    /**
+     * Method to change margin account status
+     *
+     * @param #symbol:         symbol used in the request es. BTCUSDT
+     * @param #enableIsolated: enable or disable isolated margin account status
+     * @param #recvWindow:     time to keep alive request, then rejected. Max value is 60000
+     * @param format:          return type formatter -> {@link ReturnFormat}
+     * @return change margin account status as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T changeMarginAccountStatus(String symbol, boolean enableIsolated, long recvWindow,
+                                            ReturnFormat format) throws Exception {
         String method = DELETE_METHOD;
-        if(enableIsolated)
+        if (enableIsolated)
             method = POST_METHOD;
         String params = getTimestampParam() + "&symbol=" + symbol;
-        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT, params, method);
-    }
-
-    /** Request to enable or disable isolated margin account status
-     * @param #symbol: symbol used in the request es. BTCUSDT
-     * @param #enableIsolated: enable or disable isolated margin account status
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade</a>
-     * @return result of enable or disable isolated margin account status as {@link JSONObject}
-     * **/
-    public JSONObject switchJSONIMarginAccountStatus(String symbol, boolean enableIsolated) throws Exception {
-        return new JSONObject(switchIMarginAccountStatus(symbol, enableIsolated));
-    }
-
-    /** Request to enable or disable isolated margin account status
-     * @param #symbol: symbol used in the request es. BTCUSDT
-     * @param #enableIsolated: enable or disable isolated margin account status
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade</a>
-     * @return result of enable or disable isolated margin account status as {@link IsolatedMarginAccountStatus}
-     * **/
-    public IsolatedMarginAccountStatus switchObjectIMarginAccountStatus(String symbol, boolean enableIsolated) throws Exception {
-        return new IsolatedMarginAccountStatus(new JSONObject(switchIMarginAccountStatus(symbol, enableIsolated)));
-    }
-
-    /** Request to enable or disable isolated margin account status
-     * @param #symbol: symbol used in the request es. BTCUSDT
-     * @param #enableIsolated: enable or disable isolated margin account status
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade</a>
-     * @return result of enable or disable isolated margin account status as {@link String}
-     * **/
-    public String switchIMarginAccountStatus(String symbol, long recvWindow, boolean enableIsolated) throws Exception {
-        String method = DELETE_METHOD;
-        if(enableIsolated)
-            method = POST_METHOD;
-        String params = getTimestampParam() + "&symbol=" + symbol + "&recvWindow=" + recvWindow;
-        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT, params, method);
-    }
-
-    /** Request to enable or disable isolated margin account status
-     * @param #symbol: symbol used in the request es. BTCUSDT
-     * @param #enableIsolated: enable or disable isolated margin account status
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade</a>
-     * @return result of enable or disable isolated margin account status as {@link JSONObject}
-     * **/
-    public JSONObject switchJSONIMarginAccountStatus(String symbol, long recvWindow, boolean enableIsolated) throws Exception {
-        return new JSONObject(switchIMarginAccountStatus(symbol, recvWindow, enableIsolated));
-    }
-
-    /** Request to enable or disable isolated margin account status
-     * @param #symbol: symbol used in the request es. BTCUSDT
-     * @param #enableIsolated: enable or disable isolated margin account status
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade">
-     *     https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade</a>
-     * @return result of enable or disable isolated margin account status as {@link IsolatedMarginAccountStatus}
-     * **/
-    public IsolatedMarginAccountStatus switchObjectIMarginAccountStatus(String symbol, long recvWindow, boolean enableIsolated) throws Exception {
-        return new IsolatedMarginAccountStatus(new JSONObject(switchIMarginAccountStatus(symbol, recvWindow, enableIsolated)));
+        if (recvWindow != -1)
+            params += "&recvWindow=" + recvWindow;
+        String marginResponse = sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT, params, method);
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(marginResponse);
+            case LIBRARY_OBJECT:
+                return (T) new IsolatedMarginAccountStatus(new JSONObject(marginResponse));
+            default:
+                return (T) marginResponse;
+        }
     }
 
     /** Request to get isolate margin account limit <br>
      * Any params required
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data</a>
-     * @return isolate margin account limit as {@link String}
+     *     Query Enabled Isolated Margin Account Limit (USER_DATA)</a>
+     * @return isolate margin account limit as {@link IsolatedMarginAccountLimit} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getIsolateMarginAccountLimit() throws Exception {
-        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_LIMIT_ENDPOINT, getTimestampParam(), GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/isolated/accountLimit")
+    public IsolatedMarginAccountLimit getIsolateMarginAccountLimit() throws Exception {
+        return getIsolateMarginAccountLimit(LIBRARY_OBJECT);
     }
 
-    /** Request to get isolate margin account limit <br>
-     * Any params required
+    /**
+     * Request to get isolate margin account limit
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return isolate margin account limit as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data</a>
-     * @return isolate margin account limit as {@link JSONObject}
-     * **/
-    public JSONObject getJSONIsolateMarginAccountLimit() throws Exception {
-        return new JSONObject(getIsolateMarginAccountLimit());
-    }
-
-    /** Request to get isolate margin account limit <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data</a>
-     * @return isolate margin account limit as {@link IsolatedMarginAccountLimit} object
-     * **/
-    public IsolatedMarginAccountLimit getObjectIsolateMarginAccountLimit() throws Exception {
-        return new IsolatedMarginAccountLimit(new JSONObject(getIsolateMarginAccountLimit()));
+     * Query Enabled Isolated Margin Account Limit (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/isolated/accountLimit")
+    public <T> T getIsolateMarginAccountLimit(ReturnFormat format) throws Exception {
+        return returnIsolatedMarginAccountLimit(sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_LIMIT_ENDPOINT,
+                getTimestampParam(), GET_METHOD), format);
     }
 
     /** Request to get isolate margin account limit
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data</a>
-     * @return isolate margin account limit as {@link String}
+     *     Query Enabled Isolated Margin Account Limit (USER_DATA)</a>
+     * @return isolate margin account limit as {@link IsolatedMarginAccountLimit} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getIsolateMarginAccountLimit(long recvWindow) throws Exception {
-        String params = getTimestampParam() + "&recvWindow=" + recvWindow;
-        return sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_LIMIT_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/isolated/accountLimit")
+    public IsolatedMarginAccountLimit getIsolateMarginAccountLimit(long recvWindow) throws Exception {
+        return getIsolateMarginAccountLimit(recvWindow, LIBRARY_OBJECT);
     }
 
     /** Request to get isolate margin account limit
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data</a>
-     * @return isolate margin account limit as {@link JSONObject}
+     *     Query Enabled Isolated Margin Account Limit (USER_DATA)</a>
+     * @return isolate margin account limit as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONObject getJSONIsolateMarginAccountLimit(long recvWindow) throws Exception {
-        return new JSONObject(getIsolateMarginAccountLimit(recvWindow));
+    @RequestPath(path = "/sapi/v1/margin/isolated/accountLimit")
+    public <T> T getIsolateMarginAccountLimit(long recvWindow, ReturnFormat format) throws Exception {
+        return returnIsolatedMarginAccountLimit(sendSignedRequest(ISOLATED_MARGIN_ACCOUNT_LIMIT_ENDPOINT,
+                getTimestampParam() + "&recvWindow=" + recvWindow, GET_METHOD), format);
     }
 
-    /** Request to get isolate margin account limit
+    /**
+     * Method to create an isolated margin account limit
+     *
+     * @param isolatedMarginAccountResponse: obtained from Binance's response
+     * @param format:                        return type formatter -> {@link ReturnFormat}
+     * @return isolated margin account limit as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnIsolatedMarginAccountLimit(String isolatedMarginAccountResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(isolatedMarginAccountResponse);
+            case LIBRARY_OBJECT:
+                return (T) new IsolatedMarginAccountLimit(new JSONObject(isolatedMarginAccountResponse));
+            default:
+                return (T) isolatedMarginAccountResponse;
+        }
+    }
+
+    /**
+     * Request to get isolate margin symbol
+     *
+     * @param #symbol: symbol used in the request es. BTCUSDT
+     * @return isolate margin symbol as {@link IsolatedMarginSymbol} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data">
+     * Query Isolated Margin Symbol (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/isolated/pair")
+    public IsolatedMarginSymbol getIsolatedMarginSymbol(String symbol) throws Exception {
+        return getIsolatedMarginSymbol(symbol, LIBRARY_OBJECT);
+    }
+
+    /** Request to get isolate margin symbol
+     * @param #symbol: symbol used in the request es. BTCUSDT
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data">
+     *    Query Isolated Margin Symbol (USER_DATA)</a>
+     * @return isolate margin symbol as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/isolated/pair")
+    public <T> T getIsolatedMarginSymbol(String symbol, ReturnFormat format) throws Exception {
+        return returnIsolatedMarginSymbol(sendSignedRequest(QUERY_ISOLATED_MARGIN_SYMBOL_ENDPOINT,
+                getTimestampParam() + "&symbol=" + symbol, GET_METHOD), format);
+    }
+
+    /** Request to get isolate margin symbol
+     * @param #symbol: symbol used in the request es. BTCUSDT
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data</a>
-     * @return isolate margin account limit as {@link IsolatedMarginAccountLimit} object
-     * **/
-    public IsolatedMarginAccountLimit getObjectIsolateMarginAccountLimit(long recvWindow) throws Exception {
-        return new IsolatedMarginAccountLimit(new JSONObject(getIsolateMarginAccountLimit(recvWindow)));
-    }
-
-    /** Request to get isolate margin symbol
-     * @param #symbol: symbol used in the request es. BTCUSDT
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data</a>
-     * @return isolate margin symbol as {@link String}
+     *    Query Isolated Margin Symbol (USER_DATA)</a>
+     * @return isolate margin symbol as {@link IsolatedMarginSymbol} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getIsolatedMarginSymbol(String symbol) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol;
-        return sendSignedRequest(QUERY_ISOLATED_MARGIN_SYMBOL_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get isolate margin symbol
-     * @param #symbol: symbol used in the request es. BTCUSDT
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data</a>
-     * @return isolate margin symbol as {@link JSONObject}
-     * **/
-    public JSONObject getJSONIsolatedMarginSymbol(String symbol) throws Exception {
-        return new JSONObject(getIsolatedMarginSymbol(symbol));
-    }
-
-    /** Request to get isolate margin symbol
-     * @param #symbol: symbol used in the request es. BTCUSDT
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data</a>
-     * @return isolate margin symbol as {@link IsolatedMarginSymbol} object
-     * **/
-    public IsolatedMarginSymbol getObjectIsolatedMarginSymbol(String symbol) throws Exception {
-        return new IsolatedMarginSymbol(new JSONObject(getIsolatedMarginSymbol(symbol)));
+    @RequestPath(path = "/sapi/v1/margin/isolated/pair")
+    public IsolatedMarginSymbol getIsolatedMarginSymbol(String symbol, long recvWindow) throws Exception {
+        return getIsolatedMarginSymbol(symbol, recvWindow, LIBRARY_OBJECT);
     }
 
     /** Request to get isolate margin symbol
      * @param #symbol: symbol used in the request es. BTCUSDT
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data</a>
-     * @return isolate margin symbol as {@link String}
+     *    Query Isolated Margin Symbol (USER_DATA)</a>
+     * @return isolate margin symbol as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getIsolatedMarginSymbol(String symbol, long recvWindow) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol + "&recvWindow=" + recvWindow;
-        return sendSignedRequest(QUERY_ISOLATED_MARGIN_SYMBOL_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/isolated/pair")
+    public <T> T getIsolatedMarginSymbol(String symbol, long recvWindow, ReturnFormat format) throws Exception {
+        return returnIsolatedMarginSymbol(sendSignedRequest(QUERY_ISOLATED_MARGIN_SYMBOL_ENDPOINT,
+                getTimestampParam() + "&symbol=" + symbol + "&recvWindow=" + recvWindow, GET_METHOD), format);
     }
 
-    /** Request to get isolate margin symbol
-     * @param #symbol: symbol used in the request es. BTCUSDT
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data</a>
-     * @return isolate margin symbol as {@link JSONObject}
-     * **/
-    public JSONObject getJSONIsolatedMarginSymbol(String symbol, long recvWindow) throws Exception {
-        return new JSONObject(getIsolatedMarginSymbol(symbol, recvWindow));
+    /**
+     * Method to create an isolated margin symbol
+     *
+     * @param isolatedMarginSymbolResponse: obtained from Binance's response
+     * @param format:                       return type formatter -> {@link ReturnFormat}
+     * @return isolated margin symbol as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnIsolatedMarginSymbol(String isolatedMarginSymbolResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(isolatedMarginSymbolResponse);
+            case LIBRARY_OBJECT:
+                return (T) new IsolatedMarginSymbol(new JSONObject(isolatedMarginSymbolResponse));
+            default:
+                return (T) isolatedMarginSymbolResponse;
+        }
     }
 
-    /** Request to get isolate margin symbol
-     * @param #symbol: symbol used in the request es. BTCUSDT
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data</a>
-     * @return isolate margin symbol as {@link IsolatedMarginSymbol} object
-     * **/
-    public IsolatedMarginSymbol getObjectIsolatedMarginSymbol(String symbol, long recvWindow) throws Exception {
-        return new IsolatedMarginSymbol(new JSONObject(getIsolatedMarginSymbol(symbol, recvWindow)));
-    }
-
-    /** Request to get all isolate margin symbols <br>
+    /**
+     * Request to get all isolate margin symbols <br>
      * Any params required
+     *
+     * @return all isolate margin symbols as {@link ArrayList} of {@link IsolatedMarginSymbol}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data</a>
-     * @return all isolate margin symbols as {@link String}
-     * **/
-    public String getAllIsolatedMarginSymbol() throws Exception {
-        return sendSignedRequest(QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT, getTimestampParam(), GET_METHOD);
+     * https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/isolated/allPairs")
+    public ArrayList<IsolatedMarginSymbol> getAllIsolatedSymbols() throws Exception {
+        return getAllIsolatedSymbols(LIBRARY_OBJECT);
     }
 
-    /** Request to get all isolate margin symbols <br>
-     * Any params required
+    /**
+     * Request to get all isolate margin symbols
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return all isolate margin symbols as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data</a>
-     * @return all isolate margin symbols as {@link JSONArray}
-     * **/
-    public JSONArray getJSONAllIsolatedMarginSymbol() throws Exception {
-        return new JSONArray(getAllIsolatedMarginSymbol());
-    }
-
-    /** Request to get all isolate margin symbols <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data</a>
-     * @return all isolate margin symbols as ArrayList<{@link IsolatedMarginSymbol}>
-     * **/
-    public ArrayList<IsolatedMarginSymbol> getAllIsolatedMarginSymbolList() throws Exception {
-        return assembleAllIMarginSymbolList(new JSONArray(getAllIsolatedMarginSymbol()));
-    }
-
-    /** Request to get all isolate margin symbols
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data</a>
-     * @return all isolate margin symbols as {@link String}
-     * **/
-    public String getAllIsolatedMarginSymbol(long recvWindow) throws Exception {
-        String params = getTimestampParam() + "&recvWindow=" + recvWindow;
-        return sendSignedRequest(QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT, params, GET_METHOD);
+     * https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/isolated/allPairs")
+    public <T> T getAllIsolatedSymbols(ReturnFormat format) throws Exception {
+        return returnAllIMarginSymbols(sendSignedRequest(QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT,
+                getTimestampParam(), GET_METHOD), format);
     }
 
     /**
      * Request to get all isolate margin symbols
      *
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @return all isolate margin symbols as {@link JSONArray}
+     * @return all isolate margin symbols as {@link ArrayList} of {@link IsolatedMarginSymbol}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data</a>
+     * Get All Isolated Margin Symbol(USER_DATA)</a>
      **/
-    public JSONArray getJSONAllIsolatedMarginSymbol(long recvWindow) throws Exception {
-        return new JSONArray(getAllIsolatedMarginSymbol(recvWindow));
+    @RequestPath(path = "/sapi/v1/margin/isolated/allPairs")
+    public ArrayList<IsolatedMarginSymbol> getAllIsolatedSymbols(long recvWindow) throws Exception {
+        return getAllIsolatedSymbols(recvWindow, LIBRARY_OBJECT);
     }
 
     /**
      * Request to get all isolate margin symbols
      *
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @return all isolate margin symbols as ArrayList<{@link IsolatedMarginSymbol}>
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @return all isolate margin symbols as {@code "format"} defines
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data</a>
-     **/
-    public ArrayList<IsolatedMarginSymbol> getAllIsolatedMarginSymbolList(long recvWindow) throws Exception {
-        return assembleAllIMarginSymbolList(new JSONArray(getAllIsolatedMarginSymbol(recvWindow)));
+     * Get All Isolated Margin Symbol(USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/isolated/allPairs")
+    public <T> T getAllIsolatedSymbols(long recvWindow, ReturnFormat format) throws Exception {
+        return returnAllIMarginSymbols(sendSignedRequest(QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT,
+                getTimestampParam() + "&recvWindow=" + recvWindow, GET_METHOD), format);
     }
 
     /**
-     * Method to assemble an {@link IsolatedMarginSymbol} list
+     * Method to create an isolated margin symbols list
      *
-     * @param #symbolsList: obtained from {@code "Binance"}'s request
-     * @return list as {@link ArrayList} of {@link IsolatedMarginSymbol}
+     * @param symbolsResponse: obtained from Binance's response
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @return isolated margin symbols list as {@code "format"} defines
      **/
-    private ArrayList<IsolatedMarginSymbol> assembleAllIMarginSymbolList(JSONArray symbolsList) {
-        ArrayList<IsolatedMarginSymbol> isolatedMarginSymbols = new ArrayList<>();
-        for (int j = 0; j < symbolsList.length(); j++)
-            isolatedMarginSymbols.add(new IsolatedMarginSymbol(symbolsList.getJSONObject(j)));
-        return isolatedMarginSymbols;
+    @Returner
+    private <T> T returnAllIMarginSymbols(String symbolsResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(symbolsResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<IsolatedMarginSymbol> isolatedMarginSymbols = new ArrayList<>();
+                JSONArray jSymbols = new JSONArray(symbolsResponse);
+                for (int j = 0; j < jSymbols.length(); j++)
+                    isolatedMarginSymbols.add(new IsolatedMarginSymbol(jSymbols.getJSONObject(j)));
+                return (T) isolatedMarginSymbols;
+            default:
+                return (T) symbolsResponse;
+        }
     }
 
-    /** Request to get toggle BNB on trade interest <br>
+    /**
+     * Request to get toggle BNB on trade interest <br>
      * Any params required
+     *
+     * @return toggle BNB on trade interest as {@link BNBBurn} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data</a>
-     * @return toggle BNB on trade interest as {@link String}
-     * **/
-    public String toggleBNBOnTradeInterest() throws Exception {
-        return sendSignedRequest(MARGIN_BNB_ENDPOINT, getTimestampParam(), POST_METHOD);
+     * Toggle BNB Burn On Spot Trade And Margin Interest (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/bnbBurn")
+    public BNBBurn toggleBNBOnTradeInterest() throws Exception {
+        return toggleBNBOnTradeInterest(LIBRARY_OBJECT);
     }
 
-    /** Request to get toggle BNB on trade interest <br>
-     * Any params required
+    /**
+     * Request to get toggle BNB on trade interest
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return toggle BNB on trade interest as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data</a>
-     * @return toggle BNB on trade interest as {@link JSONObject}
-     * **/
-    public JSONObject toggleJSONBNBOnTradeInterest() throws Exception {
-        return new JSONObject(toggleBNBOnTradeInterest());
+     * Toggle BNB Burn On Spot Trade And Margin Interest (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/bnbBurn")
+    public <T> T toggleBNBOnTradeInterest(ReturnFormat format) throws Exception {
+        return returnToggleBNB(sendSignedRequest(MARGIN_BNB_ENDPOINT, getTimestampParam(), POST_METHOD), format);
     }
 
-    /** Request to get toggle BNB on trade interest <br>
-     * Any params required
+    /**
+     * Request to get toggle BNB on trade interest
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "spotBNBBurn"} -> "true" or "false"; Determines whether to use BNB to pay for trading fees on SPOT
+     *                                - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "interestBNBBurn"} -> "true" or "false"; Determines whether to use BNB to pay for margin loan's interest
+     *                                - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return toggle BNB on trade interest as {@link BNBBurn} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data</a>
-     * @return toggle BNB on trade interest as {@link BNBBurn} object
-     * **/
-    public BNBBurn toggleObjectBNBOnTradeInterest() throws Exception {
-        return new BNBBurn(new JSONObject(toggleBNBOnTradeInterest()));
+     * Toggle BNB Burn On Spot Trade And Margin Interest (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/bnbBurn")
+    public BNBBurn toggleBNBOnTradeInterest(Params extraParams) throws Exception {
+        return toggleBNBOnTradeInterest(extraParams, LIBRARY_OBJECT);
     }
 
     /** Request to get toggle BNB on trade interest
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are spotBNBBurn,interestBNBBurn,recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "spotBNBBurn"} -> "true" or "false"; Determines whether to use BNB to pay for trading fees on SPOT
+     *                                - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "interestBNBBurn"} -> "true" or "false"; Determines whether to use BNB to pay for margin loan's interest
+     *                                - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data</a>
-     * @return toggle BNB on trade interest as {@link String}
+     *     Toggle BNB Burn On Spot Trade And Margin Interest (USER_DATA)</a>
+     * @return toggle BNB on trade interest as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String toggleBNBOnTradeInterest(Params extraParams) throws Exception {
-        String params = apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams);
-        return sendSignedRequest(MARGIN_BNB_ENDPOINT, params, POST_METHOD);
+    @RequestPath(path = "/sapi/v1/bnbBurn")
+    public <T> T toggleBNBOnTradeInterest(Params extraParams, ReturnFormat format) throws Exception {
+        return returnToggleBNB(sendSignedRequest(MARGIN_BNB_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), POST_METHOD), format);
     }
 
-    /** Request to get toggle BNB on trade interest
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are spotBNBBurn,interestBNBBurn,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data</a>
-     * @return toggle BNB on trade interest as {@link JSONObject}
-     * **/
-    public JSONObject toggleJSONBNBOnTradeInterest(Params extraParams) throws Exception {
-        return new JSONObject(toggleBNBOnTradeInterest(extraParams));
-    }
-
-    /** Request to get toggle BNB on trade interest
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are spotBNBBurn,interestBNBBurn,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data</a>
-     * @return toggle BNB on trade interest as {@link BNBBurn} object
-     * **/
-    public BNBBurn toggleObjectBNBOnTradeInterest(Params extraParams) throws Exception {
-        return new BNBBurn(new JSONObject(toggleBNBOnTradeInterest(extraParams)));
-    }
-
-    /** Request to get BNB burn status <br>
+    /**
+     * Request to get BNB burn status <br>
      * Any params required
+     *
+     * @return BNB burn status as {@link BNBBurn} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data</a>
-     * @return BNB burn status as {@link String}
-     * **/
-    public String getBNBBurnStatus() throws Exception {
-        return sendSignedRequest(MARGIN_BNB_ENDPOINT, getTimestampParam(), GET_METHOD);
+     * Get BNB Burn Status (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/bnbBurn")
+    public BNBBurn getBNBBurnStatus() throws Exception {
+        return getBNBBurnStatus(LIBRARY_OBJECT);
     }
 
-    /** Request to get BNB burn status <br>
-     * Any params required
+    /**
+     * Request to get BNB burn status
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return BNB burn status as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data</a>
-     * @return BNB burn status as {@link JSONObject}
-     * **/
-    public JSONObject getJSONBNBBurnStatus() throws Exception {
-        return new JSONObject(toggleBNBOnTradeInterest());
-    }
-
-    /** Request to get BNB burn status <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data</a>
-     * @return BNB burn status as {@link BNBBurn} object
-     * **/
-    public BNBBurn getObjectBNBBurnStatus() throws Exception {
-        return new BNBBurn(new JSONObject(getBNBBurnStatus()));
+     * Get BNB Burn Status (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/bnbBurn")
+    public <T> T getBNBBurnStatus(ReturnFormat format) throws Exception {
+        return returnToggleBNB(sendSignedRequest(MARGIN_BNB_ENDPOINT, getTimestampParam(), GET_METHOD), format);
     }
 
     /** Request to get BNB burn status
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data</a>
-     * @return BNB burn status as {@link String}
+     *     Get BNB Burn Status (USER_DATA)</a>
+     * @return BNB burn status as {@link BNBBurn} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getBNBBurnStatus(long recvWindow) throws Exception {
-        String params = getTimestampParam() + "&recvWindow=" + recvWindow;
-        return sendSignedRequest(MARGIN_BNB_ENDPOINT, getTimestampParam(), GET_METHOD);
+    @RequestPath(path = "/sapi/v1/bnbBurn")
+    public BNBBurn getBNBBurnStatus(long recvWindow) throws Exception {
+        return getBNBBurnStatus(recvWindow, LIBRARY_OBJECT);
     }
 
     /** Request to get BNB burn status
      * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data</a>
-     * @return BNB burn status as {@link JSONObject}
+     *     Get BNB Burn Status (USER_DATA)</a>
+     * @return BNB burn status as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONObject getJSONBNBBurnStatus(long recvWindow) throws Exception {
-        return new JSONObject(getBNBBurnStatus(recvWindow));
+    @RequestPath(path = "/sapi/v1/bnbBurn")
+    public <T> T getBNBBurnStatus(long recvWindow, ReturnFormat format) throws Exception {
+        return returnToggleBNB(sendSignedRequest(MARGIN_BNB_ENDPOINT, getTimestampParam() + "&recvWindow=" +
+                recvWindow, GET_METHOD), format);
     }
 
-    /** Request to get BNB burn status
-     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data</a>
-     * @return BNB burn status as {@link BNBBurn} object
-     * **/
-    public BNBBurn getObjectBNBBurnStatus(long recvWindow) throws Exception {
-        return new BNBBurn(new JSONObject(getBNBBurnStatus(recvWindow)));
+    /**
+     * Method to create a toggle BNB object
+     *
+     * @param toggleBNBResponse: obtained from Binance's response
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @return toggle BNB object as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnToggleBNB(String toggleBNBResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(toggleBNBResponse);
+            case LIBRARY_OBJECT:
+                new BNBBurn(new JSONObject(toggleBNBResponse));
+            default:
+                return (T) toggleBNBResponse;
+        }
     }
 
-    /** Request to get margin interest rate history
+    /**
+     * Request to get margin interest rate history list
+     *
      * @param #asset: used in the request es. BTC
+     * @return margin interest rate history as {@code ArrayList} of {@link MarginInterestRate}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data</a>
-     * @return margin interest rate history as {@link String}
-     * **/
-    public String getMarginInterestRateHistory(String asset) throws Exception {
-        String params = getTimestampParam() + "&asset=" + asset;
-        return sendSignedRequest(MARGIN_INTEREST_RATE_HISTORY_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get margin interest rate history
-     * @param #asset: used in the request es. BTC
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data</a>
-     * @return margin interest rate history as {@link JSONArray}
-     * **/
-    public JSONArray getJSONMarginInterestRateHistory(String asset) throws Exception {
-        return new JSONArray(getMarginInterestRateHistory(asset));
+     * Query Margin Interest Rate History (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/interestRateHistory")
+    public ArrayList<MarginInterestRate> getInterestRateHistory(String asset) throws Exception {
+        return getInterestRateHistory(asset, LIBRARY_OBJECT);
     }
 
     /** Request to get margin interest rate history list
      * @param #asset: used in the request es. BTC
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data</a>
-     * @return margin interest rate history as ArrayList<{@link MarginInterestRate}>
+     *     Query Margin Interest Rate History (USER_DATA)</a>
+     * @return margin interest rate history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public ArrayList<MarginInterestRate> getMarginInterestRateHistoryList(String asset) throws Exception {
-        return assembleMarginIRateHistoryList(new JSONArray(getMarginInterestRateHistory(asset)));
+    @RequestPath(path = "/sapi/v1/margin/interestRateHistory")
+    public <T> T getInterestRateHistory(String asset, ReturnFormat format) throws Exception {
+        return returnRateHistoryList(sendSignedRequest(MARGIN_INTEREST_RATE_HISTORY_ENDPOINT, getTimestampParam()
+                + "&asset=" + asset, GET_METHOD), format);
     }
 
     /** Request to get margin interest rate history
      * @param #asset: used in the request es. BTC
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are vipLevel,startTime,endTime,recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "asset"} -> asset value - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "vipLevel"} -> vip level value - [INT, default user's vip level]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate interest records - [LONG, default 7 days ago]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate interest records, maximum range: 1 months - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data</a>
-     * @return margin interest rate history as {@link String}
+     *     Query Margin Interest Rate History (USER_DATA)</a>
+     * @return margin interest rate history as {@code ArrayList} of {@link MarginInterestRate}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public String getMarginInterestRateHistory(String asset, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&asset=" + asset;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(MARGIN_INTEREST_RATE_HISTORY_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/interestRateHistory")
+    public ArrayList<MarginInterestRate> getInterestRateHistory(String asset, Params extraParams) throws Exception {
+        return getInterestRateHistory(asset, extraParams, LIBRARY_OBJECT);
     }
 
     /** Request to get margin interest rate history
      * @param #asset: used in the request es. BTC
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are vipLevel,startTime,endTime,recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "asset"} -> asset value - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "vipLevel"} -> vip level value - [INT, default user's vip level]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate interest records - [LONG, default 7 days ago]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate interest records, maximum range: 1 months - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data</a>
-     * @return margin interest rate history as {@link JSONArray}
+     *     Query Margin Interest Rate History (USER_DATA)</a>
+     * @return margin interest rate history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    public JSONArray getJSONMarginInterestRateHistory(String asset, Params extraParams) throws Exception {
-        return new JSONArray(getMarginInterestRateHistory(asset, extraParams));
-    }
-
-    /** Request to get margin interest rate history
-     * @param #asset: used in the request es. BTC
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are vipLevel,startTime,endTime,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data</a>
-     * @return margin interest rate history as ArrayList<{@link MarginInterestRate}>
-     * **/
-    public ArrayList<MarginInterestRate> getMarginInterestRateHistoryList(String asset, Params extraParams) throws Exception {
-        return assembleMarginIRateHistoryList(new JSONArray(getMarginInterestRateHistory(asset, extraParams)));
-    }
-
-    /** Method to assemble a MarginInterestRate list
-     * @param #jsonRate: obtained from {@code "Binance"}'s request
-     * @return as ArrayList<{@link MarginInterestRate}>
-     * **/
-    private ArrayList<MarginInterestRate> assembleMarginIRateHistoryList(JSONArray jsonRate) {
-        ArrayList<MarginInterestRate> marginInterestRates = new ArrayList<>();
-        for (int j = 0; j < jsonRate.length(); j++)
-            marginInterestRates.add(new MarginInterestRate(jsonRate.getJSONObject(j)));
-        return marginInterestRates;
-    }
-
-    /** Request to get cross margin fee data <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data</a>
-     * @return cross margin fee data as {@link String}
-     * **/
-    public String getCrossMarginFeeData() throws Exception {
-        return sendSignedRequest(CROSS_MARGIN_DATA_ENDPOINT, getTimestampParam(), GET_METHOD);
-    }
-
-    /** Request to get cross margin fee data <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data</a>
-     * @return cross margin fee data as {@link JSONArray}
-     * **/
-    public JSONArray getJSONCrossMarginFeeData() throws Exception {
-        return new JSONArray(getCrossMarginFeeData());
-    }
-
-    /** Request to get cross margin fee data list <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data</a>
-     * @return cross margin fee data as ArrayList<{@link CrossMarginFee}>
-     * **/
-    public ArrayList<CrossMarginFee> getCrossMarginFeesList() throws Exception {
-        return assembleCrossMarginFeesList(new JSONArray(getCrossMarginFeeData()));
-    }
-
-    /** Request to get cross margin fee data
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are vipLevel,coin,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data</a>
-     * @return cross margin fee data as {@link String}
-     * **/
-    public String getCrossMarginFeeData(Params extraParams) throws Exception {
-        String params = apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams);
-        return sendSignedRequest(CROSS_MARGIN_DATA_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get cross margin fee data
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are vipLevel,coin,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data</a>
-     * @return cross margin fee data as {@link JSONArray}
-     * **/
-    public JSONArray getJSONCrossMarginFeeData(Params extraParams) throws Exception {
-        return new JSONArray(getCrossMarginFeeData(extraParams));
-    }
-
-    /** Request to get cross margin fee data list
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are vipLevel,coin,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data</a>
-     * @return cross margin fee data as ArrayList<{@link CrossMarginFee}>
-     * **/
-    public ArrayList<CrossMarginFee> getCrossMarginFeesList(Params extraParams) throws Exception {
-        return assembleCrossMarginFeesList(new JSONArray(getCrossMarginFeeData(extraParams)));
-    }
-
-    /** Method to assemble a CrossMarginFee list
-     * @param #jsonFees: obtained from {@code "Binance"}'s request
-     * @return as ArrayList<{@link CrossMarginFee}>
-     * **/
-    private ArrayList<CrossMarginFee> assembleCrossMarginFeesList(JSONArray jsonFees) {
-        ArrayList<CrossMarginFee> crossMarginFees = new ArrayList<>();
-        for (int j = 0; j < jsonFees.length(); j++)
-            crossMarginFees.add(new CrossMarginFee(jsonFees.getJSONObject(j)));
-        return crossMarginFees;
-    }
-
-    /** Request to get isolated margin fee data <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data</a>
-     * @return isolated margin fee data as {@link String}
-     * **/
-    public String getIsolatedMarginFee() throws Exception {
-        return sendSignedRequest(ISOLATED_MARGIN_DATA_ENDPOINT, getTimestampParam(), GET_METHOD);
-    }
-
-    /** Request to get isolated margin fee data <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data</a>
-     * @return isolated margin fee data as {@link JSONArray}
-     * **/
-    public JSONArray getJSONIsolatedMarginFee() throws Exception {
-        return new JSONArray(getIsolatedMarginFee());
-    }
-
-    /** Request to get isolated margin fee data list <br>
-     * Any params required
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data</a>
-     * @return isolated margin fee data as ArrayList<{@link IsolatedMarginFee}>
-     * **/
-    public ArrayList<IsolatedMarginFee> getIsolatedMarginFeesList() throws Exception {
-        return assembleIsolatedMarginFeesList(new JSONArray(getIsolatedMarginFee()));
-    }
-
-    /** Request to get isolated margin fee data
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are vipLevel,symbol,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data</a>
-     * @return isolated margin fee data as {@link String}
-     * **/
-    public String getIsolatedMarginFee(Params extraParams) throws Exception {
-        String params = apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams);
-        return sendSignedRequest(ISOLATED_MARGIN_DATA_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get isolated margin fee data
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are vipLevel,symbol,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data</a>
-     * @return isolated margin fee data as {@link JSONArray}
-     * **/
-    public JSONArray getJSONIsolatedMarginFee(Params extraParams) throws Exception {
-        return new JSONArray(getIsolatedMarginFee(extraParams));
-    }
-
-    /** Request to get isolated margin fee data list
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are vipLevel,symbol,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data</a>
-     * @return isolated margin fee data as ArrayList<{@link IsolatedMarginFee}>
-     * **/
-    public ArrayList<IsolatedMarginFee> getIsolatedMarginFeesList(Params extraParams) throws Exception {
-        return assembleIsolatedMarginFeesList(new JSONArray(getIsolatedMarginFee(extraParams)));
-    }
-
-    /** Method to assemble an {@link IsolatedMarginFee} list
-     * @param #jsonFees: obtained from {@code "Binance"}'s request
-     * @return list as {@link ArrayList} of {@link IsolatedMarginFee}
-     * **/
-    private ArrayList<IsolatedMarginFee> assembleIsolatedMarginFeesList(JSONArray jsonFees) {
-        ArrayList<IsolatedMarginFee> isolatedMarginFees = new ArrayList<>();
-        for (int j = 0; j < jsonFees.length(); j++)
-            isolatedMarginFees.add(new IsolatedMarginFee(jsonFees.getJSONObject(j)));
-        return isolatedMarginFees;
-    }
-
-    /** Request to get isolated margin tier data
-     * @param #symbol: used in the request es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data</a>
-     * @return isolated margin tier data as {@link String}
-     * **/
-    public String getIsolatedMarginTierData(String symbol) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol;
-        return sendSignedRequest(ISOLATED_MARGIN_TIER_DATA_ENDPOINT, params, GET_METHOD);
-    }
-
-    /** Request to get isolated margin tier data
-     * @param #symbol: used in the request es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data</a>
-     * @return isolated margin tier data as {@link JSONArray}
-     * **/
-    public JSONArray getJSONIsolatedMarginTierData(String symbol) throws Exception {
-        return new JSONArray(getIsolatedMarginTierData(symbol));
-    }
-
-    /** Request to get isolated margin tier data list
-     * @param #symbol: used in the request es. BTCBUSD
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data</a>
-     * @return isolated margin tier data as ArrayList<{@link IsolatedMarginTierData}>
-     * **/
-    public ArrayList<IsolatedMarginTierData> getIsolatedMarginTierDataList(String symbol) throws Exception {
-        return assembleIsolatedMarginTierDataList(new JSONArray(getIsolatedMarginTierData(symbol)));
-    }
-
-    /** Request to get isolated margin tier data
-     * @param #symbol: used in the request es. BTCBUSD
-     * @param extraParams: additional params of the request
-     * @implSpec (keys accepted are tier,symbol,recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data">
-     *     https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data</a>
-     * @return isolated margin tier data as {@link String}
-     * **/
-    public String getIsolatedMarginTierData(String symbol, Params extraParams) throws Exception {
-        String params = getTimestampParam() + "&symbol=" + symbol;
-        params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return sendSignedRequest(ISOLATED_MARGIN_TIER_DATA_ENDPOINT, params, GET_METHOD);
+    @RequestPath(path = "/sapi/v1/margin/interestRateHistory")
+    public <T> T getInterestRateHistory(String asset, Params extraParams, ReturnFormat format) throws Exception {
+        return returnRateHistoryList(sendSignedRequest(MARGIN_INTEREST_RATE_HISTORY_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&asset=" + asset, extraParams),
+                GET_METHOD), format);
     }
 
     /**
-     * Request to get isolated margin tier data
+     * Method to create a rate history list
      *
-     * @param #symbol:     used in the request es. BTCBUSD
-     * @param extraParams: additional params of the request
-     * @return isolated margin tier data as {@link JSONArray}
-     * @implSpec (keys accepted are tier, symbol, recvWindow)
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data</a>
+     * @param rateHistoryListResponse: obtained from Binance's response
+     * @param format:                  return type formatter -> {@link ReturnFormat}
+     * @return rate history list as {@code "format"} defines
      **/
-    public JSONArray getJSONIsolatedMarginTierData(String symbol, Params extraParams) throws Exception {
-        return new JSONArray(getIsolatedMarginTierData(symbol, extraParams));
+    @Returner
+    private <T> T returnRateHistoryList(String rateHistoryListResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(rateHistoryListResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<MarginInterestRate> marginInterestRates = new ArrayList<>();
+                JSONArray jRates = new JSONArray(rateHistoryListResponse);
+                for (int j = 0; j < jRates.length(); j++)
+                    marginInterestRates.add(new MarginInterestRate(jRates.getJSONObject(j)));
+                return (T) marginInterestRates;
+            default:
+                return (T) rateHistoryListResponse;
+        }
+    }
+
+    /**
+     * Request to get cross margin fee data list <br>
+     * Any params required
+     *
+     * @return cross margin fee data as {@link ArrayList} of {@link CrossMarginFee}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data">
+     * Query Cross Margin Fee Data (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/crossMarginData")
+    public ArrayList<CrossMarginFee> getCrossMarginFeeData() throws Exception {
+        return getCrossMarginFeeData(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get cross margin fee data list
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return cross margin fee data as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data">
+     * Query Cross Margin Fee Data (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/crossMarginData")
+    public <T> T getCrossMarginFeeData(ReturnFormat format) throws Exception {
+        return returnCrossMarginFee(sendSignedRequest(CROSS_MARGIN_DATA_ENDPOINT, getTimestampParam(), GET_METHOD),
+                format);
+    }
+
+    /**
+     * Request to get cross margin fee data list
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "vipLevel"} -> user's current specific margin data will be returned if vipLevel is omitted
+     *                                - [INT]
+     *                           </li>
+     *                           <li>
+     *                                {@code "coin"} -> coin value - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return cross margin fee data as {@link ArrayList} of {@link CrossMarginFee}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data">
+     * Query Cross Margin Fee Data (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/crossMarginData")
+    public ArrayList<CrossMarginFee> getCrossMarginFeeData(Params extraParams) throws Exception {
+        return getCrossMarginFeeData(extraParams, LIBRARY_OBJECT);
+    }
+
+    /** Request to get cross margin fee data list
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "vipLevel"} -> user's current specific margin data will be returned if vipLevel is omitted
+     *                                - [INT]
+     *                           </li>
+     *                           <li>
+     *                                {@code "coin"} -> coin value - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data">
+     *     Query Cross Margin Fee Data (USER_DATA)</a>
+     * @return cross margin fee data as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/crossMarginData")
+    public <T> T getCrossMarginFeeData(Params extraParams, ReturnFormat format) throws Exception {
+        return returnCrossMarginFee(sendSignedRequest(CROSS_MARGIN_DATA_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET_METHOD), format);
+    }
+
+    /**
+     * Method to create a cross margin fees list
+     *
+     * @param feesResponse: obtained from Binance's response
+     * @param format:       return type formatter -> {@link ReturnFormat}
+     * @return cross margin fees list as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnCrossMarginFee(String feesResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(feesResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<CrossMarginFee> crossMarginFees = new ArrayList<>();
+                JSONArray jFees = new JSONArray(feesResponse);
+                for (int j = 0; j < jFees.length(); j++)
+                    crossMarginFees.add(new CrossMarginFee(jFees.getJSONObject(j)));
+                return (T) crossMarginFees;
+            default:
+                return (T) feesResponse;
+        }
+    }
+
+    /**
+     * Request to get isolated margin fee data list <br>
+     * Any params required
+     *
+     * @return isolated margin fee data as {@link ArrayList} of {@link IsolatedMarginFee}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
+     * Query Isolated Margin Fee Data (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/isolatedMarginData")
+    public ArrayList<IsolatedMarginFee> getIsolatedMarginFeeData() throws Exception {
+        return getIsolatedMarginFeeData(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get isolated margin fee data list
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return isolated margin fee data as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
+     * Query Isolated Margin Fee Data (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/isolatedMarginData")
+    public <T> T getIsolatedMarginFeeData(ReturnFormat format) throws Exception {
+        return returnIsolatedMarginFee(sendSignedRequest(ISOLATED_MARGIN_DATA_ENDPOINT, getTimestampParam(), GET_METHOD),
+                format);
+    }
+
+    /**
+     * Request to get isolated margin fee data list
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "vipLevel"} -> user's current specific margin data will be returned if vipLevel is omitted
+     *                                - [INT]
+     *                           </li>
+     *                           <li>
+     *                                {@code "symbol"} -> symbol value - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return isolated margin fee data as {@link ArrayList} of {@link IsolatedMarginFee}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
+     * Query Isolated Margin Fee Data (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/isolatedMarginData")
+    public ArrayList<IsolatedMarginFee> getIsolatedMarginFeeData(Params extraParams) throws Exception {
+        return getIsolatedMarginFeeData(extraParams, LIBRARY_OBJECT);
+    }
+
+    /** Request to get isolated margin fee data list
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "vipLevel"} -> user's current specific margin data will be returned if vipLevel is omitted
+     *                                - [INT]
+     *                           </li>
+     *                           <li>
+     *                                {@code "symbol"} -> symbol value - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
+     *    Query Isolated Margin Fee Data (USER_DATA)</a>
+     * @return isolated margin fee data as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * **/
+    @RequestPath(path = "/sapi/v1/margin/isolatedMarginData")
+    public <T> T getIsolatedMarginFeeData(Params extraParams, ReturnFormat format) throws Exception {
+        return returnIsolatedMarginFee(sendSignedRequest(ISOLATED_MARGIN_DATA_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET_METHOD), format);
+    }
+
+    /**
+     * Method to create an isolated margin fees list
+     *
+     * @param feesResponse: obtained from Binance's response
+     * @param format:       return type formatter -> {@link ReturnFormat}
+     * @return isolated margin fees list as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnIsolatedMarginFee(String feesResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(feesResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<IsolatedMarginFee> isolatedMarginFees = new ArrayList<>();
+                JSONArray jFees = new JSONArray(feesResponse);
+                for (int j = 0; j < jFees.length(); j++)
+                    isolatedMarginFees.add(new IsolatedMarginFee(jFees.getJSONObject(j)));
+                return (T) isolatedMarginFees;
+            default:
+                return (T) feesResponse;
+        }
+    }
+
+    /**
+     * Request to get isolated margin tier data list
+     *
+     * @param #symbol: used in the request es. BTCBUSD
+     * @return isolated margin tier data as {@link ArrayList} of {@link IsolatedMarginTierData}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data">
+     * Query Isolated Margin Tier Data (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/isolatedMarginTier")
+    public ArrayList<IsolatedMarginTierData> getIsolatedMarginTierData(String symbol) throws Exception {
+        return getIsolatedMarginTierData(symbol, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get isolated margin tier data list
+     *
+     * @param #symbol: used in the request es. BTCBUSD
+     * @param format:  return type formatter -> {@link ReturnFormat}
+     * @return isolated margin tier data as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data">
+     * Query Isolated Margin Tier Data (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/isolatedMarginTier")
+    public <T> T getIsolatedMarginTierData(String symbol, ReturnFormat format) throws Exception {
+        return returnIsolatedMarginTierData(sendSignedRequest(ISOLATED_MARGIN_TIER_DATA_ENDPOINT,
+                getTimestampParam() + "&symbol=" + symbol, GET_METHOD), format);
     }
 
     /**
      * Request to get isolated margin tier data list
      *
      * @param #symbol:     used in the request es. BTCBUSD
-     * @param extraParams: additional params of the request
-     * @return isolated margin tier data as ArrayList<{@link IsolatedMarginTierData}>
-     * @implSpec (keys accepted are tier, symbol, recvWindow)
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "tier"} -> all margin tier data will be returned if tier is omitted - [INTEGER]
+     *                           </li>
+     *                           <li>
+     *                                {@code "symbol"} -> symbol value - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return isolated margin tier data as {@link ArrayList} of {@link IsolatedMarginTierData}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data">
-     * https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data</a>
+     * Query Isolated Margin Tier Data (USER_DATA)</a>
      **/
-    public ArrayList<IsolatedMarginTierData> getIsolatedMarginTierDataList(String symbol, Params extraParams) throws Exception {
-        return assembleIsolatedMarginTierDataList(new JSONArray(getIsolatedMarginTierData(symbol, extraParams)));
+    @RequestPath(path = "/sapi/v1/margin/isolatedMarginTier")
+    public ArrayList<IsolatedMarginTierData> getIsolatedMarginTierData(String symbol, Params extraParams) throws Exception {
+        return getIsolatedMarginTierData(symbol, extraParams, LIBRARY_OBJECT);
     }
 
-    /** Method to assemble an {@link IsolatedMarginTierData} list
-     * @param #jsonTierData: obtained from {@code "Binance"}'s request
-     * @return list as {@link ArrayList} of {@link IsolatedMarginTierData}
+    /**
+     * Request to get isolated margin tier data list
+     *
+     * @param #symbol:     used in the request es. BTCBUSD
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "tier"} -> all margin tier data will be returned if tier is omitted - [INTEGER]
+     *                           </li>
+     *                           <li>
+     *                                {@code "symbol"} -> symbol value - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @return isolated margin tier data as {@code "format"} defines
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data">
+     * Query Isolated Margin Tier Data (USER_DATA)</a>
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    private ArrayList<IsolatedMarginTierData> assembleIsolatedMarginTierDataList(JSONArray jsonTierData) {
-        ArrayList<IsolatedMarginTierData> isolatedMarginTierData = new ArrayList<>();
-        for (int j = 0; j < jsonTierData.length(); j++)
-            isolatedMarginTierData.add(new IsolatedMarginTierData(jsonTierData.getJSONObject(j)));
-        return isolatedMarginTierData;
+    @RequestPath(path = "/sapi/v1/margin/isolatedMarginTier")
+    public <T> T getIsolatedMarginTierData(String symbol, Params extraParams, ReturnFormat format) throws Exception {
+        return returnIsolatedMarginTierData(sendSignedRequest(ISOLATED_MARGIN_TIER_DATA_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol, extraParams),
+                GET_METHOD), format);
     }
-    
+
+    /**
+     * Method to create an isolated margin tier data list
+     *
+     * @param tierDataResponse: obtained from Binance's response
+     * @param format:           return type formatter -> {@link ReturnFormat}
+     * @return isolated margin tier data list as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnIsolatedMarginTierData(String tierDataResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(tierDataResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<IsolatedMarginTierData> isolatedMarginTierData = new ArrayList<>();
+                JSONArray jTiers = new JSONArray(tierDataResponse);
+                for (int j = 0; j < jTiers.length(); j++)
+                    isolatedMarginTierData.add(new IsolatedMarginTierData(jTiers.getJSONObject(j)));
+                return (T) isolatedMarginTierData;
+            default:
+                return (T) tierDataResponse;
+        }
+    }
+
     /**
      * {@code MarginTransferType} list of available transfer type
      **/

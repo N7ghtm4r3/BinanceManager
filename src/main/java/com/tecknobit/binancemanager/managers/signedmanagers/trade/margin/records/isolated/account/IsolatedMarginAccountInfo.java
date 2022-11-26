@@ -1,11 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.account;
 
-import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.MarginAccountSnapshot.UserMarginAsset;
-import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
@@ -132,21 +128,6 @@ public class IsolatedMarginAccountInfo {
         tradeEnabled = isolatedMarginAccountInfo.getBoolean("tradeEnabled");
         baseAsset = new IsolatedMarginAsset(isolatedMarginAccountInfo.getJSONObject("baseAsset"));
         quoteAsset = new IsolatedMarginAsset(isolatedMarginAccountInfo.getJSONObject("quoteAsset"));
-    }
-
-    /**
-     * Method to assemble an IsolatedMarginAccountInfo list
-     *
-     * @param jsonInfo: obtained from {@code "Binance"}'s request
-     * @return a list as ArrayList<IsolatedMarginAccountInfo>
-     **/
-    // TODO: 21/11/2022 CHECK TO REMOVE
-    @Returner
-    public static ArrayList<IsolatedMarginAccountInfo> createIsolatedMarginAccountInfoList(JSONArray jsonInfo) {
-        ArrayList<IsolatedMarginAccountInfo> isolatedMarginAccountInfo = new ArrayList<>();
-        for (int j = 0; j < jsonInfo.length(); j++)
-            isolatedMarginAccountInfo.add(new IsolatedMarginAccountInfo(jsonInfo.getJSONObject(j)));
-        return isolatedMarginAccountInfo;
     }
 
     /**

@@ -6,8 +6,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.account.IsolatedMarginAccountInfo.createIsolatedMarginAccountInfoList;
-
 /**
  * The {@code ComposedIMarginAccountInfo} class is useful to format a {@code "Binance"}'s isolated margin account
  *
@@ -46,8 +44,10 @@ public class ComposedIMarginAccountInfo extends MarginAccount {
      **/
     public ComposedIMarginAccountInfo(JSONObject marginAccountInfo) {
         super(marginAccountInfo);
-        isolatedMarginAccountInfoList = createIsolatedMarginAccountInfoList(hMarginAccount.getJSONArray("assets",
-                new JSONArray()));
+        isolatedMarginAccountInfoList = new ArrayList<>();
+        JSONArray jAccounts = hMarginAccount.getJSONArray("assets", new JSONArray());
+        for (int j = 0; j < jAccounts.length(); j++)
+            isolatedMarginAccountInfoList.add(new IsolatedMarginAccountInfo(jAccounts.getJSONObject(j)));
     }
 
     /**
