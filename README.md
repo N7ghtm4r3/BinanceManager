@@ -71,15 +71,15 @@ The other endpoints managers will be gradually released
 
 // with automatic research for a working base endpoint
 try{
-        BinanceMarketManager binanceMarketManager=new BinanceMarketManager();
-        }catch(Exception e){
-        e.printStackTrace();
-        }
+    BinanceMarketManager binanceMarketManager = new BinanceMarketManager();
+}catch(Exception e){
+    e.printStackTrace();
+ }
 
 // choose base endpoint manually
-        try{
-        BinanceManager binanceManager=new BinanceManager(BinanceManager.BinanceEndpoint);
-        }catch(Exception e){
+try{
+    BinanceManager binanceManager = new BinanceManager(BinanceManager.BinanceEndpoint);
+}catch(Exception e){
     e.printStackTrace();
 }
 ```
@@ -90,30 +90,30 @@ try{
 
 // with automatic research for a working base endpoint
 try{
-        BinanceSignedManager binanceManager=new BinanceSignedManager("yourApiKey","yourSecretKey");
-        }catch(Exception e){
-        e.printStackTrace();
-        }
+    BinanceSignedManager binanceManager = new BinanceSignedManager("yourApiKey","yourSecretKey");
+}catch(Exception e){
+    e.printStackTrace();
+}
 
 // choose base endpoint manually
-        try{
-        BinanceSignedManager binanceManager=new BinanceSignedManager(BinanceManager.BinanceEndpoint,"yourApiKey","yourSecretKey");
-        }catch(Exception e){
-        e.printStackTrace();
-        }
+try{
+    BinanceSignedManager binanceManager = new BinanceSignedManager(BinanceManager.BinanceEndpoint,"yourApiKey","yourSecretKey");
+}catch(Exception e){
+    e.printStackTrace();
+}
 ```
 
 To avoid re-entering credentials for each manager, you can instantiate managers like this with the **ARCS**:
 
 ```java
 // choose the manager (for signed and no-signed managers same procedure), for example: BinanceMarketManager, BinanceWalletManager, etc 
-BinanceManager firstManager=new BinanceManager(/* params of the constructor chosen */,"apiKey","apiSign","yourPassphrase");
+BinanceManager firstManager = new BinanceManager(/* params of the constructor chosen */,"apiKey","secretKey");
 // and then use it 
-        firstManager.makeSomething();
+firstManager.makeSomething();
 // you don't need to insert all credentials to make manager work
-        BinanceManager secondManager=new BinanceManager(); // same credentials used
+BinanceManager secondManager=new BinanceManager(); // same credentials used
 // and then use it
-        secondManager.makeSomething();
+secondManager.makeSomething();
 ```
 
 ### Responses
@@ -128,21 +128,22 @@ Library give to you the opportunity to customize the return object after a reque
 // choose the manager for example: BinanceMarketManager, BinanceWalletManager, etc
 BinanceManager manager=new BinanceManager(/* params of the constructor chosen */);
 // method to return directly a library given by library
-        manager.someRequest(); // in this case will be returned directly a LIBRARY_OBJECT
+manager.someRequest(); // in this case will be returned directly a LIBRARY_OBJECT
 // method to customize the format of the return 
-        manager.someRequest(ReturnFormat.JSON); // in this case will be returned response in JSON format
+manager.someRequest(ReturnFormat.JSON); // in this case will be returned response in JSON format
 ```
 
 ### Errors handling
 
 ```java
 try{
-        System.out.println(binanceManager.getTimestamp());
-        }catch(Exception e){
-        System.out.println(binanceManager.getErrorResponse());
-        //or
-        binanceManager.printErrorResponse();
-        }
+    System.out.println(binanceManager.getTimestamp());
+}catch(Exception e){
+    System.out.println(binanceManager.getErrorResponse());
+    //or
+    binanceManager.printErrorResponse();
+}
+
 /* NOTE: if is not a request error will appear: "Error is not in api request, check out your code"
   and you will have to work on your code to manage error*/
 ```
