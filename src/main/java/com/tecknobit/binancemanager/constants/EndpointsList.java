@@ -101,22 +101,42 @@ public class EndpointsList {
 
     /**
      * {@code UNIVERSAL_TRANSFER_ENDPOINT} is constant for UNIVERSAL_TRANSFER_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String UNIVERSAL_TRANSFER_ENDPOINT = "/sapi/v1/asset/transfer";
 
     /**
      * {@code FUNDING_WALLET_ENDPOINT} is constant for FUNDING_WALLET_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String FUNDING_WALLET_ENDPOINT = "/sapi/v1/asset/get-funding-asset";
 
     /**
+     * {@code USER_ASSET_ENDPOINT} is constant for USER_ASSET_ENDPOINT's endpoint
+     **/
+    public static final String USER_ASSET_ENDPOINT = "/sapi/v3/asset/getUserAsset";
+
+    /**
+     * {@code BUSD_CONVERT_ENDPOINT} is constant for BUSD_CONVERT_ENDPOINT's endpoint
+     **/
+    public static final String BUSD_CONVERT_ENDPOINT = "/sapi/v1/asset/convert-transfer";
+
+    /**
+     * {@code CONVERT_HISTORY_ENDPOINT} is constant for CONVERT_HISTORY_ENDPOINT's endpoint
+     **/
+    public static final String CONVERT_HISTORY_ENDPOINT = "/sapi/v1/asset/convert-transfer/queryByPage";
+
+    /**
+     * {@code CONVERT_HISTORY_ENDPOINT} is constant for CONVERT_HISTORY_ENDPOINT's endpoint
+     **/
+    public static final String GET_CLOUD_MINING_HISTORY_ENDPOINT = "/sapi/v1/asset/ledger-transfer/cloud-mining/queryByPage";
+
+    /**
      * {@code API_KEY_PERMISSION_ENDPOINT} is constant for API_KEY_PERMISSION_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String API_KEY_PERMISSION_ENDPOINT = "/sapi/v1/account/apiRestrictions";
 
     /**
      * {@code TEST_CONNECTIVITY_ENDPOINT} is constant for TEST_CONNECTIVITY_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String TEST_CONNECTIVITY_ENDPOINT = "/api/v3/ping";
 
     /**
@@ -341,17 +361,22 @@ public class EndpointsList {
 
     /**
      * {@code GET_MAX_MARGIN_TRANSFER_ENDPOINT} is constant for GET_MAX_MARGIN_TRANSFER_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String GET_MAX_MARGIN_TRANSFER_ENDPOINT = "/sapi/v1/margin/maxTransferable";
 
     /**
+     * {@code GET_SUMMARY_MARGIN_ACCOUNT_ENDPOINT} is constant for GET_SUMMARY_MARGIN_ACCOUNT_ENDPOINT's endpoint
+     **/
+    public static final String GET_SUMMARY_MARGIN_ACCOUNT_ENDPOINT = "/sapi/v1/margin/tradeCoeff";
+
+    /**
      * {@code ISOLATED_MARGIN_TRANSFER_ENDPOINT} is constant for ISOLATED_MARGIN_TRANSFER_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String ISOLATED_MARGIN_TRANSFER_ENDPOINT = "/sapi/v1/margin/isolated/transfer";
 
     /**
      * {@code ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT} is constant for ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT = "/sapi/v1/margin/isolated/account";
 
     /**

@@ -10,6 +10,7 @@ import com.tecknobit.binancemanager.managers.market.records.OrderBook;
 import com.tecknobit.binancemanager.managers.market.records.stats.Candlestick;
 import com.tecknobit.binancemanager.managers.market.records.stats.Candlestick.Interval;
 import com.tecknobit.binancemanager.managers.market.records.stats.ExchangeInformation;
+import com.tecknobit.binancemanager.managers.market.records.stats.ExchangeInformation.ExchangePermission;
 import com.tecknobit.binancemanager.managers.market.records.tickers.OrderBookTicker;
 import com.tecknobit.binancemanager.managers.market.records.tickers.PriceTicker;
 import com.tecknobit.binancemanager.managers.market.records.tickers.RollingTicker;
@@ -22,7 +23,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.tecknobit.apimanager.apis.APIRequest.GET_METHOD;
 import static com.tecknobit.apimanager.trading.TradingTools.computeTPTOPIndex;
@@ -251,7 +251,7 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(path = "/api/v3/exchangeInfo")
     public ExchangeInformation getExchangeInformation(String[] symbols) throws Exception {
-        return getExchangeInformation(new ArrayList<>(List.of(symbols)), LIBRARY_OBJECT);
+        return getExchangeInformation(symbols, LIBRARY_OBJECT);
     }
 
     /**
@@ -277,13 +277,14 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(path = "/api/v3/exchangeInfo")
     public <T> T getExchangeInformation(String[] symbols, ReturnFormat format) throws Exception {
-        return getExchangeInformation(new ArrayList<>(List.of(symbols)), format);
+        return returnExchangeInformation(getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT, "?symbols=[" +
+                assembleSymbolsList(symbols) + "]", GET_METHOD), format);
     }
 
     /**
      * Request to get exchange information
      *
-     * @param symbols: ArrayList of symbols to fetch exchange information es. BTCBUSD,ETHBUSD (auto assembled)
+     * @param permission: permission to use to fetch the information
      * @return exchange information as {@link ExchangeInformation} custom object
      * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
      *                     <ul>
@@ -301,16 +302,42 @@ public class BinanceMarketManager extends BinanceManager {
      * Exchange Information</a>
      **/
     @RequestPath(path = "/api/v3/exchangeInfo")
-    public ExchangeInformation getExchangeInformation(ArrayList<String> symbols) throws Exception {
-        return getExchangeInformation(symbols, LIBRARY_OBJECT);
+    public ExchangeInformation getExchangeInformation(ExchangePermission permission) throws Exception {
+        return getExchangeInformation(permission, LIBRARY_OBJECT);
     }
 
     /**
      * Request to get exchange information
      *
-     * @param symbols: ArrayList of symbols to fetch exchange information es. BTCBUSD,ETHBUSD (auto assembled)
-     * @param format:  return type formatter -> {@link ReturnFormat}
+     * @param permission: permission to use to fetch the information
+     * @param format:     return type formatter -> {@link ReturnFormat}
      * @return exchange information as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
+     * Exchange Information</a>
+     **/
+    @RequestPath(path = "/api/v3/exchangeInfo")
+    public <T> T getExchangeInformation(ExchangePermission permission, ReturnFormat format) throws Exception {
+        return returnExchangeInformation(getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT, "?permissions="
+                + permission, GET_METHOD), format);
+    }
+
+    /**
+     * Request to get exchange information
+     *
+     * @param permissions: permissions to use to fetch the information in array of {@link ExchangePermission} format
+     * @return exchange information as {@link ExchangeInformation} custom object
      * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
      *                     <ul>
      *                         <li>
@@ -327,9 +354,125 @@ public class BinanceMarketManager extends BinanceManager {
      * Exchange Information</a>
      **/
     @RequestPath(path = "/api/v3/exchangeInfo")
-    public <T> T getExchangeInformation(ArrayList<String> symbols, ReturnFormat format) throws Exception {
-        return returnExchangeInformation(getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT, "?symbols=[" +
-                assembleSymbolsList(symbols) + "]", GET_METHOD), format);
+    public ExchangeInformation getExchangeInformation(ExchangePermission[] permissions) throws Exception {
+        return getExchangeInformation(permissions, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get exchange information
+     *
+     * @param permissions: permissions to use to fetch the information in array of {@link ExchangePermission} format
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return exchange information as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
+     * Exchange Information</a>
+     **/
+    @RequestPath(path = "/api/v3/exchangeInfo")
+    public <T> T getExchangeInformation(ExchangePermission[] permissions, ReturnFormat format) throws Exception {
+        return returnExchangeInformation(getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT, "?permissions=[" +
+                assembleSymbolsList(permissions) + "]", GET_METHOD), format);
+    }
+
+    /**
+     * Request to get exchange information
+     *
+     * @param extraParams: extra params of the request, keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                               {@code "symbol"} symbol from fetch the information - [STRING]
+     *                         </li>
+     *                         <li>
+     *                               {@code "symbols"} list of symbols from fetch the information, you can pass directly
+     *                               the list of symbols will be formatted in the correct format to do the request - [STRING]
+     *                         </li>
+     *                         <li>
+     *                               {@code "permissions"} permission to use to fetch the information, constants available
+     *                               {@link ExchangePermission} - [STRING]
+     *                         </li>
+     *                         <li>
+     *                               {@code "permissions"} list of permissions to use to fetch the information, constants available
+     *                               {@link ExchangePermission}, you can pass directly the list of permissions will be formatted
+     *                               in the correct format to do the request - [STRING]
+     *                         </li>
+     *                     </ul>
+     * @return exchange information as {@link ExchangeInformation} custom object
+     * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
+     * Exchange Information</a>
+     **/
+    @RequestPath(path = "/api/v3/exchangeInfo")
+    public ExchangeInformation getExchangeInformation(Params extraParams) throws Exception {
+        return getExchangeInformation(extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get exchange information
+     *
+     * @param extraParams: extra params of the request, keys accepted are:
+     *                     <ul>
+     *                         <li>
+     *                               {@code "symbol"} symbol from fetch the information - [STRING]
+     *                         </li>
+     *                         <li>
+     *                               {@code "symbols"} list of symbols from fetch the information, you can pass directly
+     *                               the list of symbols will be formatted in the correct format to do the request - [STRING]
+     *                         </li>
+     *                         <li>
+     *                               {@code "permissions"} permission to use to fetch the information, constants available
+     *                               {@link ExchangePermission} - [STRING]
+     *                         </li>
+     *                         <li>
+     *                               {@code "permissions"} list of permissions to use to fetch the information, constants available
+     *                               {@link ExchangePermission}, you can pass directly the list of permissions will be formatted
+     *                               in the correct format to do the request - [STRING]
+     *                         </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return exchange information as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
+     * Exchange Information</a>
+     **/
+    @RequestPath(path = "/api/v3/exchangeInfo")
+    public <T> T getExchangeInformation(Params extraParams, ReturnFormat format) throws Exception {
+        manageList(extraParams, "symbols");
+        manageList(extraParams, "permissions");
+        return returnExchangeInformation(getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT,
+                extraParams.createQueryString(), GET_METHOD), format);
     }
 
     /**

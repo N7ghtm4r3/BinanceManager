@@ -11,6 +11,7 @@ import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.account.CrossMarginAccountDetails;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.account.MarginAccountTrade;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.account.MarginMaxBorrow;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.account.MarginSummary;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.account.ComposedIMarginAccountInfo;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.account.IsolatedMarginAccountLimit;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.account.IsolatedMarginAccountStatus;
@@ -7822,7 +7823,8 @@ public class BinanceMarginManager extends BinanceSignedManager {
         return Double.parseDouble(getMaxTransferOutAmount(asset, LIBRARY_OBJECT));
     }
 
-    /** Request to get max transfer out amount
+    /**
+     * Request to get max transfer out amount
      * @param #asset: used in the request es. BTC
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data">
      *    Query Max Transfer-Out Amount (USER_DATA)</a>
@@ -7962,6 +7964,128 @@ public class BinanceMarginManager extends BinanceSignedManager {
                 return (T) new JSONObject(maxTransferAmountResponse).getString("amount");
             default:
                 return (T) maxTransferAmountResponse;
+        }
+    }
+
+    /**
+     * Request to get personal margin level information <br>
+     * Any params required
+     *
+     * @return margin level information as {@link MarginSummary} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-margin-account-user_data">
+     * Get Summary of Margin account (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/tradeCoeff")
+    public MarginSummary getMarginAccountSummary() throws Exception {
+        return getMarginAccountSummary(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get personal margin level information
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return margin level information as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-margin-account-user_data">
+     * Get Summary of Margin account (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/tradeCoeff")
+    public <T> T getMarginAccountSummary(ReturnFormat format) throws Exception {
+        return returnSummary(sendSignedRequest(GET_SUMMARY_MARGIN_ACCOUNT_ENDPOINT, getTimestampParam(), GET_METHOD),
+                format);
+    }
+
+    /**
+     * Request to get personal margin level information <br>
+     *
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @return margin level information as {@link MarginSummary} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-margin-account-user_data">
+     * Get Summary of Margin account (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/tradeCoeff")
+    public MarginSummary getMarginAccountSummary(long recvWindow) throws Exception {
+        return getMarginAccountSummary(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get personal margin level information <br>
+     *
+     * @param #recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return margin level information as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-margin-account-user_data">
+     * Get Summary of Margin account (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/margin/tradeCoeff")
+    public <T> T getMarginAccountSummary(long recvWindow, ReturnFormat format) throws Exception {
+        return returnSummary(sendSignedRequest(GET_SUMMARY_MARGIN_ACCOUNT_ENDPOINT, getTimestampParam() +
+                "&recvWindow=" + recvWindow, GET_METHOD), format);
+    }
+
+    /**
+     * Method to get a summary object
+     *
+     * @param summaryResponse: obtained from Binance's response
+     * @param format:          return type formatter -> {@link ReturnFormat}
+     * @return summary as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnSummary(String summaryResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(summaryResponse);
+            case LIBRARY_OBJECT:
+                return (T) new MarginSummary(new JSONObject(summaryResponse));
+            default:
+                return (T) summaryResponse;
         }
     }
 

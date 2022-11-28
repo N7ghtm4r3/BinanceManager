@@ -9,6 +9,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Properties;
 
 import static com.tecknobit.apimanager.apis.APIRequest.GET_METHOD;
@@ -179,83 +181,6 @@ public class BinanceManager {
     }
 
     /**
-     * {@code BinanceEndpoint} list of available {@code "Binance"}'s endpoints
-     **/
-    public enum BinanceEndpoint {
-
-        /**
-         * {@code "MAIN_ENDPOINT"} principal endpoint
-         **/
-        MAIN_ENDPOINT("https://api.binance.com"),
-
-        /**
-         * {@code "SECOND_ENDPOINT"} second endpoint
-         **/
-        SECOND_ENDPOINT("https://api1.binance.com"),
-
-        /**
-         * {@code "THIRD_ENDPOINT"} third endpoint
-         **/
-        THIRD_ENDPOINT("https://api3.binance.com"),
-
-        /**
-         * {@code "FOURTH_ENDPOINT"} forth endpoint
-         **/
-        FOURTH_ENDPOINT("https://api3.binance.com");
-
-        /**
-         * {@code "endpoint"} value
-         **/
-        private final String endpoint;
-
-        /**
-         * Constructor to init a {@link BinanceEndpoint}
-         *
-         * @param endpoint endpoint value
-         **/
-        BinanceEndpoint(String endpoint) {
-            this.endpoint = endpoint;
-        }
-
-        /**
-         * Method to get {@link #endpoint} instance <br>
-         * Any params required
-         *
-         * @return {@link #endpoint} instance as {@link String}
-         **/
-        @Override
-        public String toString() {
-            return endpoint;
-        }
-
-    }
-
-    /**
-     * {@code ReturnFormat} is the instance to pass in {@link Returner} methods to format as you want the response by
-     * {@code "Binance"}
-     *
-     * @apiNote you can choose between:
-     * <ul>
-     * <li>
-     * {@link Returner.ReturnFormat#STRING} -> returns the response formatted as {@link String}
-     * </li>
-     * <li>
-     * {@link Returner.ReturnFormat#JSON} -> returns the response formatted as {@code "JSON"}
-     * </li>
-     * <li>
-     * {@link Returner.ReturnFormat#LIBRARY_OBJECT} -> returns the response formatted as custom object offered by library that uses this list
-     * </li>
-     * </ul>
-     **/
-    public enum ReturnFormat {
-
-        STRING,
-        JSON,
-        LIBRARY_OBJECT
-
-    }
-
-    /**
      * Request to get server timestamp or your current timestamp
      * Any params required
      *
@@ -383,41 +308,65 @@ public class BinanceManager {
         return textualizeAssetPercent(percent);
     }
 
-    /** Method to get percent between two values and textualize it
+    /**
+     * Method to get percent between two values and textualize it
+     *
      * @param startValue: first value to make compare
      * @param finalValue: last value to compare and get percent by first value
      * @return percent value es. +8% or -8% as {@link String}
-     * **/
-    public String getTextTrendPercent(double startValue, double finalValue){
+     **/
+    public String getTextTrendPercent(double startValue, double finalValue) {
         return textualizeAssetPercent(startValue, finalValue);
     }
 
-    /** Method to get percent between two values and textualize it
-     * @param startValue: first value to make compare
-     * @param finalValue: last value to compare and get percent by first value
+    /**
+     * Method to get percent between two values and textualize it
+     *
+     * @param startValue:    first value to make compare
+     * @param finalValue:    last value to compare and get percent by first value
      * @param decimalDigits: number of digits to round final percent value
      * @return percent value es. +8% or -8% as {@link String}
-     * **/
-    public String getTextTrendPercent(double startValue, double finalValue, int decimalDigits){
+     **/
+    public String getTextTrendPercent(double startValue, double finalValue, int decimalDigits) {
         return textualizeAssetPercent(startValue, finalValue, decimalDigits);
     }
 
-    /** Method to concatenate a list of symbols
+    /**
+     * Method to concatenate a list of symbols
+     *
      * @param symbols: symbols to concatenate in {@link String} array format
      * @return list of symbols as {@link String} es. "%22symbol1%22,%22symbol2%22" HTTP encoded -> "symbol1","symbol2"
      * @throws IllegalArgumentException when one of the params inserted does not respect correct range
-     * **/
-    public String assembleSymbolsList(String[] symbols) {
+     **/
+    public <T> String assembleSymbolsList(T[] symbols) {
         return apiRequest.assembleParamsList("%22", "%22,", symbols);
     }
 
-    /** Method to concatenate a list of symbols
+    /**
+     * Method to concatenate a list of symbols
+     *
      * @param symbols: symbols to concatenate in {@link ArrayList} of {@link String} format
      * @return list of symbols as {@link String} es. "%22symbol1%22,%22symbol2%22" HTTP encoded -> "symbol1","symbol2"
      * @throws IllegalArgumentException when one of the params inserted does not respect correct range
-     * **/
-    public String assembleSymbolsList(ArrayList<String> symbols) {
+     **/
+    public <T> String assembleSymbolsList(ArrayList<T> symbols) {
         return apiRequest.assembleParamsList("%22", "%22,", symbols);
+    }
+
+    /**
+     * Method to manage a params list
+     *
+     * @param params: params to manage
+     * @param key:    key of the list to manage
+     **/
+    protected <T> void manageList(Params params, String key) {
+        T list = params.getParam(key);
+        if (list != null) {
+            if (list instanceof Collection<?>)
+                list = (T) ((Collection<?>) list).toArray(new Object[0]);
+            if (list instanceof Object[] && !Arrays.toString((Object[]) list).contains("%22"))
+                params.addParam(key, "[" + assembleSymbolsList((T[]) list) + "]");
+        }
     }
 
     /**
@@ -428,6 +377,83 @@ public class BinanceManager {
      * @see APIRequest.Params
      **/
     public static class Params extends APIRequest.Params {
+    }
+
+    /**
+     * {@code BinanceEndpoint} list of available {@code "Binance"}'s endpoints
+     **/
+    public enum BinanceEndpoint {
+
+        /**
+         * {@code "MAIN_ENDPOINT"} principal endpoint
+         **/
+        MAIN_ENDPOINT("https://api.binance.com"),
+
+        /**
+         * {@code "SECOND_ENDPOINT"} second endpoint
+         **/
+        SECOND_ENDPOINT("https://api1.binance.com"),
+
+        /**
+         * {@code "THIRD_ENDPOINT"} third endpoint
+         **/
+        THIRD_ENDPOINT("https://api3.binance.com"),
+
+        /**
+         * {@code "FOURTH_ENDPOINT"} forth endpoint
+         **/
+        FOURTH_ENDPOINT("https://api3.binance.com");
+
+        /**
+         * {@code "endpoint"} value
+         **/
+        private final String endpoint;
+
+        /**
+         * Constructor to init a {@link BinanceEndpoint}
+         *
+         * @param endpoint endpoint value
+         **/
+        BinanceEndpoint(String endpoint) {
+            this.endpoint = endpoint;
+        }
+
+        /**
+         * Method to get {@link #endpoint} instance <br>
+         * Any params required
+         *
+         * @return {@link #endpoint} instance as {@link String}
+         **/
+        @Override
+        public String toString() {
+            return endpoint;
+        }
+
+    }
+
+    /**
+     * {@code ReturnFormat} is the instance to pass in {@link Returner} methods to format as you want the response by
+     * {@code "Binance"}
+     *
+     * @apiNote you can choose between:
+     * <ul>
+     * <li>
+     * {@link Returner.ReturnFormat#STRING} -> returns the response formatted as {@link String}
+     * </li>
+     * <li>
+     * {@link Returner.ReturnFormat#JSON} -> returns the response formatted as {@code "JSON"}
+     * </li>
+     * <li>
+     * {@link Returner.ReturnFormat#LIBRARY_OBJECT} -> returns the response formatted as custom object offered by library that uses this list
+     * </li>
+     * </ul>
+     **/
+    public enum ReturnFormat {
+
+        STRING,
+        JSON,
+        LIBRARY_OBJECT
+
     }
 
     /**

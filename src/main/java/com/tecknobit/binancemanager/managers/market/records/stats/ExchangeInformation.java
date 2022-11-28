@@ -920,4 +920,31 @@ public class ExchangeInformation {
 
     }
 
+    /**
+     * The {@code ExchangePermissions} list of available exchange permissions
+     **/
+    public enum ExchangePermission {
+
+        /**
+         * The {@code "SPOT"}  exchange permission
+         **/
+        SPOT,
+
+        /**
+         * The {@code "MARGIN"}  exchange permission
+         **/
+        MARGIN,
+
+        /**
+         * The {@code "FUTURES"}  exchange permission
+         **/
+        FUTURES,
+
+        /**
+         * The {@code "LEVERAGED"}  exchange permission
+         **/
+        LEVERAGED
+
+    }
+
 }

@@ -6,6 +6,7 @@ import com.tecknobit.apimanager.annotations.WrappedRequest;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.FundingWallet;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.PaymentRefundHistory;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.TradeFee;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.Withdraw;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.Withdraw.WithdrawStatus;
@@ -16,11 +17,11 @@ import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accou
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.SpotAccountSnapshot;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.api.APIPermission;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.api.APIStatus;
-import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.AssetDetail;
-import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.AssetsDividendList;
-import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.CoinInformation;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.*;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.CoinInformation.NetworkItem;
-import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.ConvertibleBNBAssets;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.convert.BUSDConvert;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.convert.BUSDConvert.Type;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.convert.ConvertHistory;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.Deposit;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.Deposit.DepositStatus;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.DepositAddress;
@@ -31,6 +32,7 @@ import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.tecknobit.apimanager.apis.APIRequest.GET_METHOD;
@@ -2620,7 +2622,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                                {@code "asset"} -> asset of the funding wallet - [STRING]
      *                           </li>
      *                           <li>
-     *                                {@code "needBtcValuation"} -> true or false whether the valuation is needed in BTC - [BOOLEAN]
+     *                                {@code "needBtcValuation"} -> whether need btc valuation or not - [BOOLEAN]
      *                           </li>
      *                           <li>
      *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -2656,7 +2658,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                                {@code "asset"} -> asset of the funding wallet - [STRING]
      *                           </li>
      *                           <li>
-     *                                {@code "needBtcValuation"} -> true or false whether the valuation is needed in BTC - [BOOLEAN]
+     *                                {@code "needBtcValuation"} -> whether need btc valuation or not - [BOOLEAN]
      *                           </li>
      *                           <li>
      *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -2705,6 +2707,635 @@ public class BinanceWalletManager extends BinanceSignedManager {
                 return (T) wallets;
             default:
                 return (T) fundingWalletsResponse;
+        }
+    }
+
+    /**
+     * Request to get universal transfer history <br>
+     * Any params required
+     *
+     * @return user assets as {@link ArrayList} of {@link UserAsset}
+     * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-asset-user_data">
+     * User Asset (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v3/asset/getUserAsset")
+    public ArrayList<UserAsset> getUserAssets() throws IOException {
+        return getUserAssets(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get user assets, just for positive data
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return user assets as {@code "format"} defines
+     * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-asset-user_data">
+     * User Asset (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v3/asset/getUserAsset")
+    public <T> T getUserAssets(ReturnFormat format) throws IOException {
+        return returnUserAssets(getRequestResponse(USER_ASSET_ENDPOINT, getTimestampParam(), POST_METHOD), format);
+    }
+
+    /**
+     * Request to get user assets, just for positive data
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "asset"} ->if asset is blank, then query all positive assets user have - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "needBtcValuation"} -> whether need btc valuation or not - [BOOLEAN]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return user assets as {@link ArrayList} of {@link UserAsset}
+     * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-asset-user_data">
+     * User Asset (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v3/asset/getUserAsset")
+    public ArrayList<UserAsset> getUserAssets(Params extraParams) throws IOException {
+        return getUserAssets(extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get user assets, just for positive data
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "asset"} ->if asset is blank, then query all positive assets user have - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "needBtcValuation"} -> whether need btc valuation or not - [BOOLEAN]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return user assets as {@code "format"} defines
+     * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-asset-user_data">
+     * User Asset (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v3/asset/getUserAsset")
+    public <T> T getUserAssets(Params extraParams, ReturnFormat format) throws IOException {
+        return returnUserAssets(getRequestResponse(USER_ASSET_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), POST_METHOD), format);
+    }
+
+    /**
+     * Method to create a user assets list
+     *
+     * @param userAssetsResponse: obtained from Binance's response
+     * @param format:             return type formatter -> {@link ReturnFormat}
+     * @return user assets as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnUserAssets(String userAssetsResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(userAssetsResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<UserAsset> userAssets = new ArrayList<>();
+                JSONArray jAssets = new JSONArray(userAssetsResponse);
+                for (int j = 0; j < jAssets.length(); j++)
+                    userAssets.add(new UserAsset(jAssets.getJSONObject(j)));
+                return (T) userAssets;
+            default:
+                return (T) userAssetsResponse;
+        }
+    }
+
+    /**
+     * Request to transfer, convert between BUSD and stable-coins
+     *
+     * @param clientTranId: the unique user-defined transaction id, min length 20
+     * @param asset:        the current asset
+     * @param amount:       the amount must be positive number
+     * @param targetAsset:  target asset you want to convert
+     * @return convert response as {@link BUSDConvert} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-trade">
+     * BUSD Convert (TRADE)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/convert-transfer")
+    public BUSDConvert BUSDConvert(String clientTranId, String asset, double amount, String targetAsset) throws Exception {
+        return BUSDConvert(clientTranId, asset, amount, targetAsset, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to transfer, convert between BUSD and stable-coins
+     *
+     * @param clientTranId: the unique user-defined transaction id, min length 20
+     * @param asset:        the current asset
+     * @param amount:       the amount must be positive number
+     * @param targetAsset:  target asset you want to convert
+     * @param format:       return type formatter -> {@link ReturnFormat}
+     * @return convert response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-trade">
+     * BUSD Convert (TRADE)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/convert-transfer")
+    public <T> T BUSDConvert(String clientTranId, String asset, double amount, String targetAsset,
+                             ReturnFormat format) throws Exception {
+        return returnBUSDConvert(sendSignedRequest(BUSD_CONVERT_ENDPOINT, getTimestampParam() +
+                "&clientTranId=" + clientTranId + "&asset=" + asset + "&amount=" + amount + "&targetAsset="
+                + targetAsset, POST_METHOD), format);
+    }
+
+    /**
+     * Request to transfer, convert between BUSD and stable-coins
+     *
+     * @param clientTranId: the unique user-defined transaction id, min length 20
+     * @param asset:        the current asset
+     * @param amount:       the amount must be positive number
+     * @param targetAsset:  target asset you want to convert
+     * @param accountType:  only MAIN and CARD, default MAIN
+     * @return convert response as {@link BUSDConvert} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-trade">
+     * BUSD Convert (TRADE)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/convert-transfer")
+    public BUSDConvert BUSDConvert(String clientTranId, String asset, double amount, String targetAsset,
+                                   Type accountType) throws Exception {
+        return BUSDConvert(clientTranId, asset, amount, targetAsset, accountType, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to transfer, convert between BUSD and stable-coins
+     *
+     * @param clientTranId: the unique user-defined transaction id, min length 20
+     * @param asset:        the current asset
+     * @param amount:       the amount must be positive number
+     * @param targetAsset:  target asset you want to convert
+     * @param accountType:  only MAIN and CARD, default MAIN
+     * @param format:       return type formatter -> {@link ReturnFormat}
+     * @return convert response as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-trade">
+     * BUSD Convert (TRADE)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/convert-transfer")
+    public <T> T BUSDConvert(String clientTranId, String asset, double amount, String targetAsset, Type accountType,
+                             ReturnFormat format) throws Exception {
+        return returnBUSDConvert(sendSignedRequest(BUSD_CONVERT_ENDPOINT, getTimestampParam() +
+                "&clientTranId=" + clientTranId + "&asset=" + asset + "&amount=" + amount + "&targetAsset="
+                + targetAsset + "&accountType=" + accountType.name(), POST_METHOD), format);
+    }
+
+    /**
+     * Method to create a convert object
+     *
+     * @param convertResponse: obtained from Binance's response
+     * @param format:          return type formatter -> {@link ReturnFormat}
+     * @return convert object as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnBUSDConvert(String convertResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(convertResponse);
+            case LIBRARY_OBJECT:
+                return (T) new BUSDConvert(new JSONObject(convertResponse));
+            default:
+                return (T) convertResponse;
+        }
+    }
+
+    /**
+     * Request to get convert history
+     *
+     * @param startTime: inclusive, unit: ms
+     * @param endTime:   exclusive, unit: ms
+     * @return convert history as {@link ConvertHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-history-user_data">
+     * BUSD Convert History (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/convert-transfer/queryByPage")
+    public ConvertHistory getConvertHistory(long startTime, long endTime) throws Exception {
+        return getConvertHistory(startTime, endTime, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get convert history
+     *
+     * @param startTime: inclusive, unit: ms
+     * @param endTime:   exclusive, unit: ms
+     * @param format:    return type formatter -> {@link ReturnFormat}
+     * @return convert history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-history-user_data">
+     * BUSD Convert History (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/convert-transfer/queryByPage")
+    public <T> T getConvertHistory(long startTime, long endTime, ReturnFormat format) throws Exception {
+        return returnConvertHistory(getRequestResponse(CONVERT_HISTORY_ENDPOINT, "?startTime=" + startTime
+                + "&endTime=" + endTime, GET_METHOD), format);
+    }
+
+    /**
+     * Request to get convert history
+     *
+     * @param startTime:   inclusive, unit: ms
+     * @param endTime:     exclusive, unit: ms
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "tranId"} -> the transaction id - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "clientTranId"} -> the user-defined transaction id - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "asset"} ->if it is blank, we will match deducted asset and target asset - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "accountType"} -> MAIN: main account. CARD: funding account. If it is blank,
+     *                                we will query spot and card wallet, otherwise, we just query the corresponding wallet,
+     *                                constants available {@link Type} - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> current value - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                     </ul>
+     * @return convert history as {@link ConvertHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-history-user_data">
+     * BUSD Convert History (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/convert-transfer/queryByPage")
+    public ConvertHistory getConvertHistory(long startTime, long endTime, Params extraParams) throws Exception {
+        return getConvertHistory(startTime, endTime, extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get convert history
+     *
+     * @param startTime:   inclusive, unit: ms
+     * @param endTime:     exclusive, unit: ms
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "tranId"} -> the transaction id - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "clientTranId"} -> the user-defined transaction id - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "asset"} ->if it is blank, we will match deducted asset and target asset - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "accountType"} -> MAIN: main account. CARD: funding account. If it is blank,
+     *                                we will query spot and card wallet, otherwise, we just query the corresponding wallet,
+     *                                constants available {@link Type} - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> current value - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return convert history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-history-user_data">
+     * BUSD Convert History (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/convert-transfer/queryByPage")
+    public <T> T getConvertHistory(long startTime, long endTime, Params extraParams, ReturnFormat format) throws Exception {
+        return returnConvertHistory(getRequestResponse(CONVERT_HISTORY_ENDPOINT,
+                apiRequest.encodeAdditionalParams("?startTime=" + startTime + "&endTime=" + endTime,
+                        extraParams), GET_METHOD), format);
+    }
+
+    /**
+     * Method to create a convert history object
+     *
+     * @param historyResponse: obtained from Binance's response
+     * @param format:          return type formatter -> {@link ReturnFormat}
+     * @return convert history as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnConvertHistory(String historyResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(historyResponse);
+            case LIBRARY_OBJECT:
+                return (T) new ConvertHistory(new JSONObject(historyResponse));
+            default:
+                return (T) historyResponse;
+        }
+    }
+
+    /**
+     * Request to get the query of Cloud-Mining payment and refund history
+     *
+     * @param startTime: inclusive, unit: ms
+     * @param endTime:   exclusive, unit: ms
+     * @return the query of Cloud-Mining payment and refund history as {@link PaymentRefundHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cloud-mining-payment-and-refund-history-user_data">
+     * Get Cloud-Mining payment and refund history (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/ledger-transfer/cloud-mining/queryByPage")
+    public PaymentRefundHistory getCloudMiningPaymentRefundHistory(long startTime, long endTime) throws Exception {
+        return getCloudMiningPaymentRefundHistory(startTime, endTime, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get the query of Cloud-Mining payment and refund history
+     *
+     * @param startTime: inclusive, unit: ms
+     * @param endTime:   exclusive, unit: ms
+     * @param format:    return type formatter -> {@link ReturnFormat}
+     * @return the query of Cloud-Mining payment and refund history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cloud-mining-payment-and-refund-history-user_data">
+     * Get Cloud-Mining payment and refund history (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/ledger-transfer/cloud-mining/queryByPage")
+    public <T> T getCloudMiningPaymentRefundHistory(long startTime, long endTime, ReturnFormat format) throws Exception {
+        return returnConvertHistory(getRequestResponse(GET_CLOUD_MINING_HISTORY_ENDPOINT, "?startTime=" + startTime
+                + "&endTime=" + endTime, GET_METHOD), format);
+    }
+
+    /**
+     * Request to get the query of Cloud-Mining payment and refund history
+     *
+     * @param startTime:   inclusive, unit: ms
+     * @param endTime:     exclusive, unit: ms
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "tranId"} -> the transaction id - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "clientTranId"} -> the user-defined transaction id - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "asset"} ->if it is blank, we will match deducted asset and target asset - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> current value - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                     </ul>
+     * @return the query of Cloud-Mining payment and refund history as {@link PaymentRefundHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cloud-mining-payment-and-refund-history-user_data">
+     * Get Cloud-Mining payment and refund history (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/ledger-transfer/cloud-mining/queryByPage")
+    public PaymentRefundHistory getCloudMiningPaymentRefundHistory(long startTime, long endTime,
+                                                                   Params extraParams) throws Exception {
+        return getCloudMiningPaymentRefundHistory(startTime, endTime, extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get the query of Cloud-Mining payment and refund history
+     *
+     * @param startTime:   inclusive, unit: ms
+     * @param endTime:     exclusive, unit: ms
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "tranId"} -> the transaction id - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "clientTranId"} -> the user-defined transaction id - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "asset"} ->if it is blank, we will match deducted asset and target asset - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> current value - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size value, max 100 - [INTEGER, default 10]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return the query of Cloud-Mining payment and refund history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cloud-mining-payment-and-refund-history-user_data">
+     * Get Cloud-Mining payment and refund history (USER_DATA)</a>
+     **/
+    @RequestPath(path = "/sapi/v1/asset/ledger-transfer/cloud-mining/queryByPage")
+    public <T> T getCloudMiningPaymentRefundHistory(long startTime, long endTime, Params extraParams,
+                                                    ReturnFormat format) throws Exception {
+        return returnConvertHistory(getRequestResponse(GET_CLOUD_MINING_HISTORY_ENDPOINT,
+                apiRequest.encodeAdditionalParams("?startTime=" + startTime + "&endTime=" + endTime,
+                        extraParams), GET_METHOD), format);
+    }
+
+    /**
+     * Method to create a payment and refund history object
+     *
+     * @param historyResponse: obtained from Binance's response
+     * @param format:          return type formatter -> {@link ReturnFormat}
+     * @return payment and refund history as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnPaymentRefundHistory(String historyResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(historyResponse);
+            case LIBRARY_OBJECT:
+                return (T) new PaymentRefundHistory(new JSONObject(historyResponse));
+            default:
+                return (T) historyResponse;
         }
     }
 

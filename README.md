@@ -1,5 +1,5 @@
 # BinanceManager
-**v1.0.9**
+**v1.1.0**
 
 This is a Java Based library useful to work with Binance's API service.
 
@@ -23,7 +23,7 @@ allprojects {
 
 ```gradle
 dependencies {
-	implementation 'com.github.N7ghtm4r3:BinanceManager:1.0.9'
+	implementation 'com.github.N7ghtm4r3:BinanceManager:1.1.0'
 }
 ```
 
@@ -45,7 +45,7 @@ dependencies {
 <dependency>
     <groupId>com.github.N7ghtm4r3</groupId>
     <artifactId>BinanceManager</artifactId>
-    <version>1.0.9</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
@@ -61,102 +61,88 @@ dependencies {
 
 The other endpoints managers will be gradually released
 
-
 ## Usage/Examples
 
-### No-Signed Managers
+### Execution
+
+#### No-Signed Managers
 
 ```java
 
-// with automatic research for a workly basepoint
-try {
-    BinanceMarketManager binanceMarketManager = new BinanceMarketManager();
-} catch (Exception e) {
-    e.printStackTrace();
-}
+// with automatic research for a working base endpoint
+try{
+        BinanceMarketManager binanceMarketManager=new BinanceMarketManager();
+        }catch(Exception e){
+        e.printStackTrace();
+        }
 
-// choose basepoint manually (index from 0 to 3)
-try {
-    BinanceMarketManager binanceMarketManager = new BinanceMarketManager(BinanceManager.BASE_ENDPOINTS.get(0));
-} catch (Exception e) {
+// choose base endpoint manually
+        try{
+        BinanceManager binanceManager=new BinanceManager(BinanceManager.BinanceEndpoint);
+        }catch(Exception e){
     e.printStackTrace();
 }
 ```
 
-### Signed Managers (requests with apiKey)
+#### Signed Managers (requests with apiKey)
 
 ```java
 
-// with automatic research for a workly basepoint
-try {
-    BinanceSpotManager binanceSpotManager = new BinanceSpotManager("yourApiKey", "yourSecretKey");
-} catch (Exception e) {
-    e.printStackTrace();
-}
+// with automatic research for a working base endpoint
+try{
+        BinanceSignedManager binanceManager=new BinanceSignedManager("yourApiKey","yourSecretKey");
+        }catch(Exception e){
+        e.printStackTrace();
+        }
 
-// choose basepoint manually (index from 0 to 3)
-try {
-    BinanceSpotManager binanceSpotManager = new BinanceSpotManager(BinanceManager.BASE_ENDPOINTS.get(0), "yourApiKey", "yourSecretKey");
-} catch (Exception e) {
-    e.printStackTrace();
-}
+// choose base endpoint manually
+        try{
+        BinanceSignedManager binanceManager=new BinanceSignedManager(BinanceManager.BinanceEndpoint,"yourApiKey","yourSecretKey");
+        }catch(Exception e){
+        e.printStackTrace();
+        }
+```
+
+To avoid re-entering credentials for each manager, you can instantiate managers like this with the **ARCS**:
+
+```java
+// choose the manager (for signed and no-signed managers same procedure), for example: BinanceMarketManager, BinanceWalletManager, etc 
+BinanceManager firstManager=new BinanceManager(/* params of the constructor chosen */,"apiKey","apiSign","yourPassphrase");
+// and then use it 
+        firstManager.makeSomething();
+// you don't need to insert all credentials to make manager work
+        BinanceManager secondManager=new BinanceManager(); // same credentials used
+// and then use it
+        secondManager.makeSomething();
 ```
 
 ### Responses
 
-In this example manager is NO signed type manager, but is the same for signed type managers
+Library give to you the opportunity to customize the return object after a request, the possibilities are:
 
-- String: will return response formatted as {@link String} object
-
-```java
-try {
-    System.out.println(binanceMarketManager.getPriceTicker("BTCBUSD"));
-} catch (Exception e) {
-    e.printStackTrace();
-}
-```
-
-- JSON: will return response formatted as JSON (JSONObject or JSONArray)
+- **JSON:** return response formatted as **JSON** (**org.json.JSONObject** or **org.json.JSONArray**)
+- **STRING:** return response formatted as **String**
+- **LIBRARY_OBJECT:** return response formatted as custom object offered by the library
 
 ```java
-try {
-    System.out.println(binanceMarketManager.getJSONPriceTicker("BTCBUSD"));
-} catch (Exception e) {
-    e.printStackTrace();
-}
-```
-
-- Custom-object: will return response formatted as custom object provided by library
-
-```java
-try {
-    System.out.println(binanceMarketManager.getObjectPriceTicker("BTCBUSD"));
-} catch (Exception e) {
-    e.printStackTrace();
-}
-```
-
-- Primitives: some requests will return primitive types like boolean, long, double
-
-```java
-// it return long type es. 151596910325
-try {
-    System.out.println(binanceMarketManager.getTimestamp());
-} catch (Exception e) {
-    e.printStackTrace();
-}
+// choose the manager for example: BinanceMarketManager, BinanceWalletManager, etc
+BinanceManager manager=new BinanceManager(/* params of the constructor chosen */);
+// method to return directly a library given by library
+        manager.someRequest(); // in this case will be returned directly a LIBRARY_OBJECT
+// method to customize the format of the return 
+        manager.someRequest(ReturnFormat.JSON); // in this case will be returned response in JSON format
 ```
 
 ### Errors handling
 
 ```java
-try {
-    System.out.println(binanceMarketManager.getTimestamp());
-} catch (Exception e) {
-    System.out.println(binanceMarketManager.getErrorResponse());
-    //or
-    binanceMarketManager.printErrorResponse(); 
-}
+try{
+        System.out.println(binanceManager.getTimestamp());
+        }catch(Exception e){
+        System.out.println(binanceManager.getErrorResponse());
+        //or
+        binanceManager.printErrorResponse();
+        }
 /* NOTE: if is not a request error will appear: "Error is not in api request, check out your code"
   and you will have to work on your code to manage error*/
 ```
