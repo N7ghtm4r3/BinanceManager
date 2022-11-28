@@ -69,13 +69,13 @@ app_path=$0
 
 # Need this for daisy-chained symlinks.
 while
-    APP_HOME=${app_path%"${app_path##*/}"}   leaves a trailing /; empty if no leading path
+    APP_HOME=${app_path%"${app_path##*/}"}  # leaves a trailing /; empty if no leading path
     [ -h "$app_path" ]
 do
     ls=$( ls -ld "$app_path" )
     link=${ls#*' -> '}
-    case $link in             (
-      /*)   app_path=$link ;; (
+    case $link in             #(
+      /*)   app_path=$link ;; #(
       *)    app_path=$APP_HOME$link ;;
     esac
 done
@@ -107,10 +107,10 @@ cygwin=false
 msys=false
 darwin=false
 nonstop=false
-case "$( uname )" in                (
-  CYGWIN* )         cygwin=true  ;; (
-  Darwin* )         darwin=true  ;; (
-  MSYS* | MINGW* )  msys=true    ;; (
+case "$( uname )" in                #(
+  CYGWIN* )         cygwin=true  ;; #(
+  Darwin* )         darwin=true  ;; #(
+  MSYS* | MINGW* )  msys=true    ;; #(
   NONSTOP* )        nonstop=true ;;
 esac
 
@@ -120,34 +120,32 @@ CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
 # Determine the Java command to use to start the JVM.
 if [ -n "$JAVA_HOME" ] ; then
     if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
-         IBM's JDK on AIX uses strange locations for the executables
+        # IBM's JDK on AIX uses strange locations for the executables
         JAVACMD=$JAVA_HOME/jre/sh/java
     else
         JAVACMD=$JAVA_HOME/bin/java
     fi
     if [ ! -x "$JAVACMD" ] ; then
         die "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME
-
 Please set the JAVA_HOME variable in your environment to match the
 location of your Java installation."
     fi
 else
     JAVACMD=java
     which java >/dev/null 2>&1 || die "ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
-
 Please set the JAVA_HOME variable in your environment to match the
 location of your Java installation."
 fi
 
 # Increase the maximum file descriptors if we can.
 if ! "$cygwin" && ! "$darwin" && ! "$nonstop" ; then
-    case $MAX_FD in (
+    case $MAX_FD in #(
       max*)
         MAX_FD=$( ulimit -H -n ) ||
             warn "Could not query maximum file descriptor limit"
     esac
-    case $MAX_FD in  (
-      '' | soft) :;; (
+    case $MAX_FD in  #(
+      '' | soft) :;; #(
       *)
         ulimit -n "$MAX_FD" ||
             warn "Could not set maximum file descriptor limit to $MAX_FD"
@@ -169,27 +167,27 @@ if "$cygwin" || "$msys" ; then
 
     JAVACMD=$( cygpath --unix "$JAVACMD" )
 
-     Now convert the arguments - kludge to limit ourselves to /bin/sh
+    # Now convert the arguments - kludge to limit ourselves to /bin/sh
     for arg do
         if
-            case $arg in                                (
-              -*)   false ;;                             don't mess with options (
-              /?*)  t=${arg#/} t=/${t%%/*}               looks like a POSIX filepath
-                    [ -e "$t" ] ;;                      (
+            case $arg in                                #(
+              -*)   false ;;                            # don't mess with options #(
+              /?*)  t=${arg#/} t=/${t%%/*}              # looks like a POSIX filepath
+                    [ -e "$t" ] ;;                      #(
               *)    false ;;
             esac
         then
             arg=$( cygpath --path --ignore --mixed "$arg" )
         fi
-         Roll the args list around exactly as many times as the number of
-         args, so each arg winds up back in the position where it started, but
-         possibly modified.
-
-         NB: a `for` loop captures its iteration list before it begins, so
-         changing the positional parameters here affects neither the number of
-         iterations, nor the values presented in `arg`.
-        shift                    remove old arg
-        set -- "$@" "$arg"       push replacement arg
+        # Roll the args list around exactly as many times as the number of
+        # args, so each arg winds up back in the position where it started, but
+        # possibly modified.
+        #
+        # NB: a `for` loop captures its iteration list before it begins, so
+        # changing the positional parameters here affects neither the number of
+        # iterations, nor the values presented in `arg`.
+        shift                   # remove old arg
+        set -- "$@" "$arg"      # push replacement arg
     done
 fi
 
