@@ -1,7 +1,10 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response;
 
+import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
@@ -49,32 +52,55 @@ public class ResultSpotOrder extends ACKSpotOrder {
 
     /**
      * {@code type} is instance that memorizes type of the order
-     * **/
+     **/
     protected final OrderType type;
 
     /**
      * {@code side} is instance that memorizes side of the order
-     * **/
+     **/
     protected final Side side;
 
-    /** Constructor to init {@link ResultSpotOrder} object
-     * @param symbol: symbol used in the order
-     * @param orderId: order identifier
-     * @param orderListId: list order identifier
-     * @param clientOrderId: client order identifier
-     * @param transactTime: transaction time
-     * @param price: price in order
-     * @param origQty: origin quantity in order
-     * @param executedQty: executed quantity in order
-     * @param cummulativeQuoteQty: cummulative quote quantity
-     * @param status: status of the order
-     * @param timeInForce: time in force of the order
-     * @param type: type of the order
-     * @param side: side of the order
-     * **/
-    public ResultSpotOrder(String symbol, long orderId, long orderListId, String clientOrderId,
-                           long transactTime, double price, double origQty, double executedQty, double cummulativeQuoteQty,
-                           Status status, TimeInForce timeInForce, OrderType type, Side side) {
+    /**
+     * {@code workingTime} indicating when the order started working on the order book
+     **/
+    protected final long workingTime;
+
+    /**
+     * {@code selfTradePreventionMode} is instance that contains the self trade prevention mode
+     **/
+    protected final String selfTradePreventionMode;
+
+    /**
+     * {@code trailingTime} indicating the time when the trailing order is active and tracking price changes,
+     * will appear for the following order types (TAKE_PROFIT, TAKE_PROFIT_LIMIT, STOP_LOSS, STOP_LOSS_LIMIT
+     * if trailingDelta parameter was provided)
+     **/
+    protected final long trailingTime;
+
+    /**
+     * Constructor to init {@link ResultSpotOrder} object
+     *
+     * @param symbol                  : symbol used in the order
+     * @param orderId                 : order identifier
+     * @param orderListId             : list order identifier
+     * @param clientOrderId           : client order identifier
+     * @param transactTime            : transaction time
+     * @param price                   : price in order
+     * @param origQty                 : origin quantity in order
+     * @param executedQty             : executed quantity in order
+     * @param cummulativeQuoteQty     : cummulative quote quantity
+     * @param status                  : status of the order
+     * @param timeInForce             : time in force of the order
+     * @param type                    : type of the order
+     * @param side                    : side of the order
+     * @param workingTime             : indicating when the order started working on the order book
+     * @param selfTradePreventionMode : self trade prevention mode
+     * @param trailingTime:           indicating the time when the trailing order is active and tracking price changes
+     **/
+    public ResultSpotOrder(String symbol, long orderId, long orderListId, String clientOrderId, long transactTime,
+                           double price, double origQty, double executedQty, double cummulativeQuoteQty,
+                           Status status, TimeInForce timeInForce, OrderType type, Side side, long workingTime,
+                           String selfTradePreventionMode, long trailingTime) {
         super(symbol, orderId, orderListId, clientOrderId, transactTime);
         this.price = price;
         this.origQty = origQty;
@@ -84,6 +110,9 @@ public class ResultSpotOrder extends ACKSpotOrder {
         this.timeInForce = timeInForce;
         this.type = type;
         this.side = side;
+        this.workingTime = workingTime;
+        this.selfTradePreventionMode = selfTradePreventionMode;
+        this.trailingTime = trailingTime;
     }
 
     /**
@@ -101,6 +130,9 @@ public class ResultSpotOrder extends ACKSpotOrder {
         timeInForce = TimeInForce.valueOf(hOrder.getString("timeInForce", TimeInForce.GTC.name()));
         type = OrderType.valueOf(hOrder.getString("type", OrderType.MARKET.name()));
         side = Side.valueOf(hOrder.getString("side", Side.BUY.name()));
+        workingTime = hOrder.getLong("workingTime", 0);
+        selfTradePreventionMode = hOrder.getString("selfTradePreventionMode");
+        trailingTime = hOrder.getLong("trailingTime", 0);
     }
 
     /**
@@ -225,6 +257,56 @@ public class ResultSpotOrder extends ACKSpotOrder {
      **/
     public Side getSide() {
         return side;
+    }
+
+    /**
+     * Method to get {@link #workingTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #workingTime} instance as long
+     **/
+    public long getWorkingTime() {
+        return workingTime;
+    }
+
+    /**
+     * Method to get {@link #workingTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #workingTime} instance as {@link Date}
+     **/
+    public Date getWorkingTimeDate() {
+        return TimeFormatter.getDate(workingTime);
+    }
+
+    /**
+     * Method to get {@link #selfTradePreventionMode} instance <br>
+     * Any params required
+     *
+     * @return {@link #selfTradePreventionMode} instance as {@link String}
+     **/
+    public String getSelfTradePreventionMode() {
+        return selfTradePreventionMode;
+    }
+
+    /**
+     * Method to get {@link #trailingTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #trailingTime} instance as long
+     **/
+    public long getTrailingTime() {
+        return trailingTime;
+    }
+
+    /**
+     * Method to get {@link #trailingTime} instance <br>
+     * Any params required
+     *
+     * @return {@link #trailingTime} instance as {@link Date}
+     **/
+    public Date getTrailingTimeDate() {
+        return TimeFormatter.getDate(trailingTime);
     }
 
 }

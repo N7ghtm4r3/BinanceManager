@@ -36,36 +36,47 @@ public class SpotOrderStatus extends ResultSpotOrder {
     private final long time;
 
     /**
-     * {@code isWorking} is instance that memorizes if is working
-     * **/
+     * {@code isWorking} whether is working
+     **/
     private final boolean isWorking;
 
     /**
      * {@code origQuoteOrderQty} is instance that memorizes origin quote quantity value
-     * **/
+     **/
     private final double origQuoteOrderQty;
 
-    /** Constructor to init {@link SpotOrderStatus} object
-     * @param symbol: symbol used in the order
-     * @param orderId: order identifier
-     * @param clientOrderId: client order identifier
-     * @param orderListId: list order identifier
-     * @param updateTime: update time
-     * @param price: price in order
-     * @param origQty: origin quantity in order
-     * @param executedQty: executed quantity in order
-     * @param cummulativeQuoteQty: cummulative quote quantity
-     * @param status: status of the order
-     * @param timeInForce: time in force of the order
-     * @param type: type of the order
-     * @param side: side of the order
-     * **/
-    public SpotOrderStatus(String symbol, long orderId, long orderListId, String clientOrderId, double price, double origQty,
-                           double executedQty, double cummulativeQuoteQty, Status status, TimeInForce timeInForce,
-                           OrderType type, Side side, double stopPrice, double icebergQty, long time, long updateTime,
-                           boolean isWorking, double origQuoteOrderQty) {
-        super(symbol, orderId, orderListId, clientOrderId, updateTime, price, origQty, executedQty, cummulativeQuoteQty,
-                status, timeInForce, type, side);
+    /**
+     * Constructor to init {@link ResultSpotOrder} object
+     *
+     * @param symbol                  : symbol used in the order
+     * @param orderId                 : order identifier
+     * @param orderListId             : list order identifier
+     * @param clientOrderId           : client order identifier
+     * @param transactTime            : transaction time
+     * @param price                   : price in order
+     * @param origQty                 : origin quantity in order
+     * @param executedQty             : executed quantity in order
+     * @param cummulativeQuoteQty     : cummulative quote quantity
+     * @param status                  : status of the order
+     * @param timeInForce             : time in force of the order
+     * @param type                    : type of the order
+     * @param side                    : side of the order
+     * @param workingTime             : indicating when the order started working on the order book
+     * @param selfTradePreventionMode : self trade prevention mode
+     * @param trailingTime            : indicating the time when the trailing order is active and tracking price changes
+     * @param stopPrice:              stop price value
+     * @param icebergQty:             iceberg quantity value
+     * @param time:                   time value
+     * @param isWorking:              whether is working
+     * @param origQuoteOrderQty:      origin quote quantity value
+     **/
+    public SpotOrderStatus(String symbol, long orderId, long orderListId, String clientOrderId, long transactTime,
+                           double price, double origQty, double executedQty, double cummulativeQuoteQty, Status status,
+                           TimeInForce timeInForce, OrderType type, Side side, long workingTime, String selfTradePreventionMode,
+                           long trailingTime, double stopPrice, double icebergQty, long time, boolean isWorking,
+                           double origQuoteOrderQty) {
+        super(symbol, orderId, orderListId, clientOrderId, transactTime, price, origQty, executedQty, cummulativeQuoteQty,
+                status, timeInForce, type, side, workingTime, selfTradePreventionMode, trailingTime);
         this.stopPrice = stopPrice;
         this.icebergQty = icebergQty;
         this.time = time;

@@ -3,6 +3,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.wallet;
 import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.annotations.WrappedRequest;
+import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.FundingWallet;
@@ -32,11 +33,10 @@ import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.tecknobit.apimanager.apis.APIRequest.GET_METHOD;
-import static com.tecknobit.apimanager.apis.APIRequest.POST_METHOD;
+import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
+import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.POST;
 import static com.tecknobit.binancemanager.constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.JSON;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
@@ -142,7 +142,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
      * All Coins' Information (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/config/getall")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/capital/config/getall")
     public ArrayList<CoinInformation> getAllCoins() throws Exception {
         return getAllCoins(LIBRARY_OBJECT);
     }
@@ -168,9 +169,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * All Coins' Information (USER_DATA)</a>
      **/
     @Returner
-    @RequestPath(path = "/sapi/v1/capital/config/getall")
+    @RequestPath(method = GET, path = "/sapi/v1/capital/config/getall")
     public <T> T getAllCoins(ReturnFormat format) throws Exception {
-        String coinsResponse = sendSignedRequest(ALL_COINS_ENDPOINT, getTimestampParam(), GET_METHOD);
+        String coinsResponse = sendSignedRequest(ALL_COINS_ENDPOINT, getTimestampParam(), GET);
         switch (format) {
             case JSON:
                 return (T) new JSONArray(coinsResponse);
@@ -203,8 +204,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @Wrapper
     @WrappedRequest
-    @RequestPath(path = "/sapi/v1/capital/config/getall")
+    @RequestPath(method = GET, path = "/sapi/v1/capital/config/getall")
     public CoinInformation getSingleCoin(String coin) throws Exception {
         return getSingleCoin(coin, LIBRARY_OBJECT);
     }
@@ -229,7 +231,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
-    @RequestPath(path = "/sapi/v1/capital/config/getall")
+    @RequestPath(method = GET, path = "/sapi/v1/capital/config/getall")
     public <T> T getSingleCoin(String coin, ReturnFormat format) throws Exception {
         return returnSingleCoin("coin", coin, format);
     }
@@ -252,8 +254,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @Wrapper
     @WrappedRequest
-    @RequestPath(path = "/sapi/v1/capital/config/getall")
+    @RequestPath(method = GET, path = "/sapi/v1/capital/config/getall")
     public CoinInformation getSingleCoinByName(String name) throws Exception {
         return getSingleCoinByName(name, LIBRARY_OBJECT);
     }
@@ -278,7 +281,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
-    @RequestPath(path = "/sapi/v1/capital/config/getall")
+    @RequestPath(method = GET, path = "/sapi/v1/capital/config/getall")
     public <T> T getSingleCoinByName(String name, ReturnFormat format) throws Exception {
         return returnSingleCoin("name", name, format);
     }
@@ -331,8 +334,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @Wrapper
     @WrappedRequest
-    @RequestPath(path = "/sapi/v1/accountSnapshot")
+    @RequestPath(method = GET, path = "/sapi/v1/accountSnapshot")
     public <T> T getAccountSnapshot(AccountType type) throws Exception {
         return getAccountSnapshot(type, LIBRARY_OBJECT);
     }
@@ -357,10 +361,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
-    @RequestPath(path = "/sapi/v1/accountSnapshot")
+    @RequestPath(method = GET, path = "/sapi/v1/accountSnapshot")
     public <T> T getAccountSnapshot(AccountType type, ReturnFormat format) throws Exception {
         String params = getTimestampParam() + "&type=" + type.toString().toUpperCase();
-        return returnAccountSnapshot(type, sendSignedRequest(DAILY_ACCOUNT_SNAPSHOT_ENDPOINT, params, GET_METHOD), format);
+        return returnAccountSnapshot(type, sendSignedRequest(DAILY_ACCOUNT_SNAPSHOT_ENDPOINT, params, GET), format);
     }
 
     /** Request to get your daily account snapshot
@@ -396,8 +400,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @Wrapper
     @WrappedRequest
-    @RequestPath(path = "/sapi/v1/accountSnapshot")
+    @RequestPath(method = GET, path = "/sapi/v1/accountSnapshot")
     public <T> T getAccountSnapshot(AccountType type, Params extraParams) throws Exception {
         return getAccountSnapshot(type, extraParams, LIBRARY_OBJECT);
     }
@@ -437,11 +442,11 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
-    @RequestPath(path = "/sapi/v1/accountSnapshot")
+    @RequestPath(method = GET, path = "/sapi/v1/accountSnapshot")
     public <T> T getAccountSnapshot(AccountType type, Params extraParams, ReturnFormat format) throws Exception {
         return returnAccountSnapshot(type, sendSignedRequest(DAILY_ACCOUNT_SNAPSHOT_ENDPOINT,
                 apiRequest.encodeAdditionalParams(getTimestampParam() + "&type=" + type.toString().toUpperCase(),
-                        extraParams), GET_METHOD), format);
+                        extraParams), GET), format);
     }
 
     /**
@@ -491,7 +496,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-fast-withdraw-switch-user_data">
      * Disable Fast Withdraw Switch (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/account/disableFastWithdrawSwitch")
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/account/disableFastWithdrawSwitch")
     public boolean disableFastWithdraw() throws Exception {
         return switchFastWithdraw(false);
     }
@@ -516,7 +522,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-fast-withdraw-switch-user_data">
      * Enable Fast Withdraw Switch (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/account/enableFastWithdrawSwitch")
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/account/enableFastWithdrawSwitch")
     public boolean enableFastWithdraw() throws Exception {
         return switchFastWithdraw(true);
     }
@@ -531,7 +538,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
         String switchOperationEndpoint = DISABLE_FAST_WITHDRAW_ENDPOINT;
         if (enableFastWithdraw)
             switchOperationEndpoint = ENABLE_FAST_WITHDRAW_ENDPOINT;
-        return sendSignedRequest(switchOperationEndpoint, getTimestampParam(), POST_METHOD).equals("{}");
+        return sendSignedRequest(switchOperationEndpoint, getTimestampParam(), POST).equals("{}");
     }
 
     /**
@@ -554,8 +561,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
      * Withdraw(USER_DATA)</a>
      **/
+    @Wrapper
     @WrappedRequest
-    @RequestPath(path = "/sapi/v1/capital/withdraw/apply")
+    @RequestPath(method = POST, path = "/sapi/v1/capital/withdraw/apply")
     public String submitWithdraw(Withdraw withdraw) throws Exception {
         return submitWithdraw(withdraw.getCoin(), withdraw.getAddress(), withdraw.getAmount(), LIBRARY_OBJECT);
     }
@@ -582,7 +590,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * Withdraw(USER_DATA)</a>
      **/
     @WrappedRequest
-    @RequestPath(path = "/sapi/v1/capital/withdraw/apply")
+    @RequestPath(method = POST, path = "/sapi/v1/capital/withdraw/apply")
     public <T> T submitWithdraw(Withdraw withdraw, ReturnFormat format) throws Exception {
         return submitWithdraw(withdraw.getCoin(), withdraw.getAddress(), withdraw.getAmount(), format);
     }
@@ -609,7 +617,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
      * Withdraw(USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/withdraw/apply")
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/capital/withdraw/apply")
     public String submitWithdraw(String coin, String address, double amount) throws Exception {
         return submitWithdraw(coin, address, amount, LIBRARY_OBJECT);
     }
@@ -637,10 +646,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
      * Withdraw(USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/withdraw/apply")
+    @RequestPath(method = POST, path = "/sapi/v1/capital/withdraw/apply")
     public <T> T submitWithdraw(String coin, String address, double amount, ReturnFormat format) throws Exception {
         String params = getTimestampParam() + "&coin=" + coin + "&address=" + address + "&amount=" + amount;
-        return returnWithdrawId(sendSignedRequest(SUBMIT_WITHDRAW_ENDPOINT, params, POST_METHOD), format);
+        return returnWithdrawId(sendSignedRequest(SUBMIT_WITHDRAW_ENDPOINT, params, POST), format);
     }
 
     /**
@@ -693,8 +702,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
      * Withdraw(USER_DATA)</a>
      **/
+    @Wrapper
     @WrappedRequest
-    @RequestPath(path = "/sapi/v1/capital/withdraw/apply")
+    @RequestPath(method = POST, path = "/sapi/v1/capital/withdraw/apply")
     public String submitWithdraw(Withdraw withdraw, Params extraParams) throws Exception {
         return submitWithdraw(withdraw.getCoin(), withdraw.getAddress(), withdraw.getAmount(), extraParams, LIBRARY_OBJECT);
     }
@@ -750,7 +760,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * Withdraw(USER_DATA)</a>
      **/
     @WrappedRequest
-    @RequestPath(path = "/sapi/v1/capital/withdraw/apply")
+    @RequestPath(method = POST, path = "/sapi/v1/capital/withdraw/apply")
     public <T> T submitWithdraw(Withdraw withdraw, Params extraParams, ReturnFormat format) throws Exception {
         return submitWithdraw(withdraw.getCoin(), withdraw.getAddress(), withdraw.getAmount(), extraParams, format);
     }
@@ -806,7 +816,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
      * Withdraw(USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/withdraw/apply")
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/capital/withdraw/apply")
     public String submitWithdraw(String coin, String address, double amount, Params extraParams) throws Exception {
         return submitWithdraw(coin, address, amount, extraParams, LIBRARY_OBJECT);
     }
@@ -863,12 +874,12 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
      * Withdraw(USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/withdraw/apply")
+    @RequestPath(method = POST, path = "/sapi/v1/capital/withdraw/apply")
     public <T> T submitWithdraw(String coin, String address, double amount, Params extraParams,
                                 ReturnFormat format) throws Exception {
         String params = getTimestampParam() + "&coin=" + coin + "&address=" + address + "&amount=" + amount;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return returnWithdrawId(sendSignedRequest(SUBMIT_WITHDRAW_ENDPOINT, params, POST_METHOD), format);
+        return returnWithdrawId(sendSignedRequest(SUBMIT_WITHDRAW_ENDPOINT, params, POST), format);
     }
 
     /**
@@ -911,7 +922,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
      * Deposit History (supporting network) (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/deposit/hisrec")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/hisrec")
     public ArrayList<Deposit> getDepositHistory() throws Exception {
         return getDepositHistory(LIBRARY_OBJECT);
     }
@@ -936,9 +948,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
      * Deposit History (supporting network) (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/deposit/hisrec")
+    @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/hisrec")
     public <T> T getDepositHistory(ReturnFormat format) throws Exception {
-        return returnDepositHistory(sendSignedRequest(DEPOSIT_HISTORY_ENDPOINT, getTimestampParam(), GET_METHOD), format);
+        return returnDepositHistory(sendSignedRequest(DEPOSIT_HISTORY_ENDPOINT, getTimestampParam(), GET), format);
     }
 
     /**
@@ -985,7 +997,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
      * Deposit History (supporting network) (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/deposit/hisrec")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/hisrec")
     public ArrayList<Deposit> getDepositHistory(Params extraParams) throws Exception {
         return getDepositHistory(extraParams, LIBRARY_OBJECT);
     }
@@ -1035,10 +1048,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
      * Deposit History (supporting network) (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/deposit/hisrec")
+    @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/hisrec")
     public <T> T getDepositHistory(Params extraParams, ReturnFormat format) throws Exception {
         return returnDepositHistory(sendSignedRequest(DEPOSIT_HISTORY_ENDPOINT,
-                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET_METHOD), format);
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET), format);
     }
 
     /**
@@ -1084,7 +1097,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
      * Withdraw History (supporting network) (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/withdraw/history")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/capital/withdraw/history")
     public ArrayList<Withdraw> getWithdrawHistory() throws Exception {
         return getWithdrawHistory(LIBRARY_OBJECT);
     }
@@ -1109,9 +1123,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
      * Withdraw History (supporting network) (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/withdraw/history")
+    @RequestPath(method = GET, path = "/sapi/v1/capital/withdraw/history")
     public <T> T getWithdrawHistory(ReturnFormat format) throws Exception {
-        return returnWithdrawHistory(sendSignedRequest(WITHDRAW_HISTORY_ENDPOINT, getTimestampParam(), GET_METHOD), format);
+        return returnWithdrawHistory(sendSignedRequest(WITHDRAW_HISTORY_ENDPOINT, getTimestampParam(), GET), format);
     }
 
     /**
@@ -1162,7 +1176,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
      * Withdraw History (supporting network) (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/withdraw/history")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/capital/withdraw/history")
     public ArrayList<Withdraw> getWithdrawHistory(Params extraParams) throws Exception {
         return getWithdrawHistory(extraParams, LIBRARY_OBJECT);
     }
@@ -1215,10 +1230,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
      * Withdraw History (supporting network) (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/withdraw/history")
+    @RequestPath(method = GET, path = "/sapi/v1/capital/withdraw/history")
     public <T> T getWithdrawHistory(Params extraParams, ReturnFormat format) throws Exception {
         return returnWithdrawHistory(sendSignedRequest(WITHDRAW_HISTORY_ENDPOINT,
-                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET_METHOD), format);
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET), format);
     }
 
     /**
@@ -1264,8 +1279,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
      * Deposit Address (supporting network) (USER_DATA)</a>
      **/
+    @Wrapper
     @WrappedRequest
-    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/address")
     public DepositAddress getDepositAddress(CoinInformation coin) throws Exception {
         return getDepositAddress(coin.getCoin(), LIBRARY_OBJECT);
     }
@@ -1292,7 +1308,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * Deposit Address (supporting network) (USER_DATA)</a>
      **/
     @WrappedRequest
-    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/address")
     public <T> T getDepositAddress(CoinInformation coin, ReturnFormat format) throws Exception {
         return getDepositAddress(coin.getCoin(), format);
     }
@@ -1317,7 +1333,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
      * Deposit Address (supporting network) (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/address")
     public DepositAddress getDepositAddress(String coin) throws Exception {
         return getDepositAddress(coin, LIBRARY_OBJECT);
     }
@@ -1343,10 +1360,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
      * Deposit Address (supporting network) (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/address")
     public <T> T getDepositAddress(String coin, ReturnFormat format) throws Exception {
         return returnDepositAddress(sendSignedRequest(DEPOSIT_ADDRESS_ENDPOINT, getTimestampParam() + "&coin=" +
-                coin, GET_METHOD), format);
+                coin, GET), format);
     }
 
     /**
@@ -1370,8 +1387,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
      * Deposit Address (supporting network) (USER_DATA)</a>
      **/
+    @Wrapper
     @WrappedRequest
-    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/address")
     public DepositAddress getDepositAddress(CoinInformation coin, NetworkItem network) throws Exception {
         return getDepositAddress(coin.getCoin(), network.getNetwork(), LIBRARY_OBJECT);
     }
@@ -1399,7 +1417,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * Deposit Address (supporting network) (USER_DATA)</a>
      **/
     @WrappedRequest
-    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/address")
     public <T> T getDepositAddress(CoinInformation coin, NetworkItem network, ReturnFormat format) throws Exception {
         return getDepositAddress(coin.getCoin(), network.getNetwork(), format);
     }
@@ -1425,7 +1443,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
      * Deposit Address (supporting network) (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/address")
     public DepositAddress getDepositAddress(String coin, String network) throws Exception {
         return getDepositAddress(coin, network, LIBRARY_OBJECT);
     }
@@ -1452,10 +1471,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
      * Deposit Address (supporting network) (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/capital/deposit/address")
+    @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/address")
     public <T> T getDepositAddress(String coin, String network, ReturnFormat format) throws Exception {
         return returnDepositAddress(sendSignedRequest(DEPOSIT_ADDRESS_ENDPOINT, getTimestampParam() + "&coin="
-                + coin + "&network=" + network, GET_METHOD), format);
+                + coin + "&network=" + network, GET), format);
     }
 
     /**
@@ -1497,7 +1516,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-status-user_data">
      * Account Status (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/account/status")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/account/status")
     public String getAccountStatus() throws Exception {
         return getAccountStatus(LIBRARY_OBJECT);
     }
@@ -1524,9 +1544,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @implSpec in this case {@link ReturnFormat#LIBRARY_OBJECT} will return the status value as {@link String}
      **/
     @Returner
-    @RequestPath(path = "/sapi/v1/account/status")
+    @RequestPath(method = GET, path = "/sapi/v1/account/status")
     public <T> T getAccountStatus(ReturnFormat format) throws Exception {
-        String accountStatusResponse = sendSignedRequest(ACCOUNT_STATUS_ENDPOINT, getTimestampParam(), GET_METHOD);
+        String accountStatusResponse = sendSignedRequest(ACCOUNT_STATUS_ENDPOINT, getTimestampParam(), GET);
         switch (format) {
             case JSON:
                 return (T) new JSONObject(accountStatusResponse);
@@ -1557,7 +1577,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data">
      * Account API Trading Status (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/account/apiTradingStatus")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/account/apiTradingStatus")
     public APIStatus getAPITradingStatus() throws Exception {
         return getAPITradingStatus(LIBRARY_OBJECT);
     }
@@ -1583,9 +1604,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * Account API Trading Status (USER_DATA)</a>
      **/
     @Returner
-    @RequestPath(path = "/sapi/v1/account/apiTradingStatus")
+    @RequestPath(method = GET, path = "/sapi/v1/account/apiTradingStatus")
     public <T> T getAPITradingStatus(ReturnFormat format) throws Exception {
-        String tradingStatusResponse = sendSignedRequest(API_TRADING_STATUS_ENDPOINT, getTimestampParam(), GET_METHOD);
+        String tradingStatusResponse = sendSignedRequest(API_TRADING_STATUS_ENDPOINT, getTimestampParam(), GET);
         switch (format) {
             case JSON:
                 return (T) new JSONObject(tradingStatusResponse);
@@ -1616,7 +1637,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
      * DustLog(USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/dribblet")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/asset/dribblet")
     public DustLogList getDustLog() throws Exception {
         return getDustLog(LIBRARY_OBJECT);
     }
@@ -1641,9 +1663,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
      * DustLog(USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/dribblet")
+    @RequestPath(method = GET, path = "/sapi/v1/asset/dribblet")
     public <T> T getDustLog(ReturnFormat format) throws Exception {
-        return returnDustLog(sendSignedRequest(DUST_LOG_ENDPOINT, getTimestampParam(), GET_METHOD), format);
+        return returnDustLog(sendSignedRequest(DUST_LOG_ENDPOINT, getTimestampParam(), GET), format);
     }
 
     /**
@@ -1677,7 +1699,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
      * DustLog(USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/dribblet")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/asset/dribblet")
     public DustLogList getDustLog(Params extraParams) throws Exception {
         return getDustLog(extraParams, LIBRARY_OBJECT);
     }
@@ -1714,10 +1737,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
      * DustLog(USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/dribblet")
+    @RequestPath(method = GET, path = "/sapi/v1/asset/dribblet")
     public <T> T getDustLog(Params extraParams, ReturnFormat format) throws Exception {
         return returnDustLog(sendSignedRequest(DUST_LOG_ENDPOINT, apiRequest.encodeAdditionalParams(getTimestampParam(),
-                extraParams), GET_METHOD), format);
+                extraParams), GET), format);
     }
 
     /**
@@ -1757,7 +1780,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    @RequestPath(path = "/sapi/v1/asset/dust-btc")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/asset/dust-btc")
     public ConvertibleBNBAssets getConvertibleBNBAssets() throws Exception {
         return getConvertibleBNBAssets(LIBRARY_OBJECT);
     }
@@ -1783,9 +1807,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * Get Assets That Can Be Converted Into BNB (USER_DATA)</a>
      **/
     @Returner
-    @RequestPath(path = "/sapi/v1/asset/dust-btc")
+    @RequestPath(method = GET, path = "/sapi/v1/asset/dust-btc")
     public <T> T getConvertibleBNBAssets(ReturnFormat format) throws Exception {
-        String assetsResponse = sendSignedRequest(ASSET_CONVERTIBLE_BNB_ENDPOINT, getTimestampParam(), POST_METHOD);
+        String assetsResponse = sendSignedRequest(ASSET_CONVERTIBLE_BNB_ENDPOINT, getTimestampParam(), POST);
         switch (format) {
             case JSON:
                 return (T) new JSONObject(assetsResponse);
@@ -1814,7 +1838,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    @RequestPath(path = "/sapi/v1/asset/dust")
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/asset/dust")
     public DustTransfer getDustTransfer(ArrayList<String> assets) throws Exception {
         return getDustTransfer(assets, LIBRARY_OBJECT);
     }
@@ -1839,10 +1864,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Returner
-    @RequestPath(path = "/sapi/v1/asset/dust")
+    @RequestPath(method = POST, path = "/sapi/v1/asset/dust")
     public <T> T getDustTransfer(ArrayList<String> assets, ReturnFormat format) throws Exception {
         String dustResponse = sendSignedRequest(DUST_TRANSFER_ENDPOINT, getTimestampParam() + "&" +
-                apiRequest.concatenateParamsList("", "asset", assets), POST_METHOD);
+                apiRequest.concatenateParamsList("", "asset", assets), POST);
         switch (format) {
             case JSON:
                 return (T) new JSONObject(dustResponse);
@@ -1873,7 +1898,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
      * Asset Dividend Record (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/assetDividend")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/asset/assetDividend")
     public AssetsDividendList getAssetsDividend() throws Exception {
         return getAssetsDividend(LIBRARY_OBJECT);
     }
@@ -1898,9 +1924,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    @RequestPath(path = "/sapi/v1/asset/assetDividend")
+    @RequestPath(method = GET, path = "/sapi/v1/asset/assetDividend")
     public <T> T getAssetsDividend(ReturnFormat format) throws Exception {
-        return returnAssetsDividend(sendSignedRequest(ASSET_DIVIDEND_ENDPOINT, getTimestampParam(), GET_METHOD), format);
+        return returnAssetsDividend(sendSignedRequest(ASSET_DIVIDEND_ENDPOINT, getTimestampParam(), GET), format);
     }
 
     /**
@@ -1940,7 +1966,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
      * Asset Dividend Record (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/assetDividend")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/asset/assetDividend")
     public AssetsDividendList getAssetsDividend(Params extraParams) throws Exception {
         return getAssetsDividend(extraParams, LIBRARY_OBJECT);
     }
@@ -1983,10 +2010,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
      * Asset Dividend Record (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/assetDividend")
+    @RequestPath(method = GET, path = "/sapi/v1/asset/assetDividend")
     public <T> T getAssetsDividend(Params extraParams, ReturnFormat format) throws Exception {
         return returnAssetsDividend(sendSignedRequest(ASSET_DIVIDEND_ENDPOINT,
-                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET_METHOD), format);
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET), format);
     }
 
     /**
@@ -2026,7 +2053,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    @RequestPath(path = "/sapi/v1/asset/assetDetail")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/asset/assetDetail")
     public ArrayList<AssetDetail> getAssetsDetail() throws Exception {
         return getAssetsDetail(LIBRARY_OBJECT);
     }
@@ -2050,9 +2078,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Returner
-    @RequestPath(path = "/sapi/v1/asset/assetDetail")
+    @RequestPath(method = GET, path = "/sapi/v1/asset/assetDetail")
     public <T> T getAssetsDetail(ReturnFormat format) throws Exception {
-        String assetsResponse = sendSignedRequest(ASSET_DETAIL_ENDPOINT, getTimestampParam(), GET_METHOD);
+        String assetsResponse = sendSignedRequest(ASSET_DETAIL_ENDPOINT, getTimestampParam(), GET);
         switch (format) {
             case JSON:
                 return (T) new JSONObject(assetsResponse);
@@ -2086,7 +2114,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    @RequestPath(path = "/sapi/v1/asset/assetDetail")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/asset/assetDetail")
     public AssetDetail getAssetDetail(String asset) throws Exception {
         return getAssetDetail(asset, LIBRARY_OBJECT);
     }
@@ -2111,10 +2140,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Returner
-    @RequestPath(path = "/sapi/v1/asset/assetDetail")
+    @RequestPath(method = GET, path = "/sapi/v1/asset/assetDetail")
     public <T> T getAssetDetail(String asset, ReturnFormat format) throws Exception {
         String assetResponse = sendSignedRequest(ASSET_DETAIL_ENDPOINT, getTimestampParam() + "&asset=" + asset,
-                GET_METHOD);
+                GET);
         switch (format) {
             case JSON:
                 return (T) new JSONObject(assetResponse);
@@ -2143,8 +2172,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @Wrapper
     @Returner
-    @RequestPath(path = "/sapi/v1/asset/tradeFee")
+    @RequestPath(method = GET, path = "/sapi/v1/asset/tradeFee")
     public ArrayList<TradeFee> getTradeFees() throws Exception {
         return getTradeFees(LIBRARY_OBJECT);
     }
@@ -2168,9 +2198,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Returner
-    @RequestPath(path = "/sapi/v1/asset/tradeFee")
+    @RequestPath(method = GET, path = "/sapi/v1/asset/tradeFee")
     public <T> T getTradeFees(ReturnFormat format) throws Exception {
-        String feeResponse = sendSignedRequest(TRADE_FEE_ENDPOINT, getTimestampParam(), GET_METHOD);
+        String feeResponse = sendSignedRequest(TRADE_FEE_ENDPOINT, getTimestampParam(), GET);
         switch (format) {
             case JSON:
                 return (T) new JSONArray(feeResponse);
@@ -2203,8 +2233,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @Wrapper
     @Returner
-    @RequestPath(path = "/sapi/v1/asset/tradeFee")
+    @RequestPath(method = GET, path = "/sapi/v1/asset/tradeFee")
     public TradeFee getTradeFee(String symbol) throws Exception {
         return getTradeFee(symbol, LIBRARY_OBJECT);
     }
@@ -2229,10 +2260,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Returner
-    @RequestPath(path = "/sapi/v1/asset/tradeFee")
+    @RequestPath(method = GET, path = "/sapi/v1/asset/tradeFee")
     public <T> T getTradeFee(String symbol, ReturnFormat format) throws Exception {
         String feeResponse = sendSignedRequest(TRADE_FEE_ENDPOINT, getTimestampParam() + "&symbol=" + symbol,
-                GET_METHOD);
+                GET);
         switch (format) {
             case JSON:
                 return (T) new JSONObject(feeResponse);
@@ -2263,7 +2294,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    @RequestPath(path = "/sapi/v1/asset/transfer")
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/asset/transfer")
     public String getUniversalTransfer(TransferType type, String asset, double amount) throws Exception {
         return getUniversalTransfer(type, asset, amount, LIBRARY_OBJECT);
     }
@@ -2289,10 +2321,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    @RequestPath(path = "/sapi/v1/asset/transfer")
+    @RequestPath(method = POST, path = "/sapi/v1/asset/transfer")
     public <T> T getUniversalTransfer(TransferType type, String asset, double amount, ReturnFormat format) throws Exception {
         return returnUniversalTransfer(sendSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT, getTimestampParam() +
-                "&type=" + type + "&asset=" + asset + "&amount=" + amount, POST_METHOD), format);
+                "&type=" + type + "&asset=" + asset + "&amount=" + amount, POST), format);
     }
 
     /** Request to get universal transfer
@@ -2327,7 +2359,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    @RequestPath(path = "/sapi/v1/asset/transfer")
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/asset/transfer")
     public String getUniversalTransfer(TransferType type, String asset, double amount,
                                        Params extraParams) throws Exception {
         return getUniversalTransfer(type, asset, amount, extraParams, LIBRARY_OBJECT);
@@ -2366,11 +2399,11 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    @RequestPath(path = "/sapi/v1/asset/transfer")
+    @RequestPath(method = POST, path = "/sapi/v1/asset/transfer")
     public <T> T getUniversalTransfer(TransferType type, String asset, double amount, Params extraParams,
                                       ReturnFormat format) throws Exception {
         return returnUniversalTransfer(sendSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT,
-                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), POST_METHOD), format);
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), POST), format);
     }
 
     /**
@@ -2413,7 +2446,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
      * User Universal Transfer (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/transfer")
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/asset/transfer")
     public UniversalTransferHistory getUniversalTransferHistory(TransferType type) throws Exception {
         return getUniversalTransferHistory(type, LIBRARY_OBJECT);
     }
@@ -2439,10 +2473,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
      * User Universal Transfer (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/transfer")
+    @RequestPath(method = POST, path = "/sapi/v1/asset/transfer")
     public <T> T getUniversalTransferHistory(TransferType type, ReturnFormat format) throws Exception {
         return returnUniversalTransferHistory(sendSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT, getTimestampParam()
-                + "&type=" + type, GET_METHOD), format);
+                + "&type=" + type, GET), format);
     }
 
     /**
@@ -2489,7 +2523,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
      * User Universal Transfer (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/transfer")
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/asset/transfer")
     public UniversalTransferHistory getUniversalTransferHistory(TransferType type, Params extraParams) throws Exception {
         return getUniversalTransferHistory(type, extraParams, LIBRARY_OBJECT);
     }
@@ -2539,11 +2574,11 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
      * User Universal Transfer (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/transfer")
+    @RequestPath(method = POST, path = "/sapi/v1/asset/transfer")
     public <T> T getUniversalTransferHistory(TransferType type, Params extraParams, ReturnFormat format) throws Exception {
         return returnUniversalTransferHistory(sendSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT,
                 apiRequest.encodeAdditionalParams(getTimestampParam() + "&type=" + type, extraParams),
-                GET_METHOD), format);
+                GET), format);
     }
 
     /**
@@ -2583,7 +2618,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
-    @RequestPath(path = "/sapi/v1/asset/get-funding-asset")
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/asset/get-funding-asset")
     public ArrayList<FundingWallet> getFundingWallet() throws Exception {
         return getFundingWallet(LIBRARY_OBJECT);
     }
@@ -2608,9 +2644,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data">
      * Funding Wallet (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/get-funding-asset")
+    @RequestPath(method = POST, path = "/sapi/v1/asset/get-funding-asset")
     public <T> T getFundingWallet(ReturnFormat format) throws Exception {
-        return returnFundingWallets(sendSignedRequest(FUNDING_WALLET_ENDPOINT, getTimestampParam(), POST_METHOD), format);
+        return returnFundingWallets(sendSignedRequest(FUNDING_WALLET_ENDPOINT, getTimestampParam(), POST), format);
     }
 
     /**
@@ -2644,7 +2680,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data">
      * Funding Wallet (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/get-funding-asset")
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/asset/get-funding-asset")
     public ArrayList<FundingWallet> getFundingWallet(Params extraParams) throws Exception {
         return getFundingWallet(extraParams, LIBRARY_OBJECT);
     }
@@ -2681,10 +2718,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data">
      * Funding Wallet (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/get-funding-asset")
+    @RequestPath(method = POST, path = "/sapi/v1/asset/get-funding-asset")
     public <T> T getFundingWallet(Params extraParams, ReturnFormat format) throws Exception {
         return returnFundingWallets(sendSignedRequest(FUNDING_WALLET_ENDPOINT,
-                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), POST_METHOD), format);
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), POST), format);
     }
 
     /**
@@ -2715,23 +2752,24 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * Any params required
      *
      * @return user assets as {@link ArrayList} of {@link UserAsset}
-     * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
-     *                     <ul>
-     *                         <li>
-     *                             {@link #getErrorResponse()}
-     *                         </li>
-     *                         <li>
-     *                             {@link #getJSONErrorResponse()}
-     *                         </li>
-     *                         <li>
-     *                             {@link #printErrorResponse()}
-     *                         </li>
-     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-asset-user_data">
      * User Asset (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v3/asset/getUserAsset")
-    public ArrayList<UserAsset> getUserAssets() throws IOException {
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v3/asset/getUserAsset")
+    public ArrayList<UserAsset> getUserAssets() throws Exception {
         return getUserAssets(LIBRARY_OBJECT);
     }
 
@@ -2740,7 +2778,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *
      * @param format: return type formatter -> {@link ReturnFormat}
      * @return user assets as {@code "format"} defines
-     * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
      *                     <ul>
      *                         <li>
      *                             {@link #getErrorResponse()}
@@ -2755,9 +2793,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-asset-user_data">
      * User Asset (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v3/asset/getUserAsset")
-    public <T> T getUserAssets(ReturnFormat format) throws IOException {
-        return returnUserAssets(getRequestResponse(USER_ASSET_ENDPOINT, getTimestampParam(), POST_METHOD), format);
+    @RequestPath(method = POST, path = "/sapi/v3/asset/getUserAsset")
+    public <T> T getUserAssets(ReturnFormat format) throws Exception {
+        return returnUserAssets(sendSignedRequest(USER_ASSET_ENDPOINT, getTimestampParam(), POST), format);
     }
 
     /**
@@ -2776,7 +2814,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           </li>
      *                     </ul>
      * @return user assets as {@link ArrayList} of {@link UserAsset}
-     * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
      *                     <ul>
      *                         <li>
      *                             {@link #getErrorResponse()}
@@ -2791,8 +2829,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-asset-user_data">
      * User Asset (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v3/asset/getUserAsset")
-    public ArrayList<UserAsset> getUserAssets(Params extraParams) throws IOException {
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v3/asset/getUserAsset")
+    public ArrayList<UserAsset> getUserAssets(Params extraParams) throws Exception {
         return getUserAssets(extraParams, LIBRARY_OBJECT);
     }
 
@@ -2813,7 +2852,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                     </ul>
      * @param format:      return type formatter -> {@link ReturnFormat}
      * @return user assets as {@code "format"} defines
-     * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
      *                     <ul>
      *                         <li>
      *                             {@link #getErrorResponse()}
@@ -2828,10 +2867,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-asset-user_data">
      * User Asset (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v3/asset/getUserAsset")
-    public <T> T getUserAssets(Params extraParams, ReturnFormat format) throws IOException {
-        return returnUserAssets(getRequestResponse(USER_ASSET_ENDPOINT,
-                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), POST_METHOD), format);
+    @RequestPath(method = POST, path = "/sapi/v3/asset/getUserAsset")
+    public <T> T getUserAssets(Params extraParams, ReturnFormat format) throws Exception {
+        return returnUserAssets(sendSignedRequest(USER_ASSET_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), POST), format);
     }
 
     /**
@@ -2880,7 +2919,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-trade">
      * BUSD Convert (TRADE)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/convert-transfer")
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/asset/convert-transfer")
     public BUSDConvert BUSDConvert(String clientTranId, String asset, double amount, String targetAsset) throws Exception {
         return BUSDConvert(clientTranId, asset, amount, targetAsset, LIBRARY_OBJECT);
     }
@@ -2909,12 +2949,12 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-trade">
      * BUSD Convert (TRADE)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/convert-transfer")
+    @RequestPath(method = POST, path = "/sapi/v1/asset/convert-transfer")
     public <T> T BUSDConvert(String clientTranId, String asset, double amount, String targetAsset,
                              ReturnFormat format) throws Exception {
         return returnBUSDConvert(sendSignedRequest(BUSD_CONVERT_ENDPOINT, getTimestampParam() +
                 "&clientTranId=" + clientTranId + "&asset=" + asset + "&amount=" + amount + "&targetAsset="
-                + targetAsset, POST_METHOD), format);
+                + targetAsset, POST), format);
     }
 
     /**
@@ -2941,7 +2981,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-trade">
      * BUSD Convert (TRADE)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/convert-transfer")
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/asset/convert-transfer")
     public BUSDConvert BUSDConvert(String clientTranId, String asset, double amount, String targetAsset,
                                    Type accountType) throws Exception {
         return BUSDConvert(clientTranId, asset, amount, targetAsset, accountType, LIBRARY_OBJECT);
@@ -2972,12 +3013,12 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-trade">
      * BUSD Convert (TRADE)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/convert-transfer")
+    @RequestPath(method = POST, path = "/sapi/v1/asset/convert-transfer")
     public <T> T BUSDConvert(String clientTranId, String asset, double amount, String targetAsset, Type accountType,
                              ReturnFormat format) throws Exception {
         return returnBUSDConvert(sendSignedRequest(BUSD_CONVERT_ENDPOINT, getTimestampParam() +
                 "&clientTranId=" + clientTranId + "&asset=" + asset + "&amount=" + amount + "&targetAsset="
-                + targetAsset + "&accountType=" + accountType.name(), POST_METHOD), format);
+                + targetAsset + "&accountType=" + accountType.name(), POST), format);
     }
 
     /**
@@ -3020,7 +3061,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-history-user_data">
      * BUSD Convert History (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/convert-transfer/queryByPage")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/asset/convert-transfer/queryByPage")
     public ConvertHistory getConvertHistory(long startTime, long endTime) throws Exception {
         return getConvertHistory(startTime, endTime, LIBRARY_OBJECT);
     }
@@ -3047,10 +3089,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-history-user_data">
      * BUSD Convert History (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/convert-transfer/queryByPage")
+    @RequestPath(method = GET, path = "/sapi/v1/asset/convert-transfer/queryByPage")
     public <T> T getConvertHistory(long startTime, long endTime, ReturnFormat format) throws Exception {
         return returnConvertHistory(getRequestResponse(CONVERT_HISTORY_ENDPOINT, "?startTime=" + startTime
-                + "&endTime=" + endTime, GET_METHOD), format);
+                + "&endTime=" + endTime, GET), format);
     }
 
     /**
@@ -3097,7 +3139,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-history-user_data">
      * BUSD Convert History (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/convert-transfer/queryByPage")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/asset/convert-transfer/queryByPage")
     public ConvertHistory getConvertHistory(long startTime, long endTime, Params extraParams) throws Exception {
         return getConvertHistory(startTime, endTime, extraParams, LIBRARY_OBJECT);
     }
@@ -3147,11 +3190,11 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-history-user_data">
      * BUSD Convert History (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/convert-transfer/queryByPage")
+    @RequestPath(method = GET, path = "/sapi/v1/asset/convert-transfer/queryByPage")
     public <T> T getConvertHistory(long startTime, long endTime, Params extraParams, ReturnFormat format) throws Exception {
         return returnConvertHistory(getRequestResponse(CONVERT_HISTORY_ENDPOINT,
                 apiRequest.encodeAdditionalParams("?startTime=" + startTime + "&endTime=" + endTime,
-                        extraParams), GET_METHOD), format);
+                        extraParams), GET), format);
     }
 
     /**
@@ -3194,7 +3237,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cloud-mining-payment-and-refund-history-user_data">
      * Get Cloud-Mining payment and refund history (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/ledger-transfer/cloud-mining/queryByPage")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/asset/ledger-transfer/cloud-mining/queryByPage")
     public PaymentRefundHistory getCloudMiningPaymentRefundHistory(long startTime, long endTime) throws Exception {
         return getCloudMiningPaymentRefundHistory(startTime, endTime, LIBRARY_OBJECT);
     }
@@ -3221,10 +3265,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cloud-mining-payment-and-refund-history-user_data">
      * Get Cloud-Mining payment and refund history (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/ledger-transfer/cloud-mining/queryByPage")
+    @RequestPath(method = GET, path = "/sapi/v1/asset/ledger-transfer/cloud-mining/queryByPage")
     public <T> T getCloudMiningPaymentRefundHistory(long startTime, long endTime, ReturnFormat format) throws Exception {
         return returnConvertHistory(getRequestResponse(GET_CLOUD_MINING_HISTORY_ENDPOINT, "?startTime=" + startTime
-                + "&endTime=" + endTime, GET_METHOD), format);
+                + "&endTime=" + endTime, GET), format);
     }
 
     /**
@@ -3266,7 +3310,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cloud-mining-payment-and-refund-history-user_data">
      * Get Cloud-Mining payment and refund history (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/ledger-transfer/cloud-mining/queryByPage")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/asset/ledger-transfer/cloud-mining/queryByPage")
     public PaymentRefundHistory getCloudMiningPaymentRefundHistory(long startTime, long endTime,
                                                                    Params extraParams) throws Exception {
         return getCloudMiningPaymentRefundHistory(startTime, endTime, extraParams, LIBRARY_OBJECT);
@@ -3312,12 +3357,12 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cloud-mining-payment-and-refund-history-user_data">
      * Get Cloud-Mining payment and refund history (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/asset/ledger-transfer/cloud-mining/queryByPage")
+    @RequestPath(method = GET, path = "/sapi/v1/asset/ledger-transfer/cloud-mining/queryByPage")
     public <T> T getCloudMiningPaymentRefundHistory(long startTime, long endTime, Params extraParams,
                                                     ReturnFormat format) throws Exception {
         return returnConvertHistory(getRequestResponse(GET_CLOUD_MINING_HISTORY_ENDPOINT,
                 apiRequest.encodeAdditionalParams("?startTime=" + startTime + "&endTime=" + endTime,
-                        extraParams), GET_METHOD), format);
+                        extraParams), GET), format);
     }
 
     /**
@@ -3359,7 +3404,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data">
      * Get API Key Permission (USER_DATA)</a>
      **/
-    @RequestPath(path = "/sapi/v1/account/apiRestrictions")
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/account/apiRestrictions")
     public APIPermission getAPIKeyPermission() throws Exception {
         return getAPIKeyPermission(LIBRARY_OBJECT);
     }
@@ -3385,9 +3431,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * Get API Key Permission (USER_DATA)</a>
      **/
     @Returner
-    @RequestPath(path = "/sapi/v1/account/apiRestrictions")
+    @RequestPath(method = GET, path = "/sapi/v1/account/apiRestrictions")
     public <T> T getAPIKeyPermission(ReturnFormat format) throws Exception {
-        String permissionResponse = sendSignedRequest(API_KEY_PERMISSION_ENDPOINT, getTimestampParam(), GET_METHOD);
+        String permissionResponse = sendSignedRequest(API_KEY_PERMISSION_ENDPOINT, getTimestampParam(), GET);
         switch (format) {
             case JSON:
                 return (T) new JSONObject(permissionResponse);

@@ -3,6 +3,7 @@ package com.tecknobit.binancemanager.managers;
 import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.apis.APIRequest;
+import com.tecknobit.apimanager.apis.APIRequest.RequestMethod;
 import com.tecknobit.apimanager.trading.TradingTools;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import org.json.JSONObject;
@@ -13,7 +14,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Properties;
 
-import static com.tecknobit.apimanager.apis.APIRequest.GET_METHOD;
+import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
 import static com.tecknobit.apimanager.trading.TradingTools.computeAssetPercent;
 import static com.tecknobit.apimanager.trading.TradingTools.textualizeAssetPercent;
 import static com.tecknobit.binancemanager.constants.EndpointsList.SYSTEM_STATUS_ENDPOINT;
@@ -176,7 +177,7 @@ public class BinanceManager {
      * @param baseEndpoint endpoint to request status
      **/
     public boolean isSystemAvailable(String baseEndpoint) throws IOException {
-        apiRequest.sendAPIRequest(baseEndpoint + SYSTEM_STATUS_ENDPOINT, GET_METHOD);
+        apiRequest.sendAPIRequest(baseEndpoint + SYSTEM_STATUS_ENDPOINT, GET);
         return new JSONObject(apiRequest.getResponse()).getInt("status") == 0;
     }
 
@@ -186,11 +187,11 @@ public class BinanceManager {
      *
      * @return es. 1566247363776
      **/
-    @RequestPath(path = "/api/v3/time")
+    @RequestPath(method = GET, path = "/api/v3/time")
     public long getServerTime() {
         try {
-            apiRequest.sendAPIRequest(baseEndpoint + TIMESTAMP_ENDPOINT, GET_METHOD);
-            return new JSONObject(apiRequest.getResponse()).getLong("serverTime");
+            apiRequest.sendAPIRequest(baseEndpoint + TIMESTAMP_ENDPOINT, GET);
+            return ((JSONObject) apiRequest.getJSONResponse()).getLong("serverTime");
         } catch (Exception e) {
             return currentTimeMillis();
         }
@@ -206,25 +207,29 @@ public class BinanceManager {
         return "?timestamp=" + getServerTime();
     }
 
-    /** Method to execute and get response of a request
+    /**
+     * Method to execute and get response of a request
+     *
      * @param endpoint: endpoint to request
-     * @param params: params HTTP for the request
-     * @param method: method HTTP for the request
-     * @param apiKey: apiKey of the account to perform request
+     * @param params:   params HTTP for the request
+     * @param method:   method HTTP for the request
+     * @param apiKey:   apiKey of the account to perform request
      * @return response of request formatted in Json
-     * **/
-    public String getRequestResponse(String endpoint, String params, String method, String apiKey) throws IOException {
+     **/
+    public String getRequestResponse(String endpoint, String params, RequestMethod method, String apiKey) throws IOException {
         apiRequest.sendAPIRequest(baseEndpoint + endpoint + params, method, "X-MBX-APIKEY", apiKey);
         return apiRequest.getResponse();
     }
 
-    /** Method to execute and get response of a request
+    /**
+     * Method to execute and get response of a request
+     *
      * @param endpoint: endpoint to request
-     * @param params: params HTTP for the request
-     * @param method: method HTTP for the request
+     * @param params:   params HTTP for the request
+     * @param method:   method HTTP for the request
      * @return response of request formatted in Json
-     * **/
-    public String getRequestResponse(String endpoint, String params, String method) throws IOException {
+     **/
+    public String getRequestResponse(String endpoint, String params, RequestMethod method) throws IOException {
         apiRequest.sendAPIRequest(baseEndpoint + endpoint + params, method);
         return apiRequest.getResponse();
     }

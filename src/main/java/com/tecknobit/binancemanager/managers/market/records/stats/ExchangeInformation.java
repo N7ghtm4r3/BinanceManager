@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.tecknobit.binancemanager.managers.market.records.stats.ExchangeInformation.Filter.FilterType.valueOf;
 
@@ -418,37 +419,52 @@ public class ExchangeInformation {
 
         /**
          * {@code permissions} is instance that contains permissions list of symbol
-         * **/
+         **/
         private final ArrayList<String> permissions;
 
         /**
          * {@code baseCommissionPrecision} is instance that contains base commission precision of symbol
-         * **/
+         **/
         private final int baseCommissionPrecision;
 
-        /** Constructor to init {@link Symbol} object
-         * @param symbol: symbol
-         * @param quoteOrderQtyMarketAllowed: quote order quantity market allowed
-         * @param status: status of symbol
-         * @param baseAsset: base asset of symbol
-         * @param baseAssetPrecision: base asset precision of symbol
-         * @param quoteAsset: quote asset of symbol
-         * @param quotePrecision: quote precision of symbol
-         * @param quoteAssetPrecision: quote asset precision of symbol
-         * @param orderTypes: orders type list
-         * @param icebergAllowed: iceberg is allowed for the symbol
-         * @param ocoAllowed: oco is allowed for the symbol
-         * @param isSpotTradingAllowed: spot trading is allowed for the symbol
-         * @param isMarginTradingAllowed: margin trading is allowed for the symbol
-         * @param filters: filters list
-         * @param permissions: permissions list
-         * @param baseCommissionPrecision: base commission precision of symbol
-         * **/
+        /**
+         * {@code defaultSelfTradePreventionMode} is instance that contains the default self trade prevention mode
+         **/
+        private final String defaultSelfTradePreventionMode;
+
+        /**
+         * {@code allowedSelfTradePreventionModes} is instance that contains allowed self trade prevention modes
+         **/
+        private final ArrayList<String> allowedSelfTradePreventionModes;
+
+        /**
+         * Constructor to init {@link Symbol} object
+         *
+         * @param symbol                           : symbol
+         * @param quoteOrderQtyMarketAllowed       : quote order quantity market allowed
+         * @param status                           : status of symbol
+         * @param baseAsset                        : base asset of symbol
+         * @param baseAssetPrecision               : base asset precision of symbol
+         * @param quoteAsset                       : quote asset of symbol
+         * @param quotePrecision                   : quote precision of symbol
+         * @param quoteAssetPrecision              : quote asset precision of symbol
+         * @param orderTypes                       : orders type list
+         * @param icebergAllowed                   : iceberg is allowed for the symbol
+         * @param ocoAllowed                       : oco is allowed for the symbol
+         * @param isSpotTradingAllowed             : spot trading is allowed for the symbol
+         * @param isMarginTradingAllowed           : margin trading is allowed for the symbol
+         * @param filters                          : filters list
+         * @param permissions                      : permissions list
+         * @param baseCommissionPrecision          : base commission precision of symbol
+         * @param defaultSelfTradePreventionMode   default self trade prevention mode
+         * @param allowedSelfTradePreventionModes: allowed self trade prevention modes
+         **/
         public Symbol(String symbol, boolean quoteOrderQtyMarketAllowed, String status, String baseAsset,
                       int baseAssetPrecision, String quoteAsset, int quotePrecision, int quoteAssetPrecision,
                       ArrayList<String> orderTypes, boolean icebergAllowed, boolean ocoAllowed,
                       boolean isSpotTradingAllowed, boolean isMarginTradingAllowed, ArrayList<Filter> filters,
-                      ArrayList<String> permissions, int baseCommissionPrecision) {
+                      ArrayList<String> permissions, int baseCommissionPrecision, String defaultSelfTradePreventionMode,
+                      ArrayList<String> allowedSelfTradePreventionModes) {
             this.symbol = symbol;
             this.quoteOrderQtyMarketAllowed = quoteOrderQtyMarketAllowed;
             this.status = status;
@@ -465,6 +481,8 @@ public class ExchangeInformation {
             this.filters = filters;
             this.permissions = permissions;
             this.baseCommissionPrecision = baseCommissionPrecision;
+            this.defaultSelfTradePreventionMode = defaultSelfTradePreventionMode;
+            this.allowedSelfTradePreventionModes = allowedSelfTradePreventionModes;
         }
 
         /**
@@ -490,6 +508,9 @@ public class ExchangeInformation {
             filters = returnFilters(hSymbol.getJSONArray("filters", new JSONArray()));
             permissions = returnEnumsList(hSymbol.getJSONArray("permissions", new JSONArray()));
             baseCommissionPrecision = hSymbol.getInt("baseCommissionPrecision");
+            defaultSelfTradePreventionMode = hSymbol.getString("defaultSelfTradePreventionMode");
+            allowedSelfTradePreventionModes = returnEnumsList(hSymbol.getJSONArray("allowedSelfTradePreventionModes",
+                    new JSONArray()));
         }
 
         /**
@@ -687,6 +708,36 @@ public class ExchangeInformation {
         }
 
         /**
+         * Method to get {@link #defaultSelfTradePreventionMode} instance <br>
+         * Any params required
+         *
+         * @return {@link #defaultSelfTradePreventionMode} instance as {@link String}
+         **/
+        public String getDefaultSelfTradePreventionMode() {
+            return defaultSelfTradePreventionMode;
+        }
+
+        /**
+         * Method to get {@link #allowedSelfTradePreventionModes} instance <br>
+         * Any params required
+         *
+         * @return {@link #allowedSelfTradePreventionModes} instance as {@link ArrayList} of {@link String}
+         **/
+        public ArrayList<String> getAllowedSelfTradePreventionModes() {
+            return allowedSelfTradePreventionModes;
+        }
+
+        /**
+         * Method to get a permission from {@link #allowedSelfTradePreventionModes} list
+         *
+         * @param index: index from fetch the allowed self trade prevention mode
+         * @return allowed self trade prevention mode as {@link String}
+         **/
+        public String getAllowedSelfTradePreventionMode(int index) {
+            return allowedSelfTradePreventionModes.get(index);
+        }
+
+        /**
          * Method to get {@link #baseCommissionPrecision} instance <br>
          * Any params required
          *
@@ -773,16 +824,17 @@ public class ExchangeInformation {
         }
 
         /**
-         * Method to get order details value formatted in JSON <br>
+         * Method to get filter details list <br>
          * Any params required
          *
-         * @return JsonObject of key and values of a filter
+         * @return filter details as {@link HashMap} of {@link FilterDetails}
          **/
-        public ArrayList<FilterDetails> getFilterDetails() {
-            ArrayList<FilterDetails> filterDetails = new ArrayList<>();
-            JSONObject filter = new JSONObject();
-            for (int j = 0; j < keys.size(); j++)
-                filterDetails.add(new FilterDetails(keys.get(j), values.get(j)));
+        public HashMap<String, FilterDetails> getFilterDetails() {
+            HashMap<String, FilterDetails> filterDetails = new HashMap<>();
+            for (int j = 0; j < keys.size(); j++) {
+                String key = keys.get(j);
+                filterDetails.put(key, new FilterDetails(key, values.get(j)));
+            }
             return filterDetails;
         }
 

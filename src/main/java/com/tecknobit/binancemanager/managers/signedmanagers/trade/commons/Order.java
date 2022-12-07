@@ -1,10 +1,10 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.commons;
 
 import com.tecknobit.apimanager.formatters.JsonHelper;
-import com.tecknobit.binancemanager.managers.BinanceManager;
 import org.json.JSONObject;
 
 import static com.tecknobit.apimanager.formatters.ScientificNotationParser.sNotationParse;
+import static com.tecknobit.binancemanager.managers.BinanceManager.Params;
 
 /**
  * The {@code Order} class is useful to manage and format a {@code "Binance"}'s order
@@ -97,14 +97,14 @@ public class Order {
      * @param quantity:    quantity value in the order
      * @param price:       price value in the order
      * @param extraParams: extraParams of the request
-     * @return payload request as {@link BinanceManager.Params}
+     * @return payload request as {@link Params}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
      *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      * Test New Order (TRADE)</a>
      **/
-    public static BinanceManager.Params getLimitPayload(TimeInForce timeInForce, double quantity, double price, BinanceManager.Params extraParams) {
-        BinanceManager.Params payload = new BinanceManager.Params();
+    public static Params getLimitPayload(TimeInForce timeInForce, double quantity, double price, Params extraParams) {
+        Params payload = new Params();
         payload.addParam("timeInForce", timeInForce);
         payload.addParam("quantity", sNotationParse(8, quantity));
         payload.addParam("price", price);
@@ -119,14 +119,14 @@ public class Order {
      * @param keyQty:      key for qty value (quantity or quoteOrderQty)
      * @param qty:         quantity value in the order
      * @param extraParams: extraParams of the request
-     * @return payload request as {@link BinanceManager.Params}
+     * @return payload request as {@link Params}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
      *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      * Test New Order (TRADE)</a>
      **/
-    public static BinanceManager.Params getMarketPayload(String keyQty, double qty, BinanceManager.Params extraParams) {
-        BinanceManager.Params payload = new BinanceManager.Params();
+    public static Params getMarketPayload(String keyQty, double qty, Params extraParams) {
+        Params payload = new Params();
         payload.addParam(keyQty, sNotationParse(8, qty));
         if (extraParams != null)
             payload.mergeParams(extraParams);
@@ -140,14 +140,14 @@ public class Order {
      * @param key:         key for value (stopPrice or trailingDelta)
      * @param value:       level indicator value
      * @param extraParams: extraParams of the request
-     * @return payload request as {@link BinanceManager.Params}
+     * @return payload request as {@link Params}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
      *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      * Test New Order (TRADE)</a>
      **/
-    public static BinanceManager.Params getLevelPayload(double quantity, String key, double value, BinanceManager.Params extraParams) {
-        BinanceManager.Params payload = new BinanceManager.Params();
+    public static Params getLevelPayload(double quantity, String key, double value, Params extraParams) {
+        Params payload = new Params();
         payload.addParam("quantity", sNotationParse(8, quantity));
         payload.addParam(key, value);
         if (extraParams != null)
@@ -164,15 +164,15 @@ public class Order {
      * @param key:         key for value (stopPrice or trailingDelta)
      * @param value:       level indicator value
      * @param extraParams: extraParams of the request
-     * @return payload request as {@link BinanceManager.Params}
+     * @return payload request as {@link Params}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
      *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      * Test New Order (TRADE)</a>
      **/
-    public static BinanceManager.Params getLevelLimitPayload(TimeInForce timeInForce, double quantity, double price, String key, double value,
-                                                             BinanceManager.Params extraParams) {
-        BinanceManager.Params payload = getLimitPayload(timeInForce, quantity, price, extraParams);
+    public static Params getLevelLimitPayload(TimeInForce timeInForce, double quantity, double price, String key, double value,
+                                              Params extraParams) {
+        Params payload = getLimitPayload(timeInForce, quantity, price, extraParams);
         payload.addParam(key, value);
         return payload;
     }
@@ -183,14 +183,14 @@ public class Order {
      * @param quantity:    quantity value in the order
      * @param price:       price value in the order
      * @param extraParams: extraParams of the request
-     * @return payload request as {@link BinanceManager.Params}
+     * @return payload request as {@link Params}
      * @implSpec (keys accepted are timeInForce, quantity, quoteOrderQty, price, newClientOrderId, stopPrice, icebergQty,
      *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      * Test New Order (TRADE)</a>
      **/
-    public static BinanceManager.Params getLimitMakerPayload(double quantity, double price, BinanceManager.Params extraParams) {
-        BinanceManager.Params payload = new BinanceManager.Params();
+    public static Params getLimitMakerPayload(double quantity, double price, Params extraParams) {
+        Params payload = new Params();
         payload.addParam("quantity", sNotationParse(8, quantity));
         payload.addParam("price", price);
         if (extraParams != null)
@@ -240,7 +240,7 @@ public class Order {
     }
 
     /**
-     * {@code Status} list of available sides for an order
+     * {@code Side} list of available sides for an order
      **/
     public enum Side {
 

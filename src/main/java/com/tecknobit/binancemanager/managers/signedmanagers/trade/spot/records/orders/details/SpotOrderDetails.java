@@ -29,27 +29,32 @@ public class SpotOrderDetails extends ResultSpotOrder implements BinanceResponse
     private final String origClientOrderId;
 
     /**
-     * Constructor to init {@link SpotOrderDetails} object
+     * Constructor to init {@link ResultSpotOrder} object
      *
-     * @param symbol:              symbol used in the order
-     * @param orderId:             order identifier
-     * @param orderListId:         order list identifier
-     * @param clientOrderId:       client order identifier
-     * @param origClientOrderId:   origin client order id
-     * @param price:               price in the order
-     * @param origQty:             origin quantity in the order
-     * @param executedQty:         executed quantity in the order
-     * @param cummulativeQuoteQty: cummulative quote quantity in the order
-     * @param status:              status of the order
-     * @param timeInForce:         time in force of the order
-     * @param type:                type of the order
-     * @param side:                side of the order
+     * @param symbol                  : symbol used in the order
+     * @param orderId                 : order identifier
+     * @param orderListId             : list order identifier
+     * @param clientOrderId           : client order identifier
+     * @param transactTime            : transaction time
+     * @param price                   : price in order
+     * @param origQty                 : origin quantity in order
+     * @param executedQty             : executed quantity in order
+     * @param cummulativeQuoteQty     : cummulative quote quantity
+     * @param status                  : status of the order
+     * @param timeInForce             : time in force of the order
+     * @param type                    : type of the order
+     * @param side                    : side of the order
+     * @param workingTime             : indicating when the order started working on the order book
+     * @param selfTradePreventionMode : self trade prevention mode
+     * @param trailingTime            : indicating the time when the trailing order is active and tracking price changes
+     * @param origClientOrderId:      origin client order id
      **/
-    public SpotOrderDetails(String symbol, long orderId, long orderListId, String clientOrderId, String origClientOrderId,
+    public SpotOrderDetails(String symbol, long orderId, long orderListId, String clientOrderId, long transactTime,
                             double price, double origQty, double executedQty, double cummulativeQuoteQty, Status status,
-                            TimeInForce timeInForce, OrderType type, Side side) {
-        super(symbol, orderId, orderListId, clientOrderId, -1, price, origQty, executedQty, cummulativeQuoteQty,
-                status, timeInForce, type, side);
+                            TimeInForce timeInForce, OrderType type, Side side, long workingTime, String selfTradePreventionMode,
+                            long trailingTime, String origClientOrderId) {
+        super(symbol, orderId, orderListId, clientOrderId, transactTime, price, origQty, executedQty, cummulativeQuoteQty,
+                status, timeInForce, type, side, workingTime, selfTradePreventionMode, trailingTime);
         this.origClientOrderId = origClientOrderId;
     }
 

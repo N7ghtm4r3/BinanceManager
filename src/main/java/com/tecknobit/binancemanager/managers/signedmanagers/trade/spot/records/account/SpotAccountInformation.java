@@ -34,22 +34,27 @@ public class SpotAccountInformation {
 
     /**
      * {@code buyerCommission} is instance that memorizes buyer commission
-     * **/
+     **/
     private double buyerCommission;
 
     /**
      * {@code sellerCommission} is instance that memorizes seller commission
-     * **/
+     **/
     private double sellerCommission;
 
     /**
+     * {@code commissionRates} is instance that memorizes commission rates for the account
+     **/
+    private CommissionRates commissionRates;
+
+    /**
      * {@code canTrade} is instance that memorizes if account can trade
-     * **/
+     **/
     private boolean canTrade;
 
     /**
      * {@code canWithdraw} is instance that memorizes if account can withdraw
-     * **/
+     **/
     private boolean canWithdraw;
 
     /**
@@ -79,28 +84,37 @@ public class SpotAccountInformation {
 
     /**
      * {@code permissionsList} is instance that memorizes permissions list
-     * **/
+     **/
     private ArrayList<Permission> permissionsList;
 
-    /** Constructor to init {@link SpotAccountInformation} object
-     * @param makerCommission: maker commission
-     * @param takerCommission: taker commission
-     * @param buyerCommission: buyer commission
-     * @param sellerCommission: seller commission
-     * @param canTrade: can trade
-     * @param canWithdraw: can withdraw
-     * @param canDeposit: can deposit
-     * @param brokered: is brokered
-     * @param updateTime: update time value
-     * @param accountType: account type value
-     * @param spotsListBalance: balance spot list
-     * @param permissionsList: permissions list
+    /**
+     * {@code requireSelfTradePrevention} whether the spot account require self trade prevention
+     **/
+    private boolean requireSelfTradePrevention;
+
+    /**
+     * Constructor to init {@link SpotAccountInformation} object
+     *
+     * @param makerCommission:            maker commission
+     * @param takerCommission:            taker commission
+     * @param buyerCommission:            buyer commission
+     * @param sellerCommission:           seller commission
+     * @param canTrade:                   can trade
+     * @param canWithdraw:                can withdraw
+     * @param canDeposit:                 can deposit
+     * @param brokered:                   is brokered
+     * @param updateTime:                 update time value
+     * @param accountType:                account type value
+     * @param spotsListBalance:           balance spot list
+     * @param permissionsList:            permissions list
+     * @param requireSelfTradePrevention: whether the spot account require self trade prevention
      * @throws IllegalArgumentException if parameters range is not respected
-     * **/
-    public SpotAccountInformation(double makerCommission, double takerCommission, double buyerCommission, double sellerCommission,
-                                  boolean canTrade, boolean canWithdraw, boolean canDeposit, boolean brokered,
-                                  long updateTime, String accountType, ArrayList<SpotBalance> spotsListBalance,
-                                  ArrayList<Permission> permissionsList) {
+     **/
+    public SpotAccountInformation(double makerCommission, double takerCommission, double buyerCommission,
+                                  double sellerCommission, CommissionRates commissionRates, boolean canTrade,
+                                  boolean canWithdraw, boolean canDeposit, boolean brokered, long updateTime,
+                                  String accountType, ArrayList<SpotBalance> spotsListBalance,
+                                  ArrayList<Permission> permissionsList, boolean requireSelfTradePrevention) {
         if (makerCommission < 0)
             throw new IllegalArgumentException("Maker commission value cannot be less than 0");
         else
@@ -117,6 +131,7 @@ public class SpotAccountInformation {
             throw new IllegalArgumentException("Seller commission value cannot be less than 0");
         else
             this.sellerCommission = sellerCommission;
+        this.commissionRates = commissionRates;
         this.canTrade = canTrade;
         this.canWithdraw = canWithdraw;
         this.canDeposit = canDeposit;
@@ -149,6 +164,7 @@ public class SpotAccountInformation {
         sellerCommission = hSpotAccount.getDouble("sellerCommission", 0);
         if (sellerCommission < 0)
             throw new IllegalArgumentException("Seller commission value cannot be less than 0");
+        commissionRates = new CommissionRates(hSpotAccount.getJSONObject("commissionRates", new JSONObject()));
         canTrade = hSpotAccount.getBoolean("canTrade");
         canWithdraw = hSpotAccount.getBoolean("canWithdraw");
         canDeposit = hSpotAccount.getBoolean("canDeposit");
@@ -162,6 +178,7 @@ public class SpotAccountInformation {
         JSONArray jPermissions = hSpotAccount.getJSONArray("permissionsList", new JSONArray());
         for (int j = 0; j < jPermissions.length(); j++)
             permissionsList.add(new Permission(jPermissions.getString(j)));
+        requireSelfTradePrevention = hSpotAccount.getBoolean("requireSelfTradePrevention");
     }
 
     /**
@@ -294,6 +311,25 @@ public class SpotAccountInformation {
         if (sellerCommission < 0)
             throw new IllegalArgumentException("Seller commission value cannot be less than 0");
         this.sellerCommission = sellerCommission;
+    }
+
+    /**
+     * Method to get {@link #commissionRates} instance <br>
+     * Any params required
+     *
+     * @return {@link #commissionRates} instance as {@link CommissionRates}
+     **/
+    public CommissionRates getCommissionRates() {
+        return commissionRates;
+    }
+
+    /**
+     * Method to set {@link #commissionRates}
+     *
+     * @param commissionRates: commission rates to set for the spot account
+     **/
+    public void setCommissionRates(CommissionRates commissionRates) {
+        this.commissionRates = commissionRates;
     }
 
     /**
@@ -513,6 +549,25 @@ public class SpotAccountInformation {
     }
 
     /**
+     * Method to get {@link #requireSelfTradePrevention} instance <br>
+     * Any params required
+     *
+     * @return {@link #requireSelfTradePrevention} instance as boolean
+     **/
+    public boolean isRequiredSelfTradePrevention() {
+        return requireSelfTradePrevention;
+    }
+
+    /**
+     * Method to set {@link #requireSelfTradePrevention} instance <br>
+     *
+     * @param requireSelfTradePrevention: whether the spot account require self trade prevention
+     **/
+    public void setRequireSelfTradePrevention(boolean requireSelfTradePrevention) {
+        this.requireSelfTradePrevention = requireSelfTradePrevention;
+    }
+
+    /**
      * Returns a string representation of the object <br>
      * Any params required
      *
@@ -554,6 +609,160 @@ public class SpotAccountInformation {
          **/
         public String getPermission() {
             return permission;
+        }
+
+        /**
+         * Returns a string representation of the object <br>
+         * Any params required
+         *
+         * @return a string representation of the object as {@link String}
+         */
+        @Override
+        public String toString() {
+            return new JSONObject(this).toString();
+        }
+
+    }
+
+    /**
+     * The {@code CommissionRates} class is useful to obtain and format a commission rates for {@link SpotAccountInformation}
+     *
+     * @author N7ghtm4r3 - Tecknobit
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data">
+     * Account Information (USER_DATA)</a>
+     **/
+    public static class CommissionRates {
+
+        /**
+         * {@code "maker"} value
+         **/
+        private final double maker;
+
+        /**
+         * {@code "taker"} value
+         **/
+        private final double taker;
+
+        /**
+         * {@code "buyer"} value
+         **/
+        private final double buyer;
+
+        /**
+         * {@code "seller"} value
+         **/
+        private final double seller;
+
+        /**
+         * Constructor to init {@link CommissionRates} object
+         *
+         * @param maker:  maker value
+         * @param taker:  taker value
+         * @param buyer:  buyer value
+         * @param seller: seller value
+         **/
+        public CommissionRates(double maker, double taker, double buyer, double seller) {
+            this.maker = maker;
+            this.taker = taker;
+            this.buyer = buyer;
+            this.seller = seller;
+        }
+
+        /**
+         * Constructor to init {@link CommissionRates} object
+         *
+         * @param jRates: commission rates details as {@link JSONObject}
+         **/
+        public CommissionRates(JSONObject jRates) {
+            JsonHelper hRates = new JsonHelper(jRates);
+            maker = hRates.getDouble("maker", 0);
+            taker = hRates.getDouble("taker", 0);
+            buyer = hRates.getDouble("buyer", 0);
+            seller = hRates.getDouble("seller", 0);
+        }
+
+        /**
+         * Method to get {@link #maker} instance <br>
+         * Any params required
+         *
+         * @return {@link #maker} instance as double
+         **/
+        public double getMaker() {
+            return maker;
+        }
+
+        /**
+         * Method to get {@link #maker} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #maker} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getMaker(int decimals) {
+            return roundValue(maker, decimals);
+        }
+
+        /**
+         * Method to get {@link #taker} instance <br>
+         * Any params required
+         *
+         * @return {@link #taker} instance as double
+         **/
+        public double getTaker() {
+            return taker;
+        }
+
+        /**
+         * Method to get {@link #taker} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #taker} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getTaker(int decimals) {
+            return roundValue(taker, decimals);
+        }
+
+        /**
+         * Method to get {@link #buyer} instance <br>
+         * Any params required
+         *
+         * @return {@link #buyer} instance as double
+         **/
+        public double getBuyer() {
+            return buyer;
+        }
+
+        /**
+         * Method to get {@link #buyer} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #buyer} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getBuyer(int decimals) {
+            return roundValue(buyer, decimals);
+        }
+
+        /**
+         * Method to get {@link #seller} instance <br>
+         * Any params required
+         *
+         * @return {@link #seller} instance as double
+         **/
+        public double getSeller() {
+            return seller;
+        }
+
+        /**
+         * Method to get {@link #seller} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #seller} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getSeller(int decimals) {
+            return roundValue(seller, decimals);
         }
 
         /**

@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers;
 
 import com.tecknobit.apimanager.apis.APIRequest;
+import com.tecknobit.apimanager.apis.APIRequest.RequestMethod;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 
@@ -132,7 +133,7 @@ public class BinanceSignedManager extends BinanceManager {
      * @param method:   method HTTP for the request
      * @return response of the request
      **/
-    protected String sendSignedRequest(String endpoint, String params, String method) throws Exception {
+    protected String sendSignedRequest(String endpoint, String params, RequestMethod method) throws Exception {
         APIRequest.Params mParams = new APIRequest.Params();
         mParams.addParam("signature", APIRequest.getSignature(secretKey, params, HMAC_SHA256_ALGORITHM));
         return getRequestResponse(endpoint, apiRequest.encodeAdditionalParams(params, mParams), method, apiKey);

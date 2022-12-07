@@ -27,27 +27,33 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
      **/
     private ArrayList<FillSpot> fills;
 
-    /** Constructor to init {@link FullSpotOrder} object
-     * @param symbol: symbol used in the order
-     * @param orderId: order identifier
-     * @param clientOrderId: client order identifier
-     * @param orderListId: list order identifier
-     * @param transactTime: transaction time
-     * @param price: price in order
-     * @param origQty: origin quantity in order
-     * @param executedQty: executed quantity in order
-     * @param cummulativeQuoteQty: cummulative quote quantity
-     * @param status: status of the order
-     * @param timeInForce: time in force of the order
-     * @param type: type of the order
-     * @param side: side of the order
-     * @param fills: fills list 
-     * **/
+    /**
+     * Constructor to init {@link ResultSpotOrder} object
+     *
+     * @param symbol                  : symbol used in the order
+     * @param orderId                 : order identifier
+     * @param orderListId             : list order identifier
+     * @param clientOrderId           : client order identifier
+     * @param transactTime            : transaction time
+     * @param price                   : price in order
+     * @param origQty                 : origin quantity in order
+     * @param executedQty             : executed quantity in order
+     * @param cummulativeQuoteQty     : cummulative quote quantity
+     * @param status                  : status of the order
+     * @param timeInForce             : time in force of the order
+     * @param type                    : type of the order
+     * @param side                    : side of the order
+     * @param workingTime             : indicating when the order started working on the order book
+     * @param selfTradePreventionMode : self trade prevention mode
+     * @param trailingTime            : indicating the time when the trailing order is active and tracking price changes
+     * @param fills:                  fills list
+     **/
     public FullSpotOrder(String symbol, long orderId, long orderListId, String clientOrderId, long transactTime,
                          double price, double origQty, double executedQty, double cummulativeQuoteQty, Status status,
-                         TimeInForce timeInForce, OrderType type, Side side, ArrayList<FillSpot> fills) {
+                         TimeInForce timeInForce, OrderType type, Side side, long workingTime, String selfTradePreventionMode,
+                         long trailingTime, ArrayList<FillSpot> fills) {
         super(symbol, orderId, orderListId, clientOrderId, transactTime, price, origQty, executedQty, cummulativeQuoteQty,
-                status, timeInForce, type, side);
+                status, timeInForce, type, side, workingTime, selfTradePreventionMode, trailingTime);
         this.fills = fills;
     }
 
