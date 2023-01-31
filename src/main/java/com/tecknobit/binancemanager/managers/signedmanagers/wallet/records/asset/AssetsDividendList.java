@@ -38,7 +38,7 @@ public class AssetsDividendList extends BinanceList<AssetDividendDetails> {
      **/
     public AssetsDividendList(JSONObject jAssetDividend) {
         super(jAssetDividend);
-        JSONArray jAssets = hList.getJSONArray("rows", new JSONArray());
+        JSONArray jAssets = hItem.getJSONArray("rows", new JSONArray());
         for (int j = 0; j < jAssets.length(); j++)
             rows.add(new AssetDividendDetails(jAssets.getJSONObject(j)));
     }
@@ -112,7 +112,7 @@ public class AssetsDividendList extends BinanceList<AssetDividendDetails> {
 
         /**
          * Method to get {@link #id} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #id} instance as long
          **/
@@ -122,7 +122,7 @@ public class AssetsDividendList extends BinanceList<AssetDividendDetails> {
 
         /**
          * Method to get {@link #amount} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #amount} instance as double
          **/
@@ -143,7 +143,7 @@ public class AssetsDividendList extends BinanceList<AssetDividendDetails> {
 
         /**
          * Method to get {@link #asset} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
          **/
@@ -153,7 +153,7 @@ public class AssetsDividendList extends BinanceList<AssetDividendDetails> {
 
         /**
          * Method to get {@link #divTime} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #divTime} instance as long
          **/
@@ -163,7 +163,7 @@ public class AssetsDividendList extends BinanceList<AssetDividendDetails> {
 
         /**
          * Method to get {@link #divTime} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #divTime} instance as {@link Date}
          **/
@@ -173,7 +173,7 @@ public class AssetsDividendList extends BinanceList<AssetDividendDetails> {
 
         /**
          * Method to get {@link #enInfo} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #enInfo} instance as {@link String}
          **/
@@ -183,7 +183,7 @@ public class AssetsDividendList extends BinanceList<AssetDividendDetails> {
 
         /**
          * Method to get {@link #tranId} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #tranId} instance as long
          **/
@@ -193,7 +193,7 @@ public class AssetsDividendList extends BinanceList<AssetDividendDetails> {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */

@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.binancemanager.managers.market.records.stats.ExchangeInformation.SelfTradePreventionMode;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order;
 import org.json.JSONObject;
 
@@ -50,8 +51,10 @@ public class SpotOrderStatus extends ResultSpotOrder {
      *
      * @param symbol                  : symbol used in the order
      * @param orderId                 : order identifier
-     * @param orderListId             : list order identifier
      * @param clientOrderId           : client order identifier
+     * @param orderListId             : list order identifier
+     * @param preventedMatchId:       prevented match identifier
+     * @param preventedQuantity:      prevented quantity value
      * @param transactTime            : transaction time
      * @param price                   : price in order
      * @param origQty                 : origin quantity in order
@@ -70,13 +73,15 @@ public class SpotOrderStatus extends ResultSpotOrder {
      * @param isWorking:              whether is working
      * @param origQuoteOrderQty:      origin quote quantity value
      **/
-    public SpotOrderStatus(String symbol, long orderId, long orderListId, String clientOrderId, long transactTime,
-                           double price, double origQty, double executedQty, double cummulativeQuoteQty, Status status,
-                           TimeInForce timeInForce, OrderType type, Side side, long workingTime, String selfTradePreventionMode,
+    public SpotOrderStatus(String symbol, long orderId, String clientOrderId, long orderListId, long transactTime,
+                           long preventedMatchId, double preventedQuantity, double price, double origQty,
+                           double executedQty, double cummulativeQuoteQty, Status status, TimeInForce timeInForce,
+                           OrderType type, Side side, long workingTime, SelfTradePreventionMode selfTradePreventionMode,
                            long trailingTime, double stopPrice, double icebergQty, long time, boolean isWorking,
                            double origQuoteOrderQty) {
-        super(symbol, orderId, orderListId, clientOrderId, transactTime, price, origQty, executedQty, cummulativeQuoteQty,
-                status, timeInForce, type, side, workingTime, selfTradePreventionMode, trailingTime);
+        super(symbol, orderId, clientOrderId, orderListId, transactTime, preventedMatchId, preventedQuantity, price,
+                origQty, executedQty, cummulativeQuoteQty, status, timeInForce, type, side, workingTime,
+                selfTradePreventionMode, trailingTime);
         this.stopPrice = stopPrice;
         this.icebergQty = icebergQty;
         this.time = time;
@@ -101,7 +106,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
 
     /**
      * Method to get {@link #stopPrice} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #stopPrice} instance as double
      **/
@@ -122,7 +127,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
 
     /**
      * Method to get {@link #stopPrice} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #stopPrice} instance as double
      **/
@@ -143,7 +148,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
 
     /**
      * Method to get {@link #stopPrice} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #stopPrice} instance as long
      **/
@@ -153,7 +158,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
 
     /**
      * Method to get {@link #time} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #time} instance as {@link Date}
      **/
@@ -163,7 +168,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
 
     /**
      * Method to get {@link #transactTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #transactTime} instance as long
      **/
@@ -173,7 +178,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
 
     /**
      * Method to get {@link #transactTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #transactTime} instance as {@link Date}
      **/
@@ -183,7 +188,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
 
     /**
      * Method to get {@link #isWorking} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isWorking} instance as boolean
      **/
@@ -193,7 +198,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
 
     /**
      * Method to get {@link #origQuoteOrderQty} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #origQuoteOrderQty} instance as double
      **/

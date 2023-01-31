@@ -117,7 +117,7 @@ public class MarginOrderDetails extends Order {
 
     /**
      * Method to get {@link #isIsolated} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isIsolated} instance as boolean
      **/
@@ -127,7 +127,7 @@ public class MarginOrderDetails extends Order {
 
     /**
      * Method to get {@link #origClientOrderId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #origClientOrderId} instance as {@link String}
      **/
@@ -137,7 +137,7 @@ public class MarginOrderDetails extends Order {
 
     /**
      * Method to get {@link #price} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #price} instance as double
      **/
@@ -158,7 +158,7 @@ public class MarginOrderDetails extends Order {
 
     /**
      * Method to get {@link #origQty} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #origQty} instance as double
      **/
@@ -179,7 +179,7 @@ public class MarginOrderDetails extends Order {
 
     /**
      * Method to get {@link #executedQty} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #executedQty} instance as double
      **/
@@ -200,7 +200,7 @@ public class MarginOrderDetails extends Order {
 
     /**
      * Method to get {@link #cummulativeQuoteQty} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #cummulativeQuoteQty} instance as double
      **/
@@ -221,7 +221,7 @@ public class MarginOrderDetails extends Order {
 
     /**
      * Method to get {@link #status} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #status} instance as {@link Status}
      **/
@@ -231,7 +231,7 @@ public class MarginOrderDetails extends Order {
 
     /**
      * Method to get {@link #timeInForce} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #timeInForce} instance as {@link TimeInForce}
      **/
@@ -241,7 +241,7 @@ public class MarginOrderDetails extends Order {
 
     /**
      * Method to get {@link #type} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #type} instance as {@link OrderType}
      **/
@@ -251,7 +251,7 @@ public class MarginOrderDetails extends Order {
 
     /**
      * Method to get {@link #side} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #side} instance as {@link Side}
      **/
@@ -261,7 +261,7 @@ public class MarginOrderDetails extends Order {
 
     /**
      * Method to get {@code stop price} value <br>
-     * Any params required
+     * No-any params required
      *
      * @return stopPrice as double, if is a null field will return -1
      **/
@@ -271,7 +271,7 @@ public class MarginOrderDetails extends Order {
 
     /**
      * Method to get {@code stop price} value <br>
-     * Any params required
+     * No-any params required
      *
      * @return stopPrice as double, if is a null field will return -1
      **/
@@ -281,7 +281,7 @@ public class MarginOrderDetails extends Order {
 
     /**
      * Method to get {@code iceberg quantity} value <br>
-     * Any params required
+     * No-any params required
      *
      * @return icebergQty as double, if is a null field will return -1
      **/
@@ -291,7 +291,7 @@ public class MarginOrderDetails extends Order {
 
     /**
      * Method to get {@code iceberg quantity} <br>
-     * Any params required
+     * No-any params required
      *
      * @return icebergQty as double, if is a null field will return -1
      **/

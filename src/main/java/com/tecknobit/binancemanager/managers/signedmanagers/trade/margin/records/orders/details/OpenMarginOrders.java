@@ -55,7 +55,7 @@ public class OpenMarginOrders {
 
     /**
      * Method to get {@link #marginOrdersDetails} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #marginOrdersDetails} instance as {@link ArrayList} of {@link MarginOrderDetails}
      **/
@@ -104,7 +104,7 @@ public class OpenMarginOrders {
 
     /**
      * Method to get {@link #composedMarginOrderDetails} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #composedMarginOrderDetails} instance as {@link ArrayList} of {@link ComposedMarginOrderDetails}
      **/
@@ -153,7 +153,7 @@ public class OpenMarginOrders {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

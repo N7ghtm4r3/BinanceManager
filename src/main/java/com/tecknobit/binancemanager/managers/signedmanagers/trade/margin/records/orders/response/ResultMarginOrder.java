@@ -105,7 +105,7 @@ public class ResultMarginOrder extends ACKMarginOrder {
 
     /**
      * Method to get {@link #price} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #price} instance as double
      **/
@@ -126,7 +126,7 @@ public class ResultMarginOrder extends ACKMarginOrder {
 
     /**
      * Method to get {@link #origQty} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #origQty} instance as double
      **/
@@ -147,7 +147,7 @@ public class ResultMarginOrder extends ACKMarginOrder {
 
     /**
      * Method to get {@link #executedQty} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #executedQty} instance as double
      **/
@@ -168,7 +168,7 @@ public class ResultMarginOrder extends ACKMarginOrder {
 
     /**
      * Method to get {@link #cummulativeQuoteQty} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #cummulativeQuoteQty} instance as double
      **/
@@ -189,7 +189,7 @@ public class ResultMarginOrder extends ACKMarginOrder {
 
     /**
      * Method to get {@link #status} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #status} instance as {@link Status}
      **/
@@ -199,7 +199,7 @@ public class ResultMarginOrder extends ACKMarginOrder {
 
     /**
      * Method to get {@link #timeInForce} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #timeInForce} instance as {@link TimeInForce}
      **/
@@ -209,7 +209,7 @@ public class ResultMarginOrder extends ACKMarginOrder {
 
     /**
      * Method to get {@link #type} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #type} instance as {@link OrderType}
      **/
@@ -219,7 +219,7 @@ public class ResultMarginOrder extends ACKMarginOrder {
 
     /**
      * Method to get {@link #side} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #side} instance as {@link Side}
      **/

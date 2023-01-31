@@ -135,13 +135,18 @@ public class EndpointsList {
     public static final String API_KEY_PERMISSION_ENDPOINT = "/sapi/v1/account/apiRestrictions";
 
     /**
+     * {@code CONVERTIBLE_COINS_ENDPOINT} is constant for CONVERTIBLE_COINS_ENDPOINT's endpoint
+     **/
+    public static final String CONVERTIBLE_COINS_ENDPOINT = "/sapi/v1/capital/contract/convertible-coins";
+
+    /**
      * {@code TEST_CONNECTIVITY_ENDPOINT} is constant for TEST_CONNECTIVITY_ENDPOINT's endpoint
      **/
     public static final String TEST_CONNECTIVITY_ENDPOINT = "/api/v3/ping";
 
     /**
      * {@code EXCHANGE_INFORMATION_ENDPOINT} is constant for EXCHANGE_INFORMATION_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String EXCHANGE_INFORMATION_ENDPOINT = "/api/v3/exchangeInfo";
 
     /**
@@ -251,22 +256,27 @@ public class EndpointsList {
 
     /**
      * {@code SPOT_ACCOUNT_TRADE_LIST_ENDPOINT} is constant for SPOT_ACCOUNT_TRADE_LIST_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String SPOT_ACCOUNT_TRADE_LIST_ENDPOINT = "/api/v3/myTrades";
 
     /**
      * {@code SPOT_ACCOUNT_CURRENT_ORDER_COUNT_USAGE} is constant for SPOT_ACCOUNT_CURRENT_ORDER_COUNT_USAGE's endpoint
-     * **/
+     **/
     public static final String SPOT_ACCOUNT_CURRENT_ORDER_COUNT_USAGE = "/api/v3/rateLimit/order";
 
     /**
+     * {@code MY_PREVENTED_MATCHES} is constant for MY_PREVENTED_MATCHES's endpoint
+     **/
+    public static final String MY_PREVENTED_MATCHES = "/api/v3/myPreventedMatches";
+
+    /**
      * {@code CROSS_MARGIN_TRANSFERS_ENDPOINT} is constant for CROSS_MARGIN_TRANSFERS_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String CROSS_MARGIN_TRANSFERS_ENDPOINT = "/sapi/v1/margin/transfer";
 
     /**
      * {@code MARGIN_LOAN_ENDPOINT} is constant for MARGIN_LOAN_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String MARGIN_LOAN_ENDPOINT = "/sapi/v1/margin/loan";
 
     /**
@@ -411,13 +421,18 @@ public class EndpointsList {
 
     /**
      * {@code ISOLATED_MARGIN_DATA_ENDPOINT} is constant for ISOLATED_MARGIN_DATA_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String ISOLATED_MARGIN_DATA_ENDPOINT = "/sapi/v1/margin/isolatedMarginData";
 
     /**
      * {@code ISOLATED_MARGIN_TIER_DATA_ENDPOINT} is constant for ISOLATED_MARGIN_TIER_DATA_ENDPOINT's endpoint
      **/
     public static final String ISOLATED_MARGIN_TIER_DATA_ENDPOINT = "/sapi/v1/margin/isolatedMarginTier";
+
+    /**
+     * {@code COLLATERAL_RATIO_ENDPOINT} is constant for COLLATERAL_RATIO_ENDPOINT's endpoint
+     **/
+    public static final String COLLATERAL_RATIO_ENDPOINT = "/sapi/v1/margin/crossMarginCollateralRatio";
 
     /**
      * Constructor to avoid instantiation

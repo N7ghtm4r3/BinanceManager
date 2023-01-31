@@ -39,7 +39,7 @@ public class UniversalTransferHistory extends BinanceList<UniversalTransfer> {
      **/
     public UniversalTransferHistory(JSONObject jTransfersList) {
         super(jTransfersList);
-        JSONArray jRows = hList.getJSONArray("rows", new JSONArray());
+        JSONArray jRows = hItem.getJSONArray("rows", new JSONArray());
         for (int j = 0; j < jRows.length(); j++)
             rows.add(new UniversalTransfer(jRows.getJSONObject(j)));
     }
@@ -218,7 +218,7 @@ public class UniversalTransferHistory extends BinanceList<UniversalTransfer> {
 
         /**
          * Method to get {@link #asset} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
          **/
@@ -228,7 +228,7 @@ public class UniversalTransferHistory extends BinanceList<UniversalTransfer> {
 
         /**
          * Method to get {@link #amount} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #amount} instance as double
          **/
@@ -238,7 +238,7 @@ public class UniversalTransferHistory extends BinanceList<UniversalTransfer> {
 
         /**
          * Method to get {@link #type} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #type} instance as {@link TransferType}
          **/
@@ -259,7 +259,7 @@ public class UniversalTransferHistory extends BinanceList<UniversalTransfer> {
 
         /**
          * Method to get {@link #status} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #status} instance as {@link Order.Status}
          **/
@@ -269,7 +269,7 @@ public class UniversalTransferHistory extends BinanceList<UniversalTransfer> {
 
         /**
          * Method to get {@link #tranId} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #tranId} instance as long
          **/
@@ -279,7 +279,7 @@ public class UniversalTransferHistory extends BinanceList<UniversalTransfer> {
 
         /**
          * Method to get {@link #timestamp} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #timestamp} instance as long
          **/
@@ -289,7 +289,7 @@ public class UniversalTransferHistory extends BinanceList<UniversalTransfer> {
 
         /**
          * Method to get {@link #timestamp} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #timestamp} instance as {@link Date}
          **/
@@ -299,7 +299,7 @@ public class UniversalTransferHistory extends BinanceList<UniversalTransfer> {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */

@@ -86,7 +86,7 @@ public class CrossMarginFee extends IsolatedData {
 
     /**
      * Method to get {@link #vipLevel} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #vipLevel} instance as int
      **/
@@ -96,7 +96,7 @@ public class CrossMarginFee extends IsolatedData {
 
     /**
      * Method to get {@link #transferIn} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #transferIn} instance as boolean
      **/
@@ -106,7 +106,7 @@ public class CrossMarginFee extends IsolatedData {
 
     /**
      * Method to get {@link #borrowable} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #borrowable} instance as boolean
      **/
@@ -116,7 +116,7 @@ public class CrossMarginFee extends IsolatedData {
 
     /**
      * Method to get {@link #yearlyInterest} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #yearlyInterest} instance as double
      **/
@@ -137,7 +137,7 @@ public class CrossMarginFee extends IsolatedData {
 
     /**
      * Method to get {@link #marginablePairsList} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #marginablePairsList} instance as {@link ArrayList} of {@link String}
      **/

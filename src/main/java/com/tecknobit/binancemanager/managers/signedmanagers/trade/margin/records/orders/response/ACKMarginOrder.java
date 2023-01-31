@@ -45,7 +45,7 @@ public class ACKMarginOrder extends MarginOrder {
 
     /**
      * Method to get {@link #isIsolated} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isIsolated} instance as boolean
      **/

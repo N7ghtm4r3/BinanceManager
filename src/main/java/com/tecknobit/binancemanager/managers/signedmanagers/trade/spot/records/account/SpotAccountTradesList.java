@@ -91,7 +91,7 @@ public class SpotAccountTradesList extends Trade {
 
     /**
      * Method to get {@link #symbol} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
      **/
@@ -101,7 +101,7 @@ public class SpotAccountTradesList extends Trade {
 
     /**
      * Method to get {@link #orderId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #orderId} instance as long
      **/
@@ -111,7 +111,7 @@ public class SpotAccountTradesList extends Trade {
 
     /**
      * Method to get {@link #orderListId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #orderListId} instance as long
      **/
@@ -121,7 +121,7 @@ public class SpotAccountTradesList extends Trade {
 
     /**
      * Method to get {@link #commission} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #commission} instance as double
      **/
@@ -142,7 +142,7 @@ public class SpotAccountTradesList extends Trade {
 
     /**
      * Method to get {@link #commissionAsset} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #commissionAsset} instance as {@link String}
      **/
@@ -152,7 +152,7 @@ public class SpotAccountTradesList extends Trade {
 
     /**
      * Method to get {@link #isMaker} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isMaker} instance as boolean
      **/

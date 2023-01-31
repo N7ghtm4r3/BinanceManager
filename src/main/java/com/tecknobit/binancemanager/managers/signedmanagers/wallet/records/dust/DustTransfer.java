@@ -57,7 +57,7 @@ public class DustTransfer {
 
     /**
      * Method to get {@link #totalServiceCharge} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #totalServiceCharge} instance as double
      **/
@@ -78,7 +78,7 @@ public class DustTransfer {
 
     /**
      * Method to get {@link #totalTransfered} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #totalTransfered} instance as double
      **/
@@ -99,7 +99,7 @@ public class DustTransfer {
 
     /**
      * Method to get {@link #transferResultsList} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #transferResultsList} instance as {@link ArrayList} of {@link DustItem}
      **/
@@ -148,7 +148,7 @@ public class DustTransfer {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

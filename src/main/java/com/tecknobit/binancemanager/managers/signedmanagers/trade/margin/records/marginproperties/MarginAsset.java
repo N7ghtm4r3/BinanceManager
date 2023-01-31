@@ -89,7 +89,7 @@ public class MarginAsset {
 
     /**
      * Method to get {@link #assetFullName} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #assetFullName} instance as {@link String}
      **/
@@ -99,7 +99,7 @@ public class MarginAsset {
 
     /**
      * Method to get {@link #assetName} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #assetName} instance as {@link String}
      **/
@@ -109,7 +109,7 @@ public class MarginAsset {
 
     /**
      * Method to get {@link #isBorrowable} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isBorrowable} instance as boolean
      **/
@@ -119,7 +119,7 @@ public class MarginAsset {
 
     /**
      * Method to get {@link #isMortgageable} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isMortgageable} instance as boolean
      **/
@@ -129,7 +129,7 @@ public class MarginAsset {
 
     /**
      * Method to get {@link #userMinBorrow} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #userMinBorrow} instance as double
      **/
@@ -150,7 +150,7 @@ public class MarginAsset {
 
     /**
      * Method to get {@link #userMinRepay} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #userMinRepay} instance as double
      **/
@@ -171,7 +171,7 @@ public class MarginAsset {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

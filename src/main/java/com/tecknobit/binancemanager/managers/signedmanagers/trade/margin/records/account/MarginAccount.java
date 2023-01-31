@@ -91,7 +91,7 @@ public class MarginAccount {
 
     /**
      * Method to get {@link #totalAssetOfBtc} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #totalAssetOfBtc} instance as double
      **/
@@ -124,7 +124,7 @@ public class MarginAccount {
 
     /**
      * Method to get {@link #totalLiabilityOfBtc} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #totalLiabilityOfBtc} instance as double
      **/
@@ -157,7 +157,7 @@ public class MarginAccount {
 
     /**
      * Method to get {@link #totalNetAssetOfBtc} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #totalNetAssetOfBtc} instance as double
      **/
@@ -190,7 +190,7 @@ public class MarginAccount {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

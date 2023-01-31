@@ -51,7 +51,7 @@ public class MarginMaxBorrow {
 
     /**
      * Method to get {@link #amount} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #amount} instance as double
      **/
@@ -85,7 +85,7 @@ public class MarginMaxBorrow {
 
     /**
      * Method to get {@link #borrowLimit} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #borrowLimit} instance as double
      **/
@@ -118,7 +118,7 @@ public class MarginMaxBorrow {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

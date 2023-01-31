@@ -180,4 +180,4 @@ If you want support project and developer with crypto: **0x5f63cc6d13b16dcf39cd8
 
 If you want support project and developer with <a href="https://www.paypal.com/donate/?hosted_button_id=5QMN5UQH7LDT4">PayPal</a>
 
-Copyright © 2022 Tecknobit
+Copyright © 2023 Tecknobit

@@ -1,13 +1,15 @@
 package com.tecknobit.binancemanager.managers.signedmanagers;
 
+import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.apimanager.apis.APIRequest;
-import com.tecknobit.apimanager.apis.APIRequest.RequestMethod;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 
 import java.io.IOException;
 
 import static com.tecknobit.apimanager.apis.APIRequest.HMAC_SHA256_ALGORITHM;
+import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.DELETE;
+import static com.tecknobit.apimanager.apis.APIRequest.getSignature;
 
 /**
  * The {@code BinanceSignedManager} class is useful to manage all signed binance requests
@@ -94,7 +96,7 @@ public class BinanceSignedManager extends BinanceManager {
 
     /**
      * Constructor to init a {@link BinanceSignedManager} <br>
-     * Any params required
+     * No-any params required
      *
      * @throws IllegalArgumentException when a parameterized constructor has not been called before this constructor
      * @apiNote this constructor is useful to instantiate a new {@link BinanceSignedManager}'s manager without re-insert
@@ -126,31 +128,102 @@ public class BinanceSignedManager extends BinanceManager {
     }
 
     /**
-     * Method to execute an SpotOrder request and get response of that
+     * Method to execute a get request and get response of that
+     *
+     * @param endpoint: endpoint to request
+     * @return response of the request
+     **/
+    @Wrapper
+    protected String sendGetSignedRequest(String endpoint) throws Exception {
+        return sendGetSignedRequest(endpoint, null);
+    }
+
+    /**
+     * Method to execute a get request and get response of that
+     *
+     * @param endpoint : endpoint to request
+     * @param params   :   params HTTP for the request
+     * @return response of the request
+     **/
+    protected String sendGetSignedRequest(String endpoint, String params) throws Exception {
+        APIRequest.Params mParams = new APIRequest.Params();
+        if (params == null)
+            params = "";
+        mParams.addParam("signature", getSignature(secretKey, params, HMAC_SHA256_ALGORITHM));
+        return sendGetRequest(endpoint, apiRequest.encodeAdditionalParams(params, mParams), apiKey);
+    }
+
+    /**
+     * Method to execute a delete request and get response of that
+     *
+     * @param endpoint: endpoint to request
+     * @return response of the request
+     **/
+    @Wrapper
+    protected String sendDeleteSignedRequest(String endpoint) throws Exception {
+        return sendDeleteSignedRequest(endpoint, (String) null);
+    }
+
+    /**
+     * Method to execute a delete request and get response of that
      *
      * @param endpoint: endpoint to request
      * @param params:   params HTTP for the request
-     * @param method:   method HTTP for the request
      * @return response of the request
      **/
-    protected String sendSignedRequest(String endpoint, String params, RequestMethod method) throws Exception {
-        APIRequest.Params mParams = new APIRequest.Params();
-        mParams.addParam("signature", APIRequest.getSignature(secretKey, params, HMAC_SHA256_ALGORITHM));
-        return getRequestResponse(endpoint, apiRequest.encodeAdditionalParams(params, mParams), method, apiKey);
+    @Wrapper
+    protected String sendDeleteSignedRequest(String endpoint, Params params) throws Exception {
+        if (params == null)
+            params = new Params();
+        return sendDeleteSignedRequest(endpoint, params.createQueryString());
     }
 
-    /** Method to get apiKey used <br>
-     * Any params required
+    /**
+     * Method to execute a delete request and get response of that
+     *
+     * @param endpoint: endpoint to request
+     * @param params:   params HTTP for the request
+     * @return response of the request
+     **/
+    protected String sendDeleteSignedRequest(String endpoint, String params) throws Exception {
+        APIRequest.Params mParams = new APIRequest.Params();
+        if (params == null)
+            params = "";
+        apiRequest.sendAPIRequest(baseEndpoint + endpoint + params, DELETE, "X-MBX-APIKEY", apiKey);
+        return apiRequest.getResponse();
+    }
+
+    /**
+     * Method to execute a signed post request
+     *
+     * @param endpoint: endpoint to request
+     * @param params:   params HTTP for the request
+     * @return response of the request
+     **/
+    protected String sendPostSignedRequest(String endpoint, Params params) throws Exception {
+        if (params == null)
+            params = new Params();
+        params.addParam("timestamp", getServerTime());
+        params.addParam("signature", getSignature(secretKey, params.createQueryString(), HMAC_SHA256_ALGORITHM));
+        return sendPostRequest(endpoint, params, apiKey);
+    }
+
+    /**
+     * Method to get apiKey used <br>
+     * No-any params required
+     *
      * @return apiKey
-     * **/
+     **/
     public String getApiKey() {
         return apiKey;
     }
 
-    /** Method to get secretKey used <br>
-     * Any params required
+    /**
+     * Method to get secretKey used <br>
+     * No-any params required
+     *
      * @return secretKey
-     * **/
+     **/
     public String getSecretKey() {
         return secretKey;
     }

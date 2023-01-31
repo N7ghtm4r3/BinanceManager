@@ -125,7 +125,7 @@ public class APIPermission {
 
     /**
      * Method to get {@link #ipRestrict} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #ipRestrict} instance as boolean
      **/
@@ -144,7 +144,7 @@ public class APIPermission {
 
     /**
      * Method to get {@link #createTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #createTime} instance as long
      **/
@@ -154,7 +154,7 @@ public class APIPermission {
 
     /**
      * Method to get {@link #createTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #createTime} instance as {@link Date}
      **/
@@ -164,7 +164,7 @@ public class APIPermission {
 
     /**
      * Method to get {@link #enableWithdrawals} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #enableWithdrawals} instance as boolean
      **/
@@ -183,7 +183,7 @@ public class APIPermission {
 
     /**
      * Method to get {@link #enableInternalTransfer} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #enableInternalTransfer} instance as boolean
      **/
@@ -202,7 +202,7 @@ public class APIPermission {
 
     /**
      * Method to get {@link #permitsUniversalTransfer} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #permitsUniversalTransfer} instance as boolean
      **/
@@ -221,7 +221,7 @@ public class APIPermission {
 
     /**
      * Method to get {@link #enableVanillaOptions} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #enableVanillaOptions} instance as boolean
      **/
@@ -240,7 +240,7 @@ public class APIPermission {
 
     /**
      * Method to get {@link #enableReading} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #enableReading} instance as boolean
      **/
@@ -259,7 +259,7 @@ public class APIPermission {
 
     /**
      * Method to get {@link #enableFutures} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #enableFutures} instance as boolean
      **/
@@ -278,7 +278,7 @@ public class APIPermission {
 
     /**
      * Method to get {@link #enableMargin} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #enableMargin} instance as boolean
      **/
@@ -297,7 +297,7 @@ public class APIPermission {
 
     /**
      * Method to get {@link #enableSpotAndMarginTrading} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #enableSpotAndMarginTrading} instance as boolean
      **/
@@ -316,7 +316,7 @@ public class APIPermission {
 
     /**
      * Method to get {@link #tradingAuthorityExpirationTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #tradingAuthorityExpirationTime} instance as long
      * @apiNote if {@code "tradingAuthorityExpirationTime"} = -1 means that is not set for this api key
@@ -327,7 +327,7 @@ public class APIPermission {
 
     /**
      * Method to get {@link #tradingAuthorityExpirationTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #tradingAuthorityExpirationTime} instance as {@link Date}
      * @apiNote if {@code "tradingAuthorityExpirationTime"} = -1 will be returned {@code "null"}
@@ -352,7 +352,7 @@ public class APIPermission {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

@@ -54,7 +54,7 @@ public class IsolatedMarginAccountLimit {
 
     /**
      * Method to get {@link #enabledAccount} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #enabledAccount} instance as int
      **/
@@ -76,7 +76,7 @@ public class IsolatedMarginAccountLimit {
 
     /**
      * Method to get {@link #maxAccount} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #maxAccount} instance as int
      **/
@@ -98,7 +98,7 @@ public class IsolatedMarginAccountLimit {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

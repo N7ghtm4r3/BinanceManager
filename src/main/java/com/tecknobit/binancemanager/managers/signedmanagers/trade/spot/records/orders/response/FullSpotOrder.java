@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response;
 
 import com.tecknobit.binancemanager.managers.BinanceManager.BinanceResponse;
+import com.tecknobit.binancemanager.managers.market.records.stats.ExchangeInformation.SelfTradePreventionMode;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Fill;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.details.SpotOrderDetails;
@@ -32,9 +33,11 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
      *
      * @param symbol                  : symbol used in the order
      * @param orderId                 : order identifier
-     * @param orderListId             : list order identifier
      * @param clientOrderId           : client order identifier
+     * @param orderListId             : list order identifier
      * @param transactTime            : transaction time
+     * @param preventedMatchId:       prevented match identifier
+     * @param preventedQuantity:      prevented quantity value
      * @param price                   : price in order
      * @param origQty                 : origin quantity in order
      * @param executedQty             : executed quantity in order
@@ -48,12 +51,14 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
      * @param trailingTime            : indicating the time when the trailing order is active and tracking price changes
      * @param fills:                  fills list
      **/
-    public FullSpotOrder(String symbol, long orderId, long orderListId, String clientOrderId, long transactTime,
-                         double price, double origQty, double executedQty, double cummulativeQuoteQty, Status status,
-                         TimeInForce timeInForce, OrderType type, Side side, long workingTime, String selfTradePreventionMode,
-                         long trailingTime, ArrayList<FillSpot> fills) {
-        super(symbol, orderId, orderListId, clientOrderId, transactTime, price, origQty, executedQty, cummulativeQuoteQty,
-                status, timeInForce, type, side, workingTime, selfTradePreventionMode, trailingTime);
+    public FullSpotOrder(String symbol, long orderId, String clientOrderId, long orderListId, long transactTime,
+                         long preventedMatchId, double preventedQuantity, double price, double origQty, double executedQty,
+                         double cummulativeQuoteQty, Status status, TimeInForce timeInForce, OrderType type, Side side,
+                         long workingTime, SelfTradePreventionMode selfTradePreventionMode, long trailingTime,
+                         ArrayList<FillSpot> fills) {
+        super(symbol, orderId, clientOrderId, orderListId, transactTime, preventedMatchId, preventedQuantity, price, origQty,
+                executedQty, cummulativeQuoteQty, status, timeInForce, type, side, workingTime, selfTradePreventionMode,
+                trailingTime);
         this.fills = fills;
     }
 
@@ -72,7 +77,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
 
     /**
      * Method to get {@link #fills} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #fills} instance as {@link ArrayList} of {@link FillSpot}
      **/
@@ -121,7 +126,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
 
     /**
      * Method to get error code <br>
-     * Any params required
+     * No-any params required
      *
      * @return code of error as int
      * *
@@ -136,7 +141,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
 
     /**
      * Method to get error message <br>
-     * Any params required
+     * No-any params required
      *
      * @return message of error as {@link String}
      * *
@@ -185,7 +190,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
 
         /**
          * Method to get {@link #tradeId} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #tradeId} instance as long
          **/

@@ -38,7 +38,7 @@ public class InterestHistoryList extends BinanceList<Interest> {
      **/
     public InterestHistoryList(JSONObject jsonHistory) {
         super(jsonHistory);
-        JSONArray jHistoryList = hList.getJSONArray("rows", new JSONArray());
+        JSONArray jHistoryList = hItem.getJSONArray("rows", new JSONArray());
         for (int j = 0; j < jHistoryList.length(); j++)
             rows.add(new Interest(jHistoryList.getJSONObject(j)));
     }
@@ -157,7 +157,7 @@ public class InterestHistoryList extends BinanceList<Interest> {
 
         /**
          * Method to get {@link #isolatedSymbol} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #isolatedSymbol} instance as {@link String}
          **/
@@ -167,7 +167,7 @@ public class InterestHistoryList extends BinanceList<Interest> {
 
         /**
          * Method to get {@link #asset} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
          **/
@@ -177,7 +177,7 @@ public class InterestHistoryList extends BinanceList<Interest> {
 
         /**
          * Method to get {@link #interest} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #interest} instance as double
          **/
@@ -210,7 +210,7 @@ public class InterestHistoryList extends BinanceList<Interest> {
 
         /**
          * Method to get {@link #total} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #total} instance as int
          **/
@@ -232,7 +232,7 @@ public class InterestHistoryList extends BinanceList<Interest> {
 
         /**
          * Method to get {@link #interestAccuredTime} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #interestAccuredTime} instance as {@link Date}
          **/
@@ -242,7 +242,7 @@ public class InterestHistoryList extends BinanceList<Interest> {
 
         /**
          * Method to get {@link #interestRate} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #interestRate} instance as double
          **/
@@ -275,7 +275,7 @@ public class InterestHistoryList extends BinanceList<Interest> {
 
         /**
          * Method to get {@link #principal} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #principal} instance as double
          **/
@@ -308,7 +308,7 @@ public class InterestHistoryList extends BinanceList<Interest> {
 
         /**
          * Method to get {@link #type} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #type} instance as {@link OptionType}
          **/
@@ -318,7 +318,7 @@ public class InterestHistoryList extends BinanceList<Interest> {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */

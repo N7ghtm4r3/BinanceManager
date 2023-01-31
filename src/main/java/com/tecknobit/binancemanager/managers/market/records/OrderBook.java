@@ -83,7 +83,7 @@ public class OrderBook {
 
     /**
      * Method to get {@link #lastUpdateId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #lastUpdateId} instance as long
      **/
@@ -93,7 +93,7 @@ public class OrderBook {
 
     /**
      * Method to get {@link #orderDetailsBids} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #orderDetailsBids} instance as {@link ArrayList} of {@link BookOrderDetails}
      **/
@@ -103,7 +103,7 @@ public class OrderBook {
 
     /**
      * Method to get {@link #orderDetailsAsks} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #orderDetailsAsks} instance as {@link ArrayList} of {@link BookOrderDetails}
      **/
@@ -113,7 +113,7 @@ public class OrderBook {
 
     /**
      * Method to get {@link #symbol} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
      **/
@@ -123,7 +123,7 @@ public class OrderBook {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */
@@ -170,7 +170,7 @@ public class OrderBook {
 
         /**
          * Method to get {@link #price} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #price} instance as double
          **/
@@ -191,7 +191,7 @@ public class OrderBook {
 
         /**
          * Method to get {@link #quantity} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #quantity} instance as double
          **/
@@ -212,7 +212,7 @@ public class OrderBook {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */

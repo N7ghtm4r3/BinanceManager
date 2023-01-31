@@ -183,7 +183,7 @@ public class SpotAccountInformation {
 
     /**
      * Method to get {@link #makerCommission} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #makerCommission} instance as double
      **/
@@ -216,7 +216,7 @@ public class SpotAccountInformation {
 
     /**
      * Method to get {@link #takerCommission} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #takerCommission} instance as double
      **/
@@ -249,7 +249,7 @@ public class SpotAccountInformation {
 
     /**
      * Method to get {@link #buyerCommission} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #buyerCommission} instance as double
      **/
@@ -282,7 +282,7 @@ public class SpotAccountInformation {
 
     /**
      * Method to get {@link #sellerCommission} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #sellerCommission} instance as double
      **/
@@ -315,7 +315,7 @@ public class SpotAccountInformation {
 
     /**
      * Method to get {@link #commissionRates} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #commissionRates} instance as {@link CommissionRates}
      **/
@@ -334,7 +334,7 @@ public class SpotAccountInformation {
 
     /**
      * Method to get {@link #canTrade} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #canTrade} instance as boolean
      **/
@@ -353,7 +353,7 @@ public class SpotAccountInformation {
 
     /**
      * Method to get {@link #canWithdraw} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #canWithdraw} instance as boolean
      **/
@@ -372,7 +372,7 @@ public class SpotAccountInformation {
 
     /**
      * Method to get {@link #canDeposit} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #canDeposit} instance as boolean
      **/
@@ -391,7 +391,7 @@ public class SpotAccountInformation {
 
     /**
      * Method to get {@link #brokered} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #brokered} instance as boolean
      **/
@@ -410,7 +410,7 @@ public class SpotAccountInformation {
 
     /**
      * Method to get {@link #updateTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #updateTime} instance as long
      **/
@@ -420,7 +420,7 @@ public class SpotAccountInformation {
 
     /**
      * Method to get {@link #updateTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #updateTime} instance as {@link Date}
      **/
@@ -442,7 +442,7 @@ public class SpotAccountInformation {
 
     /**
      * Method to get {@link #accountType} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #accountType} instance as {@link String}
      **/
@@ -452,7 +452,7 @@ public class SpotAccountInformation {
 
     /**
      * Method to get {@link #spotsListBalance} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #spotsListBalance} instance as {@link ArrayList} of {@link SpotBalance}
      **/
@@ -501,7 +501,7 @@ public class SpotAccountInformation {
 
     /**
      * Method to get {@link #permissionsList} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #permissionsList} instance as {@link ArrayList} of {@link Permission}
      **/
@@ -550,7 +550,7 @@ public class SpotAccountInformation {
 
     /**
      * Method to get {@link #requireSelfTradePrevention} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #requireSelfTradePrevention} instance as boolean
      **/
@@ -569,7 +569,7 @@ public class SpotAccountInformation {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */
@@ -603,7 +603,7 @@ public class SpotAccountInformation {
 
         /**
          * Method to get {@link #permission} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #permission} instance as {@link String}
          **/
@@ -613,7 +613,7 @@ public class SpotAccountInformation {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */
@@ -683,7 +683,7 @@ public class SpotAccountInformation {
 
         /**
          * Method to get {@link #maker} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #maker} instance as double
          **/
@@ -704,7 +704,7 @@ public class SpotAccountInformation {
 
         /**
          * Method to get {@link #taker} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #taker} instance as double
          **/
@@ -725,7 +725,7 @@ public class SpotAccountInformation {
 
         /**
          * Method to get {@link #buyer} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #buyer} instance as double
          **/
@@ -746,7 +746,7 @@ public class SpotAccountInformation {
 
         /**
          * Method to get {@link #seller} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #seller} instance as double
          **/
@@ -767,7 +767,7 @@ public class SpotAccountInformation {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */

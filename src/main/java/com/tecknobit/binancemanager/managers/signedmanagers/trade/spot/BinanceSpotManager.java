@@ -6,6 +6,7 @@ import com.tecknobit.apimanager.annotations.WrappedRequest;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
+import com.tecknobit.binancemanager.managers.market.records.stats.ExchangeInformation.SelfTradePreventionMode;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.OrderDetails;
@@ -94,7 +95,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
 
     /**
      * Constructor to init a {@link BinanceSpotManager} <br>
-     * Any params required
+     * No-any params required
      *
      * @throws IllegalArgumentException when a parameterized constructor has not been called before this constructor
      * @apiNote this constructor is useful to instantiate a new {@link BinanceSpotManager}'s manager without re-insert
@@ -145,9 +146,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                           <li>
      *                               {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                           </li>
-     *                         <li>
-     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                         </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
+     *                           <li>
+     *                               {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
      *                     </ul>
      * @return result of the operation <b>WITHOUT</b> buy or sell -> {@code "true"} is successful, {@code "false"} if not successful
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
@@ -208,9 +214,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                           <li>
      *                               {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                           </li>
-     *                         <li>
-     *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                         </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
+     *                           <li>
+     *                               {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
      *                     </ul>
      * @return result of the operation <b>WITHOUT</b> buy or sell -> {@code "true"} is successful, {@code "false"} if not successful
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
@@ -232,9 +243,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
     public boolean testNewOrder(String symbol, Side side, OrderType type, Params extraParams) throws Exception {
         if (extraParams == null)
             extraParams = new Params();
-        String params = getTimestampParam() + "&symbol=" + symbol + "&side=" + side + "&type=" + type;
-        return sendSignedRequest(SPOT_TEST_NEW_ORDER_ENDPOINT, apiRequest.encodeAdditionalParams(params, extraParams),
-                POST).equals("{}");
+        extraParams.addParam("symbol", symbol);
+        extraParams.addParam("timestamp", getServerTime());
+        extraParams.addParam("side", side);
+        extraParams.addParam("type", type);
+        return sendPostSignedRequest(SPOT_TEST_NEW_ORDER_ENDPOINT, extraParams).equals("{}");
     }
 
     /**
@@ -262,6 +275,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                           </li>
      *                           <li>
      *                               {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
+     *                           </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
      *                           </li>
      *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -316,6 +334,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                           </li>
      *                           <li>
      *                               {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
+     *                           </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
      *                           </li>
      *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -376,6 +399,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                           <li>
      *                               {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                           </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
      *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                         </li>
@@ -433,6 +461,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                           </li>
      *                           <li>
      *                               {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
+     *                           </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
      *                           </li>
      *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -494,6 +527,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                             </li>
      *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
+     *                           <li>
      *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                           </li>
      *                       </ul>
@@ -552,6 +590,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                             </li>
      *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
+     *                           <li>
      *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                           </li>
      *                       </ul>
@@ -606,6 +649,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -660,6 +708,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -715,6 +768,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -769,6 +827,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -825,6 +888,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                           <li>
      *                               {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                           </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
      *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                         </li>
@@ -880,6 +948,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -935,6 +1008,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -990,6 +1068,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -1043,6 +1126,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -1094,6 +1182,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -1146,6 +1239,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -1197,6 +1295,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -1251,6 +1354,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -1306,6 +1414,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -1361,6 +1474,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -1419,6 +1537,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                             </li>
      *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
+     *                           <li>
      *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                           </li>
      *                       </ul>
@@ -1471,6 +1594,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -1522,6 +1650,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                               on the symbol. The possible supported values are, constants available
+     *                               {@link SelfTradePreventionMode} - [STRING]
+     *                           </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -2702,10 +2835,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     private <T> T returnNewOrder(String symbol, Side side, OrderType type, OrderResponseType newOrderRespType,
                                  Params extraParams, ReturnFormat format) throws Exception {
+        Params payload = new Params();
+        extraParams.addParam("symbol", symbol);
+        extraParams.addParam("side", side);
+        extraParams.addParam("type", type);
+        extraParams.addParam("newOrderRespType", newOrderRespType);
         String params = getTimestampParam() + "&symbol=" + symbol + "&side=" + side + "&type=" + type
                 + "&newOrderRespType=" + newOrderRespType;
-        String orderResponse = sendSignedRequest(SPOT_ORDER_ENDPOINT, apiRequest.encodeAdditionalParams(params,
-                extraParams), POST);
+        String orderResponse = sendPostSignedRequest(SPOT_ORDER_ENDPOINT, extraParams);
         switch (format) {
             case JSON:
                 return (T) new JSONObject(orderResponse);
@@ -2836,8 +2973,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @RequestPath(method = DELETE, path = "/api/v3/order")
     public <T> T cancelOrder(String symbol, long orderId, ReturnFormat format) throws Exception {
-        return returnSpotOrderDetails(sendSignedRequest(SPOT_ORDER_ENDPOINT, getTimestampParam() + "&symbol=" +
-                symbol + "&orderId=" + orderId, DELETE), format);
+        return returnSpotOrderDetails(sendDeleteSignedRequest(SPOT_ORDER_ENDPOINT, getTimestampParam() + "&symbol="
+                + symbol + "&orderId=" + orderId), format);
     }
 
     /**
@@ -2891,8 +3028,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @RequestPath(method = DELETE, path = "/api/v3/order")
     public <T> T cancelOrder(String symbol, String origClientOrderId, ReturnFormat format) throws Exception {
-        return returnSpotOrderDetails(sendSignedRequest(SPOT_ORDER_ENDPOINT, getTimestampParam() + "&symbol=" +
-                symbol + "&origClientOrderId=" + origClientOrderId, DELETE), format);
+        return returnSpotOrderDetails(sendDeleteSignedRequest(SPOT_ORDER_ENDPOINT, getTimestampParam() + "&symbol="
+                + symbol + "&origClientOrderId=" + origClientOrderId), format);
     }
 
     /**
@@ -3066,9 +3203,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
     @WrappedRequest
     @RequestPath(method = DELETE, path = "/api/v3/order")
     public <T> T cancelOrder(String symbol, long orderId, Params extraParams, ReturnFormat format) throws Exception {
-        return returnSpotOrderDetails(sendSignedRequest(SPOT_ORDER_ENDPOINT,
-                apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol + "&orderId="
-                        + orderId, extraParams), DELETE), format);
+        return returnSpotOrderDetails(sendDeleteSignedRequest(SPOT_ORDER_ENDPOINT, apiRequest.encodeAdditionalParams(
+                getTimestampParam() + "&symbol=" + symbol + "&orderId=" + orderId, extraParams)), format);
     }
 
     /**
@@ -3151,9 +3287,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
     @RequestPath(method = DELETE, path = "/api/v3/order")
     public <T> T cancelOrder(String symbol, String origClientOrderId, Params extraParams,
                              ReturnFormat format) throws Exception {
-        return returnSpotOrderDetails(sendSignedRequest(SPOT_ORDER_ENDPOINT,
-                apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol +
-                        "&origClientOrderId=" + origClientOrderId, extraParams), DELETE), format);
+        return returnSpotOrderDetails(sendDeleteSignedRequest(SPOT_ORDER_ENDPOINT, apiRequest.encodeAdditionalParams(
+                getTimestampParam() + "&symbol=" + symbol + "&origClientOrderId=" + origClientOrderId,
+                extraParams)), format);
     }
 
     /**
@@ -3220,8 +3356,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @RequestPath(method = DELETE, path = "/api/v3/openOrders")
     public <T> T cancelAllOpenOrders(String symbol, ReturnFormat format) throws Exception {
-        return returnOpenSpotOrders(sendSignedRequest(SPOT_OPEN_ORDERS_ENDPOINT, getTimestampParam() + "&symbol="
-                + symbol, DELETE), format);
+        return returnOpenSpotOrders(sendDeleteSignedRequest(SPOT_OPEN_ORDERS_ENDPOINT, getTimestampParam()
+                + "&symbol=" + symbol), format);
     }
 
     /** Request to cancel all open orders on a symbol
@@ -3273,8 +3409,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @RequestPath(method = DELETE, path = "/api/v3/openOrders")
     public <T> T cancelAllOpenOrders(String symbol, long recvWindow, ReturnFormat format) throws Exception {
-        return returnOpenSpotOrders(sendSignedRequest(SPOT_OPEN_ORDERS_ENDPOINT, getTimestampParam() + "&symbol="
-                + symbol + "&recvWindow=" + recvWindow, DELETE), format);
+        return returnOpenSpotOrders(sendDeleteSignedRequest(SPOT_OPEN_ORDERS_ENDPOINT, getTimestampParam() + "&symbol="
+                + symbol + "&recvWindow=" + recvWindow), format);
     }
 
     /**
@@ -3398,8 +3534,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/order")
     public <T> T getOrderStatus(String symbol, long orderId, ReturnFormat format) throws Exception {
-        return returnOrderStatus(sendSignedRequest(SPOT_ORDER_ENDPOINT, getTimestampParam() + "&symbol=" + symbol
-                + "&orderId=" + orderId, GET), format);
+        return returnOrderStatus(sendGetSignedRequest(SPOT_ORDER_ENDPOINT, getTimestampParam() + "&symbol=" + symbol
+                + "&orderId=" + orderId), format);
     }
 
     /** Request to get status of an order
@@ -3451,8 +3587,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/order")
     public <T> T getOrderStatus(String symbol, String origClientOrderId, ReturnFormat format) throws Exception {
-        return returnOrderStatus(sendSignedRequest(SPOT_ORDER_ENDPOINT, getTimestampParam() + "&symbol=" + symbol
-                + "&origClientOrderId=" + origClientOrderId, GET), format);
+        return returnOrderStatus(sendGetSignedRequest(SPOT_ORDER_ENDPOINT, getTimestampParam() + "&symbol=" + symbol
+                + "&origClientOrderId=" + origClientOrderId), format);
     }
 
     /**
@@ -3560,8 +3696,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/order")
     public <T> T getOrderStatus(String symbol, long orderId, long recvWindow, ReturnFormat format) throws Exception {
-        return returnOrderStatus(sendSignedRequest(SPOT_ORDER_ENDPOINT, getTimestampParam() + "&symbol=" + symbol
-                + "&orderId=" + orderId + "&recvWindow=" + recvWindow, GET), format);
+        return returnOrderStatus(sendGetSignedRequest(SPOT_ORDER_ENDPOINT, getTimestampParam() + "&symbol=" + symbol
+                + "&orderId=" + orderId + "&recvWindow=" + recvWindow), format);
     }
 
     /** Request to get status of an order
@@ -3616,8 +3752,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
     @RequestPath(method = GET, path = "/api/v3/order")
     public <T> T getOrderStatus(String symbol, String origClientOrderId, long recvWindow,
                                 ReturnFormat format) throws Exception {
-        return returnOrderStatus(sendSignedRequest(SPOT_ORDER_ENDPOINT, getTimestampParam() + "&symbol=" + symbol +
-                "&origClientOrderId=" + origClientOrderId + "&recvWindow=" + recvWindow, GET), format);
+        return returnOrderStatus(sendGetSignedRequest(SPOT_ORDER_ENDPOINT, getTimestampParam() + "&symbol=" + symbol +
+                "&origClientOrderId=" + origClientOrderId + "&recvWindow=" + recvWindow), format);
     }
 
     /**
@@ -3664,9 +3800,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
@@ -3718,9 +3859,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return result of cancellation of an order and creation of a new order as {@code "format"} defines
@@ -3774,9 +3920,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
@@ -3829,9 +3980,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return result of cancellation of an order and creation of a new order as {@code "format"} defines
@@ -3886,9 +4042,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
@@ -3940,9 +4101,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return result of cancellation of an order and creation of a new order as {@code "format"} defines
@@ -3996,9 +4162,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
@@ -4051,9 +4222,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return result of cancellation of an order and creation of a new order as {@code "format"} defines
@@ -4107,9 +4283,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
@@ -4162,9 +4343,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return result of cancellation of an order and creation of a new order as {@code "format"} defines
@@ -4217,9 +4403,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
@@ -4273,9 +4464,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return result of cancellation of an order and creation of a new order as {@code "format"} defines
@@ -4329,9 +4525,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
@@ -4385,9 +4586,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return result of cancellation of an order and creation of a new order as {@code "format"} defines
@@ -4442,9 +4648,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
@@ -4497,9 +4708,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return result of cancellation of an order and creation of a new order as {@code "format"} defines
@@ -4553,9 +4769,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
@@ -4609,9 +4830,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return result of cancellation of an order and creation of a new order as {@code "format"} defines
@@ -4667,9 +4893,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
@@ -4726,9 +4957,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return result of cancellation of an order and creation of a new order as {@code "format"} defines
@@ -4785,9 +5021,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
@@ -4844,9 +5085,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return result of cancellation of an order and creation of a new order as {@code "format"} defines
@@ -4901,9 +5147,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @return result of cancellation of an order and creation of a new order as {@link SpotOrderCAS} custom object
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
@@ -4956,9 +5207,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                 <li>
      *                                     {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                                 </li>
-     *                               <li>
-     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                               </li>
+     *                                 <li>
+     *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                     on the symbol. The possible supported values are, constants available
+     *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                 </li>
      *                           </ul>
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return result of cancellation of an order and creation of a new order as {@code "format"} defines
@@ -4999,10 +5255,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
     @Returner
     private <T> T cancelAndSendOrder(String symbol, Side side, OrderType type, ReplaceMode cancelReplaceMode,
                                      Params extraParams, ReturnFormat format) throws Exception {
-        String query = getTimestampParam() + "&symbol=" + symbol + "&side=" + side + "&type=" + type + "&cancelReplaceMode="
-                + cancelReplaceMode;
-        String opeResponse = sendSignedRequest(CANCEL_AND_SEND_ORDER_ENDPOINT, apiRequest.encodeAdditionalParams(query,
-                extraParams), POST);
+        extraParams.addParam("symbol", symbol);
+        extraParams.addParam("side", side);
+        extraParams.addParam("type", type);
+        extraParams.addParam("cancelReplaceMode", cancelReplaceMode);
+        String opeResponse = sendPostSignedRequest(CANCEL_AND_SEND_ORDER_ENDPOINT, extraParams);
         switch (format) {
             case JSON:
                 return (T) new JSONObject(opeResponse);
@@ -5015,7 +5272,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
 
     /**
      * Request to get current open orders list <br>
-     * Any params required
+     * No-any params required
      *
      * @return current open orders list as {@link ArrayList} of {@link SpotOrderStatus}
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
@@ -5061,7 +5318,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/openOrders")
     public <T> T getCurrentOpenOrders(ReturnFormat format) throws Exception {
-        return returnOrdersList(sendSignedRequest(SPOT_OPEN_ORDERS_ENDPOINT, getTimestampParam(), GET), format);
+        return returnOrdersList(sendGetSignedRequest(SPOT_OPEN_ORDERS_ENDPOINT, getTimestampParam()), format);
     }
 
     /**
@@ -5127,8 +5384,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/openOrders")
     public <T> T getCurrentOpenOrders(Params extraParams, ReturnFormat format) throws Exception {
-        return returnOrdersList(sendSignedRequest(SPOT_OPEN_ORDERS_ENDPOINT,
-                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET), format);
+        return returnOrdersList(sendGetSignedRequest(SPOT_OPEN_ORDERS_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams)), format);
     }
 
     /** Request to get all orders list
@@ -5178,8 +5435,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/allOrders")
     public <T> T getAllOrders(String symbol, ReturnFormat format) throws Exception {
-        return returnOrdersList(sendSignedRequest(SPOT_ALL_ORDERS_LIST_ENDPOINT, getTimestampParam() + "&symbol="
-                + symbol, GET), format);
+        return returnOrdersList(sendGetSignedRequest(SPOT_ALL_ORDERS_LIST_ENDPOINT, getTimestampParam() + "&symbol="
+                + symbol), format);
     }
 
     /**
@@ -5257,9 +5514,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/allOrders")
     public <T> T getAllOrders(String symbol, Params extraParams, ReturnFormat format) throws Exception {
-        return returnOrdersList(sendSignedRequest(SPOT_ALL_ORDERS_LIST_ENDPOINT,
-                apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol, extraParams),
-                GET), format);
+        return returnOrdersList(sendGetSignedRequest(SPOT_ALL_ORDERS_LIST_ENDPOINT, apiRequest.encodeAdditionalParams(
+                getTimestampParam() + "&symbol=" + symbol, extraParams)), format);
     }
 
     /**
@@ -5341,9 +5597,12 @@ public class BinanceSpotManager extends BinanceSignedManager {
     @RequestPath(method = POST, path = "/api/v3/order/oco")
     public <T> T sendNewOCOOrder(String symbol, Side side, double price, double stopPrice,
                                  ReturnFormat format) throws Exception {
-        return returnComposedOrderDetails(sendSignedRequest(SPOT_OCO_ORDER_ENDPOINT, getTimestampParam() +
-                        "&symbol=" + symbol + "&side=" + side + "&price=" + price + "&stopPrice=" + stopPrice, POST),
-                format);
+        Params payload = new Params();
+        payload.addParam("symbol", symbol);
+        payload.addParam("side", side);
+        payload.addParam("price", price);
+        payload.addParam("stopPrice", stopPrice);
+        return returnComposedOrderDetails(sendPostSignedRequest(SPOT_OCO_ORDER_ENDPOINT, payload), format);
     }
 
     /**
@@ -5409,9 +5668,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
     @RequestPath(method = POST, path = "/api/v3/order/oco")
     public <T> T sendNewOCOOrder(String symbol, Side side, double price, double stopPrice, double stopLimitPrice,
                                  TimeInForce stopLimitTimeInForce, ReturnFormat format) throws Exception {
-        return returnComposedOrderDetails(sendSignedRequest(SPOT_OCO_ORDER_ENDPOINT, getTimestampParam() +
-                "&symbol=" + symbol + "&side=" + side + "&price=" + price + "&stopPrice=" + stopPrice + "&stopLimitPrice="
-                + stopLimitPrice + "&stopLimitTimeInForce=" + stopLimitTimeInForce, POST), format);
+        Params payload = new Params();
+        payload.addParam("symbol", symbol);
+        payload.addParam("side", side);
+        payload.addParam("price", price);
+        payload.addParam("stopPrice", stopPrice);
+        payload.addParam("stopLimitPrice", stopLimitPrice);
+        payload.addParam("stopLimitTimeInForce", stopLimitTimeInForce);
+        return returnComposedOrderDetails(sendPostSignedRequest(SPOT_OCO_ORDER_ENDPOINT, payload), format);
     }
 
     /** Request to send new oco order
@@ -5465,9 +5729,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
-     *                       <li>
-     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                       </li>
+     *                         <li>
+     *                             {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                             on the symbol. The possible supported values are, constants available
+     *                             {@link SelfTradePreventionMode} - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
      *                   </ul>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade">
      *     New OCO (TRADE)</a>
@@ -5544,9 +5813,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
-     *                       <li>
-     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                       </li>
+     *                         <li>
+     *                             {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                             on the symbol. The possible supported values are, constants available
+     *                             {@link SelfTradePreventionMode} - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
      *                   </ul>
      * @param format:         return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade">
@@ -5569,9 +5843,11 @@ public class BinanceSpotManager extends BinanceSignedManager {
     @RequestPath(method = POST, path = "/api/v3/order/oco")
     public <T> T sendNewOCOOrder(String symbol, Side side, double price, double stopPrice, Params extraParams,
                                  ReturnFormat format) throws Exception {
-        return returnComposedOrderDetails(sendSignedRequest(SPOT_OCO_ORDER_ENDPOINT,
-                apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol + "&side=" +
-                        side + "&price=" + price + "&stopPrice=" + stopPrice, extraParams), POST), format);
+        extraParams.addParam("symbol", symbol);
+        extraParams.addParam("side", side);
+        extraParams.addParam("price", price);
+        extraParams.addParam("stopPrice", stopPrice);
+        return returnComposedOrderDetails(sendPostSignedRequest(SPOT_OCO_ORDER_ENDPOINT, extraParams), format);
     }
 
     /** Request to send new oco order
@@ -5621,9 +5897,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
-     *                       <li>
-     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                       </li>
+     *                         <li>
+     *                             {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                             on the symbol. The possible supported values are, constants available
+     *                             {@link SelfTradePreventionMode} - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
      *                   </ul>
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade">
      *     New OCO (TRADE)</a>
@@ -5698,9 +5979,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         <li>
      *                             {@code "newOrderRespType"} -> response type, constants {@link OrderResponseType} - [STRING]
      *                         </li>
-     *                       <li>
-     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                       </li>
+     *                         <li>
+     *                             {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                             on the symbol. The possible supported values are, constants available
+     *                             {@link SelfTradePreventionMode} - [STRING]
+     *                         </li>
+     *                         <li>
+     *                             {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                         </li>
      *                   </ul>
      * @param format:         return type formatter -> {@link ReturnFormat}
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-oco-trade">
@@ -5724,10 +6010,13 @@ public class BinanceSpotManager extends BinanceSignedManager {
     public <T> T sendNewOCOOrder(String symbol, Side side, double price, double stopPrice, double stopLimitPrice,
                                  TimeInForce stopLimitTimeInForce, Params extraParams,
                                  ReturnFormat format) throws Exception {
-        return returnComposedOrderDetails(sendSignedRequest(SPOT_OCO_ORDER_ENDPOINT,
-                apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol + "&side=" +
-                        side + "&price=" + price + "&stopPrice=" + stopPrice + "&stopLimitPrice=" + stopLimitPrice +
-                        "&stopLimitTimeInForce=" + stopLimitTimeInForce, extraParams), POST), format);
+        extraParams.addParam("symbol", symbol);
+        extraParams.addParam("side", side);
+        extraParams.addParam("price", price);
+        extraParams.addParam("stopPrice", stopPrice);
+        extraParams.addParam("stopLimitPrice", stopLimitPrice);
+        extraParams.addParam("stopLimitTimeInForce", stopLimitTimeInForce);
+        return returnComposedOrderDetails(sendPostSignedRequest(SPOT_OCO_ORDER_ENDPOINT, extraParams), format);
     }
 
     /** Request to cancel all OCO orders
@@ -5777,8 +6066,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @RequestPath(method = DELETE, path = "/api/v3/orderList")
     public <T> T cancelAllOCOOrders(String symbol, long orderListId, ReturnFormat format) throws Exception {
-        return returnComposedOrderDetails(sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() +
-                "&symbol=" + symbol + "&orderListId=" + orderListId, DELETE), format);
+        return returnComposedOrderDetails(sendDeleteSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() +
+                "&symbol=" + symbol + "&orderListId=" + orderListId), format);
     }
 
     /** Request to cancel all OCO orders
@@ -5830,8 +6119,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @RequestPath(method = DELETE, path = "/api/v3/orderList")
     public <T> T cancelAllOCOOrders(String symbol, String listClientOrderId, ReturnFormat format) throws Exception {
-        return returnComposedOrderDetails(sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() +
-                "&symbol=" + symbol + "&listClientOrderId=" + listClientOrderId, DELETE), format);
+        return returnComposedOrderDetails(sendDeleteSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() +
+                "&symbol=" + symbol + "&listClientOrderId=" + listClientOrderId), format);
     }
 
     /** Request to cancel all OCO orders
@@ -5904,9 +6193,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
     @RequestPath(method = DELETE, path = "/api/v3/orderList")
     public <T> T cancelAllOCOOrders(String symbol, long orderListId, Params extraParams,
                                     ReturnFormat format) throws Exception {
-        return returnComposedOrderDetails(sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,
+        return returnComposedOrderDetails(sendDeleteSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,
                 apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol +
-                        "&orderListId=" + orderListId, extraParams), DELETE), format);
+                        "&orderListId=" + orderListId, extraParams)), format);
     }
 
     /**
@@ -5984,9 +6273,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
     @RequestPath(method = DELETE, path = "/api/v3/orderList")
     public <T> T cancelAllOCOOrders(String symbol, String listClientOrderId, Params extraParams,
                                     ReturnFormat format) throws Exception {
-        return returnComposedOrderDetails(sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,
+        return returnComposedOrderDetails(sendDeleteSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,
                 apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol +
-                        "&listClientOrderId=" + listClientOrderId, extraParams), DELETE), format);
+                        "&listClientOrderId=" + listClientOrderId, extraParams)), format);
     }
 
     /**
@@ -6058,8 +6347,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/orderList")
     public <T> T getOCOOrderStatus(String symbol, long orderListId, ReturnFormat format) throws Exception {
-        return returnOrderStatus(sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() + "&symbol="
-                + symbol + "&orderListId=" + orderListId, GET), format);
+        return returnOrderStatus(sendGetSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() + "&symbol="
+                + symbol + "&orderListId=" + orderListId), format);
     }
 
     /**
@@ -6109,8 +6398,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/orderList")
     public <T> T getOCOOrderStatus(String symbol, long orderListId, long recvWindow, ReturnFormat format) throws Exception {
-        return returnOCOOrderStatus(sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() + "&symbol="
-                + symbol + "&orderListId=" + orderListId + "&recvWindow=" + recvWindow, GET), format);
+        return returnOCOOrderStatus(sendGetSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() + "&symbol="
+                + symbol + "&orderListId=" + orderListId + "&recvWindow=" + recvWindow), format);
     }
 
     /** Request to get OCO order status
@@ -6163,8 +6452,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/orderList")
     public <T> T getOCOOrderStatus(String symbol, String listClientOrderId, ReturnFormat format) throws Exception {
-        return returnOCOOrderStatus(sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() + "&symbol="
-                + symbol + "&listClientOrderId=" + listClientOrderId, GET), format);
+        return returnOCOOrderStatus(sendGetSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() + "&symbol="
+                + symbol + "&listClientOrderId=" + listClientOrderId), format);
     }
 
     /**
@@ -6219,9 +6508,9 @@ public class BinanceSpotManager extends BinanceSignedManager {
     @RequestPath(method = GET, path = "/api/v3/orderList")
     public <T> T getOCOOrderStatus(String symbol, String listClientOrderId, long recvWindow,
                                    ReturnFormat format) throws Exception {
-        return returnOCOOrderStatus(sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() +
-                        "&symbol=" + symbol + "&listClientOrderId=" + listClientOrderId + "&recvWindow=" + recvWindow,
-                GET), format);
+        return returnOCOOrderStatus(sendGetSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() +
+                        "&symbol=" + symbol + "&listClientOrderId=" + listClientOrderId + "&recvWindow=" + recvWindow),
+                format);
     }
 
     /**
@@ -6245,7 +6534,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
 
     /**
      * Request to get OCO order status list <br>
-     * Any params required
+     * No-any params required
      *
      * @return OCO order status list response as {@link ArrayList} of {@link OrderDetails}
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
@@ -6289,8 +6578,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/allOrderList")
     public <T> T getAllOCOOrders(ReturnFormat format) throws Exception {
-        return returnOCOOrdersList(sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam(), GET),
-                format);
+        return returnOCOOrdersList(sendGetSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam()), format);
     }
 
     /** Request to get OCO order status list
@@ -6344,8 +6632,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/allOrderList")
     public <T> T getAllOCOOrders(long fromId, String timeParam, long timeParamValue, ReturnFormat format) throws Exception {
-        return returnOCOOrdersList(sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() +
-                "&fromId=" + fromId + "&" + timeParam + "=" + timeParamValue, GET), format);
+        return returnOCOOrdersList(sendGetSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() +
+                "&fromId=" + fromId + "&" + timeParam + "=" + timeParamValue), format);
     }
 
     /** Request to get OCO order status list
@@ -6421,8 +6709,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/allOrderList")
     public <T> T getAllOCOOrders(Params extraParams, ReturnFormat format) throws Exception {
-        return returnOCOOrdersList(sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,
-                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams), GET), format);
+        return returnOCOOrdersList(sendGetSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,
+                apiRequest.encodeAdditionalParams(getTimestampParam(), extraParams)), format);
     }
 
     /**
@@ -6510,14 +6798,14 @@ public class BinanceSpotManager extends BinanceSignedManager {
     @RequestPath(method = GET, path = "/api/v3/allOrderList")
     public <T> T getAllOCOOrders(long fromId, String timeParam, long timeParamValue, Params extraParams,
                                  ReturnFormat format) throws Exception {
-        return returnOCOOrdersList(sendSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,
-                apiRequest.encodeAdditionalParams(getTimestampParam() + "&fromId=" + fromId + "&" +
-                        timeParam + "=" + timeParamValue, extraParams), GET), format);
+        return returnOCOOrdersList(sendGetSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, apiRequest.encodeAdditionalParams(
+                getTimestampParam() + "&fromId=" + fromId + "&" + timeParam + "=" + timeParamValue,
+                extraParams)), format);
     }
 
     /**
      * Request to get open OCO order list <br>
-     * Any params required
+     * No-any params required
      *
      * @return OCO order status list response as {@link ArrayList} of {@link OrderDetails}
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
@@ -6561,8 +6849,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/openOrderList")
     public <T> T getOpenOCOOrders(ReturnFormat format) throws Exception {
-        return returnOCOOrdersList(sendSignedRequest(SPOT_OCO_OPEN_ORDER_LIST_ENDPOINT, getTimestampParam(),
-                GET), format);
+        return returnOCOOrdersList(sendGetSignedRequest(SPOT_OCO_OPEN_ORDER_LIST_ENDPOINT, getTimestampParam()), format);
     }
 
     /**
@@ -6612,8 +6899,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/openOrderList")
     public <T> T getOpenOCOOrders(long recvWindow, ReturnFormat format) throws Exception {
-        return returnOCOOrdersList(sendSignedRequest(SPOT_OCO_OPEN_ORDER_LIST_ENDPOINT, getTimestampParam() +
-                "&recvWindow=" + recvWindow, GET), format);
+        return returnOCOOrdersList(sendGetSignedRequest(SPOT_OCO_OPEN_ORDER_LIST_ENDPOINT, getTimestampParam()
+                + "&recvWindow=" + recvWindow), format);
     }
 
     /**
@@ -6641,7 +6928,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
 
     /**
      * Request to get spot account information <br>
-     * Any params required
+     * No-any params required
      *
      * @return spot account information response as  {@link SpotAccountInformation} custom object
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
@@ -6687,8 +6974,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/account")
     public <T> T getSpotAccountInformation(ReturnFormat format) throws Exception {
-        return returnAccountInformation(sendSignedRequest(SPOT_ACCOUNT_INFORMATION_ENDPOINT, getTimestampParam(),
-                GET), format);
+        return returnAccountInformation(sendGetSignedRequest(SPOT_ACCOUNT_INFORMATION_ENDPOINT, getTimestampParam()), format);
     }
 
     /** Request to get spot account information
@@ -6736,8 +7022,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/account")
     public <T> T getSpotAccountInformation(double recvWindow, ReturnFormat format) throws Exception {
-        return returnAccountInformation(sendSignedRequest(SPOT_ACCOUNT_INFORMATION_ENDPOINT, getTimestampParam()
-                + "&recvWindow=" + recvWindow, GET), format);
+        return returnAccountInformation(sendGetSignedRequest(SPOT_ACCOUNT_INFORMATION_ENDPOINT, getTimestampParam()
+                + "&recvWindow=" + recvWindow), format);
     }
 
     /**
@@ -6808,8 +7094,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/myTrades")
     public <T> T getAccountTradesList(String symbol, ReturnFormat format) throws Exception {
-        return returnTradesList(sendSignedRequest(SPOT_ACCOUNT_TRADE_LIST_ENDPOINT, getTimestampParam() +
-                "&symbol=" + symbol, GET), format);
+        return returnTradesList(sendGetSignedRequest(SPOT_ACCOUNT_TRADE_LIST_ENDPOINT, getTimestampParam() +
+                "&symbol=" + symbol), format);
     }
 
     /**
@@ -6903,9 +7189,8 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/myTrades")
     public <T> T getAccountTradesList(String symbol, Params extraParams, ReturnFormat format) throws Exception {
-        return returnTradesList(sendSignedRequest(SPOT_ACCOUNT_TRADE_LIST_ENDPOINT,
-                apiRequest.encodeAdditionalParams(getTimestampParam() + "&symbol=" + symbol, extraParams),
-                GET), format);
+        return returnTradesList(sendGetSignedRequest(SPOT_ACCOUNT_TRADE_LIST_ENDPOINT, apiRequest.encodeAdditionalParams(
+                getTimestampParam() + "&symbol=" + symbol, extraParams)), format);
     }
 
     /**
@@ -6933,7 +7218,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
 
     /**
      * Request to get current order count usage <br>
-     * Any params required
+     * No-any params required
      *
      * @return current order count usage response as {@link ArrayList} of {@link OrderCountUsage}
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
@@ -6977,8 +7262,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/rateLimit/order")
     public <T> T getCurrentOrderCountUsage(ReturnFormat format) throws Exception {
-        return returnCountUsageList(sendSignedRequest(SPOT_ACCOUNT_CURRENT_ORDER_COUNT_USAGE, getTimestampParam(),
-                GET), format);
+        return returnCountUsageList(sendGetSignedRequest(SPOT_ACCOUNT_CURRENT_ORDER_COUNT_USAGE, getTimestampParam()), format);
     }
 
     /** Request to get current order count usage
@@ -7026,10 +7310,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/rateLimit/order")
     public <T> T getCurrentOrderCountUsage(long recvWindow, ReturnFormat format) throws Exception {
-        return returnCountUsageList(sendSignedRequest(SPOT_ACCOUNT_CURRENT_ORDER_COUNT_USAGE,
-                getTimestampParam() + "&recvWindow=" + recvWindow, GET), format);
+        return returnCountUsageList(sendGetSignedRequest(SPOT_ACCOUNT_CURRENT_ORDER_COUNT_USAGE,
+                getTimestampParam() + "&recvWindow=" + recvWindow), format);
     }
-    
+
     /**
      * Method to create a count usage list
      *
@@ -7050,6 +7334,108 @@ public class BinanceSpotManager extends BinanceSignedManager {
                 return (T) orderCountUsages;
             default:
                 return (T) countUsageResponse;
+        }
+    }
+
+    /**
+     * Request to get prevented matches
+     *
+     * @param symbol:      symbol of the prevented matches to fetch
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "preventedMatchId"} -> prevented match identifier - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "orderId"} -> this can only be used in combination with symbol - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromPreventedMatchId"} -> from prevented match identifier - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> limit results, max 1000 - [INT, default 500]
+     *                           </li>
+     *                          <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                          </li>
+     *                     </ul>
+     * @return prevented matches as {@link ArrayList} of {@link PreventedMatch} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-order-count-usage-trade">
+     * Query Prevented Matches (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/api/v3/myPreventedMatches")
+    public ArrayList<PreventedMatch> getPreventedMatches(String symbol, Params extraParams) throws Exception {
+        return getPreventedMatches(symbol, extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get prevented matches
+     *
+     * @param symbol:      symbol of the prevented matches to fetch
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "preventedMatchId"} -> prevented match identifier - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "orderId"} -> this can only be used in combination with symbol - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "fromPreventedMatchId"} -> from prevented match identifier - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> limit results, max 1000 - [INT, default 500]
+     *                           </li>
+     *                          <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                          </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return prevented matches as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-order-count-usage-trade">
+     * Query Prevented Matches (USER_DATA)</a>
+     **/
+    @Returner
+    @RequestPath(method = GET, path = "/api/v3/myPreventedMatches")
+    public <T> T getPreventedMatches(String symbol, Params extraParams, ReturnFormat format) throws Exception {
+        String preventedMatchesResponse = sendGetSignedRequest(MY_PREVENTED_MATCHES, apiRequest.encodeAdditionalParams(
+                getTimestampParam() + "&symbol=" + symbol, extraParams));
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(preventedMatchesResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<PreventedMatch> preventedMatches = new ArrayList<>();
+                JSONArray jPreventedMatches = new JSONArray(preventedMatchesResponse);
+                for (int j = 0; j < jPreventedMatches.length(); j++)
+                    preventedMatches.add(new PreventedMatch(jPreventedMatches.getJSONObject(j)));
+                return (T) preventedMatches;
+            default:
+                return (T) preventedMatchesResponse;
         }
     }
 

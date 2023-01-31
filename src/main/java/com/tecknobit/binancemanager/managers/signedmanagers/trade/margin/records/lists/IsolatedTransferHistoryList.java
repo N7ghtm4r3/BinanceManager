@@ -36,7 +36,7 @@ public class IsolatedTransferHistoryList extends BinanceList<IsolatedTransferHis
      **/
     public IsolatedTransferHistoryList(JSONObject jsonTransfer) {
         super(jsonTransfer);
-        JSONArray jTransfers = hList.getJSONArray("rows", new JSONArray());
+        JSONArray jTransfers = hItem.getJSONArray("rows", new JSONArray());
         for (int j = 0; j < jTransfers.length(); j++)
             rows.add(new IsolatedTransfer(jTransfers.getJSONObject(j)));
     }
@@ -116,7 +116,7 @@ public class IsolatedTransferHistoryList extends BinanceList<IsolatedTransferHis
 
         /**
          * Method to get {@link #amount} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #amount} instance as double
          **/
@@ -137,7 +137,7 @@ public class IsolatedTransferHistoryList extends BinanceList<IsolatedTransferHis
 
         /**
          * Method to get {@link #transFrom} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #transFrom} instance as {@link String}
          **/
@@ -147,7 +147,7 @@ public class IsolatedTransferHistoryList extends BinanceList<IsolatedTransferHis
 
         /**
          * Method to get {@link #transTo} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #transTo} instance as {@link String}
          **/

@@ -103,7 +103,7 @@ public class PaymentRefundHistory extends BinanceList<PaymentRefund> {
 
         /**
          * Method to get {@link #createTime} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #createTime} instance as long
          **/
@@ -113,7 +113,7 @@ public class PaymentRefundHistory extends BinanceList<PaymentRefund> {
 
         /**
          * Method to get {@link #type} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #type} instance as int
          **/
@@ -123,7 +123,7 @@ public class PaymentRefundHistory extends BinanceList<PaymentRefund> {
 
         /**
          * Method to get {@link #asset} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
          **/
@@ -133,7 +133,7 @@ public class PaymentRefundHistory extends BinanceList<PaymentRefund> {
 
         /**
          * Method to get {@link #amount} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #amount} instance as double
          **/

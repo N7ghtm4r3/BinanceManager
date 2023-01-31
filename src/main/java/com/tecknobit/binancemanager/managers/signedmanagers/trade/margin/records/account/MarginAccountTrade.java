@@ -104,7 +104,7 @@ public class MarginAccountTrade extends Fill {
 
     /**
      * Method to get {@link #id} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #id} instance as long
      **/
@@ -114,7 +114,7 @@ public class MarginAccountTrade extends Fill {
 
     /**
      * Method to get {@link #isBestMatch} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isBestMatch} instance as boolean
      **/
@@ -133,7 +133,7 @@ public class MarginAccountTrade extends Fill {
 
     /**
      * Method to get {@link #isBuyer} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isBuyer} instance as boolean
      **/
@@ -152,7 +152,7 @@ public class MarginAccountTrade extends Fill {
 
     /**
      * Method to get {@link #isMaker} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isMaker} instance as boolean
      **/
@@ -171,7 +171,7 @@ public class MarginAccountTrade extends Fill {
 
     /**
      * Method to get {@link #orderId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #orderId} instance as long
      **/
@@ -181,7 +181,7 @@ public class MarginAccountTrade extends Fill {
 
     /**
      * Method to get {@link #symbol} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
      **/
@@ -191,7 +191,7 @@ public class MarginAccountTrade extends Fill {
 
     /**
      * Method to get {@link #isIsolated} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isIsolated} instance as boolean
      **/
@@ -210,7 +210,7 @@ public class MarginAccountTrade extends Fill {
 
     /**
      * Method to get {@link #time} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #time} instance as long
      **/
@@ -220,7 +220,7 @@ public class MarginAccountTrade extends Fill {
 
     /**
      * Method to get {@link #time} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #time} instance as {@link Date}
      **/

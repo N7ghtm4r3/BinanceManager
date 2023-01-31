@@ -101,7 +101,7 @@ public class IsolatedMarginTierData {
 
     /**
      * Method to get {@link #symbol} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
      **/
@@ -111,7 +111,7 @@ public class IsolatedMarginTierData {
 
     /**
      * Method to get {@link #tier} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #tier} instance as int
      **/
@@ -132,7 +132,7 @@ public class IsolatedMarginTierData {
 
     /**
      * Method to get {@link #effectiveMultiple} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #effectiveMultiple} instance as double
      **/
@@ -153,7 +153,7 @@ public class IsolatedMarginTierData {
 
     /**
      * Method to get {@link #initialRiskRatio} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #initialRiskRatio} instance as double
      **/
@@ -174,7 +174,7 @@ public class IsolatedMarginTierData {
 
     /**
      * Method to get {@link #liquidationRiskRatio} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #liquidationRiskRatio} instance as double
      **/
@@ -195,7 +195,7 @@ public class IsolatedMarginTierData {
 
     /**
      * Method to get {@link #baseAssetMaxBorrowable} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #baseAssetMaxBorrowable} instance as double
      **/
@@ -216,7 +216,7 @@ public class IsolatedMarginTierData {
 
     /**
      * Method to get {@link #quoteAssetMaxBorrowable} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #quoteAssetMaxBorrowable} instance as double
      **/
@@ -237,7 +237,7 @@ public class IsolatedMarginTierData {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

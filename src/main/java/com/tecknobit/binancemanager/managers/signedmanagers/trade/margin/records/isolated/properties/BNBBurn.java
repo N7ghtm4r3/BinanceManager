@@ -43,7 +43,7 @@ public class BNBBurn {
 
     /**
      * Method to get {@link #spotBNBBurn} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #spotBNBBurn} instance as boolean
      **/
@@ -53,7 +53,7 @@ public class BNBBurn {
 
     /**
      * Method to get {@link #interestBNBBurn} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #interestBNBBurn} instance as boolean
      **/
@@ -63,7 +63,7 @@ public class BNBBurn {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

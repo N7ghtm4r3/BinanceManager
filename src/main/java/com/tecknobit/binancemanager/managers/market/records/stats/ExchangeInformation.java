@@ -6,8 +6,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
+import static com.tecknobit.binancemanager.managers.market.records.stats.ExchangeInformation.Filter.FilterType;
 import static com.tecknobit.binancemanager.managers.market.records.stats.ExchangeInformation.Filter.FilterType.valueOf;
 
 /**
@@ -102,8 +104,7 @@ public class ExchangeInformation {
 
     /**
      * Method to assemble an RateLimits list <br>
-     * Any params required
-     *
+     * No-any params required
      **/
     private void assembleRateLimits() {
         rateLimits = new ArrayList<>();
@@ -114,7 +115,7 @@ public class ExchangeInformation {
 
     /**
      * Method to assemble a Symbols list <br>
-     * Any params required
+     * No-any params required
      **/
     private void assembleSymbols() {
         symbols = new ArrayList<>();
@@ -125,7 +126,7 @@ public class ExchangeInformation {
 
     /**
      * Method to get {@link #timezone} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #timezone} instance as {@link String}
      **/
@@ -135,7 +136,7 @@ public class ExchangeInformation {
 
     /**
      * Method to get {@link #serverTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #serverTime} instance as long
      **/
@@ -145,7 +146,7 @@ public class ExchangeInformation {
 
     /**
      * Method to get {@link #rateLimits} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #rateLimits} instance as {@link ArrayList} of {@link RateLimit}
      **/
@@ -155,7 +156,7 @@ public class ExchangeInformation {
 
     /**
      * Method to get {@link #exchangeFilters} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #exchangeFilters} instance as {@link ArrayList} of {@link Filter}
      **/
@@ -164,8 +165,33 @@ public class ExchangeInformation {
     }
 
     /**
+     * Method to get {@link #symbols} list filtered <br>
+     *
+     * @param symbols: filter symbols to fetch
+     * @return {@link #symbols} list filtered as {@link ArrayList} of {@link Symbol} if the symbols requested are
+     * multiple, if is a single one will be returned as {@link Symbol}
+     **/
+    public <T> T getSymbols(String... symbols) {
+        if (symbols != null && symbols.length > 0) {
+            ArrayList<Symbol> fSymbols = new ArrayList<>();
+            ArrayList<String> lSymbols = new ArrayList<>(Arrays.stream(symbols).toList());
+            for (Symbol symbol : this.symbols)
+                if (lSymbols.contains(symbol.getSymbol()))
+                    fSymbols.add(symbol);
+            int fSize = fSymbols.size();
+            if (fSize > 0) {
+                if (fSize > 1)
+                    return (T) fSymbols;
+                else
+                    return (T) fSymbols.get(0);
+            }
+        }
+        return null;
+    }
+
+    /**
      * Method to get {@link #symbols} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #symbols} instance as {@link ArrayList} of {@link Symbol}
      **/
@@ -175,7 +201,7 @@ public class ExchangeInformation {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */
@@ -239,7 +265,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #intervalNum} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #intervalNum} instance as int
          **/
@@ -249,7 +275,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #limit} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #limit} instance as int
          **/
@@ -259,7 +285,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #interval} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #interval} instance as {@link RateLimitInterval}
          **/
@@ -269,7 +295,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #rateLimitType} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #rateLimitType} instance as {@link RateLimitType}
          **/
@@ -279,7 +305,7 @@ public class ExchangeInformation {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */
@@ -430,12 +456,12 @@ public class ExchangeInformation {
         /**
          * {@code defaultSelfTradePreventionMode} is instance that contains the default self trade prevention mode
          **/
-        private final String defaultSelfTradePreventionMode;
+        private final SelfTradePreventionMode defaultSelfTradePreventionMode;
 
         /**
          * {@code allowedSelfTradePreventionModes} is instance that contains allowed self trade prevention modes
          **/
-        private final ArrayList<String> allowedSelfTradePreventionModes;
+        private final ArrayList<SelfTradePreventionMode> allowedSelfTradePreventionModes;
 
         /**
          * Constructor to init {@link Symbol} object
@@ -463,8 +489,9 @@ public class ExchangeInformation {
                       int baseAssetPrecision, String quoteAsset, int quotePrecision, int quoteAssetPrecision,
                       ArrayList<String> orderTypes, boolean icebergAllowed, boolean ocoAllowed,
                       boolean isSpotTradingAllowed, boolean isMarginTradingAllowed, ArrayList<Filter> filters,
-                      ArrayList<String> permissions, int baseCommissionPrecision, String defaultSelfTradePreventionMode,
-                      ArrayList<String> allowedSelfTradePreventionModes) {
+                      ArrayList<String> permissions, int baseCommissionPrecision,
+                      SelfTradePreventionMode defaultSelfTradePreventionMode,
+                      ArrayList<SelfTradePreventionMode> allowedSelfTradePreventionModes) {
             this.symbol = symbol;
             this.quoteOrderQtyMarketAllowed = quoteOrderQtyMarketAllowed;
             this.status = status;
@@ -508,9 +535,11 @@ public class ExchangeInformation {
             filters = returnFilters(hSymbol.getJSONArray("filters", new JSONArray()));
             permissions = returnEnumsList(hSymbol.getJSONArray("permissions", new JSONArray()));
             baseCommissionPrecision = hSymbol.getInt("baseCommissionPrecision");
-            defaultSelfTradePreventionMode = hSymbol.getString("defaultSelfTradePreventionMode");
-            allowedSelfTradePreventionModes = returnEnumsList(hSymbol.getJSONArray("allowedSelfTradePreventionModes",
-                    new JSONArray()));
+            defaultSelfTradePreventionMode = SelfTradePreventionMode.valueOf(hSymbol.getString("defaultSelfTradePreventionMode"));
+            allowedSelfTradePreventionModes = new ArrayList<>();
+            JSONArray jModes = hSymbol.getJSONArray("allowedSelfTradePreventionModes", new JSONArray());
+            for (int j = 0; j < jModes.length(); j++)
+                allowedSelfTradePreventionModes.add(SelfTradePreventionMode.valueOf(jModes.getString(j)));
         }
 
         /**
@@ -529,7 +558,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #symbol} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #symbol} instance as {@link String}
          **/
@@ -539,7 +568,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #quoteOrderQtyMarketAllowed} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #quoteOrderQtyMarketAllowed} instance as boolean
          **/
@@ -549,7 +578,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #status} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #status} instance as {@link String}
          **/
@@ -559,7 +588,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #baseAsset} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #baseAsset} instance as {@link String}
          **/
@@ -569,7 +598,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #baseAssetPrecision} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #baseAssetPrecision} instance as int
          **/
@@ -579,7 +608,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #quoteAsset} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #quoteAsset} instance as {@link String}
          **/
@@ -589,7 +618,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #quotePrecision} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #quotePrecision} instance as int
          **/
@@ -599,7 +628,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #quoteAssetPrecision} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #quoteAssetPrecision} instance as int
          **/
@@ -609,7 +638,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #orderTypes} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #orderTypes} instance as {@link ArrayList} of {@link String}
          **/
@@ -629,7 +658,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #icebergAllowed} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #icebergAllowed} instance as boolean
          **/
@@ -639,7 +668,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #ocoAllowed} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #ocoAllowed} instance as boolean
          **/
@@ -649,7 +678,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #isSpotTradingAllowed} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #isSpotTradingAllowed} instance as boolean
          **/
@@ -659,7 +688,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #isMarginTradingAllowed} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #isMarginTradingAllowed} instance as boolean
          **/
@@ -668,8 +697,33 @@ public class ExchangeInformation {
         }
 
         /**
+         * Method to get {@link #filters} list filtered <br>
+         *
+         * @param types: list of types to filter the list
+         * @return {@link #filters} instance as {@link ArrayList} of {@link Filter} if types are multiple, if
+         * type is a single one will be returned the filter as {@link Filter}
+         **/
+        public <T> T getFiltersList(FilterType... types) {
+            if (types != null && types.length > 0) {
+                ArrayList<Filter> filters = new ArrayList<>();
+                ArrayList<FilterType> lTypes = new ArrayList<>(Arrays.stream(types).toList());
+                for (Filter filter : this.filters)
+                    if (lTypes.contains(filter.getFilterType()))
+                        filters.add(filter);
+                int fSize = filters.size();
+                if (fSize > 0) {
+                    if (fSize > 1)
+                        return (T) filters;
+                    else
+                        return (T) filters.get(0);
+                }
+            }
+            return null;
+        }
+
+        /**
          * Method to get {@link #filters} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #filters} instance as {@link ArrayList} of {@link Filter}
          **/
@@ -689,7 +743,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #permissions} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #permissions} instance as {@link ArrayList} of {@link String}
          **/
@@ -709,21 +763,21 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #defaultSelfTradePreventionMode} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #defaultSelfTradePreventionMode} instance as {@link String}
          **/
-        public String getDefaultSelfTradePreventionMode() {
+        public SelfTradePreventionMode getDefaultSelfTradePreventionMode() {
             return defaultSelfTradePreventionMode;
         }
 
         /**
          * Method to get {@link #allowedSelfTradePreventionModes} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #allowedSelfTradePreventionModes} instance as {@link ArrayList} of {@link String}
          **/
-        public ArrayList<String> getAllowedSelfTradePreventionModes() {
+        public ArrayList<SelfTradePreventionMode> getAllowedSelfTradePreventionModes() {
             return allowedSelfTradePreventionModes;
         }
 
@@ -733,13 +787,13 @@ public class ExchangeInformation {
          * @param index: index from fetch the allowed self trade prevention mode
          * @return allowed self trade prevention mode as {@link String}
          **/
-        public String getAllowedSelfTradePreventionMode(int index) {
+        public SelfTradePreventionMode getAllowedSelfTradePreventionMode(int index) {
             return allowedSelfTradePreventionModes.get(index);
         }
 
         /**
          * Method to get {@link #baseCommissionPrecision} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #baseCommissionPrecision} instance as int
          **/
@@ -749,7 +803,7 @@ public class ExchangeInformation {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */
@@ -795,7 +849,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #keys} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #keys} instance as {@link ArrayList} of {@link String}
          **/
@@ -805,7 +859,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #values} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #values} instance as {@link ArrayList}
          **/
@@ -815,7 +869,7 @@ public class ExchangeInformation {
 
         /**
          * Method to get {@link #filterType} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #filterType} instance as {@link FilterType}
          **/
@@ -824,8 +878,35 @@ public class ExchangeInformation {
         }
 
         /**
+         * Method to get filter details list filtered<br>
+         *
+         * @param valuesKey: list of values key to fetch
+         * @return filter details as {@link HashMap} of {@link FilterDetails} or if is a single
+         * filter requested as {@link FilterDetails}
+         **/
+        public <T> T getFilterDetails(String... valuesKey) {
+            if (valuesKey != null && valuesKey.length > 0) {
+                HashMap<String, FilterDetails> filterDetails = new HashMap<>();
+                ArrayList<String> vKeys = new ArrayList<>(Arrays.stream(valuesKey).toList());
+                for (int j = 0; j < keys.size(); j++) {
+                    String key = keys.get(j);
+                    if (vKeys.contains(key))
+                        filterDetails.put(key, new FilterDetails(key, values.get(j)));
+                }
+                int size = filterDetails.size();
+                if (size > 0) {
+                    if (size > 1)
+                        return (T) filterDetails;
+                    else
+                        return (T) filterDetails.get(valuesKey[0]);
+                }
+            }
+            return null;
+        }
+
+        /**
          * Method to get filter details list <br>
-         * Any params required
+         * No-any params required
          *
          * @return filter details as {@link HashMap} of {@link FilterDetails}
          **/
@@ -840,7 +921,7 @@ public class ExchangeInformation {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */
@@ -928,10 +1009,12 @@ public class ExchangeInformation {
              * **/
             private final Object value;
 
-            /** Constructor to init {@link Filter.FilterDetails} object
-             * @param key: key of the filter
+            /**
+             * Constructor to init {@link FilterDetails} object
+             *
+             * @param key:   key of the filter
              * @param value: value of the filter
-             * **/
+             **/
             public FilterDetails(String key, Object value) {
                 this.key = key;
                 this.value = value;
@@ -939,7 +1022,7 @@ public class ExchangeInformation {
 
             /**
              * Method to get {@link #key} instance <br>
-             * Any params required
+             * No-any params required
              *
              * @return {@link #key} instance as {@link String}
              **/
@@ -949,7 +1032,7 @@ public class ExchangeInformation {
 
             /**
              * Method to get {@link #value} instance <br>
-             * Any params required
+             * No-any params required
              *
              * @return {@link #value} instance as {@link Object}
              **/
@@ -959,7 +1042,7 @@ public class ExchangeInformation {
 
             /**
              * Returns a string representation of the object <br>
-             * Any params required
+             * No-any params required
              *
              * @return a string representation of the object as {@link String}
              */
@@ -996,6 +1079,33 @@ public class ExchangeInformation {
          * The {@code "LEVERAGED"}  exchange permission
          **/
         LEVERAGED
+
+    }
+
+    /**
+     * The {@code SelfTradePreventionMode} list of available self trade prevention modes
+     **/
+    public enum SelfTradePreventionMode {
+
+        /**
+         * The {@code EXPIRE_TAKER} self trade prevention mode
+         **/
+        EXPIRE_TAKER,
+
+        /**
+         * The {@code EXPIRE_MAKER} self trade prevention mode
+         **/
+        EXPIRE_MAKER,
+
+        /**
+         * The {@code EXPIRE_BOTH} self trade prevention mode
+         **/
+        EXPIRE_BOTH,
+
+        /**
+         * The {@code NONE} self trade prevention mode
+         **/
+        NONE
 
     }
 

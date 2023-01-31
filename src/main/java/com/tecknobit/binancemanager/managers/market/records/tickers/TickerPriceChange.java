@@ -167,7 +167,7 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #bidPrice} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #bidPrice} instance as double
      * @implSpec if this ticket has been created with {@link ResponseType#MINI} type response this instance will be return
@@ -193,10 +193,11 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #bidQty} instance <br>
-     * Any params required
+     * No-any params required
+     *
+     * @return {@link #bidQty} instance as double
      * @implSpec if this ticket has been created with {@link ResponseType#MINI} type response this instance will be return
      * 0 by default
-     * @return {@link #bidQty} instance as double
      **/
     @Override
     public double getBidQty() {
@@ -218,10 +219,11 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #askPrice} instance <br>
-     * Any params required
+     * No-any params required
+     *
+     * @return {@link #askPrice} instance as double
      * @implSpec if this ticket has been created with {@link ResponseType#MINI} type response this instance will be return
      * 0 by default
-     * @return {@link #askPrice} instance as double
      **/
     @Override
     public double getAskPrice() {
@@ -243,7 +245,7 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #askQty} instance <br>
-     * Any params required
+     * No-any params required
      * @implSpec if this ticket has been created with {@link ResponseType#MINI} type response this instance will be return
      * 0 by default
      * @return {@link #askQty} instance as double
@@ -268,7 +270,7 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #priceChange} instance <br>
-     * Any params required
+     * No-any params required
      * @implSpec if this ticket has been created with {@link ResponseType#MINI} type response this instance will be return
      * 0 by default
      * @return {@link #priceChange} instance as double
@@ -291,7 +293,7 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #priceChangePercent} instance <br>
-     * Any params required
+     * No-any params required
      * @implSpec if this ticket has been created with {@link ResponseType#MINI} type response this instance will be return
      * 0 by default
      * @return {@link #priceChangePercent} instance as double
@@ -314,7 +316,7 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #weightedAvgPrice} instance <br>
-     * Any params required
+     * No-any params required
      * @implSpec if this ticket has been created with {@link ResponseType#MINI} type response this instance will be return
      * 0 by default
      * @return {@link #weightedAvgPrice} instance as double
@@ -337,7 +339,7 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #prevClosePrice} instance <br>
-     * Any params required
+     * No-any params required
      * @implSpec if this ticket has been created with {@link ResponseType#MINI} type response this instance will be return
      * 0 by default
      * @return {@link #prevClosePrice} instance as double
@@ -361,7 +363,7 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #lastPrice} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #lastPrice} instance as double
      **/
@@ -381,7 +383,7 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #lastQty} instance <br>
-     * Any params required
+     * No-any params required
      * @implSpec if this ticket has been created with {@link ResponseType#MINI} type response this instance will be return
      * 0 by default
      * @return {@link #lastQty} instance as double
@@ -405,7 +407,7 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #openPrice} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #openPrice} instance as double
      **/
@@ -426,7 +428,7 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #highPrice} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #highPrice} instance as double
      **/
@@ -447,7 +449,7 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #lowPrice} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #lowPrice} instance as double
      **/
@@ -468,7 +470,7 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #volume} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #volume} instance as double
      **/
@@ -489,7 +491,7 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #quoteVolume} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #quoteVolume} instance as double
      **/
@@ -510,7 +512,7 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #openTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #openTime} instance as long
      **/
@@ -520,7 +522,7 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #closeTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #closeTime} instance as long
      **/
@@ -530,7 +532,7 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #firstId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #firstId} instance as long
      **/
@@ -540,7 +542,7 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #lastId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #lastId} instance as long
      **/
@@ -550,7 +552,7 @@ public class TickerPriceChange extends OrderBookTicker {
 
     /**
      * Method to get {@link #count} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #count} instance as int
      **/

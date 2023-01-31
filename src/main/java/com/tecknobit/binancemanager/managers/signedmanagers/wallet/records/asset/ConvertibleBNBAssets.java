@@ -70,7 +70,7 @@ public class ConvertibleBNBAssets {
 
     /**
      * Method to get {@link #assetsDetailsList} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #assetsDetailsList} instance as {@link ArrayList} of {@link ConvertibleAssetDetails}
      **/
@@ -119,7 +119,7 @@ public class ConvertibleBNBAssets {
 
     /**
      * Method to get {@link #totalTransferBtc} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #totalTransferBtc} instance as double
      **/
@@ -152,7 +152,7 @@ public class ConvertibleBNBAssets {
 
     /**
      * Method to get {@link #totalTransferBNB} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #totalTransferBNB} instance as double
      **/
@@ -185,7 +185,7 @@ public class ConvertibleBNBAssets {
 
     /**
      * Method to get {@link #dribbletPercentage} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #dribbletPercentage} instance as double
      **/
@@ -218,7 +218,7 @@ public class ConvertibleBNBAssets {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */
@@ -321,7 +321,7 @@ public class ConvertibleBNBAssets {
 
         /**
          * Method to get {@link #asset} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
          **/
@@ -331,7 +331,7 @@ public class ConvertibleBNBAssets {
 
         /**
          * Method to get {@link #assetFullName} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #assetFullName} instance as {@link String}
          **/
@@ -341,7 +341,7 @@ public class ConvertibleBNBAssets {
 
         /**
          * Method to get {@link #amountFree} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #amountFree} instance as double
          **/
@@ -374,7 +374,7 @@ public class ConvertibleBNBAssets {
 
         /**
          * Method to get {@link #toBTC} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #toBTC} instance as double
          **/
@@ -407,7 +407,7 @@ public class ConvertibleBNBAssets {
 
         /**
          * Method to get {@link #toBNB} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #toBNB} instance as double
          **/
@@ -440,7 +440,7 @@ public class ConvertibleBNBAssets {
 
         /**
          * Method to get {@link #toBNBOffExchange} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #toBNBOffExchange} instance as double
          **/
@@ -473,7 +473,7 @@ public class ConvertibleBNBAssets {
 
         /**
          * Method to get {@link #exchange} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #exchange} instance as double
          **/
@@ -506,7 +506,7 @@ public class ConvertibleBNBAssets {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */

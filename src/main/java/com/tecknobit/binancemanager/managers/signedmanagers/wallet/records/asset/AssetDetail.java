@@ -89,7 +89,7 @@ public class AssetDetail {
 
     /**
      * Method to get {@link #assetName} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #assetName} instance as {@link String}
      **/
@@ -99,7 +99,7 @@ public class AssetDetail {
 
     /**
      * Method to get {@link #minWithdrawAmount} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #minWithdrawAmount} instance as double
      **/
@@ -120,7 +120,7 @@ public class AssetDetail {
 
     /**
      * Method to get {@link #depositStatus} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #depositStatus} instance as boolean
      **/
@@ -130,7 +130,7 @@ public class AssetDetail {
 
     /**
      * Method to get {@link #withdrawFee} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #withdrawFee} instance as double
      **/
@@ -151,7 +151,7 @@ public class AssetDetail {
 
     /**
      * Method to get {@link #withdrawStatus} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #withdrawStatus} instance as boolean
      **/
@@ -161,7 +161,7 @@ public class AssetDetail {
 
     /**
      * Method to get {@link #depositTip} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #depositTip} instance as {@link String}
      **/
@@ -171,7 +171,7 @@ public class AssetDetail {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

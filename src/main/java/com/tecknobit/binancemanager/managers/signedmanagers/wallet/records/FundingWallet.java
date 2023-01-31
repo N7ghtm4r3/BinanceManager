@@ -90,7 +90,7 @@ public class FundingWallet {
 
     /**
      * Method to get {@link #asset} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #asset} instance as {@link String}
      **/
@@ -100,7 +100,7 @@ public class FundingWallet {
 
     /**
      * Method to get {@link #free} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #free} instance as double
      **/
@@ -133,7 +133,7 @@ public class FundingWallet {
 
     /**
      * Method to get {@link #locked} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #locked} instance as double
      **/
@@ -166,7 +166,7 @@ public class FundingWallet {
 
     /**
      * Method to get {@link #freeze} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #freeze} instance as double
      **/
@@ -199,7 +199,7 @@ public class FundingWallet {
 
     /**
      * Method to get {@link #withdrawing} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #withdrawing} instance as int
      **/
@@ -221,7 +221,7 @@ public class FundingWallet {
 
     /**
      * Method to get {@link #btcValuation} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #btcValuation} instance as double
      **/
@@ -254,7 +254,7 @@ public class FundingWallet {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.details;
 
 import com.tecknobit.binancemanager.managers.BinanceManager.BinanceResponse;
+import com.tecknobit.binancemanager.managers.market.records.stats.ExchangeInformation.SelfTradePreventionMode;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.ACKSpotOrder;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.ResultSpotOrder;
@@ -33,9 +34,11 @@ public class SpotOrderDetails extends ResultSpotOrder implements BinanceResponse
      *
      * @param symbol                  : symbol used in the order
      * @param orderId                 : order identifier
-     * @param orderListId             : list order identifier
      * @param clientOrderId           : client order identifier
+     * @param orderListId             : list order identifier
      * @param transactTime            : transaction time
+     * @param preventedMatchId:       prevented match identifier
+     * @param preventedQuantity:      prevented quantity value
      * @param price                   : price in order
      * @param origQty                 : origin quantity in order
      * @param executedQty             : executed quantity in order
@@ -49,12 +52,14 @@ public class SpotOrderDetails extends ResultSpotOrder implements BinanceResponse
      * @param trailingTime            : indicating the time when the trailing order is active and tracking price changes
      * @param origClientOrderId:      origin client order id
      **/
-    public SpotOrderDetails(String symbol, long orderId, long orderListId, String clientOrderId, long transactTime,
-                            double price, double origQty, double executedQty, double cummulativeQuoteQty, Status status,
-                            TimeInForce timeInForce, OrderType type, Side side, long workingTime, String selfTradePreventionMode,
-                            long trailingTime, String origClientOrderId) {
-        super(symbol, orderId, orderListId, clientOrderId, transactTime, price, origQty, executedQty, cummulativeQuoteQty,
-                status, timeInForce, type, side, workingTime, selfTradePreventionMode, trailingTime);
+    public SpotOrderDetails(String symbol, long orderId, String clientOrderId, long orderListId, long transactTime,
+                            long preventedMatchId, double preventedQuantity, double price, double origQty, double executedQty,
+                            double cummulativeQuoteQty, Status status, TimeInForce timeInForce, OrderType type, Side side,
+                            long workingTime, SelfTradePreventionMode selfTradePreventionMode, long trailingTime,
+                            String origClientOrderId) {
+        super(symbol, orderId, clientOrderId, orderListId, transactTime, preventedMatchId, preventedQuantity, price,
+                origQty, executedQty, cummulativeQuoteQty, status, timeInForce, type, side, workingTime,
+                selfTradePreventionMode, trailingTime);
         this.origClientOrderId = origClientOrderId;
     }
 
@@ -88,7 +93,7 @@ public class SpotOrderDetails extends ResultSpotOrder implements BinanceResponse
 
     /**
      * Method to get stopPrice <br>
-     * Any params required
+     * No-any params required
      *
      * @return stopPrice as double, if is a null field will return -1
      **/
@@ -96,17 +101,19 @@ public class SpotOrderDetails extends ResultSpotOrder implements BinanceResponse
         return hOrder.getDouble("stopPrice", -1);
     }
 
-    /** Method to get icebergQty <br>
-     * Any params required
+    /**
+     * Method to get icebergQty <br>
+     * No-any params required
+     *
      * @return icebergQty as double, if is a null field will return -1
-     * **/
+     **/
     public double getIcebergQty() {
         return hOrder.getDouble("icebergQty", -1);
     }
 
     /**
      * Method to get error code <br>
-     * Any params required
+     * No-any params required
      *
      * @return code of error as int
      * *
@@ -121,7 +128,7 @@ public class SpotOrderDetails extends ResultSpotOrder implements BinanceResponse
 
     /**
      * Method to get error message <br>
-     * Any params required
+     * No-any params required
      *
      * @return message of error as {@link String}
      * *

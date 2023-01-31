@@ -86,7 +86,7 @@ public class CrossMarginAccountDetails extends MarginAccount {
 
     /**
      * Method to get {@link #borrowEnabled} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #borrowEnabled} instance as boolean
      **/
@@ -96,7 +96,7 @@ public class CrossMarginAccountDetails extends MarginAccount {
 
     /**
      * Method to get {@link #marginLevel} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #marginLevel} instance as double
      **/
@@ -106,7 +106,7 @@ public class CrossMarginAccountDetails extends MarginAccount {
 
     /**
      * Method to get {@link #tradeEnabled} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #tradeEnabled} instance as boolean
      **/
@@ -116,7 +116,7 @@ public class CrossMarginAccountDetails extends MarginAccount {
 
     /**
      * Method to get {@link #transferEnabled} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #transferEnabled} instance as boolean
      **/
@@ -126,7 +126,7 @@ public class CrossMarginAccountDetails extends MarginAccount {
 
     /**
      * Method to get {@link #userMarginAssets} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #userMarginAssets} instance as {@link ArrayList} of {@link UserMarginAsset}
      **/

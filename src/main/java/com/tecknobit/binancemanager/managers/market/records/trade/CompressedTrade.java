@@ -96,7 +96,7 @@ public class CompressedTrade {
 
     /**
      * Method to get {@link #aggregateTradeId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #aggregateTradeId} instance as long
      **/
@@ -106,7 +106,7 @@ public class CompressedTrade {
 
     /**
      * Method to get {@link #price} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #price} instance as double
      **/
@@ -127,7 +127,7 @@ public class CompressedTrade {
 
     /**
      * Method to get {@link #quantity} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #quantity} instance as double
      **/
@@ -148,7 +148,7 @@ public class CompressedTrade {
 
     /**
      * Method to get {@link #firstTradeId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #firstTradeId} instance as long
      **/
@@ -158,7 +158,7 @@ public class CompressedTrade {
 
     /**
      * Method to get {@link #lastTradeId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #lastTradeId} instance as long
      **/
@@ -168,7 +168,7 @@ public class CompressedTrade {
 
     /**
      * Method to get {@link #timestamp} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #timestamp} instance as long
      **/
@@ -178,7 +178,7 @@ public class CompressedTrade {
 
     /**
      * Method to get {@link #timestamp} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #timestamp} instance as {@link Date}
      **/
@@ -188,7 +188,7 @@ public class CompressedTrade {
 
     /**
      * Method to get {@link #isBuyerMaker} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isBuyerMaker} instance as boolean
      **/
@@ -198,7 +198,7 @@ public class CompressedTrade {
 
     /**
      * Method to get {@link #isBestMatch} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isBestMatch} instance as boolean
      **/
@@ -208,7 +208,7 @@ public class CompressedTrade {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

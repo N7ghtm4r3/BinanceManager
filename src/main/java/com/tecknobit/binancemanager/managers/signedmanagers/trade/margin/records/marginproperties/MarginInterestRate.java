@@ -80,7 +80,7 @@ public class MarginInterestRate {
 
     /**
      * Method to get {@link #asset} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #asset} instance as {@link String}
      **/
@@ -90,7 +90,7 @@ public class MarginInterestRate {
 
     /**
      * Method to get {@link #dailyInterestRate} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #dailyInterestRate} instance as double
      **/
@@ -111,7 +111,7 @@ public class MarginInterestRate {
 
     /**
      * Method to get {@link #timestamp} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #timestamp} instance as long
      **/
@@ -121,7 +121,7 @@ public class MarginInterestRate {
 
     /**
      * Method to get {@link #timestamp} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #timestamp} instance as {@link Date}
      **/
@@ -131,7 +131,7 @@ public class MarginInterestRate {
 
     /**
      * Method to get {@link #vipLevel} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #vipLevel} instance as int
      **/
@@ -141,7 +141,7 @@ public class MarginInterestRate {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

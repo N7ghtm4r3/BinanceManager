@@ -75,7 +75,7 @@ public class IsolatedMarginFee {
 
     /**
      * Method to get {@link #vipLevel} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #vipLevel} instance as int
      **/
@@ -85,7 +85,7 @@ public class IsolatedMarginFee {
 
     /**
      * Method to get {@link #symbol} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
      **/
@@ -95,7 +95,7 @@ public class IsolatedMarginFee {
 
     /**
      * Method to get {@link #leverage} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #leverage} instance as int
      **/
@@ -105,7 +105,7 @@ public class IsolatedMarginFee {
 
     /**
      * Method to get {@link #isolatedDataList} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isolatedDataList} instance as {@link ArrayList} of {@link IsolatedData}
      **/
@@ -145,7 +145,7 @@ public class IsolatedMarginFee {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */
@@ -212,7 +212,7 @@ public class IsolatedMarginFee {
 
         /**
          * Method to get {@link #coin} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #coin} instance as {@link String}
          **/
@@ -222,7 +222,7 @@ public class IsolatedMarginFee {
 
         /**
          * Method to get {@link #dailyInterest} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #dailyInterest} instance as double
          **/
@@ -243,7 +243,7 @@ public class IsolatedMarginFee {
 
         /**
          * Method to get {@link #borrowLimit} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #borrowLimit} instance as double
          **/
@@ -264,7 +264,7 @@ public class IsolatedMarginFee {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */

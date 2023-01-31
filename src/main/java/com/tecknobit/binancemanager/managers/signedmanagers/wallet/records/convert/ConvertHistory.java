@@ -129,7 +129,7 @@ public class ConvertHistory extends BinanceList<Convert> {
 
         /**
          * Method to get {@link #type} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #type} instance as {@link int}
          **/
@@ -139,7 +139,7 @@ public class ConvertHistory extends BinanceList<Convert> {
 
         /**
          * Method to get {@link #time} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #time} instance as long
          **/
@@ -149,7 +149,7 @@ public class ConvertHistory extends BinanceList<Convert> {
 
         /**
          * Method to get {@link #time} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #time} instance as {@link Date}
          **/
@@ -159,7 +159,7 @@ public class ConvertHistory extends BinanceList<Convert> {
 
         /**
          * Method to get {@link #deductedAsset} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #deductedAsset} instance as {@link String}
          **/
@@ -169,7 +169,7 @@ public class ConvertHistory extends BinanceList<Convert> {
 
         /**
          * Method to get {@link #deductedAmount} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #deductedAmount} instance as double
          **/
@@ -190,7 +190,7 @@ public class ConvertHistory extends BinanceList<Convert> {
 
         /**
          * Method to get {@link #targetAsset} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #targetAsset} instance as {@link String}
          **/
@@ -200,7 +200,7 @@ public class ConvertHistory extends BinanceList<Convert> {
 
         /**
          * Method to get {@link #targetAmount} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #targetAmount} instance as double
          **/
@@ -221,7 +221,7 @@ public class ConvertHistory extends BinanceList<Convert> {
 
         /**
          * Method to get {@link #accountType} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #accountType} instance as {@link Type}
          **/

@@ -59,7 +59,7 @@ public abstract class MarginOrder extends Order {
 
     /**
      * Method to get {@link #transactTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #transactTime} instance as long
      **/
@@ -69,7 +69,7 @@ public abstract class MarginOrder extends Order {
 
     /**
      * Method to get {@link #transactTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #transactTime} instance as {@link Date}
      **/

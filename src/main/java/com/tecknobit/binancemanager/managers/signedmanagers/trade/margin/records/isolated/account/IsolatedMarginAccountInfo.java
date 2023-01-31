@@ -132,7 +132,7 @@ public class IsolatedMarginAccountInfo {
 
     /**
      * Method to get {@link #symbol} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
      **/
@@ -142,7 +142,7 @@ public class IsolatedMarginAccountInfo {
 
     /**
      * Method to get {@link #isolatedCreated} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isolatedCreated} instance as boolean
      **/
@@ -161,7 +161,7 @@ public class IsolatedMarginAccountInfo {
 
     /**
      * Method to get {@link #enabled} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #enabled} instance as boolean
      **/
@@ -180,7 +180,7 @@ public class IsolatedMarginAccountInfo {
 
     /**
      * Method to get {@link #marginLevel} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #marginLevel} instance as double
      **/
@@ -190,7 +190,7 @@ public class IsolatedMarginAccountInfo {
 
     /**
      * Method to get {@link #marginLevelStatus} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #marginLevelStatus} instance as {@link MarginLevelStatus}
      **/
@@ -233,7 +233,7 @@ public class IsolatedMarginAccountInfo {
 
     /**
      * Method to get {@link #marginRatio} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #marginRatio} instance as double
      **/
@@ -243,7 +243,7 @@ public class IsolatedMarginAccountInfo {
 
     /**
      * Method to get {@link #indexPrice} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #indexPrice} instance as double
      **/
@@ -276,7 +276,7 @@ public class IsolatedMarginAccountInfo {
 
     /**
      * Method to get {@link #liquidatePrice} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #liquidatePrice} instance as double
      **/
@@ -309,7 +309,7 @@ public class IsolatedMarginAccountInfo {
 
     /**
      * Method to get {@link #liquidateRate} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #liquidateRate} instance as double
      **/
@@ -342,7 +342,7 @@ public class IsolatedMarginAccountInfo {
 
     /**
      * Method to get {@link #tradeEnabled} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #tradeEnabled} instance as boolean
      **/
@@ -384,7 +384,7 @@ public class IsolatedMarginAccountInfo {
 
     /**
      * Method to get {@link #baseAsset} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #baseAsset} instance as {@link IsolatedMarginAsset}
      **/
@@ -394,7 +394,7 @@ public class IsolatedMarginAccountInfo {
 
     /**
      * Method to get {@link #quoteAsset} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #quoteAsset} instance as {@link IsolatedMarginAsset}
      **/
@@ -404,7 +404,7 @@ public class IsolatedMarginAccountInfo {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */
@@ -523,7 +523,7 @@ public class IsolatedMarginAccountInfo {
 
         /**
          * Method to get {@link #borrowEnabled} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #borrowEnabled} instance as boolean
          **/
@@ -542,7 +542,7 @@ public class IsolatedMarginAccountInfo {
 
         /**
          * Method to get {@link #netAssetOfBtc} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #netAssetOfBtc} instance as double
          **/
@@ -575,7 +575,7 @@ public class IsolatedMarginAccountInfo {
 
         /**
          * Method to get {@link #repayEnabled} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #repayEnabled} instance as boolean
          **/
@@ -594,7 +594,7 @@ public class IsolatedMarginAccountInfo {
 
         /**
          * Method to get {@link #totalAsset} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #totalAsset} instance as double
          **/

@@ -107,7 +107,7 @@ public class DustLogList extends BinanceList<AssetDribblets> {
 
         /**
          * Method to get {@link #operateTime} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #operateTime} instance as long
          **/
@@ -117,7 +117,7 @@ public class DustLogList extends BinanceList<AssetDribblets> {
 
         /**
          * Method to get {@link #operateTime} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #operateTime} instance as {@link Date}
          **/
@@ -127,7 +127,7 @@ public class DustLogList extends BinanceList<AssetDribblets> {
 
         /**
          * Method to get {@link #totalTransferedAmount} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #totalTransferedAmount} instance as double
          **/
@@ -148,7 +148,7 @@ public class DustLogList extends BinanceList<AssetDribblets> {
 
         /**
          * Method to get {@link #totalServiceChargeAmount} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #totalServiceChargeAmount} instance as double
          **/
@@ -169,7 +169,7 @@ public class DustLogList extends BinanceList<AssetDribblets> {
 
         /**
          * Method to get {@link #transId} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #transId} instance as long
          **/
@@ -179,7 +179,7 @@ public class DustLogList extends BinanceList<AssetDribblets> {
 
         /**
          * Method to get {@link #assetDribbletsDetailsList} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #assetDribbletsDetailsList} instance as {@link ArrayList} of {@link DustItem}
          **/
@@ -219,7 +219,7 @@ public class DustLogList extends BinanceList<AssetDribblets> {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */

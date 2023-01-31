@@ -23,18 +23,6 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 public class Candlestick {
 
     /**
-     * Constructor to init {@link Candlestick} object
-     *
-     * @param candlestick: candlestick details as {@link JSONArray}
-     **/
-    public Candlestick(JSONArray candlestick) {
-        this(candlestick.getLong(0), candlestick.getDouble(1), candlestick.getDouble(2),
-                candlestick.getDouble(3), candlestick.getDouble(4), candlestick.getDouble(5),
-                candlestick.getLong(6), candlestick.getDouble(7), candlestick.getInt(8),
-                candlestick.getDouble(9), candlestick.getDouble(10), candlestick.getDouble(11));
-    }
-
-    /**
      * {@code openTime} is instance that contains open time of the candlestick
      * **/
     private final long openTime;
@@ -86,15 +74,16 @@ public class Candlestick {
 
     /**
      * {@code takerBuyQuoteAssetVolume} is instance that contains taker buy quote asset volume of the candlestick
-     * **/
+     **/
     private final double takerBuyQuoteAssetVolume;
 
     /**
      * {@code valueToIgnore} is instance that contains value to ignore of the candlestick
-     * **/
+     **/
     private final double valueToIgnore;
 
-    /** Constructor to init {@link Candlestick} object
+    /**
+     * Constructor to init {@link Candlestick} object
      * @param openTime: open time of the candlestick
      * @param open: open price of the candlestick
      * @param high: high price of the candlestick
@@ -126,8 +115,20 @@ public class Candlestick {
     }
 
     /**
+     * Constructor to init {@link Candlestick} object
+     *
+     * @param candlestick: candlestick details as {@link JSONArray}
+     **/
+    public Candlestick(JSONArray candlestick) {
+        this(candlestick.getLong(0), candlestick.getDouble(1), candlestick.getDouble(2),
+                candlestick.getDouble(3), candlestick.getDouble(4), candlestick.getDouble(5),
+                candlestick.getLong(6), candlestick.getDouble(7), candlestick.getInt(8),
+                candlestick.getDouble(9), candlestick.getDouble(10), candlestick.getDouble(11));
+    }
+
+    /**
      * Method to get {@link #openTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #openTime} instance as long
      **/
@@ -137,22 +138,12 @@ public class Candlestick {
 
     /**
      * Method to get {@link #open} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #open} instance as double
      **/
     public double getOpen() {
         return open;
-    }
-
-    /**
-     * Method to get {@link #high} instance <br>
-     * Any params required
-     *
-     * @return {@link #high} instance as double
-     **/
-    public double getHigh() {
-        return high;
     }
 
     /**
@@ -167,13 +158,13 @@ public class Candlestick {
     }
 
     /**
-     * Method to get {@link #low} instance <br>
-     * Any params required
+     * Method to get {@link #high} instance <br>
+     * No-any params required
      *
-     * @return {@link #low} instance as double
+     * @return {@link #high} instance as double
      **/
-    public double getLow() {
-        return low;
+    public double getHigh() {
+        return high;
     }
 
     /**
@@ -188,13 +179,13 @@ public class Candlestick {
     }
 
     /**
-     * Method to get {@link #close} instance <br>
-     * Any params required
+     * Method to get {@link #low} instance <br>
+     * No-any params required
      *
-     * @return {@link #close} instance as double
+     * @return {@link #low} instance as double
      **/
-    public double getClose() {
-        return close;
+    public double getLow() {
+        return low;
     }
 
     /**
@@ -209,13 +200,13 @@ public class Candlestick {
     }
 
     /**
-     * Method to get {@link #volume} instance <br>
-     * Any params required
+     * Method to get {@link #close} instance <br>
+     * No-any params required
      *
-     * @return {@link #volume} instance as double
+     * @return {@link #close} instance as double
      **/
-    public double getVolume() {
-        return volume;
+    public double getClose() {
+        return close;
     }
 
     /**
@@ -230,13 +221,13 @@ public class Candlestick {
     }
 
     /**
-     * Method to get {@link #closeTime} instance <br>
-     * Any params required
+     * Method to get {@link #volume} instance <br>
+     * No-any params required
      *
-     * @return {@link #closeTime} instance as long
+     * @return {@link #volume} instance as double
      **/
-    public long getCloseTime() {
-        return closeTime;
+    public double getVolume() {
+        return volume;
     }
 
     /**
@@ -251,23 +242,23 @@ public class Candlestick {
     }
 
     /**
+     * Method to get {@link #closeTime} instance <br>
+     * No-any params required
+     *
+     * @return {@link #closeTime} instance as long
+     **/
+    public long getCloseTime() {
+        return closeTime;
+    }
+
+    /**
      * Method to get {@link #quoteAssetVolume} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #quoteAssetVolume} instance as double
      **/
     public double getQuoteAssetVolume() {
         return quoteAssetVolume;
-    }
-
-    /**
-     * Method to get {@link #numberOfTrades} instance <br>
-     * Any params required
-     *
-     * @return {@link #numberOfTrades} instance as int
-     **/
-    public int getNumberOfTrades() {
-        return numberOfTrades;
     }
 
     /**
@@ -282,23 +273,23 @@ public class Candlestick {
     }
 
     /**
+     * Method to get {@link #numberOfTrades} instance <br>
+     * No-any params required
+     *
+     * @return {@link #numberOfTrades} instance as int
+     **/
+    public int getNumberOfTrades() {
+        return numberOfTrades;
+    }
+
+    /**
      * Method to get {@link #takerBuyBaseAssetVolume} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #takerBuyBaseAssetVolume} instance as double
      **/
     public double getTakerBuyBaseAssetVolume() {
         return takerBuyBaseAssetVolume;
-    }
-
-    /**
-     * Method to get {@link #takerBuyQuoteAssetVolume} instance <br>
-     * Any params required
-     *
-     * @return {@link #takerBuyQuoteAssetVolume} instance as double
-     **/
-    public double getTakerBuyQuoteAssetVolume() {
-        return takerBuyQuoteAssetVolume;
     }
 
     /**
@@ -313,13 +304,13 @@ public class Candlestick {
     }
 
     /**
-     * Method to get {@link #valueToIgnore} instance <br>
-     * Any params required
+     * Method to get {@link #takerBuyQuoteAssetVolume} instance <br>
+     * No-any params required
      *
-     * @return {@link #valueToIgnore} instance as double
+     * @return {@link #takerBuyQuoteAssetVolume} instance as double
      **/
-    public double getValueToIgnore() {
-        return valueToIgnore;
+    public double getTakerBuyQuoteAssetVolume() {
+        return takerBuyQuoteAssetVolume;
     }
 
     /**
@@ -334,14 +325,13 @@ public class Candlestick {
     }
 
     /**
-     * Returns a string representation of the object <br>
-     * Any params required
+     * Method to get {@link #valueToIgnore} instance <br>
+     * No-any params required
      *
-     * @return a string representation of the object as {@link String}
-     */
-    @Override
-    public String toString() {
-        return new JSONObject(this).toString();
+     * @return {@link #valueToIgnore} instance as double
+     **/
+    public double getValueToIgnore() {
+        return valueToIgnore;
     }
 
     /**
@@ -353,6 +343,17 @@ public class Candlestick {
      **/
     public double getValueToIgnore(int decimals) {
         return roundValue(valueToIgnore, decimals);
+    }
+
+    /**
+     * Returns a string representation of the object <br>
+     * No-any params required
+     *
+     * @return a string representation of the object as {@link String}
+     */
+    @Override
+    public String toString() {
+        return new JSONObject(this).toString();
     }
 
     /**
@@ -451,7 +452,7 @@ public class Candlestick {
 
         /**
          * Method to get {@link #interval} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #interval} instance as {@link String}
          **/

@@ -84,7 +84,7 @@ public class BinanceMarketManager extends BinanceManager {
 
     /**
      * Constructor to init a {@link BinanceMarketManager} <br>
-     * Any params required
+     * No-any params required
      *
      * @throws IllegalArgumentException when a parameterized constructor has not been called before this constructor
      * @apiNote this constructor is useful to instantiate a new {@link BinanceMarketManager}'s manager without re-insert
@@ -104,7 +104,7 @@ public class BinanceMarketManager extends BinanceManager {
 
     /**
      * Request to get if service is available
-     * Any params required
+     * No-any params required
      *
      * @return result of the operation -> {@code "true"} is successful, {@code "false"} if not successful
      * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
@@ -124,12 +124,12 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/ping")
     public boolean isMarketServiceWorking() throws IOException {
-        return getRequestResponse(TEST_CONNECTIVITY_ENDPOINT, "", GET).equals("{}");
+        return sendGetRequest(TEST_CONNECTIVITY_ENDPOINT, "").equals("{}");
     }
 
     /**
      * Request to get exchange information <br>
-     * Any params required
+     * No-any params required
      *
      * @return exchange information as {@link ExchangeInformation} custom object
      * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
@@ -175,8 +175,7 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/exchangeInfo")
     public <T> T getExchangeInformation(ReturnFormat format) throws IOException {
-        return returnExchangeInformation(getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT, "", GET),
-                format);
+        return returnExchangeInformation(sendGetRequest(EXCHANGE_INFORMATION_ENDPOINT, null), format);
     }
 
     /**
@@ -228,8 +227,7 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/exchangeInfo")
     public <T> T getExchangeInformation(String symbol, ReturnFormat format) throws Exception {
-        return returnExchangeInformation(getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT, "?symbol=" + symbol,
-                GET), format);
+        return returnExchangeInformation(sendGetRequest(EXCHANGE_INFORMATION_ENDPOINT, "?symbol=" + symbol), format);
     }
 
     /**
@@ -281,8 +279,8 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/exchangeInfo")
     public <T> T getExchangeInformation(String[] symbols, ReturnFormat format) throws Exception {
-        return returnExchangeInformation(getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT, "?symbols=[" +
-                assembleSymbolsList(symbols) + "]", GET), format);
+        return returnExchangeInformation(sendGetRequest(EXCHANGE_INFORMATION_ENDPOINT, "?symbols=[" +
+                assembleSymbolsList(symbols) + "]"), format);
     }
 
     /**
@@ -334,8 +332,8 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/exchangeInfo")
     public <T> T getExchangeInformation(ExchangePermission permission, ReturnFormat format) throws Exception {
-        return returnExchangeInformation(getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT, "?permissions="
-                + permission, GET), format);
+        return returnExchangeInformation(sendGetRequest(EXCHANGE_INFORMATION_ENDPOINT, "?permissions="
+                + permission), format);
     }
 
     /**
@@ -387,8 +385,8 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/exchangeInfo")
     public <T> T getExchangeInformation(ExchangePermission[] permissions, ReturnFormat format) throws Exception {
-        return returnExchangeInformation(getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT, "?permissions=[" +
-                assembleSymbolsList(permissions) + "]", GET), format);
+        return returnExchangeInformation(sendGetRequest(EXCHANGE_INFORMATION_ENDPOINT, "?permissions=[" +
+                assembleSymbolsList(permissions) + "]"), format);
     }
 
     /**
@@ -478,8 +476,8 @@ public class BinanceMarketManager extends BinanceManager {
     public <T> T getExchangeInformation(Params extraParams, ReturnFormat format) throws Exception {
         manageList(extraParams, "symbols");
         manageList(extraParams, "permissions");
-        return returnExchangeInformation(getRequestResponse(EXCHANGE_INFORMATION_ENDPOINT,
-                extraParams.createQueryString(), GET), format);
+        return returnExchangeInformation(sendGetRequest(EXCHANGE_INFORMATION_ENDPOINT,
+                extraParams.createQueryString()), format);
     }
 
     /**
@@ -550,7 +548,7 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/depth")
     public <T> T getOrderBook(String symbol, ReturnFormat format) throws IOException {
-        return returnOrderBook(symbol, getRequestResponse(ORDER_BOOK_ENDPOINT, "?symbol=" + symbol, GET),
+        return returnOrderBook(symbol, sendGetRequest(ORDER_BOOK_ENDPOINT, "?symbol=" + symbol),
                 format);
     }
 
@@ -607,8 +605,8 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/depth")
     public <T> T getOrderBook(String symbol, int limit, ReturnFormat format) throws IOException {
-        return returnOrderBook(symbol, getRequestResponse(ORDER_BOOK_ENDPOINT, "?symbol=" + symbol + "&limit=" +
-                limit, GET), format);
+        return returnOrderBook(symbol, sendGetRequest(ORDER_BOOK_ENDPOINT, "?symbol=" + symbol + "&limit=" +
+                limit), format);
     }
 
     /**
@@ -680,7 +678,7 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/trades")
     public <T> T getRecentTradesList(String symbol, ReturnFormat format) throws IOException {
-        return returnTradesList(getRequestResponse(RECENT_TRADE_LIST_ENDPOINT, "?symbol=" + symbol, GET),
+        return returnTradesList(sendGetRequest(RECENT_TRADE_LIST_ENDPOINT, "?symbol=" + symbol),
                 format);
     }
 
@@ -733,8 +731,8 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/trades")
     public <T> T getRecentTradesList(String symbol, int limit, ReturnFormat format) throws IOException {
-        return returnTradesList(getRequestResponse(RECENT_TRADE_LIST_ENDPOINT, "?symbol=" + symbol + "&limit="
-                + limit, GET), format);
+        return returnTradesList(sendGetRequest(RECENT_TRADE_LIST_ENDPOINT, "?symbol=" + symbol + "&limit="
+                + limit), format);
     }
 
     /**
@@ -788,8 +786,7 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/historicalTrades")
     public <T> T getOldTradesList(String symbol, String apiKey, ReturnFormat format) throws IOException {
-        return returnTradesList(getRequestResponse(OLD_TRADE_LOOKUP_ENDPOINT, "?symbol=" + symbol, GET,
-                apiKey), format);
+        return returnTradesList(sendGetRequest(OLD_TRADE_LOOKUP_ENDPOINT, "?symbol=" + symbol, apiKey), format);
     }
 
     /**
@@ -863,7 +860,7 @@ public class BinanceMarketManager extends BinanceManager {
     public <T> T getOldTradeList(String symbol, String apiKey, Params extraParams, ReturnFormat format) throws IOException {
         String payload = "?symbol=" + symbol;
         payload = apiRequest.encodeAdditionalParams(payload, extraParams);
-        return returnTradesList(getRequestResponse(OLD_TRADE_LOOKUP_ENDPOINT, payload, GET, apiKey), format);
+        return returnTradesList(sendGetRequest(OLD_TRADE_LOOKUP_ENDPOINT, payload, apiKey), format);
     }
 
     /**
@@ -938,8 +935,8 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/aggTrades")
     public <T> T getCompressedTradesList(String symbol, ReturnFormat format) throws IOException {
-        return returnCompressedTradesList(getRequestResponse(COMPRESSED_TRADE_LIST_ENDPOINT, "?symbol=" + symbol,
-                GET), format);
+        return returnCompressedTradesList(sendGetRequest(COMPRESSED_TRADE_LIST_ENDPOINT, "?symbol=" + symbol
+        ), format);
     }
 
     /**
@@ -1023,7 +1020,7 @@ public class BinanceMarketManager extends BinanceManager {
     public <T> T getCompressedTradesList(String symbol, Params extraParams, ReturnFormat format) throws IOException {
         String payload = "?symbol=" + symbol;
         payload = apiRequest.encodeAdditionalParams(payload, extraParams);
-        return returnCompressedTradesList(getRequestResponse(COMPRESSED_TRADE_LIST_ENDPOINT, payload, GET), format);
+        return returnCompressedTradesList(sendGetRequest(COMPRESSED_TRADE_LIST_ENDPOINT, payload), format);
     }
 
     /**
@@ -1100,8 +1097,8 @@ public class BinanceMarketManager extends BinanceManager {
     @WrappedRequest
     @RequestPath(method = GET, path = "/api/v3/klines")
     public <T> T getCandlesticksList(String symbol, Interval interval, ReturnFormat format) throws IOException {
-        return returnCandlesticksList(getRequestResponse(CANDLESTICK_DATA_ENDPOINT, "?symbol=" + symbol +
-                "&interval=" + interval, GET), format);
+        return returnCandlesticksList(sendGetRequest(CANDLESTICK_DATA_ENDPOINT, "?symbol=" + symbol +
+                "&interval=" + interval), format);
     }
 
     /**
@@ -1184,7 +1181,7 @@ public class BinanceMarketManager extends BinanceManager {
                                      ReturnFormat format) throws IOException {
         String payload = "?symbol=" + symbol + "&interval=" + interval;
         payload = apiRequest.encodeAdditionalParams(payload, extraParams);
-        return returnCandlesticksList(getRequestResponse(CANDLESTICK_DATA_ENDPOINT, payload, GET), format);
+        return returnCandlesticksList(sendGetRequest(CANDLESTICK_DATA_ENDPOINT, payload), format);
     }
 
     /** Request to get candlestick data list
@@ -1236,8 +1233,8 @@ public class BinanceMarketManager extends BinanceManager {
     @WrappedRequest
     @RequestPath(method = GET, path = "/api/v3/uiKlines")
     public <T> T getUIKLinesList(String symbol, Interval interval, ReturnFormat format) throws IOException {
-        return returnCandlesticksList(getRequestResponse(UIKLINES_ENDPOINT, "?symbol=" + symbol + "&interval="
-                + interval, GET), format);
+        return returnCandlesticksList(sendGetRequest(UIKLINES_ENDPOINT, "?symbol=" + symbol + "&interval="
+                + interval), format);
     }
 
     /** Request to get candlestick data list
@@ -1317,7 +1314,7 @@ public class BinanceMarketManager extends BinanceManager {
     public <T> T getUIKLinesList(String symbol, Interval interval, Params extraParams, ReturnFormat format) throws IOException {
         String params = "?symbol=" + symbol + "&interval=" + interval;
         params = apiRequest.encodeAdditionalParams(params, extraParams);
-        return returnCandlesticksList(getRequestResponse(UIKLINES_ENDPOINT, params, GET), format);
+        return returnCandlesticksList(sendGetRequest(UIKLINES_ENDPOINT, params), format);
     }
 
     /**
@@ -1448,7 +1445,7 @@ public class BinanceMarketManager extends BinanceManager {
     @Returner
     @RequestPath(method = GET, path = "/api/v3/avgPrice")
     public <T> T getCurrentAveragePrice(String symbol, ReturnFormat format) throws IOException {
-        String avgPriceResponse = getRequestResponse(CURRENT_AVERAGE_PRICE_ENDPOINT, "?symbol=" + symbol, GET);
+        String avgPriceResponse = sendGetRequest(CURRENT_AVERAGE_PRICE_ENDPOINT, "?symbol=" + symbol);
         switch (format) {
             case JSON:
                 return (T) new JSONObject(avgPriceResponse);
@@ -1504,8 +1501,8 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public <T> T getTickerPriceChange(String symbol, ReturnFormat format) throws IOException {
-        return returnTickerPriceChange(getRequestResponse(TICKER_PRICE_CHANGE_ENDPOINT, "?symbol=" + symbol,
-                GET), format);
+        return returnTickerPriceChange(sendGetRequest(TICKER_PRICE_CHANGE_ENDPOINT, "?symbol=" + symbol
+        ), format);
     }
 
     /**
@@ -1559,8 +1556,8 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public <T> T getTickerPriceChange(String symbol, ResponseType type, ReturnFormat format) throws IOException {
-        return returnTickerPriceChange(getRequestResponse(TICKER_PRICE_CHANGE_ENDPOINT, "?symbol=" + symbol + "&type="
-                + type, GET), format);
+        return returnTickerPriceChange(sendGetRequest(TICKER_PRICE_CHANGE_ENDPOINT, "?symbol=" + symbol + "&type="
+                + type), format);
     }
 
     /**
@@ -1627,8 +1624,8 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public <T> T getTickersPriceChangeList(String[] symbols, ReturnFormat format) throws IOException {
-        return returnTickersPriceChangeList(getRequestResponse(TICKER_PRICE_CHANGE_ENDPOINT, "?symbols=[" +
-                assembleSymbolsList(symbols) + "]", GET), format);
+        return returnTickersPriceChangeList(sendGetRequest(TICKER_PRICE_CHANGE_ENDPOINT, "?symbols=[" +
+                assembleSymbolsList(symbols) + "]"), format);
     }
 
     /** Request to get all requested tickers change list
@@ -1678,8 +1675,8 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public <T> T getTickersPriceChangeList(String[] symbols, ResponseType type, ReturnFormat format) throws IOException {
-        return returnTickersPriceChangeList(getRequestResponse(TICKER_PRICE_CHANGE_ENDPOINT, "?type=" + type
-                + "&symbols=[" + assembleSymbolsList(symbols) + "]", GET), format);
+        return returnTickersPriceChangeList(sendGetRequest(TICKER_PRICE_CHANGE_ENDPOINT, "?type=" + type
+                + "&symbols=[" + assembleSymbolsList(symbols) + "]"), format);
     }
 
     /** Request to get all requested tickers change list
@@ -1727,8 +1724,8 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public <T> T getTickersPriceChangeList(ArrayList<String> symbols, ReturnFormat format) throws IOException {
-        return returnTickersPriceChangeList(getRequestResponse(TICKER_PRICE_CHANGE_ENDPOINT, "?symbols=[" +
-                assembleSymbolsList(symbols) + "]", GET), format);
+        return returnTickersPriceChangeList(sendGetRequest(TICKER_PRICE_CHANGE_ENDPOINT, "?symbols=[" +
+                assembleSymbolsList(symbols) + "]"), format);
     }
 
     /** Request to get all requested tickers change list
@@ -1782,13 +1779,13 @@ public class BinanceMarketManager extends BinanceManager {
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public <T> T getTickersPriceChangeList(ArrayList<String> symbols, ResponseType type,
                                            ReturnFormat format) throws IOException {
-        return returnTickersPriceChangeList(getRequestResponse(TICKER_PRICE_CHANGE_ENDPOINT, "?type=" + type
-                + "&symbols=[" + assembleSymbolsList(symbols) + "]", GET), format);
+        return returnTickersPriceChangeList(sendGetRequest(TICKER_PRICE_CHANGE_ENDPOINT, "?type=" + type
+                + "&symbols=[" + assembleSymbolsList(symbols) + "]"), format);
     }
 
     /**
      * Request to get all tickers price change list <br>
-     * Any params required
+     * No-any params required
      *
      * @return ticker price change list as {@link ArrayList} of {@link TickerPriceChange} custom object
      * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
@@ -1834,7 +1831,7 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public <T> T getTickersPriceChangeList(ReturnFormat format) throws IOException {
-        return returnTickersPriceChangeList(getRequestResponse(TICKER_PRICE_CHANGE_ENDPOINT, "", GET),
+        return returnTickersPriceChangeList(sendGetRequest(TICKER_PRICE_CHANGE_ENDPOINT, ""),
                 format);
     }
 
@@ -1887,8 +1884,8 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public <T> T getTickersPriceChangeList(ResponseType type, ReturnFormat format) throws IOException {
-        return returnTickersPriceChangeList(getRequestResponse(TICKER_PRICE_CHANGE_ENDPOINT, "?type=" + type,
-                GET), format);
+        return returnTickersPriceChangeList(sendGetRequest(TICKER_PRICE_CHANGE_ENDPOINT, "?type=" + type
+        ), format);
     }
 
     /**
@@ -1964,7 +1961,7 @@ public class BinanceMarketManager extends BinanceManager {
     @Returner
     @RequestPath(method = GET, path = "/api/v3/ticker/price")
     public <T> T getPriceTicker(String symbol, ReturnFormat format) throws IOException {
-        String priceTickerResponse = getRequestResponse(PRICE_TICKER_ENDPOINT, "?symbol=" + symbol, GET);
+        String priceTickerResponse = sendGetRequest(PRICE_TICKER_ENDPOINT, "?symbol=" + symbol);
         switch (format) {
             case JSON:
                 return (T) new JSONObject(priceTickerResponse);
@@ -2020,8 +2017,8 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/ticker/price")
     public <T> T getPriceTickers(String[] symbols, ReturnFormat format) throws IOException {
-        return returnPriceTickersList(getRequestResponse(PRICE_TICKER_ENDPOINT, "?symbols=[" +
-                assembleSymbolsList(symbols) + "]", GET), format);
+        return returnPriceTickersList(sendGetRequest(PRICE_TICKER_ENDPOINT, "?symbols=[" +
+                assembleSymbolsList(symbols) + "]"), format);
     }
 
     /** Request to get all requested price tickers list
@@ -2071,13 +2068,13 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/ticker/price")
     public <T> T getPriceTickers(ArrayList<String> symbols, ReturnFormat format) throws IOException {
-        return returnPriceTickersList(getRequestResponse(PRICE_TICKER_ENDPOINT, "?symbols=[" +
-                assembleSymbolsList(symbols) + "]", GET), format);
+        return returnPriceTickersList(sendGetRequest(PRICE_TICKER_ENDPOINT, "?symbols=[" +
+                assembleSymbolsList(symbols) + "]"), format);
     }
 
     /**
      * Request to get all price tickers list <br>
-     * Any params required
+     * No-any params required
      *
      * @return price ticker list as {@link ArrayList} of {@link PriceTicker} custom object
      * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
@@ -2123,7 +2120,7 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/ticker/price")
     public <T> T getPriceTickers(ReturnFormat format) throws IOException {
-        return returnPriceTickersList(getRequestResponse(PRICE_TICKER_ENDPOINT, "", GET), format);
+        return returnPriceTickersList(sendGetRequest(PRICE_TICKER_ENDPOINT, ""), format);
     }
 
     /**
@@ -2197,7 +2194,7 @@ public class BinanceMarketManager extends BinanceManager {
     @Returner
     @RequestPath(method = GET, path = "/api/v3/ticker/bookTicker")
     public <T> T getOrderBookTicker(String symbol, ReturnFormat format) throws IOException {
-        String orderTickerResponse = getRequestResponse(BOOK_TICKER_ENDPOINT, "?symbol=" + symbol, GET);
+        String orderTickerResponse = sendGetRequest(BOOK_TICKER_ENDPOINT, "?symbol=" + symbol);
         switch (format) {
             case JSON:
                 return (T) new JSONObject(orderTickerResponse);
@@ -2253,8 +2250,8 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/ticker/bookTicker")
     public <T> T getOrderBookTickers(String[] symbols, ReturnFormat format) throws IOException {
-        return returnOrderBookTickersList(getRequestResponse(BOOK_TICKER_ENDPOINT, "?symbols=[" +
-                assembleSymbolsList(symbols) + "]", GET), format);
+        return returnOrderBookTickersList(sendGetRequest(BOOK_TICKER_ENDPOINT, "?symbols=[" +
+                assembleSymbolsList(symbols) + "]"), format);
     }
 
     /** Request to get all requested order book tickers list
@@ -2304,13 +2301,13 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/ticker/bookTicker")
     public <T> T getOrderBookTickers(ArrayList<String> symbols, ReturnFormat format) throws IOException {
-        return returnOrderBookTickersList(getRequestResponse(BOOK_TICKER_ENDPOINT, "?symbols=[" +
-                assembleSymbolsList(symbols) + "]", GET), format);
+        return returnOrderBookTickersList(sendGetRequest(BOOK_TICKER_ENDPOINT, "?symbols=[" +
+                assembleSymbolsList(symbols) + "]"), format);
     }
 
     /**
      * Request to get all order book tickers list <br>
-     * Any params required
+     * No-any params required
      *
      * @return order book ticker list as {@link ArrayList} of {@link OrderBookTicker} custom object
      * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
@@ -2356,7 +2353,7 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/ticker/bookTicker")
     public <T> T getOrderBookTickers(ReturnFormat format) throws IOException {
-        return returnOrderBookTickersList(getRequestResponse(BOOK_TICKER_ENDPOINT, "", GET), format);
+        return returnOrderBookTickersList(sendGetRequest(BOOK_TICKER_ENDPOINT, ""), format);
     }
 
     /**
@@ -2429,7 +2426,7 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/ticker")
     public <T> T getRollingTicker(String symbol, ReturnFormat format) throws IOException {
-        return returnRollingTicker(getRequestResponse(ROLLING_TICKER_ENDPOINT, "?symbol=" + symbol, GET),
+        return returnRollingTicker(sendGetRequest(ROLLING_TICKER_ENDPOINT, "?symbol=" + symbol),
                 format);
     }
 
@@ -2502,8 +2499,8 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/ticker")
     public <T> T getRollingTicker(String symbol, Params extraParams, ReturnFormat format) throws IOException {
-        return returnRollingTicker(getRequestResponse(ROLLING_TICKER_ENDPOINT, extraParams.createQueryString() +
-                "&symbol=" + symbol, GET), format);
+        return returnRollingTicker(sendGetRequest(ROLLING_TICKER_ENDPOINT, extraParams.createQueryString() +
+                "&symbol=" + symbol), format);
     }
 
     /**
@@ -2570,8 +2567,8 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/ticker")
     public <T> T getRollingTickers(String[] symbols, ReturnFormat format) throws IOException {
-        return returnRollingTickersList(getRequestResponse(ROLLING_TICKER_ENDPOINT, "?symbols=[" +
-                assembleSymbolsList(symbols) + "]", GET), format);
+        return returnRollingTickersList(sendGetRequest(ROLLING_TICKER_ENDPOINT, "?symbols=[" +
+                assembleSymbolsList(symbols) + "]"), format);
     }
 
     /** Request to get 24 hours rolling requested window price change statistics list
@@ -2639,8 +2636,8 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/ticker")
     public <T> T getRollingTickers(String[] symbols, Params extraParams, ReturnFormat format) throws IOException {
-        return returnRollingTickersList(getRequestResponse(ROLLING_TICKER_ENDPOINT, extraParams.createQueryString()
-                + "&symbols=[" + assembleSymbolsList(symbols) + "]", GET), format);
+        return returnRollingTickersList(sendGetRequest(ROLLING_TICKER_ENDPOINT, extraParams.createQueryString()
+                + "&symbols=[" + assembleSymbolsList(symbols) + "]"), format);
     }
 
     /** Request to get 24 hours rolling requested window price change statistics list
@@ -2688,8 +2685,8 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     @RequestPath(method = GET, path = "/api/v3/ticker")
     public <T> T getRollingTickers(ArrayList<String> symbols, ReturnFormat format) throws IOException {
-        return returnRollingTickersList(getRequestResponse(ROLLING_TICKER_ENDPOINT, "?symbols=[" +
-                assembleSymbolsList(symbols) + "]", GET), format);
+        return returnRollingTickersList(sendGetRequest(ROLLING_TICKER_ENDPOINT, "?symbols=[" +
+                assembleSymbolsList(symbols) + "]"), format);
     }
 
     /**
@@ -2761,8 +2758,8 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/ticker")
     public <T> T getRollingTickers(ArrayList<String> symbols, Params extraParams, ReturnFormat format) throws IOException {
-        return returnRollingTickersList(getRequestResponse(ROLLING_TICKER_ENDPOINT, extraParams.createQueryString()
-                + "&symbols=[" + assembleSymbolsList(symbols) + "]", GET), format);
+        return returnRollingTickersList(sendGetRequest(ROLLING_TICKER_ENDPOINT, extraParams.createQueryString()
+                + "&symbols=[" + assembleSymbolsList(symbols) + "]"), format);
     }
 
     /**

@@ -96,7 +96,7 @@ public class DustItem {
 
     /**
      * Method to get {@link #transId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #transId} instance as long
      **/
@@ -106,7 +106,7 @@ public class DustItem {
 
     /**
      * Method to get {@link #serviceChargeAmount} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #serviceChargeAmount} instance as double
      **/
@@ -127,7 +127,7 @@ public class DustItem {
 
     /**
      * Method to get {@link #amount} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #amount} instance as double
      **/
@@ -148,7 +148,7 @@ public class DustItem {
 
     /**
      * Method to get {@link #operateTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #operateTime} instance as long
      **/
@@ -158,7 +158,7 @@ public class DustItem {
 
     /**
      * Method to get {@link #operateTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #operateTime} instance as {@link Date}
      **/
@@ -168,7 +168,7 @@ public class DustItem {
 
     /**
      * Method to get {@link #transferedAmount} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #transferedAmount} instance as double
      **/
@@ -189,7 +189,7 @@ public class DustItem {
 
     /**
      * Method to get {@link #fromAsset} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #fromAsset} instance as {@link String}
      **/
@@ -199,7 +199,7 @@ public class DustItem {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

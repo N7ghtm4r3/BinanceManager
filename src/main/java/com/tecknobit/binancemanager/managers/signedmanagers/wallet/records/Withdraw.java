@@ -154,7 +154,7 @@ public class Withdraw {
 
     /**
      * Method to get {@link #status} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #status} instance as int
      **/
@@ -164,7 +164,7 @@ public class Withdraw {
 
     /**
      * Method to get {@link #address} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #address} instance as {@link String}
      **/
@@ -174,7 +174,7 @@ public class Withdraw {
 
     /**
      * Method to get {@link #amount} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #amount} instance as double
      **/
@@ -195,7 +195,7 @@ public class Withdraw {
 
     /**
      * Method to get {@link #applyTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #applyTime} instance as {@link String}
      **/
@@ -205,7 +205,7 @@ public class Withdraw {
 
     /**
      * Method to get {@link #applyTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #applyTime} instance as long
      **/
@@ -216,7 +216,7 @@ public class Withdraw {
 
     /**
      * Method to get {@link #applyTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #applyTime} instance as {@link Date}
      **/
@@ -226,7 +226,7 @@ public class Withdraw {
 
     /**
      * Method to get {@link #coin} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #coin} instance as {@link String}
      **/
@@ -236,7 +236,7 @@ public class Withdraw {
 
     /**
      * Method to get {@link #id} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #id} instance as {@link String}
      **/
@@ -246,7 +246,7 @@ public class Withdraw {
 
     /**
      * Method to get {@link #withdrawOrderId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #withdrawOrderId} instance as {@link String}
      **/
@@ -256,7 +256,7 @@ public class Withdraw {
 
     /**
      * Method to get {@link #network} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #network} instance as {@link String}
      **/
@@ -266,7 +266,7 @@ public class Withdraw {
 
     /**
      * Method to get {@link #transferType} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #transferType} instance as int
      **/
@@ -328,7 +328,7 @@ public class Withdraw {
 
         /**
          * Method to get the {@link WithdrawStatus} by an int <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link WithdrawStatus} corresponding value
          **/
@@ -353,7 +353,7 @@ public class Withdraw {
 
         /**
          * Method to get {@link #status} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #status} instance as {@link String}
          **/
@@ -366,7 +366,7 @@ public class Withdraw {
 
     /**
      * Method to get {@link #transactionFee} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #transactionFee} instance as double
      **/
@@ -387,7 +387,7 @@ public class Withdraw {
 
     /**
      * Method to get {@link #confirmNo} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #confirmNo} instance as int
      **/
@@ -397,7 +397,7 @@ public class Withdraw {
 
     /**
      * Method to get {@link #info} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #info} instance as {@link String}
      **/
@@ -407,7 +407,7 @@ public class Withdraw {
 
     /**
      * Method to get {@link #txId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #txId} instance as {@link String}
      **/
@@ -417,7 +417,7 @@ public class Withdraw {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

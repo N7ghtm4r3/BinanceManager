@@ -42,7 +42,7 @@ public class PriceTicker extends Ticker {
 
     /**
      * Method to get {@link #price} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #price} instance as double
      **/

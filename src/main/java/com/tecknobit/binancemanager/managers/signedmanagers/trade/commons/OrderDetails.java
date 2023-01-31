@@ -128,7 +128,7 @@ public class OrderDetails {
 
     /**
      * Method to get {@link #orderListId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #orderListId} instance as long
      **/
@@ -138,7 +138,7 @@ public class OrderDetails {
 
     /**
      * Method to get {@link #contingencyType} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #contingencyType} instance as {@link String}
      **/
@@ -148,7 +148,7 @@ public class OrderDetails {
 
     /**
      * Method to get {@link #listStatusType} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #listStatusType} instance as {@link Status}
      **/
@@ -158,7 +158,7 @@ public class OrderDetails {
 
     /**
      * Method to get {@link #listOrderStatus} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #listOrderStatus} instance as {@link Status}
      **/
@@ -168,7 +168,7 @@ public class OrderDetails {
 
     /**
      * Method to get {@link #listClientOrderId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #listClientOrderId} instance as {@link String}
      **/
@@ -178,7 +178,7 @@ public class OrderDetails {
 
     /**
      * Method to get {@link #transactionTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #transactionTime} instance as long
      **/
@@ -188,7 +188,7 @@ public class OrderDetails {
 
     /**
      * Method to get {@link #transactionTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #transactionTime} instance as {@link Date}
      **/
@@ -198,7 +198,7 @@ public class OrderDetails {
 
     /**
      * Method to get {@link #symbol} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
      **/
@@ -208,7 +208,7 @@ public class OrderDetails {
 
     /**
      * Method to get {@link #orders} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #orders} instance as {@link ArrayList} of {@link Order}
      **/
@@ -248,7 +248,7 @@ public class OrderDetails {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

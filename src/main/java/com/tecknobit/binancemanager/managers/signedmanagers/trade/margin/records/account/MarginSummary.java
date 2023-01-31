@@ -53,7 +53,7 @@ public class MarginSummary {
 
     /**
      * Method to get {@link #normalBar} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #normalBar} instance as double
      **/
@@ -74,7 +74,7 @@ public class MarginSummary {
 
     /**
      * Method to get {@link #marginCallBar} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #marginCallBar} instance as double
      **/
@@ -95,7 +95,7 @@ public class MarginSummary {
 
     /**
      * Method to get {@link #forceLiquidationBar} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #forceLiquidationBar} instance as double
      **/
@@ -116,7 +116,7 @@ public class MarginSummary {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

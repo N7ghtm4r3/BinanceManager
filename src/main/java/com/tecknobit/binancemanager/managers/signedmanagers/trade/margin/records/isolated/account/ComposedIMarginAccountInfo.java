@@ -52,7 +52,7 @@ public class ComposedIMarginAccountInfo extends MarginAccount {
 
     /**
      * Method to get {@link #isolatedMarginAccountInfoList} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isolatedMarginAccountInfoList} instance as {@link ArrayList} of {@link IsolatedMarginAccountInfo}
      **/

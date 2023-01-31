@@ -74,7 +74,7 @@ public class SpotOrderCAS implements BinanceResponse {
 
     /**
      * Method to get {@link #cancelResult} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #cancelResult} instance as {@link String}
      **/
@@ -84,7 +84,7 @@ public class SpotOrderCAS implements BinanceResponse {
 
     /**
      * Method to get {@link #newOrderResult} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #newOrderResult} instance as {@link String}
      **/
@@ -94,7 +94,7 @@ public class SpotOrderCAS implements BinanceResponse {
 
     /**
      * Method to get {@link #orderCanceled} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #orderCanceled} instance as {@link SpotOrderDetails}
      **/
@@ -104,7 +104,7 @@ public class SpotOrderCAS implements BinanceResponse {
 
     /**
      * Method to get {@link #newOrder} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #newOrder} instance as {@link FullSpotOrder}
      **/
@@ -114,7 +114,7 @@ public class SpotOrderCAS implements BinanceResponse {
 
     /**
      * Method to get error code <br>
-     * Any params required
+     * No-any params required
      *
      * @return code of error as int
      * *
@@ -129,7 +129,7 @@ public class SpotOrderCAS implements BinanceResponse {
 
     /**
      * Method to get error message <br>
-     * Any params required
+     * No-any params required
      *
      * @return message of error as {@link String}
      * *
@@ -144,7 +144,7 @@ public class SpotOrderCAS implements BinanceResponse {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

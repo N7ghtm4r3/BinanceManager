@@ -87,7 +87,7 @@ public class MarginOrderStatus extends ResultMarginOrder {
 
     /**
      * Method to get {@link #icebergQty} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #icebergQty} instance as double
      **/
@@ -108,7 +108,7 @@ public class MarginOrderStatus extends ResultMarginOrder {
 
     /**
      * Method to get {@link #isWorking} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isWorking} instance as boolean
      **/
@@ -118,7 +118,7 @@ public class MarginOrderStatus extends ResultMarginOrder {
 
     /**
      * Method to get {@link #stopPrice} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #stopPrice} instance as double
      **/
@@ -139,7 +139,7 @@ public class MarginOrderStatus extends ResultMarginOrder {
 
     /**
      * Method to get {@link #time} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #time} instance as long
      **/
@@ -149,7 +149,7 @@ public class MarginOrderStatus extends ResultMarginOrder {
 
     /**
      * Method to get {@link #time} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #time} instance as {@link Date}
      **/
@@ -159,7 +159,7 @@ public class MarginOrderStatus extends ResultMarginOrder {
 
     /**
      * Method to get {@link #transactTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #transactTime} instance as long
      **/
@@ -169,7 +169,7 @@ public class MarginOrderStatus extends ResultMarginOrder {
 
     /**
      * Method to get {@link #transactTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #transactTime} instance as {@link Date}
      **/

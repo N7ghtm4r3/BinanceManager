@@ -37,7 +37,7 @@ public class TransfersHistoryList extends BinanceList<Transfer> {
      **/
     public TransfersHistoryList(JSONObject jTransfersHistoryList) {
         super(jTransfersHistoryList);
-        JSONArray jTransfers = hList.getJSONArray("rows", new JSONArray());
+        JSONArray jTransfers = hItem.getJSONArray("rows", new JSONArray());
         for (int j = 0; j < jTransfers.length(); j++)
             rows.add(new Transfer(jTransfers.getJSONObject(j)));
     }
@@ -113,7 +113,7 @@ public class TransfersHistoryList extends BinanceList<Transfer> {
 
         /**
          * Method to get {@link #amount} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #amount} instance as double
          **/
@@ -146,7 +146,7 @@ public class TransfersHistoryList extends BinanceList<Transfer> {
 
         /**
          * Method to get {@link #type} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #type} instance as {@link TransferType}
          **/

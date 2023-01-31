@@ -37,7 +37,7 @@ public class RepaysList extends BinanceList<RepaysList.Repay> {
      **/
     public RepaysList(JSONObject jRepaysList) {
         super(jRepaysList);
-        JSONArray jRepays = hList.getJSONArray("rows", new JSONArray());
+        JSONArray jRepays = hItem.getJSONArray("rows", new JSONArray());
         for (int j = 0; j < jRepays.length(); j++)
             rows.add(new Repay(jRepays.getJSONObject(j)));
     }

@@ -80,7 +80,7 @@ public class Fill {
 
     /**
      * Method to get {@link #price} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #price} instance as double
      **/
@@ -113,7 +113,7 @@ public class Fill {
 
     /**
      * Method to get {@link #qty} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #qty} instance as double
      **/
@@ -146,7 +146,7 @@ public class Fill {
 
     /**
      * Method to get {@link #commission} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #commission} instance as double
      **/
@@ -179,7 +179,7 @@ public class Fill {
 
     /**
      * Method to get {@link #commissionAsset} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #commissionAsset} instance as {@link String}
      **/
@@ -189,7 +189,7 @@ public class Fill {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

@@ -36,7 +36,7 @@ public class LoansList extends BinanceList<LoansList.Loan> {
      **/
     public LoansList(JSONObject jLoansList) {
         super(jLoansList);
-        JSONArray jLoans = hList.getJSONArray("rows", new JSONArray());
+        JSONArray jLoans = hItem.getJSONArray("rows", new JSONArray());
         for (int j = 0; j < jLoans.length(); j++)
             rows.add(new Loan(jLoans.getJSONObject(j)));
     }
@@ -96,7 +96,7 @@ public class LoansList extends BinanceList<LoansList.Loan> {
 
         /**
          * Method to get {@link #isolatedSymbol} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #isolatedSymbol} instance as {@link String}
          **/
@@ -106,7 +106,7 @@ public class LoansList extends BinanceList<LoansList.Loan> {
 
         /**
          * Method to get {@link #principal} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #principal} instance as double
          **/

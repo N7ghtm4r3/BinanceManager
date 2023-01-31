@@ -42,7 +42,7 @@ public class BUSDConvert {
 
     /**
      * Method to get {@link #tranId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #tranId} instance as long
      **/
@@ -52,7 +52,7 @@ public class BUSDConvert {
 
     /**
      * Method to get {@link #status} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #status} instance as {@link String}
      **/
@@ -62,7 +62,7 @@ public class BUSDConvert {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

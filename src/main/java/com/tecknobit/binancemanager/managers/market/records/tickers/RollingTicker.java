@@ -146,7 +146,7 @@ public class RollingTicker extends Ticker {
 
     /**
      * Method to get {@link #priceChange} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #priceChange} instance as double
      * @implSpec if this rolling ticket has been created with {@link ResponseType#MINI} type response this instance will be return
@@ -171,7 +171,7 @@ public class RollingTicker extends Ticker {
 
     /**
      * Method to get {@link #priceChangePercent} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #priceChangePercent} instance as double
      * @implSpec if this rolling ticket has been created with {@link ResponseType#MINI} type response this instance will be return
@@ -196,7 +196,7 @@ public class RollingTicker extends Ticker {
 
     /**
      * Method to get {@link #weightedAvgPrice} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #weightedAvgPrice} instance as double
      * @implSpec if this rolling ticket has been created with {@link ResponseType#MINI} type response this instance will be return
@@ -221,7 +221,7 @@ public class RollingTicker extends Ticker {
 
     /**
      * Method to get {@link #lastPrice} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #lastPrice} instance as double
      **/
@@ -242,7 +242,7 @@ public class RollingTicker extends Ticker {
 
     /**
      * Method to get {@link #openPrice} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #openPrice} instance as double
      **/
@@ -263,7 +263,7 @@ public class RollingTicker extends Ticker {
 
     /**
      * Method to get {@link #highPrice} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #highPrice} instance as double
      **/
@@ -284,7 +284,7 @@ public class RollingTicker extends Ticker {
 
     /**
      * Method to get {@link #lowPrice} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #lowPrice} instance as double
      **/
@@ -305,7 +305,7 @@ public class RollingTicker extends Ticker {
 
     /**
      * Method to get {@link #volume} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #volume} instance as double
      **/
@@ -326,7 +326,7 @@ public class RollingTicker extends Ticker {
 
     /**
      * Method to get {@link #quoteVolume} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #quoteVolume} instance as double
      **/
@@ -347,7 +347,7 @@ public class RollingTicker extends Ticker {
 
     /**
      * Method to get {@link #openTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #openTime} instance as long
      **/
@@ -357,7 +357,7 @@ public class RollingTicker extends Ticker {
 
     /**
      * Method to get {@link #closeTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #closeTime} instance as long
      **/
@@ -367,7 +367,7 @@ public class RollingTicker extends Ticker {
 
     /**
      * Method to get {@link #firstId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #firstId} instance as long
      **/
@@ -377,7 +377,7 @@ public class RollingTicker extends Ticker {
 
     /**
      * Method to get {@link #lastId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #lastId} instance as long
      **/
@@ -387,7 +387,7 @@ public class RollingTicker extends Ticker {
 
     /**
      * Method to get {@link #count} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #count} instance as int
      **/

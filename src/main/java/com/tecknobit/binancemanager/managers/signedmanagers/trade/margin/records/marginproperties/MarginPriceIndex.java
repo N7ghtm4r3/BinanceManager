@@ -61,7 +61,7 @@ public class MarginPriceIndex {
 
     /**
      * Method to get {@link #calcTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #calcTime} instance as long
      **/
@@ -71,7 +71,7 @@ public class MarginPriceIndex {
 
     /**
      * Method to get {@link #calcTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #calcTime} instance as {@link Date}
      **/
@@ -93,7 +93,7 @@ public class MarginPriceIndex {
 
     /**
      * Method to get {@link #price} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #price} instance as double
      **/
@@ -126,7 +126,7 @@ public class MarginPriceIndex {
 
     /**
      * Method to get {@link #symbol} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
      **/
@@ -136,7 +136,7 @@ public class MarginPriceIndex {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

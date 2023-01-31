@@ -187,7 +187,7 @@ public class CoinInformation {
 
     /**
      * Method to get {@link #coin} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #coin} instance as {@link String}
      **/
@@ -197,7 +197,7 @@ public class CoinInformation {
 
     /**
      * Method to get {@link #depositAllEnable} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #depositAllEnable} instance as boolean
      **/
@@ -216,7 +216,7 @@ public class CoinInformation {
 
     /**
      * Method to get {@link #free} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #free} instance as double
      **/
@@ -249,7 +249,7 @@ public class CoinInformation {
 
     /**
      * Method to get {@link #freeze} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #freeze} instance as double
      **/
@@ -282,7 +282,7 @@ public class CoinInformation {
 
     /**
      * Method to get {@link #ipoable} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #ipoable} instance as double
      **/
@@ -315,7 +315,7 @@ public class CoinInformation {
 
     /**
      * Method to get {@link #ipoing} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #ipoing} instance as double
      **/
@@ -348,7 +348,7 @@ public class CoinInformation {
 
     /**
      * Method to get {@link #isLegalMoney} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isLegalMoney} instance as boolean
      **/
@@ -367,7 +367,7 @@ public class CoinInformation {
 
     /**
      * Method to get {@link #locked} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #locked} instance as double
      **/
@@ -400,7 +400,7 @@ public class CoinInformation {
 
     /**
      * Method to get {@link #name} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #name} instance as {@link String}
      **/
@@ -410,7 +410,7 @@ public class CoinInformation {
 
     /**
      * Method to get {@link #networkItemsList} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #networkItemsList} instance as {@link ArrayList} of {@link NetworkItem}
      **/
@@ -459,7 +459,7 @@ public class CoinInformation {
 
     /**
      * Method to get {@link #storage} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #storage} instance as double
      **/
@@ -492,7 +492,7 @@ public class CoinInformation {
 
     /**
      * Method to get {@link #trading} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #trading} instance as boolean
      **/
@@ -511,7 +511,7 @@ public class CoinInformation {
 
     /**
      * Method to get {@link #withdrawAllEnable} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #withdrawAllEnable} instance as boolean
      **/
@@ -530,7 +530,7 @@ public class CoinInformation {
 
     /**
      * Method to get {@link #withdrawing} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #withdrawing} instance as double
      **/
@@ -563,7 +563,7 @@ public class CoinInformation {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */
@@ -751,7 +751,7 @@ public class CoinInformation {
 
         /**
          * Method to get {@link #addressRegex} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #addressRegex} instance as {@link String}
          **/
@@ -761,7 +761,7 @@ public class CoinInformation {
 
         /**
          * Method to get {@link #coin} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #coin} instance as {@link String}
          **/
@@ -771,7 +771,7 @@ public class CoinInformation {
 
         /**
          * Method to get {@link #depositDesc} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #depositDesc} instance as {@link String}
          **/
@@ -781,7 +781,7 @@ public class CoinInformation {
 
         /**
          * Method to get {@link #depositEnable} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #depositEnable} instance as boolean
          **/
@@ -791,7 +791,7 @@ public class CoinInformation {
 
         /**
          * Method to get {@link #isDefault} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #isDefault} instance as boolean
          **/
@@ -801,7 +801,7 @@ public class CoinInformation {
 
         /**
          * Method to get {@link #memoRegex} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #memoRegex} instance as {@link String}
          **/
@@ -811,7 +811,7 @@ public class CoinInformation {
 
         /**
          * Method to get {@link #minConfirm} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #minConfirm} instance as int
          **/
@@ -821,7 +821,7 @@ public class CoinInformation {
 
         /**
          * Method to get {@link #name} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #name} instance as {@link String}
          **/
@@ -831,7 +831,7 @@ public class CoinInformation {
 
         /**
          * Method to get {@link #network} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #network} instance as {@link String}
          **/
@@ -841,7 +841,7 @@ public class CoinInformation {
 
         /**
          * Method to get {@link #resetAddressStatus} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #resetAddressStatus} instance as boolean
          **/
@@ -851,7 +851,7 @@ public class CoinInformation {
 
         /**
          * Method to get {@link #specialTips} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #specialTips} instance as {@link String}
          **/
@@ -861,7 +861,7 @@ public class CoinInformation {
 
         /**
          * Method to get {@link #unLockConfirm} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #unLockConfirm} instance as int
          **/
@@ -871,7 +871,7 @@ public class CoinInformation {
 
         /**
          * Method to get {@link #withdrawDesc} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #withdrawDesc} instance as {@link String}
          **/
@@ -881,7 +881,7 @@ public class CoinInformation {
 
         /**
          * Method to get {@link #withdrawEnable} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #withdrawEnable} instance as boolean
          **/
@@ -891,7 +891,7 @@ public class CoinInformation {
 
         /**
          * Method to get {@link #withdrawFee} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #withdrawFee} instance as double
          **/
@@ -912,7 +912,7 @@ public class CoinInformation {
 
         /**
          * Method to get {@link #withdrawIntegerMultiple} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #withdrawIntegerMultiple} instance as double
          **/
@@ -933,7 +933,7 @@ public class CoinInformation {
 
         /**
          * Method to get {@link #withdrawMax} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #withdrawMax} instance as double
          **/
@@ -954,7 +954,7 @@ public class CoinInformation {
 
         /**
          * Method to get {@link #withdrawMin} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #withdrawMin} instance as double
          **/
@@ -975,7 +975,7 @@ public class CoinInformation {
 
         /**
          * Method to get {@link #sameAddress} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #sameAddress} instance as boolean
          **/
@@ -985,7 +985,7 @@ public class CoinInformation {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */

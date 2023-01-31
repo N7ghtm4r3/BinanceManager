@@ -78,7 +78,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
 
     /**
      * Method to get {@link #futuresData} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #futuresData} instance as {@link ArrayList} of {@link MarginOrderDetails}
      **/
@@ -180,7 +180,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #updateTime} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #updateTime} instance as long
          **/
@@ -190,7 +190,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #updateTime} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #updateTime} instance as {@link Date}
          **/
@@ -200,7 +200,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #futuresAssets} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #futuresAssets} instance as {@link ArrayList} of {@link FuturesAsset}
          **/
@@ -249,7 +249,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #futuresPositions} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #futuresData} instance as {@link ArrayList} of {@link MarginOrderDetails}
          **/
@@ -298,7 +298,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */
@@ -364,7 +364,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #asset} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
          **/
@@ -374,7 +374,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #marginBalance} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #marginBalance} instance as double
          **/
@@ -407,7 +407,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #walletBalance} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #walletBalance} instance as double
          **/
@@ -440,7 +440,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */
@@ -512,7 +512,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #entryPrice} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #entryPrice} instance as double
          **/
@@ -545,7 +545,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #markPrice} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #markPrice} instance as double
          **/
@@ -578,7 +578,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #positionAmt} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #positionAmt} instance as double
          **/
@@ -611,7 +611,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #symbol} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #symbol} instance as {@link String}
          **/
@@ -621,7 +621,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #unRealizedProfit} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #unRealizedProfit} instance as double
          **/
@@ -654,7 +654,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */

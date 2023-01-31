@@ -46,7 +46,7 @@ public class CurrentAveragePrice {
 
     /**
      * Method to get {@link #mins} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #mins} instance as int
      **/
@@ -56,7 +56,7 @@ public class CurrentAveragePrice {
 
     /**
      * Method to get {@link #price} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #price} instance as double
      **/
@@ -77,7 +77,7 @@ public class CurrentAveragePrice {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

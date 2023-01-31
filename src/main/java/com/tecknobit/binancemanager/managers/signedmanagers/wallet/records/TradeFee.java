@@ -51,7 +51,7 @@ public class TradeFee {
 
     /**
      * Method to get {@link #symbol} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
      **/
@@ -61,7 +61,7 @@ public class TradeFee {
 
     /**
      * Method to get {@link #makerCommission} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #makerCommission} instance as double
      **/
@@ -82,7 +82,7 @@ public class TradeFee {
 
     /**
      * Method to get {@link #takerCommission} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #takerCommission} instance as double
      **/
@@ -103,7 +103,7 @@ public class TradeFee {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

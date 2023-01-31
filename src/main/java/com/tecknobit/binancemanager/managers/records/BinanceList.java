@@ -1,6 +1,5 @@
 package com.tecknobit.binancemanager.managers.records;
 
-import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.Status;
 import org.json.JSONObject;
@@ -13,18 +12,14 @@ import java.util.Date;
  *
  * @param <T> type of the item to insert in the list
  * @author N7ghtm4r3 - Tecknobit
+ * @see BinanceItem
  **/
-public class BinanceList<T> {
+public class BinanceList<T> extends BinanceItem {
 
     /**
      * {@code rows} list of the items
      **/
     protected final ArrayList<T> rows;
-
-    /**
-     * {@code hList} {@code "JSON"} helper
-     **/
-    protected final JsonHelper hList;
 
     /**
      * {@code total} number of items
@@ -38,9 +33,9 @@ public class BinanceList<T> {
      * @param rows:  list of the items
      **/
     public BinanceList(int total, ArrayList<T> rows) {
+        super(null);
         this.total = total;
         this.rows = rows;
-        hList = null;
     }
 
     /**
@@ -49,14 +44,14 @@ public class BinanceList<T> {
      * @param jList: list details as {@link JSONObject}
      **/
     public BinanceList(JSONObject jList) {
-        hList = new JsonHelper(jList);
-        total = hList.getInt("total", 0);
+        super(jList);
+        total = hItem.getInt("total", 0);
         rows = new ArrayList<>();
     }
 
     /**
      * Method to get {@link #total} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #total} instance as int
      **/
@@ -66,7 +61,7 @@ public class BinanceList<T> {
 
     /**
      * Method to get {@link #rows} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #rows} instance as {@link ArrayList} of {@link T}
      **/
@@ -107,17 +102,6 @@ public class BinanceList<T> {
      **/
     public T getRow(int index) {
         return rows.get(index);
-    }
-
-    /**
-     * Returns a string representation of the object <br>
-     * Any params required
-     *
-     * @return a string representation of the object as {@link String}
-     */
-    @Override
-    public String toString() {
-        return new JSONObject(this).toString();
     }
 
     /**
@@ -179,7 +163,7 @@ public class BinanceList<T> {
 
         /**
          * Method to get {@link #asset} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
          **/
@@ -189,7 +173,7 @@ public class BinanceList<T> {
 
         /**
          * Method to get {@link #txId} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #txId} instance as long
          **/
@@ -199,7 +183,7 @@ public class BinanceList<T> {
 
         /**
          * Method to get {@link #timestamp} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #timestamp} instance as long
          **/
@@ -209,7 +193,7 @@ public class BinanceList<T> {
 
         /**
          * Method to get {@link #timestamp} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #timestamp} instance as {@link Date}
          **/
@@ -219,7 +203,7 @@ public class BinanceList<T> {
 
         /**
          * Method to get {@link #status} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #status} instance as {@link Status}
          **/
@@ -229,7 +213,7 @@ public class BinanceList<T> {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */

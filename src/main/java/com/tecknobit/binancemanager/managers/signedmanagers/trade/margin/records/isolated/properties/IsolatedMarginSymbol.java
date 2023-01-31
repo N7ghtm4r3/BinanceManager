@@ -75,7 +75,7 @@ public class IsolatedMarginSymbol {
 
     /**
      * Method to get {@link #symbol} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
      **/
@@ -85,7 +85,7 @@ public class IsolatedMarginSymbol {
 
     /**
      * Method to get {@link #base} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #base} instance as {@link String}
      **/
@@ -95,7 +95,7 @@ public class IsolatedMarginSymbol {
 
     /**
      * Method to get {@link #quote} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #quote} instance as {@link String}
      **/
@@ -105,7 +105,7 @@ public class IsolatedMarginSymbol {
 
     /**
      * Method to get {@link #isMarginTrade} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isMarginTrade} instance as boolean
      **/
@@ -115,7 +115,7 @@ public class IsolatedMarginSymbol {
 
     /**
      * Method to get {@link #isBuyAllowed} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isBuyAllowed} instance as boolean
      **/
@@ -125,7 +125,7 @@ public class IsolatedMarginSymbol {
 
     /**
      * Method to get {@link #isSellAllowed} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isSellAllowed} instance as boolean
      **/
@@ -135,7 +135,7 @@ public class IsolatedMarginSymbol {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

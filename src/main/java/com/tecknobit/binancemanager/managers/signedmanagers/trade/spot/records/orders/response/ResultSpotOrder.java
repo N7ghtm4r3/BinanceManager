@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.binancemanager.managers.market.records.stats.ExchangeInformation.SelfTradePreventionMode;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order;
 import org.json.JSONObject;
 
@@ -68,7 +69,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
     /**
      * {@code selfTradePreventionMode} is instance that contains the self trade prevention mode
      **/
-    protected final String selfTradePreventionMode;
+    protected final SelfTradePreventionMode selfTradePreventionMode;
 
     /**
      * {@code trailingTime} indicating the time when the trailing order is active and tracking price changes,
@@ -82,9 +83,11 @@ public class ResultSpotOrder extends ACKSpotOrder {
      *
      * @param symbol                  : symbol used in the order
      * @param orderId                 : order identifier
-     * @param orderListId             : list order identifier
      * @param clientOrderId           : client order identifier
+     * @param orderListId             : list order identifier
      * @param transactTime            : transaction time
+     * @param preventedMatchId:       prevented match identifier
+     * @param preventedQuantity:      prevented quantity value
      * @param price                   : price in order
      * @param origQty                 : origin quantity in order
      * @param executedQty             : executed quantity in order
@@ -97,11 +100,12 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * @param selfTradePreventionMode : self trade prevention mode
      * @param trailingTime:           indicating the time when the trailing order is active and tracking price changes
      **/
-    public ResultSpotOrder(String symbol, long orderId, long orderListId, String clientOrderId, long transactTime,
-                           double price, double origQty, double executedQty, double cummulativeQuoteQty,
-                           Status status, TimeInForce timeInForce, OrderType type, Side side, long workingTime,
-                           String selfTradePreventionMode, long trailingTime) {
-        super(symbol, orderId, orderListId, clientOrderId, transactTime);
+    public ResultSpotOrder(String symbol, long orderId, String clientOrderId, long orderListId, long transactTime,
+                           long preventedMatchId, double preventedQuantity, double price, double origQty,
+                           double executedQty, double cummulativeQuoteQty, Status status, TimeInForce timeInForce,
+                           OrderType type, Side side, long workingTime, SelfTradePreventionMode selfTradePreventionMode,
+                           long trailingTime) {
+        super(symbol, orderId, clientOrderId, orderListId, transactTime, preventedMatchId, preventedQuantity);
         this.price = price;
         this.origQty = origQty;
         this.executedQty = executedQty;
@@ -131,13 +135,13 @@ public class ResultSpotOrder extends ACKSpotOrder {
         type = OrderType.valueOf(hOrder.getString("type", OrderType.MARKET.name()));
         side = Side.valueOf(hOrder.getString("side", Side.BUY.name()));
         workingTime = hOrder.getLong("workingTime", 0);
-        selfTradePreventionMode = hOrder.getString("selfTradePreventionMode");
+        selfTradePreventionMode = SelfTradePreventionMode.valueOf(hOrder.getString("selfTradePreventionMode"));
         trailingTime = hOrder.getLong("trailingTime", 0);
     }
 
     /**
      * Method to get {@link #price} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #price} instance as double
      **/
@@ -158,7 +162,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
 
     /**
      * Method to get {@link #origQty} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #origQty} instance as double
      **/
@@ -179,7 +183,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
 
     /**
      * Method to get {@link #executedQty} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #executedQty} instance as double
      **/
@@ -200,7 +204,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
 
     /**
      * Method to get {@link #cummulativeQuoteQty} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #cummulativeQuoteQty} instance as double
      **/
@@ -221,7 +225,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
 
     /**
      * Method to get {@link #status} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #status} instance as {@link Status}
      **/
@@ -231,7 +235,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
 
     /**
      * Method to get {@link #timeInForce} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #timeInForce} instance as {@link TimeInForce}
      **/
@@ -241,7 +245,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
 
     /**
      * Method to get {@link #type} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #type} instance as {@link OrderType}
      **/
@@ -251,7 +255,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
 
     /**
      * Method to get {@link #side} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #side} instance as {@link Side}
      **/
@@ -261,7 +265,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
 
     /**
      * Method to get {@link #workingTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #workingTime} instance as long
      **/
@@ -271,7 +275,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
 
     /**
      * Method to get {@link #workingTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #workingTime} instance as {@link Date}
      **/
@@ -281,17 +285,17 @@ public class ResultSpotOrder extends ACKSpotOrder {
 
     /**
      * Method to get {@link #selfTradePreventionMode} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #selfTradePreventionMode} instance as {@link String}
      **/
-    public String getSelfTradePreventionMode() {
+    public SelfTradePreventionMode getSelfTradePreventionMode() {
         return selfTradePreventionMode;
     }
 
     /**
      * Method to get {@link #trailingTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #trailingTime} instance as long
      **/
@@ -301,7 +305,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
 
     /**
      * Method to get {@link #trailingTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #trailingTime} instance as {@link Date}
      **/

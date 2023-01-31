@@ -124,7 +124,7 @@ public class Deposit {
 
     /**
      * Method to get {@link #status} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #status} instance as int
      **/
@@ -134,7 +134,7 @@ public class Deposit {
 
     /**
      * Method to get {@link #amount} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #amount} instance as double
      **/
@@ -167,7 +167,7 @@ public class Deposit {
 
     /**
      * Method to get {@link #coin} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #coin} instance as {@link String}
      **/
@@ -177,7 +177,7 @@ public class Deposit {
 
     /**
      * Method to get {@link #network} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #network} instance as {@link String}
      **/
@@ -196,7 +196,7 @@ public class Deposit {
 
     /**
      * Method to get {@link #unlockConfirm} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #unlockConfirm} instance as int
      **/
@@ -206,7 +206,7 @@ public class Deposit {
 
     /**
      * Method to get {@link #address} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #address} instance as {@link String}
      **/
@@ -225,7 +225,7 @@ public class Deposit {
 
     /**
      * Method to get {@link #addressTag} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #addressTag} instance as {@link String}
      **/
@@ -244,7 +244,7 @@ public class Deposit {
 
     /**
      * Method to get {@link #txId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #txId} instance as {@link String}
      **/
@@ -254,7 +254,7 @@ public class Deposit {
 
     /**
      * Method to get {@link #insertTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #insertTime} instance as long
      **/
@@ -276,7 +276,7 @@ public class Deposit {
 
     /**
      * Method to get {@link #insertTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #insertTime} instance as {@link Date}
      **/
@@ -286,7 +286,7 @@ public class Deposit {
 
     /**
      * Method to get {@link #transferType} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #transferType} instance as int
      **/
@@ -317,7 +317,7 @@ public class Deposit {
 
     /**
      * Method to get {@link #confirmTimes} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #confirmTimes} instance as {@link String}
      **/
@@ -336,7 +336,7 @@ public class Deposit {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */
@@ -381,7 +381,7 @@ public class Deposit {
 
         /**
          * Method to get the {@link DepositStatus} by an int <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link DepositStatus} corresponding value
          **/
@@ -398,7 +398,7 @@ public class Deposit {
 
         /**
          * Method to get {@link #status} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #status} instance as {@link String}
          **/

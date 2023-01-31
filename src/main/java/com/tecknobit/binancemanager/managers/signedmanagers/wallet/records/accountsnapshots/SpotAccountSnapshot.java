@@ -92,7 +92,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
 
     /**
      * Method to get {@link #assetsSpotData} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #assetsSpotData} instance as {@link ArrayList} of {@link SpotData}
      **/
@@ -198,7 +198,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #totalAssetOfBtc} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #totalAssetOfBtc} instance as double
          **/
@@ -231,7 +231,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #updateTime} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #updateTime} instance as long
          **/
@@ -241,7 +241,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #updateTime} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #updateTime} instance as {@link Date}
          **/
@@ -263,7 +263,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #spotBalances} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #spotBalances} instance as {@link ArrayList} of {@link SpotBalance}
          **/
@@ -312,7 +312,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */
@@ -383,7 +383,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #free} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #free} instance as double
          **/
@@ -416,7 +416,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #locked} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #locked} instance as double
          **/
@@ -449,7 +449,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */

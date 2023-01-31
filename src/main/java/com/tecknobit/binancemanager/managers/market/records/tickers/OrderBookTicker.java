@@ -79,7 +79,7 @@ public class OrderBookTicker extends Ticker {
 
     /**
      * Method to get {@link #bidPrice} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #bidPrice} instance as double
      **/
@@ -100,7 +100,7 @@ public class OrderBookTicker extends Ticker {
 
     /**
      * Method to get {@link #bidQty} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #bidQty} instance as double
      **/
@@ -121,7 +121,7 @@ public class OrderBookTicker extends Ticker {
 
     /**
      * Method to get {@link #askPrice} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #askPrice} instance as double
      **/
@@ -142,7 +142,7 @@ public class OrderBookTicker extends Ticker {
 
     /**
      * Method to get {@link #askQty} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #askQty} instance as double
      **/

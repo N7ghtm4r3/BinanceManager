@@ -93,7 +93,7 @@ public class MarginAccountSnapshot extends AccountSnapshot {
 
     /**
      * Method to get {@link #marginData} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #marginData} instance as {@link ArrayList} of {@link MarginData}
      **/
@@ -207,7 +207,7 @@ public class MarginAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #marginLevel} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #marginLevel} instance as double
          **/
@@ -240,7 +240,7 @@ public class MarginAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #updateTime} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #updateTime} instance as long
          **/
@@ -262,7 +262,7 @@ public class MarginAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #updateTime} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #updateTime} instance as {@link Date}
          **/
@@ -272,7 +272,7 @@ public class MarginAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #userMarginAssets} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #userMarginAssets} instance as {@link ArrayList} of {@link UserMarginAsset}
          **/
@@ -392,7 +392,7 @@ public class MarginAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #borrowed} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #borrowed} instance as double
          **/
@@ -425,7 +425,7 @@ public class MarginAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #interest} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #interest} instance as double
          **/
@@ -458,7 +458,7 @@ public class MarginAccountSnapshot extends AccountSnapshot {
 
         /**
          * Method to get {@link #netAsset} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #netAsset} instance as double
          **/

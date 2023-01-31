@@ -2,8 +2,8 @@ package com.tecknobit.binancemanager.managers;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.apimanager.annotations.Returner;
+import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.apimanager.apis.APIRequest;
-import com.tecknobit.apimanager.apis.APIRequest.RequestMethod;
 import com.tecknobit.apimanager.trading.TradingTools;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import org.json.JSONObject;
@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Properties;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
+import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.POST;
 import static com.tecknobit.apimanager.trading.TradingTools.computeAssetPercent;
 import static com.tecknobit.apimanager.trading.TradingTools.textualizeAssetPercent;
 import static com.tecknobit.binancemanager.constants.EndpointsList.SYSTEM_STATUS_ENDPOINT;
@@ -109,7 +110,7 @@ public class BinanceManager {
 
     /**
      * Constructor to init a {@link BinanceManager} <br>
-     * Any params required
+     * No-any params required
      *
      * @throws IllegalArgumentException when a parameterized constructor has not been called before this constructor
      * @apiNote this constructor is useful to instantiate a new {@link BinanceManager}'s manager without re-insert
@@ -162,7 +163,7 @@ public class BinanceManager {
 
     /**
      * Method to set automatically a working endpoint <br>
-     * Any params required
+     * No-any params required
      **/
     protected String getDefaultBaseEndpoint() throws SystemException, IOException {
         for (BinanceEndpoint endpoint : BinanceEndpoint.values())
@@ -183,7 +184,7 @@ public class BinanceManager {
 
     /**
      * Request to get server timestamp or your current timestamp
-     * Any params required
+     * No-any params required
      *
      * @return es. 1566247363776
      **/
@@ -199,7 +200,7 @@ public class BinanceManager {
 
     /**
      * Method to get timestamp for request <br>
-     * Any params required
+     * No-any params required
      *
      * @return "?timestamp=" + getServerTime() return value
      **/
@@ -210,14 +211,31 @@ public class BinanceManager {
     /**
      * Method to execute and get response of a request
      *
+     * @param endpoint : endpoint to request
+     * @param params   :   params HTTP for the request
+     * @return response of request formatted in Json
+     **/
+    @Wrapper
+    public String sendGetRequest(String endpoint, String params) throws IOException {
+        return sendGetRequest(endpoint, params, null);
+    }
+
+    /**
+     * Method to execute and get response of a request
+     *
      * @param endpoint: endpoint to request
      * @param params:   params HTTP for the request
-     * @param method:   method HTTP for the request
      * @param apiKey:   apiKey of the account to perform request
      * @return response of request formatted in Json
      **/
-    public String getRequestResponse(String endpoint, String params, RequestMethod method, String apiKey) throws IOException {
-        apiRequest.sendAPIRequest(baseEndpoint + endpoint + params, method, "X-MBX-APIKEY", apiKey);
+    @Wrapper
+    public String sendGetRequest(String endpoint, String params, String apiKey) throws IOException {
+        if (params == null)
+            params = "";
+        if (apiKey != null)
+            apiRequest.sendAPIRequest(baseEndpoint + endpoint + params, GET, "X-MBX-APIKEY", apiKey);
+        else
+            apiRequest.sendAPIRequest(baseEndpoint + endpoint + params, GET);
         return apiRequest.getResponse();
     }
 
@@ -226,17 +244,35 @@ public class BinanceManager {
      *
      * @param endpoint: endpoint to request
      * @param params:   params HTTP for the request
-     * @param method:   method HTTP for the request
      * @return response of request formatted in Json
      **/
-    public String getRequestResponse(String endpoint, String params, RequestMethod method) throws IOException {
-        apiRequest.sendAPIRequest(baseEndpoint + endpoint + params, method);
+    @Wrapper
+    public String sendPostRequest(String endpoint, Params params) throws IOException {
+        return sendPostRequest(endpoint, params, null);
+    }
+
+    /**
+     * Method to execute and get response of a request
+     *
+     * @param endpoint: endpoint to request
+     * @param params:   params HTTP for the request
+     * @param apiKey:   apiKey of the account to perform request
+     * @return response of request formatted in Json
+     **/
+    public String sendPostRequest(String endpoint, Params params, String apiKey) throws IOException {
+        if (params == null)
+            params = new Params();
+        if (apiKey != null)
+            apiRequest.sendPayloadedAPIRequest(baseEndpoint + endpoint, POST, "X-MBX-APIKEY", apiKey,
+                    params);
+        else
+            apiRequest.sendPayloadedAPIRequest(baseEndpoint + endpoint, POST, params);
         return apiRequest.getResponse();
     }
 
     /**
      * Method to get status code of request response <br>
-     * Any params required
+     * No-any params required
      *
      * @return status code of request response
      **/
@@ -246,7 +282,7 @@ public class BinanceManager {
 
     /**
      * Method to get error response of an HTTP request <br>
-     * Any params required
+     * No-any params required
      *
      * @return apiRequest.getErrorResponse();
      **/
@@ -256,7 +292,7 @@ public class BinanceManager {
 
     /**
      * Method to get error response of an HTTP request <br>
-     * Any params required
+     * No-any params required
      *
      * @return apiRequest.getErrorResponse() as
      **/
@@ -266,7 +302,7 @@ public class BinanceManager {
 
     /**
      * Method to print error response of an HTTP request  <br>
-     * Any params required
+     * No-any params required
      **/
     public void printErrorResponse() {
         apiRequest.printErrorResponse();
@@ -390,24 +426,29 @@ public class BinanceManager {
     public enum BinanceEndpoint {
 
         /**
-         * {@code "MAIN_ENDPOINT"} principal endpoint
+         * {@code "MAIN_ENDPOINT"} principal API cluster
          **/
         MAIN_ENDPOINT("https://api.binance.com"),
 
         /**
-         * {@code "SECOND_ENDPOINT"} second endpoint
+         * {@code "SECOND_ENDPOINT"} second API cluster
          **/
         SECOND_ENDPOINT("https://api1.binance.com"),
 
         /**
-         * {@code "THIRD_ENDPOINT"} third endpoint
+         * {@code "THIRD_ENDPOINT"} third API cluster
          **/
         THIRD_ENDPOINT("https://api3.binance.com"),
 
         /**
-         * {@code "FOURTH_ENDPOINT"} forth endpoint
+         * {@code "FOURTH_ENDPOINT"} forth API cluster
          **/
-        FOURTH_ENDPOINT("https://api3.binance.com");
+        FOURTH_ENDPOINT("https://api3.binance.com"),
+
+        /**
+         * {@code "FIFTH_ENDPOINT"} fifth API cluster
+         **/
+        FIFTH_ENDPOINT("https://api4.binance.com");
 
         /**
          * {@code "endpoint"} value
@@ -425,7 +466,7 @@ public class BinanceManager {
 
         /**
          * Method to get {@link #endpoint} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #endpoint} instance as {@link String}
          **/
@@ -470,7 +511,7 @@ public class BinanceManager {
 
         /**
          * Method to get error code <br>
-         * Any params required
+         * No-any params required
          *
          * @return code of error as int
          * *
@@ -480,7 +521,7 @@ public class BinanceManager {
 
         /**
          * Method to get error message <br>
-         * Any params required
+         * No-any params required
          *
          * @return message of error as {@link String}
          * *

@@ -56,7 +56,7 @@ public class DepositAddress {
 
     /**
      * Method to get {@link #address} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #address} instance as {@link String}
      **/
@@ -66,7 +66,7 @@ public class DepositAddress {
 
     /**
      * Method to get {@link #coin} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #coin} instance as {@link String}
      **/
@@ -76,7 +76,7 @@ public class DepositAddress {
 
     /**
      * Method to get {@link #tag} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #tag} instance as {@link String}
      **/
@@ -86,7 +86,7 @@ public class DepositAddress {
 
     /**
      * Method to get {@link #url} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #url} instance as {@link String}
      **/
@@ -96,7 +96,7 @@ public class DepositAddress {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

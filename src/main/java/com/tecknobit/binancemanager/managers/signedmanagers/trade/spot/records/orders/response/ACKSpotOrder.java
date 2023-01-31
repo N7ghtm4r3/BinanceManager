@@ -18,6 +18,28 @@ import java.util.Date;
 public class ACKSpotOrder extends SpotOrder {
 
     /**
+     * {@code transactTime} is instance that memorizes transaction time
+     **/
+    protected long transactTime;
+
+    /**
+     * Constructor to init {@link ACKSpotOrder} object
+     *
+     * @param symbol             : symbol used in the order
+     * @param orderId            : order identifier
+     * @param clientOrderId      : client order identifier
+     * @param orderListId        : list order identifier
+     * @param transactTime       : transaction time
+     * @param preventedMatchId:  prevented match identifier
+     * @param preventedQuantity: prevented quantity value
+     **/
+    public ACKSpotOrder(String symbol, long orderId, String clientOrderId, long orderListId, long transactTime,
+                        long preventedMatchId, double preventedQuantity) {
+        super(symbol, orderId, clientOrderId, orderListId, preventedMatchId, preventedQuantity);
+        this.transactTime = transactTime;
+    }
+
+    /**
      * Constructor to init {@link ACKSpotOrder} object
      *
      * @param ackOrder: ack order details as {@link JSONObject}
@@ -28,25 +50,8 @@ public class ACKSpotOrder extends SpotOrder {
     }
 
     /**
-     * {@code transactTime} is instance that memorizes transaction time
-     **/
-    protected long transactTime;
-
-    /** Constructor to init {@link ACKSpotOrder} object
-     * @param symbol: symbol used in the order
-     * @param orderId: order identifier
-     * @param clientOrderId: client order identifier
-     * @param orderListId: list order identifier
-     * @param transactTime: transaction time
-     * **/
-    public ACKSpotOrder(String symbol, long orderId, long orderListId, String clientOrderId, long transactTime) {
-        super(symbol, orderId, orderListId, clientOrderId);
-        this.transactTime = transactTime;
-    }
-
-    /**
      * Method to get {@link #transactTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #transactTime} instance as long
      **/
@@ -56,7 +61,7 @@ public class ACKSpotOrder extends SpotOrder {
 
     /**
      * Method to get {@link #transactTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #transactTime} instance as {@link Date}
      **/

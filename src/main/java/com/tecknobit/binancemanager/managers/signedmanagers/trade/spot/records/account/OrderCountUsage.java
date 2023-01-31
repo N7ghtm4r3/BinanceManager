@@ -69,7 +69,7 @@ public class OrderCountUsage {
 
     /**
      * Method to get {@link #rateLimitType} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #rateLimitType} instance as {@link RateLimitType}
      **/
@@ -79,7 +79,7 @@ public class OrderCountUsage {
 
     /**
      * Method to get {@link #interval} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #interval} instance as {@link RateLimitInterval}
      **/
@@ -89,7 +89,7 @@ public class OrderCountUsage {
 
     /**
      * Method to get {@link #intervalNum} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #intervalNum} instance as int
      **/
@@ -99,7 +99,7 @@ public class OrderCountUsage {
 
     /**
      * Method to get {@link #limit} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #limit} instance as double
      **/
@@ -109,7 +109,7 @@ public class OrderCountUsage {
 
     /**
      * Method to get {@link #count} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #count} instance as int
      **/
@@ -119,7 +119,7 @@ public class OrderCountUsage {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

@@ -68,7 +68,7 @@ public class OCOMarginOrder extends ComposedMarginOrderDetails {
 
     /**
      * Method to get {@link #marginBuyBorrowAmount} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #marginBuyBorrowAmount} instance as double
      **/
@@ -78,7 +78,7 @@ public class OCOMarginOrder extends ComposedMarginOrderDetails {
 
     /**
      * Method to get {@link #marginBuyBorrowAsset} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #marginBuyBorrowAsset} instance as {@link String}
      **/

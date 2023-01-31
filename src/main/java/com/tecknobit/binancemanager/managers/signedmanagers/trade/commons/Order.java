@@ -200,7 +200,7 @@ public class Order {
 
     /**
      * Method to get {@link #symbol} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
      **/
@@ -210,7 +210,7 @@ public class Order {
 
     /**
      * Method to get {@link #orderId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #orderId} instance as long
      **/
@@ -220,7 +220,7 @@ public class Order {
 
     /**
      * Method to get {@link #clientOrderId} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #clientOrderId} instance as {@link String}
      **/
@@ -230,7 +230,7 @@ public class Order {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */
@@ -410,7 +410,12 @@ public class Order {
         /**
          * {@code "REJECT"} status
          **/
-        REJECT
+        REJECT,
+
+        /**
+         * {@code "EXPIRED_IN_MATCH"} status
+         **/
+        EXPIRED_IN_MATCH
 
     }
 

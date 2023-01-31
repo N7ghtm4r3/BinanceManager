@@ -67,7 +67,7 @@ public class ComposedMarginOrderDetails extends OrderDetails {
 
     /**
      * Method to get {@link #canceledMarginOrders} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #canceledMarginOrders} instance as {@link ArrayList} of {@link MarginOrderDetails}
      **/
@@ -107,7 +107,7 @@ public class ComposedMarginOrderDetails extends OrderDetails {
 
     /**
      * Method to get {@link #isIsolated} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isIsolated} instance as boolean
      **/

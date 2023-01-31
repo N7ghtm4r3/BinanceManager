@@ -93,7 +93,7 @@ public class APIStatus {
 
     /**
      * Method to get {@link #isLocked} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isLocked} instance as boolean
      **/
@@ -112,7 +112,7 @@ public class APIStatus {
 
     /**
      * Method to get {@link #plannedRecoverTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #plannedRecoverTime} instance as int
      **/
@@ -134,7 +134,7 @@ public class APIStatus {
 
     /**
      * Method to get {@link #triggerConditions} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #triggerConditions} instance as {@link HashMap} of {@link Integer}
      **/
@@ -154,7 +154,7 @@ public class APIStatus {
 
     /**
      * Method to get {@link #keys} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #keys} instance as {@link ArrayList} of {@link String}
      **/
@@ -164,7 +164,7 @@ public class APIStatus {
 
     /**
      * Method to get {@link #values} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #values} instance as {@link ArrayList} of {@link Integer}
      **/
@@ -204,7 +204,7 @@ public class APIStatus {
 
     /**
      * Method to get {@link #updateTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #updateTime} instance as long
      **/
@@ -226,7 +226,7 @@ public class APIStatus {
 
     /**
      * Method to get {@link #updateTime} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #updateTime} instance as {@link Date}
      **/
@@ -236,7 +236,7 @@ public class APIStatus {
 
     /**
      * Method to set load triggers list  <br>
-     * Any params required
+     * No-any params required
      **/
     private void loadListsValues() {
         keys = new ArrayList<>(triggerConditions.keySet());
@@ -245,7 +245,7 @@ public class APIStatus {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

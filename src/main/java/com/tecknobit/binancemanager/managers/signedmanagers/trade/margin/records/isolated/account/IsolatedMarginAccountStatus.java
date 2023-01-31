@@ -44,7 +44,7 @@ public class IsolatedMarginAccountStatus {
 
     /**
      * Method to get {@link #success} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #success} instance as boolean
      **/
@@ -63,7 +63,7 @@ public class IsolatedMarginAccountStatus {
 
     /**
      * Method to get {@link #symbol} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
      **/
@@ -73,7 +73,7 @@ public class IsolatedMarginAccountStatus {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

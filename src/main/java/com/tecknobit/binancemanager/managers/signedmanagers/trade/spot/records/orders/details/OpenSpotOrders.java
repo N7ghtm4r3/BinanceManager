@@ -56,7 +56,7 @@ public class OpenSpotOrders {
 
     /**
      * Method to get {@link #spotOrdersDetails} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #spotOrdersDetails} instance as {@link ArrayList} of {@link SpotOrderDetails}
      **/
@@ -105,7 +105,7 @@ public class OpenSpotOrders {
 
     /**
      * Method to get {@link #composedSpotOrderDetails} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #composedSpotOrderDetails} instance as {@link ArrayList} of {@link ComposedSpotOrderDetails}
      **/
@@ -154,7 +154,7 @@ public class OpenSpotOrders {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

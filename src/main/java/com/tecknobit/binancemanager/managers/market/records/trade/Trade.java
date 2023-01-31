@@ -96,7 +96,7 @@ public class Trade {
 
     /**
      * Method to get {@link #id} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #id} instance as long
      **/
@@ -106,7 +106,7 @@ public class Trade {
 
     /**
      * Method to get {@link #price} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #price} instance as double
      **/
@@ -127,7 +127,7 @@ public class Trade {
 
     /**
      * Method to get {@link #qty} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #qty} instance as double
      **/
@@ -148,7 +148,7 @@ public class Trade {
 
     /**
      * Method to get {@link #quoteQty} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #quoteQty} instance as double
      **/
@@ -169,7 +169,7 @@ public class Trade {
 
     /**
      * Method to get {@link #time} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #time} instance as long
      **/
@@ -179,7 +179,7 @@ public class Trade {
 
     /**
      * Method to get {@link #time} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #time} instance as {@link Date}
      **/
@@ -189,7 +189,7 @@ public class Trade {
 
     /**
      * Method to get {@link #isBuyerMaker} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isBuyerMaker} instance as boolean
      **/
@@ -199,7 +199,7 @@ public class Trade {
 
     /**
      * Method to get {@link #isBestMatch} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isBestMatch} instance as boolean
      **/
@@ -209,7 +209,7 @@ public class Trade {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

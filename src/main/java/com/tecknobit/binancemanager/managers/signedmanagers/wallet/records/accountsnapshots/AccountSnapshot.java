@@ -90,7 +90,7 @@ public class AccountSnapshot {
 
     /**
      * Method to get {@link #code} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #code} instance as int
      **/
@@ -100,7 +100,7 @@ public class AccountSnapshot {
 
     /**
      * Method to get {@link #msg} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #msg} instance as {@link String}
      **/
@@ -110,7 +110,7 @@ public class AccountSnapshot {
 
     /**
      * Method to get {@link #type} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #type} instance as {@link AccountType}
      **/
@@ -120,7 +120,7 @@ public class AccountSnapshot {
 
     /**
      * Method to get {@link #snapshotVos} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #snapshotVos} instance as {@link JSONArray}
      **/
@@ -130,7 +130,7 @@ public class AccountSnapshot {
 
     /**
      * Method to get {@link #snapshotVos} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #snapshotVos} instance as {@link String}
      **/
@@ -140,7 +140,7 @@ public class AccountSnapshot {
 
     /**
      * Returns a string representation of the object <br>
-     * Any params required
+     * No-any params required
      *
      * @return a string representation of the object as {@link String}
      */

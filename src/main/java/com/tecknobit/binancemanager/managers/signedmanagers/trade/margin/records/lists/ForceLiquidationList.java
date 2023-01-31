@@ -40,7 +40,7 @@ public class ForceLiquidationList extends BinanceList<Liquidation> {
      **/
     public ForceLiquidationList(JSONObject jsonLiquidation) {
         super(jsonLiquidation);
-        JSONArray jList = hList.getJSONArray("rows", new JSONArray());
+        JSONArray jList = hItem.getJSONArray("rows", new JSONArray());
         for (int j = 0; j < jList.length(); j++)
             rows.add(new Liquidation(jList.getJSONObject(j)));
     }
@@ -159,7 +159,7 @@ public class ForceLiquidationList extends BinanceList<Liquidation> {
 
         /**
          * Method to get {@link #avgPrice} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #avgPrice} instance as double
          **/
@@ -192,7 +192,7 @@ public class ForceLiquidationList extends BinanceList<Liquidation> {
 
         /**
          * Method to get {@link #executedQty} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #executedQty} instance as double
          **/
@@ -225,7 +225,7 @@ public class ForceLiquidationList extends BinanceList<Liquidation> {
 
         /**
          * Method to get {@link #orderId} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #orderId} instance as double
          **/
@@ -235,7 +235,7 @@ public class ForceLiquidationList extends BinanceList<Liquidation> {
 
         /**
          * Method to get {@link #price} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #price} instance as double
          **/
@@ -268,7 +268,7 @@ public class ForceLiquidationList extends BinanceList<Liquidation> {
 
         /**
          * Method to get {@link #qty} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #qty} instance as double
          **/
@@ -301,7 +301,7 @@ public class ForceLiquidationList extends BinanceList<Liquidation> {
 
         /**
          * Method to get {@link #side} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #side} instance as {@link Side}
          **/
@@ -321,7 +321,7 @@ public class ForceLiquidationList extends BinanceList<Liquidation> {
 
         /**
          * Method to get {@link #symbol} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #symbol} instance as {@link String}
          **/
@@ -331,7 +331,7 @@ public class ForceLiquidationList extends BinanceList<Liquidation> {
 
         /**
          * Method to get {@link #timeInForce} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #timeInForce} instance as {@link TimeInForce}
          **/
@@ -341,7 +341,7 @@ public class ForceLiquidationList extends BinanceList<Liquidation> {
 
         /**
          * Method to get {@link #isIsolated} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #isIsolated} instance as boolean
          **/
@@ -360,7 +360,7 @@ public class ForceLiquidationList extends BinanceList<Liquidation> {
 
         /**
          * Method to get {@link #updatedTime} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #updatedTime} instance as long
          **/
@@ -382,7 +382,7 @@ public class ForceLiquidationList extends BinanceList<Liquidation> {
 
         /**
          * Method to get {@link #updatedTime} instance <br>
-         * Any params required
+         * No-any params required
          *
          * @return {@link #updatedTime} instance as {@link Date}
          **/
@@ -392,7 +392,7 @@ public class ForceLiquidationList extends BinanceList<Liquidation> {
 
         /**
          * Returns a string representation of the object <br>
-         * Any params required
+         * No-any params required
          *
          * @return a string representation of the object as {@link String}
          */

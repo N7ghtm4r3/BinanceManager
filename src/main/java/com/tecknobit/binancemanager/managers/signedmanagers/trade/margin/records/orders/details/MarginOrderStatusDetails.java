@@ -54,7 +54,7 @@ public class MarginOrderStatusDetails extends OrderDetails {
 
     /**
      * Method to get {@link #isIsolated} instance <br>
-     * Any params required
+     * No-any params required
      *
      * @return {@link #isIsolated} instance as boolean
      **/
