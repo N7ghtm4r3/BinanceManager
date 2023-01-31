@@ -1,6 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records;
 
-import com.tecknobit.binancemanager.managers.records.BinanceList;
+import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.convert.BUSDConvert;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,9 +16,9 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cloud-mining-payment-and-refund-history-user_data">
  * Get Cloud-Mining payment and refund history (USER_DATA)</a>
- * @see BinanceList
+ * @see BinanceRowsList
  **/
-public class PaymentRefundHistory extends BinanceList<PaymentRefund> {
+public class PaymentRefundHistory extends BinanceRowsList<PaymentRefund> {
 
     /**
      * Constructor to init {@link PaymentRefundHistory} object

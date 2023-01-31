@@ -1,6 +1,7 @@
-package com.tecknobit.binancemanager.managers.records;
+package com.tecknobit.binancemanager.managers.records.lists;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.Status;
 import org.json.JSONObject;
 
@@ -8,13 +9,13 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * The {@code BinanceList} class is useful to create a {@code "Binance"}'s records list
+ * The {@code BinanceRowsList} class is useful to create a {@code "Binance"}'s records list
  *
  * @param <T> type of the item to insert in the list
  * @author N7ghtm4r3 - Tecknobit
  * @see BinanceItem
  **/
-public class BinanceList<T> extends BinanceItem {
+public abstract class BinanceRowsList<T> extends BinanceItem {
 
     /**
      * {@code rows} list of the items
@@ -27,23 +28,23 @@ public class BinanceList<T> extends BinanceItem {
     protected int total;
 
     /**
-     * Constructor to init {@link BinanceList} object
+     * Constructor to init {@link BinanceRowsList} object
      *
      * @param total: number of items
      * @param rows:  list of the items
      **/
-    public BinanceList(int total, ArrayList<T> rows) {
+    public BinanceRowsList(int total, ArrayList<T> rows) {
         super(null);
         this.total = total;
         this.rows = rows;
     }
 
     /**
-     * Constructor to init {@link BinanceList}
+     * Constructor to init {@link BinanceRowsList}
      *
      * @param jList: list details as {@link JSONObject}
      **/
-    public BinanceList(JSONObject jList) {
+    public BinanceRowsList(JSONObject jList) {
         super(jList);
         total = hItem.getInt("total", 0);
         rows = new ArrayList<>();

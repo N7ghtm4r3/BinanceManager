@@ -1,6 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.lists;
 
-import com.tecknobit.binancemanager.managers.records.BinanceList;
+import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.Status;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.lists.LoansList.Loan;
 import org.json.JSONArray;
@@ -16,9 +16,9 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-repay-record-user_data">
  * Query Repay Record (USER_DATA)</a>
- * @see BinanceList
+ * @see BinanceRowsList
  **/
-public class RepaysList extends BinanceList<RepaysList.Repay> {
+public class RepaysList extends BinanceRowsList<RepaysList.Repay> {
 
     /**
      * Constructor to init {@link RepaysList} object

@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * The {@code BinanceList} class is useful to create a {@code "Binance"}'s record
+ * The {@code BinanceRowsList} class is useful to create a {@code "Binance"}'s record
  *
  * @author N7ghtm4r3 - Tecknobit
  * @since 1.1.2

@@ -1,7 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.binancemanager.managers.records.BinanceList;
+import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -18,9 +18,9 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
  * DustLogList(USER_DATA)</a>
- * @see BinanceList
+ * @see BinanceRowsList
  **/
-public class DustLogList extends BinanceList<AssetDribblets> {
+public class DustLogList extends BinanceRowsList<AssetDribblets> {
 
     /**
      * Constructor to init {@link DustLogList} object

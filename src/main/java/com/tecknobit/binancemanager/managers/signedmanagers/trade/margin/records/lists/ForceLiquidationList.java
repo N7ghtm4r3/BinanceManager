@@ -1,7 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.lists;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.binancemanager.managers.records.BinanceList;
+import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.Side;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.TimeInForce;
 import org.json.JSONArray;
@@ -19,9 +19,9 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
  * Get Force Liquidation Record (USER_DATA)</a>
- * @see BinanceList
+ * @see BinanceRowsList
  **/
-public class ForceLiquidationList extends BinanceList<Liquidation> {
+public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
 
     /**
      * Constructor to init {@link ForceLiquidationList} object

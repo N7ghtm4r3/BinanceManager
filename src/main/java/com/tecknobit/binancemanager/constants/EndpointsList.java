@@ -435,6 +435,16 @@ public class EndpointsList {
     public static final String COLLATERAL_RATIO_ENDPOINT = "/sapi/v1/margin/crossMarginCollateralRatio";
 
     /**
+     * {@code FIAT_ORDERS_ENDPOINT} is constant for FIAT_ORDERS_ENDPOINT's endpoint
+     **/
+    public static final String FIAT_ORDERS_ENDPOINT = "/sapi/v1/fiat/orders";
+
+    /**
+     * {@code FIAT_PAYMENTS_ENDPOINT} is constant for FIAT_PAYMENTS_ENDPOINT's endpoint
+     **/
+    public static final String FIAT_PAYMENTS_ENDPOINT = "/sapi/v1/fiat/payments";
+
+    /**
      * Constructor to avoid instantiation
      **/
     private EndpointsList() {

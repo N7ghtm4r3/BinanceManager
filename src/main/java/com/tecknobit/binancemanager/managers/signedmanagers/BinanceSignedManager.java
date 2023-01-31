@@ -135,7 +135,19 @@ public class BinanceSignedManager extends BinanceManager {
      **/
     @Wrapper
     protected String sendGetSignedRequest(String endpoint) throws Exception {
-        return sendGetSignedRequest(endpoint, null);
+        return sendGetSignedRequest(endpoint, (String) null);
+    }
+
+    /**
+     * Method to execute a get request and get response of that
+     *
+     * @param endpoint : endpoint to request
+     * @param params   :   params HTTP for the request
+     * @return response of the request
+     **/
+    @Wrapper
+    protected String sendGetSignedRequest(String endpoint, Params params) throws Exception {
+        return sendGetSignedRequest(endpoint, params.createQueryString());
     }
 
     /**

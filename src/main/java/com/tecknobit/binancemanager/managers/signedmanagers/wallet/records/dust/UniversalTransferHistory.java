@@ -1,7 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.binancemanager.managers.records.BinanceList;
+import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,9 +18,9 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-user-universal-transfer-history-user_data">
  * Query User Universal Transfer History (USER_DATA) </a>
- * @see BinanceList
+ * @see BinanceRowsList
  **/
-public class UniversalTransferHistory extends BinanceList<UniversalTransfer> {
+public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer> {
 
     /**
      * Constructor to init {@link UniversalTransferHistory} object

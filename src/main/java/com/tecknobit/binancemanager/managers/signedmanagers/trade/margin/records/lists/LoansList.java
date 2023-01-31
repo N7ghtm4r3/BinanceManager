@@ -1,6 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.lists;
 
-import com.tecknobit.binancemanager.managers.records.BinanceList;
+import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.Status;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,9 +15,9 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
  * Query Loan Record (USER_DATA)</a>
- * @see BinanceList
+ * @see BinanceRowsList
  **/
-public class LoansList extends BinanceList<LoansList.Loan> {
+public class LoansList extends BinanceRowsList<LoansList.Loan> {
 
     /**
      * Constructor to init {@link LoansList} object
