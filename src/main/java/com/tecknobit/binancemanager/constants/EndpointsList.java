@@ -445,6 +445,21 @@ public class EndpointsList {
     public static final String FIAT_PAYMENTS_ENDPOINT = "/sapi/v1/fiat/payments";
 
     /**
+     * {@code C2C_TRADES_HISTORY_ENDPOINT} is constant for C2C_TRADES_HISTORY_ENDPOINT's endpoint
+     **/
+    public static final String C2C_TRADES_HISTORY_ENDPOINT = "/sapi/v1/c2c/orderMatch/listUserOrderHistory";
+
+    /**
+     * {@code PAY_TRADE_HISTORY_ENDPOINT} is constant for PAY_TRADE_HISTORY_ENDPOINT's endpoint
+     **/
+    public static final String PAY_TRADE_HISTORY_ENDPOINT = "/sapi/v1/pay/transactions";
+
+    /**
+     * {@code REBATE_HISTORY_ENDPOINT} is constant for REBATE_HISTORY_ENDPOINT's endpoint
+     **/
+    public static final String REBATE_HISTORY_ENDPOINT = "/sapi/v1/rebate/taxQuery";
+
+    /**
      * Constructor to avoid instantiation
      **/
     private EndpointsList() {

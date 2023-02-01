@@ -1,17 +1,43 @@
 package com.tecknobit.binancemanager.managers.records.lists;
 
-import com.tecknobit.binancemanager.managers.BinanceManager;
+import com.tecknobit.binancemanager.managers.BinanceManager.BinanceResponse;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public abstract class BinanceDataList<T> extends BinanceItem implements BinanceManager.BinanceResponse {
+/**
+ * The {@code BinanceDataList} class is useful to create a {@code "Binance"}'s data list
+ *
+ * @param <T> type of the item to insert in the list
+ * @author N7ghtm4r3 - Tecknobit
+ * @see BinanceItem
+ * @see BinanceResponse
+ **/
+public abstract class BinanceDataList<T> extends BinanceItem implements BinanceResponse {
 
+    /**
+     * {@code total} number of items
+     **/
     protected final int total;
+
+    /**
+     * {@code success} whether the list is created with success
+     **/
     protected final boolean success;
+
+    /**
+     * {@code data} items of the list
+     **/
     protected final ArrayList<T> data;
 
+    /**
+     * Constructor to init {@link BinanceDataList} object
+     *
+     * @param total:   number of items
+     * @param success: whether the list is created with success
+     * @param data:    items of the list
+     **/
     public BinanceDataList(int total, boolean success, ArrayList<T> data) {
         super(null);
         this.total = total;
@@ -19,21 +45,44 @@ public abstract class BinanceDataList<T> extends BinanceItem implements BinanceM
         this.data = data;
     }
 
-    public BinanceDataList(JSONObject jFiatItem) {
-        super(jFiatItem);
+    /**
+     * Constructor to init {@link BinanceDataList} object
+     *
+     * @param jBinanceDataList: data list details as {@link JSONObject}
+     **/
+    public BinanceDataList(JSONObject jBinanceDataList) {
+        super(jBinanceDataList);
         total = hItem.getInt("total", 0);
         success = hItem.getBoolean("success");
         data = new ArrayList<>();
     }
 
+    /**
+     * Method to get {@link #total} instance <br>
+     * No-any params required
+     *
+     * @return {@link #total} instance as int
+     **/
     public int getTotal() {
         return total;
     }
 
+    /**
+     * Method to get {@link #success} instance <br>
+     * No-any params required
+     *
+     * @return {@link #success} instance as boolean
+     **/
     public boolean isSuccess() {
         return success;
     }
 
+    /**
+     * Method to get {@link #data} instance <br>
+     * No-any params required
+     *
+     * @return {@link #data} instance as {@link ArrayList} of {@link T}
+     **/
     public ArrayList<T> getData() {
         return data;
     }

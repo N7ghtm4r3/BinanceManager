@@ -1,7 +1,10 @@
 package com.tecknobit.binancemanager.managers.market.records.stats;
 
+import com.tecknobit.apimanager.formatters.TimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
@@ -134,6 +137,16 @@ public class Candlestick {
      **/
     public long getOpenTime() {
         return openTime;
+    }
+
+    /**
+     * Method to get {@link #openTime} instance <br>
+     * No-any params required
+     *
+     * @return {@link #openTime} instance as {@link Date}
+     **/
+    public Date getOpenDate() {
+        return TimeFormatter.getDate(openTime);
     }
 
     /**

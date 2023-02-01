@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * The {@code BinanceRowsList} class is useful to create a {@code "Binance"}'s records list
+ * The {@code BinanceRowsList} class is useful to create a {@code "Binance"}'s rows list
  *
  * @param <T> type of the item to insert in the list
  * @author N7ghtm4r3 - Tecknobit
