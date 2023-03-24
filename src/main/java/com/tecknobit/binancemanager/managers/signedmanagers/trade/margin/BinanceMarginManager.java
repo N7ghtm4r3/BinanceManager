@@ -20,6 +20,8 @@ import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.properties.IsolatedMarginFee;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.properties.IsolatedMarginSymbol;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.isolated.properties.IsolatedMarginTierData;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.liability.SmallLiabilityExchangeCoin;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.liability.SmallLiabilityExchangeHistory;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.lists.*;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.marginproperties.*;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.details.*;
@@ -32,6 +34,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
@@ -10212,6 +10215,320 @@ public class BinanceMarginManager extends BinanceSignedManager {
                 return (T) collateralRatio;
             default:
                 return (T) collateralRatioResponse;
+        }
+    }
+
+    /**
+     * Request to get the coins which can be small liability exchange <br>
+     * No-any params required
+     *
+     * @return small liability exchange coins list as {@link ArrayList} of {@link SmallLiabilityExchangeCoin} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-small-liability-exchange-coin-list-user_data">
+     * Get Small Liability Exchange Coin List (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/margin/exchange-small-liability")
+    public ArrayList<SmallLiabilityExchangeCoin> getSmallLiabilityExchangeCoinList() throws Exception {
+        return getSmallLiabilityExchangeCoinList(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get the coins which can be small liability exchange
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return small liability exchange coins list as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-small-liability-exchange-coin-list-user_data">
+     * Get Small Liability Exchange Coin List (USER_DATA)</a>
+     **/
+    @Returner
+    @RequestPath(method = GET, path = "/sapi/v1/margin/exchange-small-liability")
+    public <T> T getSmallLiabilityExchangeCoinList(ReturnFormat format) throws Exception {
+        String coinListResponse = sendGetSignedRequest(EXCHANGE_SMALL_LIABILITY_ENDPOINT, getTimestampParam());
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(coinListResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<SmallLiabilityExchangeCoin> smallLiabilityExchangeCoins = new ArrayList<>();
+                JSONArray jCoins = new JSONArray(coinListResponse);
+                for (int j = 0; j < jCoins.length(); j++)
+                    smallLiabilityExchangeCoins.add(new SmallLiabilityExchangeCoin(jCoins.getJSONObject(j)));
+                return (T) smallLiabilityExchangeCoins;
+            default:
+                return (T) coinListResponse;
+        }
+    }
+
+    /**
+     * Request to cross Margin Small Liability Exchange
+     *
+     * @param assetNames: the assets list of small liability exchange
+     * @return result of the operation -> {@code "true"} is successful, {@code "false"} if not successful
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#small-liability-exchange-margin">
+     * Small Liability Exchange (MARGIN)</a>
+     **/
+    @RequestPath(method = POST, path = "/sapi/v1/margin/exchange-small-liability")
+    public boolean smallLiabilityExchange(String... assetNames) throws Exception {
+        Params payload = new Params();
+        payload.addParam("assetNames", assetNames);
+        sendPostSignedRequest(EXCHANGE_SMALL_LIABILITY_ENDPOINT, payload);
+        return apiRequest.getResponseStatusCode() == 200;
+    }
+
+    /**
+     * Request to get Small liability Exchange History
+     *
+     * @param current: currently querying page. Start from 1. Default:1
+     * @param size:    default:10, Max:100
+     * @return small liability exchange history as {@link SmallLiabilityExchangeHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-small-liability-exchange-history-user_data">
+     * Get Small Liability Exchange History (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/margin/exchange-small-liability-history")
+    public SmallLiabilityExchangeHistory getSmallLiabilityExchangeHistory(int current, int size) throws Exception {
+        return getSmallLiabilityExchangeHistory(current, size, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get Small liability Exchange History
+     *
+     * @param current: currently querying page. Start from 1. Default:1
+     * @param size:    default:10, Max:100
+     * @param format:  return type formatter -> {@link ReturnFormat}
+     * @return small liability exchange history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-small-liability-exchange-history-user_data">
+     * Get Small Liability Exchange History (USER_DATA)</a>
+     **/
+    @RequestPath(method = GET, path = "/sapi/v1/margin/exchange-small-liability-history")
+    public <T> T getSmallLiabilityExchangeHistory(int current, int size, ReturnFormat format) throws Exception {
+        return getSmallLiabilityExchangeHistory(current, size, null, format);
+    }
+
+    /**
+     * Request to get Small liability Exchange History
+     *
+     * @param current:     currently querying page. Start from 1. Default:1
+     * @param size:        default:10, Max:100
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> days from current timestamp - [LONG, default 30]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> results that matching before this time will be fetched
+     *                                - [LONG, default present timestamp]
+     *                           </li>
+     *                          <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                          </li>
+     *                     </ul>
+     * @return small liability exchange history as {@link SmallLiabilityExchangeHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-small-liability-exchange-history-user_data">
+     * Get Small Liability Exchange History (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/margin/exchange-small-liability-history")
+    public SmallLiabilityExchangeHistory getSmallLiabilityExchangeHistory(int current, int size,
+                                                                          Params extraParams) throws Exception {
+        return getSmallLiabilityExchangeHistory(current, size, extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get Small liability Exchange History
+     *
+     * @param current:     currently querying page. Start from 1. Default:1
+     * @param size:        default:10, Max:100
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> days from current timestamp - [LONG, default 30]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> results that matching before this time will be fetched
+     *                                - [LONG, default present timestamp]
+     *                           </li>
+     *                          <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                          </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return small liability exchange history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-small-liability-exchange-history-user_data">
+     * Get Small Liability Exchange History (USER_DATA)</a>
+     **/
+    @Returner
+    @RequestPath(method = GET, path = "/sapi/v1/margin/exchange-small-liability-history")
+    public <T> T getSmallLiabilityExchangeHistory(int current, int size, Params extraParams,
+                                                  ReturnFormat format) throws Exception {
+        if (extraParams == null)
+            extraParams = new Params();
+        extraParams.addParam("current", current);
+        extraParams.addParam("size", size);
+        extraParams.addParam("timestamp", getServerTime());
+        String historyResponse = sendGetSignedRequest(EXCHANGE_SMALL_LIABILITY_HISTORY_ENDPOINT, extraParams);
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(historyResponse);
+            case LIBRARY_OBJECT:
+                return (T) new SmallLiabilityExchangeHistory(new JSONObject(historyResponse));
+            default:
+                return (T) historyResponse;
+        }
+    }
+
+    /**
+     * Request to get user the next hourly estimate interest
+     *
+     * @param isIsolated: for isolated margin or not, {@code "TRUE"}, {@code "FALSE"}
+     * @param assets:     list of assets up to 20
+     * @return next hourly estimate interest as {@link ArrayList} of {@link FutureHourlyInterestRate} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-a-future-hourly-interest-rate-user_data">
+     * Get a future hourly interest rate (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/margin/next-hourly-interest-rate")
+    public ArrayList<FutureHourlyInterestRate> getFutureHourlyInterestRates(boolean isIsolated,
+                                                                            String... assets) throws Exception {
+        return getFutureHourlyInterestRates(isIsolated, LIBRARY_OBJECT, assets);
+    }
+
+    /**
+     * Request to get user the next hourly estimate interest
+     *
+     * @param isIsolated: for isolated margin or not, {@code "TRUE"}, {@code "FALSE"}
+     * @param assets:     list of assets up to 20
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return next hourly estimate interest as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-a-future-hourly-interest-rate-user_data">
+     * Get a future hourly interest rate (USER_DATA)</a>
+     **/
+    @Returner
+    @RequestPath(method = GET, path = "/sapi/v1/margin/next-hourly-interest-rate")
+    public <T> T getFutureHourlyInterestRates(boolean isIsolated, ReturnFormat format, String... assets) throws Exception {
+        Params query = new Params();
+        query.addParam("isIsolated", isIsolated);
+        query.addParam("timestamp", getServerTime());
+        query.addParam("assets", Arrays.stream(assets).toList());
+        String interestRateResponse = sendGetSignedRequest(NEXT_HOURLY_INTEREST_RATE_ENDPOINT, query);
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(interestRateResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<FutureHourlyInterestRate> futureHourlyInterestRates = new ArrayList<>();
+                JSONArray jRates = new JSONArray(interestRateResponse);
+                for (int j = 0; j < jRates.length(); j++)
+                    futureHourlyInterestRates.add(new FutureHourlyInterestRate(jRates.getJSONObject(j)));
+                return (T) futureHourlyInterestRates;
+            default:
+                return (T) interestRateResponse;
         }
     }
 

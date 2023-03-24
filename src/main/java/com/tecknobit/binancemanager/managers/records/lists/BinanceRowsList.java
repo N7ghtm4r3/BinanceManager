@@ -18,14 +18,14 @@ import java.util.Date;
 public abstract class BinanceRowsList<T> extends BinanceItem {
 
     /**
-     * {@code rows} list of the items
-     **/
-    protected final ArrayList<T> rows;
-
-    /**
      * {@code total} number of items
      **/
     protected int total;
+
+    /**
+     * {@code rows} list of the items
+     **/
+    protected final ArrayList<T> rows;
 
     /**
      * Constructor to init {@link BinanceRowsList} object

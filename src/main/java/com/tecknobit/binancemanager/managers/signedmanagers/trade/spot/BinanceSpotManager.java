@@ -3049,6 +3049,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                             {@code "origClientOrderId"} -> orig client order identifier - [STRING]
      *                         </li>
      *                         <li>
+     *                              {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                              {@link CancelRestriction} - [STRING]
+     *                         </li>
+     *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                         </li>
      *                     </ul>
@@ -3090,6 +3094,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         </li>
      *                         <li>
      *                             {@code "origClientOrderId"} -> orig client order identifier - [STRING]
+     *                         </li>
+     *                         <li>
+     *                              {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                              {@link CancelRestriction} - [STRING]
      *                         </li>
      *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -3136,6 +3144,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                             {@code "origClientOrderId"} -> orig client order identifier - [STRING]
      *                         </li>
      *                         <li>
+     *                              {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                              {@link CancelRestriction} - [STRING]
+     *                         </li>
+     *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                         </li>
      *                     </ul>
@@ -3179,6 +3191,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                       <li>
      *                           {@code "origClientOrderId"} -> orig client order identifier - [STRING]
      *                       </li>
+     *                         <li>
+     *                              {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                              {@link CancelRestriction} - [STRING]
+     *                         </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -3222,6 +3238,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                   {@code "orderId"} -> order identifier - [LONG]
      *                               </li>
      *                               <li>
+     *                                   {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                   {@link CancelRestriction} - [STRING]
+     *                               </li>
+     *                               <li>
      *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                               </li>
      *                           </ul>
@@ -3261,6 +3281,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                               </li>
      *                               <li>
      *                                   {@code "orderId"} -> order identifier - [LONG]
+     *                               </li>
+     *                               <li>
+     *                                   {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                   {@link CancelRestriction} - [STRING]
      *                               </li>
      *                               <li>
      *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -3806,6 +3830,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@link SelfTradePreventionMode} - [STRING]
      *                                 </li>
      *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
+     *                                 </li>
+     *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                                 </li>
      *                           </ul>
@@ -3863,6 +3891,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
      *                                     on the symbol. The possible supported values are, constants available
      *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
      *                                 </li>
      *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -3926,6 +3958,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@link SelfTradePreventionMode} - [STRING]
      *                                 </li>
      *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
+     *                                 </li>
+     *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                                 </li>
      *                           </ul>
@@ -3984,6 +4020,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
      *                                     on the symbol. The possible supported values are, constants available
      *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
      *                                 </li>
      *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -4048,6 +4088,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@link SelfTradePreventionMode} - [STRING]
      *                                 </li>
      *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
+     *                                 </li>
+     *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                                 </li>
      *                           </ul>
@@ -4105,6 +4149,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
      *                                     on the symbol. The possible supported values are, constants available
      *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
      *                                 </li>
      *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -4168,6 +4216,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@link SelfTradePreventionMode} - [STRING]
      *                                 </li>
      *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
+     *                                 </li>
+     *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                                 </li>
      *                           </ul>
@@ -4226,6 +4278,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
      *                                     on the symbol. The possible supported values are, constants available
      *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
      *                                 </li>
      *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -4289,6 +4345,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@link SelfTradePreventionMode} - [STRING]
      *                                 </li>
      *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
+     *                                 </li>
+     *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                                 </li>
      *                           </ul>
@@ -4349,6 +4409,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@link SelfTradePreventionMode} - [STRING]
      *                                 </li>
      *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
+     *                                 </li>
+     *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                                 </li>
      *                           </ul>
@@ -4407,6 +4471,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
      *                                     on the symbol. The possible supported values are, constants available
      *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
      *                                 </li>
      *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -4470,6 +4538,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@link SelfTradePreventionMode} - [STRING]
      *                                 </li>
      *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
+     *                                 </li>
+     *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                                 </li>
      *                           </ul>
@@ -4531,6 +4603,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@link SelfTradePreventionMode} - [STRING]
      *                                 </li>
      *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
+     *                                 </li>
+     *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                                 </li>
      *                           </ul>
@@ -4590,6 +4666,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
      *                                     on the symbol. The possible supported values are, constants available
      *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
      *                                 </li>
      *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -4654,6 +4734,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@link SelfTradePreventionMode} - [STRING]
      *                                 </li>
      *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
+     *                                 </li>
+     *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                                 </li>
      *                           </ul>
@@ -4712,6 +4796,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
      *                                     on the symbol. The possible supported values are, constants available
      *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
      *                                 </li>
      *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -4775,6 +4863,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@link SelfTradePreventionMode} - [STRING]
      *                                 </li>
      *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
+     *                                 </li>
+     *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                                 </li>
      *                           </ul>
@@ -4834,6 +4926,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
      *                                     on the symbol. The possible supported values are, constants available
      *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
      *                                 </li>
      *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -4897,6 +4993,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
      *                                     on the symbol. The possible supported values are, constants available
      *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
      *                                 </li>
      *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -4963,6 +5063,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@link SelfTradePreventionMode} - [STRING]
      *                                 </li>
      *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
+     *                                 </li>
+     *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                                 </li>
      *                           </ul>
@@ -5025,6 +5129,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
      *                                     on the symbol. The possible supported values are, constants available
      *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
      *                                 </li>
      *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -5091,6 +5199,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@link SelfTradePreventionMode} - [STRING]
      *                                 </li>
      *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
+     *                                 </li>
+     *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                                 </li>
      *                           </ul>
@@ -5153,6 +5265,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@link SelfTradePreventionMode} - [STRING]
      *                                 </li>
      *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
+     *                                 </li>
+     *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                                 </li>
      *                           </ul>
@@ -5211,6 +5327,10 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                                     {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
      *                                     on the symbol. The possible supported values are, constants available
      *                                     {@link SelfTradePreventionMode} - [STRING]
+     *                                 </li>
+     *                                 <li>
+     *                                     {@code "cancelRestrictions"} -> cancel restriction value, constants available
+     *                                     {@link CancelRestriction} - [STRING]
      *                                 </li>
      *                                 <li>
      *                                     {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]

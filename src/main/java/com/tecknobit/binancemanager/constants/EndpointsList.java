@@ -396,22 +396,27 @@ public class EndpointsList {
 
     /**
      * {@code QUERY_ISOLATED_MARGIN_SYMBOL_ENDPOINT} is constant for QUERY_ISOLATED_MARGIN_SYMBOL_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String QUERY_ISOLATED_MARGIN_SYMBOL_ENDPOINT = "/sapi/v1/margin/isolated/pair";
 
     /**
      * {@code QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT} is constant for QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT = "/sapi/v1/margin/isolated/allPairs";
 
     /**
+     * {@code NEXT_HOURLY_INTEREST_RATE_ENDPOINT} is constant for NEXT_HOURLY_INTEREST_RATE_ENDPOINT's endpoint
+     **/
+    public static final String NEXT_HOURLY_INTEREST_RATE_ENDPOINT = "/sapi/v1/margin/next-hourly-interest-rate";
+
+    /**
      * {@code MARGIN_BNB_ENDPOINT} is constant for MARGIN_BNB_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String MARGIN_BNB_ENDPOINT = "/sapi/v1/bnbBurn";
 
     /**
      * {@code MARGIN_INTEREST_RATE_HISTORY_ENDPOINT} is constant for MARGIN_INTEREST_RATE_HISTORY_ENDPOINT's endpoint
-     * **/
+     **/
     public static final String MARGIN_INTEREST_RATE_HISTORY_ENDPOINT = "/sapi/v1/margin/interestRateHistory";
 
     /**
@@ -433,6 +438,16 @@ public class EndpointsList {
      * {@code COLLATERAL_RATIO_ENDPOINT} is constant for COLLATERAL_RATIO_ENDPOINT's endpoint
      **/
     public static final String COLLATERAL_RATIO_ENDPOINT = "/sapi/v1/margin/crossMarginCollateralRatio";
+
+    /**
+     * {@code EXCHANGE_SMALL_LIABILITY_ENDPOINT} is constant for EXCHANGE_SMALL_LIABILITY_ENDPOINT's endpoint
+     **/
+    public static final String EXCHANGE_SMALL_LIABILITY_ENDPOINT = "/sapi/v1/margin/exchange-small-liability";
+
+    /**
+     * {@code EXCHANGE_SMALL_LIABILITY_HISTORY_ENDPOINT} is constant for EXCHANGE_SMALL_LIABILITY_HISTORY_ENDPOINT's endpoint
+     **/
+    public static final String EXCHANGE_SMALL_LIABILITY_HISTORY_ENDPOINT = "/sapi/v1/margin/exchange-small-liability-history";
 
     /**
      * {@code FIAT_ORDERS_ENDPOINT} is constant for FIAT_ORDERS_ENDPOINT's endpoint

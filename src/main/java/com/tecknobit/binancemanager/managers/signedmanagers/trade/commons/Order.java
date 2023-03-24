@@ -419,4 +419,21 @@ public class Order {
 
     }
 
+    /**
+     * {@code CancelRestriction} list of available cancel restrictions for an order
+     **/
+    public enum CancelRestriction {
+
+        /**
+         * {@code "ONLY_NEW"} cancel will succeed if the order status is {@link Status#NEW}
+         **/
+        ONLY_NEW,
+
+        /**
+         * {@code "ONLY_PARTIALLY_FILLED"} cancel will succeed if order status is {@link Status#PARTIALLY_FILLED}
+         **/
+        ONLY_PARTIALLY_FILLED
+
+    }
+
 }
