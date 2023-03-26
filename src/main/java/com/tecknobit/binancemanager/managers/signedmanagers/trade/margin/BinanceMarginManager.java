@@ -10515,7 +10515,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     public <T> T getFutureHourlyInterestRates(boolean isIsolated, ReturnFormat format, String... assets) throws Exception {
         Params query = new Params();
         query.addParam("isIsolated", isIsolated);
-        query.addParam("timestamp", getServerTime());
+        query.addParam("timestamp", System.currentTimeMillis());
         query.addParam("assets", Arrays.stream(assets).toList());
         String interestRateResponse = sendGetSignedRequest(NEXT_HOURLY_INTEREST_RATE_ENDPOINT, query);
         switch (format) {

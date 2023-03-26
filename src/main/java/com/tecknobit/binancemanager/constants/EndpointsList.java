@@ -480,6 +480,26 @@ public class EndpointsList {
     public static final String ASSET_INFO_ENDPOINT = "/sapi/v1/convert/assetInfo";
 
     /**
+     * {@code GET_QUOTE_ENDPOINT} is constant for ASSET_INFO_ENDPOINT's endpoint
+     **/
+    public static final String GET_QUOTE_ENDPOINT = "/sapi/v1/convert/getQuote";
+
+    /**
+     * {@code ACCEPT_QUOTE_ENDPOINT} is constant for ACCEPT_QUOTE_ENDPOINT's endpoint
+     **/
+    public static final String ACCEPT_QUOTE_ENDPOINT = "/sapi/v1/convert/acceptQuote";
+
+    /**
+     * {@code CONVERT_ORDER_STATUS_ENDPOINT} is constant for CONVERT_ORDER_STATUS_ENDPOINT's endpoint
+     **/
+    public static final String CONVERT_ORDER_STATUS_ENDPOINT = "/sapi/v1/convert/orderStatus";
+
+    /**
+     * {@code TRADE_FLOW_ENDPOINT} is constant for TRADE_FLOW_ENDPOINT's endpoint
+     **/
+    public static final String TRADE_FLOW_ENDPOINT = "/sapi/v1/convert/tradeFlow";
+
+    /**
      * {@code REBATE_HISTORY_ENDPOINT} is constant for REBATE_HISTORY_ENDPOINT's endpoint
      **/
     public static final String REBATE_HISTORY_ENDPOINT = "/sapi/v1/rebate/taxQuery";
