@@ -4,6 +4,7 @@ import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.apimanager.apis.APIRequest;
+import com.tecknobit.apimanager.apis.APIRequest.RequestMethod;
 import com.tecknobit.apimanager.trading.TradingTools;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import org.json.JSONObject;
@@ -14,8 +15,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Properties;
 
-import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
-import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.POST;
+import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.apimanager.trading.TradingTools.computeAssetPercent;
 import static com.tecknobit.apimanager.trading.TradingTools.textualizeAssetPercent;
 import static com.tecknobit.binancemanager.constants.EndpointsList.SYSTEM_STATUS_ENDPOINT;
@@ -209,7 +209,31 @@ public class BinanceManager {
     }
 
     /**
-     * Method to execute and get response of a request
+     * Method to execute and get response of {@link RequestMethod#GET} request
+     *
+     * @param endpoint : endpoint to request
+     * @param params   :   params HTTP for the request
+     * @return response of request formatted in Json
+     **/
+    @Wrapper
+    public String sendGetRequest(String endpoint, Params params) throws IOException {
+        return sendGetRequest(endpoint, params, null);
+    }
+
+    /**
+     * Method to execute and get response of {@link RequestMethod#GET} request
+     *
+     * @param endpoint: endpoint to request
+     * @param params:   params HTTP for the request
+     * @param apiKey:   apiKey of the account to perform request
+     * @return response of request formatted in Json
+     **/
+    public String sendGetRequest(String endpoint, Params params, String apiKey) throws IOException {
+        return sendRequest(endpoint, params.createQueryString(), apiKey, GET);
+    }
+
+    /**
+     * Method to execute and get response of {@link RequestMethod#GET} request
      *
      * @param endpoint : endpoint to request
      * @param params   :   params HTTP for the request
@@ -221,6 +245,66 @@ public class BinanceManager {
     }
 
     /**
+     * Method to execute and get response of {@link RequestMethod#GET} request
+     *
+     * @param endpoint: endpoint to request
+     * @param params:   params HTTP for the request
+     * @param apiKey:   apiKey of the account to perform request
+     * @return response of request formatted in Json
+     **/
+    public String sendGetRequest(String endpoint, String params, String apiKey) throws IOException {
+        return sendRequest(endpoint, params, apiKey, GET);
+    }
+
+    /**
+     * Method to execute and get response of {@link RequestMethod#DELETE} request
+     *
+     * @param endpoint : endpoint to request
+     * @param params   :   params HTTP for the request
+     * @return response of request formatted in Json
+     **/
+    @Wrapper
+    public String sendDeleteRequest(String endpoint, Params params) throws IOException {
+        return sendDeleteRequest(endpoint, params, null);
+    }
+
+    /**
+     * Method to execute and get response of {@link RequestMethod#DELETE} request
+     *
+     * @param endpoint: endpoint to request
+     * @param params:   params HTTP for the request
+     * @param apiKey:   apiKey of the account to perform request
+     * @return response of request formatted in Json
+     **/
+    public String sendDeleteRequest(String endpoint, Params params, String apiKey) throws IOException {
+        return sendRequest(endpoint, params.createQueryString(), apiKey, DELETE);
+    }
+
+    /**
+     * Method to execute and get response of {@link RequestMethod#DELETE} request
+     *
+     * @param endpoint : endpoint to request
+     * @param params   :   params HTTP for the request
+     * @return response of request formatted in Json
+     **/
+    @Wrapper
+    public String sendDeleteRequest(String endpoint, String params) throws IOException {
+        return sendDeleteRequest(endpoint, params, null);
+    }
+
+    /**
+     * Method to execute and get response of {@link RequestMethod#DELETE} request
+     *
+     * @param endpoint: endpoint to request
+     * @param params:   params HTTP for the request
+     * @param apiKey:   apiKey of the account to perform request
+     * @return response of request formatted in Json
+     **/
+    public String sendDeleteRequest(String endpoint, String params, String apiKey) throws IOException {
+        return sendRequest(endpoint, params, apiKey, DELETE);
+    }
+
+    /**
      * Method to execute and get response of a request
      *
      * @param endpoint: endpoint to request
@@ -228,19 +312,18 @@ public class BinanceManager {
      * @param apiKey:   apiKey of the account to perform request
      * @return response of request formatted in Json
      **/
-    @Wrapper
-    public String sendGetRequest(String endpoint, String params, String apiKey) throws IOException {
+    private String sendRequest(String endpoint, String params, String apiKey, RequestMethod method) throws IOException {
         if (params == null)
             params = "";
         if (apiKey != null)
-            apiRequest.sendAPIRequest(baseEndpoint + endpoint + params, GET, "X-MBX-APIKEY", apiKey);
+            apiRequest.sendAPIRequest(baseEndpoint + endpoint + params, method, "X-MBX-APIKEY", apiKey);
         else
-            apiRequest.sendAPIRequest(baseEndpoint + endpoint + params, GET);
+            apiRequest.sendAPIRequest(baseEndpoint + endpoint + params, method);
         return apiRequest.getResponse();
     }
 
     /**
-     * Method to execute and get response of a request
+     * Method to execute and get response of a {@link RequestMethod#POST} request
      *
      * @param endpoint: endpoint to request
      * @param params:   params HTTP for the request
@@ -252,7 +335,7 @@ public class BinanceManager {
     }
 
     /**
-     * Method to execute and get response of a request
+     * Method to execute and get response of a {@link RequestMethod#POST} request
      *
      * @param endpoint: endpoint to request
      * @param params:   params HTTP for the request
@@ -260,13 +343,50 @@ public class BinanceManager {
      * @return response of request formatted in Json
      **/
     public String sendPostRequest(String endpoint, Params params, String apiKey) throws IOException {
+        return sendPayloadedRequest(endpoint, params, apiKey, POST);
+    }
+
+    /**
+     * Method to execute and get response of a {@link RequestMethod#PUT} request
+     *
+     * @param endpoint: endpoint to request
+     * @param params:   params HTTP for the request
+     * @return response of request formatted in Json
+     **/
+    @Wrapper
+    public String sendPutRequest(String endpoint, Params params) throws IOException {
+        return sendPutRequest(endpoint, params, null);
+    }
+
+    /**
+     * Method to execute and get response of a {@link RequestMethod#PUT} request
+     *
+     * @param endpoint: endpoint to request
+     * @param params:   params HTTP for the request
+     * @param apiKey:   apiKey of the account to perform request
+     * @return response of request formatted in Json
+     **/
+    public String sendPutRequest(String endpoint, Params params, String apiKey) throws IOException {
+        return sendPayloadedRequest(endpoint, params, apiKey, PUT);
+    }
+
+    /**
+     * Method to execute and get response of a request
+     *
+     * @param endpoint: endpoint to request
+     * @param params:   params HTTP for the request
+     * @param apiKey:   apiKey of the account to perform request
+     * @return response of request formatted in Json
+     **/
+    private String sendPayloadedRequest(String endpoint, Params params, String apiKey,
+                                        RequestMethod method) throws IOException {
         if (params == null)
             params = new Params();
         if (apiKey != null)
-            apiRequest.sendPayloadedAPIRequest(baseEndpoint + endpoint, POST, "X-MBX-APIKEY", apiKey,
+            apiRequest.sendPayloadedAPIRequest(baseEndpoint + endpoint, method, "X-MBX-APIKEY", apiKey,
                     params);
         else
-            apiRequest.sendPayloadedAPIRequest(baseEndpoint + endpoint, POST, params);
+            apiRequest.sendPayloadedAPIRequest(baseEndpoint + endpoint, method, params);
         return apiRequest.getResponse();
     }
 

@@ -175,7 +175,7 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @RequestPath(method = GET, path = "/api/v3/exchangeInfo")
     public <T> T getExchangeInformation(ReturnFormat format) throws IOException {
-        return returnExchangeInformation(sendGetRequest(EXCHANGE_INFORMATION_ENDPOINT, null), format);
+        return returnExchangeInformation(sendGetRequest(EXCHANGE_INFORMATION_ENDPOINT, (String) null), format);
     }
 
     /**

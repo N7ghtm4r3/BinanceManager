@@ -450,6 +450,21 @@ public class EndpointsList {
     public static final String EXCHANGE_SMALL_LIABILITY_HISTORY_ENDPOINT = "/sapi/v1/margin/exchange-small-liability-history";
 
     /**
+     * {@code SPOT_USER_DATA_STREAM_ENDPOINT} is constant for SPOT_USER_DATA_STREAM_ENDPOINT's endpoint
+     **/
+    public static final String SPOT_USER_DATA_STREAM_ENDPOINT = "/api/v3/userDataStream";
+
+    /**
+     * {@code MARGIN_USER_DATA_STREAM_ENDPOINT} is constant for MARGIN_USER_DATA_STREAM_ENDPOINT's endpoint
+     **/
+    public static final String MARGIN_USER_DATA_STREAM_ENDPOINT = "/sapi/v1/userDataStream";
+
+    /**
+     * {@code ISOLATED_MARGIN_USER_DATA_STREAM_ENDPOINT} is constant for ISOLATED_MARGIN_USER_DATA_STREAM_ENDPOINT's endpoint
+     **/
+    public static final String ISOLATED_MARGIN_USER_DATA_STREAM_ENDPOINT = MARGIN_USER_DATA_STREAM_ENDPOINT + "/isolated";
+
+    /**
      * {@code FIAT_ORDERS_ENDPOINT} is constant for FIAT_ORDERS_ENDPOINT's endpoint
      **/
     public static final String FIAT_ORDERS_ENDPOINT = "/sapi/v1/fiat/orders";
