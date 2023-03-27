@@ -465,6 +465,21 @@ public class EndpointsList {
     public static final String ISOLATED_MARGIN_USER_DATA_STREAM_ENDPOINT = MARGIN_USER_DATA_STREAM_ENDPOINT + "/isolated";
 
     /**
+     * {@code STAKING_PRODUCT_LIST_ENDPOINT} is constant for STAKING_PRODUCT_LIST_ENDPOINT's endpoint
+     **/
+    public static final String STAKING_PRODUCT_LIST_ENDPOINT = "/sapi/v1/staking/productList";
+
+    /**
+     * {@code STAKING_PURCHASE_ENDPOINT} is constant for STAKING_PURCHASE_ENDPOINT's endpoint
+     **/
+    public static final String STAKING_PURCHASE_ENDPOINT = "/sapi/v1/staking/purchase";
+
+    /**
+     * {@code STAKING_REDEEM_ENDPOINT} is constant for STAKING_REDEEM_ENDPOINT's endpoint
+     **/
+    public static final String STAKING_REDEEM_ENDPOINT = "/sapi/v1/staking/redeem";
+
+    /**
      * {@code FIAT_ORDERS_ENDPOINT} is constant for FIAT_ORDERS_ENDPOINT's endpoint
      **/
     public static final String FIAT_ORDERS_ENDPOINT = "/sapi/v1/fiat/orders";
