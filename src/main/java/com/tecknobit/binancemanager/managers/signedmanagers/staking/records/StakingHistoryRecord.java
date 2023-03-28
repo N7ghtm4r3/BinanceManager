@@ -4,7 +4,15 @@ import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import com.tecknobit.binancemanager.managers.signedmanagers.staking.records.StakingProductPosition.StakingPositionType;
 import org.json.JSONObject;
 
-public class StakingHistoryItem extends BinanceItem {
+public class StakingHistoryRecord extends BinanceItem {
+
+    public enum TxnType {
+
+        SUBSCRIPTION,
+        REDEMPTION,
+        INTEREST
+
+    }
 
     private final long positionId;
     private final long time;
@@ -16,8 +24,8 @@ public class StakingHistoryItem extends BinanceItem {
     private final StakingPositionType type;
     private final String status;
 
-    public StakingHistoryItem(long positionId, long time, String asset, String project, double amount, int lockPeriod,
-                              long deliverDate, StakingPositionType type, String status) {
+    public StakingHistoryRecord(long positionId, long time, String asset, String project, double amount, int lockPeriod,
+                                long deliverDate, StakingPositionType type, String status) {
         super(null);
         this.positionId = positionId;
         this.time = time;
@@ -30,7 +38,7 @@ public class StakingHistoryItem extends BinanceItem {
         this.status = status;
     }
 
-    public StakingHistoryItem(JSONObject jStakingHistoryItem) {
+    public StakingHistoryRecord(JSONObject jStakingHistoryItem) {
         super(jStakingHistoryItem);
         positionId = hItem.getLong("positionId", 0);
         time = hItem.getLong("time", 0);

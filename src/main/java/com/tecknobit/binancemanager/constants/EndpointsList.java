@@ -480,6 +480,26 @@ public class EndpointsList {
     public static final String STAKING_REDEEM_ENDPOINT = "/sapi/v1/staking/redeem";
 
     /**
+     * {@code STAKING_POSITION_ENDPOINT} is constant for STAKING_POSITION_ENDPOINT's endpoint
+     **/
+    public static final String STAKING_POSITION_ENDPOINT = "/sapi/v1/staking/position";
+
+    /**
+     * {@code STAKING_RECORD_ENDPOINT} is constant for STAKING_RECORD_ENDPOINT's endpoint
+     **/
+    public static final String STAKING_RECORD_ENDPOINT = "/sapi/v1/staking/stakingRecord";
+
+    /**
+     * {@code SET_AUTO_STAKING_ENDPOINT} is constant for SET_AUTO_STAKING_ENDPOINT's endpoint
+     **/
+    public static final String SET_AUTO_STAKING_ENDPOINT = "/sapi/v1/staking/setAutoStaking";
+
+    /**
+     * {@code PERSONAL_LEFT_QUOTA_ENDPOINT} is constant for PERSONAL_LEFT_QUOTA_ENDPOINT's endpoint
+     **/
+    public static final String PERSONAL_LEFT_QUOTA_ENDPOINT = "/sapi/v1/staking/personalLeftQuota";
+
+    /**
      * {@code FIAT_ORDERS_ENDPOINT} is constant for FIAT_ORDERS_ENDPOINT's endpoint
      **/
     public static final String FIAT_ORDERS_ENDPOINT = "/sapi/v1/fiat/orders";
