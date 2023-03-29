@@ -3,7 +3,6 @@ package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -39,9 +38,8 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
      **/
     public UniversalTransferHistory(JSONObject jTransfersList) {
         super(jTransfersList);
-        JSONArray jRows = hItem.getJSONArray("rows", new JSONArray());
-        for (int j = 0; j < jRows.length(); j++)
-            rows.add(new UniversalTransfer(jRows.getJSONObject(j)));
+        for (Object row : hItem.fetchList("rows"))
+            rows.add(new UniversalTransfer((JSONObject) row));
     }
 
     /**

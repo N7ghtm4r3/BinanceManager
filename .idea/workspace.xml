@@ -5,18 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="24c31f43-703f-43c2-b6a1-81b04a165e9d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/futures/BinanceFuturesManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/futures/records/CrossCollateralBorrowHistory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/futures/records/CrossCollateralInterestsHistory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/futures/records/CrossCollateralItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/futures/records/CrossCollateralLTVHistory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/futures/records/CrossCollateralLiquidationHistory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/futures/records/CrossCollateralRepaymentsHistory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/futures/records/CrossCollateralWallet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/futures/records/FutureAccountTransactionsHistory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/BinanceSignedManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/BinanceSignedManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/BinanceStakingManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/BinanceStakingManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/PurchaseStakingProductResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/PurchaseStakingProductResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/StakingHistoryRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/StakingHistoryRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/StakingProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/StakingProduct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/StakingProductPosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/StakingProductPosition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/commons/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/commons/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/records/liability/SmallLiabilityExchangeHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/records/liability/SmallLiabilityExchangeHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/records/lists/ForceLiquidationList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/records/lists/ForceLiquidationList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/records/lists/InterestHistoryList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/records/lists/InterestHistoryList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/records/lists/IsolatedTransferHistoryList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/records/lists/IsolatedTransferHistoryList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/records/lists/LoansList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/records/lists/LoansList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/records/lists/RepaysList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/records/lists/RepaysList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/records/lists/TransfersHistoryList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/records/lists/TransfersHistoryList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/PaymentRefundHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/PaymentRefundHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/asset/AssetsDividendList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/asset/AssetsDividendList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/convert/ConvertHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/convert/ConvertHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/dust/DustLogList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/dust/DustLogList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/dust/UniversalTransferHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/dust/UniversalTransferHistory.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,13 +141,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1644858734218</updated>
-    </task>
-    <task id="LOCAL-00189" summary="Adding setter methods to some custom objects&#10;Added get single coin detail custom request in BinanceWalletManager">
-      <created>1658002482828</created>
-      <option name="number" value="00189" />
-      <option name="presentableId" value="LOCAL-00189" />
-      <option name="project" value="LOCAL" />
-      <updated>1658002482828</updated>
     </task>
     <task id="LOCAL-00190" summary="Fix docu strings">
       <created>1658053162008</created>
@@ -471,7 +478,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680004158736</updated>
     </task>
-    <option name="localTasksCounter" value="238" />
+    <task id="LOCAL-00238" summary="Staking | Futures">
+      <created>1680096468290</created>
+      <option name="number" value="00238" />
+      <option name="presentableId" value="LOCAL-00238" />
+      <option name="project" value="LOCAL" />
+      <updated>1680096468290</updated>
+    </task>
+    <option name="localTasksCounter" value="239" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -498,7 +512,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="Load first files" />
     <MESSAGE value="Released first version of BinanceManager by Tecknobit" />
     <MESSAGE value="Fix some code snippets and added tools class" />
     <MESSAGE value="Fix some code snippets" />
@@ -523,7 +536,8 @@
     <MESSAGE value="Added Convert | UserDataStreams managers" />
     <MESSAGE value="UserDataStreams | Staking" />
     <MESSAGE value="Staking" />
-    <option name="LAST_COMMIT_MESSAGE" value="Staking" />
+    <MESSAGE value="Staking | Futures" />
+    <option name="LAST_COMMIT_MESSAGE" value="Staking | Futures" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>

@@ -2,7 +2,6 @@ package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -39,9 +38,8 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
      **/
     public DustLogList(JSONObject jDustLog) {
         super(jDustLog);
-        JSONArray jDribblets = jDustLog.getJSONArray("userAssetDribblets");
-        for (int j = 0; j < jDribblets.length(); j++)
-            rows.add(new AssetDribblets(jDribblets.getJSONObject(j)));
+        for (Object row : hItem.fetchList("userAssetDribblets"))
+            rows.add(new AssetDribblets((JSONObject) row));
     }
 
     /**

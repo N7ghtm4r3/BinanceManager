@@ -2,7 +2,6 @@ package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.record
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -38,9 +37,8 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
      **/
     public InterestHistoryList(JSONObject jsonHistory) {
         super(jsonHistory);
-        JSONArray jHistoryList = hItem.getJSONArray("rows", new JSONArray());
-        for (int j = 0; j < jHistoryList.length(); j++)
-            rows.add(new Interest(jHistoryList.getJSONObject(j)));
+        for (Object row : hItem.fetchList("rows"))
+            rows.add(new Interest((JSONObject) row));
     }
 
     /**

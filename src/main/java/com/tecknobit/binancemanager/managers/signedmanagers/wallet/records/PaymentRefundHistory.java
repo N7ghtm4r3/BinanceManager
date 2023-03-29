@@ -2,7 +2,6 @@ package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records;
 
 import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.convert.BUSDConvert;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -37,9 +36,8 @@ public class PaymentRefundHistory extends BinanceRowsList<PaymentRefund> {
      **/
     public PaymentRefundHistory(JSONObject jList) {
         super(jList);
-        JSONArray jAList = jList.getJSONArray("rows");
-        for (int j = 0; j < jAList.length(); j++)
-            rows.add(new PaymentRefund(jAList.getJSONObject(j)));
+        for (Object row : hItem.fetchList("rows"))
+            rows.add(new PaymentRefund((JSONObject) row));
     }
 
     /**

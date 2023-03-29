@@ -2,7 +2,6 @@ package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.record
 
 import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.Status;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -37,9 +36,8 @@ public class TransfersHistoryList extends BinanceRowsList<Transfer> {
      **/
     public TransfersHistoryList(JSONObject jTransfersHistoryList) {
         super(jTransfersHistoryList);
-        JSONArray jTransfers = hItem.getJSONArray("rows", new JSONArray());
-        for (int j = 0; j < jTransfers.length(); j++)
-            rows.add(new Transfer(jTransfers.getJSONObject(j)));
+        for (Object row : hItem.fetchList("rows"))
+            rows.add(new Transfer((JSONObject) row));
     }
 
     /**

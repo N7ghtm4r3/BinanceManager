@@ -348,6 +348,11 @@ public class Order {
     public enum Status {
 
         /**
+         * {@code "COMPLETED"} status
+         **/
+        COMPLETED,
+
+        /**
          * {@code "CONFIRMED"} status
          **/
         CONFIRMED,

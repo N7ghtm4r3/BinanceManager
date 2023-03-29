@@ -2,7 +2,6 @@ package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.conv
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -38,9 +37,8 @@ public class ConvertHistory extends BinanceRowsList<Convert> {
      **/
     public ConvertHistory(JSONObject jConvertHistory) {
         super(jConvertHistory);
-        JSONArray jConvert = jConvertHistory.getJSONArray("rows");
-        for (int j = 0; j < jConvert.length(); j++)
-            rows.add(new Convert(jConvert.getJSONObject(j)));
+        for (Object row : hItem.fetchList("rows"))
+            rows.add(new Convert((JSONObject) row));
     }
 
     /**

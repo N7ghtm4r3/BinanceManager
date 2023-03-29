@@ -2,7 +2,6 @@ package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asse
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -38,9 +37,8 @@ public class AssetsDividendList extends BinanceRowsList<AssetDividendDetails> {
      **/
     public AssetsDividendList(JSONObject jAssetDividend) {
         super(jAssetDividend);
-        JSONArray jAssets = hItem.getJSONArray("rows", new JSONArray());
-        for (int j = 0; j < jAssets.length(); j++)
-            rows.add(new AssetDividendDetails(jAssets.getJSONObject(j)));
+        for (Object row : hItem.fetchList("rows"))
+            rows.add(new AssetDividendDetails((JSONObject) row));
     }
 
     /**

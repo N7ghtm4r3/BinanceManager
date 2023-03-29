@@ -3,7 +3,6 @@ package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.record
 import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.Status;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.lists.LoansList.Loan;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -37,9 +36,8 @@ public class RepaysList extends BinanceRowsList<RepaysList.Repay> {
      **/
     public RepaysList(JSONObject jRepaysList) {
         super(jRepaysList);
-        JSONArray jRepays = hItem.getJSONArray("rows", new JSONArray());
-        for (int j = 0; j < jRepays.length(); j++)
-            rows.add(new Repay(jRepays.getJSONObject(j)));
+        for (Object row : hItem.fetchList("rows"))
+            rows.add(new Repay((JSONObject) row));
     }
 
     /**

@@ -3,7 +3,6 @@ package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.record
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -40,9 +39,8 @@ public class SmallLiabilityExchangeHistory extends BinanceRowsList<SmallLiabilit
      **/
     public SmallLiabilityExchangeHistory(JSONObject jList) {
         super(jList);
-        JSONArray jHistoryList = hItem.getJSONArray("rows", new JSONArray());
-        for (int j = 0; j < jHistoryList.length(); j++)
-            rows.add(new SmallLiabilityHistoryItem(jHistoryList.getJSONObject(j)));
+        for (Object row : hItem.fetchList("rows"))
+            rows.add(new SmallLiabilityHistoryItem((JSONObject) row));
     }
 
     /**

@@ -4,7 +4,6 @@ import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.Side;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.TimeInForce;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -40,9 +39,8 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
      **/
     public ForceLiquidationList(JSONObject jsonLiquidation) {
         super(jsonLiquidation);
-        JSONArray jList = hItem.getJSONArray("rows", new JSONArray());
-        for (int j = 0; j < jList.length(); j++)
-            rows.add(new Liquidation(jList.getJSONObject(j)));
+        for (Object row : hItem.fetchList("rows"))
+            rows.add(new Liquidation((JSONObject) row));
     }
 
     /**
