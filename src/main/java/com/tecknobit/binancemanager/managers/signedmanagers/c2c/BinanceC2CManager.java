@@ -13,7 +13,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
-import static com.tecknobit.binancemanager.constants.EndpointsList.C2C_TRADES_HISTORY_ENDPOINT;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 
 /**
@@ -26,6 +25,11 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * @see BinanceSignedManager
  **/
 public class BinanceC2CManager extends BinanceSignedManager {
+
+    /**
+     * {@code C2C_TRADES_HISTORY_ENDPOINT} is constant for C2C_TRADES_HISTORY_ENDPOINT's endpoint
+     **/
+    public static final String C2C_TRADES_HISTORY_ENDPOINT = "/sapi/v1/c2c/orderMatch/listUserOrderHistory";
 
     /**
      * Constructor to init a {@link BinanceC2CManager}

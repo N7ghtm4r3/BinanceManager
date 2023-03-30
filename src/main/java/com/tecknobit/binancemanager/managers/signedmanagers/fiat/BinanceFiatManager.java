@@ -13,7 +13,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
-import static com.tecknobit.binancemanager.constants.EndpointsList.FIAT_ORDERS_ENDPOINT;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 
 /**
@@ -26,6 +25,16 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * @see BinanceSignedManager
  **/
 public class BinanceFiatManager extends BinanceSignedManager {
+
+    /**
+     * {@code FIAT_ORDERS_ENDPOINT} is constant for FIAT_ORDERS_ENDPOINT's endpoint
+     **/
+    public static final String FIAT_ORDERS_ENDPOINT = "/sapi/v1/fiat/orders";
+
+    /**
+     * {@code FIAT_PAYMENTS_ENDPOINT} is constant for FIAT_PAYMENTS_ENDPOINT's endpoint
+     **/
+    public static final String FIAT_PAYMENTS_ENDPOINT = "/sapi/v1/fiat/payments";
 
     /**
      * Constructor to init a {@link BinanceFiatManager}

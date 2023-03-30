@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static com.tecknobit.binancemanager.managers.signedmanagers.futures.records.FutureAccountTransactionsHistory.FutureAccountTransaction;
 
@@ -19,10 +21,15 @@ public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAcco
         SPOT_ACCOUNT_TO_COIN_FUTURES_ACCOUNT(3),
         COIN_FUTURES_ACCOUNT_TO_SPOT_ACCOUNT(4);
 
+        private static final List<FutureTransactionType> VALUES = Arrays.stream(FutureTransactionType.values()).toList();
         private final int type;
 
         FutureTransactionType(int type) {
             this.type = type;
+        }
+
+        public static FutureTransactionType reachEnumConstant(int value) {
+            return VALUES.get(value);
         }
 
         public int getType() {
@@ -78,7 +85,7 @@ public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAcco
             asset = hItem.getString("asset");
             tranId = hItem.getLong("tranId", 0);
             amount = hItem.getDouble("amount", 0);
-            type = FutureTransactionType.valueOf(hItem.getString("type"));
+            type = FutureTransactionType.reachEnumConstant(hItem.getInt("type"));
             timestamp = hItem.getLong("timestamp", 0);
             status = Status.valueOf(hItem.getString("status"));
         }

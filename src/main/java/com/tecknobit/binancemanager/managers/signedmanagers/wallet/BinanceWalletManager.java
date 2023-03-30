@@ -37,7 +37,6 @@ import java.util.ArrayList;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.POST;
-import static com.tecknobit.binancemanager.constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.JSON;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 
@@ -51,6 +50,131 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * @see BinanceSignedManager
  **/
 public class BinanceWalletManager extends BinanceSignedManager {
+
+    /**
+     * {@code SYSTEM_STATUS_ENDPOINT} is constant for SYSTEM_STATUS_ENDPOINT's endpoint
+     **/
+    public static final String SYSTEM_STATUS_ENDPOINT = "/sapi/v1/system/status";
+
+    /**
+     * {@code ALL_COINS_ENDPOINT} is constant for ALL_COINS_ENDPOINT's endpoint
+     **/
+    public static final String ALL_COINS_ENDPOINT = "/sapi/v1/capital/config/getall";
+
+    /**
+     * {@code DAILY_ACCOUNT_SNAPSHOT_ENDPOINT} is constant for DAILY_ACCOUNT_SNAPSHOT_ENDPOINT's endpoint
+     **/
+    public static final String DAILY_ACCOUNT_SNAPSHOT_ENDPOINT = "/sapi/v1/accountSnapshot";
+
+    /**
+     * {@code DISABLE_FAST_WITHDRAW_ENDPOINT} is constant for DISABLE_FAST_WITHDRAW_ENDPOINT's endpoint
+     **/
+    public static final String DISABLE_FAST_WITHDRAW_ENDPOINT = "/sapi/v1/account/disableFastWithdrawSwitch";
+
+    /**
+     * {@code ENABLE_FAST_WITHDRAW_ENDPOINT} is constant for ENABLE_FAST_WITHDRAW_ENDPOINT's endpoint
+     **/
+    public static final String ENABLE_FAST_WITHDRAW_ENDPOINT = "/sapi/v1/account/enableFastWithdrawSwitch";
+
+    /**
+     * {@code DEPOSIT_HISTORY_ENDPOINT} is constant for DEPOSIT_HISTORY_ENDPOINT's endpoint
+     **/
+    public static final String DEPOSIT_HISTORY_ENDPOINT = "/sapi/v1/capital/deposit/hisrec";
+
+    /**
+     * {@code WITHDRAW_HISTORY_ENDPOINT} is constant for WITHDRAW_HISTORY_ENDPOINT's endpoint
+     **/
+    public static final String WITHDRAW_HISTORY_ENDPOINT = "/sapi/v1/capital/withdraw/history";
+
+    /**
+     * {@code SUBMIT_WITHDRAW_ENDPOINT} is constant for SUBMIT_WITHDRAW_ENDPOINT's endpoint
+     **/
+    public static final String SUBMIT_WITHDRAW_ENDPOINT = "/sapi/v1/capital/withdraw/apply";
+
+    /**
+     * {@code DEPOSIT_ADDRESS_ENDPOINT} is constant for DEPOSIT_ADDRESS_ENDPOINT's endpoint
+     **/
+    public static final String DEPOSIT_ADDRESS_ENDPOINT = "/sapi/v1/capital/deposit/address";
+
+    /**
+     * {@code ACCOUNT_STATUS_ENDPOINT} is constant for ACCOUNT_STATUS_ENDPOINT's endpoint
+     **/
+    public static final String ACCOUNT_STATUS_ENDPOINT = "/sapi/v1/account/status";
+
+    /**
+     * {@code API_TRADING_STATUS_ENDPOINT} is constant for API_TRADING_STATUS_ENDPOINT's endpoint
+     **/
+    public static final String API_TRADING_STATUS_ENDPOINT = "/sapi/v1/account/apiTradingStatus";
+
+    /**
+     * {@code DUST_LOG_ENDPOINT} is constant for DUST_LOG_ENDPOINT's endpoint
+     **/
+    public static final String DUST_LOG_ENDPOINT = "/sapi/v1/asset/dribblet";
+
+    /**
+     * {@code ASSET_CONVERTIBLE_BNB_ENDPOINT} is constant for ASSET_CONVERTIBLE_BNB_ENDPOINT's endpoint
+     **/
+    public static final String ASSET_CONVERTIBLE_BNB_ENDPOINT = "/sapi/v1/asset/dust-btc";
+
+    /**
+     * {@code DUST_TRANSFER_ENDPOINT} is constant for DUST_TRANSFER_ENDPOINT's endpoint
+     **/
+    public static final String DUST_TRANSFER_ENDPOINT = "/sapi/v1/asset/dust";
+
+    /**
+     * {@code ASSET_DIVIDEND_ENDPOINT} is constant for ASSET_DIVIDEND_ENDPOINT's endpoint
+     **/
+    public static final String ASSET_DIVIDEND_ENDPOINT = "/sapi/v1/asset/assetDividend";
+
+    /**
+     * {@code ASSET_DETAIL_ENDPOINT} is constant for ASSET_DETAIL_ENDPOINT's endpoint
+     **/
+    public static final String ASSET_DETAIL_ENDPOINT = "/sapi/v1/asset/assetDetail";
+
+    /**
+     * {@code TRADE_FEE_ENDPOINT} is constant for TRADE_FEE_ENDPOINT's endpoint
+     **/
+    public static final String TRADE_FEE_ENDPOINT = "/sapi/v1/asset/tradeFee";
+
+    /**
+     * {@code UNIVERSAL_TRANSFER_ENDPOINT} is constant for UNIVERSAL_TRANSFER_ENDPOINT's endpoint
+     **/
+    public static final String UNIVERSAL_TRANSFER_ENDPOINT = "/sapi/v1/asset/transfer";
+
+    /**
+     * {@code FUNDING_WALLET_ENDPOINT} is constant for FUNDING_WALLET_ENDPOINT's endpoint
+     **/
+    public static final String FUNDING_WALLET_ENDPOINT = "/sapi/v1/asset/get-funding-asset";
+
+    /**
+     * {@code USER_ASSET_ENDPOINT} is constant for USER_ASSET_ENDPOINT's endpoint
+     **/
+    public static final String USER_ASSET_ENDPOINT = "/sapi/v3/asset/getUserAsset";
+
+    /**
+     * {@code BUSD_CONVERT_ENDPOINT} is constant for BUSD_CONVERT_ENDPOINT's endpoint
+     **/
+    public static final String BUSD_CONVERT_ENDPOINT = "/sapi/v1/asset/convert-transfer";
+
+    /**
+     * {@code CONVERT_HISTORY_ENDPOINT} is constant for CONVERT_HISTORY_ENDPOINT's endpoint
+     **/
+    public static final String CONVERT_HISTORY_ENDPOINT = "/sapi/v1/asset/convert-transfer/queryByPage";
+
+    /**
+     * {@code CONVERT_HISTORY_ENDPOINT} is constant for CONVERT_HISTORY_ENDPOINT's endpoint
+     **/
+    public static final String GET_CLOUD_MINING_HISTORY_ENDPOINT = "/sapi/v1/asset/ledger-transfer/cloud-mining/queryByPage";
+
+    /**
+     * {@code API_KEY_PERMISSION_ENDPOINT} is constant for API_KEY_PERMISSION_ENDPOINT's endpoint
+     **/
+    public static final String API_KEY_PERMISSION_ENDPOINT = "/sapi/v1/account/apiRestrictions";
+
+    /**
+     * {@code CONVERTIBLE_COINS_ENDPOINT} is constant for CONVERTIBLE_COINS_ENDPOINT's endpoint
+     **/
+    public static final String CONVERTIBLE_COINS_ENDPOINT = "/sapi/v1/capital/contract/convertible-coins";
 
     /**
      * Constructor to init a {@link BinanceWalletManager}

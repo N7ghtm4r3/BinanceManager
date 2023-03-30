@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
-import static com.tecknobit.binancemanager.constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.OrderType.*;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.SpotOrder.*;
@@ -41,6 +40,71 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.re
  * @see BinanceSignedManager
  **/
 public class BinanceSpotManager extends BinanceSignedManager {
+
+    /**
+     * {@code SPOT_TEST_NEW_ORDER_ENDPOINT} is constant for SPOT_TEST_NEW_ORDER_ENDPOINT's endpoint
+     **/
+    public static final String SPOT_TEST_NEW_ORDER_ENDPOINT = "/api/v3/order/test";
+
+    /**
+     * {@code SPOT_ORDER_ENDPOINT} is constant for SPOT_ORDER_ENDPOINT's endpoint
+     **/
+    public static final String SPOT_ORDER_ENDPOINT = "/api/v3/order";
+
+    /**
+     * {@code SPOT_OPEN_ORDERS_ENDPOINT} is constant for SPOT_OPEN_ORDERS_ENDPOINT's endpoint
+     **/
+    public static final String SPOT_OPEN_ORDERS_ENDPOINT = "/api/v3/openOrders";
+
+    /**
+     * {@code SPOT_ALL_ORDERS_LIST_ENDPOINT} is constant for SPOT_ALL_ORDERS_LIST_ENDPOINT's endpoint
+     **/
+    public static final String SPOT_ALL_ORDERS_LIST_ENDPOINT = "/api/v3/allOrders";
+
+    /**
+     * {@code CANCEL_AND_SEND_ORDER_ENDPOINT} is constant for CANCEL_AND_SEND_ORDER_ENDPOINT's endpoint
+     **/
+    public static final String CANCEL_AND_SEND_ORDER_ENDPOINT = "/api/v3/order/cancelReplace";
+
+    /**
+     * {@code SPOT_OCO_ORDER_ENDPOINT} is constant for SPOT_OCO_ORDER_ENDPOINT's endpoint
+     **/
+    public static final String SPOT_OCO_ORDER_ENDPOINT = "/api/v3/order/oco";
+
+    /**
+     * {@code SPOT_OCO_ORDER_LIST_ENDPOINT} is constant for SPOT_OCO_ORDER_LIST_ENDPOINT's endpoint
+     **/
+    public static final String SPOT_OCO_ORDER_LIST_ENDPOINT = "/api/v3/orderList";
+
+    /**
+     * {@code SPOT_OCO_ORDER_LIST_STATUS_ENDPOINT} is constant for SPOT_OCO_ORDER_LIST_STATUS_ENDPOINT's endpoint
+     **/
+    public static final String SPOT_OCO_ORDER_LIST_STATUS_ENDPOINT = "/api/v3/allOrderList";
+
+    /**
+     * {@code SPOT_OCO_OPEN_ORDER_LIST_ENDPOINT} is constant for SPOT_OCO_OPEN_ORDER_LIST_ENDPOINT's endpoint
+     **/
+    public static final String SPOT_OCO_OPEN_ORDER_LIST_ENDPOINT = "/api/v3/openOrderList";
+
+    /**
+     * {@code SPOT_ACCOUNT_INFORMATION_ENDPOINT} is constant for SPOT_ACCOUNT_INFORMATION_ENDPOINT's endpoint
+     **/
+    public static final String SPOT_ACCOUNT_INFORMATION_ENDPOINT = "/api/v3/account";
+
+    /**
+     * {@code SPOT_ACCOUNT_TRADE_LIST_ENDPOINT} is constant for SPOT_ACCOUNT_TRADE_LIST_ENDPOINT's endpoint
+     **/
+    public static final String SPOT_ACCOUNT_TRADE_LIST_ENDPOINT = "/api/v3/myTrades";
+
+    /**
+     * {@code SPOT_ACCOUNT_CURRENT_ORDER_COUNT_USAGE} is constant for SPOT_ACCOUNT_CURRENT_ORDER_COUNT_USAGE's endpoint
+     **/
+    public static final String SPOT_ACCOUNT_CURRENT_ORDER_COUNT_USAGE = "/api/v3/rateLimit/order";
+
+    /**
+     * {@code MY_PREVENTED_MATCHES} is constant for MY_PREVENTED_MATCHES's endpoint
+     **/
+    public static final String MY_PREVENTED_MATCHES = "/api/v3/myPreventedMatches";
 
     /**
      * Constructor to init a {@link BinanceSpotManager}

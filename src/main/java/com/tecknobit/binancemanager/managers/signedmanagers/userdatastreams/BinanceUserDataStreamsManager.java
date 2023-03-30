@@ -18,7 +18,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
-import static com.tecknobit.binancemanager.constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.managers.BinanceManager.BinanceEndpoint.MAIN_ENDPOINT;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 
@@ -32,6 +31,21 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * @see BinanceSignedManager
  **/
 public class BinanceUserDataStreamsManager extends BinanceSignedManager {
+
+    /**
+     * {@code SPOT_USER_DATA_STREAM_ENDPOINT} is constant for SPOT_USER_DATA_STREAM_ENDPOINT's endpoint
+     **/
+    public static final String SPOT_USER_DATA_STREAM_ENDPOINT = "/api/v3/userDataStream";
+
+    /**
+     * {@code MARGIN_USER_DATA_STREAM_ENDPOINT} is constant for MARGIN_USER_DATA_STREAM_ENDPOINT's endpoint
+     **/
+    public static final String MARGIN_USER_DATA_STREAM_ENDPOINT = "/sapi/v1/userDataStream";
+
+    /**
+     * {@code ISOLATED_MARGIN_USER_DATA_STREAM_ENDPOINT} is constant for ISOLATED_MARGIN_USER_DATA_STREAM_ENDPOINT's endpoint
+     **/
+    public static final String ISOLATED_MARGIN_USER_DATA_STREAM_ENDPOINT = MARGIN_USER_DATA_STREAM_ENDPOINT + "/isolated";
 
     /**
      * {@code previousListenKey} previous listen key used in the data stream

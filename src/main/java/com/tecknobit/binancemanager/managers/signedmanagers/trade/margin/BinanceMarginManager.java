@@ -38,7 +38,6 @@ import java.util.Arrays;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
-import static com.tecknobit.binancemanager.constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.OrderType.*;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.SpotOrder.*;
@@ -54,6 +53,186 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.re
  * @see BinanceSignedManager
  **/
 public class BinanceMarginManager extends BinanceSignedManager {
+
+    /**
+     * {@code CROSS_MARGIN_TRANSFERS_ENDPOINT} is constant for CROSS_MARGIN_TRANSFERS_ENDPOINT's endpoint
+     **/
+    public static final String CROSS_MARGIN_TRANSFERS_ENDPOINT = "/sapi/v1/margin/transfer";
+
+    /**
+     * {@code MARGIN_LOAN_ENDPOINT} is constant for MARGIN_LOAN_ENDPOINT's endpoint
+     **/
+    public static final String MARGIN_LOAN_ENDPOINT = "/sapi/v1/margin/loan";
+
+    /**
+     * {@code MARGIN_REPAY_ENDPOINT} is constant for MARGIN_REPAY_ENDPOINT's endpoint
+     **/
+    public static final String MARGIN_REPAY_ENDPOINT = "/sapi/v1/margin/repay";
+
+    /**
+     * {@code QUERY_MARGIN_ASSET_ENDPOINT} is constant for QUERY_MARGIN_ASSET_ENDPOINT's endpoint
+     **/
+    public static final String QUERY_MARGIN_ASSET_ENDPOINT = "/sapi/v1/margin/asset";
+
+    /**
+     * {@code QUERY_ALL_MARGIN_ASSETS_ENDPOINT} is constant for QUERY_ALL_MARGIN_ASSETS_ENDPOINT's endpoint
+     **/
+    public static final String QUERY_ALL_MARGIN_ASSETS_ENDPOINT = "/sapi/v1/margin/allAssets";
+
+    /**
+     * {@code QUERY_CROSS_MARGIN_PAIR_ENDPOINT} is constant for QUERY_CROSS_MARGIN_PAIR_ENDPOINT's endpoint
+     **/
+    public static final String QUERY_CROSS_MARGIN_PAIR_ENDPOINT = "/sapi/v1/margin/pair";
+
+    /**
+     * {@code QUERY_ALL_CROSS_MARGIN_PAIRS_ENDPOINT} is constant for QUERY_ALL_CROSS_MARGIN_PAIRS_ENDPOINT's endpoint
+     **/
+    public static final String QUERY_ALL_CROSS_MARGIN_PAIRS_ENDPOINT = "/sapi/v1/margin/allPairs";
+
+    /**
+     * {@code MARGIN_PRICE_INDEX_ENDPOINT} is constant for MARGIN_PRICE_INDEX_ENDPOINT's endpoint
+     **/
+    public static final String MARGIN_PRICE_INDEX_ENDPOINT = "/sapi/v1/margin/priceIndex";
+
+    /**
+     * {@code MARGIN_ORDER_ENDPOINT} is constant for MARGIN_ORDER_ENDPOINT's endpoint
+     **/
+    public static final String MARGIN_ORDER_ENDPOINT = "/sapi/v1/margin/order";
+
+    /**
+     * {@code MARGIN_OPEN_ORDERS_ENDPOINT} is constant for MARGIN_OPEN_ORDERS_ENDPOINT's endpoint
+     **/
+    public static final String MARGIN_OPEN_ORDERS_ENDPOINT = "/sapi/v1/margin/openOrders";
+
+    /**
+     * {@code MARGIN_INTEREST_HISTORY_ENDPOINT} is constant for MARGIN_INTEREST_HISTORY_ENDPOINT's endpoint
+     **/
+    public static final String MARGIN_INTEREST_HISTORY_ENDPOINT = "/sapi/v1/margin/interestHistory";
+
+    /**
+     * {@code MARGIN_FORCE_LIQUIDATION_ENDPOINT} is constant for MARGIN_FORCE_LIQUIDATION_ENDPOINT's endpoint
+     **/
+    public static final String MARGIN_FORCE_LIQUIDATION_ENDPOINT = "/sapi/v1/margin/forceLiquidationRec";
+
+    /**
+     * {@code CROSS_MARGIN_ACCOUNT_DETAILS_ENDPOINT} is constant for CROSS_MARGIN_ACCOUNT_DETAILS_ENDPOINT's endpoint
+     **/
+    public static final String CROSS_MARGIN_ACCOUNT_DETAILS_ENDPOINT = "/sapi/v1/margin/account";
+
+    /**
+     * {@code MARGIN_ALL_ORDERS_ENDPOINT} is constant for MARGIN_ALL_ORDERS_ENDPOINT's endpoint
+     **/
+    public static final String MARGIN_ALL_ORDERS_ENDPOINT = "/sapi/v1/margin/allOrders";
+
+    /**
+     * {@code MARGIN_OCO_ORDER_ENDPOINT} is constant for MARGIN_OCO_ORDER_ENDPOINT's endpoint
+     **/
+    public static final String MARGIN_OCO_ORDER_ENDPOINT = "/sapi/v1/margin/order/oco";
+
+    /**
+     * {@code MARGIN_OCO_ORDERS_ENDPOINT} is constant for MARGIN_OCO_ORDERS_ENDPOINT's endpoint
+     **/
+    public static final String MARGIN_OCO_ORDERS_ENDPOINT = "/sapi/v1/margin/orderList";
+
+    /**
+     * {@code MARGIN_OCO_ALL_ORDERS_ENDPOINT} is constant for MARGIN_OCO_ALL_ORDERS_ENDPOINT's endpoint
+     **/
+    public static final String MARGIN_OCO_ALL_ORDERS_ENDPOINT = "/sapi/v1/margin/allOrderList";
+
+    /**
+     * {@code MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT} is constant for MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT's endpoint
+     **/
+    public static final String MARGIN_OCO_ALL_OPEN_ORDERS_ENDPOINT = "/sapi/v1/margin/openOrderList";
+
+    /**
+     * {@code MARGIN_TRADES_LIST_ENDPOINT} is constant for MARGIN_TRADES_LIST_ENDPOINT's endpoint
+     **/
+    public static final String MARGIN_TRADES_LIST_ENDPOINT = "/sapi/v1/margin/myTrades";
+
+    /**
+     * {@code GET_MAX_MARGIN_BORROW_ENDPOINT} is constant for GET_MAX_MARGIN_BORROW_ENDPOINT's endpoint
+     **/
+    public static final String GET_MAX_MARGIN_BORROW_ENDPOINT = "/sapi/v1/margin/maxBorrowable";
+
+    /**
+     * {@code GET_MAX_MARGIN_TRANSFER_ENDPOINT} is constant for GET_MAX_MARGIN_TRANSFER_ENDPOINT's endpoint
+     **/
+    public static final String GET_MAX_MARGIN_TRANSFER_ENDPOINT = "/sapi/v1/margin/maxTransferable";
+
+    /**
+     * {@code GET_SUMMARY_MARGIN_ACCOUNT_ENDPOINT} is constant for GET_SUMMARY_MARGIN_ACCOUNT_ENDPOINT's endpoint
+     **/
+    public static final String GET_SUMMARY_MARGIN_ACCOUNT_ENDPOINT = "/sapi/v1/margin/tradeCoeff";
+
+    /**
+     * {@code ISOLATED_MARGIN_TRANSFER_ENDPOINT} is constant for ISOLATED_MARGIN_TRANSFER_ENDPOINT's endpoint
+     **/
+    public static final String ISOLATED_MARGIN_TRANSFER_ENDPOINT = "/sapi/v1/margin/isolated/transfer";
+
+    /**
+     * {@code ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT} is constant for ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT's endpoint
+     **/
+    public static final String ISOLATED_MARGIN_ACCOUNT_INFO_ENDPOINT = "/sapi/v1/margin/isolated/account";
+
+    /**
+     * {@code ISOLATED_MARGIN_ACCOUNT_LIMIT_ENDPOINT} is constant for ISOLATED_MARGIN_ACCOUNT_LIMIT_ENDPOINT's endpoint
+     **/
+    public static final String ISOLATED_MARGIN_ACCOUNT_LIMIT_ENDPOINT = "/sapi/v1/margin/isolated/accountLimit";
+
+    /**
+     * {@code QUERY_ISOLATED_MARGIN_SYMBOL_ENDPOINT} is constant for QUERY_ISOLATED_MARGIN_SYMBOL_ENDPOINT's endpoint
+     **/
+    public static final String QUERY_ISOLATED_MARGIN_SYMBOL_ENDPOINT = "/sapi/v1/margin/isolated/pair";
+
+    /**
+     * {@code QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT} is constant for QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT's endpoint
+     **/
+    public static final String QUERY_ALL_ISOLATED_MARGIN_SYMBOL_ENDPOINT = "/sapi/v1/margin/isolated/allPairs";
+
+    /**
+     * {@code NEXT_HOURLY_INTEREST_RATE_ENDPOINT} is constant for NEXT_HOURLY_INTEREST_RATE_ENDPOINT's endpoint
+     **/
+    public static final String NEXT_HOURLY_INTEREST_RATE_ENDPOINT = "/sapi/v1/margin/next-hourly-interest-rate";
+
+    /**
+     * {@code MARGIN_BNB_ENDPOINT} is constant for MARGIN_BNB_ENDPOINT's endpoint
+     **/
+    public static final String MARGIN_BNB_ENDPOINT = "/sapi/v1/bnbBurn";
+
+    /**
+     * {@code MARGIN_INTEREST_RATE_HISTORY_ENDPOINT} is constant for MARGIN_INTEREST_RATE_HISTORY_ENDPOINT's endpoint
+     **/
+    public static final String MARGIN_INTEREST_RATE_HISTORY_ENDPOINT = "/sapi/v1/margin/interestRateHistory";
+
+    /**
+     * {@code CROSS_MARGIN_DATA_ENDPOINT} is constant for CROSS_MARGIN_DATA_ENDPOINT's endpoint
+     **/
+    public static final String CROSS_MARGIN_DATA_ENDPOINT = "/sapi/v1/margin/crossMarginData";
+
+    /**
+     * {@code ISOLATED_MARGIN_DATA_ENDPOINT} is constant for ISOLATED_MARGIN_DATA_ENDPOINT's endpoint
+     **/
+    public static final String ISOLATED_MARGIN_DATA_ENDPOINT = "/sapi/v1/margin/isolatedMarginData";
+
+    /**
+     * {@code ISOLATED_MARGIN_TIER_DATA_ENDPOINT} is constant for ISOLATED_MARGIN_TIER_DATA_ENDPOINT's endpoint
+     **/
+    public static final String ISOLATED_MARGIN_TIER_DATA_ENDPOINT = "/sapi/v1/margin/isolatedMarginTier";
+
+    /**
+     * {@code COLLATERAL_RATIO_ENDPOINT} is constant for COLLATERAL_RATIO_ENDPOINT's endpoint
+     **/
+    public static final String COLLATERAL_RATIO_ENDPOINT = "/sapi/v1/margin/crossMarginCollateralRatio";
+
+    /**
+     * {@code EXCHANGE_SMALL_LIABILITY_ENDPOINT} is constant for EXCHANGE_SMALL_LIABILITY_ENDPOINT's endpoint
+     **/
+    public static final String EXCHANGE_SMALL_LIABILITY_ENDPOINT = "/sapi/v1/margin/exchange-small-liability";
+
+    /**
+     * {@code EXCHANGE_SMALL_LIABILITY_HISTORY_ENDPOINT} is constant for EXCHANGE_SMALL_LIABILITY_HISTORY_ENDPOINT's endpoint
+     **/
+    public static final String EXCHANGE_SMALL_LIABILITY_HISTORY_ENDPOINT = "/sapi/v1/margin/exchange-small-liability-history";
 
     /**
      * Constructor to init a {@link BinanceMarginManager}

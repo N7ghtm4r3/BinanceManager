@@ -27,7 +27,6 @@ import java.util.ArrayList;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
 import static com.tecknobit.apimanager.trading.TradingTools.computeTPTOPIndex;
-import static com.tecknobit.binancemanager.constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.JSON;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 
@@ -40,6 +39,76 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * @see BinanceManager
  **/
 public class BinanceMarketManager extends BinanceManager {
+
+    /**
+     * {@code TIMESTAMP_ENDPOINT} is constant for TIMESTAMP_ENDPOINT's endpoint
+     **/
+    public static final String TIMESTAMP_ENDPOINT = "/api/v3/time";
+
+    /**
+     * {@code TEST_CONNECTIVITY_ENDPOINT} is constant for TEST_CONNECTIVITY_ENDPOINT's endpoint
+     **/
+    public static final String TEST_CONNECTIVITY_ENDPOINT = "/api/v3/ping";
+
+    /**
+     * {@code EXCHANGE_INFORMATION_ENDPOINT} is constant for EXCHANGE_INFORMATION_ENDPOINT's endpoint
+     **/
+    public static final String EXCHANGE_INFORMATION_ENDPOINT = "/api/v3/exchangeInfo";
+
+    /**
+     * {@code ORDER_BOOK_ENDPOINT} is constant for ORDER_BOOK_ENDPOINT's endpoint
+     **/
+    public static final String ORDER_BOOK_ENDPOINT = "/api/v3/depth";
+
+    /**
+     * {@code RECENT_TRADE_LIST_ENDPOINT} is constant for RECENT_TRADE_LIST_ENDPOINT's endpoint
+     **/
+    public static final String RECENT_TRADE_LIST_ENDPOINT = "/api/v3/trades";
+
+    /**
+     * {@code OLD_TRADE_LOOKUP_ENDPOINT} is constant for OLD_TRADE_LOOKUP_ENDPOINT's endpoint
+     **/
+    public static final String OLD_TRADE_LOOKUP_ENDPOINT = "/api/v3/historicalTrades";
+
+    /**
+     * {@code COMPRESSED_TRADE_LIST_ENDPOINT} is constant for COMPRESSED_TRADE_LIST_ENDPOINT's endpoint
+     **/
+    public static final String COMPRESSED_TRADE_LIST_ENDPOINT = "/api/v3/aggTrades";
+
+    /**
+     * {@code CANDLESTICK_DATA_ENDPOINT} is constant for CANDLESTICK_DATA_ENDPOINT's endpoint
+     **/
+    public static final String CANDLESTICK_DATA_ENDPOINT = "/api/v3/klines";
+
+    /**
+     * {@code UIKLINES_ENDPOINT} is constant for UIKLINES_ENDPOINT's endpoint
+     **/
+    public static final String UIKLINES_ENDPOINT = "/api/v3/uiKlines";
+
+    /**
+     * {@code CURRENT_AVERAGE_PRICE_ENDPOINT} is constant for CURRENT_AVERAGE_PRICE_ENDPOINT's endpoint
+     **/
+    public static final String CURRENT_AVERAGE_PRICE_ENDPOINT = "/api/v3/avgPrice";
+
+    /**
+     * {@code TICKER_PRICE_CHANGE_ENDPOINT} is constant for TICKER_PRICE_CHANGE_ENDPOINT's endpoint
+     **/
+    public static final String TICKER_PRICE_CHANGE_ENDPOINT = "/api/v3/ticker/24hr";
+
+    /**
+     * {@code PRICE_TICKER_ENDPOINT} is constant for PRICE_TICKER_ENDPOINT's endpoint
+     **/
+    public static final String PRICE_TICKER_ENDPOINT = "/api/v3/ticker/price";
+
+    /**
+     * {@code ROLLING_TICKER_ENDPOINT} is constant for ROLLING_TICKER_ENDPOINT's endpoint
+     **/
+    public static final String ROLLING_TICKER_ENDPOINT = "/api/v3/ticker";
+
+    /**
+     * {@code BOOK_TICKER_ENDPOINT} is constant for BOOK_TICKER_ENDPOINT's endpoint
+     **/
+    public static final String BOOK_TICKER_ENDPOINT = "/api/v3/ticker/bookTicker";
 
     /**
      * Constructor to init a {@link BinanceMarketManager}

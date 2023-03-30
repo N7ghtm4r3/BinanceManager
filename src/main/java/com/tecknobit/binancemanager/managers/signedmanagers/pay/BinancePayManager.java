@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
-import static com.tecknobit.binancemanager.constants.EndpointsList.PAY_TRADE_HISTORY_ENDPOINT;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 
 /**
@@ -25,6 +24,11 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * @see BinanceSignedManager
  **/
 public class BinancePayManager extends BinanceSignedManager {
+
+    /**
+     * {@code PAY_TRADE_HISTORY_ENDPOINT} is constant for PAY_TRADE_HISTORY_ENDPOINT's endpoint
+     **/
+    public static final String PAY_TRADE_HISTORY_ENDPOINT = "/sapi/v1/pay/transactions";
 
     /**
      * Constructor to init a {@link BinancePayManager}

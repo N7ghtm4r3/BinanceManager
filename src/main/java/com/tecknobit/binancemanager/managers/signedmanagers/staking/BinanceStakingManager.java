@@ -21,7 +21,6 @@ import java.util.ArrayList;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.POST;
-import static com.tecknobit.binancemanager.constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 import static com.tecknobit.binancemanager.managers.signedmanagers.staking.records.StakingHistoryRecord.TxnType;
 
@@ -35,6 +34,41 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.staking.recor
  * @see BinanceSignedManager
  **/
 public class BinanceStakingManager extends BinanceSignedManager {
+
+    /**
+     * {@code STAKING_PRODUCT_LIST_ENDPOINT} is constant for STAKING_PRODUCT_LIST_ENDPOINT's endpoint
+     **/
+    public static final String STAKING_PRODUCT_LIST_ENDPOINT = "/sapi/v1/staking/productList";
+
+    /**
+     * {@code STAKING_PURCHASE_ENDPOINT} is constant for STAKING_PURCHASE_ENDPOINT's endpoint
+     **/
+    public static final String STAKING_PURCHASE_ENDPOINT = "/sapi/v1/staking/purchase";
+
+    /**
+     * {@code STAKING_REDEEM_ENDPOINT} is constant for STAKING_REDEEM_ENDPOINT's endpoint
+     **/
+    public static final String STAKING_REDEEM_ENDPOINT = "/sapi/v1/staking/redeem";
+
+    /**
+     * {@code STAKING_POSITION_ENDPOINT} is constant for STAKING_POSITION_ENDPOINT's endpoint
+     **/
+    public static final String STAKING_POSITION_ENDPOINT = "/sapi/v1/staking/position";
+
+    /**
+     * {@code STAKING_RECORD_ENDPOINT} is constant for STAKING_RECORD_ENDPOINT's endpoint
+     **/
+    public static final String STAKING_RECORD_ENDPOINT = "/sapi/v1/staking/stakingRecord";
+
+    /**
+     * {@code SET_AUTO_STAKING_ENDPOINT} is constant for SET_AUTO_STAKING_ENDPOINT's endpoint
+     **/
+    public static final String SET_AUTO_STAKING_ENDPOINT = "/sapi/v1/staking/setAutoStaking";
+
+    /**
+     * {@code PERSONAL_LEFT_QUOTA_ENDPOINT} is constant for PERSONAL_LEFT_QUOTA_ENDPOINT's endpoint
+     **/
+    public static final String PERSONAL_LEFT_QUOTA_ENDPOINT = "/sapi/v1/staking/personalLeftQuota";
 
     /**
      * Constructor to init a {@link BinanceStakingManager}

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.POST;
-import static com.tecknobit.binancemanager.constants.EndpointsList.*;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 
 /**
@@ -29,6 +28,36 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * @see BinanceSignedManager
  **/
 public class BinanceConvertManager extends BinanceSignedManager {
+
+    /**
+     * {@code CONVERT_EXCHANGE_INFO_ENDPOINT} is constant for CONVERT_EXCHANGE_INFO_ENDPOINT's endpoint
+     **/
+    public static final String CONVERT_EXCHANGE_INFO_ENDPOINT = "/sapi/v1/convert/exchangeInfo";
+
+    /**
+     * {@code ASSET_INFO_ENDPOINT} is constant for ASSET_INFO_ENDPOINT's endpoint
+     **/
+    public static final String ASSET_INFO_ENDPOINT = "/sapi/v1/convert/assetInfo";
+
+    /**
+     * {@code GET_QUOTE_ENDPOINT} is constant for ASSET_INFO_ENDPOINT's endpoint
+     **/
+    public static final String GET_QUOTE_ENDPOINT = "/sapi/v1/convert/getQuote";
+
+    /**
+     * {@code ACCEPT_QUOTE_ENDPOINT} is constant for ACCEPT_QUOTE_ENDPOINT's endpoint
+     **/
+    public static final String ACCEPT_QUOTE_ENDPOINT = "/sapi/v1/convert/acceptQuote";
+
+    /**
+     * {@code CONVERT_ORDER_STATUS_ENDPOINT} is constant for CONVERT_ORDER_STATUS_ENDPOINT's endpoint
+     **/
+    public static final String CONVERT_ORDER_STATUS_ENDPOINT = "/sapi/v1/convert/orderStatus";
+
+    /**
+     * {@code TRADE_FLOW_ENDPOINT} is constant for TRADE_FLOW_ENDPOINT's endpoint
+     **/
+    public static final String TRADE_FLOW_ENDPOINT = "/sapi/v1/convert/tradeFlow";
 
     /**
      * Constructor to init a {@link BinanceConvertManager}
@@ -903,7 +932,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
         Params payload = new Params();
         payload.addParam("timestamp", System.currentTimeMillis());
         payload.addParam("quoteId", quoteId);
-        String quoteResponse = sendPostSignedRequest(GET_QUOTE_ENDPOINT, payload);
+        String quoteResponse = sendPostSignedRequest(ACCEPT_QUOTE_ENDPOINT, payload);
         switch (format) {
             case JSON:
                 return (T) new JSONObject(quoteResponse);

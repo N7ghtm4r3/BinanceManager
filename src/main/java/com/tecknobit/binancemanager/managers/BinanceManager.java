@@ -18,8 +18,8 @@ import java.util.Properties;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.apimanager.trading.TradingTools.computeAssetPercent;
 import static com.tecknobit.apimanager.trading.TradingTools.textualizeAssetPercent;
-import static com.tecknobit.binancemanager.constants.EndpointsList.SYSTEM_STATUS_ENDPOINT;
-import static com.tecknobit.binancemanager.constants.EndpointsList.TIMESTAMP_ENDPOINT;
+import static com.tecknobit.binancemanager.managers.market.BinanceMarketManager.TIMESTAMP_ENDPOINT;
+import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.BinanceWalletManager.SYSTEM_STATUS_ENDPOINT;
 import static java.lang.System.currentTimeMillis;
 
 /**
@@ -315,6 +315,8 @@ public class BinanceManager {
     private String sendRequest(String endpoint, String params, String apiKey, RequestMethod method) throws IOException {
         if (params == null)
             params = "";
+        // TODO: 30/03/2023 REMOVE BEFORE PUBLISH
+        System.out.println(baseEndpoint + endpoint);
         if (apiKey != null)
             apiRequest.sendAPIRequest(baseEndpoint + endpoint + params, method, "X-MBX-APIKEY", apiKey);
         else
