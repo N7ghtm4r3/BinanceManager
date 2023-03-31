@@ -1,8 +1,11 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.futuresalgo;
 
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
+import com.tecknobit.binancemanager.managers.signedmanagers.futuresalgo.records.AlgoOrdersList;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -16,6 +19,36 @@ import java.io.IOException;
  * @see BinanceSignedManager
  **/
 public class BinanceFuturesAlgoManager extends BinanceSignedManager {
+
+    /**
+     * {@code ALGO_FUTURES_NEW_ORDER_VP_ENDPOINT} is constant for ALGO_FUTURES_NEW_ORDER_VP_ENDPOINT's endpoint
+     **/
+    public static final String ALGO_FUTURES_NEW_ORDER_VP_ENDPOINT = "/sapi/v1/algo/futures/newOrderVp";
+
+    /**
+     * {@code ALGO_FUTURES_NEW_ORDER_TWAP_ENDPOINT} is constant for ALGO_FUTURES_NEW_ORDER_TWAP_ENDPOINT's endpoint
+     **/
+    public static final String ALGO_FUTURES_NEW_ORDER_TWAP_ENDPOINT = "/sapi/v1/algo/futures/newOrderTwap";
+
+    /**
+     * {@code ALGO_FUTURES_ORDER_ENDPOINT} is constant for ALGO_FUTURES_ORDER_ENDPOINT's endpoint
+     **/
+    public static final String ALGO_FUTURES_ORDER_ENDPOINT = "/sapi/v1/algo/futures/order";
+
+    /**
+     * {@code ALGO_FUTURES_OPEN_ORDERS_ENDPOINT} is constant for ALGO_FUTURES_OPEN_ORDERS_ENDPOINT's endpoint
+     **/
+    public static final String ALGO_FUTURES_OPEN_ORDERS_ENDPOINT = "/sapi/v1/algo/futures/openOrders";
+
+    /**
+     * {@code ALGO_FUTURES_HISTORICAL_ORDERS_ENDPOINT} is constant for ALGO_FUTURES_HISTORICAL_ORDERS_ENDPOINT's endpoint
+     **/
+    public static final String ALGO_FUTURES_HISTORICAL_ORDERS_ENDPOINT = "/sapi/v1/algo/futures/historicalOrders";
+
+    /**
+     * {@code ALGO_FUTURES_SUBORDERS_ENDPOINT} is constant for ALGO_FUTURES_SUBORDERS_ENDPOINT's endpoint
+     **/
+    public static final String ALGO_FUTURES_SUBORDERS_ENDPOINT = "/sapi/v1/algo/futures/subOrders";
 
     /**
      * Constructor to init a {@link BinanceFuturesAlgoManager}
@@ -87,6 +120,25 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      **/
     public BinanceFuturesAlgoManager() {
         super();
+    }
+
+    /**
+     * Method to create an algo orders list
+     *
+     * @param algoOrdersResponse: obtained from Binance's response
+     * @param format:             return type formatter -> {@link ReturnFormat}
+     * @return algo orders list as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnAlgoOrdersList(String algoOrdersResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(algoOrdersResponse);
+            case LIBRARY_OBJECT:
+                return (T) new AlgoOrdersList(new JSONObject(algoOrdersResponse));
+            default:
+                return (T) algoOrdersResponse;
+        }
     }
 
 }
