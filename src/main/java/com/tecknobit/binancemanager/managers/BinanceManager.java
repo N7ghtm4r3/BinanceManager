@@ -229,6 +229,8 @@ public class BinanceManager {
      * @return response of request formatted in Json
      **/
     public String sendGetRequest(String endpoint, Params params, String apiKey) throws IOException {
+        if (params == null)
+            params = new Params();
         return sendRequest(endpoint, params.createQueryString(), apiKey, GET);
     }
 

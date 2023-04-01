@@ -1,19 +1,22 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.portfoliomargin;
 
 
+import com.tecknobit.apimanager.annotations.RequestPath;
+import com.tecknobit.apimanager.annotations.Returner;
+import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
-import com.tecknobit.binancemanager.managers.signedmanagers.portfoliomargin.records.BankruptcyLoanAmount;
-import com.tecknobit.binancemanager.managers.signedmanagers.portfoliomargin.records.CollateralRate;
-import com.tecknobit.binancemanager.managers.signedmanagers.portfoliomargin.records.PortfolioMarginAccountInfo;
+import com.tecknobit.binancemanager.managers.signedmanagers.portfoliomargin.records.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
+import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.POST;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 
 /**
@@ -129,18 +132,106 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
         super();
     }
 
+    /**
+     * Request to get the portfolio margin account info <br>
+     * No-any params required
+     *
+     * @return portfolio margin account info as {@link PortfolioMarginAccountInfo} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-portfolio-margin-account-info-user_data">
+     * Get Portfolio Margin Account Info (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/account")
     public PortfolioMarginAccountInfo getPortfolioMarginAccountInfo() throws Exception {
         return getPortfolioMarginAccountInfo(LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to get the portfolio margin account info
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return portfolio margin account info as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-portfolio-margin-account-info-user_data">
+     * Get Portfolio Margin Account Info (USER_DATA)</a>
+     **/
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/account")
     public <T> T getPortfolioMarginAccountInfo(ReturnFormat format) throws Exception {
         return getPortfolioMarginAccountInfo(-1, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to get the portfolio margin account info
+     *
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return portfolio margin account info as {@link PortfolioMarginAccountInfo} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-portfolio-margin-account-info-user_data">
+     * Get Portfolio Margin Account Info (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/account")
     public PortfolioMarginAccountInfo getPortfolioMarginAccountInfo(long recvWindow) throws Exception {
         return getPortfolioMarginAccountInfo(recvWindow, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to get the portfolio margin account info
+     *
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return portfolio margin account info as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-portfolio-margin-account-info-user_data">
+     * Get Portfolio Margin Account Info (USER_DATA)</a>
+     **/
+    @Returner
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/account")
     public <T> T getPortfolioMarginAccountInfo(long recvWindow, ReturnFormat format) throws Exception {
         String accountInfo = sendGetSignedRequest(PORTFOLIO_ACCOUNT_ENDPOINT, createQuery(recvWindow));
         switch (format) {
@@ -153,10 +244,54 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
         }
     }
 
+    /**
+     * Request to get the portfolio margin collateral rate <br>
+     * No-any params required
+     *
+     * @return portfolio margin collateral rate as {@link ArrayList} of {@link CollateralRate} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-portfolio-margin-account-info-user_data">
+     * Portfolio Margin Collateral Rate (MARKET_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/collateralRate")
     public ArrayList<CollateralRate> getPortfolioMarginCollateralRate() throws Exception {
         return getPortfolioMarginCollateralRate(LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to get the portfolio margin collateral rate
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return portfolio margin collateral rate as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-portfolio-margin-account-info-user_data">
+     * Portfolio Margin Collateral Rate (MARKET_DATA)</a>
+     **/
+    @Returner
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/collateralRate")
     public <T> T getPortfolioMarginCollateralRate(ReturnFormat format) throws Exception {
         String collateralRateResponse = sendGetRequest(PORTFOLIO_COLLATERAL_RATE_ENDPOINT, (String) null, apiKey);
         switch (format) {
@@ -173,18 +308,106 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
         }
     }
 
+    /**
+     * Request to get the portfolio margin bankruptcy loan amount <br>
+     * No-any params required
+     *
+     * @return portfolio margin bankruptcy loan amount as {@link BankruptcyLoanAmount} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-bankruptcy-loan-amount-user_data">
+     * Query Portfolio Margin Bankruptcy Loan Amount (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/pmLoan")
     public BankruptcyLoanAmount getPortfolioMarginBankruptcyLoanAmount() throws Exception {
         return getPortfolioMarginBankruptcyLoanAmount(LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to get the portfolio margin bankruptcy loan amount
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return portfolio margin bankruptcy loan amount as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-bankruptcy-loan-amount-user_data">
+     * Query Portfolio Margin Bankruptcy Loan Amount (USER_DATA)</a>
+     **/
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/pmLoan")
     public <T> T getPortfolioMarginBankruptcyLoanAmount(ReturnFormat format) throws Exception {
         return getPortfolioMarginBankruptcyLoanAmount(-1, format);
     }
 
+    /**
+     * Request to get the portfolio margin bankruptcy loan amount
+     *
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return portfolio margin bankruptcy loan amount as {@link BankruptcyLoanAmount} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-bankruptcy-loan-amount-user_data">
+     * Query Portfolio Margin Bankruptcy Loan Amount (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/pmLoan")
     public BankruptcyLoanAmount getPortfolioMarginBankruptcyLoanAmount(long recvWindow) throws Exception {
         return getPortfolioMarginBankruptcyLoanAmount(recvWindow, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to get the portfolio margin bankruptcy loan amount
+     *
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return portfolio margin bankruptcy loan amount as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-bankruptcy-loan-amount-user_data">
+     * Query Portfolio Margin Bankruptcy Loan Amount (USER_DATA)</a>
+     **/
+    @Returner
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/pmLoan")
     public <T> T getPortfolioMarginBankruptcyLoanAmount(long recvWindow, ReturnFormat format) throws Exception {
         String loanAmountResponse = sendGetRequest(PORTFOLIO_PM_LOAN_ENDPOINT, createQuery(recvWindow), apiKey);
         switch (format) {
@@ -197,18 +420,106 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
         }
     }
 
+    /**
+     * Request to repay portfolio margin bankruptcy loan <br>
+     * No-any params required
+     *
+     * @return id of the operation as long
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#portfolio-margin-bankruptcy-loan-repay">
+     * Portfolio Margin Bankruptcy Loan Repay</a>
+     **/
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/portfolio/repay")
     public long marginBankruptcyLoanRepay() throws Exception {
         return Long.parseLong(marginBankruptcyLoanRepay(LIBRARY_OBJECT));
     }
 
+    /**
+     * Request to repay portfolio margin bankruptcy loan
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return id of the operation as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#portfolio-margin-bankruptcy-loan-repay">
+     * Portfolio Margin Bankruptcy Loan Repay</a>
+     **/
+    @RequestPath(method = POST, path = "/sapi/v1/portfolio/repay")
     public <T> T marginBankruptcyLoanRepay(ReturnFormat format) throws Exception {
         return marginBankruptcyLoanRepay(-1, format);
     }
 
+    /**
+     * Request to repay portfolio margin bankruptcy loan
+     *
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return id of the operation as long
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#portfolio-margin-bankruptcy-loan-repay">
+     * Portfolio Margin Bankruptcy Loan Repay</a>
+     **/
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/portfolio/repay")
     public long marginBankruptcyLoanRepay(long recvWindow) throws Exception {
         return Long.parseLong(marginBankruptcyLoanRepay(recvWindow, LIBRARY_OBJECT));
     }
 
+    /**
+     * Request to repay portfolio margin bankruptcy loan
+     *
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return id of the operation as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#portfolio-margin-bankruptcy-loan-repay">
+     * Portfolio Margin Bankruptcy Loan Repay</a>
+     **/
+    @Returner
+    @RequestPath(method = POST, path = "/sapi/v1/portfolio/repay")
     public <T> T marginBankruptcyLoanRepay(long recvWindow, ReturnFormat format) throws Exception {
         Params payload = new Params();
         payload.addParam("timestamp", getServerTime());
@@ -225,11 +536,301 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
         }
     }
 
+    /**
+     * Method to create a query request string
+     *
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return query as {@link String}
+     **/
     public String createQuery(long recvWindow) {
         String query = getTimestampParam();
         if (recvWindow != -1)
             query += "&recvWindow=" + recvWindow;
         return query;
+    }
+
+    /**
+     * Request to get the user's portfolio margin interest history<br>
+     * No-any params required
+     *
+     * @return portfolio margin interest history as {@link PortfolioMarginInterestHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-history-user_data">
+     * Query Portfolio Margin Interest History(USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-history")
+    public PortfolioMarginInterestHistory getPortfolioMarginInterestHistory() throws Exception {
+        return getPortfolioMarginInterestHistory(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get the user's portfolio margin interest history
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return portfolio margin interest history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-history-user_data">
+     * Query Portfolio Margin Interest History(USER_DATA)</a>
+     **/
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-history")
+    public <T> T getPortfolioMarginInterestHistory(ReturnFormat format) throws Exception {
+        return getPortfolioMarginInterestHistory(null, format);
+    }
+
+    /**
+     * Request to get the user's portfolio margin interest history
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "asset"} -> asset from fetch the list - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> results that matching after this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> results that matching before this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size of the results per page, max 100
+     *                                - [INT, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
+     *                                - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return portfolio margin interest history as {@link PortfolioMarginInterestHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-history-user_data">
+     * Query Portfolio Margin Interest History(USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-history")
+    public PortfolioMarginInterestHistory getPortfolioMarginInterestHistory(Params extraParams) throws Exception {
+        return getPortfolioMarginInterestHistory(extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get the user's portfolio margin interest history
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "asset"} -> asset from fetch the list - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "startTime"} -> results that matching after this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> results that matching before this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size of the results per page, max 100
+     *                                - [INT, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
+     *                                - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return portfolio margin interest history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-history-user_data">
+     * Query Portfolio Margin Interest History(USER_DATA)</a>
+     **/
+    @Returner
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-history")
+    public <T> T getPortfolioMarginInterestHistory(Params extraParams, ReturnFormat format) throws Exception {
+        String historyResponse = sendGetRequest(PORTFOLIO_INTEREST_HISTORY_ENDPOINT, extraParams, apiKey);
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(historyResponse);
+            case LIBRARY_OBJECT:
+                return (T) new PortfolioMarginInterestHistory(new JSONObject(historyResponse));
+            default:
+                return (T) historyResponse;
+        }
+    }
+
+    /**
+     * Request to get the portfolio margin interest rate<br>
+     * No-any params required
+     *
+     * @return portfolio margin interest rate as {@link ArrayList} of {@link PortfolioMarginInterestRate} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-rate-market_data">
+     * Query Portfolio Margin Interest Rate (MARKET_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-rate")
+    public ArrayList<PortfolioMarginInterestRate> getPortfolioMarginInterestRate() throws Exception {
+        return getPortfolioMarginInterestRate(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get the portfolio margin interest rate
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return portfolio margin interest rate as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-rate-market_data">
+     * Query Portfolio Margin Interest Rate (MARKET_DATA)</a>
+     **/
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-rate")
+    public <T> T getPortfolioMarginInterestRate(ReturnFormat format) throws Exception {
+        return getPortfolioMarginInterestRate(null, format);
+    }
+
+    /**
+     * Request to get the portfolio margin interest rate
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "asset"} -> asset from fetch the list - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
+     *                                - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return portfolio margin interest rate as {@link ArrayList} of {@link PortfolioMarginInterestRate} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-rate-market_data">
+     * Query Portfolio Margin Interest Rate (MARKET_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-rate")
+    public ArrayList<PortfolioMarginInterestRate> getPortfolioMarginInterestRate(Params extraParams) throws Exception {
+        return getPortfolioMarginInterestRate(extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get the portfolio margin interest rate
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "asset"} -> asset from fetch the list - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
+     *                                - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return portfolio margin interest rate as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-rate-market_data">
+     * Query Portfolio Margin Interest Rate (MARKET_DATA)</a>
+     **/
+    @Returner
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-rate")
+    public <T> T getPortfolioMarginInterestRate(Params extraParams, ReturnFormat format) throws Exception {
+        String listResponse = sendGetRequest(PORTFOLIO_COLLATERAL_RATE_ENDPOINT, extraParams, apiKey);
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(listResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<PortfolioMarginInterestRate> interestRates = new ArrayList<>();
+                JSONArray jInterestRates = new JSONArray(listResponse);
+                for (int j = 0; j < jInterestRates.length(); j++)
+                    interestRates.add(new PortfolioMarginInterestRate(jInterestRates.getJSONObject(j)));
+                return (T) interestRates;
+            default:
+                return (T) listResponse;
+        }
     }
 
 }
