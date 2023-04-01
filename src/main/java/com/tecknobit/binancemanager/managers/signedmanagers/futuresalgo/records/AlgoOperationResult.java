@@ -1,23 +1,64 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.futuresalgo.records;
 
-import com.tecknobit.binancemanager.managers.BinanceManager;
+import com.tecknobit.binancemanager.managers.BinanceManager.BinanceResponse;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
 
-public abstract class AlgoOperationResult extends BinanceItem implements BinanceManager.BinanceResponse {
+/**
+ * The {@code AlgoOperationResult} class is useful to create an algo operation result
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at:
+ * <ul>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#volume-participation-vp-new-order-trade">
+ *             Volume Participation(VP) New Order (TRADE)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#time-weighted-average-price-twap-new-order-trade">
+ *             Time-Weighted Average Price(Twap) New Order (TRADE)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade">
+ *             Cancel Algo Order (TRADE)</a>
+ *     </li>
+ * </ul>
+ * @see BinanceItem
+ * @see BinanceResponse
+ **/
+public abstract class AlgoOperationResult extends BinanceItem implements BinanceResponse {
 
+    /**
+     * {@code success} whether the operation has been successful
+     **/
     protected final boolean success;
 
+    /**
+     * Constructor to init {@link AlgoOperationResult} object
+     *
+     * @param success: whether the operation has been successful
+     **/
     public AlgoOperationResult(boolean success) {
         super(null);
         this.success = success;
     }
 
+    /**
+     * Constructor to init {@link AlgoOperationResult} object
+     *
+     * @param jAlgoOperationResult: algo operation result details as {@link JSONObject}
+     **/
     public AlgoOperationResult(JSONObject jAlgoOperationResult) {
         super(jAlgoOperationResult);
         success = hItem.getBoolean("success");
     }
 
+    /**
+     * Method to get {@link #success} instance <br>
+     * No-any params required
+     *
+     * @return {@link #success} instance as boolean
+     **/
     public boolean isSuccess() {
         return success;
     }
