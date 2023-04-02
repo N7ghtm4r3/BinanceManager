@@ -128,6 +128,19 @@ public class BinanceSignedManager extends BinanceManager {
     }
 
     /**
+     * Method to create a payload with the timestamp value
+     *
+     * @param extraParams: extra params of the request
+     * @return payload as {@link Params}
+     **/
+    protected Params createTimestampPayload(Params extraParams) {
+        if (extraParams == null)
+            extraParams = new Params();
+        extraParams.addParam("timestamp", getServerTime());
+        return extraParams;
+    }
+
+    /**
      * Method to execute a get request and get response of that
      *
      * @param endpoint: endpoint to request
