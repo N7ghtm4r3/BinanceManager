@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.managers.signedmanagers.userdatastreams.records;
+package com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers.userdatastreams.records;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;

@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.managers.signedmanagers.blvt.records.operation;
+package com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers.blvt.records.operation;
 
 import org.json.JSONObject;
 

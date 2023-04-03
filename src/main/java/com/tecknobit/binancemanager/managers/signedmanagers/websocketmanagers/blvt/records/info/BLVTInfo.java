@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.managers.signedmanagers.blvt.records.info;
+package com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers.blvt.records.info;
 
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;

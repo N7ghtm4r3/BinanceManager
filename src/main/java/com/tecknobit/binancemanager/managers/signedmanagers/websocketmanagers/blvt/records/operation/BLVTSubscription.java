@@ -1,8 +1,9 @@
-package com.tecknobit.binancemanager.managers.signedmanagers.blvt.records.operation;
+package com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers.blvt.records.operation;
 
 import org.json.JSONObject;
 
 public class BLVTSubscription extends BLVTOperation {
+
     private final double totalCharge;
 
     public BLVTSubscription(long id, String tokenName, double amount, long timestamp, double nav, double fee,

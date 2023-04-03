@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.managers.signedmanagers.blvt.records;
+package com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers.blvt.records;
 
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
@@ -27,7 +27,7 @@ public abstract class BLVTStructure extends BinanceItem {
     }
 
     public BLVTStructure(JSONObject jBLVTStructure) {
-        super(null);
+        super(jBLVTStructure);
         id = hItem.getLong("id", 0);
         tokenName = hItem.getString("tokenName");
         amount = hItem.getDouble("amount", 0);

@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.managers.signedmanagers.userdatastreams;
+package com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers.userdatastreams;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.apimanager.annotations.Returner;
@@ -6,16 +6,13 @@ import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
-import com.tecknobit.binancemanager.managers.signedmanagers.userdatastreams.records.AccountUpdate;
-import com.tecknobit.binancemanager.managers.signedmanagers.userdatastreams.records.BalanceUpdate;
-import com.tecknobit.binancemanager.managers.signedmanagers.userdatastreams.records.OrderUpdate;
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.handshake.ServerHandshake;
+import com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers.BinanceWebsocketManager;
+import com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers.userdatastreams.records.AccountUpdate;
+import com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers.userdatastreams.records.BalanceUpdate;
+import com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers.userdatastreams.records.OrderUpdate;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.binancemanager.managers.BinanceManager.BinanceEndpoint.MAIN_ENDPOINT;
@@ -29,8 +26,9 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * User Data Streams</a>
  * @see BinanceManager
  * @see BinanceSignedManager
+ * @see BinanceWebsocketManager
  **/
-public class BinanceUserDataStreamsManager extends BinanceSignedManager {
+public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
 
     /**
      * {@code SPOT_USER_DATA_STREAM_ENDPOINT} is constant for SPOT_USER_DATA_STREAM_ENDPOINT's endpoint
@@ -48,14 +46,19 @@ public class BinanceUserDataStreamsManager extends BinanceSignedManager {
     public static final String ISOLATED_MARGIN_USER_DATA_STREAM_ENDPOINT = MARGIN_USER_DATA_STREAM_ENDPOINT + "/isolated";
 
     /**
+     * {@code USER_DATA_STREAM_ENDPOINT} is constant for USER_DATA_STREAM_ENDPOINT's endpoint
+     **/
+    public static final String USER_DATA_STREAM_ENDPOINT = "wss://stream.binance.com:9443/ws/";
+
+    /**
      * {@code previousListenKey} previous listen key used in the data stream
      **/
     private String previousListenKey;
 
     /**
-     * {@code webSocketResponse} response obtained from the websocket connection
+     * {@code currentListenKey} current listen key used in the data stream
      **/
-    private String webSocketResponse;
+    private String currentListenKey;
 
     /**
      * Constructor to init a {@link BinanceUserDataStreamsManager}
@@ -656,7 +659,10 @@ public class BinanceUserDataStreamsManager extends BinanceSignedManager {
      **/
     @Returner
     private <T> T getWebSocketContent(String listenKey, Class<T> type, ReturnFormat format) throws Exception {
-        manageWebSocket(listenKey);
+        currentListenKey = listenKey;
+        startWebsocket(USER_DATA_STREAM_ENDPOINT);
+        while (webSocketResponse == null)
+            Thread.onSpinWait();
         JSONObject response = new JSONObject(webSocketResponse);
         switch (format) {
             case JSON:
@@ -674,33 +680,16 @@ public class BinanceUserDataStreamsManager extends BinanceSignedManager {
     }
 
     /**
-     * Method to manage the websocket connection
+     * Method to start the websocket connection
      *
-     * @param listenKey: the listen key to use in the connection
+     * @param endpoint: the endpoint of the stream
      * @apiNote when you change {@code "listenKey"} will be created a new websocket connection with the new one key
      **/
-    private void manageWebSocket(String listenKey) throws URISyntaxException {
-        if (!previousListenKey.equals(listenKey)) {
-            previousListenKey = listenKey;
-            WebSocketClient webSocketClient = new WebSocketClient(new URI("wss://stream.binance.com:9443/ws/"
-                    + listenKey)) {
-                @Override
-                public void onOpen(ServerHandshake handshakeData) {
-                }
-
-                @Override
-                public void onMessage(String message) {
-                    webSocketResponse = message;
-                }
-
-                @Override
-                public void onClose(int code, String reason, boolean remote) {
-                }
-
-                @Override
-                public void onError(Exception ex) {
-                }
-            };
+    @Override
+    protected void startWebsocket(String endpoint) throws Exception {
+        if (!previousListenKey.equals(currentListenKey)) {
+            previousListenKey = currentListenKey;
+            super.startWebsocket(endpoint + currentListenKey);
         }
     }
 

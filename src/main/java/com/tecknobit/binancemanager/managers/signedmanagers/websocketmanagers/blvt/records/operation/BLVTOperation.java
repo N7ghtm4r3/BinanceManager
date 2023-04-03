@@ -1,6 +1,6 @@
-package com.tecknobit.binancemanager.managers.signedmanagers.blvt.records.operation;
+package com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers.blvt.records.operation;
 
-import com.tecknobit.binancemanager.managers.signedmanagers.blvt.records.BLVTStructure;
+import com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers.blvt.records.BLVTStructure;
 import org.json.JSONObject;
 
 public abstract class BLVTOperation extends BLVTStructure {
