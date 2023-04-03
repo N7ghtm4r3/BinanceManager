@@ -1,6 +1,8 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.giftcard;
 
+import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.apimanager.annotations.Returner;
+import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
@@ -9,6 +11,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
+import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.POST;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 
 /**
@@ -124,18 +128,112 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
         super();
     }
 
+    /**
+     * Request to create a Binance giftcard
+     *
+     * @param token:  the token type contained in the Binance Gift Card
+     * @param amount: the amount of the token contained in the Binance Gift Card
+     * @return Binance giftcard as {@link TokenGiftCard} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-single-token-gift-card-user_data">
+     * Create a single-token gift card (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/giftcard/createCode")
     public TokenGiftCard createSingleTokenGiftCard(String token, double amount) throws Exception {
         return createSingleTokenGiftCard(token, amount, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to create a Binance giftcard
+     *
+     * @param token:  the token type contained in the Binance Gift Card
+     * @param amount: the amount of the token contained in the Binance Gift Card
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return Binance giftcard as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-single-token-gift-card-user_data">
+     * Create a single-token gift card (USER_DATA)</a>
+     **/
+    @RequestPath(method = POST, path = "/sapi/v1/giftcard/createCode")
     public <T> T createSingleTokenGiftCard(String token, double amount, ReturnFormat format) throws Exception {
         return createSingleTokenGiftCard(token, amount, -1, format);
     }
 
+    /**
+     * Request to create a Binance giftcard
+     *
+     * @param token:      the token type contained in the Binance Gift Card
+     * @param amount:     the amount of the token contained in the Binance Gift Card
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return Binance giftcard as {@link TokenGiftCard} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-single-token-gift-card-user_data">
+     * Create a single-token gift card (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/giftcard/createCode")
     public TokenGiftCard createSingleTokenGiftCard(String token, double amount, long recvWindow) throws Exception {
         return createSingleTokenGiftCard(token, amount, recvWindow, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to create a Binance giftcard
+     *
+     * @param token:      the token type contained in the Binance Gift Card
+     * @param amount:     the amount of the token contained in the Binance Gift Card
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return Binance giftcard as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-single-token-gift-card-user_data">
+     * Create a single-token gift card (USER_DATA)</a>
+     **/
+    @RequestPath(method = POST, path = "/sapi/v1/giftcard/createCode")
     public <T> T createSingleTokenGiftCard(String token, double amount, long recvWindow,
                                            ReturnFormat format) throws Exception {
         Params payload = new Params();
@@ -146,21 +244,139 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
         return returnTokenGiftCard(sendPostSignedRequest(GIFTCARD_CREATE_CODE_ENDPOINT, payload), format);
     }
 
+    /**
+     * Request to create a dual-token
+     *
+     * @param baseToken:       the token you want to pay
+     * @param faceToken:       the token you want to buy
+     * @param baseTokenAmount: the base token asset quantity
+     * @return dual-token as {@link TokenGiftCard} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-dual-token-gift-card-fixed-value-discount-feature-trade">
+     * Create a dual-token gift card (fixed value, discount feature) (TRADE)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/giftcard/buyCode")
     public TokenGiftCard createDualTokenGiftCard(String baseToken, String faceToken,
                                                  double baseTokenAmount) throws Exception {
         return createDualTokenGiftCard(baseToken, faceToken, baseTokenAmount, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to create a dual-token
+     *
+     * @param baseToken:       the token you want to pay
+     * @param faceToken:       the token you want to buy
+     * @param baseTokenAmount: the base token asset quantity
+     * @param format:          return type formatter -> {@link ReturnFormat}
+     * @return dual-token as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-dual-token-gift-card-fixed-value-discount-feature-trade">
+     * Create a dual-token gift card (fixed value, discount feature) (TRADE)</a>
+     **/
+    @RequestPath(method = POST, path = "/sapi/v1/giftcard/buyCode")
     public <T> T createDualTokenGiftCard(String baseToken, String faceToken, double baseTokenAmount,
                                          ReturnFormat format) throws Exception {
         return createDualTokenGiftCard(baseToken, faceToken, baseTokenAmount, null, format);
     }
 
+    /**
+     * Request to create a dual-token
+     *
+     * @param baseToken:       the token you want to pay
+     * @param faceToken:       the token you want to buy
+     * @param baseTokenAmount: the base token asset quantity
+     * @param extraParams:     additional params of the request, keys accepted are:
+     *                         <ul>
+     *                               <li>
+     *                                    {@code "discount"} -> stablecoin-denominated card discount percentage, scale
+     *                                    should be less than 6 - [DOUBLE]
+     *                               </li>
+     *                               <li>
+     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
+     *                                    - [LONG, default 5000]
+     *                               </li>
+     *                         </ul>
+     * @return dual-token as {@link TokenGiftCard} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-dual-token-gift-card-fixed-value-discount-feature-trade">
+     * Create a dual-token gift card (fixed value, discount feature) (TRADE)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/giftcard/buyCode")
     public TokenGiftCard createDualTokenGiftCard(String baseToken, String faceToken, double baseTokenAmount,
                                                  Params extraParams) throws Exception {
         return createDualTokenGiftCard(baseToken, faceToken, baseTokenAmount, extraParams, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to create a dual-token
+     *
+     * @param baseToken:       the token you want to pay
+     * @param faceToken:       the token you want to buy
+     * @param baseTokenAmount: the base token asset quantity
+     * @param extraParams:     additional params of the request, keys accepted are:
+     *                         <ul>
+     *                               <li>
+     *                                    {@code "discount"} -> stablecoin-denominated card discount percentage, scale
+     *                                    should be less than 6 - [DOUBLE]
+     *                               </li>
+     *                               <li>
+     *                                    {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
+     *                                    - [LONG, default 5000]
+     *                               </li>
+     *                         </ul>
+     * @param format:          return type formatter -> {@link ReturnFormat}
+     * @return dual-token as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-dual-token-gift-card-fixed-value-discount-feature-trade">
+     * Create a dual-token gift card (fixed value, discount feature) (TRADE)</a>
+     **/
+    @RequestPath(method = POST, path = "/sapi/v1/giftcard/buyCode")
     public <T> T createDualTokenGiftCard(String baseToken, String faceToken, double baseTokenAmount, Params extraParams,
                                          ReturnFormat format) throws Exception {
         if (extraParams == null)
@@ -190,18 +406,145 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
         }
     }
 
+    /**
+     * Request to redeem a Binance giftcard
+     *
+     * @param code: redemption code of Binance Gift Card to be redeemed
+     * @return Binance giftcard as {@link GiftCard} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-a-binance-gift-card-user_data">
+     * Redeem a Binance Gift Card (USER_DATA) </a>
+     **/
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/giftcard/redeemCode")
     public GiftCard redeemBinanceGiftCard(String code) throws Exception {
         return redeemBinanceGiftCard(code, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to redeem a Binance giftcard
+     *
+     * @param code:   redemption code of Binance Gift Card to be redeemed
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return Binance giftcard as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-a-binance-gift-card-user_data">
+     * Redeem a Binance Gift Card (USER_DATA) </a>
+     **/
+    @RequestPath(method = POST, path = "/sapi/v1/giftcard/redeemCode")
     public <T> T redeemBinanceGiftCard(String code, ReturnFormat format) throws Exception {
         return redeemBinanceGiftCard(code, null, format);
     }
 
+    /**
+     * Request to redeem a Binance giftcard
+     *
+     * @param code:        redemption code of Binance Gift Card to be redeemed
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "externalUid"} -> each external unique ID represents a unique user on the
+     *                                partner platform. The function helps you to identify the redemption behavior of
+     *                                different users, such as redemption frequency and amount. It also helps risk and
+     *                                limit control of a single account, such as daily limit on redemption volume,
+     *                                frequency, and incorrect number of entries. This will also prevent a single user
+     *                                account reach the partner's daily redemption limits. We strongly recommend you to
+     *                                use this feature and transfer us the User ID of your users if you have different
+     *                                users redeeming Binance Gift Cards on your platform. To protect user data privacy,
+     *                                you may choose to transfer the user id in any desired format
+     *                                (max. 400 characters) - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
+     *                                - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return Binance giftcard as {@link GiftCard} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-a-binance-gift-card-user_data">
+     * Redeem a Binance Gift Card (USER_DATA) </a>
+     **/
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/giftcard/redeemCode")
     public GiftCard redeemBinanceGiftCard(String code, Params extraParams) throws Exception {
         return redeemBinanceGiftCard(code, extraParams, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to redeem a Binance giftcard
+     *
+     * @param code:        redemption code of Binance Gift Card to be redeemed
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "externalUid"} -> each external unique ID represents a unique user on the
+     *                                partner platform. The function helps you to identify the redemption behavior of
+     *                                different users, such as redemption frequency and amount. It also helps risk and
+     *                                limit control of a single account, such as daily limit on redemption volume,
+     *                                frequency, and incorrect number of entries. This will also prevent a single user
+     *                                account reach the partner's daily redemption limits. We strongly recommend you to
+     *                                use this feature and transfer us the User ID of your users if you have different
+     *                                users redeeming Binance Gift Cards on your platform. To protect user data privacy,
+     *                                you may choose to transfer the user id in any desired format
+     *                                (max. 400 characters) - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
+     *                                - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return Binance giftcard as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-a-binance-gift-card-user_data">
+     * Redeem a Binance Gift Card (USER_DATA) </a>
+     **/
+    @Returner
+    @RequestPath(method = POST, path = "/sapi/v1/giftcard/redeemCode")
     public <T> T redeemBinanceGiftCard(String code, Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)
             extraParams = new Params();
@@ -217,18 +560,117 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
         }
     }
 
+    /**
+     * Request to verify whether the Binance Gift Card is valid or not by entering Gift Card Number
+     *
+     * @param referenceNo: the giftcard number
+     * @return Binance giftcard verification as {@link GiftCardVerification} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#verify-binance-gift-card-by-gift-card-number-user_data">
+     * Verify Binance Gift Card by Gift Card Number (USER_DATA) </a>
+     * @implNote please note that if you enter the wrong Gift Card Number 5 times within an hour, you will no longer be
+     * able to verify any Gift Card Number for that hour
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/giftcard/verify")
     public GiftCardVerification verifyBinanceGiftCard(String referenceNo) throws Exception {
         return verifyBinanceGiftCard(referenceNo, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to verify whether the Binance Gift Card is valid or not by entering Gift Card Number
+     *
+     * @param referenceNo: the giftcard number
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return Binance giftcard verification as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#verify-binance-gift-card-by-gift-card-number-user_data">
+     * Verify Binance Gift Card by Gift Card Number (USER_DATA) </a>
+     * @implNote please note that if you enter the wrong Gift Card Number 5 times within an hour, you will no longer be
+     * able to verify any Gift Card Number for that hour
+     **/
+    @RequestPath(method = GET, path = "/sapi/v1/giftcard/verify")
     public <T> T verifyBinanceGiftCard(String referenceNo, ReturnFormat format) throws Exception {
         return verifyBinanceGiftCard(referenceNo, -1, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to verify whether the Binance Gift Card is valid or not by entering Gift Card Number
+     *
+     * @param referenceNo: the giftcard number
+     * @param recvWindow:  request is valid for in ms, must be less than 60000
+     * @return Binance giftcard verification as {@link GiftCardVerification} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#verify-binance-gift-card-by-gift-card-number-user_data">
+     * Verify Binance Gift Card by Gift Card Number (USER_DATA) </a>
+     * @implNote please note that if you enter the wrong Gift Card Number 5 times within an hour, you will no longer be
+     * able to verify any Gift Card Number for that hour
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/giftcard/verify")
     public GiftCardVerification verifyBinanceGiftCard(String referenceNo, long recvWindow) throws Exception {
         return verifyBinanceGiftCard(referenceNo, recvWindow, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to verify whether the Binance Gift Card is valid or not by entering Gift Card Number
+     *
+     * @param referenceNo: the giftcard number
+     * @param recvWindow:  request is valid for in ms, must be less than 60000
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return Binance giftcard verification as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#verify-binance-gift-card-by-gift-card-number-user_data">
+     * Verify Binance Gift Card by Gift Card Number (USER_DATA) </a>
+     * @implNote please note that if you enter the wrong Gift Card Number 5 times within an hour, you will no longer be
+     * able to verify any Gift Card Number for that hour
+     **/
+    @Returner
+    @RequestPath(method = GET, path = "/sapi/v1/giftcard/verify")
     public <T> T verifyBinanceGiftCard(String referenceNo, long recvWindow, ReturnFormat format) throws Exception {
         Params query = createTimestampQuery(recvWindow);
         query.addParam("referenceNo", referenceNo);
@@ -243,18 +685,106 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
         }
     }
 
+    /**
+     * Request to fetch the RSA Public Key <br>
+     * No-any params required
+     *
+     * @return Binance RSA Public Key as {@link BinanceRSAPublicKey} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fetch-rsa-public-key-user_data">
+     * Fetch RSA Public Key (USER_DATA) </a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/giftcard/cryptography/rsa-public-key")
     public BinanceRSAPublicKey fetchRSAPublicKey() throws Exception {
         return fetchRSAPublicKey(LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to fetch the RSA Public Key
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return Binance RSA Public Key as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fetch-rsa-public-key-user_data">
+     * Fetch RSA Public Key (USER_DATA) </a>
+     **/
+    @RequestPath(method = GET, path = "/sapi/v1/giftcard/cryptography/rsa-public-key")
     public <T> T fetchRSAPublicKey(ReturnFormat format) throws Exception {
         return fetchRSAPublicKey(-1, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to fetch the RSA Public Key
+     *
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return Binance RSA Public Key as {@link BinanceRSAPublicKey} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fetch-rsa-public-key-user_data">
+     * Fetch RSA Public Key (USER_DATA) </a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/giftcard/cryptography/rsa-public-key")
     public BinanceRSAPublicKey fetchRSAPublicKey(long recvWindow) throws Exception {
         return fetchRSAPublicKey(recvWindow, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to fetch the RSA Public Key
+     *
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return Binance RSA Public Key as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fetch-rsa-public-key-user_data">
+     * Fetch RSA Public Key (USER_DATA) </a>
+     **/
+    @Returner
+    @RequestPath(method = GET, path = "/sapi/v1/giftcard/cryptography/rsa-public-key")
     public <T> T fetchRSAPublicKey(long recvWindow, ReturnFormat format) throws Exception {
         String keyResponse = sendGetSignedRequest(GIFTCARD_VERIFY_ENDPOINT, createTimestampQuery(recvWindow));
         switch (format) {
@@ -267,18 +797,113 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
         }
     }
 
+    /**
+     * Request to verify which tokens are available for you to create Stablecoin-Denominated gift cards as mentioned in
+     * section 2 and its limitation
+     *
+     * @param baseToken: the token you want to pay
+     * @return token limits as {@link TokenLimits} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fetch-token-limit-user_data">
+     * Fetch Token Limit (USER_DATA) </a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/giftcard/buyCode/token-limit")
     public TokenLimits fetchTokenLimit(String baseToken) throws Exception {
         return fetchTokenLimit(baseToken, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to verify which tokens are available for you to create Stablecoin-Denominated gift cards as mentioned in
+     * section 2 and its limitation
+     *
+     * @param baseToken: the token you want to pay
+     * @param format:    return type formatter -> {@link ReturnFormat}
+     * @return token limits as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fetch-token-limit-user_data">
+     * Fetch Token Limit (USER_DATA) </a>
+     **/
+    @RequestPath(method = GET, path = "/sapi/v1/giftcard/buyCode/token-limit")
     public <T> T fetchTokenLimit(String baseToken, ReturnFormat format) throws Exception {
         return fetchTokenLimit(baseToken, -1, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to verify which tokens are available for you to create Stablecoin-Denominated gift cards as mentioned in
+     * section 2 and its limitation
+     *
+     * @param baseToken:  the token you want to pay
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return token limits as {@link TokenLimits} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fetch-token-limit-user_data">
+     * Fetch Token Limit (USER_DATA) </a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/giftcard/buyCode/token-limit")
     public TokenLimits fetchTokenLimit(String baseToken, long recvWindow) throws Exception {
         return fetchTokenLimit(baseToken, recvWindow, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to verify which tokens are available for you to create Stablecoin-Denominated gift cards as mentioned in
+     * section 2 and its limitation
+     *
+     * @param baseToken:  the token you want to pay
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return token limits as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fetch-token-limit-user_data">
+     * Fetch Token Limit (USER_DATA) </a>
+     **/
+    @Returner
+    @RequestPath(method = GET, path = "/sapi/v1/giftcard/buyCode/token-limit")
     public <T> T fetchTokenLimit(String baseToken, long recvWindow, ReturnFormat format) throws Exception {
         Params query = createTimestampQuery(recvWindow);
         query.addParam("baseToken", baseToken);
@@ -293,6 +918,12 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
         }
     }
 
+    /**
+     * Method to create a query string with {@code "timestamp"} and in some cases also the {@code "recvWindow"}
+     *
+     * @param recvWindow: will be inserted in the query only if different from {@code "-1"}
+     * @return query as {@link Params}
+     **/
     private Params createTimestampQuery(long recvWindow) {
         Params query = new Params();
         if (recvWindow != -1)
