@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.URI;
 
 import static com.tecknobit.apimanager.formatters.JsonHelper.getString;
+import static com.tecknobit.binancemanager.managers.records.websocketstream.BinanceWebsocketResponse.EventType.no_content;
 import static com.tecknobit.binancemanager.managers.records.websocketstream.BinanceWebsocketResponse.EventType.valueOf;
 
 /**
@@ -167,8 +168,10 @@ public class BinanceWebsocketManager extends BinanceSignedManager {
      * @param type: type of the event to wait
      **/
     protected void waitCorrectResponse(EventType type) {
-        while (webSocketResponse == null || valueOf(getString(new JSONObject(webSocketResponse), "e")) != type)
+        while (webSocketResponse == null || valueOf(getString(new JSONObject(webSocketResponse), "e",
+                no_content.name())) != type) {
             Thread.onSpinWait();
+        }
     }
 
 }

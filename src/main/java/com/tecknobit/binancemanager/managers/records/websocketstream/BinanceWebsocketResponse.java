@@ -20,6 +20,11 @@ public abstract class BinanceWebsocketResponse extends BinanceItem {
     public enum EventType {
 
         /**
+         * {@code no_content} event type
+         **/
+        no_content,
+
+        /**
          * {@code nav} event type
          **/
         nav,
