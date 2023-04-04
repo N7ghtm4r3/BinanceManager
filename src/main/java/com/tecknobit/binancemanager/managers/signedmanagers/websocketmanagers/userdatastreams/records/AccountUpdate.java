@@ -2,6 +2,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers.u
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
+import com.tecknobit.binancemanager.managers.records.websocketstream.BinanceWebsocketResponse;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.SpotAccountSnapshot.SpotBalance;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,9 +19,9 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#payload-account-update">
  * Payload: Account Update</a>
  * @see BinanceItem
- * @see UserDataStreamsUpdate
+ * @see BinanceWebsocketResponse
  **/
-public class AccountUpdate extends UserDataStreamsUpdate {
+public class AccountUpdate extends BinanceWebsocketResponse {
 
     /**
      * {@code lastAccountUpdate} time of the last account update

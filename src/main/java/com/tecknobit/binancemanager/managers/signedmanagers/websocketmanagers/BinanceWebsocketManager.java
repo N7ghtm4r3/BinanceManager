@@ -2,12 +2,17 @@ package com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers;
 
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
+import com.tecknobit.binancemanager.managers.records.websocketstream.BinanceWebsocketResponse.EventType;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URI;
+
+import static com.tecknobit.apimanager.formatters.JsonHelper.getString;
+import static com.tecknobit.binancemanager.managers.records.websocketstream.BinanceWebsocketResponse.EventType.valueOf;
 
 /**
  * The {@code BinanceWebsocketManager} class is useful to manage all websocket binance requests
@@ -154,6 +159,16 @@ public class BinanceWebsocketManager extends BinanceSignedManager {
                 }
             }
         }.connect();
+    }
+
+    /**
+     * Method to wait the correct response to format the correct object or return the correct response
+     *
+     * @param type: type of the event to wait
+     **/
+    protected void waitCorrectResponse(EventType type) {
+        while (webSocketResponse == null || valueOf(getString(new JSONObject(webSocketResponse), "e")) != type)
+            Thread.onSpinWait();
     }
 
 }

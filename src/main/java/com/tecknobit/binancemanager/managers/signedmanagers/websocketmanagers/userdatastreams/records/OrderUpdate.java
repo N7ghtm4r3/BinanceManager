@@ -3,6 +3,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers.u
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.market.records.stats.ExchangeInformation.SelfTradePreventionMode;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
+import com.tecknobit.binancemanager.managers.records.websocketstream.BinanceWebsocketResponse;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.OrderType;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.Side;
@@ -23,9 +24,9 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#payload-order-update">
  * Payload: Order Update</a>
  * @see BinanceItem
- * @see UserDataStreamsUpdate
+ * @see BinanceWebsocketResponse
  **/
-public class OrderUpdate extends UserDataStreamsUpdate {
+public class OrderUpdate extends BinanceWebsocketResponse {
 
     /**
      * {@code ExecutionType} list of available execution types
@@ -1021,9 +1022,9 @@ public class OrderUpdate extends UserDataStreamsUpdate {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     * @see UserDataStreamsUpdate
+     * @see BinanceWebsocketResponse
      **/
-    public static class ListStatus extends UserDataStreamsUpdate {
+    public static class ListStatus extends BinanceWebsocketResponse {
 
         /**
          * {@code symbol} of the list status

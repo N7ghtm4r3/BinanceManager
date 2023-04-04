@@ -2,6 +2,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers.u
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
+import com.tecknobit.binancemanager.managers.records.websocketstream.BinanceWebsocketResponse;
 import org.json.JSONObject;
 
 import java.util.Date;
@@ -15,9 +16,9 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#payload-balance-update">
  * Payload: Balance Update</a>
  * @see BinanceItem
- * @see UserDataStreamsUpdate
+ * @see BinanceWebsocketResponse
  **/
-public class BalanceUpdate extends UserDataStreamsUpdate {
+public class BalanceUpdate extends BinanceWebsocketResponse {
 
     /**
      * {@code asset} of the balance update

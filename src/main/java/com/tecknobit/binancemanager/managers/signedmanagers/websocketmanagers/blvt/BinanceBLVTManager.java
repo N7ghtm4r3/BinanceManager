@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
+import static com.tecknobit.binancemanager.managers.records.websocketstream.BinanceWebsocketResponse.EventType.kline;
+import static com.tecknobit.binancemanager.managers.records.websocketstream.BinanceWebsocketResponse.EventType.nav;
 
 /**
  * The {@code BinanceBLVTManager} class is useful to manage BLVT endpoints
@@ -363,8 +365,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
     }
 
     public <T> T getWbsBLVTInfo(ReturnFormat format) {
-        while (webSocketResponse == null)
-            Thread.onSpinWait();
+        waitCorrectResponse(nav);
         switch (format) {
             case JSON:
                 return (T) new JSONObject(webSocketResponse);
@@ -388,8 +389,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
     }
 
     public <T> T getWbsBLVTCandlestick(ReturnFormat format) {
-        while (webSocketResponse == null)
-            Thread.onSpinWait();
+        waitCorrectResponse(kline);
         switch (format) {
             case JSON:
                 return (T) new JSONObject(webSocketResponse);
