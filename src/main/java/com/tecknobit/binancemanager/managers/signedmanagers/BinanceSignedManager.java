@@ -160,7 +160,10 @@ public class BinanceSignedManager extends BinanceManager {
      **/
     @Wrapper
     protected String sendGetSignedRequest(String endpoint, Params params) throws Exception {
-        return sendGetSignedRequest(endpoint, params.createQueryString());
+        String query = null;
+        if (params != null)
+            query = params.createQueryString();
+        return sendGetSignedRequest(endpoint, query);
     }
 
     /**
