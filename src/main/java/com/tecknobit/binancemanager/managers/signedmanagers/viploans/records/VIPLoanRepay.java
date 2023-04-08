@@ -1,6 +1,8 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.viploans.records;
 
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
+import com.tecknobit.binancemanager.managers.records.loan.LoanBaseStructure;
+import com.tecknobit.binancemanager.managers.records.loan.LoanRepayStructure;
 import org.json.JSONObject;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
@@ -12,24 +14,14 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#vip-loan-repay-trade">
  * VIP Loan Repay (TRADE)</a>
  * @see BinanceItem
- * @see VIPLoanBaseStructure
+ * @see LoanBaseStructure
  **/
-public class VIPLoanRepay extends VIPLoanRepayStructure {
+public class VIPLoanRepay extends LoanRepayStructure {
 
     /**
-     * {@code remainingPrincipal} remaining principal of the VIP loan repay
+     * {@code repayAmount} repay amount of the loan
      **/
-    private final double remainingPrincipal;
-
-    /**
-     * {@code remainingInterest} remaining interest of the VIP loan repay
-     **/
-    private final double remainingInterest;
-
-    /**
-     * {@code currentLTV} current LTV of the VIP loan repay
-     **/
-    private final double currentLTV;
+    private final double repayAmount;
 
     /**
      * Constructor to init {@link VIPLoanRepay} object
@@ -42,12 +34,10 @@ public class VIPLoanRepay extends VIPLoanRepayStructure {
      * @param remainingInterest:  remaining interest of the VIP loan repay
      * @param currentLTV:         current LTV of the VIP loan repay
      **/
-    public VIPLoanRepay(String loanCoin, String collateralCoin, double repayAmount, RepayStatus repayStatus,
-                        double remainingPrincipal, double remainingInterest, double currentLTV) {
-        super(loanCoin, collateralCoin, repayAmount, repayStatus);
-        this.remainingPrincipal = remainingPrincipal;
-        this.remainingInterest = remainingInterest;
-        this.currentLTV = currentLTV;
+    public VIPLoanRepay(String loanCoin, String collateralCoin, RepayStatus repayStatus, double remainingPrincipal,
+                        double remainingInterest, double currentLTV, double repayAmount) {
+        super(loanCoin, collateralCoin, repayStatus, remainingPrincipal, remainingInterest, currentLTV);
+        this.repayAmount = repayAmount;
     }
 
     /**
@@ -57,72 +47,28 @@ public class VIPLoanRepay extends VIPLoanRepayStructure {
      **/
     public VIPLoanRepay(JSONObject jVIPLoanRepay) {
         super(jVIPLoanRepay);
-        remainingPrincipal = hItem.getDouble("remainingPrincipal", 0);
-        remainingInterest = hItem.getDouble("remainingInterest", 0);
-        currentLTV = hItem.getDouble("currentLTV", 0);
+        repayAmount = hItem.getDouble("repayAmount", 0);
     }
 
     /**
-     * Method to get {@link #remainingPrincipal} instance <br>
+     * Method to get {@link #repayAmount} instance <br>
      * No-any params required
      *
-     * @return {@link #remainingPrincipal} instance as double
+     * @return {@link #repayAmount} instance as double
      **/
-    public double getRemainingPrincipal() {
-        return remainingPrincipal;
+    public double getRepayAmount() {
+        return repayAmount;
     }
 
     /**
-     * Method to get {@link #remainingPrincipal} instance
+     * Method to get {@link #repayAmount} instance
      *
      * @param decimals: number of digits to round final value
-     * @return {@link #remainingPrincipal} instance rounded with decimal digits inserted
+     * @return {@link #repayAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
      **/
-    public double getRemainingPrincipal(int decimals) {
-        return roundValue(remainingPrincipal, decimals);
-    }
-
-    /**
-     * Method to get {@link #remainingInterest} instance <br>
-     * No-any params required
-     *
-     * @return {@link #remainingInterest} instance as double
-     **/
-    public double getRemainingInterest() {
-        return remainingInterest;
-    }
-
-    /**
-     * Method to get {@link #remainingInterest} instance
-     *
-     * @param decimals: number of digits to round final value
-     * @return {@link #remainingInterest} instance rounded with decimal digits inserted
-     * @throws IllegalArgumentException if decimalDigits is negative
-     **/
-    public double getRemainingInterest(int decimals) {
-        return roundValue(remainingInterest, decimals);
-    }
-
-    /**
-     * Method to get {@link #currentLTV} instance <br>
-     * No-any params required
-     *
-     * @return {@link #currentLTV} instance as double
-     **/
-    public double getCurrentLTV() {
-        return currentLTV;
-    }
-
-    /**
-     * Method to get {@link #currentLTV} instance
-     *
-     * @param decimals: number of digits to round final value
-     * @return {@link #currentLTV} instance rounded with decimal digits inserted
-     * @throws IllegalArgumentException if decimalDigits is negative
-     **/
-    public double getCurrentLTV(int decimals) {
-        return roundValue(currentLTV, decimals);
+    public double getRepayAmount(int decimals) {
+        return roundValue(repayAmount, decimals);
     }
 
 }

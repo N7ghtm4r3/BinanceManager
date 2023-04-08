@@ -3,11 +3,14 @@ package com.tecknobit.binancemanager.managers.signedmanagers.viploans.records;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
+import com.tecknobit.binancemanager.managers.records.loan.LoanBaseRepayStructure;
+import com.tecknobit.binancemanager.managers.records.loan.LoanBaseStructure;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
 
+import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 import static com.tecknobit.binancemanager.managers.signedmanagers.viploans.records.VIPLoanRepaymentHistory.VIPLoanRepayment;
 
 /**
@@ -47,19 +50,24 @@ public class VIPLoanRepaymentHistory extends BinanceRowsList<VIPLoanRepayment> {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     * @see VIPLoanBaseStructure
+     * @see LoanBaseStructure
      **/
-    public static class VIPLoanRepayment extends VIPLoanRepayStructure {
+    public static class VIPLoanRepayment extends LoanBaseRepayStructure {
 
         /**
          * {@code repayTime} repay time of the VIP loan repayment
          **/
-        private final long repayTime;
+        protected final long repayTime;
 
         /**
          * {@code orderId} order id of the VIP loan repayment
          **/
-        private final long orderId;
+        protected final long orderId;
+
+        /**
+         * {@code repayAmount} repay amount of the loan
+         **/
+        protected final double repayAmount;
 
         /**
          * Constructor to init {@link VIPLoanRepayment} object
@@ -71,11 +79,12 @@ public class VIPLoanRepaymentHistory extends BinanceRowsList<VIPLoanRepayment> {
          * @param repayTime:      repay time of the VIP loan repayment
          * @param orderId:        order id of the VIP loan repayment
          **/
-        public VIPLoanRepayment(String loanCoin, String collateralCoin, double repayAmount, RepayStatus repayStatus,
-                                long repayTime, long orderId) {
-            super(loanCoin, collateralCoin, repayAmount, repayStatus);
+        public VIPLoanRepayment(String loanCoin, String collateralCoin, RepayStatus repayStatus, long repayTime,
+                                long orderId, double repayAmount) {
+            super(loanCoin, collateralCoin, repayStatus);
             this.repayTime = repayTime;
             this.orderId = orderId;
+            this.repayAmount = repayAmount;
         }
 
         /**
@@ -87,6 +96,7 @@ public class VIPLoanRepaymentHistory extends BinanceRowsList<VIPLoanRepayment> {
             super(jVIPLoanRepayment);
             repayTime = hItem.getLong("repayTime", 0);
             orderId = hItem.getLong("orderId", 0);
+            repayAmount = hItem.getDouble("repayAmount", 0);
         }
 
         /**
@@ -117,6 +127,27 @@ public class VIPLoanRepaymentHistory extends BinanceRowsList<VIPLoanRepayment> {
          **/
         public long getOrderId() {
             return orderId;
+        }
+
+        /**
+         * Method to get {@link #repayAmount} instance <br>
+         * No-any params required
+         *
+         * @return {@link #repayAmount} instance as double
+         **/
+        public double getRepayAmount() {
+            return repayAmount;
+        }
+
+        /**
+         * Method to get {@link #repayAmount} instance
+         *
+         * @param decimals: number of digits to round final value
+         * @return {@link #repayAmount} instance rounded with decimal digits inserted
+         * @throws IllegalArgumentException if decimalDigits is negative
+         **/
+        public double getRepayAmount(int decimals) {
+            return roundValue(repayAmount, decimals);
         }
 
     }

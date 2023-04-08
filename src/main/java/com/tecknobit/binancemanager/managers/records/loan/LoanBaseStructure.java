@@ -1,10 +1,10 @@
-package com.tecknobit.binancemanager.managers.signedmanagers.viploans.records;
+package com.tecknobit.binancemanager.managers.records.loan;
 
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
 
 /**
- * The {@code VIPLoanBaseStructure} class is useful to create a VIP loan base structure
+ * The {@code LoanBaseStructure} class is useful to create a VIP loan base structure
  *
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at:
@@ -24,37 +24,37 @@ import org.json.JSONObject;
  * </ul>
  * @see BinanceItem
  **/
-public abstract class VIPLoanBaseStructure extends BinanceItem {
+public abstract class LoanBaseStructure extends BinanceItem {
 
     /**
-     * {@code loanCoin} coin of the vip loan
+     * {@code loanCoin} coin of the loan
      **/
     protected final String loanCoin;
 
     /**
-     * {@code collateralCoin} collateral coin of the vip loan
+     * {@code collateralCoin} collateral coin of the loan
      **/
     protected final String collateralCoin;
 
     /**
-     * Constructor to init {@link VIPLoanBaseStructure} object
+     * Constructor to init {@link LoanBaseStructure} object
      *
-     * @param loanCoin:       coin of the vip loan
-     * @param collateralCoin: collateral coin of the vip loan
+     * @param loanCoin:       coin of the loan
+     * @param collateralCoin: collateral coin of the loan
      **/
-    public VIPLoanBaseStructure(String loanCoin, String collateralCoin) {
+    public LoanBaseStructure(String loanCoin, String collateralCoin) {
         super(null);
         this.loanCoin = loanCoin;
         this.collateralCoin = collateralCoin;
     }
 
     /**
-     * Constructor to init {@link VIPLoanBaseStructure} object
+     * Constructor to init {@link LoanBaseStructure} object
      *
-     * @param jVIPLoanBaseStructure: VIP loan base structure details as {@link JSONObject}
+     * @param jLoanBaseStructure: loan base structure details as {@link JSONObject}
      **/
-    public VIPLoanBaseStructure(JSONObject jVIPLoanBaseStructure) {
-        super(jVIPLoanBaseStructure);
+    public LoanBaseStructure(JSONObject jLoanBaseStructure) {
+        super(jLoanBaseStructure);
         loanCoin = hItem.getString("loanCoin");
         collateralCoin = hItem.getString("collateralCoin");
     }
