@@ -1,12 +1,20 @@
 package com.tecknobit.binancemanager.managers.records.loan;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
 
 import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
+/**
+ * The {@code LoanOrder} class is useful to create a loan order structure
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see BinanceItem
+ * @see LoanBaseStructure
+ **/
 public abstract class LoanOrder extends LoanBaseStructure {
 
     /**

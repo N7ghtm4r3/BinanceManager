@@ -4,20 +4,9 @@ import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
 
 /**
- * The {@code LoanBaseRepayStructure} class is useful to create a VIP loan repay structure
+ * The {@code LoanBaseRepayStructure} class is useful to create a loan base repay structure
  *
  * @author N7ghtm4r3 - Tecknobit
- * @apiNote see the official documentation at:
- * <ul>
- *     <li>
- *         <a href="https://binance-docs.github.io/apidocs/spot/en/#vip-loan-repay-trade">
- *             VIP Loan Repay (TRADE)</a>
- *     </li>
- *     <li>
- *         <a href="https://binance-docs.github.io/apidocs/spot/en/#get-vip-loan-repayment-history-user_data">
- *             Get VIP Loan Repayment History (USER_DATA)</a>
- *     </li>
- * </ul>
  * @see BinanceItem
  * @see LoanBaseStructure
  **/
@@ -51,7 +40,7 @@ public abstract class LoanBaseRepayStructure extends LoanBaseStructure {
     protected final RepayStatus repayStatus;
 
     /**
-     * Constructor to init {@link LoanBaseStructure} object
+     * Constructor to init {@link LoanBaseRepayStructure} object
      *
      * @param loanCoin:       coin of the loan
      * @param collateralCoin: collateral coin of the loan
@@ -65,7 +54,7 @@ public abstract class LoanBaseRepayStructure extends LoanBaseStructure {
     /**
      * Constructor to init {@link LoanBaseRepayStructure} object
      *
-     * @param jLoanBaseRepayStructure: loan repay structure details as {@link JSONObject}
+     * @param jLoanBaseRepayStructure: loan base repay structure details as {@link JSONObject}
      **/
     public LoanBaseRepayStructure(JSONObject jLoanBaseRepayStructure) {
         super(jLoanBaseRepayStructure);
@@ -76,7 +65,7 @@ public abstract class LoanBaseRepayStructure extends LoanBaseStructure {
      * Method to get {@link #repayStatus} instance <br>
      * No-any params required
      *
-     * @return {@link #repayStatus} instance as {@link String}
+     * @return {@link #repayStatus} instance as {@link RepayStatus}
      **/
     public RepayStatus getRepayStatus() {
         return repayStatus;

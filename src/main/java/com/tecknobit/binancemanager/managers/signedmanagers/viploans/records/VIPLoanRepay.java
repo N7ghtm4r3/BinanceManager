@@ -15,6 +15,7 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * VIP Loan Repay (TRADE)</a>
  * @see BinanceItem
  * @see LoanBaseStructure
+ * @see LoanRepayStructure
  **/
 public class VIPLoanRepay extends LoanRepayStructure {
 

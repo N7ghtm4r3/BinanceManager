@@ -1,9 +1,18 @@
 package com.tecknobit.binancemanager.managers.records.loan;
 
+import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
 
+/**
+ * The {@code LoanRepayStructure} class is useful to create a loan repay structure
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see BinanceItem
+ * @see LoanBaseStructure
+ * @see LoanBaseRepayStructure
+ **/
 public abstract class LoanRepayStructure extends LoanBaseRepayStructure {
 
     /**
@@ -42,7 +51,7 @@ public abstract class LoanRepayStructure extends LoanBaseRepayStructure {
     /**
      * Constructor to init {@link LoanRepayStructure} object
      *
-     * @param jLoanRepayStructure: loan repay details as {@link JSONObject}
+     * @param jLoanRepayStructure: loan repay structure details as {@link JSONObject}
      **/
     public LoanRepayStructure(JSONObject jLoanRepayStructure) {
         super(jLoanRepayStructure);
