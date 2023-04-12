@@ -238,7 +238,7 @@ public class BinanceRebateManager extends BinanceSignedManager {
      *
      * @param spotRebateHistoryResponse: obtained from Binance's response
      * @param format:                    return type formatter -> {@link ReturnFormat}
-     * @return spot rebate history {@code "format"} defines
+     * @return spot rebate history as {@code "format"} defines
      **/
     @Returner
     private <T> T returnSpotRebateHistory(String spotRebateHistoryResponse, ReturnFormat format) {
