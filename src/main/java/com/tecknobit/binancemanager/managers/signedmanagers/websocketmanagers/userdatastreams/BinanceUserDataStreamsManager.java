@@ -46,11 +46,6 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
     public static final String ISOLATED_MARGIN_USER_DATA_STREAM_ENDPOINT = MARGIN_USER_DATA_STREAM_ENDPOINT + "/isolated";
 
     /**
-     * {@code USER_DATA_STREAM_ENDPOINT} is constant for USER_DATA_STREAM_ENDPOINT's endpoint
-     **/
-    public static final String USER_DATA_STREAM_ENDPOINT = "wss://stream.binance.com:9443/ws/";
-
-    /**
      * {@code previousListenKey} previous listen key used in the data stream
      **/
     private String previousListenKey;
@@ -660,7 +655,7 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
     @Returner
     private <T> T getWebSocketContent(String listenKey, Class<T> type, ReturnFormat format) throws Exception {
         currentListenKey = listenKey;
-        startWebsocket(USER_DATA_STREAM_ENDPOINT);
+        startWebsocket(WEB_SOCKET_STREAM_ENDPOINT);
         while (webSocketResponse == null)
             Thread.onSpinWait();
         JSONObject response = new JSONObject(webSocketResponse);

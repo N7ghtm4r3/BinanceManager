@@ -52,7 +52,9 @@ public abstract class BinanceWebsocketResponse extends BinanceItem {
         /**
          * {@code listStatus} event type
          **/
-        listStatus
+        listStatus,
+
+        trade
 
     }
 

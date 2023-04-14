@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
+import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.POST;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 
 /**
@@ -1060,18 +1061,137 @@ public class BinanceMiningManager extends BinanceSignedManager {
         }
     }
 
+    /**
+     * Request to get the hashrate resale detail
+     *
+     * @param configId: mining ID
+     * @param userName: mining Account
+     * @return hashrate resale detail as {@link HashRateResaleDetail} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-detail-user_data">
+     * Hashrate Resale Detail (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/profit/details")
     public HashRateResaleDetail getHashrateResaleDetail(long configId, String userName) throws Exception {
         return getHashrateResaleDetail(configId, userName, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to get the hashrate resale detail
+     *
+     * @param configId: mining ID
+     * @param userName: mining Account
+     * @param format:   return type formatter -> {@link ReturnFormat}
+     * @return hashrate resale detail as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-detail-user_data">
+     * Hashrate Resale Detail (USER_DATA)</a>
+     **/
+    @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/profit/details")
     public <T> T getHashrateResaleDetail(long configId, String userName, ReturnFormat format) throws Exception {
         return getHashrateResaleDetail(configId, userName, null, format);
     }
 
+    /**
+     * Request to get the hashrate resale detail
+     *
+     * @param configId:    mining ID
+     * @param userName:    mining Account
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "pageIndex"} -> page number - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "pageSize"} -> number of pages, maximum 200 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
+     *                                - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return hashrate resale detail as {@link HashRateResaleDetail} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-detail-user_data">
+     * Hashrate Resale Detail (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/profit/details")
     public HashRateResaleDetail getHashrateResaleDetail(long configId, String userName, Params extraParams) throws Exception {
         return getHashrateResaleDetail(configId, userName, extraParams, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to get the hashrate resale detail
+     *
+     * @param configId:    mining ID
+     * @param userName:    mining Account
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "pageIndex"} -> page number - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "pageSize"} -> number of pages, maximum 200 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
+     *                                - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return hashrate resale detail as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-detail-user_data">
+     * Hashrate Resale Detail (USER_DATA)</a>
+     **/
+    @Returner
+    @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/profit/details")
     public <T> T getHashrateResaleDetail(long configId, String userName, Params extraParams,
                                          ReturnFormat format) throws Exception {
         if (extraParams == null)
@@ -1088,16 +1208,98 @@ public class BinanceMiningManager extends BinanceSignedManager {
         }
     }
 
+    /**
+     * Request to execute a hashrate resale request
+     *
+     * @param userName:   mining account
+     * @param algo:       algorithm
+     * @param endDate:    resale End Time (Millisecond timestamp)
+     * @param startDate:  resale Start Time(Millisecond timestamp)
+     * @param toPoolUser: mining Account
+     * @param hashRate:   resale hashrate h/s must be transferred (BTC is greater than 500000000000 ETH is greater than 500000)
+     * @return hashrate resale request  as {@link HashrateResaleRequest} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-request-user_data">
+     * Hashrate Resale Request (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config")
     public HashrateResaleRequest execHashrateResaleRequest(String userName, String algo, long endDate, long startDate,
                                                            String toPoolUser, long hashRate) throws Exception {
         return execHashrateResaleRequest(userName, algo, endDate, startDate, toPoolUser, hashRate, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to execute a hashrate resale request
+     *
+     * @param userName:   mining account
+     * @param algo:       algorithm
+     * @param endDate:    resale End Time (Millisecond timestamp)
+     * @param startDate:  resale Start Time(Millisecond timestamp)
+     * @param toPoolUser: mining Account
+     * @param hashRate:   resale hashrate h/s must be transferred (BTC is greater than 500000000000 ETH is greater than 500000)
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return hashrate resale request as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-request-user_data">
+     * Hashrate Resale Request (USER_DATA)</a>
+     **/
+    @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config")
     public <T> T execHashrateResaleRequest(String userName, String algo, long endDate, long startDate, String toPoolUser,
                                            long hashRate, ReturnFormat format) throws Exception {
         return execHashrateResaleRequest(userName, algo, endDate, startDate, toPoolUser, hashRate, -1, format);
     }
 
+    /**
+     * Request to execute a hashrate resale request
+     *
+     * @param userName:   mining account
+     * @param algo:       algorithm
+     * @param endDate:    resale End Time (Millisecond timestamp)
+     * @param startDate:  resale Start Time(Millisecond timestamp)
+     * @param toPoolUser: mining Account
+     * @param hashRate:   resale hashrate h/s must be transferred (BTC is greater than 500000000000 ETH is greater than 500000)
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return hashrate resale request  as {@link HashrateResaleRequest} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-request-user_data">
+     * Hashrate Resale Request (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config")
     public HashrateResaleRequest execHashrateResaleRequest(String userName, String algo, long endDate, long startDate,
                                                            String toPoolUser, long hashRate,
                                                            long recvWindow) throws Exception {
@@ -1105,6 +1307,35 @@ public class BinanceMiningManager extends BinanceSignedManager {
                 LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to execute a hashrate resale request
+     *
+     * @param userName:   mining account
+     * @param algo:       algorithm
+     * @param endDate:    resale End Time (Millisecond timestamp)
+     * @param startDate:  resale Start Time(Millisecond timestamp)
+     * @param toPoolUser: mining Account
+     * @param hashRate:   resale hashrate h/s must be transferred (BTC is greater than 500000000000 ETH is greater than 500000)
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return hashrate resale request as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-request-user_data">
+     * Hashrate Resale Request (USER_DATA)</a>
+     **/
+    @Returner
+    @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config")
     public <T> T execHashrateResaleRequest(String userName, String algo, long endDate, long startDate, String toPoolUser,
                                            long hashRate, long recvWindow, ReturnFormat format) throws Exception {
         Params payload = new Params();
@@ -1127,19 +1358,114 @@ public class BinanceMiningManager extends BinanceSignedManager {
         }
     }
 
+    /**
+     * Request to cancel a hashrate resale configuration
+     *
+     * @param configId: mining ID
+     * @param userName: mining account
+     * @return hashrate resale configuration cancellation as {@link HashRateResaleConfiguration} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-hashrate-resale-configuration-user_data>
+     * Cancel hashrate resale configuration(USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config/cancel")
     public HashRateResaleConfiguration cancelHashrateResaleConfiguration(long configId, String userName) throws Exception {
         return cancelHashrateResaleConfiguration(configId, userName, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to cancel a hashrate resale configuration
+     *
+     * @param configId: mining ID
+     * @param userName: mining account
+     * @param format:   return type formatter -> {@link ReturnFormat}
+     * @return hashrate resale configuration cancellation as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-hashrate-resale-configuration-user_data>
+     * Cancel hashrate resale configuration(USER_DATA)</a>
+     **/
+    @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config/cancel")
     public <T> T cancelHashrateResaleConfiguration(long configId, String userName, ReturnFormat format) throws Exception {
         return cancelHashrateResaleConfiguration(configId, userName, -1, format);
     }
 
+    /**
+     * Request to cancel a hashrate resale configuration
+     *
+     * @param configId:   mining ID
+     * @param userName:   mining account
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return hashrate resale configuration cancellation as {@link HashRateResaleConfiguration} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-hashrate-resale-configuration-user_data>
+     * Cancel hashrate resale configuration(USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config/cancel")
     public HashRateResaleConfiguration cancelHashrateResaleConfiguration(long configId, String userName,
                                                                          long recvWindow) throws Exception {
         return cancelHashrateResaleConfiguration(configId, userName, recvWindow, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to cancel a hashrate resale configuration
+     *
+     * @param configId:   mining ID
+     * @param userName:   mining account
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return hashrate resale configuration cancellation as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-hashrate-resale-configuration-user_data>
+     * Cancel hashrate resale configuration(USER_DATA)</a>
+     **/
+    @Returner
+    @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config/cancel")
     public <T> T cancelHashrateResaleConfiguration(long configId, String userName, long recvWindow,
                                                    ReturnFormat format) throws Exception {
         Params payload = createConfigPayload(configId, userName);
@@ -1156,6 +1482,13 @@ public class BinanceMiningManager extends BinanceSignedManager {
         }
     }
 
+    /**
+     * Method to create a config payload
+     *
+     * @param configId: mining ID
+     * @param userName: mining account
+     * @return payload as {@link Params}
+     **/
     private Params createConfigPayload(long configId, String userName) {
         Params payload = createTimestampPayload(null);
         payload.addParam("configId", configId);
@@ -1163,18 +1496,113 @@ public class BinanceMiningManager extends BinanceSignedManager {
         return payload;
     }
 
+    /**
+     * Request to request for statistic list
+     *
+     * @param algo:     algorithm
+     * @param userName: mining account
+     * @return statistic list as {@link StatisticList} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#statistic-list-user_data">
+     * Statistic List (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/status")
     public StatisticList getStatisticList(String algo, String userName) throws Exception {
         return getStatisticList(algo, userName, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to request for statistic list
+     *
+     * @param algo:     algorithm
+     * @param userName: mining account
+     * @param format:   return type formatter -> {@link ReturnFormat}
+     * @return statistic list as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#statistic-list-user_data">
+     * Statistic List (USER_DATA)</a>
+     **/
+    @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/status")
     public <T> T getStatisticList(String algo, String userName, ReturnFormat format) throws Exception {
         return getStatisticList(algo, userName, -1, format);
     }
 
+    /**
+     * Request to request for statistic list
+     *
+     * @param algo:       algorithm
+     * @param userName:   mining account
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return statistic list as {@link StatisticList} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#statistic-list-user_data">
+     * Statistic List (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/status")
     public StatisticList getStatisticList(String algo, String userName, long recvWindow) throws Exception {
         return getStatisticList(algo, userName, recvWindow, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to request for statistic list
+     *
+     * @param algo:       algorithm
+     * @param userName:   mining account
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return statistic list as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#statistic-list-user_data">
+     * Statistic List (USER_DATA)</a>
+     **/
+    @Returner
+    @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/status")
     public <T> T getStatisticList(String algo, String userName, long recvWindow, ReturnFormat format) throws Exception {
         Params query = createAlgoQuery(algo, userName);
         if (recvWindow != -1)
@@ -1190,18 +1618,113 @@ public class BinanceMiningManager extends BinanceSignedManager {
         }
     }
 
+    /**
+     * Request to request for account list
+     *
+     * @param algo:     algorithm
+     * @param userName: mining account
+     * @return account list as {@link AccountList} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-list-user_data">
+     * Account List (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/list")
     public AccountList getAccountList(String algo, String userName) throws Exception {
         return getAccountList(algo, userName, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to request for account list
+     *
+     * @param algo:     algorithm
+     * @param userName: mining account
+     * @param format:   return type formatter -> {@link ReturnFormat}
+     * @return account list as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-list-user_data">
+     * Account List (USER_DATA)</a>
+     **/
+    @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/list")
     public <T> T getAccountList(String algo, String userName, ReturnFormat format) throws Exception {
         return getAccountList(algo, userName, -1, format);
     }
 
+    /**
+     * Request to request for account list
+     *
+     * @param algo:       algorithm
+     * @param userName:   mining account
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return account list as {@link AccountList} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-list-user_data">
+     * Account List (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/list")
     public AccountList getAccountList(String algo, String userName, long recvWindow) throws Exception {
         return getAccountList(algo, userName, recvWindow, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to request for account list
+     *
+     * @param algo:       algorithm
+     * @param userName:   mining account
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return account list as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-list-user_data">
+     * Account List (USER_DATA)</a>
+     **/
+    @Returner
+    @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/list")
     public <T> T getAccountList(String algo, String userName, long recvWindow, ReturnFormat format) throws Exception {
         Params query = createAlgoQuery(algo, userName);
         if (recvWindow != -1)
@@ -1217,6 +1740,13 @@ public class BinanceMiningManager extends BinanceSignedManager {
         }
     }
 
+    /**
+     * Method to create an algorithm query
+     *
+     * @param algo:     algorithm
+     * @param userName: mining account
+     * @return query as {@link Params}
+     **/
     private Params createAlgoQuery(String algo, String userName) {
         Params query = createTimestampPayload(null);
         query.addParam("algo", algo);
@@ -1224,18 +1754,145 @@ public class BinanceMiningManager extends BinanceSignedManager {
         return query;
     }
 
+    /**
+     * Request to get a mining account earning
+     *
+     * @param algo: algorithm
+     * @return mining account earning as {@link MiningAccountEarning} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#mining-account-earning-user_data">
+     * Mining Account Earning (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/mining/payment/uid")
     public MiningAccountEarning getMiningAccountEarning(String algo) throws Exception {
         return getMiningAccountEarning(algo, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to get a mining account earning
+     *
+     * @param algo:   algorithm
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return mining account earning as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#mining-account-earning-user_data">
+     * Mining Account Earning (USER_DATA)</a>
+     **/
+    @RequestPath(method = GET, path = "/sapi/v1/mining/payment/uid")
     public <T> T getMiningAccountEarning(String algo, ReturnFormat format) throws Exception {
         return getMiningAccountEarning(algo, null, format);
     }
 
+    /**
+     * Request to get a mining account earning
+     *
+     * @param algo:        algorithm
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startDate"} -> millisecond timestamp - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endDate"} -> millisecond timestamp - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "pageIndex"} -> page number - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "pageSize"} -> number of pages, maximum 200 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
+     *                                - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return mining account earning as {@link MiningAccountEarning} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#mining-account-earning-user_data">
+     * Mining Account Earning (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/mining/payment/uid")
     public MiningAccountEarning getMiningAccountEarning(String algo, Params extraParams) throws Exception {
         return getMiningAccountEarning(algo, extraParams, LIBRARY_OBJECT);
     }
 
+    /**
+     * Request to get a mining account earning
+     *
+     * @param algo:        algorithm
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startDate"} -> millisecond timestamp - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endDate"} -> millisecond timestamp - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "pageIndex"} -> page number - [INTEGER, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "pageSize"} -> number of pages, maximum 200 - [INTEGER, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
+     *                                - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return mining account earning as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#mining-account-earning-user_data">
+     * Mining Account Earning (USER_DATA)</a>
+     **/
+    @Returner
+    @RequestPath(method = GET, path = "/sapi/v1/mining/payment/uid")
     public <T> T getMiningAccountEarning(String algo, Params extraParams, ReturnFormat format) throws Exception {
         extraParams = createTimestampPayload(extraParams);
         extraParams.addParam("algo", algo);
