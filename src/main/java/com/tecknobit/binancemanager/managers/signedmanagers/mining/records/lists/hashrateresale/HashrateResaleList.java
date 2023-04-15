@@ -162,7 +162,7 @@ public class HashrateResaleList extends MiningResponse<HashrateResale> {
                  * Method to reach the enum constant <br>
                  *
                  * @param value: value to reach
-                 * @return enum constants as {@link Profit.ProfitStatus}
+                 * @return enum constant as {@link Profit.ProfitStatus}
                  **/
                 public static ConfigStatus reachEnumConstant(int value) {
                     return VALUES.get(value);

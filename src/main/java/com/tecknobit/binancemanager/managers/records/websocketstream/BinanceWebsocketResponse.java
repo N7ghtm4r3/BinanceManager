@@ -22,39 +22,80 @@ public abstract class BinanceWebsocketResponse extends BinanceItem {
         /**
          * {@code no_content} event type
          **/
-        no_content,
+        no_content("no_content"),
 
         /**
          * {@code nav} event type
          **/
-        nav,
+        nav("nav"),
 
         /**
          * {@code kline} event type
          **/
-        kline,
+        kline("kline"),
 
         /**
          * {@code outboundAccountPosition} event type
          **/
-        outboundAccountPosition,
+        outboundAccountPosition("outboundAccountPosition"),
 
         /**
          * {@code balanceUpdate} event type
          **/
-        balanceUpdate,
+        balanceUpdate("balanceUpdate"),
 
         /**
          * {@code executionReport} event type
          **/
-        executionReport,
+        executionReport("executionReport"),
 
         /**
          * {@code listStatus} event type
          **/
-        listStatus,
+        listStatus("listStatus"),
 
-        trade
+        aggTrade("aggTrade"),
+        trade("trade"),
+        _24hrMiniTicker("24hrMiniTicker"),
+        _24hrTicker("24hrTicker"),
+        _1hTicker("1hTicker"),
+        _4hTicker("4hTicker"),
+        _1dTicker("1dTicker"),
+        depth("depth"),
+        depthUpdate("depthUpdate");
+
+        private final String type;
+
+        EventType(String type) {
+            this.type = type;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        /**
+         * Method to reach the enum constant <br>
+         *
+         * @param type: type to reach
+         * @return enum constant as {@link EventType}
+         **/
+        public static EventType reachEnumConstant(String type) {
+            try {
+                return EventType.valueOf(type);
+            } catch (Exception e) {
+                try {
+                    return EventType.valueOf("_" + type);
+                } catch (Exception noContent) {
+                    return no_content;
+                }
+            }
+        }
+
+        @Override
+        public String toString() {
+            return type;
+        }
 
     }
 
@@ -87,7 +128,7 @@ public abstract class BinanceWebsocketResponse extends BinanceItem {
      **/
     public BinanceWebsocketResponse(JSONObject jBinanceWebSocketResponse) {
         super(jBinanceWebSocketResponse);
-        eventType = EventType.valueOf(hItem.getString("e"));
+        eventType = EventType.reachEnumConstant(hItem.getString("e"));
         eventTime = hItem.getLong("E", 0);
     }
 

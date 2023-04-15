@@ -33,6 +33,11 @@ import static java.lang.System.currentTimeMillis;
 public class BinanceManager {
 
     /**
+     * {@code WEB_SOCKET_STREAM_ENDPOINT} is constant for WEB_SOCKET_STREAM_ENDPOINT's endpoint
+     **/
+    public static final String WEB_SOCKET_STREAM_ENDPOINT = "wss://stream.binance.com:9443/ws/";
+
+    /**
      * {@code properties} is a local instance used to instantiate a new {@link BinanceManager}'s manager without
      * re-insert credentials
      **/
@@ -319,10 +324,11 @@ public class BinanceManager {
             params = "";
         // TODO: 30/03/2023 REMOVE BEFORE PUBLISH
         System.out.println(baseEndpoint + endpoint + params);
+        String reqUrl = baseEndpoint + endpoint + params;
         if (apiKey != null)
-            apiRequest.sendAPIRequest(baseEndpoint + endpoint + params, method, "X-MBX-APIKEY", apiKey);
+            apiRequest.sendAPIRequest(reqUrl, method, "X-MBX-APIKEY", apiKey);
         else
-            apiRequest.sendAPIRequest(baseEndpoint + endpoint + params, method);
+            apiRequest.sendAPIRequest(reqUrl, method);
         return apiRequest.getResponse();
     }
 
@@ -388,11 +394,11 @@ public class BinanceManager {
             params = new Params();
         // TODO: 30/03/2023 REMOVE BEFORE PUBLISH
         System.out.println(baseEndpoint + endpoint + params.createJSONPayload());
-        if (apiKey != null) {
-            apiRequest.sendPayloadedAPIRequest(baseEndpoint + endpoint, method, "X-MBX-APIKEY", apiKey,
-                    params);
-        } else
-            apiRequest.sendPayloadedAPIRequest(baseEndpoint + endpoint, method, params);
+        String reqUrl = baseEndpoint + endpoint;
+        if (apiKey != null)
+            apiRequest.sendPayloadedAPIRequest(reqUrl, method, "X-MBX-APIKEY", apiKey, params);
+        else
+            apiRequest.sendPayloadedAPIRequest(reqUrl, method, params);
         return apiRequest.getResponse();
     }
 

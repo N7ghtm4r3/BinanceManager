@@ -90,7 +90,7 @@ public abstract class PoolStructure extends BinanceItem {
          * Method to reach the enum constant <br>
          *
          * @param status: status to reach
-         * @return enum constants as {@link BSwapStatus}
+         * @return enum constant as {@link BSwapStatus}
          **/
         public static BSwapStatus reachEnumConstant(int status) {
             return VALUES.get(status);

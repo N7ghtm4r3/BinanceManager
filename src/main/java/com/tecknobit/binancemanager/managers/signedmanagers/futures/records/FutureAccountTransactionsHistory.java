@@ -72,9 +72,9 @@ public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAcco
 
         /**
          * Method to reach the enum constant <br>
-         * @param value: value to reach
          *
-         * @return enum constants as {@link FutureTransactionType}
+         * @param value: value to reach
+         * @return enum constant as {@link FutureTransactionType}
          **/
         public static FutureTransactionType reachEnumConstant(int value) {
             return VALUES.get(value);

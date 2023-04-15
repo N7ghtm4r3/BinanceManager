@@ -464,6 +464,16 @@ public class Candlestick {
         }
 
         /**
+         * Method to reach the enum constant <br>
+         *
+         * @param interval: interval to reach
+         * @return enum constant as {@link Interval}
+         **/
+        public static Interval reachEnumConstant(String interval) {
+            return Interval.valueOf("_" + interval);
+        }
+
+        /**
          * Method to get {@link #interval} instance <br>
          * No-any params required
          *

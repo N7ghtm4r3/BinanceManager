@@ -161,7 +161,7 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
                  * Method to reach the enum constant <br>
                  *
                  * @param value: value to reach
-                 * @return enum constants as {@link EarningType}
+                 * @return enum constant as {@link EarningType}
                  **/
                 public static EarningType reachEnumConstant(int value) {
                     return VALUES.get(value);

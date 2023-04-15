@@ -27,11 +27,6 @@ import static com.tecknobit.binancemanager.managers.records.websocketstream.Bina
 public class BinanceWebsocketManager extends BinanceSignedManager {
 
     /**
-     * {@code WEB_SOCKET_STREAM_ENDPOINT} is constant for WEB_SOCKET_STREAM_ENDPOINT's endpoint
-     **/
-    public static final String WEB_SOCKET_STREAM_ENDPOINT = "wss://stream.binance.com:9443/ws/";
-
-    /**
      * {@code webSocketResponse} response obtained from the websocket connection
      **/
     protected volatile String webSocketResponse;

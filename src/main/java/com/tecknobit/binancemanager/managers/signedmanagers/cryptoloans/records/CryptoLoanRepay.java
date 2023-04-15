@@ -72,7 +72,7 @@ public class CryptoLoanRepay extends LoanRepayStructure {
          * Method to reach the enum constant <br>
          *
          * @param status: status to reach
-         * @return enum constants as {@link LoanRepayType}
+         * @return enum constant as {@link LoanRepayType}
          **/
         public static LoanRepayType reachEnumConstant(int status) {
             return VALUES.get(status);

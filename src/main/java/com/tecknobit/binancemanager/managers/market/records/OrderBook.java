@@ -63,8 +63,8 @@ public class OrderBook {
         JsonHelper hBook = new JsonHelper(orderBook);
         symbol = hBook.getString("symbol");
         lastUpdateId = hBook.getLong("lastUpdateId", 0);
-        orderDetailsAsks = returnOrdersList(hBook.getJSONArray("bids", new JSONArray()));
-        orderDetailsBids = returnOrdersList(hBook.getJSONArray("asks", new JSONArray()));
+        orderDetailsAsks = returnOrdersList(hBook.getJSONArray("bids"));
+        orderDetailsBids = returnOrdersList(hBook.getJSONArray("asks"));
     }
 
     /**
@@ -74,10 +74,11 @@ public class OrderBook {
      * @return order details list as {@link ArrayList} of {@link BookOrderDetails}
      **/
     @Returner
-    private ArrayList<BookOrderDetails> returnOrdersList(JSONArray jsonList) {
+    public static ArrayList<BookOrderDetails> returnOrdersList(JSONArray jsonList) {
         ArrayList<BookOrderDetails> orderDetails = new ArrayList<>();
-        for (int j = 0; j < jsonList.length(); j++)
-            orderDetails.add(new BookOrderDetails(jsonList.getJSONArray(j)));
+        if (jsonList != null)
+            for (int j = 0; j < jsonList.length(); j++)
+                orderDetails.add(new BookOrderDetails(jsonList.getJSONArray(j)));
         return orderDetails;
     }
 

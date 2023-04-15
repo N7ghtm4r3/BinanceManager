@@ -91,7 +91,7 @@ public class Profit extends BinanceItem {
          * Method to reach the enum constant <br>
          *
          * @param value: value to reach
-         * @return enum constants as {@link ProfitType}
+         * @return enum constant as {@link ProfitType}
          **/
         public static ProfitType reachEnumConstant(int value) {
             return VALUES.get(value);
@@ -163,7 +163,7 @@ public class Profit extends BinanceItem {
          * Method to reach the enum constant <br>
          *
          * @param value: value to reach
-         * @return enum constants as {@link ProfitStatus}
+         * @return enum constant as {@link ProfitStatus}
          **/
         public static ProfitStatus reachEnumConstant(int value) {
             return VALUES.get(value);
