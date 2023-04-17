@@ -26,9 +26,9 @@ public class RollingTicker extends Ticker {
     private final double priceChangePercent;
 
     /**
-     * {@code weightedAvgPrice} is instance that contains weighted average price of the ticker
-     * **/
-    private final double weightedAvgPrice;
+     * {@code weightedAveragePrice} is instance that contains weighted average price of the ticker
+     **/
+    private final double weightedAveragePrice;
 
     /**
      * {@code lastPrice} is instance that contains last price of the ticker
@@ -89,7 +89,7 @@ public class RollingTicker extends Ticker {
      * @param symbol: symbol of the ticker
      * @param priceChange: price change of the ticker
      * @param priceChangePercent: price change percent of the ticker
-     * @param weightedAvgPrice: weighted average price of the ticker
+     * @param weightedAveragePrice: weighted average price of the ticker
      * @param lastPrice: last price of the ticker
      * @param openPrice: open price of the ticker
      * @param highPrice: high price of the ticker
@@ -102,13 +102,13 @@ public class RollingTicker extends Ticker {
      * @param lastId: last id of the ticker
      * @param count: count number in the ticker
      * **/
-    public RollingTicker(String symbol, double priceChange, double priceChangePercent, double weightedAvgPrice,
+    public RollingTicker(String symbol, double priceChange, double priceChangePercent, double weightedAveragePrice,
                          double lastPrice, double openPrice, double highPrice, double lowPrice, double volume,
                          double quoteVolume, long openTime, long closeTime, long firstId, long lastId, int count) {
         super(symbol);
         this.priceChange = priceChange;
         this.priceChangePercent = priceChangePercent;
-        this.weightedAvgPrice = weightedAvgPrice;
+        this.weightedAveragePrice = weightedAveragePrice;
         this.lastPrice = lastPrice;
         this.openPrice = openPrice;
         this.highPrice = highPrice;
@@ -130,7 +130,7 @@ public class RollingTicker extends Ticker {
         JsonHelper hRollingTicker = new JsonHelper(rollingTicker);
         priceChange = hRollingTicker.getDouble("priceChange", 0);
         priceChangePercent = hRollingTicker.getDouble("priceChangePercent", 0);
-        weightedAvgPrice = hRollingTicker.getDouble("weightedAvgPrice", 0);
+        weightedAveragePrice = hRollingTicker.getDouble("weightedAveragePrice", 0);
         lastPrice = hRollingTicker.getDouble("openPrice", 0);
         openPrice = hRollingTicker.getDouble("highPrice", 0);
         highPrice = hRollingTicker.getDouble("lowPrice", 0);
@@ -195,28 +195,28 @@ public class RollingTicker extends Ticker {
     }
 
     /**
-     * Method to get {@link #weightedAvgPrice} instance <br>
+     * Method to get {@link #weightedAveragePrice} instance <br>
      * No-any params required
      *
-     * @return {@link #weightedAvgPrice} instance as double
+     * @return {@link #weightedAveragePrice} instance as double
      * @implSpec if this rolling ticket has been created with {@link ResponseType#MINI} type response this instance will be return
      * 0 by default
      **/
-    public double getWeightedAvgPrice() {
-        return weightedAvgPrice;
+    public double getWeightedAveragePrice() {
+        return weightedAveragePrice;
     }
 
     /**
-     * Method to get {@link #weightedAvgPrice} instance
+     * Method to get {@link #weightedAveragePrice} instance
      *
      * @param decimals: number of digits to round final value
-     * @return {@link #weightedAvgPrice} instance rounded with decimal digits inserted
+     * @return {@link #weightedAveragePrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
      * @implSpec if this rolling ticket has been created with {@link ResponseType#MINI} type response this instance will be return
      * 0 by default
      **/
-    public double getWeightedAvgPrice(int decimals) {
-        return roundValue(weightedAvgPrice, decimals);
+    public double getWeightedAveragePrice(int decimals) {
+        return roundValue(weightedAveragePrice, decimals);
     }
 
     /**
@@ -258,7 +258,7 @@ public class RollingTicker extends Ticker {
      * @throws IllegalArgumentException if decimalDigits is negative
      **/
     public double getOpenPrice(int decimals) {
-        return roundValue(lastPrice, decimals);
+        return roundValue(openPrice, decimals);
     }
 
     /**

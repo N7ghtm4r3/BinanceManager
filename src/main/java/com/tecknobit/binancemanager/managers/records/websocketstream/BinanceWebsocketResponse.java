@@ -54,22 +54,71 @@ public abstract class BinanceWebsocketResponse extends BinanceItem {
          **/
         listStatus("listStatus"),
 
+        /**
+         * {@code aggTrade} event type
+         **/
         aggTrade("aggTrade"),
+
+        /**
+         * {@code trade} event type
+         **/
         trade("trade"),
+
+        /**
+         * {@code _24hrMiniTicker} event type
+         **/
         _24hrMiniTicker("24hrMiniTicker"),
+
+        /**
+         * {@code _24hrTicker} event type
+         **/
         _24hrTicker("24hrTicker"),
+
+        /**
+         * {@code _1hTicker} event type
+         **/
         _1hTicker("1hTicker"),
+
+        /**
+         * {@code _4hTicker} event type
+         **/
         _4hTicker("4hTicker"),
+
+        /**
+         * {@code _1dTicker} event type
+         **/
         _1dTicker("1dTicker"),
+
+        /**
+         * {@code depth} event type
+         **/
         depth("depth"),
+
+        /**
+         * {@code depthUpdate} event type
+         **/
         depthUpdate("depthUpdate");
 
+        /**
+         * {@code type} of the event
+         **/
         private final String type;
 
+        /**
+         * Constructor to init {@link EventType} object
+         *
+         * @param type: type of the event
+         **/
         EventType(String type) {
             this.type = type;
         }
 
+        /**
+         * Method to get {@link #type} instance <br>
+         * No-any params required
+         *
+         * @return {@link #type} instance as {@link String}
+         **/
         public String getType() {
             return type;
         }
@@ -92,6 +141,12 @@ public abstract class BinanceWebsocketResponse extends BinanceItem {
             }
         }
 
+        /**
+         * Method to get {@link #type} instance <br>
+         * No-any params required
+         *
+         * @return {@link #type} instance as {@link String}
+         **/
         @Override
         public String toString() {
             return type;
