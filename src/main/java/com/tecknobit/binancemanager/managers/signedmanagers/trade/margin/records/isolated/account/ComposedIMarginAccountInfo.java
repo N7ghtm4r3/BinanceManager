@@ -45,7 +45,7 @@ public class ComposedIMarginAccountInfo extends MarginAccount {
     public ComposedIMarginAccountInfo(JSONObject marginAccountInfo) {
         super(marginAccountInfo);
         isolatedMarginAccountInfoList = new ArrayList<>();
-        JSONArray jAccounts = hMarginAccount.getJSONArray("assets", new JSONArray());
+        JSONArray jAccounts = hItem.getJSONArray("assets", new JSONArray());
         for (int j = 0; j < jAccounts.length(); j++)
             isolatedMarginAccountInfoList.add(new IsolatedMarginAccountInfo(jAccounts.getJSONObject(j)));
     }

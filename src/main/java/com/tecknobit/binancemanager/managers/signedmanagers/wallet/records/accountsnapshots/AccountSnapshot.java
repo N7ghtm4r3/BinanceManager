@@ -171,4 +171,36 @@ public class AccountSnapshot {
 
     }
 
+    /**
+     * {@code PrincipalAccountType} list of available principal account types
+     **/
+    public enum PrincipalAccountType {
+
+        /**
+         * {@code SPOT} principal account type
+         **/
+        SPOT,
+
+        /**
+         * {@code USDT_FUTURE} principal account type
+         **/
+        USDT_FUTURE,
+
+        /**
+         * {@code COIN_FUTURE} principal account type
+         **/
+        COIN_FUTURE,
+
+        /**
+         * {@code MARGIN} principal account type
+         **/
+        MARGIN,
+
+        /**
+         * {@code ISOLATED_MARGIN} principal account type
+         **/
+        ISOLATED_MARGIN
+
+    }
+
 }

@@ -195,13 +195,13 @@ public class MarginAccountSnapshot extends AccountSnapshot {
          **/
         public MarginData(JSONObject marginData) {
             super(marginData);
-            marginLevel = hMarginAccount.getDouble("marginLevel", 0);
+            marginLevel = hItem.getDouble("marginLevel", 0);
             if (marginLevel < 0)
                 throw new IllegalArgumentException("Margin level value cannot be less than 0");
-            updateTime = hMarginAccount.getLong("updateTime", 0);
+            updateTime = hItem.getLong("updateTime", 0);
             if (updateTime < 0)
                 throw new IllegalArgumentException("Update time value cannot be less than 0");
-            userMarginAssets = assembleUserMarginAssetsList(hMarginAccount.getJSONArray("userAssets",
+            userMarginAssets = assembleUserMarginAssetsList(hItem.getJSONArray("userAssets",
                     new JSONArray()));
         }
 

@@ -6,8 +6,17 @@ import org.json.JSONObject;
  * The {@code DepositAddress} class is useful to format a {@code "Binance"}'s deposit address
  *
  * @author N7ghtm4r3 - Tecknobit
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
- * Deposit Address (supporting network) (USER_DATA)</a>
+ * @apiNote see the official documentation at:
+ * <ul>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
+ *             Deposit Address (supporting network) (USER_DATA)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-address-for-master-account">
+ *             Get Sub-account Deposit Address (For Master Account)</a>
+ *     </li>
+ * </ul>
  **/
 public class DepositAddress {
 

@@ -1,12 +1,15 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
-import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.Deposit.DepositStatus.valueOf;
+import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.Deposit.DepositStatus.reachEnumConstant;
 
 /**
  * The {@code Deposit} class is useful to format a {@code "Binance"}'s deposit
@@ -14,57 +17,64 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
  * Deposit History (supporting network) (USER_DATA)</a>
+ * @see BinanceItem
  **/
-public class Deposit {
+public class Deposit extends BinanceItem {
 
     /**
      * {@code status} is instance that memorizes status value
      **/
-    private DepositStatus status;
+    protected final DepositStatus status;
 
     /**
      * {@code amount} is instance that memorizes amount value
      **/
-    private double amount;
+    protected final double amount;
 
     /**
      * {@code coin} is instance that memorizes coin value
      **/
-    private final String coin;
+    protected final String coin;
 
     /**
      * {@code network} is instance that memorizes network value
-     * **/
-    private final String network;
+     **/
+    protected final String network;
+
     /**
      * {@code unlockConfirm} is instance that memorizes unlock confirm value
      **/
-    private int unlockConfirm;
+    protected final int unlockConfirm;
 
     /**
      * {@code address} is instance that memorizes address value
-     * **/
-    private String address;
+     **/
+    protected final String address;
 
     /**
      * {@code addressTag} is instance that memorizes address tag value
      * **/
-    private String addressTag;
+    protected final String addressTag;
 
     /**
      * {@code txId} is instance that memorizes tx identifier value
      **/
-    private final String txId;
+    protected final String txId;
 
     /**
      * {@code insertTime} is instance that memorizes insert time value
-     * **/
-    private long insertTime;
+     **/
+    protected final long insertTime;
 
     /**
      * {@code transferType} is instance that memorizes transfer type value
-     * **/
-    private int transferType;
+     **/
+    protected final int transferType;
+
+    /**
+     * {@code confirmTimes} is instance that memorizes confirm times value
+     **/
+    protected final String confirmTimes;
 
     /** Constructor to init {@link Deposit} object
      * @param amount: amount value
@@ -82,44 +92,39 @@ public class Deposit {
      * **/
     public Deposit(double amount, String coin, String network, DepositStatus status, String address, String addressTag,
                    String txId, long insertTime, int transferType, int unlockConfirm, String confirmTimes) {
-        if (amount < 0)
-            throw new IllegalArgumentException("Amount value cannot be less than 0");
-        else
-            this.amount = amount;
+        super(null);
+        this.amount = amount;
         this.coin = coin;
         this.network = network;
         this.status = status;
         this.address = address;
         this.addressTag = addressTag;
         this.txId = txId;
-        if (insertTime < 0)
-            throw new IllegalArgumentException("Insert time value cannot be less than 0");
-        else
-            this.insertTime = insertTime;
-        if (transferType < 0 || transferType > 1)
-            throw new IllegalArgumentException("Status value can only be from 0 to 1");
-        else
-            this.transferType = transferType;
+        this.insertTime = insertTime;
+        this.transferType = transferType;
         this.unlockConfirm = unlockConfirm;
         this.confirmTimes = confirmTimes;
     }
 
     /**
-     * {@code confirmTimes} is instance that memorizes confirm times value
-     **/
-    private String confirmTimes;
-
-    /**
      * Constructor to init {@link Deposit} object
      *
-     * @param deposit: deposit details as {@link JSONObject}
+     * @param jDeposit: deposit details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
      **/
-    public Deposit(JSONObject deposit) {
-        this(deposit.getDouble("amount"), deposit.getString("coin"), deposit.getString("network"),
-                valueOf(deposit.getInt("status")), deposit.getString("address"), deposit.getString("addressTag"),
-                deposit.getString("txId"), deposit.getLong("insertTime"), deposit.getInt("transferType"),
-                deposit.getInt("unlockConfirm"), deposit.getString("confirmTimes"));
+    public Deposit(JSONObject jDeposit) {
+        super(jDeposit);
+        amount = hItem.getDouble("amount");
+        coin = hItem.getString("coin");
+        network = hItem.getString("network");
+        status = reachEnumConstant(hItem.getInt("status"));
+        address = hItem.getString("address");
+        addressTag = hItem.getString("addressTag");
+        txId = hItem.getString("txId");
+        insertTime = hItem.getLong("insertTime", 0);
+        transferType = hItem.getInt("transferType");
+        unlockConfirm = hItem.getInt("unlockConfirm", 0);
+        confirmTimes = hItem.getString("confirmTimes");
     }
 
     /**
@@ -154,18 +159,6 @@ public class Deposit {
     }
 
     /**
-     * Method to set {@link #amount}
-     *
-     * @param amount: amount value
-     * @throws IllegalArgumentException when amount value is less than 0
-     **/
-    public void setAmount(double amount) {
-        if (amount < 0)
-            throw new IllegalArgumentException("Amount value cannot be less than 0");
-        this.amount = amount;
-    }
-
-    /**
      * Method to get {@link #coin} instance <br>
      * No-any params required
      *
@@ -183,15 +176,6 @@ public class Deposit {
      **/
     public String getNetwork() {
         return network;
-    }
-
-    /**
-     * Method to set {@link #status}
-     *
-     * @param status: status value
-     **/
-    public void setStatus(DepositStatus status) {
-        this.status = status;
     }
 
     /**
@@ -215,15 +199,6 @@ public class Deposit {
     }
 
     /**
-     * Method to set {@link #address}
-     *
-     * @param address: address value
-     **/
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    /**
      * Method to get {@link #addressTag} instance <br>
      * No-any params required
      *
@@ -231,15 +206,6 @@ public class Deposit {
      **/
     public String getAddressTag() {
         return addressTag;
-    }
-
-    /**
-     * Method to set {@link #addressTag}
-     *
-     * @param addressTag: address tag value
-     **/
-    public void setAddressTag(String addressTag) {
-        this.addressTag = addressTag;
     }
 
     /**
@@ -263,18 +229,6 @@ public class Deposit {
     }
 
     /**
-     * Method to set {@link #insertTime}
-     *
-     * @param insertTime: insert time value
-     * @throws IllegalArgumentException when insert time value is less than 0
-     **/
-    public void setInsertTime(long insertTime) {
-        if (insertTime < 0)
-            throw new IllegalArgumentException("Insert time value cannot be less than 0");
-        this.insertTime = insertTime;
-    }
-
-    /**
      * Method to get {@link #insertTime} instance <br>
      * No-any params required
      *
@@ -295,27 +249,6 @@ public class Deposit {
     }
 
     /**
-     * Method to set {@link #transferType}
-     *
-     * @param transferType: transfer type value
-     * @throws IllegalArgumentException when transfer type value is less than 0
-     **/
-    public void setTransferType(int transferType) {
-        if (transferType < 0 || transferType > 1)
-            throw new IllegalArgumentException("Status value can only be from 0 to 1");
-        this.transferType = transferType;
-    }
-
-    /**
-     * Method to set {@link #unlockConfirm}
-     *
-     * @param unlockConfirm: unlock confirm value
-     **/
-    public void setUnlockConfirm(int unlockConfirm) {
-        this.unlockConfirm = unlockConfirm;
-    }
-
-    /**
      * Method to get {@link #confirmTimes} instance <br>
      * No-any params required
      *
@@ -323,15 +256,6 @@ public class Deposit {
      **/
     public String getConfirmTimes() {
         return confirmTimes;
-    }
-
-    /**
-     * Method to set {@link #confirmTimes}
-     *
-     * @param confirmTimes: confirm times value
-     **/
-    public void setConfirmTimes(String confirmTimes) {
-        this.confirmTimes = confirmTimes;
     }
 
     /**
@@ -361,6 +285,16 @@ public class Deposit {
         credited_but_cannot_withdraw(6),
 
         /**
+         * {@code "wrong_deposit"} status
+         **/
+        wrong_deposit(7),
+
+        /**
+         * {@code "waiting_for_user_confirm"} status
+         **/
+        waiting_for_user_confirm(9),
+
+        /**
          * {@code "success"} status
          **/
         success(1);
@@ -369,6 +303,11 @@ public class Deposit {
          * {@code "status"} value
          **/
         private final int status;
+
+        /**
+         * {@code VALUES} list of the statuses
+         **/
+        private static final List<DepositStatus> VALUES = Arrays.stream(DepositStatus.values()).toList();
 
         /**
          * Constructor to init {@link DepositStatus}
@@ -380,20 +319,13 @@ public class Deposit {
         }
 
         /**
-         * Method to get the {@link DepositStatus} by an int <br>
-         * No-any params required
+         * Method to reach the enum constant <br>
          *
-         * @return {@link DepositStatus} corresponding value
+         * @param status: status to reach
+         * @return enum constant as {@link DepositStatus}
          **/
-        public static DepositStatus valueOf(int status) {
-            switch (status) {
-                case 0:
-                    return pending;
-                case 6:
-                    return credited_but_cannot_withdraw;
-                default:
-                    return success;
-            }
+        public static DepositStatus reachEnumConstant(int status) {
+            return VALUES.get(status);
         }
 
         /**
