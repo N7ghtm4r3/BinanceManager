@@ -1,38 +1,32 @@
-package com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.futures;
+package com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.futures.risk;
 
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
 
-public class FuturesPositionRisk extends BinanceItem {
+public abstract class RiskStructure extends BinanceItem {
 
-    private final double entryPrice;
-    private final double leverage;
-    private final double maxNotional;
-    private final double liquidationPrice;
-    private final double markPrice;
-    private final double positionAmount;
-    private final String symbol;
-    private final double unrealizedProfit;
+    protected final double entryPrice;
+    protected final double leverage;
+    protected final double markPrice;
+    protected final double positionAmount;
+    protected final String symbol;
+    protected final double unrealizedProfit;
 
-    public FuturesPositionRisk(double entryPrice, double leverage, double maxNotional, double liquidationPrice,
-                               double markPrice, double positionAmount, String symbol, double unrealizedProfit) {
+    public RiskStructure(double entryPrice, double leverage, double markPrice, double positionAmount, String symbol,
+                         double unrealizedProfit) {
         super(null);
         this.entryPrice = entryPrice;
         this.leverage = leverage;
-        this.maxNotional = maxNotional;
-        this.liquidationPrice = liquidationPrice;
         this.markPrice = markPrice;
         this.positionAmount = positionAmount;
         this.symbol = symbol;
         this.unrealizedProfit = unrealizedProfit;
     }
 
-    public FuturesPositionRisk(JSONObject jFuturesPositionRisk) {
+    public RiskStructure(JSONObject jFuturesPositionRisk) {
         super(jFuturesPositionRisk);
         entryPrice = hItem.getDouble("entryPrice", 0);
         leverage = hItem.getDouble("leverage", 0);
-        maxNotional = hItem.getDouble("maxNotional", 0);
-        liquidationPrice = hItem.getDouble("liquidationPrice", 0);
         markPrice = hItem.getDouble("markPrice", 0);
         positionAmount = hItem.getDouble("positionAmount", 0);
         symbol = hItem.getString("symbol");
@@ -45,14 +39,6 @@ public class FuturesPositionRisk extends BinanceItem {
 
     public double getLeverage() {
         return leverage;
-    }
-
-    public double getMaxNotional() {
-        return maxNotional;
-    }
-
-    public double getLiquidationPrice() {
-        return liquidationPrice;
     }
 
     public double getMarkPrice() {

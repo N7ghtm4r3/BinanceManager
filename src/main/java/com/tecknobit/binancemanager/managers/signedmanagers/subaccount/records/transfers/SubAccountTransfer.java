@@ -1,6 +1,5 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.transfers;
 
-import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.asset.SpotAssetTransfer.TransferStatus;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.AccountSnapshot.PrincipalAccountType;
 import org.json.JSONObject;
@@ -8,7 +7,7 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.List;
 
-public class SubAccountTransfer extends BinanceItem {
+public class SubAccountTransfer extends SubTransferStructure {
 
     public enum SubTransferType {
 
@@ -50,27 +49,17 @@ public class SubAccountTransfer extends BinanceItem {
     private final String counterParty;
     private final String email;
     private final SubTransferType type;
-    private final String asset;
     private final double qty;
-    private final PrincipalAccountType fromAccountType;
-    private final PrincipalAccountType toAccountType;
-    private final TransferStatus status;
-    private final long tranId;
     private final long time;
 
-    public SubAccountTransfer(String counterParty, String email, SubTransferType type, String asset, double qty,
-                              PrincipalAccountType fromAccountType, PrincipalAccountType toAccountType,
-                              TransferStatus status, long tranId, long time) {
-        super(null);
+    public SubAccountTransfer(long tranId, String asset, PrincipalAccountType fromAccountType,
+                              PrincipalAccountType toAccountType, TransferStatus status, String counterParty,
+                              String email, SubTransferType type, double qty, long time) {
+        super(tranId, asset, fromAccountType, toAccountType, status);
         this.counterParty = counterParty;
         this.email = email;
         this.type = type;
-        this.asset = asset;
         this.qty = qty;
-        this.fromAccountType = fromAccountType;
-        this.toAccountType = toAccountType;
-        this.status = status;
-        this.tranId = tranId;
         this.time = time;
     }
 
@@ -79,12 +68,7 @@ public class SubAccountTransfer extends BinanceItem {
         counterParty = hItem.getString("counterParty");
         email = hItem.getString("email");
         type = SubTransferType.reachEnumConstant(hItem.getInt("type"));
-        asset = hItem.getString("asset");
         qty = hItem.getDouble("qty", 0);
-        fromAccountType = PrincipalAccountType.valueOf(hItem.getString("fromAccountType"));
-        toAccountType = PrincipalAccountType.valueOf(hItem.getString("toAccountType"));
-        status = TransferStatus.valueOf(hItem.getString("status"));
-        tranId = hItem.getLong("tranId", 0);
         time = hItem.getLong("time", 0);
     }
 
@@ -100,28 +84,8 @@ public class SubAccountTransfer extends BinanceItem {
         return type;
     }
 
-    public String getAsset() {
-        return asset;
-    }
-
     public double getQty() {
         return qty;
-    }
-
-    public PrincipalAccountType getFromAccountType() {
-        return fromAccountType;
-    }
-
-    public PrincipalAccountType getToAccountType() {
-        return toAccountType;
-    }
-
-    public TransferStatus getStatus() {
-        return status;
-    }
-
-    public long getTranId() {
-        return tranId;
     }
 
     public long getTime() {

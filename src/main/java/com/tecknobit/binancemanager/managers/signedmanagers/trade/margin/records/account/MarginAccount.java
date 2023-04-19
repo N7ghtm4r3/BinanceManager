@@ -36,6 +36,7 @@ public class MarginAccount extends BinanceItem {
      * {@code totalLiabilityOfBtc} is instance that memorizes total liability of Bitcoin
      **/
     protected final double totalLiabilityOfBtc;
+
     /**
      * {@code totalLiabilityOfBtc} is instance that memorizes total net asset of Bitcoin
      **/

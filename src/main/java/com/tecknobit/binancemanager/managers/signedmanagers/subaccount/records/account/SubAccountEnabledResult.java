@@ -18,9 +18,13 @@ public class SubAccountEnabledResult extends BinanceItem {
         super(jSubAccountEnabledResult);
         email = hItem.getString("email");
         boolean enabled = hItem.getBoolean("isMarginEnabled");
-        if (!enabled)
-            isAccountEnabled = hItem.getBoolean("isFuturesEnabled");
-        else
+        if (!enabled) {
+            enabled = hItem.getBoolean("isFuturesEnabled");
+            if (!enabled)
+                isAccountEnabled = hItem.getBoolean("enableBlvt");
+            else
+                isAccountEnabled = true;
+        } else
             isAccountEnabled = true;
     }
 

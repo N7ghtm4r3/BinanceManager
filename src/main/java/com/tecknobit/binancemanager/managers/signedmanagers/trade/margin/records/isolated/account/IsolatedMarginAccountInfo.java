@@ -23,42 +23,52 @@ public class IsolatedMarginAccountInfo {
      * {@code symbol} is instance that memorizes symbol used in the order
      **/
     private final String symbol;
+
     /**
      * {@code quoteAsset} is instance that memorizes quote asset
      **/
     private final IsolatedMarginAsset quoteAsset;
+
     /**
      * {@code isolatedCreated} is instance that memorizes if isolated has been created
      **/
     private boolean isolatedCreated;
+
     /**
      * {@code marginLevel} is instance that memorizes margin level
      **/
     private double marginLevel;
+
     /**
      * {@code enabled} is instance that memorizes if order has been enabled
      **/
     private boolean enabled;
+
     /**
      * {@code marginLevelStatus} is instance that memorizes margin status level
      **/
     private MarginLevelStatus marginLevelStatus;
+
     /**
      * {@code marginRatio} is instance that memorizes margin ratio
      **/
     private double marginRatio;
+
     /**
      * {@code indexPrice} is instance that memorizes index price
      **/
     private double indexPrice;
+
     /**
      * {@code liquidatePrice} is instance that memorizes liquidate price
      **/
     private double liquidatePrice;
+
     /**
      * {@code liquidateRate} is instance that memorizes liquidate rate
      **/
     private double liquidateRate;
+
     /**
      * {@code tradeEnabled} is flag that checks if trade has been enabled
      **/

@@ -462,18 +462,22 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * {@code symbol} is instance that memorizes symbol value
          **/
         private final String symbol;
+
         /**
          * {@code entryPrice} is instance that memorizes entry price value
          **/
         private double entryPrice;
+
         /**
          * {@code markPrice} is instance that memorizes mark price value
          **/
         private double markPrice;
+
         /**
          * {@code positionAmt} is instance that memorizes position amt value
          **/
         private double positionAmt;
+
         /**
          * {@code unRealizedProfit} is instance that unrealize profit value
          **/
