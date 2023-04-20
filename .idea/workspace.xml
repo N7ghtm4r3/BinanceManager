@@ -5,30 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="24c31f43-703f-43c2-b6a1-81b04a165e9d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/account/ManagedSubAccountList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/account/futures/coin/CoinSubFuturesAccount.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/account/futures/coin/CoinSummarySubFuturesAccount.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/account/futures/coin/SubCoinStructure.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/account/futures/risk/CoinFuturesPositionRisk.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/account/futures/risk/RiskStructure.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/account/margin/SubMarginAccountAssetDetails.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/asset/ManagedSubAccountAssetDetails.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/restriction/IPRestriction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/restriction/IPRestrictionUpdated.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/restriction/RestrictionStructure.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/transfers/SubAccountTransactionsStatistics.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/transfers/SubAccountTransferLog.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/transfers/SubTransferStructure.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/transfers/SubUniversalTransferHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/BinanceSubAccountManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/BinanceSubAccountManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/account/SubAccountEnabledResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/account/SubAccountEnabledResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/account/futures/FuturesPositionRisk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/account/futures/risk/FuturesPositionRisk.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/account/futures/coin/CoinSummarySubFuturesAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/account/futures/coin/CoinSummarySubFuturesAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/asset/FutureAssetTransferHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/asset/FutureAssetTransferHistory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/transfers/SubAccountTransfer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/transfers/SubAccountTransfer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/transfers/SubUniversalTransfer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/transfers/SubUniversalTransfer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/records/account/MarginAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/records/account/MarginAccount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/records/isolated/account/IsolatedMarginAccountInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/margin/records/isolated/account/IsolatedMarginAccountInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/accountsnapshots/FuturesAccountSnapshot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/accountsnapshots/FuturesAccountSnapshot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/transfers/SubTransferStructure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/subaccount/records/transfers/SubTransferStructure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/BinanceWalletManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/BinanceWalletManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/accountsnapshots/SpotAccountSnapshot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/accountsnapshots/SpotAccountSnapshot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/deposit/DepositAddress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/wallet/records/deposit/DepositAddress.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,13 +139,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1644858734218</updated>
-    </task>
-    <task id="LOCAL-00216" summary="Massive reorganization of the library">
-      <created>1669058923363</created>
-      <option name="number" value="00216" />
-      <option name="presentableId" value="LOCAL-00216" />
-      <option name="project" value="LOCAL" />
-      <updated>1669058923363</updated>
     </task>
     <task id="LOCAL-00217" summary="Massive reorganization of the library">
       <created>1669149389597</created>
@@ -497,7 +476,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681839777133</updated>
     </task>
-    <option name="localTasksCounter" value="265" />
+    <task id="LOCAL-00265" summary="SubAccount">
+      <created>1681914549135</created>
+      <option name="number" value="00265" />
+      <option name="presentableId" value="LOCAL-00265" />
+      <option name="project" value="LOCAL" />
+      <updated>1681914549136</updated>
+    </task>
+    <option name="localTasksCounter" value="266" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

@@ -18,10 +18,14 @@ public class CoinSummarySubFuturesAccount extends SubCoinStructure {
     public CoinSummarySubFuturesAccount(JSONObject jCoinSummarySubFuturesAccount) {
         super(jCoinSummarySubFuturesAccount);
         subAccountList = new ArrayList<>();
-        ArrayList<JSONObject> jList = hItem.fetchList("");
+        ArrayList<JSONObject> jList = hItem.fetchList("subAccountList");
         if (jList != null)
             for (JSONObject item : jList)
                 subAccountList.add(new SummarySubFuturesAccountCoinItem(item));
+    }
+
+    public ArrayList<SummarySubFuturesAccountCoinItem> getSubAccountList() {
+        return subAccountList;
     }
 
     public static class SummarySubFuturesAccountCoinItem extends SubCoinStructure {

@@ -382,6 +382,16 @@ public class SpotAccountSnapshot extends AccountSnapshot {
         }
 
         /**
+         * Method to get {@link #asset} instance <br>
+         * No-any params required
+         *
+         * @return {@link #asset} instance as {@link String}
+         **/
+        public String getAsset() {
+            return asset;
+        }
+
+        /**
          * Method to get {@link #free} instance <br>
          * No-any params required
          *

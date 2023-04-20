@@ -36,7 +36,7 @@ public class FutureAssetTransferHistory extends BinanceItem {
          * @return enum constant as {@link FuturesType}
          **/
         public static FuturesType reachEnumConstant(int type) {
-            return VALUES.get(type);
+            return VALUES.get(type - 1);
         }
 
         @Override
@@ -59,10 +59,10 @@ public class FutureAssetTransferHistory extends BinanceItem {
 
     public FutureAssetTransferHistory(JSONObject jFutureAssetTransferHistory) {
         super(jFutureAssetTransferHistory);
-        success = hItem.getBoolean("");
-        futuresType = FuturesType.reachEnumConstant(hItem.getInt("", 0));
+        success = hItem.getBoolean("success");
+        futuresType = FuturesType.reachEnumConstant(hItem.getInt("futuresType", 0));
         transfers = new ArrayList<>();
-        ArrayList<JSONObject> jTransfers = hItem.fetchList("");
+        ArrayList<JSONObject> jTransfers = hItem.fetchList("transfers");
         if (jTransfers != null)
             for (JSONObject transfer : jTransfers)
                 transfers.add(new AssetTransfer(transfer));

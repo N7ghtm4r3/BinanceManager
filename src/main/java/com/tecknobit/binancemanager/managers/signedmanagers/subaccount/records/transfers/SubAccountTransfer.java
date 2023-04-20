@@ -9,6 +9,29 @@ import java.util.List;
 
 public class SubAccountTransfer extends SubTransferStructure {
 
+    public enum SubMarginTransfer {
+
+        TRANSFER_FROM_SUB_SPOT_ACCOUNT_TO_MARGIN_ACCOUNT(1),
+        TRANSFER_FROM_SUB_MARGIN_ACCOUNT_TO_ITS_SPOT_ACCOUNT(2),
+        ;
+
+        private final int transfer;
+
+        SubMarginTransfer(int transfer) {
+            this.transfer = transfer;
+        }
+
+        public int getTransfer() {
+            return transfer;
+        }
+
+        @Override
+        public String toString() {
+            return transfer + "";
+        }
+
+    }
+
     public enum SubTransferType {
 
         transfer_in(1),

@@ -39,6 +39,7 @@ import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.POST;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.JSON;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
+import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.DepositAddress.returnDepositAddress;
 
 /**
  * The {@code BinanceWalletManager} class is useful to manage all {@code "Binance"}'s Wallet Endpoints
@@ -1626,25 +1627,6 @@ public class BinanceWalletManager extends BinanceSignedManager {
     public <T> T getDepositAddress(String coin, String network, ReturnFormat format) throws Exception {
         return returnDepositAddress(sendGetSignedRequest(DEPOSIT_ADDRESS_ENDPOINT, getTimestampParam() + "&coin="
                 + coin + "&network=" + network), format);
-    }
-
-    /**
-     * Method to create a deposit address object
-     *
-     * @param depositAddressResponse: obtained from Binance's response
-     * @param format:                 return type formatter -> {@link ReturnFormat}
-     * @return deposit address as {@code "format"} defines
-     **/
-    @Returner
-    private <T> T returnDepositAddress(String depositAddressResponse, ReturnFormat format) {
-        switch (format) {
-            case JSON:
-                return (T) new JSONObject(depositAddressResponse);
-            case LIBRARY_OBJECT:
-                return (T) new DepositAddress(new JSONObject(depositAddressResponse));
-            default:
-                return (T) depositAddressResponse;
-        }
     }
 
     /**

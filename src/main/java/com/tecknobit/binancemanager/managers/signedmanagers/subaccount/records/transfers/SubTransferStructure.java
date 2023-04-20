@@ -27,9 +27,21 @@ public abstract class SubTransferStructure extends BinanceItem {
     public SubTransferStructure(JSONObject jSubAccountTransfer) {
         super(jSubAccountTransfer);
         asset = hItem.getString("asset");
-        fromAccountType = PrincipalAccountType.valueOf(hItem.getString("fromAccountType"));
-        toAccountType = PrincipalAccountType.valueOf(hItem.getString("toAccountType"));
-        status = TransferStatus.valueOf(hItem.getString("status"));
+        String sEnum = hItem.getString("fromAccountType");
+        if (sEnum != null)
+            fromAccountType = PrincipalAccountType.valueOf(sEnum);
+        else
+            fromAccountType = null;
+        sEnum = hItem.getString("toAccountType");
+        if (sEnum != null)
+            toAccountType = PrincipalAccountType.valueOf(sEnum);
+        else
+            toAccountType = null;
+        sEnum = hItem.getString("status");
+        if (sEnum != null)
+            status = TransferStatus.valueOf(sEnum);
+        else
+            status = null;
         tranId = hItem.getLong("tranId", 0);
     }
 

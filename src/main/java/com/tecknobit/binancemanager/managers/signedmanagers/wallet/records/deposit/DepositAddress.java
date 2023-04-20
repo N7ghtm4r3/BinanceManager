@@ -1,5 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit;
 
+import com.tecknobit.apimanager.annotations.Returner;
+import com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat;
 import org.json.JSONObject;
 
 /**
@@ -101,6 +103,25 @@ public class DepositAddress {
      **/
     public String getUrl() {
         return url;
+    }
+
+    /**
+     * Method to create a deposit address object
+     *
+     * @param depositAddressResponse: obtained from Binance's response
+     * @param format:                 return type formatter -> {@link ReturnFormat}
+     * @return deposit address as {@code "format"} defines
+     **/
+    @Returner
+    public static <T> T returnDepositAddress(String depositAddressResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(depositAddressResponse);
+            case LIBRARY_OBJECT:
+                return (T) new DepositAddress(new JSONObject(depositAddressResponse));
+            default:
+                return (T) depositAddressResponse;
+        }
     }
 
     /**
