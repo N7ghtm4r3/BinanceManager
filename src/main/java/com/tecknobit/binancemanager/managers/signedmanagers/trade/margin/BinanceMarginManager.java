@@ -41,6 +41,7 @@ import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.OrderType.*;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.SpotOrder.*;
+import static java.lang.Long.parseLong;
 
 
 /**
@@ -331,7 +332,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     @Wrapper
     @RequestPath(method = POST, path = "/sapi/v1/margin/transfer")
     public long executeCrossMarginAccountTransfer(String asset, double amount, MarginTransferType type) throws Exception {
-        return Long.parseLong(executeCrossMarginAccountTransfer(asset, amount, type, LIBRARY_OBJECT));
+        return parseLong(executeCrossMarginAccountTransfer(asset, amount, type, LIBRARY_OBJECT));
     }
 
     /**
@@ -365,8 +366,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
         payload.addParam("asset", asset);
         payload.addParam("amount", amount);
         payload.addParam("type", type);
-        return returnExecuteCrossMarginAccountTransfer(sendPostSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, payload),
-                format);
+        return returnTranId(sendPostSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, payload), format);
     }
 
     /**
@@ -397,7 +397,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     @RequestPath(method = POST, path = "/sapi/v1/margin/transfer")
     public long executeCrossMarginAccountTransfer(String asset, double amount, MarginTransferType type,
                                                   long recvWindow) throws Exception {
-        return Long.parseLong(executeCrossMarginAccountTransfer(asset, amount, type, recvWindow, LIBRARY_OBJECT));
+        return parseLong(executeCrossMarginAccountTransfer(asset, amount, type, recvWindow, LIBRARY_OBJECT));
     }
 
     /**
@@ -433,28 +433,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
         payload.addParam("amount", amount);
         payload.addParam("type", type);
         payload.addParam("recvWindow", recvWindow);
-        return returnExecuteCrossMarginAccountTransfer(sendPostSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, payload),
-                format);
-    }
-
-    /**
-     * Method to create an execution
-     *
-     * @param executionResponse: obtained from Binance's response
-     * @param format:            return type formatter -> {@link ReturnFormat}
-     * @return execution as {@code "format"} defines
-     * @implSpec in this case {@link ReturnFormat#LIBRARY_OBJECT} will return the transaction id as long
-     **/
-    @Returner
-    private <T> T returnExecuteCrossMarginAccountTransfer(String executionResponse, ReturnFormat format) {
-        switch (format) {
-            case JSON:
-                return (T) new JSONObject(executionResponse);
-            case LIBRARY_OBJECT:
-                return (T) new JSONObject(executionResponse).getString("tranId");
-            default:
-                return (T) executionResponse;
-        }
+        return returnTranId(sendPostSignedRequest(CROSS_MARGIN_TRANSFERS_ENDPOINT, payload), format);
     }
 
     /**
@@ -481,7 +460,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     @Wrapper
     @RequestPath(method = POST, path = "/sapi/v1/margin/loan")
     public long applyMarginAccountBorrow(String asset, double amount) throws Exception {
-        return Long.parseLong(applyMarginAccountBorrow(asset, amount, LIBRARY_OBJECT));
+        return parseLong(applyMarginAccountBorrow(asset, amount, LIBRARY_OBJECT));
     }
 
     /**
@@ -511,7 +490,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
         Params payload = new Params();
         payload.addParam("asset", asset);
         payload.addParam("amount", amount);
-        return returnApplyMarginAccountBorrow(sendPostSignedRequest(MARGIN_LOAN_ENDPOINT, payload), format);
+        return returnTranId(sendPostSignedRequest(MARGIN_LOAN_ENDPOINT, payload), format);
     }
 
     /**
@@ -550,7 +529,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     @Wrapper
     @RequestPath(method = POST, path = "/sapi/v1/margin/loan")
     public long applyMarginAccountBorrow(String asset, double amount, Params extraParams) throws Exception {
-        return Long.parseLong(applyMarginAccountBorrow(asset, amount, extraParams, LIBRARY_OBJECT));
+        return parseLong(applyMarginAccountBorrow(asset, amount, extraParams, LIBRARY_OBJECT));
     }
 
     /**
@@ -592,27 +571,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
                                           ReturnFormat format) throws Exception {
         extraParams.addParam("asset", asset);
         extraParams.addParam("amount", amount);
-        return returnApplyMarginAccountBorrow(sendPostSignedRequest(MARGIN_LOAN_ENDPOINT, extraParams), format);
-    }
-
-    /**
-     * Method to create an apply margin account borrow
-     *
-     * @param applyMarginResponse: obtained from Binance's response
-     * @param format:              return type formatter -> {@link ReturnFormat}
-     * @return apply margin account borrow as {@code "format"} defines
-     * @implSpec in this case {@link ReturnFormat#LIBRARY_OBJECT} will return the transaction id as long
-     **/
-    @Returner
-    private <T> T returnApplyMarginAccountBorrow(String applyMarginResponse, ReturnFormat format) {
-        switch (format) {
-            case JSON:
-                return (T) new JSONObject(applyMarginResponse);
-            case LIBRARY_OBJECT:
-                return (T) new JSONObject(applyMarginResponse).getString("tranId");
-            default:
-                return (T) applyMarginResponse;
-        }
+        return returnTranId(sendPostSignedRequest(MARGIN_LOAN_ENDPOINT, extraParams), format);
     }
 
     /**
@@ -639,7 +598,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     @Wrapper
     @RequestPath(method = POST, path = "/sapi/v1/margin/repay")
     public long repayMarginAccount(String asset, double amount) throws Exception {
-        return Long.parseLong(repayMarginAccount(asset, amount, LIBRARY_OBJECT));
+        return parseLong(repayMarginAccount(asset, amount, LIBRARY_OBJECT));
     }
 
     /**
@@ -669,7 +628,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
         Params payload = new Params();
         payload.addParam("asset", asset);
         payload.addParam("amount", amount);
-        return returnRepayMarginAccount(sendPostSignedRequest(MARGIN_REPAY_ENDPOINT, payload), format);
+        return returnTranId(sendPostSignedRequest(MARGIN_REPAY_ENDPOINT, payload), format);
     }
 
     /**
@@ -708,7 +667,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     @Wrapper
     @RequestPath(method = POST, path = "/sapi/v1/margin/repay")
     public long repayMarginAccount(String asset, double amount, Params extraParams) throws Exception {
-        return Long.parseLong(repayMarginAccount(asset, amount, extraParams, LIBRARY_OBJECT));
+        return parseLong(repayMarginAccount(asset, amount, extraParams, LIBRARY_OBJECT));
     }
 
     /**
@@ -749,27 +708,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     public <T> T repayMarginAccount(String asset, double amount, Params extraParams, ReturnFormat format) throws Exception {
         extraParams.addParam("asset", asset);
         extraParams.addParam("amount", amount);
-        return returnRepayMarginAccount(sendPostSignedRequest(MARGIN_REPAY_ENDPOINT, extraParams), format);
-    }
-
-    /**
-     * Method to create an apply margin account borrow
-     *
-     * @param repayMarginAccountResponse: obtained from Binance's response
-     * @param format:                     return type formatter -> {@link ReturnFormat}
-     * @return apply margin account borrow as {@code "format"} defines
-     * @implSpec in this case {@link ReturnFormat#LIBRARY_OBJECT} will return the transaction id as long
-     **/
-    @Returner
-    private <T> T returnRepayMarginAccount(String repayMarginAccountResponse, ReturnFormat format) {
-        switch (format) {
-            case JSON:
-                return (T) new JSONObject(repayMarginAccountResponse);
-            case LIBRARY_OBJECT:
-                return (T) new JSONObject(repayMarginAccountResponse).getString("tranId");
-            default:
-                return (T) repayMarginAccountResponse;
-        }
+        return returnTranId(sendPostSignedRequest(MARGIN_REPAY_ENDPOINT, extraParams), format);
     }
 
     /**
@@ -8419,7 +8358,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
     @RequestPath(method = POST, path = "/sapi/v1/margin/isolated/transfer")
     public long execIsolatedMarginAccountTransfer(String asset, String symbol, String transFrom, String transTo,
                                                   double amount) throws Exception {
-        return Long.parseLong(execIsolatedMarginAccountTransfer(asset, symbol, transFrom, transTo, amount,
+        return parseLong(execIsolatedMarginAccountTransfer(asset, symbol, transFrom, transTo, amount,
                 LIBRARY_OBJECT));
     }
 
@@ -8455,7 +8394,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
         payload.addParam("transFrom", transFrom);
         payload.addParam("transTo", transTo);
         payload.addParam("amount", amount);
-        return returnIsolatedTransferId(sendPostSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT, payload), format);
+        return returnTranId(sendPostSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT, payload), format);
     }
 
     /** Request to get margin isolated transfer
@@ -8522,27 +8461,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
         payload.addParam("transTo", transTo);
         payload.addParam("amount", amount);
         payload.addParam("recvWindow", recvWindow);
-        return returnIsolatedTransferId(sendPostSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT, payload), format);
-    }
-
-    /**
-     * Method to get an isolated transfer id
-     *
-     * @param isolatedTransferIdResponse: obtained from Binance's response
-     * @param format:                     return type formatter -> {@link ReturnFormat}
-     * @return isolated transfer id as {@code "format"} defines
-     * @implSpec in this case {@link ReturnFormat#LIBRARY_OBJECT} will return the transaction id as long
-     **/
-    @Returner
-    private <T> T returnIsolatedTransferId(String isolatedTransferIdResponse, ReturnFormat format) {
-        switch (format) {
-            case JSON:
-                return (T) new JSONObject(isolatedTransferIdResponse);
-            case LIBRARY_OBJECT:
-                return (T) new JSONObject(isolatedTransferIdResponse).getString("tranId");
-            default:
-                return (T) isolatedTransferIdResponse;
-        }
+        return returnTranId(sendPostSignedRequest(ISOLATED_MARGIN_TRANSFER_ENDPOINT, payload), format);
     }
 
     /**

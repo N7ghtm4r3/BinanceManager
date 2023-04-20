@@ -19,6 +19,9 @@ import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.a
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.margin.SummarySubMarginAccount;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.asset.*;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.asset.FutureAssetTransferHistory.FuturesType;
+import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.restriction.IPRestriction;
+import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.restriction.IPRestrictionUpdated;
+import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.restriction.IPRestrictionUpdated.IPStatus;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.transfers.SubAccountTransfer;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.transfers.SubAccountTransfer.SubMarginTransfer;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.transfers.SubUniversalTransfer;
@@ -1293,16 +1296,38 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
         }
     }
 
-    private Params createEmailPayload(String email, long recvWindow, boolean insertTime) {
-        Params payload;
-        if (insertTime)
-            payload = createTimestampPayload(null);
-        else
-            payload = new Params();
-        payload.addParam("email", email);
-        if (recvWindow != -1)
-            payload.addParam("recvWindow", recvWindow);
-        return payload;
+    public SubAccountEnabledResult enableLeverageTokenSubAccount(SubAccount subAccount) throws Exception {
+        return enableLeverageTokenSubAccount(subAccount.getEmail(), LIBRARY_OBJECT);
+    }
+
+    public <T> T enableLeverageTokenSubAccount(SubAccount subAccount, ReturnFormat format) throws Exception {
+        return enableLeverageTokenSubAccount(subAccount.getEmail(), format);
+    }
+
+    public SubAccountEnabledResult enableLeverageTokenSubAccount(String email) throws Exception {
+        return enableLeverageTokenSubAccount(email, LIBRARY_OBJECT);
+    }
+
+    public <T> T enableLeverageTokenSubAccount(String email, ReturnFormat format) throws Exception {
+        return enableLeverageTokenSubAccount(email, -1, format);
+    }
+
+    public SubAccountEnabledResult enableLeverageTokenSubAccount(SubAccount subAccount, long recvWindow) throws Exception {
+        return enableLeverageTokenSubAccount(subAccount.getEmail(), recvWindow, LIBRARY_OBJECT);
+    }
+
+    public <T> T enableLeverageTokenSubAccount(SubAccount subAccount, long recvWindow, ReturnFormat format) throws Exception {
+        return enableLeverageTokenSubAccount(subAccount.getEmail(), recvWindow, format);
+    }
+
+    public SubAccountEnabledResult enableLeverageTokenSubAccount(String email, long recvWindow) throws Exception {
+        return enableLeverageTokenSubAccount(email, recvWindow, LIBRARY_OBJECT);
+    }
+
+    public <T> T enableLeverageTokenSubAccount(String email, long recvWindow, ReturnFormat format) throws Exception {
+        Params payload = createEmailPayload(email, recvWindow, false);
+        payload.addParam("enableBlvt", true);
+        return returnEnabledResult(sendPostSignedRequest(SUB_ACCOUNT_BLVT_ENABLE_ENDPOINT, payload), format);
     }
 
     /**
@@ -1322,6 +1347,269 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
             default:
                 return (T) resultResponse;
         }
+    }
+
+    public IPRestriction getSubAccountAPIKeyIpRestriction(SubAccount subAccount, String subAccountAPIKey) throws Exception {
+        return getSubAccountAPIKeyIpRestriction(subAccount.getEmail(), subAccountAPIKey, LIBRARY_OBJECT);
+    }
+
+    public <T> T getSubAccountAPIKeyIpRestriction(SubAccount subAccount, String subAccountAPIKey,
+                                                  ReturnFormat format) throws Exception {
+        return getSubAccountAPIKeyIpRestriction(subAccount.getEmail(), subAccountAPIKey, format);
+    }
+
+    public IPRestriction getSubAccountAPIKeyIpRestriction(String email, String subAccountAPIKey) throws Exception {
+        return getSubAccountAPIKeyIpRestriction(email, subAccountAPIKey, LIBRARY_OBJECT);
+    }
+
+    public <T> T getSubAccountAPIKeyIpRestriction(String email, String subAccountAPIKey,
+                                                  ReturnFormat format) throws Exception {
+        return getSubAccountAPIKeyIpRestriction(email, subAccountAPIKey, -1, format);
+    }
+
+    public IPRestriction getSubAccountAPIKeyIpRestriction(SubAccount subAccount, String subAccountAPIKey,
+                                                          long recvWindow) throws Exception {
+        return getSubAccountAPIKeyIpRestriction(subAccount.getEmail(), subAccountAPIKey, recvWindow, LIBRARY_OBJECT);
+    }
+
+    public <T> T getSubAccountAPIKeyIpRestriction(SubAccount subAccount, String subAccountAPIKey, long recvWindow,
+                                                  ReturnFormat format) throws Exception {
+        return getSubAccountAPIKeyIpRestriction(subAccount.getEmail(), subAccountAPIKey, recvWindow, format);
+    }
+
+    public IPRestriction getSubAccountAPIKeyIpRestriction(String email, String subAccountAPIKey,
+                                                          long recvWindow) throws Exception {
+        return getSubAccountAPIKeyIpRestriction(email, subAccountAPIKey, recvWindow, LIBRARY_OBJECT);
+    }
+
+    public <T> T getSubAccountAPIKeyIpRestriction(String email, String subAccountAPIKey, long recvWindow,
+                                                  ReturnFormat format) throws Exception {
+        Params query = createEmailPayload(email, recvWindow, true);
+        query.addParam("subAccountApiKey", subAccountAPIKey);
+        return returnIpRestriction(sendGetSignedRequest(SUB_ACCOUNT_API_IP_RESTRICTION_ENDPOINT, query), format);
+    }
+
+    public IPRestriction deleteSubAccountAPIKeyIpList(SubAccount subAccount, String subAccountAPIKey) throws Exception {
+        return deleteSubAccountAPIKeyIpList(subAccount.getEmail(), subAccountAPIKey, LIBRARY_OBJECT);
+    }
+
+    public <T> T deleteSubAccountAPIKeyIpList(SubAccount subAccount, String subAccountAPIKey,
+                                              ReturnFormat format) throws Exception {
+        return deleteSubAccountAPIKeyIpList(subAccount.getEmail(), subAccountAPIKey, format);
+    }
+
+    public IPRestriction deleteSubAccountAPIKeyIpList(String email, String subAccountAPIKey) throws Exception {
+        return deleteSubAccountAPIKeyIpList(email, subAccountAPIKey, LIBRARY_OBJECT);
+    }
+
+    public <T> T deleteSubAccountAPIKeyIpList(String email, String subAccountAPIKey,
+                                              ReturnFormat format) throws Exception {
+        return deleteSubAccountAPIKeyIpList(email, subAccountAPIKey, null, format);
+    }
+
+    public IPRestriction deleteSubAccountAPIKeyIpList(SubAccount subAccount, String subAccountAPIKey,
+                                                      Params extraParams) throws Exception {
+        return deleteSubAccountAPIKeyIpList(subAccount.getEmail(), subAccountAPIKey, extraParams, LIBRARY_OBJECT);
+    }
+
+    public <T> T deleteSubAccountAPIKeyIpList(SubAccount subAccount, String subAccountAPIKey, Params extraParams,
+                                              ReturnFormat format) throws Exception {
+        return deleteSubAccountAPIKeyIpList(subAccount.getEmail(), subAccountAPIKey, extraParams, format);
+    }
+
+    public IPRestriction deleteSubAccountAPIKeyIpList(String email, String subAccountAPIKey,
+                                                      Params extraParams) throws Exception {
+        return deleteSubAccountAPIKeyIpList(email, subAccountAPIKey, extraParams, LIBRARY_OBJECT);
+    }
+
+    public <T> T deleteSubAccountAPIKeyIpList(String email, String subAccountAPIKey, Params extraParams,
+                                              ReturnFormat format) throws Exception {
+        extraParams = createTimestampPayload(extraParams);
+        extraParams.addParam("email", email);
+        extraParams.addParam("subAccountApiKey", subAccountAPIKey);
+        return returnIpRestriction(sendDeleteSignedRequest(SUB_ACCOUNT_API_IP_LIST_ENDPOINT, extraParams), format);
+    }
+
+    /**
+     * Method to create an IP restriction
+     *
+     * @param ipRestrictionResponse: obtained from Binance's response
+     * @param format:                return type formatter -> {@link ReturnFormat}
+     * @return IP restriction as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnIpRestriction(String ipRestrictionResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(ipRestrictionResponse);
+            case LIBRARY_OBJECT:
+                return (T) new IPRestriction(new JSONObject(ipRestrictionResponse));
+            default:
+                return (T) ipRestrictionResponse;
+        }
+    }
+
+    public IPRestrictionUpdated updateSubAccountAPIKeyIpRestriction(SubAccount subAccount, String subAccountAPIKey,
+                                                                    IPStatus status) throws Exception {
+        return updateSubAccountAPIKeyIpRestriction(subAccount.getEmail(), subAccountAPIKey, status, LIBRARY_OBJECT);
+    }
+
+    public <T> T updateSubAccountAPIKeyIpRestriction(SubAccount subAccount, String subAccountAPIKey, IPStatus status,
+                                                     ReturnFormat format) throws Exception {
+        return updateSubAccountAPIKeyIpRestriction(subAccount.getEmail(), subAccountAPIKey, status, format);
+    }
+
+    public IPRestrictionUpdated updateSubAccountAPIKeyIpRestriction(String email, String subAccountAPIKey,
+                                                                    IPStatus status) throws Exception {
+        return updateSubAccountAPIKeyIpRestriction(email, subAccountAPIKey, status, LIBRARY_OBJECT);
+    }
+
+    public <T> T updateSubAccountAPIKeyIpRestriction(String email, String subAccountAPIKey, IPStatus status,
+                                                     ReturnFormat format) throws Exception {
+        return updateSubAccountAPIKeyIpRestriction(email, subAccountAPIKey, status, null, format);
+    }
+
+    public IPRestrictionUpdated updateSubAccountAPIKeyIpRestriction(SubAccount subAccount, String subAccountAPIKey,
+                                                                    IPStatus status, Params extraParams) throws Exception {
+        return updateSubAccountAPIKeyIpRestriction(subAccount.getEmail(), subAccountAPIKey, status, extraParams,
+                LIBRARY_OBJECT);
+    }
+
+    public <T> T updateSubAccountAPIKeyIpRestriction(SubAccount subAccount, String subAccountAPIKey, IPStatus status,
+                                                     Params extraParams, ReturnFormat format) throws Exception {
+        return updateSubAccountAPIKeyIpRestriction(subAccount.getEmail(), subAccountAPIKey, status, extraParams, format);
+    }
+
+    public IPRestrictionUpdated updateSubAccountAPIKeyIpRestriction(String email, String subAccountAPIKey, IPStatus status,
+                                                                    Params extraParams) throws Exception {
+        return updateSubAccountAPIKeyIpRestriction(email, subAccountAPIKey, status, extraParams, LIBRARY_OBJECT);
+    }
+
+    public <T> T updateSubAccountAPIKeyIpRestriction(String email, String subAccountAPIKey, IPStatus status,
+                                                     Params extraParams, ReturnFormat format) throws Exception {
+        if (extraParams == null)
+            extraParams = new Params();
+        extraParams.addParam("email", email);
+        extraParams.addParam("subAccountApiKey", subAccountAPIKey);
+        extraParams.addParam("status", status.getStatus());
+        String updateResponse = sendPostSignedRequest(SUB_ACCOUNT_API_IP_RESTRICTION_V2_ENDPOINT, extraParams);
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(updateResponse);
+            case LIBRARY_OBJECT:
+                return (T) new IPRestrictionUpdated(new JSONObject(updateResponse));
+            default:
+                return (T) updateResponse;
+        }
+    }
+
+    public long depositAssetsIntoManagedSubAccount(String toEmail, String asset, double amount) throws Exception {
+        return parseLong(depositAssetsIntoManagedSubAccount(toEmail, asset, amount, LIBRARY_OBJECT));
+    }
+
+    public <T> T depositAssetsIntoManagedSubAccount(String toEmail, String asset, double amount,
+                                                    ReturnFormat format) throws Exception {
+        return depositAssetsIntoManagedSubAccount(toEmail, asset, amount, -1, format);
+    }
+
+    public long depositAssetsIntoManagedSubAccount(String toEmail, String asset, double amount,
+                                                   long recvWindow) throws Exception {
+        return parseLong(depositAssetsIntoManagedSubAccount(toEmail, asset, amount, recvWindow, LIBRARY_OBJECT));
+    }
+
+    public <T> T depositAssetsIntoManagedSubAccount(String toEmail, String asset, double amount,
+                                                    long recvWindow, ReturnFormat format) throws Exception {
+        Params payload = new Params();
+        payload.addParam("toEmail", toEmail);
+        payload.addParam("asset", asset);
+        payload.addParam("amount", amount);
+        if (recvWindow != -1)
+            payload.addParam("recvWindow", recvWindow);
+        return returnTranId(sendPostSignedRequest(MANAGED_SUB_ACCOUNT_DEPOSIT_ENDPOINT, payload), format);
+    }
+
+    public ArrayList<ManagedSubAccountAssetDetails> getManagedSubAccountAssetDetails(SubAccount subAccount) throws Exception {
+        return getManagedSubAccountAssetDetails(subAccount.getEmail(), LIBRARY_OBJECT);
+    }
+
+    public <T> T getManagedSubAccountAssetDetails(SubAccount subAccount, ReturnFormat format) throws Exception {
+        return getManagedSubAccountAssetDetails(subAccount.getEmail(), format);
+    }
+
+    public ArrayList<ManagedSubAccountAssetDetails> getManagedSubAccountAssetDetails(String email) throws Exception {
+        return getManagedSubAccountAssetDetails(email, LIBRARY_OBJECT);
+    }
+
+    public <T> T getManagedSubAccountAssetDetails(String email, ReturnFormat format) throws Exception {
+        return getManagedSubAccountAssetDetails(email, -1, format);
+    }
+
+    public ArrayList<ManagedSubAccountAssetDetails> getManagedSubAccountAssetDetails(SubAccount subAccount,
+                                                                                     long recvWindow) throws Exception {
+        return getManagedSubAccountAssetDetails(subAccount.getEmail(), recvWindow, LIBRARY_OBJECT);
+    }
+
+    public <T> T getManagedSubAccountAssetDetails(SubAccount subAccount, long recvWindow,
+                                                  ReturnFormat format) throws Exception {
+        return getManagedSubAccountAssetDetails(subAccount.getEmail(), recvWindow, format);
+    }
+
+    public ArrayList<ManagedSubAccountAssetDetails> getManagedSubAccountAssetDetails(String email,
+                                                                                     long recvWindow) throws Exception {
+        return getManagedSubAccountAssetDetails(email, recvWindow, LIBRARY_OBJECT);
+    }
+
+    public <T> T getManagedSubAccountAssetDetails(String email, long recvWindow, ReturnFormat format) throws Exception {
+        String assetResponse = sendGetSignedRequest(MANAGED_SUB_ACCOUNT_ASSET_ENDPOINT, createEmailPayload(email,
+                recvWindow, true));
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(assetResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<ManagedSubAccountAssetDetails> assetDetails = new ArrayList<>();
+                JSONArray jAssetDetails = new JSONArray(assetResponse);
+                for (int j = 0; j < jAssetDetails.length(); j++)
+                    assetDetails.add(new ManagedSubAccountAssetDetails(jAssetDetails.getJSONObject(j)));
+                return (T) assetDetails;
+            default:
+                return (T) assetResponse;
+        }
+    }
+
+    public long withdrawAssetsFromManagedSubAccount(String fromEmail, String asset, double amount) throws Exception {
+        return parseLong(withdrawAssetsFromManagedSubAccount(fromEmail, asset, amount, LIBRARY_OBJECT));
+    }
+
+    public <T> T withdrawAssetsFromManagedSubAccount(String fromEmail, String asset, double amount,
+                                                     ReturnFormat format) throws Exception {
+        return withdrawAssetsFromManagedSubAccount(fromEmail, asset, amount, null, format);
+    }
+
+    public long withdrawAssetsFromManagedSubAccount(String fromEmail, String asset, double amount,
+                                                    Params extraParams) throws Exception {
+        return parseLong(withdrawAssetsFromManagedSubAccount(fromEmail, asset, amount, extraParams, LIBRARY_OBJECT));
+    }
+
+    public <T> T withdrawAssetsFromManagedSubAccount(String fromEmail, String asset, double amount,
+                                                     Params extraParams, ReturnFormat format) throws Exception {
+        if (extraParams == null)
+            extraParams = new Params();
+        extraParams.addParam("fromEmail", fromEmail);
+        extraParams.addParam("asset", asset);
+        extraParams.addParam("amount", amount);
+        return returnTranId(sendPostSignedRequest(MANAGED_SUB_ACCOUNT_WITHDRAW_ENDPOINT, extraParams), format);
+    }
+
+    private Params createEmailPayload(String email, long recvWindow, boolean insertTime) {
+        Params payload;
+        if (insertTime)
+            payload = createTimestampPayload(null);
+        else
+            payload = new Params();
+        payload.addParam("email", email);
+        if (recvWindow != -1)
+            payload.addParam("recvWindow", recvWindow);
+        return payload;
     }
 
 }

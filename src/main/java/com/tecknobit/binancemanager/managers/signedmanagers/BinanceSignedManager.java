@@ -1,9 +1,11 @@
 package com.tecknobit.binancemanager.managers.signedmanagers;
 
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.apimanager.apis.APIRequest;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -234,6 +236,25 @@ public class BinanceSignedManager extends BinanceManager {
         params.addParam("timestamp", getServerTime());
         params.addParam("signature", getSignature(secretKey, params.createQueryString(), HMAC_SHA256_ALGORITHM));
         return sendPostRequest(endpoint, params, apiKey);
+    }
+
+    /**
+     * Method to create a transaction identifier
+     *
+     * @param trainIdResponse: obtained from Binance's response
+     * @param format:          return type formatter -> {@link ReturnFormat}
+     * @return transaction identifier as {@code "format"} defines
+     **/
+    @Returner
+    protected <T> T returnTranId(String trainIdResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(trainIdResponse);
+            case LIBRARY_OBJECT:
+                return (T) String.valueOf(new JSONObject(trainIdResponse).getLong("tranId"));
+            default:
+                return (T) trainIdResponse;
+        }
     }
 
     /**

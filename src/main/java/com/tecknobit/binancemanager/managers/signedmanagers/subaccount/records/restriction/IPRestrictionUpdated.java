@@ -39,7 +39,7 @@ public class IPRestrictionUpdated extends IPRestriction {
          * @return enum constant as {@link IPStatus}
          **/
         public static IPStatus reachEnumConstant(int status) {
-            return VALUES.get(status);
+            return VALUES.get(status - 1);
         }
 
         public int getStatus() {

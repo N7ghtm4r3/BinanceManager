@@ -40,6 +40,7 @@ import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.POST;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.JSON;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.DepositAddress.returnDepositAddress;
+import static java.lang.Long.parseLong;
 
 /**
  * The {@code BinanceWalletManager} class is useful to manage all {@code "Binance"}'s Wallet Endpoints
@@ -2428,8 +2429,8 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @RequestPath(method = POST, path = "/sapi/v1/asset/transfer")
-    public String getUniversalTransfer(TransferType type, String asset, double amount) throws Exception {
-        return getUniversalTransfer(type, asset, amount, LIBRARY_OBJECT);
+    public long getUniversalTransfer(TransferType type, String asset, double amount) throws Exception {
+        return parseLong(getUniversalTransfer(type, asset, amount, LIBRARY_OBJECT));
     }
 
     /** Request to get universal transfer
@@ -2459,7 +2460,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
         payload.addParam("type", type);
         payload.addParam("asset", asset);
         payload.addParam("amount", amount);
-        return returnUniversalTransfer(sendPostSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT, payload), format);
+        return returnTranId(sendPostSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT, payload), format);
     }
 
     /** Request to get universal transfer
@@ -2496,9 +2497,9 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @RequestPath(method = POST, path = "/sapi/v1/asset/transfer")
-    public String getUniversalTransfer(TransferType type, String asset, double amount,
-                                       Params extraParams) throws Exception {
-        return getUniversalTransfer(type, asset, amount, extraParams, LIBRARY_OBJECT);
+    public long getUniversalTransfer(TransferType type, String asset, double amount,
+                                     Params extraParams) throws Exception {
+        return parseLong(getUniversalTransfer(type, asset, amount, extraParams, LIBRARY_OBJECT));
     }
 
     /** Request to get universal transfer
@@ -2537,27 +2538,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
     @RequestPath(method = POST, path = "/sapi/v1/asset/transfer")
     public <T> T getUniversalTransfer(TransferType type, String asset, double amount, Params extraParams,
                                       ReturnFormat format) throws Exception {
-        return returnUniversalTransfer(sendPostSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT, extraParams), format);
-    }
-
-    /**
-     * Method to create a universal transfer
-     *
-     * @param universalTransferResponse: obtained from Binance's response
-     * @param format:                    return type formatter -> {@link ReturnFormat}
-     * @return universal transfer as {@code "format"} defines
-     * @apiNote in this case {@link ReturnFormat#LIBRARY_OBJECT} will return the id value as {@link String}
-     **/
-    @Returner
-    private <T> T returnUniversalTransfer(String universalTransferResponse, ReturnFormat format) {
-        switch (format) {
-            case JSON:
-                return (T) new JSONObject(universalTransferResponse);
-            case LIBRARY_OBJECT:
-                return (T) new JSONObject(universalTransferResponse).getString("tranId");
-            default:
-                return (T) universalTransferResponse;
-        }
+        return returnTranId(sendPostSignedRequest(UNIVERSAL_TRANSFER_ENDPOINT, extraParams), format);
     }
 
     /**
