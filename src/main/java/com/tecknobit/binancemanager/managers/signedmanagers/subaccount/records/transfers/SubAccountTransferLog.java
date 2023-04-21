@@ -9,6 +9,13 @@ import java.util.ArrayList;
 
 public class SubAccountTransferLog extends BinanceItem {
 
+    public enum TransferDirection {
+
+        FROM,
+        TO
+
+    }
+
     private final int count;
     private final ArrayList<TransferLog> transferLogs;
 

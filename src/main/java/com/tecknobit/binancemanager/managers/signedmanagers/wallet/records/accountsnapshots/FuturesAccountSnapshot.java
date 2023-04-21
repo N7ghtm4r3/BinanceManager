@@ -2,6 +2,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.acco
 
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.details.MarginOrderDetails;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -455,8 +456,9 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
      * The {@code FuturesPosition} class is useful to create a futures position
      *
      * @author N7ghtm4r3 - Tecknobit
+     * @see BinanceItem
      **/
-    public static class FuturesPosition {
+    public static class FuturesPosition extends BinanceItem {
 
         /**
          * {@code symbol} is instance that memorizes symbol value
@@ -466,22 +468,22 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
         /**
          * {@code entryPrice} is instance that memorizes entry price value
          **/
-        private double entryPrice;
+        private final double entryPrice;
 
         /**
          * {@code markPrice} is instance that memorizes mark price value
          **/
-        private double markPrice;
+        private final double markPrice;
 
         /**
          * {@code positionAmt} is instance that memorizes position amt value
          **/
-        private double positionAmt;
+        private final double positionAmt;
 
         /**
          * {@code unRealizedProfit} is instance that unrealize profit value
          **/
-        private double unRealizedProfit;
+        private final double unRealizedProfit;
 
         /**
          * Constructor to init {@link FuturesPosition} object
@@ -494,6 +496,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          **/
         public FuturesPosition(double entryPrice, double markPrice, double positionAmt, String symbol,
                                double unRealizedProfit) {
+            super(null);
             this.entryPrice = entryPrice;
             this.markPrice = markPrice;
             this.positionAmt = positionAmt;
@@ -507,11 +510,12 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * @param futuresPosition: futures position details as {@link JSONObject}
          **/
         public FuturesPosition(JSONObject futuresPosition) {
-            entryPrice = futuresPosition.getDouble("entryPrice");
-            markPrice = futuresPosition.getDouble("markPrice");
-            positionAmt = futuresPosition.getDouble("positionAmt");
-            symbol = futuresPosition.getString("symbol");
-            unRealizedProfit = futuresPosition.getDouble("unRealizedProfit");
+            super(futuresPosition);
+            entryPrice = hItem.getDouble("entryPrice", 0);
+            markPrice = hItem.getDouble("markPrice", 0);
+            positionAmt = hItem.getDouble("positionAmt", 0);
+            symbol = hItem.getString("symbol");
+            unRealizedProfit = hItem.getDouble("unRealizedProfit", 0);
         }
 
         /**
@@ -522,18 +526,6 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          **/
         public double getEntryPrice() {
             return entryPrice;
-        }
-
-        /**
-         * Method to set {@link #entryPrice}
-         *
-         * @param entryPrice: entry price value
-         * @throws IllegalArgumentException when entry price value is less than 0
-         **/
-        public void setEntryPrice(double entryPrice) {
-            if (entryPrice < 0)
-                throw new IllegalArgumentException("Entry price value cannot be less than 0");
-            this.entryPrice = entryPrice;
         }
 
         /**
@@ -558,18 +550,6 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
         }
 
         /**
-         * Method to set {@link #markPrice}
-         *
-         * @param markPrice: mark price value
-         * @throws IllegalArgumentException when mark price value is less than 0
-         **/
-        public void setMarkPrice(double markPrice) {
-            if (markPrice < 0)
-                throw new IllegalArgumentException("Mark price value cannot be less than 0");
-            this.markPrice = markPrice;
-        }
-
-        /**
          * Method to get {@link #markPrice} instance
          *
          * @param decimals: number of digits to round final value
@@ -588,18 +568,6 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          **/
         public double getPositionAmt() {
             return positionAmt;
-        }
-
-        /**
-         * Method to set {@link #positionAmt}
-         *
-         * @param positionAmt: unrealize profit value
-         * @throws IllegalArgumentException when unrealize profit value is less than 0
-         **/
-        public void setPositionAmt(double positionAmt) {
-            if (positionAmt < 0)
-                throw new IllegalArgumentException("Position amt value cannot be less than 0");
-            this.positionAmt = positionAmt;
         }
 
         /**
@@ -634,18 +602,6 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
         }
 
         /**
-         * Method to set {@link #unRealizedProfit}
-         *
-         * @param unRealizedProfit: position amt value
-         * @throws IllegalArgumentException when mark position amt value is less than 0
-         **/
-        public void setUnRealizedProfit(double unRealizedProfit) {
-            if (unRealizedProfit < 0)
-                throw new IllegalArgumentException("Unrealize profit value cannot be less than 0");
-            this.unRealizedProfit = unRealizedProfit;
-        }
-
-        /**
          * Method to get {@link #unRealizedProfit} instance
          *
          * @param decimals: number of digits to round final value
@@ -654,17 +610,6 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          **/
         public double getUnRealizedProfit(int decimals) {
             return roundValue(unRealizedProfit, decimals);
-        }
-
-        /**
-         * Returns a string representation of the object <br>
-         * No-any params required
-         *
-         * @return a string representation of the object as {@link String}
-         */
-        @Override
-        public String toString() {
-            return new JSONObject(this).toString();
         }
 
     }

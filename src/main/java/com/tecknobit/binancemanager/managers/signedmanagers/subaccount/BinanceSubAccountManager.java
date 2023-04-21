@@ -6,6 +6,7 @@ import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.futures.records.FutureAccountTransactionsHistory.FutureTransactionType;
+import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.ManagedSubAccountList;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.SubAccount;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.SubAccountEnabledResult;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.SubAccountStatus;
@@ -16,17 +17,18 @@ import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.a
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.futures.risk.CoinFuturesPositionRisk;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.futures.risk.FuturesPositionRisk;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.margin.SubMarginAccount;
+import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.margin.SubMarginAccountAssetDetails;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.margin.SummarySubMarginAccount;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.asset.*;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.asset.FutureAssetTransferHistory.FuturesType;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.restriction.IPRestriction;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.restriction.IPRestrictionUpdated;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.restriction.IPRestrictionUpdated.IPStatus;
-import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.transfers.SubAccountTransfer;
+import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.transfers.*;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.transfers.SubAccountTransfer.SubMarginTransfer;
-import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.transfers.SubUniversalTransfer;
-import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.transfers.SubUniversalTransferHistory;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.AccountSnapshot.AccountType;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.AccountSnapshot.PrincipalAccountType;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.FuturesAccountSnapshot;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.DepositAddress;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -36,6 +38,8 @@ import java.util.ArrayList;
 
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 import static com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.asset.FutureAssetTransferHistory.FuturesType.USDT_MARGINED;
+import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.AccountSnapshot.AccountType.futures;
+import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.AccountSnapshot.returnAccountSnapshot;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.SpotAccountSnapshot.SpotBalance;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.DepositAddress.returnDepositAddress;
 import static java.lang.Long.parseLong;
@@ -247,14 +251,14 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
     public static final String MANAGED_SUB_ACCOUNT_INFO_ENDPOINT = "/sapi/v1/managed-subaccount/info";
 
     /**
-     * {@code MANAGED_SUB_ACCOUNT_DEPOSIT_ADDRESS_ENDPOINT} is constant for MANAGED_SUB_ACCOUNT_DEPOSIT_ADDRESS_ENDPOINT's endpoint
-     **/
-    public static final String MANAGED_SUB_ACCOUNT_DEPOSIT_ADDRESS_ENDPOINT = "/sapi/v1/managed-subaccount/deposit/address";
-
-    /**
      * {@code SUB_ACCOUNT_TRANSACTION_STATISTICS_ENDPOINT} is constant for SUB_ACCOUNT_TRANSACTION_STATISTICS_ENDPOINT's endpoint
      **/
     public static final String SUB_ACCOUNT_TRANSACTION_STATISTICS_ENDPOINT = "/sapi/v1/sub-account/transaction-tatistics";
+
+    /**
+     * {@code MANAGED_SUB_ACCOUNT_DEPOSIT_ADDRESS_ENDPOINT} is constant for MANAGED_SUB_ACCOUNT_DEPOSIT_ADDRESS_ENDPOINT's endpoint
+     **/
+    public static final String MANAGED_SUB_ACCOUNT_DEPOSIT_ADDRESS_ENDPOINT = "/sapi/v1/managed-subaccount/deposit/address";
 
     /**
      * Constructor to init a {@link BinanceSubAccountManager}
@@ -508,24 +512,8 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
     }
 
     public <T> T getSubAccountAssets(String email, long recvWindow, ReturnFormat format) throws Exception {
-        Params query = createTimestampPayload(null);
-        query.addParam("email", email);
-        if (recvWindow != -1)
-            query.addParam("recvWindow", recvWindow);
-        String balancesResponse = sendGetSignedRequest(SUB_ACCOUNT_ASSETS_ENDPOINT, query);
-        switch (format) {
-            case JSON:
-                return (T) new JSONObject(balancesResponse);
-            case LIBRARY_OBJECT:
-                ArrayList<SpotBalance> balances = new ArrayList<>();
-                JSONArray jBalances = JsonHelper.getJSONArray(new JSONObject(balancesResponse), "balances",
-                        new JSONArray());
-                for (int j = 0; j < jBalances.length(); j++)
-                    balances.add(new SpotBalance(jBalances.getJSONObject(j)));
-                return (T) balances;
-            default:
-                return (T) balancesResponse;
-        }
+        return returnBalances(sendGetSignedRequest(SUB_ACCOUNT_ASSETS_ENDPOINT, createEmailPayload(email, recvWindow,
+                true)), format);
     }
 
     public SpotAssetsSummary getSubAccountSpotAssetsSummary() throws Exception {
@@ -585,11 +573,8 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
 
     public <T> T getSubAccountDepositAddress(String email, String coin, Params extraParams,
                                              ReturnFormat format) throws Exception {
-        extraParams = createTimestampPayload(extraParams);
-        extraParams.addParam("email", email);
-        extraParams.addParam("coin", coin);
         return returnDepositAddress(sendGetSignedRequest(SUB_ACCOUNT_CAPITAL_DEPOSIT_SUB_ADDRESS_ENDPOINT,
-                extraParams), format);
+                createDepositQuery(email, coin, extraParams)), format);
     }
 
     public ArrayList<DepositHistoryItem> getSubAccountDepositHistory(SubAccount subAccount) throws Exception {
@@ -1600,6 +1585,326 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
         return returnTranId(sendPostSignedRequest(MANAGED_SUB_ACCOUNT_WITHDRAW_ENDPOINT, extraParams), format);
     }
 
+    public <T> T getManagedSubAccountSnapshot(SubAccount subAccount, AccountType type) throws Exception {
+        return getManagedSubAccountSnapshot(subAccount.getEmail(), type, LIBRARY_OBJECT);
+    }
+
+    public <T> T getManagedSubAccountSnapshot(SubAccount subAccount, AccountType type, ReturnFormat format) throws Exception {
+        return getManagedSubAccountSnapshot(subAccount.getEmail(), type, format);
+    }
+
+    public <T> T getManagedSubAccountSnapshot(String email, AccountType type) throws Exception {
+        return getManagedSubAccountSnapshot(email, type, LIBRARY_OBJECT);
+    }
+
+    public <T> T getManagedSubAccountSnapshot(String email, AccountType type, ReturnFormat format) throws Exception {
+        return getManagedSubAccountSnapshot(email, type, null, format);
+    }
+
+    public <T> T getManagedSubAccountSnapshot(SubAccount subAccount, AccountType type, Params extraParams) throws Exception {
+        return getManagedSubAccountSnapshot(subAccount.getEmail(), type, extraParams, LIBRARY_OBJECT);
+    }
+
+    public <T> T getManagedSubAccountSnapshot(SubAccount subAccount, AccountType type, Params extraParams,
+                                              ReturnFormat format) throws Exception {
+        return getManagedSubAccountSnapshot(subAccount.getEmail(), type, extraParams, format);
+    }
+
+    public <T> T getManagedSubAccountSnapshot(String email, AccountType type, Params extraParams) throws Exception {
+        return getManagedSubAccountSnapshot(email, type, extraParams, LIBRARY_OBJECT);
+    }
+
+    public <T> T getManagedSubAccountSnapshot(String email, AccountType type, Params extraParams,
+                                              ReturnFormat format) throws Exception {
+        extraParams = createTimestampPayload(extraParams);
+        extraParams.addParam("email", email);
+        extraParams.addParam("type", type.toString().toUpperCase());
+        return returnAccountSnapshot(type, sendGetSignedRequest(MANAGED_SUB_ACCOUNT_SNAPSHOT_ENDPOINT, extraParams),
+                format);
+    }
+
+    public SubAccountTransferLog getInvestorTransferLog(SubAccount account, long startTime, long endTime, int page,
+                                                        int limit) throws Exception {
+        return getInvestorTransferLog(account.getEmail(), startTime, endTime, page, limit, LIBRARY_OBJECT);
+    }
+
+    public <T> T getInvestorTransferLog(SubAccount account, long startTime, long endTime, int page, int limit,
+                                        ReturnFormat format) throws Exception {
+        return getInvestorTransferLog(account.getEmail(), startTime, endTime, page, limit, format);
+    }
+
+    public SubAccountTransferLog getInvestorTransferLog(String email, long startTime, long endTime, int page,
+                                                        int limit) throws Exception {
+        return getInvestorTransferLog(email, startTime, endTime, page, limit, LIBRARY_OBJECT);
+    }
+
+    public <T> T getInvestorTransferLog(String email, long startTime, long endTime, int page, int limit,
+                                        ReturnFormat format) throws Exception {
+        return getInvestorTransferLog(email, startTime, endTime, page, limit, null, format);
+    }
+
+    public SubAccountTransferLog getInvestorTransferLog(SubAccount account, long startTime, long endTime, int page,
+                                                        int limit, Params extraParams) throws Exception {
+        return getInvestorTransferLog(account.getEmail(), startTime, endTime, page, limit, extraParams,
+                LIBRARY_OBJECT);
+    }
+
+    public <T> T getInvestorTransferLog(SubAccount account, long startTime, long endTime, int page, int limit,
+                                        Params extraParams, ReturnFormat format) throws Exception {
+        return getInvestorTransferLog(account.getEmail(), startTime, endTime, page, limit, extraParams, format);
+    }
+
+    public SubAccountTransferLog getInvestorTransferLog(String email, long startTime, long endTime, int page,
+                                                        int limit, Params extraParams) throws Exception {
+        return getInvestorTransferLog(email, startTime, endTime, page, limit, extraParams, LIBRARY_OBJECT);
+    }
+
+    public <T> T getInvestorTransferLog(String email, long startTime, long endTime, int page, int limit,
+                                        Params extraParams, ReturnFormat format) throws Exception {
+        return returnTransferLog(sendGetSignedRequest(MANAGED_SUB_ACCOUNT_TRANSLOG_FOR_INVESTOR_ENDPOINT,
+                createTransferLogQuery(email, startTime, endTime, page, limit, extraParams)), format);
+    }
+
+    public SubAccountTransferLog getTradingTeamTransferLog(SubAccount account, long startTime, long endTime,
+                                                           int page, int limit) throws Exception {
+        return getTradingTeamTransferLog(account.getEmail(), startTime, endTime, page, limit, LIBRARY_OBJECT);
+    }
+
+    public <T> T getTradingTeamTransferLog(SubAccount account, long startTime, long endTime, int page, int limit,
+                                           ReturnFormat format) throws Exception {
+        return getTradingTeamTransferLog(account.getEmail(), startTime, endTime, page, limit, format);
+    }
+
+    public SubAccountTransferLog getTradingTeamTransferLog(String email, long startTime, long endTime, int page,
+                                                           int limit) throws Exception {
+        return getTradingTeamTransferLog(email, startTime, endTime, page, limit, LIBRARY_OBJECT);
+    }
+
+    public <T> T getTradingTeamTransferLog(String email, long startTime, long endTime, int page, int limit,
+                                           ReturnFormat format) throws Exception {
+        return getTradingTeamTransferLog(email, startTime, endTime, page, limit, null, format);
+    }
+
+    public SubAccountTransferLog getTradingTeamTransferLog(SubAccount account, long startTime, long endTime,
+                                                           int page, int limit, Params extraParams) throws Exception {
+        return getTradingTeamTransferLog(account.getEmail(), startTime, endTime, page, limit, extraParams,
+                LIBRARY_OBJECT);
+    }
+
+    public <T> T getTradingTeamTransferLog(SubAccount account, long startTime, long endTime, int page, int limit,
+                                           Params extraParams, ReturnFormat format) throws Exception {
+        return getTradingTeamTransferLog(account.getEmail(), startTime, endTime, page, limit, extraParams, format);
+    }
+
+    public SubAccountTransferLog getTradingTeamTransferLog(String email, long startTime, long endTime, int page,
+                                                           int limit, Params extraParams) throws Exception {
+        return getTradingTeamTransferLog(email, startTime, endTime, page, limit, extraParams, LIBRARY_OBJECT);
+    }
+
+    public <T> T getTradingTeamTransferLog(String email, long startTime, long endTime, int page, int limit,
+                                           Params extraParams, ReturnFormat format) throws Exception {
+        return returnTransferLog(sendGetSignedRequest(MANAGED_SUB_ACCOUNT_TRANSLOG_FOR_TRADE_PARENT_ENDPOINT,
+                createTransferLogQuery(email, startTime, endTime, page, limit, extraParams)), format);
+    }
+
+    private Params createTransferLogQuery(String email, long startTime, long endTime, int page, int limit,
+                                          Params extraParams) {
+        extraParams = createTimestampPayload(extraParams);
+        extraParams.addParam("email", email);
+        extraParams.addParam("startTime", startTime);
+        extraParams.addParam("endTime", endTime);
+        extraParams.addParam("page", page);
+        extraParams.addParam("limit", limit);
+        return extraParams;
+    }
+
+    /**
+     * Method to create a subaccount transfer log
+     *
+     * @param transferResponse: obtained from Binance's response
+     * @param format:           return type formatter -> {@link ReturnFormat}
+     * @return subaccount transfer log as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnTransferLog(String transferResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(transferResponse);
+            case LIBRARY_OBJECT:
+                return (T) new SubAccountTransferLog(new JSONObject(transferResponse));
+            default:
+                return (T) transferResponse;
+        }
+    }
+
+    public FuturesAccountSnapshot getManagedSubAccountFuturesAssetDetails(SubFuturesAccount subAccount) throws Exception {
+        return getManagedSubAccountFuturesAssetDetails(subAccount.getEmail(), LIBRARY_OBJECT);
+    }
+
+    public <T> T getManagedSubAccountFuturesAssetDetails(SubFuturesAccount subAccount, ReturnFormat format) throws Exception {
+        return getManagedSubAccountFuturesAssetDetails(subAccount.getEmail(), format);
+    }
+
+    public FuturesAccountSnapshot getManagedSubAccountFuturesAssetDetails(String email) throws Exception {
+        return getManagedSubAccountFuturesAssetDetails(email, LIBRARY_OBJECT);
+    }
+
+    public <T> T getManagedSubAccountFuturesAssetDetails(String email, ReturnFormat format) throws Exception {
+        return returnAccountSnapshot(futures, sendGetSignedRequest(MANAGED_SUB_ACCOUNT_FETCH_FUTURE_ASSET_ENDPOINT
+                + "?email=" + email), format);
+    }
+
+    public SubMarginAccountAssetDetails getManagedSubAccountMarginAssetDetails(SubMarginAccount subAccount) throws Exception {
+        return getManagedSubAccountMarginAssetDetails(subAccount.getEmail(), LIBRARY_OBJECT);
+    }
+
+    public <T> T getManagedSubAccountMarginAssetDetails(SubMarginAccount subAccount, ReturnFormat format) throws Exception {
+        return getManagedSubAccountMarginAssetDetails(subAccount.getEmail(), format);
+    }
+
+    public SubMarginAccountAssetDetails getManagedSubAccountMarginAssetDetails(String email) throws Exception {
+        return getManagedSubAccountMarginAssetDetails(email, LIBRARY_OBJECT);
+    }
+
+    public <T> T getManagedSubAccountMarginAssetDetails(String email, ReturnFormat format) throws Exception {
+        String detailsResponse = sendGetSignedRequest(MANAGED_SUB_ACCOUNT_MARGIN_ASSET_ENDPOINT + "?email="
+                + email);
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(detailsResponse);
+            case LIBRARY_OBJECT:
+                return (T) new SubMarginAccountAssetDetails(new JSONObject(detailsResponse));
+            default:
+                return (T) detailsResponse;
+        }
+    }
+
+    public ArrayList<SpotBalance> getMasterAccountAssets(SubAccount subAccount) throws Exception {
+        return getMasterAccountAssets(subAccount.getEmail(), LIBRARY_OBJECT);
+    }
+
+    public <T> T getMasterAccountAssets(SubAccount subAccount, ReturnFormat format) throws Exception {
+        return getMasterAccountAssets(subAccount.getEmail(), format);
+    }
+
+    public ArrayList<SpotBalance> getMasterAccountAssets(String email) throws Exception {
+        return getMasterAccountAssets(email, LIBRARY_OBJECT);
+    }
+
+    public <T> T getMasterAccountAssets(String email, ReturnFormat format) throws Exception {
+        return getMasterAccountAssets(email, -1, format);
+    }
+
+    public ArrayList<SpotBalance> getMasterAccountAssets(SubAccount subAccount, long recvWindow) throws Exception {
+        return getMasterAccountAssets(subAccount.getEmail(), recvWindow, LIBRARY_OBJECT);
+    }
+
+    public <T> T getMasterAccountAssets(SubAccount subAccount, long recvWindow, ReturnFormat format) throws Exception {
+        return getMasterAccountAssets(subAccount.getEmail(), recvWindow, format);
+    }
+
+    public ArrayList<SpotBalance> getMasterAccountAssets(String email, long recvWindow) throws Exception {
+        return getMasterAccountAssets(email, recvWindow, LIBRARY_OBJECT);
+    }
+
+    public <T> T getMasterAccountAssets(String email, long recvWindow, ReturnFormat format) throws Exception {
+        return returnBalances(sendGetSignedRequest(SUB_ACCOUNT_ASSETS_V4_ENDPOINT, createEmailPayload(email, recvWindow,
+                true)), format);
+    }
+
+    /**
+     * Method to create a balances list
+     *
+     * @param balancesResponse: obtained from Binance's response
+     * @param format:           return type formatter -> {@link ReturnFormat}
+     * @return balances list as {@code "format"} defines
+     **/
+    @Returner
+    private <T> T returnBalances(String balancesResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(balancesResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<SpotBalance> balances = new ArrayList<>();
+                JSONArray jBalances = JsonHelper.getJSONArray(new JSONObject(balancesResponse), "balances",
+                        new JSONArray());
+                for (int j = 0; j < jBalances.length(); j++)
+                    balances.add(new SpotBalance(jBalances.getJSONObject(j)));
+                return (T) balances;
+            default:
+                return (T) balancesResponse;
+        }
+    }
+
+    public ManagedSubAccountList getManagedSubAccountList() throws Exception {
+        return getManagedSubAccountList(LIBRARY_OBJECT);
+    }
+
+    public <T> T getManagedSubAccountList(ReturnFormat format) throws Exception {
+        return getManagedSubAccountList(null, format);
+    }
+
+    public ManagedSubAccountList getManagedSubAccountList(Params extraParams) throws Exception {
+        return getManagedSubAccountList(extraParams, LIBRARY_OBJECT);
+    }
+
+    public <T> T getManagedSubAccountList(Params extraParams, ReturnFormat format) throws Exception {
+        extraParams = createTimestampPayload(extraParams);
+        String subAccounts = sendGetSignedRequest(MANAGED_SUB_ACCOUNT_INFO_ENDPOINT, extraParams);
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(subAccounts);
+            case LIBRARY_OBJECT:
+                return (T) new ManagedSubAccountList(new JSONObject(subAccounts));
+            default:
+                return (T) subAccounts;
+        }
+    }
+
+    public SubAccountTransactionsStatistics getSubAccountTransactionStatistic(SubAccount subAccount) throws Exception {
+        return getSubAccountTransactionStatistic(subAccount.getEmail(), LIBRARY_OBJECT);
+    }
+
+    public <T> T getSubAccountTransactionStatistic(SubAccount subAccount, ReturnFormat format) throws Exception {
+        return getSubAccountTransactionStatistic(subAccount.getEmail(), format);
+    }
+
+    public SubAccountTransactionsStatistics getSubAccountTransactionStatistic(String email) throws Exception {
+        return getSubAccountTransactionStatistic(email, LIBRARY_OBJECT);
+    }
+
+    public <T> T getSubAccountTransactionStatistic(String email, ReturnFormat format) throws Exception {
+        return getSubAccountTransactionStatistic(email, -1, format);
+    }
+
+    public SubAccountTransactionsStatistics getSubAccountTransactionStatistic(SubAccount subAccount,
+                                                                              long recvWindow) throws Exception {
+        return getSubAccountTransactionStatistic(subAccount.getEmail(), recvWindow, LIBRARY_OBJECT);
+    }
+
+    public <T> T getSubAccountTransactionStatistic(SubAccount subAccount, long recvWindow,
+                                                   ReturnFormat format) throws Exception {
+        return getSubAccountTransactionStatistic(subAccount.getEmail(), recvWindow, format);
+    }
+
+    public SubAccountTransactionsStatistics getSubAccountTransactionStatistic(String email,
+                                                                              long recvWindow) throws Exception {
+        return getSubAccountTransactionStatistic(email, recvWindow, LIBRARY_OBJECT);
+    }
+
+    public <T> T getSubAccountTransactionStatistic(String email, long recvWindow, ReturnFormat format) throws Exception {
+        String transactionsResponse = sendGetSignedRequest(SUB_ACCOUNT_TRANSACTION_STATISTICS_ENDPOINT,
+                createEmailPayload(email, recvWindow, true));
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(transactionsResponse);
+            case LIBRARY_OBJECT:
+                return (T) new SubAccountTransactionsStatistics(new JSONObject(transactionsResponse));
+            default:
+                return (T) transactionsResponse;
+        }
+    }
+
     private Params createEmailPayload(String email, long recvWindow, boolean insertTime) {
         Params payload;
         if (insertTime)
@@ -1610,6 +1915,49 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
         if (recvWindow != -1)
             payload.addParam("recvWindow", recvWindow);
         return payload;
+    }
+
+    public DepositAddress getManagedSubAccountDepositAddress(SubAccount subAccount, String coin) throws Exception {
+        return getManagedSubAccountDepositAddress(subAccount.getEmail(), coin, LIBRARY_OBJECT);
+    }
+
+    public <T> T getManagedSubAccountDepositAddress(SubAccount subAccount, String coin, ReturnFormat format) throws Exception {
+        return getManagedSubAccountDepositAddress(subAccount.getEmail(), coin, format);
+    }
+
+    public DepositAddress getManagedSubAccountDepositAddress(String email, String coin) throws Exception {
+        return getManagedSubAccountDepositAddress(email, coin, LIBRARY_OBJECT);
+    }
+
+    public <T> T getManagedSubAccountDepositAddress(String email, String coin, ReturnFormat format) throws Exception {
+        return getManagedSubAccountDepositAddress(email, coin, null, format);
+    }
+
+    public DepositAddress getManagedSubAccountDepositAddress(SubAccount subAccount, String coin,
+                                                             Params extraParams) throws Exception {
+        return getManagedSubAccountDepositAddress(subAccount.getEmail(), coin, extraParams, LIBRARY_OBJECT);
+    }
+
+    public <T> T getManagedSubAccountDepositAddress(SubAccount subAccount, String coin, Params extraParams,
+                                                    ReturnFormat format) throws Exception {
+        return getManagedSubAccountDepositAddress(subAccount.getEmail(), coin, extraParams, format);
+    }
+
+    public DepositAddress getManagedSubAccountDepositAddress(String email, String coin, Params extraParams) throws Exception {
+        return getManagedSubAccountDepositAddress(email, coin, extraParams, LIBRARY_OBJECT);
+    }
+
+    public <T> T getManagedSubAccountDepositAddress(String email, String coin, Params extraParams,
+                                                    ReturnFormat format) throws Exception {
+        return returnDepositAddress(sendGetSignedRequest(MANAGED_SUB_ACCOUNT_DEPOSIT_ADDRESS_ENDPOINT,
+                createDepositQuery(email, coin, extraParams)), format);
+    }
+
+    private Params createDepositQuery(String email, String coin, Params extraParams) {
+        extraParams = createTimestampPayload(extraParams);
+        extraParams.addParam("email", email);
+        extraParams.addParam("coin", coin);
+        return extraParams;
     }
 
 }

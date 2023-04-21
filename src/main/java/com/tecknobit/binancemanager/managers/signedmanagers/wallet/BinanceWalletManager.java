@@ -13,9 +13,6 @@ import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.Withd
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.Withdraw.WithdrawStatus;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.AccountSnapshot;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.AccountSnapshot.AccountType;
-import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.FuturesAccountSnapshot;
-import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.MarginAccountSnapshot;
-import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.SpotAccountSnapshot;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.api.APIPermission;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.api.APIStatus;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.*;
@@ -39,6 +36,7 @@ import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.POST;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.JSON;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
+import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.AccountSnapshot.returnAccountSnapshot;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.DepositAddress.returnDepositAddress;
 import static java.lang.Long.parseLong;
 
@@ -573,33 +571,6 @@ public class BinanceWalletManager extends BinanceSignedManager {
         return returnAccountSnapshot(type, sendGetSignedRequest(DAILY_ACCOUNT_SNAPSHOT_ENDPOINT,
                 apiRequest.encodeAdditionalParams(getTimestampParam() + "&type=" + type.toString().toUpperCase(),
                         extraParams)), format);
-    }
-
-    /**
-     * Method to create an account object
-     *
-     * @param type: SPOT, MARGIN OR FUTURES
-     * @param accountResponse: obtained from Binance's response
-     * @param format:                      return type formatter -> {@link ReturnFormat}
-     * @return account as {@code "format"} defines
-     **/
-    @Returner
-    private <T> T returnAccountSnapshot(AccountType type, String accountResponse, ReturnFormat format) {
-        switch (format) {
-            case JSON:
-                return (T) new JSONObject(accountResponse);
-            case LIBRARY_OBJECT:
-                switch (type) {
-                    case spot:
-                        return (T) new SpotAccountSnapshot(new JSONObject(accountResponse));
-                    case margin:
-                        return (T) new MarginAccountSnapshot(new JSONObject(accountResponse));
-                    default:
-                        return (T) new FuturesAccountSnapshot(new JSONObject(accountResponse));
-                }
-            default:
-                return (T) accountResponse;
-        }
     }
 
     /**

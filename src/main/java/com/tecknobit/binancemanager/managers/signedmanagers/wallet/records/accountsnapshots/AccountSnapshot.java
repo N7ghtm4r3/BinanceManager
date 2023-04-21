@@ -1,8 +1,11 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots;
 
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat;
 
 /**
  * The {@code AccountSnapshot} class is useful to format a {@code "Binance"}'s account snapshot
@@ -85,7 +88,7 @@ public class AccountSnapshot {
         msg = hAccount.getString("msg");
         snapshotVos = hAccount.getJSONArray("snapshotVos", new JSONArray());
         hAccount.setJSONArraySource(snapshotVos);
-        type = AccountType.valueOf(hAccount.getJSONObject(0).getString("type"));
+        type = AccountType.valueOf(hAccount.getJSONObject(0).getString("type").toLowerCase());
     }
 
     /**
@@ -147,6 +150,34 @@ public class AccountSnapshot {
     @Override
     public String toString() {
         return new JSONObject(this).toString();
+    }
+
+    /**
+     * Method to create an account object
+     *
+     * @param type:            SPOT, MARGIN OR FUTURES
+     * @param accountResponse: obtained from Binance's response
+     * @param format:          return type formatter -> {@link ReturnFormat}
+     * @return account as {@code "format"} defines
+     **/
+    @Returner
+    public static <T> T returnAccountSnapshot(AccountType type, String accountResponse, ReturnFormat format) {
+        JSONObject jResponse = new JSONObject(accountResponse);
+        switch (format) {
+            case JSON:
+                return (T) jResponse;
+            case LIBRARY_OBJECT:
+                switch (type) {
+                    case spot:
+                        return (T) new SpotAccountSnapshot(jResponse);
+                    case margin:
+                        return (T) new MarginAccountSnapshot(jResponse);
+                    default:
+                        return (T) new FuturesAccountSnapshot(jResponse);
+                }
+            default:
+                return (T) accountResponse;
+        }
     }
 
     /**
