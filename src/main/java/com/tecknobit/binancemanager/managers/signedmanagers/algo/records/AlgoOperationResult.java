@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.managers.signedmanagers.futuresalgo.records;
+package com.tecknobit.binancemanager.managers.signedmanagers.algo.records;
 
 import com.tecknobit.binancemanager.managers.BinanceManager.BinanceResponse;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
@@ -20,6 +20,10 @@ import org.json.JSONObject;
  *     </li>
  *     <li>
  *         <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade">
+ *             Cancel Algo Order (TRADE)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade-2">
  *             Cancel Algo Order (TRADE)</a>
  *     </li>
  * </ul>

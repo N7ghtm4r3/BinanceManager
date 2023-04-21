@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.managers.signedmanagers.futuresalgo.records;
+package com.tecknobit.binancemanager.managers.signedmanagers.algo.records;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
-import static com.tecknobit.binancemanager.managers.signedmanagers.futuresalgo.records.AlgoOrdersList.AlgoOrder;
+import static com.tecknobit.binancemanager.managers.signedmanagers.algo.records.AlgoOrdersList.AlgoOrder;
 
 /**
  * The {@code AlgoOrdersList} class is useful to create an algo orders list
@@ -24,6 +24,14 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.futuresalgo.r
  *     </li>
  *     <li>
  *         <a href="https://binance-docs.github.io/apidocs/spot/en/#query-historical-algo-orders-user_data">
+ *             Query Historical Algo Orders (USER_DATA)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-algo-open-orders-user_data-2">
+ *             Query Current Algo Open Orders (USER_DATA)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#query-historical-algo-orders-user_data-2">
  *             Query Historical Algo Orders (USER_DATA)</a>
  *     </li>
  * </ul>
@@ -213,7 +221,11 @@ public class AlgoOrdersList extends BinanceRowsList<AlgoOrder> {
          **/
         public AlgoOrder(JSONObject jAlgoOrder) {
             super(jAlgoOrder);
-            positionSide = PositionSide.valueOf(hItem.getString("positionSide"));
+            String sPositionSide = hItem.getString("positionSide");
+            if (sPositionSide != null)
+                positionSide = PositionSide.valueOf(sPositionSide);
+            else
+                positionSide = null;
             totalQty = hItem.getDouble("totalQty", 0);
             clientAlgoId = hItem.getString("clientAlgoId");
             endTime = hItem.getLong("endTime", 0);

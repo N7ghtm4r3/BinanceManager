@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.managers.signedmanagers.futuresalgo;
+package com.tecknobit.binancemanager.managers.signedmanagers.algo.futuresalgo;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.apimanager.annotations.Returner;
@@ -7,9 +7,7 @@ import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
-import com.tecknobit.binancemanager.managers.signedmanagers.futuresalgo.records.*;
-import com.tecknobit.binancemanager.managers.signedmanagers.futuresalgo.records.AlgoOrdersList.AlgoOrder.PositionSide;
-import com.tecknobit.binancemanager.managers.signedmanagers.futuresalgo.records.AlgoOrdersList.AlgoOrder.Urgency;
+import com.tecknobit.binancemanager.managers.signedmanagers.algo.records.*;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -157,7 +155,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      **/
     @Wrapper
     @RequestPath(method = POST, path = "/sapi/v1/algo/futures/newOrderVp")
-    public AlgoNewOrderOperation createVPOrder(String symbol, Side side, double quantity, Urgency urgency) throws Exception {
+    public AlgoNewOrderOperation createVPOrder(String symbol, Side side, double quantity, AlgoOrdersList.AlgoOrder.Urgency urgency) throws Exception {
         return createVPOrder(symbol, side, quantity, urgency, LIBRARY_OBJECT);
     }
 
@@ -187,7 +185,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      * Volume Participation(VP) New Order (TRADE)</a>
      **/
     @RequestPath(method = POST, path = "/sapi/v1/algo/futures/newOrderVp")
-    public <T> T createVPOrder(String symbol, Side side, double quantity, Urgency urgency,
+    public <T> T createVPOrder(String symbol, Side side, double quantity, AlgoOrdersList.AlgoOrder.Urgency urgency,
                                ReturnFormat format) throws Exception {
         return createVPOrder(symbol, side, quantity, urgency, null, format);
     }
@@ -204,7 +202,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                     <ul>
      *                           <li>
      *                                {@code "positionSide"} -> position side for the order, constants available
-     *                                {@link PositionSide} - [STRING, default BOTH]
+     *                                {@link AlgoOrdersList.AlgoOrder.PositionSide} - [STRING, default BOTH]
      *                           </li>
      *                           <li>
      *                                {@code "clientAlgoId"} -> a unique id among Algo orders (length should be 32
@@ -241,7 +239,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      **/
     @Wrapper
     @RequestPath(method = POST, path = "/sapi/v1/algo/futures/newOrderVp")
-    public AlgoNewOrderOperation createVPOrder(String symbol, Side side, double quantity, Urgency urgency,
+    public AlgoNewOrderOperation createVPOrder(String symbol, Side side, double quantity, AlgoOrdersList.AlgoOrder.Urgency urgency,
                                                Params extraParams) throws Exception {
         return createVPOrder(symbol, side, quantity, urgency, extraParams, LIBRARY_OBJECT);
     }
@@ -258,7 +256,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                     <ul>
      *                           <li>
      *                                {@code "positionSide"} -> position side for the order, constants available
-     *                                {@link PositionSide} - [STRING, default BOTH]
+     *                                {@link AlgoOrdersList.AlgoOrder.PositionSide} - [STRING, default BOTH]
      *                           </li>
      *                           <li>
      *                                {@code "clientAlgoId"} -> a unique id among Algo orders (length should be 32
@@ -295,7 +293,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      * Volume Participation(VP) New Order (TRADE)</a>
      **/
     @RequestPath(method = POST, path = "/sapi/v1/algo/futures/newOrderVp")
-    public <T> T createVPOrder(String symbol, Side side, double quantity, Urgency urgency, Params extraParams,
+    public <T> T createVPOrder(String symbol, Side side, double quantity, AlgoOrdersList.AlgoOrder.Urgency urgency, Params extraParams,
                                ReturnFormat format) throws Exception {
         extraParams = createOrderPayload(symbol, side, quantity, extraParams);
         extraParams.addParam("urgency", urgency);
@@ -379,7 +377,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                     <ul>
      *                           <li>
      *                                {@code "positionSide"} -> position side for the order, constants available
-     *                                {@link PositionSide} - [STRING, default BOTH]
+     *                                {@link AlgoOrdersList.AlgoOrder.PositionSide} - [STRING, default BOTH]
      *                           </li>
      *                           <li>
      *                                {@code "clientAlgoId"} -> a unique id among Algo orders (length should be 32
@@ -434,7 +432,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                     <ul>
      *                           <li>
      *                                {@code "positionSide"} -> position side for the order, constants available
-     *                                {@link PositionSide} - [STRING, default BOTH]
+     *                                {@link AlgoOrdersList.AlgoOrder.PositionSide} - [STRING, default BOTH]
      *                           </li>
      *                           <li>
      *                                {@code "clientAlgoId"} -> a unique id among Algo orders (length should be 32

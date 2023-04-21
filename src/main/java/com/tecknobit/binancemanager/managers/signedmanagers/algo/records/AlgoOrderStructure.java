@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.managers.signedmanagers.futuresalgo.records;
+package com.tecknobit.binancemanager.managers.signedmanagers.algo.records;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
@@ -26,6 +26,18 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *     <li>
  *         <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data">
  *             Query Sub Orders (USER_DATA)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data-2">
+ *             Query Sub Orders (USER_DATA)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-algo-open-orders-user_data-2">
+ *             Query Current Algo Open Orders (USER_DATA)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#query-historical-algo-orders-user_data-2">
+ *             Query Historical Algo Orders (USER_DATA)</a>
  *     </li>
  * </ul>
  * @see BinanceItem

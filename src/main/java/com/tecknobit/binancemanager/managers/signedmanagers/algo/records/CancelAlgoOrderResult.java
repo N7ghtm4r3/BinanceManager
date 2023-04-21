@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.managers.signedmanagers.futuresalgo.records;
+package com.tecknobit.binancemanager.managers.signedmanagers.algo.records;
 
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
@@ -8,8 +8,17 @@ import org.json.JSONObject;
  * The {@code AlgoNewOrderOperation} class is useful to create an algo new order operation
  *
  * @author N7ghtm4r3 - Tecknobit
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade">
- * Cancel Algo Order (TRADE)</a>
+ * @apiNote see the official documentation at:
+ * <ul>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade">
+ *             Cancel Algo Order (TRADE)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade-2">
+ *             Cancel Algo Order (TRADE)</a>
+ *     </li>
+ * </ul>
  * @see BinanceItem
  * @see BinanceManager.BinanceResponse
  * @see AlgoOperationResult

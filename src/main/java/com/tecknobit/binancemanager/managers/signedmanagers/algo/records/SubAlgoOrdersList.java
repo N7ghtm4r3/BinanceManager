@@ -1,4 +1,4 @@
-package com.tecknobit.binancemanager.managers.signedmanagers.futuresalgo.records;
+package com.tecknobit.binancemanager.managers.signedmanagers.algo.records;
 
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
@@ -10,14 +10,23 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
-import static com.tecknobit.binancemanager.managers.signedmanagers.futuresalgo.records.SubAlgoOrdersList.SubAlgoOrder;
+import static com.tecknobit.binancemanager.managers.signedmanagers.algo.records.SubAlgoOrdersList.SubAlgoOrder;
 
 /**
  * The {@code SubAlgoOrdersList} class is useful to create a sub algo orders list
  *
  * @author N7ghtm4r3 - Tecknobit
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data">
- * Query Sub Orders (USER_DATA)</a>
+ * @apiNote see the official documentation at:
+ * <ul>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data">
+ *             Query Sub Orders (USER_DATA)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data-2">
+ *             Query Sub Orders (USER_DATA)</a>
+ *     </li>
+ * </ul>
  * @see BinanceItem
  * @see BinanceRowsList
  **/

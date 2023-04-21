@@ -1,6 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.futures.risk;
 
-import com.tecknobit.binancemanager.managers.signedmanagers.futuresalgo.records.AlgoOrdersList.AlgoOrder.PositionSide;
+import com.tecknobit.binancemanager.managers.signedmanagers.algo.records.AlgoOrdersList.AlgoOrder.PositionSide;
 import org.json.JSONObject;
 
 public class CoinFuturesPositionRisk extends RiskStructure {
