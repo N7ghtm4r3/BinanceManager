@@ -48,7 +48,6 @@ public class MarginAccount extends BinanceItem {
      * @param totalAssetOfBtc:     total asset of Bitcoin
      * @param totalLiabilityOfBtc: total liability of Bitcoin
      * @param totalNetAssetOfBtc:  total net asset of Bitcoin
-     * @throws IllegalArgumentException if parameters range is not respected
      **/
     public MarginAccount(double totalAssetOfBtc, double totalLiabilityOfBtc, double totalNetAssetOfBtc) {
         super(null);
@@ -61,7 +60,6 @@ public class MarginAccount extends BinanceItem {
      * Constructor to init {@link MarginAccount} object
      *
      * @param marginAccount: margin account details as {@link JSONObject}
-     * @throws IllegalArgumentException if parameters range is not respected
      **/
     public MarginAccount(JSONObject marginAccount) {
         super(marginAccount);
