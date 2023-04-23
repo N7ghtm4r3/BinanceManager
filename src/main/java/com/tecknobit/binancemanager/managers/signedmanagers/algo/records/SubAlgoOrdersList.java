@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.algo.records;
 
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order;
@@ -10,6 +11,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
+import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat;
 import static com.tecknobit.binancemanager.managers.signedmanagers.algo.records.SubAlgoOrdersList.SubAlgoOrder;
 
 /**
@@ -109,6 +111,25 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
      **/
     public double getExecutedAmt(int decimals) {
         return roundValue(executedAmt, decimals);
+    }
+
+    /**
+     * Method to create a sub algo orders list
+     *
+     * @param algoOrdersResponse: obtained from Binance's response
+     * @param format:             return type formatter -> {@link ReturnFormat}
+     * @return sub algo orders list as {@code "format"} defines
+     **/
+    @Returner
+    public static <T> T returnSubAlgoOrders(String algoOrdersResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(algoOrdersResponse);
+            case LIBRARY_OBJECT:
+                return (T) new SubAlgoOrdersList(new JSONObject(algoOrdersResponse));
+            default:
+                return (T) algoOrdersResponse;
+        }
     }
 
     /**

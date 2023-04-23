@@ -1,6 +1,8 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.algo.records;
 
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.Side;
@@ -59,6 +61,25 @@ public class AlgoOrdersList extends BinanceRowsList<AlgoOrder> {
         super(jAlgoOrdersList);
         for (Object row : hItem.fetchList("orders"))
             rows.add(new AlgoOrder((JSONObject) row));
+    }
+
+    /**
+     * Method to create an algo orders list
+     *
+     * @param algoOrdersResponse: obtained from Binance's response
+     * @param format:             return type formatter -> {@link ReturnFormat}
+     * @return algo orders list as {@code "format"} defines
+     **/
+    @Returner
+    public static <T> T returnAlgoOrdersList(String algoOrdersResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(algoOrdersResponse);
+            case LIBRARY_OBJECT:
+                return (T) new AlgoOrdersList(new JSONObject(algoOrdersResponse));
+            default:
+                return (T) algoOrdersResponse;
+        }
     }
 
     /**

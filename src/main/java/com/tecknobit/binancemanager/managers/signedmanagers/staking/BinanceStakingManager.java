@@ -990,7 +990,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * @param product:   product type
      * @param productId: product identifier
      * @param format:    return type formatter -> {@link ReturnFormat}
-     * @return personal left Quota {@code "format"} defines
+     * @return personal left quota as {@code "format"} defines
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
      *                   <ul>
      *                       <li>
@@ -1046,7 +1046,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * @param productId:  product identifier
      * @param recvWindow: request is valid for in ms, must be less than 60000
      * @param format:     return type formatter -> {@link ReturnFormat}
-     * @return personal left Quota {@code "format"} defines
+     * @return personal left quota as {@code "format"} defines
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
      *                   <ul>
      *                       <li>

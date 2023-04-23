@@ -1,19 +1,21 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.algo.futuresalgo;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
-import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.annotations.WrappedRequest;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.algo.records.*;
-import org.json.JSONObject;
 
 import java.io.IOException;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
+import static com.tecknobit.binancemanager.managers.signedmanagers.algo.records.AlgoNewOrderOperation.returnAlgoOrderNewOperation;
+import static com.tecknobit.binancemanager.managers.signedmanagers.algo.records.AlgoOrdersList.returnAlgoOrdersList;
+import static com.tecknobit.binancemanager.managers.signedmanagers.algo.records.CancelAlgoOrderResult.returnCancelAlgoOrder;
+import static com.tecknobit.binancemanager.managers.signedmanagers.algo.records.SubAlgoOrdersList.returnSubAlgoOrders;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.Side;
 
 /**
@@ -496,25 +498,6 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
     }
 
     /**
-     * Method to create an algo order operation
-     *
-     * @param algoOrderResponse: obtained from Binance's response
-     * @param format:            return type formatter -> {@link ReturnFormat}
-     * @return algo orders operation as {@code "format"} defines
-     **/
-    @Returner
-    private <T> T returnAlgoOrderNewOperation(String algoOrderResponse, ReturnFormat format) {
-        switch (format) {
-            case JSON:
-                return (T) new JSONObject(algoOrderResponse);
-            case LIBRARY_OBJECT:
-                return (T) new AlgoNewOrderOperation(new JSONObject(algoOrderResponse));
-            default:
-                return (T) algoOrderResponse;
-        }
-    }
-
-    /**
      * Request to cancel an active order
      *
      * @param algoOrder: the algo order to cancel
@@ -725,7 +708,6 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade">
      * Cancel Algo Order (TRADE)</a>
      **/
-    @Returner
     @RequestPath(method = DELETE, path = "/sapi/v1/algo/futures/order")
     public <T> T cancelAlgoOrder(long algoId, long recvWindow, ReturnFormat format) throws Exception {
         Params payload = new Params();
@@ -733,15 +715,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
         payload.addParam("timestamp", getServerTime());
         if (recvWindow != -1)
             payload.addParam("recvWindow", recvWindow);
-        String cancelResponse = sendDeleteSignedRequest(ALGO_FUTURES_ORDER_ENDPOINT, payload);
-        switch (format) {
-            case JSON:
-                return (T) new JSONObject(cancelResponse);
-            case LIBRARY_OBJECT:
-                return (T) new CancelAlgoOrderResult(new JSONObject(cancelResponse));
-            default:
-                return (T) cancelResponse;
-        }
+        return returnCancelAlgoOrder(sendDeleteSignedRequest(ALGO_FUTURES_ORDER_ENDPOINT, payload), format);
     }
 
     /**
@@ -1007,25 +981,6 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
     }
 
     /**
-     * Method to create an algo orders list
-     *
-     * @param algoOrdersResponse: obtained from Binance's response
-     * @param format:             return type formatter -> {@link ReturnFormat}
-     * @return algo orders list as {@code "format"} defines
-     **/
-    @Returner
-    private <T> T returnAlgoOrdersList(String algoOrdersResponse, ReturnFormat format) {
-        switch (format) {
-            case JSON:
-                return (T) new JSONObject(algoOrdersResponse);
-            case LIBRARY_OBJECT:
-                return (T) new AlgoOrdersList(new JSONObject(algoOrdersResponse));
-            default:
-                return (T) algoOrdersResponse;
-        }
-    }
-
-    /**
      * Request to get respective sub orders for a specified {@code "algoId"}
      *
      * @param algo: the algo order from fetch the list
@@ -1288,22 +1243,13 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data">
      * Query Sub Orders (USER_DATA)</a>
      **/
-    @Returner
     @RequestPath(method = GET, path = "/sapi/v1/algo/futures/subOrder")
     public <T> T getSubOrders(long algoId, Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)
             extraParams = new Params();
         extraParams.addParam("algoId", algoId);
         extraParams.addParam("timestamp", getServerTime());
-        String algoOrdersResponse = sendGetSignedRequest(ALGO_FUTURES_SUBORDERS_ENDPOINT, extraParams);
-        switch (format) {
-            case JSON:
-                return (T) new JSONObject(algoOrdersResponse);
-            case LIBRARY_OBJECT:
-                return (T) new SubAlgoOrdersList(new JSONObject(algoOrdersResponse));
-            default:
-                return (T) algoOrdersResponse;
-        }
+        return returnSubAlgoOrders(sendGetSignedRequest(ALGO_FUTURES_SUBORDERS_ENDPOINT, extraParams), format);
     }
 
 }

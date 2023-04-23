@@ -1,8 +1,11 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.algo.records;
 
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.binancemanager.managers.BinanceManager.BinanceResponse;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
+
+import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat;
 
 /**
  * The {@code AlgoNewOrderOperation} class is useful to create an algo new order operation
@@ -67,6 +70,25 @@ public class AlgoNewOrderOperation extends AlgoOperationResult {
      **/
     public String getClientAlgoId() {
         return clientAlgoId;
+    }
+
+    /**
+     * Method to create an algo order operation
+     *
+     * @param algoOrderResponse: obtained from Binance's response
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @return algo order operation as {@code "format"} defines
+     **/
+    @Returner
+    public static <T> T returnAlgoOrderNewOperation(String algoOrderResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(algoOrderResponse);
+            case LIBRARY_OBJECT:
+                return (T) new AlgoNewOrderOperation(new JSONObject(algoOrderResponse));
+            default:
+                return (T) algoOrderResponse;
+        }
     }
 
 }

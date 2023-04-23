@@ -1,8 +1,11 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.algo.records;
 
-import com.tecknobit.binancemanager.managers.BinanceManager;
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
+
+import static com.tecknobit.binancemanager.managers.BinanceManager.BinanceResponse;
+import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat;
 
 /**
  * The {@code AlgoNewOrderOperation} class is useful to create an algo new order operation
@@ -20,7 +23,7 @@ import org.json.JSONObject;
  *     </li>
  * </ul>
  * @see BinanceItem
- * @see BinanceManager.BinanceResponse
+ * @see BinanceResponse
  * @see AlgoOperationResult
  **/
 public class CancelAlgoOrderResult extends AlgoOperationResult {
@@ -59,6 +62,25 @@ public class CancelAlgoOrderResult extends AlgoOperationResult {
      **/
     public long getAlgoId() {
         return algoId;
+    }
+
+    /**
+     * Method to create a cancel algo order
+     *
+     * @param algoOrderResponse: obtained from Binance's response
+     * @param format:            return type formatter -> {@link ReturnFormat}
+     * @return cancel algo order as {@code "format"} defines
+     **/
+    @Returner
+    public static <T> T returnCancelAlgoOrder(String algoOrderResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(algoOrderResponse);
+            case LIBRARY_OBJECT:
+                return (T) new CancelAlgoOrderResult(new JSONObject(algoOrderResponse));
+            default:
+                return (T) algoOrderResponse;
+        }
     }
 
 }
