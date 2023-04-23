@@ -1,15 +1,31 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.asset;
 
+import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.Deposit;
 import org.json.JSONObject;
 
+/**
+ * The {@code DepositHistoryItem} class is useful to format a deposit history item
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-history-for-master-account">
+ * Get Sub-account Deposit History (For Master Account)</a>
+ * @see BinanceItem
+ **/
 public class DepositHistoryItem extends Deposit {
 
+    /**
+     * {@code id} of the deposit
+     **/
     private final long id;
+
+    /**
+     * {@code walletType} wallet type of the deposit
+     **/
     private final int walletType;
 
     /**
-     * Constructor to init {@link Deposit} object
+     * Constructor to init {@link DepositHistoryItem} object
      *
      * @param amount        : amount value
      * @param coin          : coin value
@@ -22,7 +38,8 @@ public class DepositHistoryItem extends Deposit {
      * @param transferType  : transfer type value
      * @param unlockConfirm : unlock confirm value
      * @param confirmTimes  : confirm times value
-     * @throws IllegalArgumentException if parameters range is not respected
+     * @param id : id of the deposit
+     * @param walletType  : wallet type of the deposit
      **/
     public DepositHistoryItem(double amount, String coin, String network, DepositStatus status, String address,
                               String addressTag, String txId, long insertTime, int transferType, int unlockConfirm,
@@ -34,10 +51,9 @@ public class DepositHistoryItem extends Deposit {
     }
 
     /**
-     * Constructor to init {@link Deposit} object
+     * Constructor to init {@link DepositHistoryItem} object
      *
-     * @param jDepositHistoryItem : deposit details as {@link JSONObject}
-     * @throws IllegalArgumentException if parameters range is not respected
+     * @param jDepositHistoryItem : deposit history item details as {@link JSONObject}
      **/
     public DepositHistoryItem(JSONObject jDepositHistoryItem) {
         super(jDepositHistoryItem);
@@ -45,10 +61,22 @@ public class DepositHistoryItem extends Deposit {
         walletType = hItem.getInt("walletType", 0);
     }
 
+    /**
+     * Method to get {@link #id} instance <br>
+     * No-any params required
+     *
+     * @return {@link #id} instance as long
+     **/
     public long getId() {
         return id;
     }
 
+    /**
+     * Method to get {@link #walletType} instance <br>
+     * No-any params required
+     *
+     * @return {@link #walletType} instance as int
+     **/
     public int getWalletType() {
         return walletType;
     }

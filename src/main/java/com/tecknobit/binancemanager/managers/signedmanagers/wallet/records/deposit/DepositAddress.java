@@ -18,6 +18,10 @@ import org.json.JSONObject;
  *         <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-address-for-master-account">
  *             Get Sub-account Deposit Address (For Master Account)</a>
  *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#get-managed-sub-account-deposit-address-for-investor-master-account-user_data">
+ *             Get Managed Sub-account Deposit Address (For Investor Master Account) (USER_DATA)</a>
+ *     </li>
  * </ul>
  **/
 public class DepositAddress {
