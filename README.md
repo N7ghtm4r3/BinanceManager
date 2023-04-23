@@ -1,5 +1,5 @@
 # BinanceManager
-**v1.1.2**
+**v2.0.0**
 
 This is a Java Based library useful to work with Binance's API service.
 
@@ -23,7 +23,7 @@ allprojects {
 
 ```gradle
 dependencies {
-    implementation 'com.github.N7ghtm4r3:BinanceManager:1.1.2'
+    implementation 'com.github.N7ghtm4r3:BinanceManager:2.0.0'
 }
 ```
 
@@ -45,7 +45,7 @@ dependencies {
 <dependency>
     <groupId>com.github.N7ghtm4r3</groupId>
     <artifactId>BinanceManager</artifactId>
-    <version>1.1.2</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
@@ -54,18 +54,7 @@ dependencies {
 
 ## Endpoints managers available
 
-- **(NO-Signed manager)**
-  - Market Data
-- **(Signed manager)**
-  - Wallet
-  - Spot Account/Trade
-  - Margin Account/Trade
-  - Fiat Endpoints
-  - C2C Endpoints
-  - Pay Endpoints
-  - Rebate Endpoints
-  
-The other endpoints managers will be gradually released
+- All endpoints managers are available to be used
 
 ## Usage/Examples
 

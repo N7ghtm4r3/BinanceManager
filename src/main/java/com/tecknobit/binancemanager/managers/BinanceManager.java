@@ -322,8 +322,6 @@ public class BinanceManager {
     private String sendRequest(String endpoint, String params, String apiKey, RequestMethod method) throws IOException {
         if (params == null)
             params = "";
-        // TODO: 30/03/2023 REMOVE BEFORE PUBLISH
-        System.out.println(baseEndpoint + endpoint + params);
         String reqUrl = baseEndpoint + endpoint + params;
         if (apiKey != null)
             apiRequest.sendAPIRequest(reqUrl, method, "X-MBX-APIKEY", apiKey);
@@ -392,8 +390,6 @@ public class BinanceManager {
                                         RequestMethod method) throws IOException {
         if (params == null)
             params = new Params();
-        // TODO: 30/03/2023 REMOVE BEFORE PUBLISH
-        System.out.println(baseEndpoint + endpoint + params.createJSONPayload());
         String reqUrl = baseEndpoint + endpoint;
         if (apiKey != null)
             apiRequest.sendPayloadedAPIRequest(reqUrl, method, "X-MBX-APIKEY", apiKey, params);
