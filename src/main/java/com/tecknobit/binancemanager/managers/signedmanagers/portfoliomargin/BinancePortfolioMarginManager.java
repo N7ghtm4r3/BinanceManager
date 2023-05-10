@@ -62,6 +62,11 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
     public static final String PORTFOLIO_INTEREST_RATE_ENDPOINT = "/sapi/v1/portfolio/interest-rate";
 
     /**
+     * {@code PORTFOLIO_ASSET_INDEX_PRICE_ENDPOINT} is constant for PORTFOLIO_ASSET_INDEX_PRICE_ENDPOINT's endpoint
+     **/
+    public static final String PORTFOLIO_ASSET_INDEX_PRICE_ENDPOINT = "/sapi/v1/portfolio/asset-index-price";
+
+    /**
      * Constructor to init a {@link BinancePortfolioMarginManager}
      *
      * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
@@ -851,6 +856,131 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
                 for (int j = 0; j < jInterestRates.length(); j++)
                     interestRates.add(new PortfolioMarginInterestRate(jInterestRates.getJSONObject(j)));
                 return (T) interestRates;
+            default:
+                return (T) listResponse;
+        }
+    }
+
+    /**
+     * Request to query portfolio margin asset index price <br>
+     * No-any params required
+     *
+     * @return portfolio margin asset index price  as {@link ArrayList} of {@link MarginAssetIndexPrice} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-asset-index-price-market_data">
+     * Query Portfolio Margin Asset Index Price (MARKET_DATA)</a>
+     **/
+    @Wrapper
+    @RequestWeight(weight = "1 / 50(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/asset-index-price")
+    public ArrayList<MarginAssetIndexPrice> getPortfolioMarginAssetPrice() throws Exception {
+        return getPortfolioMarginAssetPrice(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to query portfolio margin asset index price
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return portfolio margin asset index price  as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-asset-index-price-market_data">
+     * Query Portfolio Margin Asset Index Price (MARKET_DATA)</a>
+     **/
+    @RequestWeight(weight = "1 / 50(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/asset-index-price")
+    public <T> T getPortfolioMarginAssetPrice(ReturnFormat format) throws Exception {
+        return getPortfolioMarginAssetPrice(null, format);
+    }
+
+    /**
+     * Request to query portfolio margin asset index price
+     *
+     * @param asset: asset from fetch details
+     * @return portfolio margin asset index price  as {@link ArrayList} of {@link MarginAssetIndexPrice} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-asset-index-price-market_data">
+     * Query Portfolio Margin Asset Index Price (MARKET_DATA)</a>
+     **/
+    @Wrapper
+    @RequestWeight(weight = "1 / 50(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/asset-index-price")
+    public ArrayList<MarginAssetIndexPrice> getPortfolioMarginAssetPrice(String asset) throws Exception {
+        return getPortfolioMarginAssetPrice(asset, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to query portfolio margin asset index price
+     *
+     * @param asset:  asset from fetch details
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return portfolio margin asset index price  as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-asset-index-price-market_data">
+     * Query Portfolio Margin Asset Index Price (MARKET_DATA)</a>
+     **/
+    @Returner
+    @RequestWeight(weight = "1 / 50(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/portfolio/asset-index-price")
+    public <T> T getPortfolioMarginAssetPrice(String asset, ReturnFormat format) throws Exception {
+        Params query = null;
+        if (asset != null) {
+            query = new Params();
+            query.addParam("asset", asset);
+        }
+        String listResponse = sendGetRequest(PORTFOLIO_ASSET_INDEX_PRICE_ENDPOINT, query, apiKey);
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(listResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<MarginAssetIndexPrice> indexPrices = new ArrayList<>();
+                JSONArray jIndexPrices = new JSONArray(listResponse);
+                for (int j = 0; j < jIndexPrices.length(); j++)
+                    indexPrices.add(new MarginAssetIndexPrice(jIndexPrices.getJSONObject(j)));
+                return (T) indexPrices;
             default:
                 return (T) listResponse;
         }

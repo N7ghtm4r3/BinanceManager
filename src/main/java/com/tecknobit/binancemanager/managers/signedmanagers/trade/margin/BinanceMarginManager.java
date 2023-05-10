@@ -6,6 +6,7 @@ import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.OrderType;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.Side;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.OrderCountUsage;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.account.CrossMarginAccountDetails;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.account.MarginAccountTrade;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.account.MarginMaxBorrow;
@@ -25,6 +26,7 @@ import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.response.*;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.response.MarginOrder.SideEffectType;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.Deposit;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustLogList;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.UniversalTransferHistory.TransferType;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,7 +39,9 @@ import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.OrderType.*;
+import static com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.OrderCountUsage.returnCountUsageList;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.SpotOrder.*;
+import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustLogList.returnDustLog;
 import static java.lang.Long.parseLong;
 
 
@@ -10511,7 +10515,266 @@ public class BinanceMarginManager extends BinanceSignedManager {
         }
     }
 
-    // TODO: 10/05/2023 NEXT TWO REQUESTS
+    /**
+     * Request to display the user's current margin order count usage for all intervals <br>
+     * No-any params required
+     *
+     * @return current order count usage as {@link ArrayList} of {@link OrderCountUsage}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-margin-order-count-usage-trade">
+     * Query Current Margin Order Count Usage (TRADE)</a>
+     **/
+    @Wrapper
+    @RequestWeight(weight = "20(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/margin/rateLimit/order")
+    public ArrayList<OrderCountUsage> getCurrentMarginOrderCountUsage() throws Exception {
+        return getCurrentMarginOrderCountUsage(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to display the user's current margin order count usage for all intervals
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return current order count usage as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-margin-order-count-usage-trade">
+     * Query Current Margin Order Count Usage (TRADE)</a>
+     **/
+    @RequestWeight(weight = "20(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/margin/rateLimit/order")
+    public <T> T getCurrentMarginOrderCountUsage(ReturnFormat format) throws Exception {
+        return getCurrentMarginOrderCountUsage(null, format);
+    }
+
+    /**
+     * Request to display the user's current margin order count usage for all intervals
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                                {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE"
+     *                                - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> Isolated symbol, mandatory for isolated margin - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
+     *                                - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return current order count usage as {@link ArrayList} of {@link OrderCountUsage}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-margin-order-count-usage-trade">
+     * Query Current Margin Order Count Usage (TRADE)</a>
+     **/
+    @Wrapper
+    @RequestWeight(weight = "20(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/margin/rateLimit/order")
+    public ArrayList<OrderCountUsage> getCurrentMarginOrderCountUsage(Params extraParams) throws Exception {
+        return getCurrentMarginOrderCountUsage(extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to display the user's current margin order count usage for all intervals
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                          <li>
+     *                                {@code "isIsolated"} -> for isolated margin or not, "TRUE", "FALSE"
+     *                                - [BOOLEAN, default false]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> Isolated symbol, mandatory for isolated margin - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
+     *                                - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return current order count usage as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-margin-order-count-usage-trade">
+     * Query Current Margin Order Count Usage (TRADE)</a>
+     **/
+    @RequestWeight(weight = "20(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/margin/rateLimit/order")
+    public <T> T getCurrentMarginOrderCountUsage(Params extraParams, ReturnFormat format) throws Exception {
+        return returnCountUsageList(sendGetRequest(MARGIN_RATE_LIMIT_ORDER_ENDPOINT, createTimestampPayload(extraParams),
+                apiKey), format);
+    }
+
+    /**
+     * Request to query the historical information of user's margin account small-value asset conversion BNB <br>
+     * No-any params required
+     *
+     * @return dust log information as {@link DustLogList} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-dustlog-user_data">
+     * Margin Dustlog (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/margin/dribblet")
+    public DustLogList getMarginDustLog() throws Exception {
+        return getMarginDustLog(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to query the historical information of user's margin account small-value asset conversion BNB
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return dust log information as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-dustlog-user_data">
+     * Margin Dustlog (USER_DATA)</a>
+     **/
+    @RequestPath(method = GET, path = "/sapi/v1/margin/dribblet")
+    public <T> T getMarginDustLog(ReturnFormat format) throws Exception {
+        return getMarginDustLog(null, format);
+    }
+
+    /**
+     * Request to query the historical information of user's margin account small-value asset conversion BNB
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate dust log - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate dust log - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
+     *                                - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return dust log information as {@link DustLogList} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-dustlog-user_data">
+     * Margin Dustlog (USER_DATA)</a>
+     **/
+    @Wrapper
+    @RequestPath(method = GET, path = "/sapi/v1/margin/dribblet")
+    public DustLogList getMarginDustLog(Params extraParams) throws Exception {
+        return getMarginDustLog(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to query the historical information of user's margin account small-value asset conversion BNB
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> timestamp in ms to get aggregate dust log - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> timestamp in ms to get aggregate dust log - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
+     *                                - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return dust log information as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-dustlog-user_data">
+     * Margin Dustlog (USER_DATA)</a>
+     **/
+    @RequestPath(method = GET, path = "/sapi/v1/margin/dribblet")
+    public <T> T getMarginDustLog(Params extraParams, ReturnFormat format) throws Exception {
+        return returnDustLog(sendGetSignedRequest(MARGIN_DRIBBLET_ENDPOINT, createTimestampPayload(extraParams)), format);
+    }
 
     /**
      * Request to get cross margin collateral ratio <br>

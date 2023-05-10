@@ -6,8 +6,8 @@ import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.market.records.stats.ExchangeInformation.SelfTradePreventionMode;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.OrderCountUsage;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.OrderDetails;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.account.OrderCountUsage;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.account.SpotAccountInformation;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.account.SpotAccountTradesList;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.details.ComposedSpotOrderDetails;
@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.OrderType.*;
+import static com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.OrderCountUsage.returnCountUsageList;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.SpotOrder.*;
 
 /**
@@ -7651,29 +7652,6 @@ public class BinanceSpotManager extends BinanceSignedManager {
     public <T> T getCurrentOrderCountUsage(long recvWindow, ReturnFormat format) throws Exception {
         return returnCountUsageList(sendGetSignedRequest(SPOT_ACCOUNT_CURRENT_ORDER_COUNT_USAGE,
                 getTimestampParam() + "&recvWindow=" + recvWindow), format);
-    }
-
-    /**
-     * Method to create a count usage list
-     *
-     * @param countUsageResponse: obtained from Binance's response
-     * @param format:         return type formatter -> {@link ReturnFormat}
-     * @return count usage list as {@code "format"} defines
-     **/
-    @Returner
-    private <T> T returnCountUsageList(String countUsageResponse, ReturnFormat format) {
-        switch (format) {
-            case JSON:
-                return (T) new JSONArray(countUsageResponse);
-            case LIBRARY_OBJECT:
-                ArrayList<OrderCountUsage> orderCountUsages = new ArrayList<>();
-                JSONArray jCounts = new JSONArray(countUsageResponse);
-                for (int j = 0; j < jCounts.length(); j++)
-                    orderCountUsages.add(new OrderCountUsage(jCounts.getJSONObject(j)));
-                return (T) orderCountUsages;
-            default:
-                return (T) countUsageResponse;
-        }
     }
 
     /**

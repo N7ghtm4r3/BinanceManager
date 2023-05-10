@@ -2,6 +2,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust
 
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,19 +15,18 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * The {@code DustItem} class is useful to format a {@code "Binance"}'s dust item
  *
  * @author N7ghtm4r3 - Tecknobit
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
- * DustLogList(USER_DATA)</a>
+ * @see BinanceItem
  **/
-public class DustItem {
+public class DustItem extends BinanceItem {
 
     /**
      * {@code transId} is instance that memorizes transaction identifier value
-     * **/
+     **/
     private final long transId;
 
     /**
      * {@code serviceChargeAmount} is instance that memorizes service charge amount value
-     * **/
+     **/
     private final double serviceChargeAmount;
 
     /**
@@ -61,6 +61,7 @@ public class DustItem {
      **/
     public DustItem(long transId, double serviceChargeAmount, double amount, long operateTime,
                     double transferedAmount, String fromAsset) {
+        super(null);
         this.transId = transId;
         this.serviceChargeAmount = serviceChargeAmount;
         this.amount = amount;
@@ -75,9 +76,13 @@ public class DustItem {
      * @param jDustItem: dust item details as {@link JSONObject}
      **/
     public DustItem(JSONObject jDustItem) {
-        this(jDustItem.getLong("tranId"), jDustItem.getDouble("serviceChargeAmount"),
-                jDustItem.getDouble("amount"), jDustItem.getLong("operateTime"),
-                jDustItem.getDouble("transferedAmount"), jDustItem.getString("fromAsset"));
+        super(jDustItem);
+        transId = hItem.getLong("tranId", 0);
+        serviceChargeAmount = hItem.getDouble("serviceChargeAmount", 0);
+        amount = hItem.getDouble("amount", 0);
+        operateTime = hItem.getLong("operateTime", 0);
+        transferedAmount = hItem.getDouble("transferedAmount", 0);
+        fromAsset = hItem.getString("fromAsset");
     }
 
     /**
@@ -89,8 +94,9 @@ public class DustItem {
     @Returner
     public static ArrayList<DustItem> getListDribbletsDetails(JSONArray userAssetDribbletDetails) {
         ArrayList<DustItem> dustItems = new ArrayList<>();
-        for (int j = 0; j < userAssetDribbletDetails.length(); j++)
-            dustItems.add(new DustItem(userAssetDribbletDetails.getJSONObject(j)));
+        if (userAssetDribbletDetails != null)
+            for (int j = 0; j < userAssetDribbletDetails.length(); j++)
+                dustItems.add(new DustItem(userAssetDribbletDetails.getJSONObject(j)));
         return dustItems;
     }
 
@@ -195,17 +201,6 @@ public class DustItem {
      **/
     public String getFromAsset() {
         return fromAsset;
-    }
-
-    /**
-     * Returns a string representation of the object <br>
-     * No-any params required
-     *
-     * @return a string representation of the object as {@link String}
-     */
-    @Override
-    public String toString() {
-        return new JSONObject(this).toString();
     }
 
 }

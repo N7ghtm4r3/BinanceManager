@@ -35,6 +35,7 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.AccountSnapshot.returnAccountSnapshot;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.DepositAddress.returnDepositAddress;
+import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustLogList.returnDustLog;
 import static java.lang.Long.parseLong;
 
 /**
@@ -1883,25 +1884,6 @@ public class BinanceWalletManager extends BinanceSignedManager {
     public <T> T getDustLog(Params extraParams, ReturnFormat format) throws Exception {
         return returnDustLog(sendGetSignedRequest(DUST_LOG_ENDPOINT, apiRequest.encodeAdditionalParams(getTimestampParam(),
                 extraParams)), format);
-    }
-
-    /**
-     * Method to create a dust log object
-     *
-     * @param dustLogResponse: obtained from Binance's response
-     * @param format:          return type formatter -> {@link ReturnFormat}
-     * @return dust log as {@code "format"} defines
-     **/
-    @Returner
-    private <T> T returnDustLog(String dustLogResponse, ReturnFormat format) {
-        switch (format) {
-            case JSON:
-                return (T) new JSONObject(dustLogResponse);
-            case LIBRARY_OBJECT:
-                return (T) new DustLogList(new JSONObject(dustLogResponse));
-            default:
-                return (T) dustLogResponse;
-        }
     }
 
     /** Request to get convertible assets into BNB <br>

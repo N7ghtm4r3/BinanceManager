@@ -1,17 +1,34 @@
-package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.account;
+package com.tecknobit.binancemanager.managers.signedmanagers.trade.commons;
 
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.binancemanager.managers.market.records.stats.ExchangeInformation.RateLimit.RateLimitInterval;
 import com.tecknobit.binancemanager.managers.market.records.stats.ExchangeInformation.RateLimit.RateLimitType;
+import com.tecknobit.binancemanager.managers.records.BinanceItem;
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat;
 
 /**
  * The {@code OrderCountUsage} class is useful to format an orders count usage
  *
  * @author N7ghtm4r3 - Tecknobit
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-order-count-usage-trade">
- * Query Current Order Count Usage (TRADE)</a>
+ * @apiNote see the official documentation at:
+ * <ul>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-order-count-usage-trade">
+ *             Query Current Order Count Usage (TRADE)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-margin-order-count-usage-trade">
+ *             Query Current Margin Order Count Usage (TRADE)</a>
+ *     </li>
+ * </ul>
+ * @see BinanceItem
  **/
-public class OrderCountUsage {
+public class OrderCountUsage extends BinanceItem {
 
     /**
      * {@code rateLimitType} is instance that memorizes rate limit type
@@ -47,6 +64,7 @@ public class OrderCountUsage {
      * **/
     public OrderCountUsage(RateLimitType rateLimitType, RateLimitInterval interval, int intervalNum, double limit,
                            int count) {
+        super(null);
         this.rateLimitType = rateLimitType;
         this.interval = interval;
         this.intervalNum = intervalNum;
@@ -60,11 +78,12 @@ public class OrderCountUsage {
      * @param orderCountUsage: order count usage details as {@link JSONObject}
      **/
     public OrderCountUsage(JSONObject orderCountUsage) {
-        rateLimitType = RateLimitType.valueOf(orderCountUsage.getString("rateLimitType"));
-        interval = RateLimitInterval.valueOf(orderCountUsage.getString("interval"));
-        intervalNum = orderCountUsage.getInt("intervalNum");
-        limit = orderCountUsage.getDouble("limit");
-        count = orderCountUsage.getInt("count");
+        super(orderCountUsage);
+        rateLimitType = RateLimitType.valueOf(hItem.getString("rateLimitType"));
+        interval = RateLimitInterval.valueOf(hItem.getString("interval"));
+        intervalNum = hItem.getInt("intervalNum", 0);
+        limit = hItem.getDouble("limit", 0);
+        count = hItem.getInt("count", 0);
     }
 
     /**
@@ -118,14 +137,26 @@ public class OrderCountUsage {
     }
 
     /**
-     * Returns a string representation of the object <br>
-     * No-any params required
+     * Method to create a count usage list
      *
-     * @return a string representation of the object as {@link String}
-     */
-    @Override
-    public String toString() {
-        return new JSONObject(this).toString();
+     * @param countUsageResponse: obtained from Binance's response
+     * @param format:             return type formatter -> {@link ReturnFormat}
+     * @return count usage list as {@code "format"} defines
+     **/
+    @Returner
+    public static <T> T returnCountUsageList(String countUsageResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONArray(countUsageResponse);
+            case LIBRARY_OBJECT:
+                ArrayList<OrderCountUsage> orderCountUsages = new ArrayList<>();
+                JSONArray jCounts = new JSONArray(countUsageResponse);
+                for (int j = 0; j < jCounts.length(); j++)
+                    orderCountUsages.add(new OrderCountUsage(jCounts.getJSONObject(j)));
+                return (T) orderCountUsages;
+            default:
+                return (T) countUsageResponse;
+        }
     }
 
 }

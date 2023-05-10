@@ -114,7 +114,7 @@ public class Deposit extends BinanceItem {
      **/
     public Deposit(JSONObject jDeposit) {
         super(jDeposit);
-        amount = hItem.getDouble("amount");
+        amount = hItem.getDouble("amount", 0);
         coin = hItem.getString("coin");
         network = hItem.getString("network");
         status = reachEnumConstant(hItem.getInt("status"));
@@ -122,7 +122,7 @@ public class Deposit extends BinanceItem {
         addressTag = hItem.getString("addressTag");
         txId = hItem.getString("txId");
         insertTime = hItem.getLong("insertTime", 0);
-        transferType = hItem.getInt("transferType");
+        transferType = hItem.getInt("transferType", 0);
         unlockConfirm = hItem.getInt("unlockConfirm", 0);
         confirmTimes = hItem.getString("confirmTimes");
     }
@@ -256,17 +256,6 @@ public class Deposit extends BinanceItem {
      **/
     public String getConfirmTimes() {
         return confirmTimes;
-    }
-
-    /**
-     * Returns a string representation of the object <br>
-     * No-any params required
-     *
-     * @return a string representation of the object as {@link String}
-     */
-    @Override
-    public String toString() {
-        return new JSONObject(this).toString();
     }
 
     /**

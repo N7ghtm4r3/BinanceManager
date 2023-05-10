@@ -1,6 +1,8 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust;
 
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
 import org.json.JSONObject;
 
@@ -8,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
+import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustItem.getListDribbletsDetails;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustLogList.AssetDribblets;
 
@@ -15,8 +18,17 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  * The {@code DustLogList} class is useful to format a {@code "Binance"}'s dust log
  *
  * @author N7ghtm4r3 - Tecknobit
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
- * DustLogList(USER_DATA)</a>
+ * @apiNote see the official documentation at:
+ * <ul>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
+ *             DustLogList(USER_DATA)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-dustlog-user_data">
+ *             Margin Dustlog (USER_DATA)</a>
+ *     </li>
+ * </ul>
  * @see BinanceRowsList
  **/
 public class DustLogList extends BinanceRowsList<AssetDribblets> {
@@ -43,20 +55,40 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
     }
 
     /**
+     * Method to create a dust log object
+     *
+     * @param dustLogResponse: obtained from Binance's response
+     * @param format:          return type formatter -> {@link ReturnFormat}
+     * @return dust log as {@code "format"} defines
+     **/
+    @Returner
+    public static <T> T returnDustLog(String dustLogResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(dustLogResponse);
+            case LIBRARY_OBJECT:
+                return (T) new DustLogList(new JSONObject(dustLogResponse));
+            default:
+                return (T) dustLogResponse;
+        }
+    }
+
+    /**
      * The {@code AssetDribblets} class is useful to format a {@code "Binance"}'s asset dribblets
      *
      * @author N7ghtm4r3 - Tecknobit
+     * @see BinanceItem
      **/
-    public static class AssetDribblets {
+    public static class AssetDribblets extends BinanceItem {
 
         /**
          * {@code operateTime} is instance that memorizes operate time value
-         * **/
+         **/
         private final long operateTime;
 
         /**
          * {@code totalTransferedAmount} is instance that memorizes total transfered amount value
-         * **/
+         **/
         private final double totalTransferedAmount;
 
         /**
@@ -83,6 +115,7 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
          * **/
         public AssetDribblets(long operateTime, double totalTransferedAmount, double totalServiceChargeAmount,
                               long transId, ArrayList<DustItem> assetDribbletsDetails) {
+            super(null);
             this.operateTime = operateTime;
             this.totalTransferedAmount = totalTransferedAmount;
             this.totalServiceChargeAmount = totalServiceChargeAmount;
@@ -93,14 +126,15 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
         /**
          * Constructor to init {@link AssetDribblets} object
          *
-         * @param assetDribblets: asset dribblets details as {@link JSONObject}
+         * @param jAssetDribblets: asset dribblets details as {@link JSONObject}
          **/
-        public AssetDribblets(JSONObject assetDribblets) {
-            operateTime = assetDribblets.getLong("operateTime");
-            totalTransferedAmount = assetDribblets.getDouble("totalTransferedAmount");
-            totalServiceChargeAmount = assetDribblets.getDouble("totalServiceChargeAmount");
-            transId = assetDribblets.getLong("transId");
-            assetDribbletsDetailsList = getListDribbletsDetails(assetDribblets.getJSONArray("userAssetDribbletDetails"));
+        public AssetDribblets(JSONObject jAssetDribblets) {
+            super(jAssetDribblets);
+            operateTime = hItem.getLong("operateTime", 0);
+            totalTransferedAmount = hItem.getDouble("totalTransferedAmount", 0);
+            totalServiceChargeAmount = hItem.getDouble("totalServiceChargeAmount", 0);
+            transId = hItem.getLong("transId", 0);
+            assetDribbletsDetailsList = getListDribbletsDetails(hItem.getJSONArray("userAssetDribbletDetails"));
         }
 
         /**
@@ -213,17 +247,6 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
          **/
         public DustItem getAssetDribbletDetails(int index) {
             return assetDribbletsDetailsList.get(index);
-        }
-
-        /**
-         * Returns a string representation of the object <br>
-         * No-any params required
-         *
-         * @return a string representation of the object as {@link String}
-         */
-        @Override
-        public String toString() {
-            return new JSONObject(this).toString();
         }
 
     }
