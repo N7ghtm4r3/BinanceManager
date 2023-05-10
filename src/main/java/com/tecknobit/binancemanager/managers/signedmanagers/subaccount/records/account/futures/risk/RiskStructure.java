@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.futures.risk;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
 
@@ -22,6 +23,7 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * </ul>
  * @see BinanceItem
  **/
+@Structure
 public abstract class RiskStructure extends BinanceItem {
 
     /**

@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.market.records.tickers;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import org.json.JSONObject;
 
 /**
@@ -26,6 +27,7 @@ import org.json.JSONObject;
  *     </li>
  * </ul>
  **/
+@Structure
 public abstract class Ticker {
 
     /**

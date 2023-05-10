@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.records.lists;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.binancemanager.managers.BinanceManager.BinanceResponse;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
  * @see BinanceItem
  * @see BinanceResponse
  **/
+@Structure
 public abstract class BinanceDataList<T> extends BinanceItem implements BinanceResponse {
 
     /**

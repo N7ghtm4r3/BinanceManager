@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.fiat;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
+import com.tecknobit.apimanager.annotations.RequestWeight;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.binancemanager.exceptions.SystemException;
@@ -39,7 +40,7 @@ public class BinanceFiatManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceFiatManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
@@ -53,7 +54,7 @@ public class BinanceFiatManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceFiatManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
@@ -66,7 +67,7 @@ public class BinanceFiatManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceFiatManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
@@ -79,7 +80,7 @@ public class BinanceFiatManager extends BinanceSignedManager {
     /**
      * Constructor to init {@link BinanceFiatManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/
@@ -128,6 +129,7 @@ public class BinanceFiatManager extends BinanceSignedManager {
      * Get Fiat Deposit/Withdraw History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "90000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/fiat/orders")
     public FiatOperationsHistory getDepositWithdrawHistory(int type) throws Exception {
         return getDepositWithdrawHistory(type, LIBRARY_OBJECT);
@@ -154,6 +156,7 @@ public class BinanceFiatManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-fiat-deposit-withdraw-history-user_data">
      * Get Fiat Deposit/Withdraw History (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "90000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/fiat/orders")
     public <T> T getDepositWithdrawHistory(int type, ReturnFormat format) throws Exception {
         return returnOperationsHistory(sendGetSignedRequest(FIAT_ORDERS_ENDPOINT, getTimestampParam()
@@ -199,6 +202,7 @@ public class BinanceFiatManager extends BinanceSignedManager {
      * Get Fiat Deposit/Withdraw History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "90000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/fiat/orders")
     public FiatOperationsHistory getDepositWithdrawHistory(int type, Params extraParams) throws Exception {
         return getDepositWithdrawHistory(type, extraParams, LIBRARY_OBJECT);
@@ -243,6 +247,7 @@ public class BinanceFiatManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-fiat-deposit-withdraw-history-user_data">
      * Get Fiat Deposit/Withdraw History (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "90000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/fiat/orders")
     public <T> T getDepositWithdrawHistory(int type, Params extraParams, ReturnFormat format) throws Exception {
         extraParams.addParam("transactionType", type);
@@ -290,6 +295,7 @@ public class BinanceFiatManager extends BinanceSignedManager {
      * Get Fiat Payments History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/fiat/payments")
     public FiatPaymentsHistory getPaymentsHistory(int type) throws Exception {
         return getPaymentsHistory(type, LIBRARY_OBJECT);
@@ -317,6 +323,7 @@ public class BinanceFiatManager extends BinanceSignedManager {
      * Get Fiat Payments History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/fiat/payments")
     public <T> T getPaymentsHistory(int type, ReturnFormat format) throws Exception {
         return returnPaymentsHistory(sendGetSignedRequest(FIAT_ORDERS_ENDPOINT, getTimestampParam()
@@ -362,6 +369,7 @@ public class BinanceFiatManager extends BinanceSignedManager {
      * Get Fiat Payments History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/fiat/payments")
     public FiatPaymentsHistory getPaymentsHistory(int type, Params extraParams) throws Exception {
         return getPaymentsHistory(type, extraParams, LIBRARY_OBJECT);
@@ -407,6 +415,7 @@ public class BinanceFiatManager extends BinanceSignedManager {
      * Get Fiat Payments History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/fiat/payments")
     public <T> T getPaymentsHistory(int type, Params extraParams, ReturnFormat format) throws Exception {
         extraParams.addParam("transactionType", type);

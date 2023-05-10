@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.records;
 
 import com.tecknobit.apimanager.annotations.Returner;
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
  * @author N7ghtm4r3 - Tecknobit
  * @since 1.1.2
  **/
+@Structure
 public abstract class BinanceItem {
 
     /**

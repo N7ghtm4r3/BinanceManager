@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.giftcard.records;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
 
@@ -40,6 +41,7 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.BinanceRespon
  * @see BinanceItem
  * @see BinanceResponse
  **/
+@Structure
 public abstract class GiftCardStructure<T> extends BinanceItem implements BinanceResponse {
 
     /**

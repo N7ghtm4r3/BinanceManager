@@ -2,6 +2,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.portfoliomargin;
 
 
 import com.tecknobit.apimanager.annotations.RequestPath;
+import com.tecknobit.apimanager.annotations.RequestWeight;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.apimanager.formatters.JsonHelper;
@@ -63,7 +64,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinancePortfolioMarginManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
@@ -77,7 +78,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinancePortfolioMarginManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
@@ -90,7 +91,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinancePortfolioMarginManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
@@ -103,7 +104,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinancePortfolioMarginManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/
@@ -153,6 +154,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * Get Portfolio Margin Account Info (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/account")
     public PortfolioMarginAccountInfo getPortfolioMarginAccountInfo() throws Exception {
         return getPortfolioMarginAccountInfo(LIBRARY_OBJECT);
@@ -178,6 +180,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-portfolio-margin-account-info-user_data">
      * Get Portfolio Margin Account Info (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/account")
     public <T> T getPortfolioMarginAccountInfo(ReturnFormat format) throws Exception {
         return getPortfolioMarginAccountInfo(-1, LIBRARY_OBJECT);
@@ -204,6 +207,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * Get Portfolio Margin Account Info (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/account")
     public PortfolioMarginAccountInfo getPortfolioMarginAccountInfo(long recvWindow) throws Exception {
         return getPortfolioMarginAccountInfo(recvWindow, LIBRARY_OBJECT);
@@ -231,6 +235,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * Get Portfolio Margin Account Info (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/account")
     public <T> T getPortfolioMarginAccountInfo(long recvWindow, ReturnFormat format) throws Exception {
         String accountInfo = sendGetSignedRequest(PORTFOLIO_ACCOUNT_ENDPOINT, createQuery(recvWindow));
@@ -265,6 +270,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * Portfolio Margin Collateral Rate (MARKET_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/collateralRate")
     public ArrayList<CollateralRate> getPortfolioMarginCollateralRate() throws Exception {
         return getPortfolioMarginCollateralRate(LIBRARY_OBJECT);
@@ -291,6 +297,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * Portfolio Margin Collateral Rate (MARKET_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/collateralRate")
     public <T> T getPortfolioMarginCollateralRate(ReturnFormat format) throws Exception {
         String collateralRateResponse = sendGetRequest(PORTFOLIO_COLLATERAL_RATE_ENDPOINT, (String) null, apiKey);
@@ -329,6 +336,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * Query Portfolio Margin Bankruptcy Loan Amount (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "500(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/pmLoan")
     public BankruptcyLoanAmount getPortfolioMarginBankruptcyLoanAmount() throws Exception {
         return getPortfolioMarginBankruptcyLoanAmount(LIBRARY_OBJECT);
@@ -354,6 +362,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-bankruptcy-loan-amount-user_data">
      * Query Portfolio Margin Bankruptcy Loan Amount (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "500(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/pmLoan")
     public <T> T getPortfolioMarginBankruptcyLoanAmount(ReturnFormat format) throws Exception {
         return getPortfolioMarginBankruptcyLoanAmount(-1, format);
@@ -380,6 +389,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * Query Portfolio Margin Bankruptcy Loan Amount (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "500(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/pmLoan")
     public BankruptcyLoanAmount getPortfolioMarginBankruptcyLoanAmount(long recvWindow) throws Exception {
         return getPortfolioMarginBankruptcyLoanAmount(recvWindow, LIBRARY_OBJECT);
@@ -407,6 +417,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * Query Portfolio Margin Bankruptcy Loan Amount (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "500(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/pmLoan")
     public <T> T getPortfolioMarginBankruptcyLoanAmount(long recvWindow, ReturnFormat format) throws Exception {
         String loanAmountResponse = sendGetRequest(PORTFOLIO_PM_LOAN_ENDPOINT, createQuery(recvWindow), apiKey);
@@ -441,6 +452,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * Portfolio Margin Bankruptcy Loan Repay</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/portfolio/repay")
     public long marginBankruptcyLoanRepay() throws Exception {
         return Long.parseLong(marginBankruptcyLoanRepay(LIBRARY_OBJECT));
@@ -466,6 +478,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#portfolio-margin-bankruptcy-loan-repay">
      * Portfolio Margin Bankruptcy Loan Repay</a>
      **/
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/portfolio/repay")
     public <T> T marginBankruptcyLoanRepay(ReturnFormat format) throws Exception {
         return marginBankruptcyLoanRepay(-1, format);
@@ -492,6 +505,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * Portfolio Margin Bankruptcy Loan Repay</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/portfolio/repay")
     public long marginBankruptcyLoanRepay(long recvWindow) throws Exception {
         return Long.parseLong(marginBankruptcyLoanRepay(recvWindow, LIBRARY_OBJECT));
@@ -519,6 +533,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * Portfolio Margin Bankruptcy Loan Repay</a>
      **/
     @Returner
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/portfolio/repay")
     public <T> T marginBankruptcyLoanRepay(long recvWindow, ReturnFormat format) throws Exception {
         Params payload = new Params();
@@ -570,6 +585,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * Query Portfolio Margin Interest History(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-history")
     public PortfolioMarginInterestHistory getPortfolioMarginInterestHistory() throws Exception {
         return getPortfolioMarginInterestHistory(LIBRARY_OBJECT);
@@ -595,6 +611,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-history-user_data">
      * Query Portfolio Margin Interest History(USER_DATA)</a>
      **/
+    @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-history")
     public <T> T getPortfolioMarginInterestHistory(ReturnFormat format) throws Exception {
         return getPortfolioMarginInterestHistory(null, format);
@@ -640,6 +657,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * Query Portfolio Margin Interest History(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-history")
     public PortfolioMarginInterestHistory getPortfolioMarginInterestHistory(Params extraParams) throws Exception {
         return getPortfolioMarginInterestHistory(extraParams, LIBRARY_OBJECT);
@@ -686,6 +704,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * Query Portfolio Margin Interest History(USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-history")
     public <T> T getPortfolioMarginInterestHistory(Params extraParams, ReturnFormat format) throws Exception {
         String historyResponse = sendGetRequest(PORTFOLIO_INTEREST_HISTORY_ENDPOINT, extraParams, apiKey);
@@ -720,6 +739,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * Query Portfolio Margin Interest Rate (MARKET_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-rate")
     public ArrayList<PortfolioMarginInterestRate> getPortfolioMarginInterestRate() throws Exception {
         return getPortfolioMarginInterestRate(LIBRARY_OBJECT);
@@ -745,6 +765,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-rate-market_data">
      * Query Portfolio Margin Interest Rate (MARKET_DATA)</a>
      **/
+    @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-rate")
     public <T> T getPortfolioMarginInterestRate(ReturnFormat format) throws Exception {
         return getPortfolioMarginInterestRate(null, format);
@@ -780,6 +801,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * Query Portfolio Margin Interest Rate (MARKET_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-rate")
     public ArrayList<PortfolioMarginInterestRate> getPortfolioMarginInterestRate(Params extraParams) throws Exception {
         return getPortfolioMarginInterestRate(extraParams, LIBRARY_OBJECT);
@@ -816,6 +838,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * Query Portfolio Margin Interest Rate (MARKET_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-rate")
     public <T> T getPortfolioMarginInterestRate(Params extraParams, ReturnFormat format) throws Exception {
         String listResponse = sendGetRequest(PORTFOLIO_COLLATERAL_RATE_ENDPOINT, extraParams, apiKey);

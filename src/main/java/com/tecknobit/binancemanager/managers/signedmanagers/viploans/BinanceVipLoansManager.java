@@ -1,9 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.viploans;
 
-import com.tecknobit.apimanager.annotations.RequestPath;
-import com.tecknobit.apimanager.annotations.Returner;
-import com.tecknobit.apimanager.annotations.WrappedRequest;
-import com.tecknobit.apimanager.annotations.Wrapper;
+import com.tecknobit.apimanager.annotations.*;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
@@ -54,7 +51,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceVipLoansManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
@@ -68,7 +65,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceVipLoansManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
@@ -81,7 +78,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceVipLoansManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
@@ -94,7 +91,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceVipLoansManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/
@@ -144,6 +141,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * Get VIP Loan Ongoing Orders (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/ongoing/orders")
     public VIPLoanOngoingOrders getVIPLoanOngoingOrders() throws Exception {
         return getVIPLoanOngoingOrders(LIBRARY_OBJECT);
@@ -169,6 +167,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-vip-loan-ongoing-orders-user_data">
      * Get VIP Loan Ongoing Orders (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/ongoing/orders")
     public <T> T getVIPLoanOngoingOrders(ReturnFormat format) throws Exception {
         return getVIPLoanOngoingOrders(null, format);
@@ -219,6 +218,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * Get VIP Loan Ongoing Orders (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/ongoing/orders")
     public VIPLoanOngoingOrders getVIPLoanOngoingOrders(Params extraParams) throws Exception {
         return getVIPLoanOngoingOrders(extraParams, LIBRARY_OBJECT);
@@ -270,6 +270,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * Get VIP Loan Ongoing Orders (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/ongoing/orders")
     public <T> T getVIPLoanOngoingOrders(Params extraParams, ReturnFormat format) throws Exception {
         String ordersResponse = sendGetRequest(VIP_ONGOING_ORDERS_ENDPOINT, createTimestampPayload(extraParams), apiKey);
@@ -306,6 +307,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/vip/repay")
     public VIPLoanRepay execVIPLoanRepay(VIPLoanOrder order, double amount) throws Exception {
         return execVIPLoanRepay(order.getOrderId(), amount, LIBRARY_OBJECT);
@@ -334,6 +336,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * VIP Loan Repay (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/vip/repay")
     public <T> T execVIPLoanRepay(VIPLoanOrder order, double amount, ReturnFormat format) throws Exception {
         return execVIPLoanRepay(order.getOrderId(), amount, format);
@@ -361,6 +364,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * VIP Loan Repay (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/vip/repay")
     public VIPLoanRepay execVIPLoanRepay(long orderId, double amount) throws Exception {
         return execVIPLoanRepay(orderId, amount, LIBRARY_OBJECT);
@@ -388,6 +392,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#vip-loan-repay-trade">
      * VIP Loan Repay (TRADE)</a>
      **/
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/vip/repay")
     public <T> T execVIPLoanRepay(long orderId, double amount, ReturnFormat format) throws Exception {
         return execVIPLoanRepay(orderId, amount, -1, format);
@@ -417,6 +422,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/vip/repay")
     public VIPLoanRepay execVIPLoanRepay(VIPLoanOrder order, double amount, long recvWindow) throws Exception {
         return execVIPLoanRepay(order.getOrderId(), amount, recvWindow, LIBRARY_OBJECT);
@@ -446,6 +452,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * VIP Loan Repay (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/vip/repay")
     public <T> T execVIPLoanRepay(VIPLoanOrder order, double amount, long recvWindow, ReturnFormat format) throws Exception {
         return execVIPLoanRepay(order.getOrderId(), amount, recvWindow, format);
@@ -474,6 +481,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * VIP Loan Repay (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/vip/repay")
     public VIPLoanRepay execVIPLoanRepay(long orderId, double amount, long recvWindow) throws Exception {
         return execVIPLoanRepay(orderId, amount, recvWindow, LIBRARY_OBJECT);
@@ -503,6 +511,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * VIP Loan Repay (TRADE)</a>
      **/
     @Returner
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/vip/repay")
     public <T> T execVIPLoanRepay(long orderId, double amount, long recvWindow, ReturnFormat format) throws Exception {
         Params payload = new Params();
@@ -543,6 +552,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * Get VIP Loan Repayment History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/repay/history")
     public VIPLoanRepaymentHistory getVIPLoanRepaymentHistory() throws Exception {
         return getVIPLoanRepaymentHistory(LIBRARY_OBJECT);
@@ -568,6 +578,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-vip-loan-repayment-history-user_data">
      * Get VIP Loan Repayment History (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/repay/history")
     public <T> T getVIPLoanRepaymentHistory(ReturnFormat format) throws Exception {
         return getVIPLoanRepaymentHistory(null, format);
@@ -618,6 +629,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * Get VIP Loan Repayment History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/repay/history")
     public VIPLoanRepaymentHistory getVIPLoanRepaymentHistory(Params extraParams) throws Exception {
         return getVIPLoanRepaymentHistory(extraParams, LIBRARY_OBJECT);
@@ -669,6 +681,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * Get VIP Loan Repayment History (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/repay/history")
     public <T> T getVIPLoanRepaymentHistory(Params extraParams, ReturnFormat format) throws Exception {
         String historyResponse = sendGetRequest(VIP_REPAY_HISTORY_ENDPOINT, createTimestampPayload(extraParams), apiKey);
@@ -703,6 +716,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * Check Locked Value of VIP Collateral Account (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "6000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/collateral/account")
     public LockedValuesList checkCollateralAccountLockedValue() throws Exception {
         return checkCollateralAccountLockedValue(LIBRARY_OBJECT);
@@ -728,6 +742,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#check-locked-value-of-vip-collateral-account-user_data">
      * Check Locked Value of VIP Collateral Account (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "6000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/collateral/account")
     public <T> T checkCollateralAccountLockedValue(ReturnFormat format) throws Exception {
         return checkCollateralAccountLockedValue(null, format);
@@ -766,6 +781,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * Check Locked Value of VIP Collateral Account (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "6000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/collateral/account")
     public LockedValuesList checkCollateralAccountLockedValue(Params extraParams) throws Exception {
         return checkCollateralAccountLockedValue(extraParams, LIBRARY_OBJECT);
@@ -805,6 +821,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * Check Locked Value of VIP Collateral Account (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "6000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/collateral/account")
     public <T> T checkCollateralAccountLockedValue(Params extraParams, ReturnFormat format) throws Exception {
         String lockedValuesResponse = sendGetRequest(VIP_COLLATERAL_ACCOUNT_ENDPOINT, createTimestampPayload(extraParams),

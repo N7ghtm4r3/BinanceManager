@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.nft;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
+import com.tecknobit.apimanager.annotations.RequestWeight;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.binancemanager.exceptions.SystemException;
@@ -52,7 +53,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceNFTManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
@@ -66,7 +67,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceNFTManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
@@ -79,7 +80,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceNFTManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
@@ -92,7 +93,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceNFTManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/
@@ -141,6 +142,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
      * Get NFT Transaction History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/nft/history/transactions")
     public NFTTransactionHistory getNFTTransactionHistory(NFTOrderType orderType) throws Exception {
         return getNFTTransactionHistory(orderType, LIBRARY_OBJECT);
@@ -167,6 +169,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-nft-transaction-history-user_data">
      * Get NFT Transaction History (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/nft/history/transactions")
     public <T> T getNFTTransactionHistory(NFTOrderType orderType, ReturnFormat format) throws Exception {
         return getNFTTransactionHistory(orderType, null, format);
@@ -212,6 +215,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
      * Get NFT Transaction History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/nft/history/transactions")
     public NFTTransactionHistory getNFTTransactionHistory(NFTOrderType orderType, Params extraParams) throws Exception {
         return getNFTTransactionHistory(orderType, extraParams, LIBRARY_OBJECT);
@@ -258,6 +262,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
      * Get NFT Transaction History (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/nft/history/transactions")
     public <T> T getNFTTransactionHistory(NFTOrderType orderType, Params extraParams, ReturnFormat format) throws Exception {
         extraParams = createTimestampPayload(extraParams);
@@ -294,6 +299,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
      * Get NFT Deposit History(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/nft/history/deposit")
     public NFTDepositHistory getNFTDepositHistory() throws Exception {
         return getNFTDepositHistory(LIBRARY_OBJECT);
@@ -319,6 +325,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-nft-deposit-history-user_data">
      * Get NFT Deposit History(USER_DATA)</a>
      **/
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/nft/history/deposit")
     public <T> T getNFTDepositHistory(ReturnFormat format) throws Exception {
         return getNFTDepositHistory(null, format);
@@ -363,6 +370,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
      * Get NFT Deposit History(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/nft/history/deposit")
     public NFTDepositHistory getNFTDepositHistory(Params extraParams) throws Exception {
         return getNFTDepositHistory(extraParams, LIBRARY_OBJECT);
@@ -408,6 +416,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
      * Get NFT Deposit History(USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/nft/history/deposit")
     public <T> T getNFTDepositHistory(Params extraParams, ReturnFormat format) throws Exception {
         String historyResponse = sendGetSignedRequest(NFT_HISTORY_DEPOSIT_ENDPOINT, createTimestampPayload(extraParams));
@@ -442,6 +451,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
      * Get NFT Withdraw History(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/nft/history/withdraw")
     public NFTWithdrawHistory getNFTWithdrawHistory() throws Exception {
         return getNFTWithdrawHistory(LIBRARY_OBJECT);
@@ -467,6 +477,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-nft-withdraw-history-user_data">
      * Get NFT Withdraw History(USER_DATA)</a>
      **/
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/nft/history/withdraw")
     public <T> T getNFTWithdrawHistory(ReturnFormat format) throws Exception {
         return getNFTWithdrawHistory(null, format);
@@ -511,6 +522,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
      * Get NFT Withdraw History(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/nft/history/withdraw")
     public NFTWithdrawHistory getNFTWithdrawHistory(Params extraParams) throws Exception {
         return getNFTWithdrawHistory(extraParams, LIBRARY_OBJECT);
@@ -556,6 +568,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
      * Get NFT Withdraw History(USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/nft/history/withdraw")
     public <T> T getNFTWithdrawHistory(Params extraParams, ReturnFormat format) throws Exception {
         String historyResponse = sendGetSignedRequest(NFT_HISTORY_WITHDRAW_ENDPOINT, createTimestampPayload(extraParams));
@@ -590,6 +603,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
      * Get NFT Asset (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/nft/user/getAsset")
     public NFTAssetsList getNFTAsset() throws Exception {
         return getNFTAsset(LIBRARY_OBJECT);
@@ -615,6 +629,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-nft-asset-user_data">
      * Get NFT Asset (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/nft/user/getAsset")
     public <T> T getNFTAsset(ReturnFormat format) throws Exception {
         return getNFTAsset(null, format);
@@ -653,6 +668,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
      * Get NFT Asset (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/nft/user/getAsset")
     public NFTAssetsList getNFTAsset(Params extraParams) throws Exception {
         return getNFTAsset(extraParams, LIBRARY_OBJECT);
@@ -692,6 +708,7 @@ public class BinanceNFTManager extends BinanceSignedManager {
      * Get NFT Asset (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/nft/user/getAsset")
     public <T> T getNFTAsset(Params extraParams, ReturnFormat format) throws Exception {
         String listResponse = sendGetSignedRequest(NFT_USER_GET_ASSET_ENDPOINT, createTimestampPayload(extraParams));

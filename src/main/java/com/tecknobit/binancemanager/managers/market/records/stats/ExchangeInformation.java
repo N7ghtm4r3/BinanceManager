@@ -988,7 +988,12 @@ public class ExchangeInformation {
             /**
              * {@code "MAX_POSITION"} filter type
              **/
-            MAX_POSITION
+            MAX_POSITION,
+
+            /**
+             * {@code "NOTIONAL"} filter type
+             **/
+            NOTIONAL
 
         }
 

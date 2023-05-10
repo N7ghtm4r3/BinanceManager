@@ -1,9 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.staking;
 
-import com.tecknobit.apimanager.annotations.RequestPath;
-import com.tecknobit.apimanager.annotations.Returner;
-import com.tecknobit.apimanager.annotations.WrappedRequest;
-import com.tecknobit.apimanager.annotations.Wrapper;
+import com.tecknobit.apimanager.annotations.*;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
@@ -73,7 +70,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceStakingManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
@@ -87,7 +84,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceStakingManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
@@ -100,7 +97,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceStakingManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
@@ -113,7 +110,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
     /**
      * Constructor to init {@link BinanceStakingManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/
@@ -162,6 +159,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * Get Staking Product List(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/staking/productList")
     public ArrayList<StakingProduct> getStakingProductList(ProductType product) throws Exception {
         return getStakingProductList(product, LIBRARY_OBJECT);
@@ -188,6 +186,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-staking-product-list-user_data">
      * Get Staking Product List(USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/staking/productList")
     public <T> T getStakingProductList(ProductType product, ReturnFormat format) throws Exception {
         return getStakingProductList(product, null, format);
@@ -229,6 +228,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * Get Staking Product List(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/staking/productList")
     public ArrayList<StakingProduct> getStakingProductList(ProductType product, Params extraParams) throws Exception {
         return getStakingProductList(product, extraParams, LIBRARY_OBJECT);
@@ -271,6 +271,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * Get Staking Product List(USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/staking/productList")
     public <T> T getStakingProductList(ProductType product, Params extraParams, ReturnFormat format) throws Exception {
         String listResponse = sendGetSignedRequest(STAKING_PRODUCT_LIST_ENDPOINT, createStakingProductPayload(product,
@@ -312,6 +313,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * Purchase Staking Product(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/staking/purchase")
     public PurchaseStakingProductResult purchaseStakingProduct(ProductType product, long productId,
                                                                double amount) throws Exception {
@@ -341,6 +343,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-staking-product-user_data">
      * Purchase Staking Product(USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/staking/purchase")
     public <T> T purchaseStakingProduct(ProductType product, long productId, double amount,
                                         ReturnFormat format) throws Exception {
@@ -379,6 +382,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * Purchase Staking Product(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/staking/purchase")
     public PurchaseStakingProductResult purchaseStakingProduct(ProductType product, long productId, double amount,
                                                                Params extraParams) throws Exception {
@@ -418,6 +422,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * Purchase Staking Product(USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/staking/purchase")
     public <T> T purchaseStakingProduct(ProductType product, long productId, double amount, Params extraParams,
                                         ReturnFormat format) throws Exception {
@@ -456,6 +461,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-staking-product-user_data">
      * Redeem Staking Product(USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/staking/redeem")
     public boolean redeemStakingProduct(ProductType product, long productId) throws Exception {
         return redeemStakingProduct(product, productId, null);
@@ -495,6 +501,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-staking-product-user_data">
      * Redeem Staking Product(USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/staking/redeem")
     public boolean redeemStakingProduct(ProductType product, long productId, Params extraParams) throws Exception {
         sendPostSignedRequest(STAKING_REDEEM_ENDPOINT, createStakingOpePayload(product, productId, extraParams));
@@ -522,6 +529,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * Get Staking Product Position(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/staking/position")
     public ArrayList<StakingProductPosition> getStakingProductPosition(ProductType product) throws Exception {
         return getStakingProductPosition(product, LIBRARY_OBJECT);
@@ -548,6 +556,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-staking-product-position-user_data">
      * Get Staking Product Position(USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/staking/position")
     public <T> T getStakingProductPosition(ProductType product, ReturnFormat format) throws Exception {
         return getStakingProductPosition(product, null, format);
@@ -592,6 +601,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * Get Staking Product Position(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/staking/position")
     public ArrayList<StakingProductPosition> getStakingProductPosition(ProductType product,
                                                                        Params extraParams) throws Exception {
@@ -638,6 +648,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * Get Staking Product Position(USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/staking/position")
     public <T> T getStakingProductPosition(ProductType product, Params extraParams, ReturnFormat format) throws Exception {
         String listResponse = sendGetSignedRequest(STAKING_POSITION_ENDPOINT, createStakingProductPayload(product,
@@ -678,6 +689,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * Get Staking History(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/staking/stakingRecord")
     public ArrayList<StakingHistoryRecord> getStakingHistory(ProductType product, TxnType txnType) throws Exception {
         return getStakingHistory(product, txnType, LIBRARY_OBJECT);
@@ -705,6 +717,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-staking-history-user_data">
      * Get Staking History(USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/staking/stakingRecord")
     public <T> T getStakingHistory(ProductType product, TxnType txnType, ReturnFormat format) throws Exception {
         return getStakingHistory(product, txnType, null, format);
@@ -753,6 +766,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * Get Staking History(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/staking/stakingRecord")
     public ArrayList<StakingHistoryRecord> getStakingHistory(ProductType product, TxnType txnType,
                                                              Params extraParams) throws Exception {
@@ -803,6 +817,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * Get Staking History(USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/staking/stakingRecord")
     public <T> T getStakingHistory(ProductType product, TxnType txnType, Params extraParams,
                                    ReturnFormat format) throws Exception {
@@ -846,6 +861,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * Set Auto Staking(USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/staking/setAutoStaking")
     public boolean setAutoStaking(ProductType product, StakingProductPosition position, boolean renewable) throws Exception {
         return setAutoStaking(product, position.getPositionId(), renewable, -1);
@@ -873,6 +889,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#set-auto-staking-user_data">
      * Set Auto Staking(USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/staking/setAutoStaking")
     public boolean setAutoStaking(ProductType product, long positionId, boolean renewable) throws Exception {
         return setAutoStaking(product, positionId, renewable, -1);
@@ -902,6 +919,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * Set Auto Staking(USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/staking/setAutoStaking")
     public boolean setAutoStaking(ProductType product, StakingProductPosition position, boolean renewable,
                                   long recvWindow) throws Exception {
@@ -931,6 +949,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#set-auto-staking-user_data">
      * Set Auto Staking(USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/staking/setAutoStaking")
     public boolean setAutoStaking(ProductType product, long positionId, boolean renewable, long recvWindow) throws Exception {
         Params payload = createStakingProductPayload(product, null);
@@ -979,6 +998,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * Get Personal Left Quota of Staking Product(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/staking/personalLeftQuota")
     public ArrayList<Double> getPersonalLeftQuota(ProductType product, long productId) throws Exception {
         return getPersonalLeftQuota(product, productId, LIBRARY_OBJECT);
@@ -1006,6 +1026,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-personal-left-quota-of-staking-product-user_data">
      * Get Personal Left Quota of Staking Product(USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/staking/personalLeftQuota")
     public <T> T getPersonalLeftQuota(ProductType product, long productId, ReturnFormat format) throws Exception {
         return getPersonalLeftQuota(product, productId, -1, format);
@@ -1034,6 +1055,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * Get Personal Left Quota of Staking Product(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/staking/personalLeftQuota")
     public ArrayList<Double> getPersonalLeftQuota(ProductType product, long productId, long recvWindow) throws Exception {
         return getPersonalLeftQuota(product, productId, recvWindow, LIBRARY_OBJECT);
@@ -1063,6 +1085,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * Get Personal Left Quota of Staking Product(USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/staking/personalLeftQuota")
     public <T> T getPersonalLeftQuota(ProductType product, long productId, long recvWindow,
                                       ReturnFormat format) throws Exception {

@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.bswap.records.swap;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
 
@@ -23,6 +24,7 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see BinanceItem
  * @see SwapBaseStructure
  **/
+@Structure
 public abstract class SwapStructure extends SwapBaseStructure {
 
     /**

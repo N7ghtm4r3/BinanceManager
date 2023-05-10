@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.marketstreams.records;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import com.tecknobit.binancemanager.managers.records.websocketstream.BinanceWebsocketResponse;
 import org.json.JSONObject;
@@ -24,6 +25,7 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see BinanceItem
  * @see BinanceWebsocketResponse
  **/
+@Structure
 public abstract class WbsMarketItem extends BinanceWebsocketResponse {
 
     /**

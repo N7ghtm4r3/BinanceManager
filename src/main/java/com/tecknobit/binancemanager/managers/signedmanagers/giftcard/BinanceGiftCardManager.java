@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.giftcard;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
+import com.tecknobit.apimanager.annotations.RequestWeight;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.binancemanager.exceptions.SystemException;
@@ -59,7 +60,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceGiftCardManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
@@ -73,7 +74,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceGiftCardManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
@@ -86,7 +87,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceGiftCardManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
@@ -99,7 +100,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceGiftCardManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/
@@ -150,6 +151,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * Create a single-token gift card (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/createCode")
     public TokenGiftCard createSingleTokenGiftCard(String token, double amount) throws Exception {
         return createSingleTokenGiftCard(token, amount, LIBRARY_OBJECT);
@@ -177,6 +179,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-single-token-gift-card-user_data">
      * Create a single-token gift card (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/createCode")
     public <T> T createSingleTokenGiftCard(String token, double amount, ReturnFormat format) throws Exception {
         return createSingleTokenGiftCard(token, amount, -1, format);
@@ -205,6 +208,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * Create a single-token gift card (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/createCode")
     public TokenGiftCard createSingleTokenGiftCard(String token, double amount, long recvWindow) throws Exception {
         return createSingleTokenGiftCard(token, amount, recvWindow, LIBRARY_OBJECT);
@@ -233,6 +237,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-single-token-gift-card-user_data">
      * Create a single-token gift card (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/createCode")
     public <T> T createSingleTokenGiftCard(String token, double amount, long recvWindow,
                                            ReturnFormat format) throws Exception {
@@ -267,6 +272,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * Create a dual-token gift card (fixed value, discount feature) (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/buyCode")
     public TokenGiftCard createDualTokenGiftCard(String baseToken, String faceToken,
                                                  double baseTokenAmount) throws Exception {
@@ -296,6 +302,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-dual-token-gift-card-fixed-value-discount-feature-trade">
      * Create a dual-token gift card (fixed value, discount feature) (TRADE)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/buyCode")
     public <T> T createDualTokenGiftCard(String baseToken, String faceToken, double baseTokenAmount,
                                          ReturnFormat format) throws Exception {
@@ -336,6 +343,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * Create a dual-token gift card (fixed value, discount feature) (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/buyCode")
     public TokenGiftCard createDualTokenGiftCard(String baseToken, String faceToken, double baseTokenAmount,
                                                  Params extraParams) throws Exception {
@@ -376,6 +384,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-dual-token-gift-card-fixed-value-discount-feature-trade">
      * Create a dual-token gift card (fixed value, discount feature) (TRADE)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/buyCode")
     public <T> T createDualTokenGiftCard(String baseToken, String faceToken, double baseTokenAmount, Params extraParams,
                                          ReturnFormat format) throws Exception {
@@ -427,6 +436,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * Redeem a Binance Gift Card (USER_DATA) </a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/redeemCode")
     public GiftCard redeemBinanceGiftCard(String code) throws Exception {
         return redeemBinanceGiftCard(code, LIBRARY_OBJECT);
@@ -453,6 +463,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-a-binance-gift-card-user_data">
      * Redeem a Binance Gift Card (USER_DATA) </a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/redeemCode")
     public <T> T redeemBinanceGiftCard(String code, ReturnFormat format) throws Exception {
         return redeemBinanceGiftCard(code, null, format);
@@ -498,6 +509,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * Redeem a Binance Gift Card (USER_DATA) </a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/redeemCode")
     public GiftCard redeemBinanceGiftCard(String code, Params extraParams) throws Exception {
         return redeemBinanceGiftCard(code, extraParams, LIBRARY_OBJECT);
@@ -544,6 +556,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * Redeem a Binance Gift Card (USER_DATA) </a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/redeemCode")
     public <T> T redeemBinanceGiftCard(String code, Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)
@@ -583,6 +596,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * able to verify any Gift Card Number for that hour
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/verify")
     public GiftCardVerification verifyBinanceGiftCard(String referenceNo) throws Exception {
         return verifyBinanceGiftCard(referenceNo, LIBRARY_OBJECT);
@@ -611,6 +625,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * @implNote please note that if you enter the wrong Gift Card Number 5 times within an hour, you will no longer be
      * able to verify any Gift Card Number for that hour
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/verify")
     public <T> T verifyBinanceGiftCard(String referenceNo, ReturnFormat format) throws Exception {
         return verifyBinanceGiftCard(referenceNo, -1, LIBRARY_OBJECT);
@@ -640,6 +655,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * able to verify any Gift Card Number for that hour
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/verify")
     public GiftCardVerification verifyBinanceGiftCard(String referenceNo, long recvWindow) throws Exception {
         return verifyBinanceGiftCard(referenceNo, recvWindow, LIBRARY_OBJECT);
@@ -670,6 +686,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * able to verify any Gift Card Number for that hour
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/verify")
     public <T> T verifyBinanceGiftCard(String referenceNo, long recvWindow, ReturnFormat format) throws Exception {
         Params query = createTimestampQuery(recvWindow);
@@ -706,6 +723,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * Fetch RSA Public Key (USER_DATA) </a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/cryptography/rsa-public-key")
     public BinanceRSAPublicKey fetchRSAPublicKey() throws Exception {
         return fetchRSAPublicKey(LIBRARY_OBJECT);
@@ -731,6 +749,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fetch-rsa-public-key-user_data">
      * Fetch RSA Public Key (USER_DATA) </a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/cryptography/rsa-public-key")
     public <T> T fetchRSAPublicKey(ReturnFormat format) throws Exception {
         return fetchRSAPublicKey(-1, LIBRARY_OBJECT);
@@ -757,6 +776,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * Fetch RSA Public Key (USER_DATA) </a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/cryptography/rsa-public-key")
     public BinanceRSAPublicKey fetchRSAPublicKey(long recvWindow) throws Exception {
         return fetchRSAPublicKey(recvWindow, LIBRARY_OBJECT);
@@ -784,6 +804,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * Fetch RSA Public Key (USER_DATA) </a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/cryptography/rsa-public-key")
     public <T> T fetchRSAPublicKey(long recvWindow, ReturnFormat format) throws Exception {
         String keyResponse = sendGetSignedRequest(GIFTCARD_VERIFY_ENDPOINT, createTimestampQuery(recvWindow));
@@ -819,6 +840,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * Fetch Token Limit (USER_DATA) </a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/buyCode/token-limit")
     public TokenLimits fetchTokenLimit(String baseToken) throws Exception {
         return fetchTokenLimit(baseToken, LIBRARY_OBJECT);
@@ -846,6 +868,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fetch-token-limit-user_data">
      * Fetch Token Limit (USER_DATA) </a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/buyCode/token-limit")
     public <T> T fetchTokenLimit(String baseToken, ReturnFormat format) throws Exception {
         return fetchTokenLimit(baseToken, -1, LIBRARY_OBJECT);
@@ -874,6 +897,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * Fetch Token Limit (USER_DATA) </a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/buyCode/token-limit")
     public TokenLimits fetchTokenLimit(String baseToken, long recvWindow) throws Exception {
         return fetchTokenLimit(baseToken, recvWindow, LIBRARY_OBJECT);
@@ -903,6 +927,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * Fetch Token Limit (USER_DATA) </a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/buyCode/token-limit")
     public <T> T fetchTokenLimit(String baseToken, long recvWindow, ReturnFormat format) throws Exception {
         Params query = createTimestampQuery(recvWindow);

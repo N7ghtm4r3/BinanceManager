@@ -1,9 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.convert;
 
-import com.tecknobit.apimanager.annotations.RequestPath;
-import com.tecknobit.apimanager.annotations.Returner;
-import com.tecknobit.apimanager.annotations.WrappedRequest;
-import com.tecknobit.apimanager.annotations.Wrapper;
+import com.tecknobit.apimanager.annotations.*;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.convert.records.*;
@@ -62,7 +59,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceConvertManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
@@ -76,7 +73,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceConvertManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
@@ -89,7 +86,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceConvertManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
@@ -102,7 +99,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
     /**
      * Constructor to init {@link BinanceConvertManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/
@@ -151,6 +148,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * List All Convert Pairs</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/exchangeInfo")
     public ArrayList<ConvertPair> getAllFromConvertPairs(String fromAsset) throws Exception {
         return getAllFromConvertPairs(fromAsset, LIBRARY_OBJECT);
@@ -177,6 +175,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-c2c-trade-history-user_data">
      * List All Convert Pairs</a>
      **/
+    @RequestWeight(weight = "3000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/exchangeInfo")
     public <T> T getAllFromConvertPairs(String fromAsset, ReturnFormat format) throws Exception {
         return getAllConvertPairs(fromAsset, null, format);
@@ -203,6 +202,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * List All Convert Pairs</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/exchangeInfo")
     public ArrayList<ConvertPair> getAllToConvertPairs(String toAsset) throws Exception {
         return getAllToConvertPairs(toAsset, LIBRARY_OBJECT);
@@ -229,6 +229,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-c2c-trade-history-user_data">
      * List All Convert Pairs</a>
      **/
+    @RequestWeight(weight = "3000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/exchangeInfo")
     public <T> T getAllToConvertPairs(String toAsset, ReturnFormat format) throws Exception {
         return getAllConvertPairs(null, toAsset, format);
@@ -256,6 +257,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * List All Convert Pairs</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/exchangeInfo")
     public ArrayList<ConvertPair> getAllConvertPairs(String fromAsset, String toAsset) throws Exception {
         return getAllConvertPairs(fromAsset, toAsset, LIBRARY_OBJECT);
@@ -284,6 +286,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * List All Convert Pairs</a>
      **/
     @Returner
+    @RequestWeight(weight = "3000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/exchangeInfo")
     public <T> T getAllConvertPairs(String fromAsset, String toAsset, ReturnFormat format) throws Exception {
         Params query = new Params();
@@ -327,6 +330,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Query order quantity precision per asset (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "100(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/assetInfo")
     public ArrayList<OrderQuantityPrecision> getOrderQuantityPrecisionPerAsset() throws Exception {
         return getOrderQuantityPrecisionPerAsset(LIBRARY_OBJECT);
@@ -353,6 +357,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Query order quantity precision per asset (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "100(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/assetInfo")
     public <T> T getOrderQuantityPrecisionPerAsset(ReturnFormat format) throws Exception {
         String orderQuantityPrecisionResponse = sendGetSignedRequest(ASSET_INFO_ENDPOINT, getTimestampParam());
@@ -393,6 +398,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Send quote request (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
     public QuoteRequest sendFromQuoteRequest(String fromAsset, String toAsset, double fromAmount) throws Exception {
         return sendFromQuoteRequest(fromAsset, toAsset, fromAmount, LIBRARY_OBJECT);
@@ -421,6 +427,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#send-quote-request-user_data">
      * Send quote request (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
     public <T> T sendFromQuoteRequest(String fromAsset, String toAsset, double fromAmount,
                                       ReturnFormat format) throws Exception {
@@ -465,6 +472,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Send quote request (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
     public QuoteRequest sendFromQuoteRequest(String fromAsset, String toAsset, double fromAmount,
                                              Params extraParams) throws Exception {
@@ -509,6 +517,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#send-quote-request-user_data">
      * Send quote request (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
     public <T> T sendFromQuoteRequest(String fromAsset, String toAsset, double fromAmount, Params extraParams,
                                       ReturnFormat format) throws Exception {
@@ -538,6 +547,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Send quote request (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
     public QuoteRequest sendToQuoteRequest(String fromAsset, String toAsset, double toAmount) throws Exception {
         return sendToQuoteRequest(fromAsset, toAsset, toAmount, LIBRARY_OBJECT);
@@ -566,6 +576,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#send-quote-request-user_data">
      * Send quote request (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
     public <T> T sendToQuoteRequest(String fromAsset, String toAsset, double toAmount,
                                     ReturnFormat format) throws Exception {
@@ -610,6 +621,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Send quote request (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
     public QuoteRequest sendToQuoteRequest(String fromAsset, String toAsset, double toAmount,
                                            Params extraParams) throws Exception {
@@ -654,6 +666,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#send-quote-request-user_data">
      * Send quote request (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
     public <T> T sendToQuoteRequest(String fromAsset, String toAsset, double toAmount, Params extraParams,
                                     ReturnFormat format) throws Exception {
@@ -684,6 +697,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Send quote request (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
     public QuoteRequest sendQuoteRequest(String fromAsset, String toAsset, double fromAmount,
                                          double toAmount) throws Exception {
@@ -714,6 +728,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#send-quote-request-user_data">
      * Send quote request (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
     public <T> T sendQuoteRequest(String fromAsset, String toAsset, double fromAmount, double toAmount,
                                   ReturnFormat format) throws Exception {
@@ -759,6 +774,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Send quote request (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
     public QuoteRequest sendQuoteRequest(String fromAsset, String toAsset, double fromAmount, double toAmount,
                                          Params extraParams) throws Exception {
@@ -805,6 +821,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Send quote request (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
     public <T> T sendQuoteRequest(String fromAsset, String toAsset, double fromAmount, double toAmount,
                                   Params extraParams, ReturnFormat format) throws Exception {
@@ -847,6 +864,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "500(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/acceptQuote")
     public AcceptQuote acceptQuote(QuoteRequest quote) throws Exception {
         return acceptQuote(quote.getQuoteId(), LIBRARY_OBJECT);
@@ -874,6 +892,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Accept Quote (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "500(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/acceptQuote")
     public <T> T acceptQuote(QuoteRequest quote, ReturnFormat format) throws Exception {
         return acceptQuote(quote.getQuoteId(), format);
@@ -900,6 +919,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Accept Quote (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "500(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/acceptQuote")
     public AcceptQuote acceptQuote(long quoteId) throws Exception {
         return acceptQuote(quoteId, LIBRARY_OBJECT);
@@ -927,6 +947,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Accept Quote (TRADE)</a>
      **/
     @Returner
+    @RequestWeight(weight = "500(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/acceptQuote")
     public <T> T acceptQuote(long quoteId, ReturnFormat format) throws Exception {
         Params payload = new Params();
@@ -965,6 +986,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
     public Convert getOrderStatusByOrderId(AcceptQuote order) throws Exception {
         return getOrderStatusByOrderId(order.getOrderId(), LIBRARY_OBJECT);
@@ -992,6 +1014,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Order status (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
     public <T> T getOrderStatusByOrderId(AcceptQuote order, ReturnFormat format) throws Exception {
         return getOrderStatusByOrderId(order.getOrderId(), format);
@@ -1018,6 +1041,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Order status (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
     public Convert getOrderStatusByOrderId(long orderId) throws Exception {
         return getOrderStatusByOrderId(orderId, LIBRARY_OBJECT);
@@ -1044,6 +1068,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-status-user_data">
      * Order status (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
     public <T> T getOrderStatusByOrderId(long orderId, ReturnFormat format) throws Exception {
         return getOrderStatus(orderId, -1, format);
@@ -1071,6 +1096,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
     public Convert getOrderStatusByQuoteId(QuoteRequest quote) throws Exception {
         return getOrderStatusByQuoteId(quote.getQuoteId(), LIBRARY_OBJECT);
@@ -1098,6 +1124,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Order status (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
     public <T> T getOrderStatusByQuoteId(QuoteRequest quote, ReturnFormat format) throws Exception {
         return getOrderStatusByQuoteId(quote.getQuoteId(), format);
@@ -1124,6 +1151,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Order status (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
     public Convert getOrderStatusByQuoteId(long quoteId) throws Exception {
         return getOrderStatusByQuoteId(quoteId, LIBRARY_OBJECT);
@@ -1150,6 +1178,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-status-user_data">
      * Order status (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
     public <T> T getOrderStatusByQuoteId(long quoteId, ReturnFormat format) throws Exception {
         return getOrderStatus(-1, quoteId, format);
@@ -1178,6 +1207,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
     public Convert getOrderStatus(AcceptQuote order, QuoteRequest quote) throws Exception {
         return getOrderStatus(order.getOrderId(), quote.getQuoteId(), LIBRARY_OBJECT);
@@ -1206,6 +1236,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Order status (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
     public <T> T getOrderStatus(AcceptQuote order, QuoteRequest quote, ReturnFormat format) throws Exception {
         return getOrderStatus(order.getOrderId(), quote.getQuoteId(), format);
@@ -1233,6 +1264,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Order status (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
     public Convert getOrderStatus(long orderId, long quoteId) throws Exception {
         return getOrderStatus(orderId, quoteId, LIBRARY_OBJECT);
@@ -1261,6 +1293,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Order status (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
     public <T> T getOrderStatus(long orderId, long quoteId, ReturnFormat format) throws Exception {
         Params query = new Params();
@@ -1302,6 +1335,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Get Convert Trade History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/tradeFlow")
     public ConvertTradeHistory getConvertTradeHistory(long startTime, long endTime) throws Exception {
         return getConvertTradeHistory(startTime, endTime, LIBRARY_OBJECT);
@@ -1329,6 +1363,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-convert-trade-history-user_data">
      * Get Convert Trade History (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/tradeFlow")
     public <T> T getConvertTradeHistory(long startTime, long endTime, ReturnFormat format) throws Exception {
         return getConvertTradeHistory(startTime, endTime, null, format);
@@ -1366,6 +1401,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Get Convert Trade History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/tradeFlow")
     public ConvertTradeHistory getConvertTradeHistory(long startTime, long endTime, Params extraParams) throws Exception {
         return getConvertTradeHistory(startTime, endTime, extraParams, LIBRARY_OBJECT);
@@ -1404,6 +1440,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * Get Convert Trade History (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/tradeFlow")
     public <T> T getConvertTradeHistory(long startTime, long endTime, Params extraParams,
                                         ReturnFormat format) throws Exception {

@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.mining;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
+import com.tecknobit.apimanager.annotations.RequestWeight;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.binancemanager.exceptions.SystemException;
@@ -109,7 +110,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceMiningManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
@@ -123,7 +124,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceMiningManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
@@ -136,7 +137,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceMiningManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
@@ -149,7 +150,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceMiningManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/
@@ -199,6 +200,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Acquiring Algorithm (MARKET_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/pub/algoList")
     public AcquiringAlgorithm acquiringAlgorithm() throws Exception {
         return acquiringAlgorithm(LIBRARY_OBJECT);
@@ -225,6 +227,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Acquiring Algorithm (MARKET_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/pub/algoList")
     public <T> T acquiringAlgorithm(ReturnFormat format) throws Exception {
         String algorithmResponse = sendGetSignedRequest(MINING_PUB_ALGOLIST_ENDPOINT);
@@ -259,6 +262,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Acquiring CoinName (MARKET_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/pub/coinList")
     public AcquiringCoinName acquiringCoinName() throws Exception {
         return acquiringCoinName(LIBRARY_OBJECT);
@@ -285,6 +289,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Acquiring CoinName (MARKET_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/pub/coinList")
     public <T> T acquiringCoinName(ReturnFormat format) throws Exception {
         String coinNameResponse = sendGetSignedRequest(MINING_PUB_COINLIST_ENDPOINT);
@@ -321,6 +326,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Request for Detail Miner List (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/worker/detail")
     public DetailMinerList getDetailMinerList(String algo, String userName, String workerName) throws Exception {
         return getDetailMinerList(algo, userName, workerName, LIBRARY_OBJECT);
@@ -349,6 +355,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#request-for-detail-miner-list-user_data">
      * Request for Detail Miner List (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/worker/detail")
     public <T> T getDetailMinerList(String algo, String userName, String workerName, ReturnFormat format) throws Exception {
         return getDetailMinerList(algo, userName, workerName, -1, format);
@@ -378,6 +385,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Request for Detail Miner List (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/worker/detail")
     public DetailMinerList getDetailMinerList(String algo, String userName, String workerName,
                                               long recvWindow) throws Exception {
@@ -409,6 +417,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Request for Detail Miner List (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/worker/detail")
     public <T> T getDetailMinerList(String algo, String userName, String workerName, long recvWindow,
                                     ReturnFormat format) throws Exception {
@@ -449,6 +458,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Request for Miner List (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/worker/list")
     public MinerList getMinerList(String algo, String userName) throws Exception {
         return getMinerList(algo, userName, LIBRARY_OBJECT);
@@ -476,6 +486,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#request-for-miner-list-user_data">
      * Request for Miner List (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/worker/list")
     public <T> T getMinerList(String algo, String userName, ReturnFormat format) throws Exception {
         return getMinerList(algo, userName, null, format);
@@ -525,6 +536,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Request for Miner List (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/worker/list")
     public MinerList getMinerList(String algo, String userName, Params extraParams) throws Exception {
         return getMinerList(algo, userName, extraParams, LIBRARY_OBJECT);
@@ -575,6 +587,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Request for Miner List (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/worker/list")
     public <T> T getMinerList(String algo, String userName, Params extraParams, ReturnFormat format) throws Exception {
         Params query = createAlgoQuery(algo, userName);
@@ -612,6 +625,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Earnings List(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/list")
     public EarningsList getEarningsList(String algo, String userName) throws Exception {
         return getEarningsList(algo, userName, LIBRARY_OBJECT);
@@ -639,6 +653,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#earnings-list-user_data">
      * Earnings List(USER_DATA)</a>
      **/
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/list")
     public <T> T getEarningsList(String algo, String userName, ReturnFormat format) throws Exception {
         return getEarningsList(algo, userName, null, format);
@@ -690,6 +705,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Earnings List(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/list")
     public EarningsList getEarningsList(String algo, String userName, Params extraParams) throws Exception {
         return getEarningsList(algo, userName, extraParams, LIBRARY_OBJECT);
@@ -742,6 +758,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Earnings List(USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/list")
     public <T> T getEarningsList(String algo, String userName, Params extraParams, ReturnFormat format) throws Exception {
         Params query = createAlgoQuery(algo, userName);
@@ -779,6 +796,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Extra Bonus List (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/other")
     public ExtraBonusList getExtraBonusList(String algo, String userName) throws Exception {
         return getExtraBonusList(algo, userName, LIBRARY_OBJECT);
@@ -806,6 +824,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#extra-bonus-list-user_data">
      * Extra Bonus List (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/other")
     public <T> T getExtraBonusList(String algo, String userName, ReturnFormat format) throws Exception {
         return getExtraBonusList(algo, userName, null, format);
@@ -857,6 +876,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Extra Bonus List (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/other")
     public ExtraBonusList getExtraBonusList(String algo, String userName, Params extraParams) throws Exception {
         return getExtraBonusList(algo, userName, extraParams, LIBRARY_OBJECT);
@@ -909,6 +929,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Extra Bonus List (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/other")
     public <T> T getExtraBonusList(String algo, String userName, Params extraParams, ReturnFormat format) throws Exception {
         Params query = createAlgoQuery(algo, userName);
@@ -945,6 +966,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Hashrate Resale List (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/config/details/list")
     public HashrateResaleList getHashrateResaleList() throws Exception {
         return getHashrateResaleList(LIBRARY_OBJECT);
@@ -970,6 +992,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-list-user_data">
      * Hashrate Resale List (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/config/details/list")
     public <T> T getHashrateResaleList(ReturnFormat format) throws Exception {
         return getHashrateResaleList(null, format);
@@ -1008,6 +1031,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Hashrate Resale List (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/config/details/list")
     public HashrateResaleList getHashrateResaleList(Params extraParams) throws Exception {
         return getHashrateResaleList(extraParams, LIBRARY_OBJECT);
@@ -1047,6 +1071,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Hashrate Resale List (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/config/details/list")
     public <T> T getHashrateResaleList(Params extraParams, ReturnFormat format) throws Exception {
         extraParams = createTimestampPayload(extraParams);
@@ -1083,6 +1108,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Hashrate Resale Detail (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/profit/details")
     public HashRateResaleDetail getHashrateResaleDetail(long configId, String userName) throws Exception {
         return getHashrateResaleDetail(configId, userName, LIBRARY_OBJECT);
@@ -1110,6 +1136,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-detail-user_data">
      * Hashrate Resale Detail (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/profit/details")
     public <T> T getHashrateResaleDetail(long configId, String userName, ReturnFormat format) throws Exception {
         return getHashrateResaleDetail(configId, userName, null, format);
@@ -1150,6 +1177,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Hashrate Resale Detail (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/profit/details")
     public HashRateResaleDetail getHashrateResaleDetail(long configId, String userName, Params extraParams) throws Exception {
         return getHashrateResaleDetail(configId, userName, extraParams, LIBRARY_OBJECT);
@@ -1191,6 +1219,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Hashrate Resale Detail (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/profit/details")
     public <T> T getHashrateResaleDetail(long configId, String userName, Params extraParams,
                                          ReturnFormat format) throws Exception {
@@ -1234,6 +1263,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Hashrate Resale Request (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config")
     public HashrateResaleRequest execHashrateResaleRequest(String userName, String algo, long endDate, long startDate,
                                                            String toPoolUser, long hashRate) throws Exception {
@@ -1266,6 +1296,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-request-user_data">
      * Hashrate Resale Request (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config")
     public <T> T execHashrateResaleRequest(String userName, String algo, long endDate, long startDate, String toPoolUser,
                                            long hashRate, ReturnFormat format) throws Exception {
@@ -1299,6 +1330,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Hashrate Resale Request (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config")
     public HashrateResaleRequest execHashrateResaleRequest(String userName, String algo, long endDate, long startDate,
                                                            String toPoolUser, long hashRate,
@@ -1335,6 +1367,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Hashrate Resale Request (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config")
     public <T> T execHashrateResaleRequest(String userName, String algo, long endDate, long startDate, String toPoolUser,
                                            long hashRate, long recvWindow, ReturnFormat format) throws Exception {
@@ -1380,6 +1413,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Cancel hashrate resale configuration(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config/cancel")
     public HashRateResaleConfiguration cancelHashrateResaleConfiguration(long configId, String userName) throws Exception {
         return cancelHashrateResaleConfiguration(configId, userName, LIBRARY_OBJECT);
@@ -1407,6 +1441,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-hashrate-resale-configuration-user_data>
      * Cancel hashrate resale configuration(USER_DATA)</a>
      **/
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config/cancel")
     public <T> T cancelHashrateResaleConfiguration(long configId, String userName, ReturnFormat format) throws Exception {
         return cancelHashrateResaleConfiguration(configId, userName, -1, format);
@@ -1435,6 +1470,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Cancel hashrate resale configuration(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config/cancel")
     public HashRateResaleConfiguration cancelHashrateResaleConfiguration(long configId, String userName,
                                                                          long recvWindow) throws Exception {
@@ -1465,6 +1501,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Cancel hashrate resale configuration(USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config/cancel")
     public <T> T cancelHashrateResaleConfiguration(long configId, String userName, long recvWindow,
                                                    ReturnFormat format) throws Exception {
@@ -1518,6 +1555,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Statistic List (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/status")
     public StatisticList getStatisticList(String algo, String userName) throws Exception {
         return getStatisticList(algo, userName, LIBRARY_OBJECT);
@@ -1545,6 +1583,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#statistic-list-user_data">
      * Statistic List (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/status")
     public <T> T getStatisticList(String algo, String userName, ReturnFormat format) throws Exception {
         return getStatisticList(algo, userName, -1, format);
@@ -1573,6 +1612,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Statistic List (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/status")
     public StatisticList getStatisticList(String algo, String userName, long recvWindow) throws Exception {
         return getStatisticList(algo, userName, recvWindow, LIBRARY_OBJECT);
@@ -1602,6 +1642,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Statistic List (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/status")
     public <T> T getStatisticList(String algo, String userName, long recvWindow, ReturnFormat format) throws Exception {
         Params query = createAlgoQuery(algo, userName);
@@ -1640,6 +1681,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Account List (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/list")
     public AccountList getAccountList(String algo, String userName) throws Exception {
         return getAccountList(algo, userName, LIBRARY_OBJECT);
@@ -1667,6 +1709,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-list-user_data">
      * Account List (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/list")
     public <T> T getAccountList(String algo, String userName, ReturnFormat format) throws Exception {
         return getAccountList(algo, userName, -1, format);
@@ -1695,6 +1738,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Account List (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/list")
     public AccountList getAccountList(String algo, String userName, long recvWindow) throws Exception {
         return getAccountList(algo, userName, recvWindow, LIBRARY_OBJECT);
@@ -1724,6 +1768,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Account List (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/list")
     public <T> T getAccountList(String algo, String userName, long recvWindow, ReturnFormat format) throws Exception {
         Params query = createAlgoQuery(algo, userName);
@@ -1775,6 +1820,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Mining Account Earning (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/uid")
     public MiningAccountEarning getMiningAccountEarning(String algo) throws Exception {
         return getMiningAccountEarning(algo, LIBRARY_OBJECT);
@@ -1801,6 +1847,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#mining-account-earning-user_data">
      * Mining Account Earning (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/uid")
     public <T> T getMiningAccountEarning(String algo, ReturnFormat format) throws Exception {
         return getMiningAccountEarning(algo, null, format);
@@ -1846,6 +1893,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Mining Account Earning (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/uid")
     public MiningAccountEarning getMiningAccountEarning(String algo, Params extraParams) throws Exception {
         return getMiningAccountEarning(algo, extraParams, LIBRARY_OBJECT);
@@ -1892,6 +1940,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * Mining Account Earning (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/uid")
     public <T> T getMiningAccountEarning(String algo, Params extraParams, ReturnFormat format) throws Exception {
         extraParams = createTimestampPayload(extraParams);

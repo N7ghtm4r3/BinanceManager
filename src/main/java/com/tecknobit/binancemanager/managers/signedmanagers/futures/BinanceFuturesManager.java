@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.futures;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
+import com.tecknobit.apimanager.annotations.RequestWeight;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.apimanager.formatters.JsonHelper;
@@ -66,7 +67,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceFuturesManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
@@ -80,7 +81,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceFuturesManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
@@ -93,7 +94,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceFuturesManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
@@ -106,7 +107,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceFuturesManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/
@@ -157,6 +158,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * New Future Account Transfer (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/futures/transfer")
     public long execNewFutureAccountTransfer(String asset, double amount, FutureTransactionType type) throws Exception {
         return Long.parseLong(execNewFutureAccountTransfer(asset, amount, type, LIBRARY_OBJECT));
@@ -185,6 +187,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-future-account-transfer-user_data">
      * New Future Account Transfer (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/futures/transfer")
     public <T> T execNewFutureAccountTransfer(String asset, double amount, FutureTransactionType type,
                                               ReturnFormat format) throws Exception {
@@ -215,6 +218,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * New Future Account Transfer (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/futures/transfer")
     public long execNewFutureAccountTransfer(String asset, double amount, FutureTransactionType type,
                                              long recvWindow) throws Exception {
@@ -246,6 +250,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * New Future Account Transfer (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/futures/transfer")
     public <T> T execNewFutureAccountTransfer(String asset, double amount, FutureTransactionType type, long recvWindow,
                                               ReturnFormat format) throws Exception {
@@ -288,6 +293,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Get Future Account Transaction History List (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/transfer")
     public FutureAccountTransactionsHistory getFutureAccountTransactionsHistory(String asset, long startTime) throws Exception {
         return getFutureAccountTransactionsHistory(asset, startTime, LIBRARY_OBJECT);
@@ -315,6 +321,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-future-account-transaction-history-list-user_data">
      * Get Future Account Transaction History List (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/transfer")
     public <T> T getFutureAccountTransactionsHistory(String asset, long startTime, ReturnFormat format) throws Exception {
         return getFutureAccountTransactionsHistory(asset, startTime, null, format);
@@ -357,6 +364,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Get Future Account Transaction History List (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/transfer")
     public FutureAccountTransactionsHistory getFutureAccountTransactionsHistory(String asset, long startTime,
                                                                                 Params extraParams) throws Exception {
@@ -401,6 +409,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Get Future Account Transaction History List (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/transfer")
     public <T> T getFutureAccountTransactionsHistory(String asset, long startTime, Params extraParams,
                                                      ReturnFormat format) throws Exception {
@@ -441,6 +450,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Cross-Collateral Borrow History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/borrow/history")
     public CrossCollateralBorrowHistory getCrossCollateralBorrowHistory() throws Exception {
         return getCrossCollateralBorrowHistory(LIBRARY_OBJECT);
@@ -466,6 +476,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-borrow-history-user_data">
      * Cross-Collateral Borrow History (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/borrow/history")
     public <T> T getCrossCollateralBorrowHistory(ReturnFormat format) throws Exception {
         return getCrossCollateralBorrowHistory(null, format);
@@ -509,6 +520,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Cross-Collateral Borrow History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/borrow/history")
     public CrossCollateralBorrowHistory getCrossCollateralBorrowHistory(Params extraParams) throws Exception {
         return getCrossCollateralBorrowHistory(extraParams, LIBRARY_OBJECT);
@@ -553,6 +565,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Cross-Collateral Borrow History (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/borrow/history")
     public <T> T getCrossCollateralBorrowHistory(Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)
@@ -590,6 +603,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Cross-Collateral Repayment History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/repay/history")
     public CrossCollateralRepaymentsHistory getCrossCollateralRepaymentHistory() throws Exception {
         return getCrossCollateralRepaymentHistory(LIBRARY_OBJECT);
@@ -615,6 +629,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-repayment-history-user_data">
      * Cross-Collateral Repayment History (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/repay/history")
     public <T> T getCrossCollateralRepaymentHistory(ReturnFormat format) throws Exception {
         return getCrossCollateralRepaymentHistory(null, format);
@@ -658,6 +673,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Cross-Collateral Repayment History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/repay/history")
     public CrossCollateralRepaymentsHistory getCrossCollateralRepaymentHistory(Params extraParams) throws Exception {
         return getCrossCollateralRepaymentHistory(extraParams, LIBRARY_OBJECT);
@@ -702,6 +718,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Cross-Collateral Repayment History (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/repay/history")
     public <T> T getCrossCollateralRepaymentHistory(Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)
@@ -739,6 +756,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Cross-Collateral Wallet V2 (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/futures/loan/wallet")
     public CrossCollateralWallet getCrossCollateralWallet() throws Exception {
         return getCrossCollateralWallet(LIBRARY_OBJECT);
@@ -764,6 +782,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-wallet-v2-user_data">
      * Cross-Collateral Wallet V2 (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/futures/loan/wallet")
     public <T> T getCrossCollateralWallet(ReturnFormat format) throws Exception {
         return getCrossCollateralWallet(-1, format);
@@ -790,6 +809,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Cross-Collateral Wallet V2 (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/futures/loan/wallet")
     public CrossCollateralWallet getCrossCollateralWallet(long recvWindow) throws Exception {
         return getCrossCollateralWallet(recvWindow, LIBRARY_OBJECT);
@@ -817,6 +837,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Cross-Collateral Wallet V2 (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/futures/loan/wallet")
     public <T> T getCrossCollateralWallet(long recvWindow, ReturnFormat format) throws Exception {
         Params query = new Params();
@@ -855,6 +876,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Adjust Cross-Collateral LTV History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/adjustCollateral/history")
     public CrossCollateralLTVHistory getAdjustCrossCollateralLTVHistory() throws Exception {
         return getAdjustCrossCollateralLTVHistory(LIBRARY_OBJECT);
@@ -880,6 +902,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#adjust-cross-collateral-ltv-history-user_data">
      * Adjust Cross-Collateral LTV History (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/adjustCollateral/history")
     public <T> T getAdjustCrossCollateralLTVHistory(ReturnFormat format) throws Exception {
         return getAdjustCrossCollateralLTVHistory(null, format);
@@ -926,6 +949,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Adjust Cross-Collateral LTV History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/adjustCollateral/history")
     public CrossCollateralLTVHistory getAdjustCrossCollateralLTVHistory(Params extraParams) throws Exception {
         return getAdjustCrossCollateralLTVHistory(extraParams, LIBRARY_OBJECT);
@@ -973,6 +997,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Adjust Cross-Collateral LTV History (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/adjustCollateral/history")
     public <T> T getAdjustCrossCollateralLTVHistory(Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)
@@ -1010,6 +1035,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Cross-Collateral Liquidation History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/liquidationHistory")
     public CrossCollateralLiquidationHistory getCrossCollateralLiquidationHistory() throws Exception {
         return getCrossCollateralLiquidationHistory(LIBRARY_OBJECT);
@@ -1035,6 +1061,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-liquidation-history-user_data">
      * Cross-Collateral Liquidation History (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/liquidationHistory")
     public <T> T getCrossCollateralLiquidationHistory(ReturnFormat format) throws Exception {
         return getCrossCollateralLiquidationHistory(null, format);
@@ -1081,6 +1108,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Cross-Collateral Liquidation History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/liquidationHistory")
     public CrossCollateralLiquidationHistory getCrossCollateralLiquidationHistory(Params extraParams) throws Exception {
         return getCrossCollateralLiquidationHistory(extraParams, LIBRARY_OBJECT);
@@ -1128,6 +1156,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Cross-Collateral Liquidation History (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/liquidationHistory")
     public <T> T getCrossCollateralLiquidationHistory(Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)
@@ -1165,6 +1194,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Cross-Collateral Interest History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/interestHistory")
     public CrossCollateralInterestsHistory getCrossCollateralInterestHistory() throws Exception {
         return getCrossCollateralInterestHistory(LIBRARY_OBJECT);
@@ -1190,6 +1220,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-interest-history-user_data">
      * Cross-Collateral Interest History (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/interestHistory")
     public <T> T getCrossCollateralInterestHistory(ReturnFormat format) throws Exception {
         return getCrossCollateralInterestHistory(null, format);
@@ -1239,6 +1270,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Cross-Collateral Interest History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/interestHistory")
     public CrossCollateralInterestsHistory getCrossCollateralInterestHistory(Params extraParams) throws Exception {
         return getCrossCollateralInterestHistory(extraParams, LIBRARY_OBJECT);
@@ -1289,6 +1321,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * Cross-Collateral Interest History (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/interestHistory")
     public <T> T getCrossCollateralInterestHistory(Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)

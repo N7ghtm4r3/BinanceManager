@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers.userdatastreams;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
+import com.tecknobit.apimanager.annotations.RequestWeight;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.binancemanager.exceptions.SystemException;
@@ -144,6 +145,7 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
      * LISTEN KEY (SPOT)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1")
     @RequestPath(method = POST, path = "/api/v3/userDataStream")
     public String createSpotListenKey() throws Exception {
         return createSpotListenKey(LIBRARY_OBJECT);
@@ -171,6 +173,7 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#listen-key-spot">
      * LISTEN KEY (SPOT)</a>
      **/
+    @RequestWeight(weight = "1")
     @RequestPath(method = POST, path = "/api/v3/userDataStream")
     public <T> T createSpotListenKey(ReturnFormat format) throws Exception {
         return returnListenKey(sendPostRequest(SPOT_USER_DATA_STREAM_ENDPOINT, null, apiKey), format);
@@ -196,6 +199,7 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#listen-key-spot">
      * LISTEN KEY (SPOT)</a>
      **/
+    @RequestWeight(weight = "1")
     @RequestPath(method = PUT, path = "/api/v3/userDataStream")
     public boolean pingKeepAliveSpotListenKey(String listenKey) throws IOException {
         return sendPutRequest(SPOT_USER_DATA_STREAM_ENDPOINT, createListenKeyPayload(listenKey), apiKey).equals("{}");
@@ -221,6 +225,7 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#listen-key-spot">
      * LISTEN KEY (SPOT)</a>
      **/
+    @RequestWeight(weight = "1")
     @RequestPath(method = DELETE, path = "/api/v3/userDataStream")
     public boolean closeSpotListenKey(String listenKey) throws IOException {
         return sendDeleteRequest(SPOT_USER_DATA_STREAM_ENDPOINT, createListenKeyPayload(listenKey), apiKey).equals("{}");
@@ -249,6 +254,7 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
      * LISTEN KEY (MARGIN)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1")
     @RequestPath(method = POST, path = "/sapi/v1/userDataStream")
     public String createMarginListenKey() throws Exception {
         return createMarginListenKey(LIBRARY_OBJECT);
@@ -276,6 +282,7 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#listen-key-isolated-margin">
      * LISTEN KEY (MARGIN)</a>
      **/
+    @RequestWeight(weight = "1")
     @RequestPath(method = POST, path = "/sapi/v1/userDataStream")
     public <T> T createMarginListenKey(ReturnFormat format) throws Exception {
         return returnListenKey(sendPostRequest(MARGIN_USER_DATA_STREAM_ENDPOINT, null, apiKey), format);
@@ -301,6 +308,7 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#listen-key-isolated-margin">
      * LISTEN KEY (MARGIN)</a>
      **/
+    @RequestWeight(weight = "1")
     @RequestPath(method = PUT, path = "/sapi/v1/userDataStream")
     public boolean pingKeepAliveMarginListenKey(String listenKey) throws IOException {
         return sendPutRequest(MARGIN_USER_DATA_STREAM_ENDPOINT, createListenKeyPayload(listenKey), apiKey).equals("{}");
@@ -326,6 +334,7 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#listen-key-isolated-margin">
      * LISTEN KEY (MARGIN)</a>
      **/
+    @RequestWeight(weight = "1")
     @RequestPath(method = DELETE, path = "/sapi/v1/userDataStream")
     public boolean closeMarginListenKey(String listenKey) throws IOException {
         return sendDeleteRequest(MARGIN_USER_DATA_STREAM_ENDPOINT, createListenKeyPayload(listenKey), apiKey).equals("{}");
@@ -354,6 +363,7 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
      * LISTEN KEY (ISOLATED_MARGIN)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1")
     @RequestPath(method = POST, path = "/sapi/v1/userDataStream/isolated")
     public String createIsolatedMarginListenKey(String symbol) throws Exception {
         return createIsolatedMarginListenKey(symbol, LIBRARY_OBJECT);
@@ -382,6 +392,7 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#listen-key-isolated-margin>
      * LISTEN KEY (ISOLATED_MARGIN)</a>
      **/
+    @RequestWeight(weight = "1")
     @RequestPath(method = POST, path = "/sapi/v1/userDataStream/isolated")
     public <T> T createIsolatedMarginListenKey(String symbol, ReturnFormat format) throws Exception {
         Params payload = new Params();
@@ -410,6 +421,7 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#listen-key-isolated-margin>
      * LISTEN KEY (ISOLATED_MARGIN)</a>
      **/
+    @RequestWeight(weight = "1")
     @RequestPath(method = PUT, path = "/sapi/v1/userDataStream/isolated")
     public boolean pingKeepAliveIsolatedMarginListenKey(String symbol, String listenKey) throws IOException {
         Params payload = createListenKeyPayload(listenKey);
@@ -438,6 +450,7 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#listen-key-isolated-margin>
      * LISTEN KEY (ISOLATED_MARGIN)</a>
      **/
+    @RequestWeight(weight = "1")
     @RequestPath(method = DELETE, path = "/sapi/v1/userDataStream/isolated")
     public boolean closeIsolatedMarginListenKey(String symbol, String listenKey) throws IOException {
         Params payload = createListenKeyPayload(listenKey);
@@ -499,6 +512,7 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
      * Thank you for help!
      **/
     @Wrapper
+    @RequestWeight(weight = "1")
     @RequestPath(method = GET, path = "wss://stream.binance.com:9443/ws/{listenKey}")
     public AccountUpdate getAccountUpdate(String listenKey) throws Exception {
         return getAccountUpdate(listenKey, LIBRARY_OBJECT);
@@ -527,6 +541,7 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
      * with Binance's websocket API response, hide personal data, and write about error that has been thrown.
      * Thank you for help!
      **/
+    @RequestWeight(weight = "1")
     @RequestPath(method = GET, path = "wss://stream.binance.com:9443/ws/{listenKey}")
     public <T> T getAccountUpdate(String listenKey, ReturnFormat format) throws Exception {
         return (T) getWebSocketContent(listenKey, AccountUpdate.class, format);
@@ -555,6 +570,7 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
      * Thank you for help!
      **/
     @Wrapper
+    @RequestWeight(weight = "1")
     @RequestPath(method = GET, path = "wss://stream.binance.com:9443/ws/{listenKey}")
     public BalanceUpdate getBalanceUpdate(String listenKey) throws Exception {
         return getBalanceUpdate(listenKey, LIBRARY_OBJECT);
@@ -583,6 +599,7 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
      * with Binance's websocket API response, hide personal data, and write about error that has been thrown.
      * Thank you for help!
      **/
+    @RequestWeight(weight = "1")
     @RequestPath(method = GET, path = "wss://stream.binance.com:9443/ws/{listenKey}")
     public <T> T getBalanceUpdate(String listenKey, ReturnFormat format) throws Exception {
         return (T) getWebSocketContent(listenKey, BalanceUpdate.class, format);
@@ -611,6 +628,7 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
      * Thank you for help!
      **/
     @Wrapper
+    @RequestWeight(weight = "1")
     @RequestPath(method = GET, path = "wss://stream.binance.com:9443/ws/{listenKey}")
     public OrderUpdate getOrderUpdate(String listenKey) throws Exception {
         return getOrderUpdate(listenKey, LIBRARY_OBJECT);
@@ -639,6 +657,7 @@ public class BinanceUserDataStreamsManager extends BinanceWebsocketManager {
      * with Binance's websocket API response, hide personal data, and write about error that has been thrown.
      * Thank you for help!
      **/
+    @RequestWeight(weight = "1")
     @RequestPath(method = GET, path = "wss://stream.binance.com:9443/ws/{listenKey}")
     public <T> T getOrderUpdate(String listenKey, ReturnFormat format) throws Exception {
         return (T) getWebSocketContent(listenKey, OrderUpdate.class, format);

@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.records.loan;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
@@ -15,6 +16,7 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see BinanceItem
  * @see LoanBaseStructure
  **/
+@Structure
 public abstract class LoanOrder extends LoanBaseStructure {
 
     /**

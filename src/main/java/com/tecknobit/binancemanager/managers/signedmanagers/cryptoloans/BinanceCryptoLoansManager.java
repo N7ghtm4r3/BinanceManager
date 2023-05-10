@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.cryptoloans;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
+import com.tecknobit.apimanager.annotations.RequestWeight;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.binancemanager.exceptions.SystemException;
@@ -94,7 +95,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceCryptoLoansManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
@@ -108,7 +109,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceCryptoLoansManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
@@ -121,7 +122,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceCryptoLoansManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
@@ -134,7 +135,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceCryptoLoansManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/
@@ -184,6 +185,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Get Crypto Loans Income History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/income")
     public ArrayList<CryptoLoanIncome> getCryptoLoansIncomeHistory() throws Exception {
         return getCryptoLoansIncomeHistory(LIBRARY_OBJECT);
@@ -209,6 +211,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-crypto-loans-income-history-user_data">
      * Get Crypto Loans Income History (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/income")
     public <T> T getCryptoLoansIncomeHistory(ReturnFormat format) throws Exception {
         return getCryptoLoansIncomeHistory(null, format);
@@ -256,6 +259,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Get Crypto Loans Income History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/income")
     public ArrayList<CryptoLoanIncome> getCryptoLoansIncomeHistory(Params extraParams) throws Exception {
         return getCryptoLoansIncomeHistory(extraParams, LIBRARY_OBJECT);
@@ -304,6 +308,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Get Crypto Loans Income History (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/income")
     public <T> T getCryptoLoansIncomeHistory(Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)
@@ -347,6 +352,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Borrow - Crypto Loan Borrow (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/borrow")
     public CryptoLoanBorrow execCryptoLoanBorrow(String loanCoin, String collateralCoin, int loanTerm) throws Exception {
         return execCryptoLoanBorrow(loanCoin, collateralCoin, loanTerm, LIBRARY_OBJECT);
@@ -375,6 +381,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#borrow-crypto-loan-borrow-trade">
      * Borrow - Crypto Loan Borrow (TRADE)</a>
      **/
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/borrow")
     public <T> T execCryptoLoanBorrow(String loanCoin, String collateralCoin, int loanTerm,
                                       ReturnFormat format) throws Exception {
@@ -416,6 +423,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Borrow - Crypto Loan Borrow (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/borrow")
     public CryptoLoanBorrow execCryptoLoanBorrow(String loanCoin, String collateralCoin, int loanTerm,
                                                  Params extraParams) throws Exception {
@@ -458,6 +466,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Borrow - Crypto Loan Borrow (TRADE)</a>
      **/
     @Returner
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/borrow")
     public <T> T execCryptoLoanBorrow(String loanCoin, String collateralCoin, int loanTerm, Params extraParams,
                                       ReturnFormat format) throws Exception {
@@ -499,6 +508,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Borrow - Get Loan Borrow History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/borrow/history")
     public CryptoLoanBorrowHistory getLoanBorrowHistory() throws Exception {
         return getLoanBorrowHistory(LIBRARY_OBJECT);
@@ -524,6 +534,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#borrow-get-loan-borrow-history-user_data">
      * Borrow - Get Loan Borrow History (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/borrow/history")
     public <T> T getLoanBorrowHistory(ReturnFormat format) throws Exception {
         return getLoanBorrowHistory(null, format);
@@ -576,6 +587,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Borrow - Get Loan Borrow History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/borrow/history")
     public CryptoLoanBorrowHistory getLoanBorrowHistory(Params extraParams) throws Exception {
         return getLoanBorrowHistory(extraParams, LIBRARY_OBJECT);
@@ -629,6 +641,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Borrow - Get Loan Borrow History (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/borrow/history")
     public <T> T getLoanBorrowHistory(Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)
@@ -666,6 +679,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Borrow - Get Loan Ongoing Orders (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "300(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/ongoing/orders")
     public CryptoLoanOngoingOrders getLoanOngoingOrders() throws Exception {
         return getLoanOngoingOrders(LIBRARY_OBJECT);
@@ -691,6 +705,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#borrow-get-loan-ongoing-orders-user_data">
      * Borrow - Get Loan Ongoing Orders (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "300(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/ongoing/orders")
     public <T> T getLoanOngoingOrders(ReturnFormat format) throws Exception {
         return getLoanOngoingOrders(null, format);
@@ -737,6 +752,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Borrow - Get Loan Ongoing Orders (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "300(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/ongoing/orders")
     public CryptoLoanOngoingOrders getLoanOngoingOrders(Params extraParams) throws Exception {
         return getLoanOngoingOrders(extraParams, LIBRARY_OBJECT);
@@ -784,6 +800,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Borrow - Get Loan Ongoing Orders (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "300(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/ongoing/orders")
     public <T> T getLoanOngoingOrders(Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)
@@ -822,6 +839,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Repay - Crypto Loan Repay (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/repay")
     public CryptoLoanRepay execCryptoLoanRepay(long orderId, double amount) throws Exception {
         return execCryptoLoanRepay(orderId, amount, LIBRARY_OBJECT);
@@ -849,6 +867,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#repay-crypto-loan-repay-trade">
      * Repay - Crypto Loan Repay (TRADE)</a>
      **/
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/repay")
     public <T> T execCryptoLoanRepay(long orderId, double amount, ReturnFormat format) throws Exception {
         return execCryptoLoanRepay(orderId, amount, null, format);
@@ -897,6 +916,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Repay - Crypto Loan Repay (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/repay")
     public CryptoLoanRepay execCryptoLoanRepay(long orderId, double amount, Params extraParams) throws Exception {
         return execCryptoLoanRepay(orderId, amount, extraParams, LIBRARY_OBJECT);
@@ -946,6 +966,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Repay - Crypto Loan Repay (TRADE)</a>
      **/
     @Returner
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/repay")
     public <T> T execCryptoLoanRepay(long orderId, double amount, Params extraParams, ReturnFormat format) throws Exception {
         Params payload = createLoanPayload(orderId, amount);
@@ -985,6 +1006,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Repay - Get Loan Repayment History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/repay/history")
     public CryptoLoanRepaymentHistory getLoanRepaymentHistory() throws Exception {
         return getLoanRepaymentHistory(LIBRARY_OBJECT);
@@ -1010,6 +1032,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#repay-get-loan-repayment-history-user_data">
      * Repay - Get Loan Repayment History (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/repay/history")
     public <T> T getLoanRepaymentHistory(ReturnFormat format) throws Exception {
         return getLoanRepaymentHistory(null, format);
@@ -1062,6 +1085,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Repay - Get Loan Repayment History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/repay/history")
     public CryptoLoanRepaymentHistory getLoanRepaymentHistory(Params extraParams) throws Exception {
         return getLoanRepaymentHistory(extraParams, LIBRARY_OBJECT);
@@ -1115,6 +1139,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Repay - Get Loan Repayment History (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/repay/history")
     public <T> T getLoanRepaymentHistory(Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)
@@ -1154,6 +1179,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Adjust LTV - Crypto Loan Adjust LTV (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/adjust/ltv")
     public CryptoLoanAdjustLTV execCryptoLoanAdjustLTV(long orderId, double amount,
                                                        LoanAdjustDirection direction) throws Exception {
@@ -1183,6 +1209,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#adjust-ltv-crypto-loan-adjust-ltv-trade">
      * Adjust LTV - Crypto Loan Adjust LTV (TRADE)</a>
      **/
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/adjust/ltv")
     public <T> T execCryptoLoanAdjustLTV(long orderId, double amount, LoanAdjustDirection direction,
                                          ReturnFormat format) throws Exception {
@@ -1213,6 +1240,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Adjust LTV - Crypto Loan Adjust LTV (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/adjust/ltv")
     public CryptoLoanAdjustLTV execCryptoLoanAdjustLTV(long orderId, double amount, LoanAdjustDirection direction,
                                                        long recvWindow) throws Exception {
@@ -1244,6 +1272,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Adjust LTV - Crypto Loan Adjust LTV (TRADE)</a>
      **/
     @Returner
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/adjust/ltv")
     public <T> T execCryptoLoanAdjustLTV(long orderId, double amount, LoanAdjustDirection direction, long recvWindow,
                                          ReturnFormat format) throws Exception {
@@ -1298,6 +1327,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Adjust LTV - Get Loan LTV Adjustment History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/ltv/adjustment/history")
     public LoanLTVAdjustmentHistory getLoanLTVAdjustmentHistory() throws Exception {
         return getLoanLTVAdjustmentHistory(LIBRARY_OBJECT);
@@ -1323,6 +1353,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#adjust-ltv-get-loan-ltv-adjustment-history-user_data">
      * Adjust LTV - Get Loan LTV Adjustment History (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/ltv/adjustment/history")
     public <T> T getLoanLTVAdjustmentHistory(ReturnFormat format) throws Exception {
         return getLoanLTVAdjustmentHistory(null, format);
@@ -1375,6 +1406,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Adjust LTV - Get Loan LTV Adjustment History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/ltv/adjustment/history")
     public CryptoLoanRepaymentHistory getLoanLTVAdjustmentHistory(Params extraParams) throws Exception {
         return getLoanLTVAdjustmentHistory(extraParams, LIBRARY_OBJECT);
@@ -1428,6 +1460,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Adjust LTV - Get Loan LTV Adjustment History (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/ltv/adjustment/history")
     public <T> T getLoanLTVAdjustmentHistory(Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)
@@ -1465,6 +1498,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Get Loanable Assets Data (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/loanable/data")
     public LoanableAssetsData getLoanableAssetsData() throws Exception {
         return getLoanableAssetsData(LIBRARY_OBJECT);
@@ -1490,6 +1524,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-loanable-assets-data-user_data">
      * Get Loanable Assets Data (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/loanable/data")
     public <T> T getLoanableAssetsData(ReturnFormat format) throws Exception {
         return getLoanableAssetsData(null, format);
@@ -1527,6 +1562,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Get Loanable Assets Data (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/loanable/data")
     public LoanableAssetsData getLoanableAssetsData(Params extraParams) throws Exception {
         return getLoanableAssetsData(extraParams, LIBRARY_OBJECT);
@@ -1565,6 +1601,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Get Loanable Assets Data (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/loanable/data")
     public <T> T getLoanableAssetsData(Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)
@@ -1602,6 +1639,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Get Collateral Assets Data (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/collateral/data")
     public CollateralAssetsData getCollateralAssetsData() throws Exception {
         return getCollateralAssetsData(LIBRARY_OBJECT);
@@ -1627,6 +1665,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-collateral-assets-data-user_data">
      * Get Collateral Assets Data (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/collateral/data")
     public <T> T getCollateralAssetsData(ReturnFormat format) throws Exception {
         return getCollateralAssetsData(null, format);
@@ -1664,6 +1703,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Get Collateral Assets Data (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/collateral/data")
     public CollateralAssetsData getCollateralAssetsData(Params extraParams) throws Exception {
         return getCollateralAssetsData(extraParams, LIBRARY_OBJECT);
@@ -1702,6 +1742,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Get Collateral Assets Data (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/collateral/data")
     public <T> T getCollateralAssetsData(Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)
@@ -1742,6 +1783,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Check Collateral Repay Rate (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "6000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/repay/collateral/rate")
     public CollateralRepayRate checkCollateralRepayRate(String loanCoin, String collateralCoin,
                                                         double repayAmount) throws Exception {
@@ -1772,6 +1814,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#check-collateral-repay-rate-user_data">
      * Check Collateral Repay Rate (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "6000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/repay/collateral/rate")
     public <T> T checkCollateralRepayRate(String loanCoin, String collateralCoin, double repayAmount,
                                           ReturnFormat format) throws Exception {
@@ -1803,6 +1846,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Check Collateral Repay Rate (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "6000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/repay/collateral/rate")
     public CollateralRepayRate checkCollateralRepayRate(String loanCoin, String collateralCoin, double repayAmount,
                                                         long recvWindow) throws Exception {
@@ -1835,6 +1879,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Check Collateral Repay Rate (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "6000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/repay/collateral/rate")
     public <T> T checkCollateralRepayRate(String loanCoin, String collateralCoin, double repayAmount, long recvWindow,
                                           ReturnFormat format) throws Exception {
@@ -1889,6 +1934,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Crypto Loan Customize Margin Call (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/customize/margin_call")
     public CryptoLoanCustomizeMarginCall customizeMarginCall(double marginCall) throws Exception {
         return customizeMarginCall(marginCall, LIBRARY_OBJECT);
@@ -1915,6 +1961,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#crypto-loan-customize-margin-call-trade">
      * Crypto Loan Customize Margin Call (TRADE)</a>
      **/
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/customize/margin_call")
     public <T> T customizeMarginCall(double marginCall, ReturnFormat format) throws Exception {
         return customizeMarginCall(marginCall, null, format);
@@ -1954,6 +2001,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Crypto Loan Customize Margin Call (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/customize/margin_call")
     public CryptoLoanCustomizeMarginCall customizeMarginCall(double marginCall, Params extraParams) throws Exception {
         return customizeMarginCall(marginCall, extraParams, LIBRARY_OBJECT);
@@ -1994,6 +2042,7 @@ public class BinanceCryptoLoansManager extends BinanceSignedManager {
      * Crypto Loan Customize Margin Call (TRADE)</a>
      **/
     @Returner
+    @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/customize/margin_call")
     public <T> T customizeMarginCall(double marginCall, Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)

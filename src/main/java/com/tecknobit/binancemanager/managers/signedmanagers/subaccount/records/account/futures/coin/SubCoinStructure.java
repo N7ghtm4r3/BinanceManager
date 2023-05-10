@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.futures.coin;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
 
@@ -13,6 +14,7 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Get Summary of Sub-account's Futures Account V2 (For Master Account)</a>
  * @see BinanceItem
  **/
+@Structure
 public abstract class SubCoinStructure extends BinanceItem {
 
     /**

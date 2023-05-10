@@ -150,7 +150,17 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
         /**
          * {@code "CMFUTURE_FUNDING"} transfer type
          **/
-        CMFUTURE_FUNDING
+        CMFUTURE_FUNDING,
+
+        /**
+         * {@code "MAIN_PORTFOLIO_MARGIN"} transfer type
+         **/
+        MAIN_PORTFOLIO_MARGIN,
+
+        /**
+         * {@code "PORTFOLIO_MARGIN_MAIN"} transfer type
+         **/
+        PORTFOLIO_MARGIN_MAIN
 
     }
 

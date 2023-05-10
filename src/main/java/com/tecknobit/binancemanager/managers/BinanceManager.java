@@ -56,7 +56,7 @@ public class BinanceManager {
     /**
      * Constructor to init a {@link BinanceManager}
      *
-     * @param baseEndpoint         base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint         base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage: custom error to show when is not a request error
      * @param timeout:             custom timeout for request
      **/
@@ -72,7 +72,7 @@ public class BinanceManager {
     /**
      * Constructor to init a {@link BinanceManager}
      *
-     * @param baseEndpoint         base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint         base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage: custom error to show when is not a request error
      **/
     public BinanceManager(String baseEndpoint, String defaultErrorMessage) throws SystemException, IOException {
@@ -87,7 +87,7 @@ public class BinanceManager {
     /**
      * Constructor to init a {@link BinanceManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param timeout:     custom timeout for request
      **/
     public BinanceManager(String baseEndpoint, int timeout) throws SystemException, IOException {
@@ -102,7 +102,7 @@ public class BinanceManager {
     /**
      * Constructor to init a {@link BinanceManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      **/
     public BinanceManager(String baseEndpoint) throws SystemException, IOException {
         apiRequest = new APIRequest();

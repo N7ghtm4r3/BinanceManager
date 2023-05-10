@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.savings.records.savingrecord.redemption;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import com.tecknobit.binancemanager.managers.signedmanagers.savings.records.SavingStructure;
 import com.tecknobit.binancemanager.managers.signedmanagers.savings.records.savingrecord.SavingRecordStructure;
@@ -17,6 +18,7 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see SavingStructure
  * @see SavingRecordStructure
  **/
+@Structure
 public abstract class RedemptionRecord extends SavingRecordStructure {
 
     /**

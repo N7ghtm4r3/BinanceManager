@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.transfers;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.AccountSnapshot.PrincipalAccountType;
 import org.json.JSONObject;
@@ -31,6 +32,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.subaccount.re
  * </ul>
  * @see BinanceItem
  **/
+@Structure
 public abstract class SubTransferStructure extends BinanceItem {
 
     /**

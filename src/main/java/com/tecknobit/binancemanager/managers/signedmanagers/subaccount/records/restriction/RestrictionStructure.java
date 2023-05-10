@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.restriction;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
@@ -28,6 +29,7 @@ import java.util.Date;
  * </ul>
  * @see BinanceItem
  **/
+@Structure
 public abstract class RestrictionStructure extends BinanceItem {
 
     /**

@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.bswap.records.pool;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
 
@@ -35,6 +36,7 @@ import java.util.List;
  * </ul>
  * @see BinanceItem
  **/
+@Structure
 public abstract class PoolStructure extends BinanceItem {
 
     /**

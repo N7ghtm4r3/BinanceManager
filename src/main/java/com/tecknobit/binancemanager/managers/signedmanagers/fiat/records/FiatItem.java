@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.fiat.records;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
@@ -24,6 +25,7 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *     </li>
  * </ul>
  **/
+@Structure
 public abstract class FiatItem extends BinanceItem {
 
     /**

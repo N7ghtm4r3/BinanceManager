@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.records.lists;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.Status;
@@ -15,6 +16,7 @@ import java.util.Date;
  * @author N7ghtm4r3 - Tecknobit
  * @see BinanceItem
  **/
+@Structure
 public abstract class BinanceRowsList<T> extends BinanceItem {
 
     /**

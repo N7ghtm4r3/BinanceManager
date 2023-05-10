@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers.blvt.records;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
@@ -33,6 +34,7 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * </ul>
  * @see BinanceItem
  **/
+@Structure
 public abstract class BLVTStructure extends BinanceItem {
 
     /**

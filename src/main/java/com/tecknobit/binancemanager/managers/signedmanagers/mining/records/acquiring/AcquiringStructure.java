@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.mining.records.acquiring;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
 
@@ -20,6 +21,7 @@ import org.json.JSONObject;
  * </ul>
  * @see BinanceItem
  **/
+@Structure
 public abstract class AcquiringStructure extends BinanceItem {
 
     /**

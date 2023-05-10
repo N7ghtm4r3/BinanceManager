@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.savings.records.product;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import com.tecknobit.binancemanager.managers.signedmanagers.savings.records.SavingStructure;
 import org.json.JSONObject;
@@ -24,6 +25,7 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see BinanceItem
  * @see SavingStructure
  **/
+@Structure
 public abstract class SavingProductStructure extends SavingStructure {
 
     /**

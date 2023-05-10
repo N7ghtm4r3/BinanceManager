@@ -1,9 +1,6 @@
 package com.tecknobit.binancemanager.managers.market;
 
-import com.tecknobit.apimanager.annotations.RequestPath;
-import com.tecknobit.apimanager.annotations.Returner;
-import com.tecknobit.apimanager.annotations.WrappedRequest;
-import com.tecknobit.apimanager.annotations.Wrapper;
+import com.tecknobit.apimanager.annotations.*;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.market.records.CurrentAveragePrice;
@@ -113,7 +110,7 @@ public class BinanceMarketManager extends BinanceManager {
     /**
      * Constructor to init a {@link BinanceMarketManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
      **/
@@ -125,7 +122,7 @@ public class BinanceMarketManager extends BinanceManager {
     /**
      * Constructor to init a {@link BinanceMarketManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      **/
     public BinanceMarketManager(String baseEndpoint, String defaultErrorMessage) throws SystemException, IOException {
@@ -135,7 +132,7 @@ public class BinanceMarketManager extends BinanceManager {
     /**
      * Constructor to init a {@link BinanceMarketManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param timeout      :             custom timeout for request
      **/
     public BinanceMarketManager(String baseEndpoint, int timeout) throws SystemException, IOException {
@@ -145,7 +142,7 @@ public class BinanceMarketManager extends BinanceManager {
     /**
      * Constructor to init a {@link BinanceMarketManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      **/
     public BinanceMarketManager(String baseEndpoint) throws SystemException, IOException {
         super(baseEndpoint);
@@ -191,6 +188,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-connectivity">
      * Test Connectivity</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/ping")
     public boolean isMarketServiceWorking() throws IOException {
         return sendGetRequest(TEST_CONNECTIVITY_ENDPOINT, "").equals("{}");
@@ -217,6 +215,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Exchange Information</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/exchangeInfo")
     public ExchangeInformation getExchangeInformation() throws IOException {
         return getExchangeInformation(LIBRARY_OBJECT);
@@ -242,6 +241,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
      * Exchange Information</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/exchangeInfo")
     public <T> T getExchangeInformation(ReturnFormat format) throws IOException {
         return returnExchangeInformation(sendGetRequest(EXCHANGE_INFORMATION_ENDPOINT, (String) null), format);
@@ -268,6 +268,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Exchange Information</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/exchangeInfo")
     public ExchangeInformation getExchangeInformation(String symbol) throws Exception {
         return getExchangeInformation(symbol, LIBRARY_OBJECT);
@@ -294,6 +295,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
      * Exchange Information</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/exchangeInfo")
     public <T> T getExchangeInformation(String symbol, ReturnFormat format) throws Exception {
         return returnExchangeInformation(sendGetRequest(EXCHANGE_INFORMATION_ENDPOINT, "?symbol=" + symbol), format);
@@ -320,6 +322,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Exchange Information</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/exchangeInfo")
     public ExchangeInformation getExchangeInformation(String[] symbols) throws Exception {
         return getExchangeInformation(symbols, LIBRARY_OBJECT);
@@ -346,6 +349,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
      * Exchange Information</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/exchangeInfo")
     public <T> T getExchangeInformation(String[] symbols, ReturnFormat format) throws Exception {
         return returnExchangeInformation(sendGetRequest(EXCHANGE_INFORMATION_ENDPOINT, "?symbols=[" +
@@ -373,6 +377,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Exchange Information</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/exchangeInfo")
     public ExchangeInformation getExchangeInformation(ExchangePermission permission) throws Exception {
         return getExchangeInformation(permission, LIBRARY_OBJECT);
@@ -399,6 +404,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
      * Exchange Information</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/exchangeInfo")
     public <T> T getExchangeInformation(ExchangePermission permission, ReturnFormat format) throws Exception {
         return returnExchangeInformation(sendGetRequest(EXCHANGE_INFORMATION_ENDPOINT, "?permissions="
@@ -426,6 +432,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Exchange Information</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/exchangeInfo")
     public ExchangeInformation getExchangeInformation(ExchangePermission[] permissions) throws Exception {
         return getExchangeInformation(permissions, LIBRARY_OBJECT);
@@ -452,6 +459,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
      * Exchange Information</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/exchangeInfo")
     public <T> T getExchangeInformation(ExchangePermission[] permissions, ReturnFormat format) throws Exception {
         return returnExchangeInformation(sendGetRequest(EXCHANGE_INFORMATION_ENDPOINT, "?permissions=[" +
@@ -497,6 +505,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Exchange Information</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/exchangeInfo")
     public ExchangeInformation getExchangeInformation(Params extraParams) throws Exception {
         return getExchangeInformation(extraParams, LIBRARY_OBJECT);
@@ -541,6 +550,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
      * Exchange Information</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/exchangeInfo")
     public <T> T getExchangeInformation(Params extraParams, ReturnFormat format) throws Exception {
         manageList(extraParams, "symbols");
@@ -589,6 +599,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Order Book</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1/5/10/50(IP)")
     @RequestPath(method = GET, path = "/api/v3/depth")
     public OrderBook getOrderBook(String symbol) throws IOException {
         return getOrderBook(symbol, LIBRARY_OBJECT);
@@ -615,6 +626,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
      * Order Book</a>
      **/
+    @RequestWeight(weight = "1/5/10/50(IP)")
     @RequestPath(method = GET, path = "/api/v3/depth")
     public <T> T getOrderBook(String symbol, ReturnFormat format) throws IOException {
         return returnOrderBook(symbol, sendGetRequest(ORDER_BOOK_ENDPOINT, "?symbol=" + symbol),
@@ -644,6 +656,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Order Book</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1/5/10/50(IP)")
     @RequestPath(method = GET, path = "/api/v3/depth")
     public OrderBook getOrderBook(String symbol, int limit) throws IOException {
         return getOrderBook(symbol, limit, LIBRARY_OBJECT);
@@ -672,6 +685,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-book">
      * Order Book</a>
      **/
+    @RequestWeight(weight = "1/5/10/50(IP)")
     @RequestPath(method = GET, path = "/api/v3/depth")
     public <T> T getOrderBook(String symbol, int limit, ReturnFormat format) throws IOException {
         return returnOrderBook(symbol, sendGetRequest(ORDER_BOOK_ENDPOINT, "?symbol=" + symbol + "&limit=" +
@@ -719,6 +733,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Recent Trades List</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/trades")
     public ArrayList<Trade> getRecentTradesList(String symbol) throws IOException {
         return getRecentTradesList(symbol, LIBRARY_OBJECT);
@@ -745,6 +760,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list">
      * Recent Trades List</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/trades")
     public <T> T getRecentTradesList(String symbol, ReturnFormat format) throws IOException {
         return returnTradesList(sendGetRequest(RECENT_TRADE_LIST_ENDPOINT, "?symbol=" + symbol),
@@ -772,6 +788,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Recent Trades List</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/trades")
     public ArrayList<Trade> getRecentTradesList(String symbol, int limit) throws IOException {
         return getRecentTradesList(symbol, limit, LIBRARY_OBJECT);
@@ -798,6 +815,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list">
      * Recent Trades List</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/trades")
     public <T> T getRecentTradesList(String symbol, int limit, ReturnFormat format) throws IOException {
         return returnTradesList(sendGetRequest(RECENT_TRADE_LIST_ENDPOINT, "?symbol=" + symbol + "&limit="
@@ -826,6 +844,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Old Trade Lookup (MARKET_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/api/v3/historicalTrades")
     public ArrayList<Trade> getOldTradesList(String symbol, String apiKey) throws IOException {
         return getOldTradesList(symbol, apiKey, LIBRARY_OBJECT);
@@ -853,6 +872,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list">
      * Old Trade Lookup (MARKET_DATA)</a>
      **/
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/api/v3/historicalTrades")
     public <T> T getOldTradesList(String symbol, String apiKey, ReturnFormat format) throws IOException {
         return returnTradesList(sendGetRequest(OLD_TRADE_LOOKUP_ENDPOINT, "?symbol=" + symbol, apiKey), format);
@@ -889,6 +909,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Old Trade Lookup (MARKET_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/api/v3/historicalTrades")
     public ArrayList<Trade> getOldTradeList(String symbol, String apiKey, Params extraParams) throws IOException {
         return getOldTradeList(symbol, apiKey, extraParams, LIBRARY_OBJECT);
@@ -925,6 +946,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#recent-trades-list">
      * Old Trade Lookup (MARKET_DATA)</a>
      **/
+    @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/api/v3/historicalTrades")
     public <T> T getOldTradeList(String symbol, String apiKey, Params extraParams, ReturnFormat format) throws IOException {
         String payload = "?symbol=" + symbol;
@@ -976,6 +998,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Compressed/Aggregate Trades List/a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/aggTrades")
     public ArrayList<CompressedTrade> getCompressedTradesList(String symbol) throws IOException {
         return getCompressedTradesList(symbol, LIBRARY_OBJECT);
@@ -1002,10 +1025,11 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list">
      * Compressed/Aggregate Trades List/a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/aggTrades")
     public <T> T getCompressedTradesList(String symbol, ReturnFormat format) throws IOException {
-        return returnCompressedTradesList(sendGetRequest(COMPRESSED_TRADE_LIST_ENDPOINT, "?symbol=" + symbol
-        ), format);
+        return returnCompressedTradesList(sendGetRequest(COMPRESSED_TRADE_LIST_ENDPOINT, "?symbol=" + symbol),
+                format);
     }
 
     /**
@@ -1044,6 +1068,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Compressed/Aggregate Trades List/a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/aggTrades")
     public ArrayList<CompressedTrade> getCompressedTradesList(String symbol, Params extraParams) throws IOException {
         return getCompressedTradesList(symbol, extraParams, LIBRARY_OBJECT);
@@ -1085,6 +1110,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list">
      * Compressed/Aggregate Trades List/a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/aggTrades")
     public <T> T getCompressedTradesList(String symbol, Params extraParams, ReturnFormat format) throws IOException {
         String payload = "?symbol=" + symbol;
@@ -1136,6 +1162,7 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/klines")
     public ArrayList<Candlestick> getCandlesticksList(String symbol, Interval interval) throws IOException {
         return getCandlesticksList(symbol, interval, LIBRARY_OBJECT);
@@ -1164,6 +1191,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Kline/Candlestick Data</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/klines")
     public <T> T getCandlesticksList(String symbol, Interval interval, ReturnFormat format) throws IOException {
         return returnCandlesticksList(sendGetRequest(CANDLESTICK_DATA_ENDPOINT, "?symbol=" + symbol +
@@ -1205,6 +1233,7 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/klines")
     public ArrayList<Candlestick> getCandlesticksList(String symbol, Interval interval, Params extraParams) throws IOException {
         return getCandlesticksList(symbol, interval, extraParams, LIBRARY_OBJECT);
@@ -1245,6 +1274,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Kline/Candlestick Data</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/klines")
     public <T> T getCandlesticksList(String symbol, Interval interval, Params extraParams,
                                      ReturnFormat format) throws IOException {
@@ -1300,6 +1330,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/uiKlines")
     public <T> T getUIKLinesList(String symbol, Interval interval, ReturnFormat format) throws IOException {
         return returnCandlesticksList(sendGetRequest(UIKLINES_ENDPOINT, "?symbol=" + symbol + "&interval="
@@ -1339,6 +1370,7 @@ public class BinanceMarketManager extends BinanceManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/uiKlines")
     public ArrayList<Candlestick> getUIKLinesList(String symbol, Interval interval, Params extraParams) throws IOException {
         return getUIKLinesList(symbol, interval, extraParams, LIBRARY_OBJECT);
@@ -1379,6 +1411,7 @@ public class BinanceMarketManager extends BinanceManager {
      * UIKlines</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/uiKlines")
     public <T> T getUIKLinesList(String symbol, Interval interval, Params extraParams, ReturnFormat format) throws IOException {
         String params = "?symbol=" + symbol + "&interval=" + interval;
@@ -1431,6 +1464,7 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/avgPrice")
     public double getCurrentAveragePriceValue(String symbol) throws IOException {
         return ((JSONObject) getCurrentAveragePrice(symbol, JSON)).getDouble("price");
@@ -1459,6 +1493,7 @@ public class BinanceMarketManager extends BinanceManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/avgPrice")
     public double getCurrentAveragePriceValue(String symbol, int decimals) throws IOException {
         return roundValue(((JSONObject) getCurrentAveragePrice(symbol, JSON)).getDouble("price"), decimals);
@@ -1485,6 +1520,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Current Average Price</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/avgPrice")
     public CurrentAveragePrice getCurrentAveragePrice(String symbol) throws IOException {
         return getCurrentAveragePrice(symbol, LIBRARY_OBJECT);
@@ -1512,6 +1548,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Current Average Price</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/api/v3/avgPrice")
     public <T> T getCurrentAveragePrice(String symbol, ReturnFormat format) throws IOException {
         String avgPriceResponse = sendGetRequest(CURRENT_AVERAGE_PRICE_ENDPOINT, "?symbol=" + symbol);
@@ -1544,6 +1581,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "1/40(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public TickerPriceChange getTickerPriceChange(String symbol) throws IOException {
         return getTickerPriceChange(symbol, LIBRARY_OBJECT);
@@ -1568,10 +1606,10 @@ public class BinanceMarketManager extends BinanceManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "1/40(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public <T> T getTickerPriceChange(String symbol, ReturnFormat format) throws IOException {
-        return returnTickerPriceChange(sendGetRequest(TICKER_PRICE_CHANGE_ENDPOINT, "?symbol=" + symbol
-        ), format);
+        return returnTickerPriceChange(sendGetRequest(TICKER_PRICE_CHANGE_ENDPOINT, "?symbol=" + symbol), format);
     }
 
     /**
@@ -1596,6 +1634,7 @@ public class BinanceMarketManager extends BinanceManager {
      * 24hr Ticker Price Change Statistics</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1/40(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public TickerPriceChange getTickerPriceChange(String symbol, ResponseType type) throws IOException {
         return getTickerPriceChange(symbol, type, LIBRARY_OBJECT);
@@ -1623,6 +1662,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#24hr-ticker-price-change-statistics">
      * 24hr Ticker Price Change Statistics</a>
      **/
+    @RequestWeight(weight = "1/40(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public <T> T getTickerPriceChange(String symbol, ResponseType type, ReturnFormat format) throws IOException {
         return returnTickerPriceChange(sendGetRequest(TICKER_PRICE_CHANGE_ENDPOINT, "?symbol=" + symbol + "&type="
@@ -1667,6 +1707,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "1/20/40(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public ArrayList<TickerPriceChange> getTickersPriceChangeList(String[] symbols) throws IOException {
         return getTickersPriceChangeList(symbols, LIBRARY_OBJECT);
@@ -1691,6 +1732,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "1/20/40(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public <T> T getTickersPriceChangeList(String[] symbols, ReturnFormat format) throws IOException {
         return returnTickersPriceChangeList(sendGetRequest(TICKER_PRICE_CHANGE_ENDPOINT, "?symbols=[" +
@@ -1717,6 +1759,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "1/20/40(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public ArrayList<TickerPriceChange> getTickersPriceChangeList(String[] symbols, ResponseType type) throws IOException {
         return getTickersPriceChangeList(symbols, type, LIBRARY_OBJECT);
@@ -1742,6 +1785,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "1/20/40(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public <T> T getTickersPriceChangeList(String[] symbols, ResponseType type, ReturnFormat format) throws IOException {
         return returnTickersPriceChangeList(sendGetRequest(TICKER_PRICE_CHANGE_ENDPOINT, "?type=" + type
@@ -1767,6 +1811,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "1/20/40(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public ArrayList<TickerPriceChange> getTickersPriceChangeList(ArrayList<String> symbols) throws IOException {
         return getTickersPriceChangeList(symbols, LIBRARY_OBJECT);
@@ -1791,6 +1836,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "1/20/40(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public <T> T getTickersPriceChangeList(ArrayList<String> symbols, ReturnFormat format) throws IOException {
         return returnTickersPriceChangeList(sendGetRequest(TICKER_PRICE_CHANGE_ENDPOINT, "?symbols=[" +
@@ -1817,6 +1863,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "1/20/40(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public ArrayList<TickerPriceChange> getTickersPriceChangeList(ArrayList<String> symbols,
                                                                   ResponseType type) throws IOException {
@@ -1845,6 +1892,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#24hr-ticker-price-change-statistics">
      * 24hr Ticker Price Change Statistics</a>
      **/
+    @RequestWeight(weight = "1/20/40(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public <T> T getTickersPriceChangeList(ArrayList<String> symbols, ResponseType type,
                                            ReturnFormat format) throws IOException {
@@ -1873,6 +1921,7 @@ public class BinanceMarketManager extends BinanceManager {
      * 24hr Ticker Price Change Statistics</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "40(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public ArrayList<TickerPriceChange> getTickersPriceChangeList() throws IOException {
         return getTickersPriceChangeList(LIBRARY_OBJECT);
@@ -1898,6 +1947,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#24hr-ticker-price-change-statistics">
      * 24hr Ticker Price Change Statistics</a>
      **/
+    @RequestWeight(weight = "40(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public <T> T getTickersPriceChangeList(ReturnFormat format) throws IOException {
         return returnTickersPriceChangeList(sendGetRequest(TICKER_PRICE_CHANGE_ENDPOINT, ""),
@@ -1925,6 +1975,7 @@ public class BinanceMarketManager extends BinanceManager {
      * 24hr Ticker Price Change Statistics</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "40(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public ArrayList<TickerPriceChange> getTickersPriceChangeList(ResponseType type) throws IOException {
         return getTickersPriceChangeList(type, LIBRARY_OBJECT);
@@ -1951,6 +2002,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#24hr-ticker-price-change-statistics">
      * 24hr Ticker Price Change Statistics</a>
      **/
+    @RequestWeight(weight = "40(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/24hr")
     public <T> T getTickersPriceChangeList(ResponseType type, ReturnFormat format) throws IOException {
         return returnTickersPriceChangeList(sendGetRequest(TICKER_PRICE_CHANGE_ENDPOINT, "?type=" + type
@@ -2001,6 +2053,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Symbol Price Ticker</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1/2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/price")
     public PriceTicker getPriceTicker(String symbol) throws IOException {
         return getPriceTicker(symbol, LIBRARY_OBJECT);
@@ -2028,6 +2081,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Symbol Price Ticker</a>
      **/
     @Returner
+    @RequestWeight(weight = "1/2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/price")
     public <T> T getPriceTicker(String symbol, ReturnFormat format) throws IOException {
         String priceTickerResponse = sendGetRequest(PRICE_TICKER_ENDPOINT, "?symbol=" + symbol);
@@ -2060,6 +2114,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/price")
     public ArrayList<PriceTicker> getPriceTickers(String[] symbols) throws IOException {
         return getPriceTickers(symbols, LIBRARY_OBJECT);
@@ -2084,6 +2139,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/price")
     public <T> T getPriceTickers(String[] symbols, ReturnFormat format) throws IOException {
         return returnPriceTickersList(sendGetRequest(PRICE_TICKER_ENDPOINT, "?symbols=[" +
@@ -2109,6 +2165,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/price")
     public ArrayList<PriceTicker> getPriceTickers(ArrayList<String> symbols) throws IOException {
         return getPriceTickers(symbols, LIBRARY_OBJECT);
@@ -2135,6 +2192,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#symbol-price-ticker">
      * Symbol Price Ticker</a>
      **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/price")
     public <T> T getPriceTickers(ArrayList<String> symbols, ReturnFormat format) throws IOException {
         return returnPriceTickersList(sendGetRequest(PRICE_TICKER_ENDPOINT, "?symbols=[" +
@@ -2162,6 +2220,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Symbol Price Ticker</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/price")
     public ArrayList<PriceTicker> getPriceTickers() throws IOException {
         return getPriceTickers(LIBRARY_OBJECT);
@@ -2187,6 +2246,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#symbol-price-ticker">
      * Symbol Price Ticker</a>
      **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/price")
     public <T> T getPriceTickers(ReturnFormat format) throws IOException {
         return returnPriceTickersList(sendGetRequest(PRICE_TICKER_ENDPOINT, ""), format);
@@ -2236,6 +2296,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Symbol Order Book Ticker</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1/2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/bookTicker")
     public OrderBookTicker getOrderBookTicker(String symbol) throws IOException {
         return getOrderBookTicker(symbol, LIBRARY_OBJECT);
@@ -2261,6 +2322,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Returner
+    @RequestWeight(weight = "1/2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/bookTicker")
     public <T> T getOrderBookTicker(String symbol, ReturnFormat format) throws IOException {
         String orderTickerResponse = sendGetRequest(BOOK_TICKER_ENDPOINT, "?symbol=" + symbol);
@@ -2293,6 +2355,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/bookTicker")
     public ArrayList<OrderBookTicker> getOrderBookTickers(String[] symbols) throws IOException {
         return getOrderBookTickers(symbols, LIBRARY_OBJECT);
@@ -2317,6 +2380,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/bookTicker")
     public <T> T getOrderBookTickers(String[] symbols, ReturnFormat format) throws IOException {
         return returnOrderBookTickersList(sendGetRequest(BOOK_TICKER_ENDPOINT, "?symbols=[" +
@@ -2342,6 +2406,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/bookTicker")
     public ArrayList<OrderBookTicker> getOrderBookTickers(ArrayList<String> symbols) throws IOException {
         return getOrderBookTickers(symbols, LIBRARY_OBJECT);
@@ -2368,6 +2433,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker">
      * Symbol Order Book Ticker</a>
      **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/bookTicker")
     public <T> T getOrderBookTickers(ArrayList<String> symbols, ReturnFormat format) throws IOException {
         return returnOrderBookTickersList(sendGetRequest(BOOK_TICKER_ENDPOINT, "?symbols=[" +
@@ -2395,6 +2461,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Symbol Order Book Ticker</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/bookTicker")
     public ArrayList<OrderBookTicker> getOrderBookTickers() throws IOException {
         return getOrderBookTickers(LIBRARY_OBJECT);
@@ -2420,6 +2487,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#symbol-order-book-ticker">
      * Symbol Order Book Ticker</a>
      **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker/bookTicker")
     public <T> T getOrderBookTickers(ReturnFormat format) throws IOException {
         return returnOrderBookTickersList(sendGetRequest(BOOK_TICKER_ENDPOINT, ""), format);
@@ -2469,6 +2537,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Rolling window price change statistics</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker")
     public RollingTicker getRollingTicker(String symbol) throws IOException {
         return getRollingTicker(symbol, LIBRARY_OBJECT);
@@ -2493,6 +2562,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker")
     public <T> T getRollingTicker(String symbol, ReturnFormat format) throws IOException {
         return returnRollingTicker(sendGetRequest(ROLLING_TICKER_ENDPOINT, "?symbol=" + symbol),
@@ -2530,6 +2600,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Rolling window price change statistics</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker")
     public RollingTicker getRollingTicker(String symbol, Params extraParams) throws IOException {
         return getRollingTicker(symbol, extraParams, LIBRARY_OBJECT);
@@ -2566,6 +2637,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#rolling-window-price-change-statistics">
      * Rolling window price change statistics</a>
      **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker")
     public <T> T getRollingTicker(String symbol, Params extraParams, ReturnFormat format) throws IOException {
         return returnRollingTicker(sendGetRequest(ROLLING_TICKER_ENDPOINT, extraParams.createQueryString() +
@@ -2610,6 +2682,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker")
     public ArrayList<RollingTicker> getRollingTickers(String[] symbols) throws IOException {
         return getRollingTickers(symbols, LIBRARY_OBJECT);
@@ -2634,6 +2707,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker")
     public <T> T getRollingTickers(String[] symbols, ReturnFormat format) throws IOException {
         return returnRollingTickersList(sendGetRequest(ROLLING_TICKER_ENDPOINT, "?symbols=[" +
@@ -2669,6 +2743,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker")
     public ArrayList<RollingTicker> getRollingTickers(String[] symbols, Params extraParams) throws IOException {
         return getRollingTickers(symbols, extraParams, LIBRARY_OBJECT);
@@ -2703,6 +2778,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker")
     public <T> T getRollingTickers(String[] symbols, Params extraParams, ReturnFormat format) throws IOException {
         return returnRollingTickersList(sendGetRequest(ROLLING_TICKER_ENDPOINT, extraParams.createQueryString()
@@ -2728,6 +2804,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker")
     public ArrayList<RollingTicker> getRollingTickers(ArrayList<String> symbols) throws IOException {
         return getRollingTickers(symbols, LIBRARY_OBJECT);
@@ -2752,6 +2829,7 @@ public class BinanceMarketManager extends BinanceManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker")
     public <T> T getRollingTickers(ArrayList<String> symbols, ReturnFormat format) throws IOException {
         return returnRollingTickersList(sendGetRequest(ROLLING_TICKER_ENDPOINT, "?symbols=[" +
@@ -2789,6 +2867,7 @@ public class BinanceMarketManager extends BinanceManager {
      * Rolling window price change statistics</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker")
     public ArrayList<RollingTicker> getRollingTickers(ArrayList<String> symbols, Params extraParams) throws IOException {
         return getRollingTickers(symbols, extraParams, LIBRARY_OBJECT);
@@ -2825,6 +2904,7 @@ public class BinanceMarketManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#rolling-window-price-change-statistics">
      * Rolling window price change statistics</a>
      **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/ticker")
     public <T> T getRollingTickers(ArrayList<String> symbols, Params extraParams, ReturnFormat format) throws IOException {
         return returnRollingTickersList(sendGetRequest(ROLLING_TICKER_ENDPOINT, extraParams.createQueryString()

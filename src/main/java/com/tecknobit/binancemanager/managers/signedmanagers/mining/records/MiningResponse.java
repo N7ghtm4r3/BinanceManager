@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.mining.records;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.binancemanager.managers.BinanceManager.BinanceResponse;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
@@ -67,6 +68,7 @@ import org.json.JSONObject;
  * @see BinanceItem
  * @see BinanceResponse
  **/
+@Structure
 public abstract class MiningResponse<T> extends BinanceItem implements BinanceResponse {
 
     /**

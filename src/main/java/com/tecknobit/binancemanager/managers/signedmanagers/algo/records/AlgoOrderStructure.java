@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.algo.records;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.Side;
@@ -42,6 +43,7 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * </ul>
  * @see BinanceItem
  **/
+@Structure
 public abstract class AlgoOrderStructure extends BinanceItem {
 
     /**

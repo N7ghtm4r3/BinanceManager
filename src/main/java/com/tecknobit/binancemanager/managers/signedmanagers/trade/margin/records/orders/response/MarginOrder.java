@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.response;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order;
 import org.json.JSONObject;
@@ -27,6 +28,7 @@ import java.util.Date;
  * </ul>
  * @see Order
  **/
+@Structure
 public abstract class MarginOrder extends Order {
 
     /**

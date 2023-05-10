@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.c2c;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
+import com.tecknobit.apimanager.annotations.RequestWeight;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.binancemanager.exceptions.SystemException;
@@ -34,7 +35,7 @@ public class BinanceC2CManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceC2CManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
@@ -48,7 +49,7 @@ public class BinanceC2CManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceC2CManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
@@ -61,7 +62,7 @@ public class BinanceC2CManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceC2CManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
@@ -74,7 +75,7 @@ public class BinanceC2CManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceC2CManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/
@@ -123,6 +124,7 @@ public class BinanceC2CManager extends BinanceSignedManager {
      * Get C2C Trade History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/c2c/orderMatch/listUserOrderHistory")
     public C2CTradeHistory getC2CTradeHistory(Side tradeType) throws Exception {
         return getC2CTradeHistory(tradeType, LIBRARY_OBJECT);
@@ -149,6 +151,7 @@ public class BinanceC2CManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-c2c-trade-history-user_data">
      * Get C2C Trade History (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/c2c/orderMatch/listUserOrderHistory")
     public <T> T getC2CTradeHistory(Side tradeType, ReturnFormat format) throws Exception {
         return returnC2CTradeHistory(sendGetSignedRequest(C2C_TRADES_HISTORY_ENDPOINT, getTimestampParam() + "&tradeType="
@@ -194,6 +197,7 @@ public class BinanceC2CManager extends BinanceSignedManager {
      * Get C2C Trade History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/c2c/orderMatch/listUserOrderHistory")
     public C2CTradeHistory getC2CTradeHistory(Side tradeType, Params extraParams) throws Exception {
         return getC2CTradeHistory(tradeType, extraParams, LIBRARY_OBJECT);
@@ -238,6 +242,7 @@ public class BinanceC2CManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-c2c-trade-history-user_data">
      * Get C2C Trade History (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/c2c/orderMatch/listUserOrderHistory")
     public <T> T getC2CTradeHistory(Side tradeType, Params extraParams, ReturnFormat format) throws Exception {
         extraParams.addParam("timestamp", getServerTime());

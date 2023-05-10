@@ -162,43 +162,29 @@ public class BinanceMarketStreamsManager extends BinanceManager {
     /**
      * Constructor to init a {@link BinanceMarketStreamsManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
      **/
-    public BinanceMarketStreamsManager(String baseEndpoint, String defaultErrorMessage,
-                                       int timeout) throws SystemException, IOException {
-        super(baseEndpoint, defaultErrorMessage, timeout);
+    public BinanceMarketStreamsManager(String defaultErrorMessage, int timeout) throws SystemException, IOException {
+        super(null, defaultErrorMessage, timeout);
     }
 
     /**
      * Constructor to init a {@link BinanceMarketStreamsManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
      * @param defaultErrorMessage : custom error to show when is not a request error
      **/
-    public BinanceMarketStreamsManager(String baseEndpoint,
-                                       String defaultErrorMessage) throws SystemException, IOException {
-        super(baseEndpoint, defaultErrorMessage);
+    public BinanceMarketStreamsManager(String defaultErrorMessage) throws SystemException, IOException {
+        super(null, defaultErrorMessage);
     }
 
     /**
      * Constructor to init a {@link BinanceMarketStreamsManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
-     * @param timeout      :     custom timeout for request
+     * @param timeout :     custom timeout for request
      **/
-    public BinanceMarketStreamsManager(String baseEndpoint, int timeout) throws SystemException, IOException {
-        super(baseEndpoint, timeout);
-    }
-
-    /**
-     * Constructor to init a {@link BinanceMarketStreamsManager}
-     *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
-     **/
-    public BinanceMarketStreamsManager(String baseEndpoint) throws SystemException, IOException {
-        super(baseEndpoint);
+    public BinanceMarketStreamsManager(int timeout) throws SystemException, IOException {
+        super(null, timeout);
     }
 
     /**

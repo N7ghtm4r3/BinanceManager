@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.savings.records;
 
+import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
 
@@ -9,6 +10,7 @@ import org.json.JSONObject;
  * @author N7ghtm4r3 - Tecknobit
  * @see BinanceItem
  **/
+@Structure
 public abstract class SavingStructure extends BinanceItem {
 
     /**

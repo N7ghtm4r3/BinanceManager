@@ -34,7 +34,7 @@ public class BinanceWebsocketManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceWebsocketManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
@@ -48,7 +48,7 @@ public class BinanceWebsocketManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceWebsocketManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
@@ -61,7 +61,7 @@ public class BinanceWebsocketManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceWebsocketManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
@@ -74,7 +74,7 @@ public class BinanceWebsocketManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceWebsocketManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/

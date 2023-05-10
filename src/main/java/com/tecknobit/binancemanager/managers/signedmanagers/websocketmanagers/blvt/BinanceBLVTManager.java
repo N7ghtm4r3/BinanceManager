@@ -1,9 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers.blvt;
 
-import com.tecknobit.apimanager.annotations.RequestPath;
-import com.tecknobit.apimanager.annotations.Returner;
-import com.tecknobit.apimanager.annotations.WrappedRequest;
-import com.tecknobit.apimanager.annotations.Wrapper;
+import com.tecknobit.apimanager.annotations.*;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.market.records.stats.Candlestick.Interval;
@@ -80,7 +77,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
     /**
      * Constructor to init a {@link BinanceBLVTManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
@@ -94,7 +91,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
     /**
      * Constructor to init a {@link BinanceBLVTManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
@@ -107,7 +104,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
     /**
      * Constructor to init a {@link BinanceBLVTManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
@@ -120,7 +117,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
     /**
      * Constructor to init a {@link BinanceBLVTManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/
@@ -169,6 +166,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Get BLVT Info (MARKET_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/tokenInfo")
     public ArrayList<BLVTInfo> getBLVTInfo() throws Exception {
         return getBLVTInfo(LIBRARY_OBJECT);
@@ -194,6 +192,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-blvt-info-market_data">
      * Get BLVT Info (MARKET_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/tokenInfo")
     public <T> T getBLVTInfo(ReturnFormat format) throws Exception {
         return getBLVTInfo(null, format);
@@ -220,6 +219,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Get BLVT Info (MARKET_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/tokenInfo")
     public ArrayList<BLVTInfo> getBLVTInfo(String tokenName) throws Exception {
         return getBLVTInfo(tokenName, LIBRARY_OBJECT);
@@ -247,6 +247,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Get BLVT Info (MARKET_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/tokenInfo")
     public <T> T getBLVTInfo(String tokenName, ReturnFormat format) throws Exception {
         Params query = null;
@@ -292,6 +293,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/subscribe")
     public BLVT subscribeBLVT(BLVTStructure token, double cost) throws Exception {
         return subscribeBLVT(token.getTokenName(), cost, LIBRARY_OBJECT);
@@ -320,6 +322,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Subscribe BLVT (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/subscribe")
     public <T> T subscribeBLVT(BLVTStructure token, double cost, ReturnFormat format) throws Exception {
         return subscribeBLVT(token.getTokenName(), cost, format);
@@ -347,6 +350,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Subscribe BLVT (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/subscribe")
     public BLVT subscribeBLVT(String tokenName, double cost) throws Exception {
         return subscribeBLVT(tokenName, cost, LIBRARY_OBJECT);
@@ -374,6 +378,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#subscribe-blvt-user_data">
      * Subscribe BLVT (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/subscribe")
     public <T> T subscribeBLVT(String tokenName, double cost, ReturnFormat format) throws Exception {
         return subscribeBLVT(tokenName, cost, -1, format);
@@ -403,6 +408,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/subscribe")
     public BLVT subscribeBLVT(BLVTStructure token, double cost, long recvWindow) throws Exception {
         return subscribeBLVT(token.getTokenName(), cost, recvWindow, LIBRARY_OBJECT);
@@ -432,6 +438,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Subscribe BLVT (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/subscribe")
     public <T> T subscribeBLVT(BLVTStructure token, double cost, long recvWindow, ReturnFormat format) throws Exception {
         return subscribeBLVT(token.getTokenName(), cost, recvWindow, format);
@@ -460,6 +467,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Subscribe BLVT (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/subscribe")
     public BLVT subscribeBLVT(String tokenName, double cost, long recvWindow) throws Exception {
         return subscribeBLVT(tokenName, cost, recvWindow, LIBRARY_OBJECT);
@@ -489,6 +497,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Subscribe BLVT (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/subscribe")
     public <T> T subscribeBLVT(String tokenName, double cost, long recvWindow, ReturnFormat format) throws Exception {
         Params payload = new Params();
@@ -528,6 +537,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Query Subscription Record (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/subscribe/record")
     public ArrayList<BLVTSubscription> getBLVTSubscriptions() throws Exception {
         return getBLVTSubscriptions(LIBRARY_OBJECT);
@@ -553,6 +563,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-subscription-record-user_data">
      * Query Subscription Record (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/subscribe/record")
     public <T> T getBLVTSubscriptions(ReturnFormat format) throws Exception {
         return getBLVTSubscriptions(null, LIBRARY_OBJECT);
@@ -599,6 +610,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Query Subscription Record (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/subscribe/record")
     public ArrayList<BLVTSubscription> getBLVTSubscriptions(Params extraParams) throws Exception {
         return getBLVTSubscriptions(extraParams, LIBRARY_OBJECT);
@@ -646,6 +658,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Query Subscription Record (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/subscribe/record")
     public <T> T getBLVTSubscriptions(Params extraParams, ReturnFormat format) throws Exception {
         extraParams = createTimestampPayload(extraParams);
@@ -687,6 +700,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/redeem")
     public RedeemedBLVT redeemBLVT(BLVTStructure token, double amount) throws Exception {
         return redeemBLVT(token.getTokenName(), amount, LIBRARY_OBJECT);
@@ -715,6 +729,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Redeem BLVT (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/redeem")
     public <T> T redeemBLVT(BLVTStructure token, double amount, ReturnFormat format) throws Exception {
         return redeemBLVT(token.getTokenName(), amount, format);
@@ -742,6 +757,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Redeem BLVT (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/redeem")
     public RedeemedBLVT redeemBLVT(String tokenName, double amount) throws Exception {
         return redeemBLVT(tokenName, amount, LIBRARY_OBJECT);
@@ -769,6 +785,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-blvt-user_data">
      * Redeem BLVT (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/redeem")
     public <T> T redeemBLVT(String tokenName, double amount, ReturnFormat format) throws Exception {
         return redeemBLVT(tokenName, amount, -1, format);
@@ -798,6 +815,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/redeem")
     public RedeemedBLVT redeemBLVT(BLVTStructure token, double amount, long recvWindow) throws Exception {
         return redeemBLVT(token.getTokenName(), amount, recvWindow, LIBRARY_OBJECT);
@@ -827,6 +845,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Redeem BLVT (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/redeem")
     public <T> T redeemBLVT(BLVTStructure token, double amount, long recvWindow, ReturnFormat format) throws Exception {
         return redeemBLVT(token.getTokenName(), amount, recvWindow, format);
@@ -855,6 +874,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Redeem BLVT (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/redeem")
     public RedeemedBLVT redeemBLVT(String tokenName, double amount, long recvWindow) throws Exception {
         return redeemBLVT(tokenName, amount, recvWindow, LIBRARY_OBJECT);
@@ -884,6 +904,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Redeem BLVT (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/redeem")
     public <T> T redeemBLVT(String tokenName, double amount, long recvWindow, ReturnFormat format) throws Exception {
         Params payload = new Params();
@@ -923,6 +944,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Query Redemption Record (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/redeem/record")
     public ArrayList<BLVTRedemption> getBLVTRedemptions() throws Exception {
         return getBLVTRedemptions(LIBRARY_OBJECT);
@@ -948,6 +970,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-redemption-record-user_data">
      * Query Redemption Record (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/redeem/record")
     public <T> T getBLVTRedemptions(ReturnFormat format) throws Exception {
         return getBLVTRedemptions(null, LIBRARY_OBJECT);
@@ -994,6 +1017,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Query Redemption Record (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/redeem/record")
     public ArrayList<BLVTRedemption> getBLVTRedemptions(Params extraParams) throws Exception {
         return getBLVTRedemptions(extraParams, LIBRARY_OBJECT);
@@ -1041,6 +1065,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Query Redemption Record (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/redeem/record")
     public <T> T getBLVTRedemptions(Params extraParams, ReturnFormat format) throws Exception {
         extraParams = createTimestampPayload(extraParams);
@@ -1080,6 +1105,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Get BLVT User Limit Info (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/userLimit")
     public ArrayList<BLVTLimitInfo> getBLVTUserLimitInfo() throws Exception {
         return getBLVTUserLimitInfo(LIBRARY_OBJECT);
@@ -1105,6 +1131,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-blvt-user-limit-info-user_data">
      * Get BLVT User Limit Info (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/userLimit")
     public <T> T getBLVTUserLimitInfo(ReturnFormat format) throws Exception {
         return getBLVTUserLimitInfo(null, LIBRARY_OBJECT);
@@ -1139,6 +1166,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Get BLVT User Limit Info (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/userLimit")
     public ArrayList<BLVTLimitInfo> getBLVTUserLimitInfo(Params extraParams) throws Exception {
         return getBLVTUserLimitInfo(extraParams, LIBRARY_OBJECT);
@@ -1174,6 +1202,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * Get BLVT User Limit Info (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/userLimit")
     public <T> T getBLVTUserLimitInfo(Params extraParams, ReturnFormat format) throws Exception {
         extraParams = createTimestampPayload(extraParams);

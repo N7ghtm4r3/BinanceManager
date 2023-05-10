@@ -1,9 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.bswap;
 
-import com.tecknobit.apimanager.annotations.RequestPath;
-import com.tecknobit.apimanager.annotations.Returner;
-import com.tecknobit.apimanager.annotations.WrappedRequest;
-import com.tecknobit.apimanager.annotations.Wrapper;
+import com.tecknobit.apimanager.annotations.*;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
@@ -104,7 +101,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceBSwapManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
@@ -118,7 +115,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceBSwapManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
@@ -131,7 +128,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceBSwapManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
@@ -144,7 +141,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceBSwapManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/
@@ -193,6 +190,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * List All Swap Pools (MARKET_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/pools")
     public ArrayList<SwapPool> getAllSwapPools() throws IOException {
         return getAllSwapPools(LIBRARY_OBJECT);
@@ -219,6 +217,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * List All Swap Pools (MARKET_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/pools")
     public <T> T getAllSwapPools(ReturnFormat format) throws IOException {
         String poolsResponse = sendGetRequest(BSWAP_POOLS_ENDPOINT, (Params) null, apiKey);
@@ -257,6 +256,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Get liquidity information of a pool (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1 / 10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/liquidity")
     public ArrayList<PoolLiquidityInformation> getPoolLiquidityInformation() throws Exception {
         return getPoolLiquidityInformation(LIBRARY_OBJECT);
@@ -282,6 +282,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-liquidity-information-of-a-pool-user_data">
      * Get liquidity information of a pool (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1 / 10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/liquidity")
     public <T> T getPoolLiquidityInformation(ReturnFormat format) throws Exception {
         return getPoolLiquidityInformation(null, format);
@@ -316,6 +317,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Get liquidity information of a pool (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1 / 10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/liquidity")
     public ArrayList<PoolLiquidityInformation> getPoolLiquidityInformation(Params extraParams) throws Exception {
         return getPoolLiquidityInformation(extraParams, LIBRARY_OBJECT);
@@ -351,6 +353,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Get liquidity information of a pool (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1 / 10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/liquidity")
     public <T> T getPoolLiquidityInformation(Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)
@@ -395,6 +398,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityAdd")
     public long addLiquidity(PoolStructure pool, String asset, double quantity) throws Exception {
         return Long.parseLong(addLiquidity(pool.getPoolId(), asset, quantity, LIBRARY_OBJECT));
@@ -424,6 +428,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Add Liquidity (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityAdd")
     public <T> T addLiquidity(PoolStructure pool, String asset, double quantity, ReturnFormat format) throws Exception {
         return addLiquidity(pool.getPoolId(), asset, quantity, format);
@@ -452,6 +457,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Add Liquidity (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityAdd")
     public long addLiquidity(long poolId, String asset, double quantity) throws Exception {
         return Long.parseLong(addLiquidity(poolId, asset, quantity, LIBRARY_OBJECT));
@@ -480,6 +486,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-trade">
      * Add Liquidity (TRADE)</a>
      **/
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityAdd")
     public <T> T addLiquidity(long poolId, String asset, double quantity, ReturnFormat format) throws Exception {
         return addLiquidity(poolId, asset, quantity, null, format);
@@ -519,6 +526,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityAdd")
     public long addLiquidity(PoolStructure pool, String asset, double quantity, Params extraParams) throws Exception {
         return Long.parseLong(addLiquidity(pool.getPoolId(), asset, quantity, extraParams, LIBRARY_OBJECT));
@@ -558,6 +566,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Add Liquidity (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityAdd")
     public <T> T addLiquidity(PoolStructure pool, String asset, double quantity, Params extraParams,
                               ReturnFormat format) throws Exception {
@@ -597,6 +606,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Add Liquidity (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityAdd")
     public long addLiquidity(long poolId, String asset, double quantity, Params extraParams) throws Exception {
         return Long.parseLong(addLiquidity(poolId, asset, quantity, extraParams, LIBRARY_OBJECT));
@@ -635,6 +645,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-trade">
      * Add Liquidity (TRADE)</a>
      **/
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityAdd")
     public <T> T addLiquidity(long poolId, String asset, double quantity, Params extraParams,
                               ReturnFormat format) throws Exception {
@@ -671,6 +682,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityRemove")
     public long removeLiquidity(PoolStructure pool, PoolType type, double shareAmount) throws Exception {
         return Long.parseLong(removeLiquidity(pool.getPoolId(), type, shareAmount, LIBRARY_OBJECT));
@@ -701,6 +713,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Remove Liquidity (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityRemove")
     public <T> T removeLiquidity(PoolStructure pool, PoolType type, double shareAmount,
                                  ReturnFormat format) throws Exception {
@@ -731,6 +744,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Remove Liquidity (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityRemove")
     public long removeLiquidity(long poolId, PoolType type, double shareAmount) throws Exception {
         return Long.parseLong(removeLiquidity(poolId, type, shareAmount, LIBRARY_OBJECT));
@@ -760,6 +774,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-trade">
      * Remove Liquidity (TRADE)</a>
      **/
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityRemove")
     public <T> T removeLiquidity(long poolId, PoolType type, double shareAmount, ReturnFormat format) throws Exception {
         return removeLiquidity(poolId, type, shareAmount, null, format);
@@ -799,6 +814,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityRemove")
     public long removeLiquidity(PoolStructure pool, PoolType type, double shareAmount, Params extraParams) throws Exception {
         return Long.parseLong(removeLiquidity(pool.getPoolId(), type, shareAmount, extraParams, LIBRARY_OBJECT));
@@ -838,6 +854,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Remove Liquidity (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityRemove")
     public <T> T removeLiquidity(PoolStructure pool, PoolType type, double shareAmount, Params extraParams,
                                  ReturnFormat format) throws Exception {
@@ -877,6 +894,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Remove Liquidity (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityRemove")
     public long removeLiquidity(long poolId, PoolType type, double shareAmount, Params extraParams) throws Exception {
         return Long.parseLong(removeLiquidity(poolId, type, shareAmount, extraParams, LIBRARY_OBJECT));
@@ -915,6 +933,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-trade">
      * Remove Liquidity (TRADE)</a>
      **/
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityRemove")
     public <T> T removeLiquidity(long poolId, PoolType type, double shareAmount, Params extraParams,
                                  ReturnFormat format) throws Exception {
@@ -966,6 +985,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Get Liquidity Operation Record (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/liquidityOps")
     public ArrayList<LiquidityOperation> getLiquidityOperation() throws Exception {
         return getLiquidityOperation(LIBRARY_OBJECT);
@@ -991,6 +1011,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-liquidity-operation-record-user_data">
      * Get Liquidity Operation Record (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/liquidityOps")
     public <T> T getLiquidityOperation(ReturnFormat format) throws Exception {
         return getLiquidityOperation(null, format);
@@ -1041,6 +1062,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Get Liquidity Operation Record (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/liquidityOps")
     public ArrayList<LiquidityOperation> getLiquidityOperation(Params extraParams) throws Exception {
         return getLiquidityOperation(extraParams, LIBRARY_OBJECT);
@@ -1092,6 +1114,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Get Liquidity Operation Record (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/liquidityOps")
     public <T> T getLiquidityOperation(Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)
@@ -1135,6 +1158,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Request Quote (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "150(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/quote")
     public SwapQuote requestQuote(String quoteAsset, String baseAsset, double quoteQty) throws Exception {
         return requestQuote(quoteAsset, baseAsset, quoteQty, LIBRARY_OBJECT);
@@ -1163,6 +1187,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#request-quote-user_data">
      * Request Quote (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "150(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/quote")
     public <T> T requestQuote(String quoteAsset, String baseAsset, double quoteQty, ReturnFormat format) throws Exception {
         return requestQuote(quoteAsset, baseAsset, quoteQty, -1, format);
@@ -1192,6 +1217,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Request Quote (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "150(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/quote")
     public SwapQuote requestQuote(String quoteAsset, String baseAsset, double quoteQty, long recvWindow) throws Exception {
         return requestQuote(quoteAsset, baseAsset, quoteQty, recvWindow, LIBRARY_OBJECT);
@@ -1222,6 +1248,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Request Quote (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "150(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/quote")
     public <T> T requestQuote(String quoteAsset, String baseAsset, double quoteQty, long recvWindow,
                               ReturnFormat format) throws Exception {
@@ -1260,6 +1287,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Swap (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/swap")
     public long swap(String quoteAsset, String baseAsset, double quoteQty) throws Exception {
         return Long.parseLong(swap(quoteAsset, baseAsset, quoteQty, LIBRARY_OBJECT));
@@ -1288,6 +1316,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#swap-trade">
      * Swap (TRADE)</a>
      **/
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/swap")
     public <T> T swap(String quoteAsset, String baseAsset, double quoteQty, ReturnFormat format) throws Exception {
         return swap(quoteAsset, baseAsset, quoteQty, -2, format);
@@ -1317,6 +1346,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Swap (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/swap")
     public long swap(String quoteAsset, String baseAsset, double quoteQty, long recvWindow) throws Exception {
         return Long.parseLong(swap(quoteAsset, baseAsset, quoteQty, recvWindow, LIBRARY_OBJECT));
@@ -1347,6 +1377,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Swap (TRADE)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/swap")
     public <T> T swap(String quoteAsset, String baseAsset, double quoteQty, long recvWindow,
                       ReturnFormat format) throws Exception {
@@ -1404,6 +1435,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Get Swap History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/swap")
     public ArrayList<SwapHistoryItem> getSwapHistory() throws Exception {
         return getSwapHistory(LIBRARY_OBJECT);
@@ -1429,6 +1461,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-swap-history-user_data">
      * Get Swap History (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/swap")
     public <T> T getSwapHistory(ReturnFormat format) throws Exception {
         return getSwapHistory(null, format);
@@ -1481,6 +1514,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Get Swap History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/swap")
     public ArrayList<SwapHistoryItem> getSwapHistory(Params extraParams) throws Exception {
         return getSwapHistory(extraParams, LIBRARY_OBJECT);
@@ -1534,6 +1568,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Get Swap History (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/swap")
     public <T> T getSwapHistory(Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)
@@ -1575,6 +1610,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Get Pool Configure (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/poolConfigure")
     public ArrayList<PoolConfigure> getPoolConfigure() throws Exception {
         return getPoolConfigure(LIBRARY_OBJECT);
@@ -1600,6 +1636,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-pool-configure-user_data">
      * Get Pool Configure (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/poolConfigure")
     public <T> T getPoolConfigure(ReturnFormat format) throws Exception {
         return getPoolConfigure(null, format);
@@ -1634,6 +1671,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Get Pool Configure (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/poolConfigure")
     public ArrayList<PoolConfigure> getPoolConfigure(Params extraParams) throws Exception {
         return getPoolConfigure(extraParams, LIBRARY_OBJECT);
@@ -1669,6 +1707,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Get Pool Configure (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/poolConfigure")
     public <T> T getPoolConfigure(Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)
@@ -1714,6 +1753,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/addLiquidityPreview")
     public SwapPreview addLiquidityPreview(PoolStructure pool, PoolType type, String quoteAsset,
                                            double quoteQty) throws Exception {
@@ -1745,6 +1785,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Add Liquidity Preview (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/addLiquidityPreview")
     public <T> T addLiquidityPreview(PoolStructure pool, PoolType type, String quoteAsset, double quoteQty,
                                      ReturnFormat format) throws Exception {
@@ -1775,6 +1816,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Add Liquidity Preview (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/addLiquidityPreview")
     public SwapPreview addLiquidityPreview(long poolId, PoolType type, String quoteAsset, double quoteQty) throws Exception {
         return addLiquidityPreview(poolId, type, quoteAsset, quoteQty, LIBRARY_OBJECT);
@@ -1804,6 +1846,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-preview-user_data">
      * Add Liquidity Preview (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/addLiquidityPreview")
     public <T> T addLiquidityPreview(long poolId, PoolType type, String quoteAsset, double quoteQty,
                                      ReturnFormat format) throws Exception {
@@ -1836,6 +1879,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/addLiquidityPreview")
     public SwapPreview addLiquidityPreview(PoolStructure pool, PoolType type, String quoteAsset, double quoteQty,
                                            long recvWindow) throws Exception {
@@ -1868,6 +1912,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Add Liquidity Preview (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/addLiquidityPreview")
     public <T> T addLiquidityPreview(PoolStructure pool, PoolType type, String quoteAsset, double quoteQty,
                                      long recvWindow, ReturnFormat format) throws Exception {
@@ -1899,6 +1944,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Add Liquidity Preview (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/addLiquidityPreview")
     public SwapPreview addLiquidityPreview(long poolId, PoolType type, String quoteAsset, double quoteQty,
                                            long recvWindow) throws Exception {
@@ -1930,6 +1976,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-preview-user_data">
      * Add Liquidity Preview (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/addLiquidityPreview")
     public <T> T addLiquidityPreview(long poolId, PoolType type, String quoteAsset, double quoteQty, long recvWindow,
                                      ReturnFormat format) throws Exception {
@@ -1963,6 +2010,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/removeLiquidityPreview")
     public SwapPreview removeLiquidityPreview(PoolStructure pool, PoolType type, String quoteAsset,
                                               double shareAmount) throws Exception {
@@ -1994,6 +2042,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Remove Liquidity Preview (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/removeLiquidityPreview")
     public <T> T removeLiquidityPreview(PoolStructure pool, PoolType type, String quoteAsset, double shareAmount,
                                         ReturnFormat format) throws Exception {
@@ -2024,6 +2073,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Remove Liquidity Preview (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/removeLiquidityPreview")
     public SwapPreview removeLiquidityPreview(long poolId, PoolType type, String quoteAsset,
                                               double shareAmount) throws Exception {
@@ -2054,6 +2104,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-preview-user_data">
      * Remove Liquidity Preview (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/removeLiquidityPreview")
     public <T> T removeLiquidityPreview(long poolId, PoolType type, String quoteAsset, double shareAmount,
                                         ReturnFormat format) throws Exception {
@@ -2086,6 +2137,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/removeLiquidityPreview")
     public SwapPreview removeLiquidityPreview(PoolStructure pool, PoolType type, String quoteAsset, double shareAmount,
                                               long recvWindow) throws Exception {
@@ -2118,6 +2170,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Remove Liquidity Preview (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/removeLiquidityPreview")
     public <T> T removeLiquidityPreview(PoolStructure pool, PoolType type, String quoteAsset, double shareAmount,
                                         long recvWindow, ReturnFormat format) throws Exception {
@@ -2149,6 +2202,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Remove Liquidity Preview (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/removeLiquidityPreview")
     public SwapPreview removeLiquidityPreview(long poolId, PoolType type, String quoteAsset, double shareAmount,
                                               long recvWindow) throws Exception {
@@ -2180,6 +2234,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-preview-user_data">
      * Remove Liquidity Preview (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/removeLiquidityPreview")
     public <T> T removeLiquidityPreview(long poolId, PoolType type, String quoteAsset, double shareAmount, long recvWindow,
                                         ReturnFormat format) throws Exception {
@@ -2248,6 +2303,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Get Unclaimed Rewards Record (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/unclaimedRewards")
     public UnclaimedRewards getUnclaimedRewards() throws Exception {
         return getUnclaimedRewards(LIBRARY_OBJECT);
@@ -2273,6 +2329,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-unclaimed-rewards-record-user_data">
      * Get Unclaimed Rewards Record (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/unclaimedRewards")
     public <T> T getUnclaimedRewards(ReturnFormat format) throws Exception {
         return getUnclaimedRewards(null, format);
@@ -2308,6 +2365,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Get Unclaimed Rewards Record (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/unclaimedRewards")
     public UnclaimedRewards getUnclaimedRewards(Params extraParams) throws Exception {
         return getUnclaimedRewards(extraParams, LIBRARY_OBJECT);
@@ -2344,6 +2402,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Get Unclaimed Rewards Record (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/unclaimedRewards")
     public <T> T getUnclaimedRewards(Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)
@@ -2381,6 +2440,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Claim Rewards (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/claimRewards")
     public boolean claimRewards() throws Exception {
         return Boolean.parseBoolean(claimRewards(LIBRARY_OBJECT));
@@ -2406,6 +2466,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#claim-rewards-trade">
      * Claim Rewards (TRADE)</a>
      **/
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/claimRewards")
     public <T> T claimRewards(ReturnFormat format) throws Exception {
         return claimRewards(null, format);
@@ -2441,6 +2502,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Claim Rewards (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/claimRewards")
     public boolean claimRewards(Params extraParams) throws Exception {
         return Boolean.parseBoolean(claimRewards(extraParams, LIBRARY_OBJECT));
@@ -2477,6 +2539,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Claim Rewards (TRADE)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/claimRewards")
     public <T> T claimRewards(Params extraParams, ReturnFormat format) throws Exception {
         String rewardsResponse = sendPostSignedRequest(BSWAP_CLAIM_REWARDS_ENDPOINT, extraParams);
@@ -2511,6 +2574,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Get Claimed History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/claimedHistory")
     public ArrayList<ClaimedHistoryItem> getClaimedHistory() throws Exception {
         return getClaimedHistory(LIBRARY_OBJECT);
@@ -2536,6 +2600,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-claimed-history-user_data">
      * Get Claimed History (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/claimedHistory")
     public <T> T getClaimedHistory(ReturnFormat format) throws Exception {
         return getClaimedHistory(null, format);
@@ -2586,6 +2651,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Get Claimed History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/claimedHistory")
     public ArrayList<ClaimedHistoryItem> getClaimedHistory(Params extraParams) throws Exception {
         return getClaimedHistory(extraParams, LIBRARY_OBJECT);
@@ -2637,6 +2703,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * Get Claimed History (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/claimedHistory")
     public <T> T getClaimedHistory(Params extraParams, ReturnFormat format) throws Exception {
         if (extraParams == null)

@@ -1,9 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.subaccount;
 
-import com.tecknobit.apimanager.annotations.RequestPath;
-import com.tecknobit.apimanager.annotations.Returner;
-import com.tecknobit.apimanager.annotations.WrappedRequest;
-import com.tecknobit.apimanager.annotations.Wrapper;
+import com.tecknobit.apimanager.annotations.*;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
@@ -270,7 +267,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceSubAccountManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
@@ -284,7 +281,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceSubAccountManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
@@ -297,7 +294,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceSubAccountManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
@@ -310,7 +307,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceSubAccountManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/
@@ -360,6 +357,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Create a Virtual Sub-account(For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/virtualSubAccount")
     public String createVirtualSubAccount(String subAccountString) throws Exception {
         return createVirtualSubAccount(subAccountString, LIBRARY_OBJECT);
@@ -386,6 +384,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#sub-account-endpoints">
      * Create a Virtual Sub-account(For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/virtualSubAccount")
     public <T> T createVirtualSubAccount(String subAccountString, ReturnFormat format) throws Exception {
         return createVirtualSubAccount(subAccountString, -1, format);
@@ -413,6 +412,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Create a Virtual Sub-account(For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/virtualSubAccount")
     public String createVirtualSubAccount(String subAccountString, long recvWindow) throws Exception {
         return createVirtualSubAccount(subAccountString, LIBRARY_OBJECT);
@@ -441,6 +441,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Create a Virtual Sub-account(For Master Account)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/virtualSubAccount")
     public <T> T createVirtualSubAccount(String subAccountString, long recvWindow, ReturnFormat format) throws Exception {
         Params payload = new Params();
@@ -479,6 +480,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account List (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/list")
     public ArrayList<SubAccount> getSubAccountList() throws Exception {
         return getSubAccountList(LIBRARY_OBJECT);
@@ -504,6 +506,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-list-for-master-account">
      * Query Sub-account List (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/list")
     public <T> T getSubAccountList(ReturnFormat format) throws Exception {
         return getSubAccountList(null, format);
@@ -548,6 +551,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account List (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/list")
     public ArrayList<SubAccount> getSubAccountList(Params extraParams) throws Exception {
         return getSubAccountList(extraParams, LIBRARY_OBJECT);
@@ -593,6 +597,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account List (For Master Account)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/list")
     public <T> T getSubAccountList(Params extraParams, ReturnFormat format) throws Exception {
         extraParams = createTimestampPayload(extraParams);
@@ -632,6 +637,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Spot Asset Transfer History (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/sub/transfer/history")
     public ArrayList<SpotAssetTransfer> getSubAccountSpotTransferHistory() throws Exception {
         return getSubAccountSpotTransferHistory(LIBRARY_OBJECT);
@@ -657,6 +663,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-spot-asset-transfer-history-for-master-account">
      * Query Sub-account Spot Asset Transfer History (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/sub/transfer/history")
     public <T> T getSubAccountSpotTransferHistory(ReturnFormat format) throws Exception {
         return getSubAccountSpotTransferHistory(null, format);
@@ -707,6 +714,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Spot Asset Transfer History (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/sub/transfer/history")
     public ArrayList<SpotAssetTransfer> getSubAccountSpotTransferHistory(Params extraParams) throws Exception {
         return getSubAccountSpotTransferHistory(extraParams, LIBRARY_OBJECT);
@@ -758,6 +766,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Spot Asset Transfer History (For Master Account)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/sub/transfer/history")
     public <T> T getSubAccountSpotTransferHistory(Params extraParams, ReturnFormat format) throws Exception {
         extraParams = createTimestampPayload(extraParams);
@@ -798,6 +807,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Futures Asset Transfer History (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/internalTransfer")
     public FutureAssetTransferHistory getSubAccountFutureTransferHistory(String email, FuturesType type) throws Exception {
         return getSubAccountFutureTransferHistory(email, type, LIBRARY_OBJECT);
@@ -825,6 +835,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-futures-asset-transfer-history-for-master-account">
      * Query Sub-account Futures Asset Transfer History (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/internalTransfer")
     public <T> T getSubAccountFutureTransferHistory(String email, FuturesType type, ReturnFormat format) throws Exception {
         return getSubAccountFutureTransferHistory(email, type, null, format);
@@ -873,6 +884,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Futures Asset Transfer History (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/internalTransfer")
     public FutureAssetTransferHistory getSubAccountFutureTransferHistory(String email, FuturesType type,
                                                                          Params extraParams) throws Exception {
@@ -923,6 +935,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Futures Asset Transfer History (For Master Account)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/internalTransfer")
     public <T> T getSubAccountFutureTransferHistory(String email, FuturesType type, Params extraParams,
                                                     ReturnFormat format) throws Exception {
@@ -965,6 +978,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Sub-account Futures Asset Transfer (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/internalTransfer")
     public FutureAssetTransferResult execFutureAssetTransfer(String fromEmail, String toEmail, FuturesType type,
                                                              String asset, double amount) throws Exception {
@@ -996,6 +1010,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#sub-account-futures-asset-transfer-for-master-account">
      * Sub-account Futures Asset Transfer (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/internalTransfer")
     public <T> T execFutureAssetTransfer(String fromEmail, String toEmail, FuturesType type, String asset,
                                          double amount, ReturnFormat format) throws Exception {
@@ -1028,6 +1043,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Sub-account Futures Asset Transfer (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/internalTransfer")
     public FutureAssetTransferResult execFutureAssetTransfer(String fromEmail, String toEmail, FuturesType type,
                                                              String asset, double amount, long recvWindow) throws Exception {
@@ -1061,6 +1077,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Sub-account Futures Asset Transfer (For Master Account)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/internalTransfer")
     public <T> T execFutureAssetTransfer(String fromEmail, String toEmail, FuturesType type, String asset,
                                          double amount, long recvWindow, ReturnFormat format) throws Exception {
@@ -1105,6 +1122,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v3/sub-account/assets")
     public ArrayList<SpotBalance> getSubAccountAssets(SubAccount subAccount) throws Exception {
         return getSubAccountAssets(subAccount.getEmail(), LIBRARY_OBJECT);
@@ -1132,6 +1150,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Assets (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v3/sub-account/assets")
     public <T> T getSubAccountAssets(SubAccount subAccount, ReturnFormat format) throws Exception {
         return getSubAccountAssets(subAccount.getEmail(), format);
@@ -1158,6 +1177,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Assets (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v3/sub-account/assets")
     public ArrayList<SpotBalance> getSubAccountAssets(String email) throws Exception {
         return getSubAccountAssets(email, LIBRARY_OBJECT);
@@ -1184,6 +1204,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-assets-for-master-account">
      * Query Sub-account Assets (For Master Account)</a>
      **/
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v3/sub-account/assets")
     public <T> T getSubAccountAssets(String email, ReturnFormat format) throws Exception {
         return getSubAccountAssets(email, -1, format);
@@ -1212,6 +1233,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v3/sub-account/assets")
     public ArrayList<SpotBalance> getSubAccountAssets(SubAccount subAccount, long recvWindow) throws Exception {
         return getSubAccountAssets(subAccount.getEmail(), recvWindow, LIBRARY_OBJECT);
@@ -1240,6 +1262,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Assets (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v3/sub-account/assets")
     public <T> T getSubAccountAssets(SubAccount subAccount, long recvWindow, ReturnFormat format) throws Exception {
         return getSubAccountAssets(subAccount.getEmail(), recvWindow, format);
@@ -1267,6 +1290,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Assets (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v3/sub-account/assets")
     public ArrayList<SpotBalance> getSubAccountAssets(String email, long recvWindow) throws Exception {
         return getSubAccountAssets(email, recvWindow, LIBRARY_OBJECT);
@@ -1294,6 +1318,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-assets-for-master-account">
      * Query Sub-account Assets (For Master Account)</a>
      **/
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v3/sub-account/assets")
     public <T> T getSubAccountAssets(String email, long recvWindow, ReturnFormat format) throws Exception {
         return returnBalances(sendGetSignedRequest(SUB_ACCOUNT_ASSETS_ENDPOINT, createEmailPayload(email, recvWindow,
@@ -1321,6 +1346,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Spot Assets Summary (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/spotSummary")
     public SpotAssetsSummary getSubAccountSpotAssetsSummary() throws Exception {
         return getSubAccountSpotAssetsSummary(LIBRARY_OBJECT);
@@ -1346,6 +1372,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-spot-assets-summary-for-master-account">
      * Query Sub-account Spot Assets Summary (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/spotSummary")
     public <T> T getSubAccountSpotAssetsSummary(ReturnFormat format) throws Exception {
         return getSubAccountSpotAssetsSummary(null, format);
@@ -1387,6 +1414,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Spot Assets Summary (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/spotSummary")
     public SpotAssetsSummary getSubAccountSpotAssetsSummary(Params extraParams) throws Exception {
         return getSubAccountSpotAssetsSummary(extraParams, LIBRARY_OBJECT);
@@ -1429,6 +1457,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Spot Assets Summary (For Master Account)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/spotSummary")
     public <T> T getSubAccountSpotAssetsSummary(Params extraParams, ReturnFormat format) throws Exception {
         extraParams = createTimestampPayload(extraParams);
@@ -1466,6 +1495,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subAddress")
     public DepositAddress getSubAccountDepositAddress(SubAccount subAccount, String coin) throws Exception {
         return getSubAccountDepositAddress(subAccount.getEmail(), coin, LIBRARY_OBJECT);
@@ -1494,6 +1524,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Sub-account Deposit Address (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subAddress")
     public <T> T getSubAccountDepositAddress(SubAccount subAccount, String coin, ReturnFormat format) throws Exception {
         return getSubAccountDepositAddress(subAccount.getEmail(), coin, format);
@@ -1521,6 +1552,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Sub-account Deposit Address (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subAddress")
     public DepositAddress getSubAccountDepositAddress(String email, String coin) throws Exception {
         return getSubAccountDepositAddress(email, coin, LIBRARY_OBJECT);
@@ -1548,6 +1580,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-address-for-master-account">
      * Get Sub-account Deposit Address (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subAddress")
     public <T> T getSubAccountDepositAddress(String email, String coin, ReturnFormat format) throws Exception {
         return getSubAccountDepositAddress(email, coin, null, format);
@@ -1586,6 +1619,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subAddress")
     public DepositAddress getSubAccountDepositAddress(SubAccount subAccount, String coin,
                                                       Params extraParams) throws Exception {
@@ -1625,6 +1659,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Sub-account Deposit Address (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subAddress")
     public <T> T getSubAccountDepositAddress(SubAccount subAccount, String coin, Params extraParams,
                                              ReturnFormat format) throws Exception {
@@ -1663,6 +1698,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Sub-account Deposit Address (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subAddress")
     public DepositAddress getSubAccountDepositAddress(String email, String coin, Params extraParams) throws Exception {
         return getSubAccountDepositAddress(email, coin, extraParams, LIBRARY_OBJECT);
@@ -1700,6 +1736,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-address-for-master-account">
      * Get Sub-account Deposit Address (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subAddress")
     public <T> T getSubAccountDepositAddress(String email, String coin, Params extraParams,
                                              ReturnFormat format) throws Exception {
@@ -1729,6 +1766,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subHisrec")
     public ArrayList<DepositHistoryItem> getSubAccountDepositHistory(SubAccount subAccount) throws Exception {
         return getSubAccountDepositHistory(subAccount.getEmail(), LIBRARY_OBJECT);
@@ -1756,6 +1794,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Sub-account Deposit Address (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subHisrec")
     public <T> T getSubAccountDepositHistory(SubAccount subAccount, ReturnFormat format) throws Exception {
         return getSubAccountDepositHistory(subAccount.getEmail(), format);
@@ -1782,6 +1821,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Sub-account Deposit Address (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subHisrec")
     public ArrayList<DepositHistoryItem> getSubAccountDepositHistory(String email) throws Exception {
         return getSubAccountDepositHistory(email, LIBRARY_OBJECT);
@@ -1808,6 +1848,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-history-for-master-account">
      * Get Sub-account Deposit Address (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subHisrec")
     public <T> T getSubAccountDepositHistory(String email, ReturnFormat format) throws Exception {
         return getSubAccountDepositHistory(email, null, format);
@@ -1863,6 +1904,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subHisrec")
     public ArrayList<DepositHistoryItem> getSubAccountDepositHistory(SubAccount subAccount,
                                                                      Params extraParams) throws Exception {
@@ -1919,6 +1961,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Sub-account Deposit Address (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subHisrec")
     public <T> T getSubAccountDepositHistory(SubAccount subAccount, Params extraParams,
                                              ReturnFormat format) throws Exception {
@@ -1974,6 +2017,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Sub-account Deposit Address (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subHisrec")
     public ArrayList<DepositHistoryItem> getSubAccountDepositHistory(String email, Params extraParams) throws Exception {
         return getSubAccountDepositHistory(email, extraParams, LIBRARY_OBJECT);
@@ -2029,6 +2073,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Sub-account Deposit Address (For Master Account)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subHisrec")
     public <T> T getSubAccountDepositHistory(String email, Params extraParams, ReturnFormat format) throws Exception {
         Params query = createTimestampPayload(extraParams);
@@ -2069,6 +2114,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Sub-account's Status on Margin/Futures (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/status")
     public ArrayList<SubAccountStatus> getSubAccountStatus() throws Exception {
         return getSubAccountStatus(LIBRARY_OBJECT);
@@ -2094,6 +2140,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-39-s-status-on-margin-futures-for-master-account">
      * Get Sub-account's Status on Margin/Futures (For Master Account)</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/status")
     public <T> T getSubAccountStatus(ReturnFormat format) throws Exception {
         return getSubAccountStatus(null, format);
@@ -2129,6 +2176,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Sub-account's Status on Margin/Futures (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/status")
     public ArrayList<SubAccountStatus> getSubAccountStatus(Params extraParams) throws Exception {
         return getSubAccountStatus(extraParams, LIBRARY_OBJECT);
@@ -2165,6 +2213,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Sub-account's Status on Margin/Futures (For Master Account)</a>
      **/
     @Returner
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/status")
     public <T> T getSubAccountStatus(Params extraParams, ReturnFormat format) throws Exception {
         extraParams = createTimestampPayload(extraParams);
@@ -2205,6 +2254,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/enable")
     public SubAccountEnabledResult enableMarginSubAccount(SubAccount subAccount) throws Exception {
         return enableMarginSubAccount(subAccount.getEmail(), LIBRARY_OBJECT);
@@ -2232,6 +2282,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Enable Margin for Sub-account (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/enable")
     public <T> T enableMarginSubAccount(SubAccount subAccount, ReturnFormat format) throws Exception {
         return enableMarginSubAccount(subAccount.getEmail(), format);
@@ -2258,6 +2309,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Enable Margin for Sub-account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/enable")
     public SubAccountEnabledResult enableMarginSubAccount(String email) throws Exception {
         return enableMarginSubAccount(email, LIBRARY_OBJECT);
@@ -2284,6 +2336,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-margin-for-sub-account-for-master-account">
      * Enable Margin for Sub-account (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/enable")
     public <T> T enableMarginSubAccount(String email, ReturnFormat format) throws Exception {
         return enableMarginSubAccount(email, -1, format);
@@ -2312,6 +2365,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/enable")
     public SubAccountEnabledResult enableMarginSubAccount(SubAccount subAccount, long recvWindow) throws Exception {
         return enableMarginSubAccount(subAccount.getEmail(), recvWindow, LIBRARY_OBJECT);
@@ -2340,6 +2394,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Enable Margin for Sub-account (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/enable")
     public <T> T enableMarginSubAccount(SubAccount subAccount, long recvWindow, ReturnFormat format) throws Exception {
         return enableMarginSubAccount(subAccount.getEmail(), recvWindow, format);
@@ -2367,6 +2422,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Enable Margin for Sub-account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/enable")
     public SubAccountEnabledResult enableMarginSubAccount(String email, long recvWindow) throws Exception {
         return enableMarginSubAccount(email, recvWindow, LIBRARY_OBJECT);
@@ -2394,6 +2450,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-margin-for-sub-account-for-master-account">
      * Enable Margin for Sub-account (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/enable")
     public <T> T enableMarginSubAccount(String email, long recvWindow, ReturnFormat format) throws Exception {
         return returnEnabledResult(sendPostSignedRequest(SUB_ACCOUNT_MARGIN_ENABLE_ENDPOINT, createEmailPayload(email,
@@ -2421,6 +2478,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Detail on Sub-account's Margin Account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/margin/account")
     public SubMarginAccount getSubMarginAccountDetail(String email) throws Exception {
         return getSubMarginAccountDetail(email, LIBRARY_OBJECT);
@@ -2447,6 +2505,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-detail-on-sub-account-39-s-margin-account-for-master-account">
      * Get Detail on Sub-account's Margin Account (For Master Account)</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/margin/account")
     public <T> T getSubMarginAccountDetail(String email, ReturnFormat format) throws Exception {
         return getSubMarginAccountDetail(email, -1, format);
@@ -2474,6 +2533,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Detail on Sub-account's Margin Account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/margin/account")
     public SubMarginAccount getSubMarginAccountDetail(String email, long recvWindow) throws Exception {
         return getSubMarginAccountDetail(email, recvWindow, LIBRARY_OBJECT);
@@ -2502,6 +2562,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Detail on Sub-account's Margin Account (For Master Account)</a>
      **/
     @Returner
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/margin/account")
     public <T> T getSubMarginAccountDetail(String email, long recvWindow, ReturnFormat format) throws Exception {
         String accountResponse = sendGetSignedRequest(SUB_ACCOUNT_MARGIN_ACCOUNT_ENDPOINT, createEmailPayload(email,
@@ -2537,6 +2598,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Summary of Sub-account's Margin Account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/margin/accountSummary")
     public SummarySubMarginAccount getSummarySubMarginAccount() throws Exception {
         return getSummarySubMarginAccount(LIBRARY_OBJECT);
@@ -2562,6 +2624,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-sub-account-39-s-margin-account-for-master-account">
      * Get Summary of Sub-account's Margin Account (For Master Account)</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/margin/accountSummary")
     public <T> T getSummarySubMarginAccount(ReturnFormat format) throws Exception {
         return getSummarySubMarginAccount(-1, format);
@@ -2588,6 +2651,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Summary of Sub-account's Margin Account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/margin/accountSummary")
     public SummarySubMarginAccount getSummarySubMarginAccount(long recvWindow) throws Exception {
         return getSummarySubMarginAccount(recvWindow, LIBRARY_OBJECT);
@@ -2615,6 +2679,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Summary of Sub-account's Margin Account (For Master Account)</a>
      **/
     @Returner
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/margin/accountSummary")
     public <T> T getSummarySubMarginAccount(long recvWindow, ReturnFormat format) throws Exception {
         Params query = createTimestampPayload(null);
@@ -2653,6 +2718,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/enable")
     public SubAccountEnabledResult enableFuturesSubAccount(SubAccount subAccount) throws Exception {
         return enableFuturesSubAccount(subAccount.getEmail(), LIBRARY_OBJECT);
@@ -2680,6 +2746,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Enable Futures for Sub-account (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/enable")
     public <T> T enableFuturesSubAccount(SubAccount subAccount, ReturnFormat format) throws Exception {
         return enableFuturesSubAccount(subAccount.getEmail(), format);
@@ -2706,6 +2773,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Enable Futures for Sub-account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/enable")
     public SubAccountEnabledResult enableFuturesSubAccount(String email) throws Exception {
         return enableFuturesSubAccount(email, LIBRARY_OBJECT);
@@ -2732,6 +2800,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-futures-for-sub-account-for-master-account">
      * Enable Futures for Sub-account (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/enable")
     public <T> T enableFuturesSubAccount(String email, ReturnFormat format) throws Exception {
         return enableFuturesSubAccount(email, -1, format);
@@ -2760,6 +2829,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/enable")
     public SubAccountEnabledResult enableFuturesSubAccount(SubAccount subAccount, long recvWindow) throws Exception {
         return enableFuturesSubAccount(subAccount.getEmail(), recvWindow, LIBRARY_OBJECT);
@@ -2788,6 +2858,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Enable Futures for Sub-account (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/enable")
     public <T> T enableFuturesSubAccount(SubAccount subAccount, long recvWindow, ReturnFormat format) throws Exception {
         return enableFuturesSubAccount(subAccount.getEmail(), recvWindow, format);
@@ -2815,6 +2886,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Enable Futures for Sub-account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/enable")
     public SubAccountEnabledResult enableFuturesSubAccount(String email, long recvWindow) throws Exception {
         return enableFuturesSubAccount(email, recvWindow, LIBRARY_OBJECT);
@@ -2842,6 +2914,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-futures-for-sub-account-for-master-account">
      * Enable Futures for Sub-account (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/enable")
     public <T> T enableFuturesSubAccount(String email, long recvWindow, ReturnFormat format) throws Exception {
         return returnEnabledResult(sendPostSignedRequest(SUB_ACCOUNT_FUTURES_ENABLE_ENDPOINT, createEmailPayload(email,
@@ -2869,6 +2942,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Detail on Sub-account's Futures Account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/account")
     public SubFuturesAccount getSubFuturesAccountDetail(String email) throws Exception {
         return getSubFuturesAccountDetail(email, LIBRARY_OBJECT);
@@ -2895,6 +2969,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-detail-on-sub-account-39-s-futures-account-for-master-account">
      * Get Detail on Sub-account's Futures Account (For Master Account)</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/account")
     public <T> T getSubFuturesAccountDetail(String email, ReturnFormat format) throws Exception {
         return getSubFuturesAccountDetail(email, -1, format);
@@ -2922,6 +2997,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Detail on Sub-account's Futures Account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/account")
     public SubFuturesAccount getSubFuturesAccountDetail(String email, long recvWindow) throws Exception {
         return getSubFuturesAccountDetail(email, recvWindow, LIBRARY_OBJECT);
@@ -2949,6 +3025,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-detail-on-sub-account-39-s-futures-account-for-master-account">
      * Get Detail on Sub-account's Futures Account (For Master Account)</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/account")
     public <T> T getSubFuturesAccountDetail(String email, long recvWindow, ReturnFormat format) throws Exception {
         return returnSubFuturesAccount(sendGetSignedRequest(SUB_ACCOUNT_FUTURES_ACCOUNT_ENDPOINT,
@@ -2976,6 +3053,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Summary of Sub-account's Futures Account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/accountSummary")
     public SummarySubFuturesAccount getSummarySubFuturesAccount() throws Exception {
         return getSummarySubFuturesAccount(LIBRARY_OBJECT);
@@ -3001,6 +3079,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-sub-account-39-s-futures-account-for-master-account">
      * Get Summary of Sub-account's Futures Account (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/accountSummary")
     public <T> T getSummarySubFuturesAccount(ReturnFormat format) throws Exception {
         return getSummarySubFuturesAccount(-1, format);
@@ -3027,6 +3106,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Summary of Sub-account's Futures Account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/accountSummary")
     public SummarySubFuturesAccount getSummarySubFuturesAccount(long recvWindow) throws Exception {
         return getSummarySubFuturesAccount(recvWindow, LIBRARY_OBJECT);
@@ -3053,6 +3133,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-sub-account-39-s-futures-account-for-master-account">
      * Get Summary of Sub-account's Futures Account (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/accountSummary")
     public <T> T getSummarySubFuturesAccount(long recvWindow, ReturnFormat format) throws Exception {
         Params query = createTimestampPayload(null);
@@ -3084,6 +3165,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/positionRisk")
     public ArrayList<FuturesPositionRisk> getFuturesPositionRisk(SubFuturesAccount subFuturesAccount) throws Exception {
         return getFuturesPositionRisk(subFuturesAccount.getEmail(), LIBRARY_OBJECT);
@@ -3111,6 +3193,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Futures Position-Risk of Sub-account (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/positionRisk")
     public <T> T getFuturesPositionRisk(SubFuturesAccount subFuturesAccount, ReturnFormat format) throws Exception {
         return getFuturesPositionRisk(subFuturesAccount.getEmail(), LIBRARY_OBJECT);
@@ -3137,6 +3220,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Futures Position-Risk of Sub-account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/positionRisk")
     public ArrayList<FuturesPositionRisk> getFuturesPositionRisk(String email) throws Exception {
         return getFuturesPositionRisk(email, LIBRARY_OBJECT);
@@ -3163,6 +3247,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-futures-position-risk-of-sub-account-for-master-account">
      * Get Futures Position-Risk of Sub-account (For Master Account)</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/positionRisk")
     public <T> T getFuturesPositionRisk(String email, ReturnFormat format) throws Exception {
         return getFuturesPositionRisk(email, -1, format);
@@ -3191,6 +3276,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/positionRisk")
     public ArrayList<FuturesPositionRisk> getFuturesPositionRisk(SubFuturesAccount subFuturesAccount,
                                                                  long recvWindow) throws Exception {
@@ -3220,6 +3306,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Futures Position-Risk of Sub-account (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/positionRisk")
     public <T> T getFuturesPositionRisk(SubFuturesAccount subFuturesAccount, long recvWindow,
                                         ReturnFormat format) throws Exception {
@@ -3248,6 +3335,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Futures Position-Risk of Sub-account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/positionRisk")
     public ArrayList<FuturesPositionRisk> getFuturesPositionRisk(String email, long recvWindow) throws Exception {
         return getFuturesPositionRisk(email, recvWindow, LIBRARY_OBJECT);
@@ -3275,6 +3363,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-futures-position-risk-of-sub-account-for-master-account">
      * Get Futures Position-Risk of Sub-account (For Master Account)</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/positionRisk")
     public <T> T getFuturesPositionRisk(String email, long recvWindow, ReturnFormat format) throws Exception {
         return returnFuturesPositionRisk(sendGetSignedRequest(SUB_ACCOUNT_FUTURES_POSITION_RISK_ENDPOINT,
@@ -3306,6 +3395,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/transfer")
     public long execFuturesTransfer(SubAccount subAccount, String asset, double amount,
                                     FutureTransactionType type) throws Exception {
@@ -3337,6 +3427,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Futures Transfer for Sub-account (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/transfer")
     public <T> T execFuturesTransfer(SubAccount subAccount, String asset, double amount, FutureTransactionType type,
                                      ReturnFormat format) throws Exception {
@@ -3367,6 +3458,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Futures Transfer for Sub-account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/transfer")
     public long execFuturesTransfer(String email, String asset, double amount,
                                     FutureTransactionType type) throws Exception {
@@ -3397,6 +3489,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#futures-transfer-for-sub-account-for-master-account">
      * Futures Transfer for Sub-account (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/transfer")
     public <T> T execFuturesTransfer(String email, String asset, double amount, FutureTransactionType type,
                                      ReturnFormat format) throws Exception {
@@ -3429,6 +3522,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/transfer")
     public long execFuturesTransfer(SubAccount subAccount, String asset, double amount, FutureTransactionType type,
                                     long recvWindow) throws Exception {
@@ -3461,6 +3555,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Futures Transfer for Sub-account (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/transfer")
     public <T> T execFuturesTransfer(SubAccount subAccount, String asset, double amount, FutureTransactionType type,
                                      long recvWindow, ReturnFormat format) throws Exception {
@@ -3492,6 +3587,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Futures Transfer for Sub-account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/transfer")
     public long execFuturesTransfer(String email, String asset, double amount, FutureTransactionType type,
                                     long recvWindow) throws Exception {
@@ -3523,6 +3619,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#futures-transfer-for-sub-account-for-master-account">
      * Futures Transfer for Sub-account (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/transfer")
     public <T> T execFuturesTransfer(String email, String asset, double amount, FutureTransactionType type,
                                      long recvWindow, ReturnFormat format) throws Exception {
@@ -3555,6 +3652,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/transfer")
     public long execMarginTransfer(SubAccount subAccount, String asset, double amount,
                                    SubMarginTransfer type) throws Exception {
@@ -3586,6 +3684,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Margin Transfer for Sub-account (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/transfer")
     public <T> T execMarginTransfer(SubAccount subAccount, String asset, double amount, SubMarginTransfer type,
                                     ReturnFormat format) throws Exception {
@@ -3616,6 +3715,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Margin Transfer for Sub-account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/transfer")
     public long execMarginTransfer(String email, String asset, double amount, SubMarginTransfer type) throws Exception {
         return parseLong(execMarginTransfer(email, asset, amount, type, LIBRARY_OBJECT));
@@ -3645,6 +3745,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-transfer-for-sub-account-for-master-account">
      * Margin Transfer for Sub-account (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/transfer")
     public <T> T execMarginTransfer(String email, String asset, double amount, SubMarginTransfer type,
                                     ReturnFormat format) throws Exception {
@@ -3677,6 +3778,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/transfer")
     public long execMarginTransfer(SubAccount subAccount, String asset, double amount, SubMarginTransfer type,
                                    long recvWindow) throws Exception {
@@ -3709,6 +3811,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Margin Transfer for Sub-account (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/transfer")
     public <T> T execMarginTransfer(SubAccount subAccount, String asset, double amount, SubMarginTransfer type,
                                     long recvWindow, ReturnFormat format) throws Exception {
@@ -3740,6 +3843,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Margin Transfer for Sub-account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/transfer")
     public long execMarginTransfer(String email, String asset, double amount, SubMarginTransfer type,
                                    long recvWindow) throws Exception {
@@ -3771,6 +3875,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-transfer-for-sub-account-for-master-account">
      * Margin Transfer for Sub-account (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/transfer")
     public <T> T execMarginTransfer(String email, String asset, double amount, SubMarginTransfer type,
                                     long recvWindow, ReturnFormat format) throws Exception {
@@ -3802,6 +3907,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToSub")
     public long execSubToSubTransfer(SubAccount subAccount, String asset, double amount) throws Exception {
         return parseLong(execSubToSubTransfer(subAccount.getEmail(), asset, amount, LIBRARY_OBJECT));
@@ -3831,6 +3937,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Transfer to Sub-account of Same Master (For Sub-account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToSub")
     public <T> T execSubToSubTransfer(SubAccount subAccount, String asset, double amount,
                                       ReturnFormat format) throws Exception {
@@ -3860,6 +3967,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Transfer to Sub-account of Same Master (For Sub-account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToSub")
     public long execSubToSubTransfer(String email, String asset, double amount) throws Exception {
         return parseLong(execSubToSubTransfer(email, asset, amount, LIBRARY_OBJECT));
@@ -3888,6 +3996,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#transfer-to-sub-account-of-same-master-for-sub-account">
      * Transfer to Sub-account of Same Master (For Sub-account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToSub")
     public <T> T execSubToSubTransfer(String email, String asset, double amount, ReturnFormat format) throws Exception {
         return execSubToSubTransfer(email, asset, amount, -1, format);
@@ -3918,6 +4027,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToSub")
     public long execSubToSubTransfer(SubAccount subAccount, String asset, double amount, long recvWindow) throws Exception {
         return parseLong(execSubToSubTransfer(subAccount.getEmail(), asset, amount, recvWindow, LIBRARY_OBJECT));
@@ -3948,6 +4058,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Transfer to Sub-account of Same Master (For Sub-account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToSub")
     public <T> T execSubToSubTransfer(SubAccount subAccount, String asset, double amount, long recvWindow,
                                       ReturnFormat format) throws Exception {
@@ -3978,6 +4089,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Transfer to Sub-account of Same Master (For Sub-account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToSub")
     public long execSubToSubTransfer(String email, String asset, double amount, long recvWindow) throws Exception {
         return parseLong(execSubToSubTransfer(email, asset, amount, recvWindow, LIBRARY_OBJECT));
@@ -4007,6 +4119,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#transfer-to-sub-account-of-same-master-for-sub-account">
      * Transfer to Sub-account of Same Master (For Sub-account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToSub")
     public <T> T execSubToSubTransfer(String email, String asset, double amount, long recvWindow,
                                       ReturnFormat format) throws Exception {
@@ -4036,6 +4149,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Transfer to Master (For Sub-account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToMaster")
     public long transferToMaster(String asset, double amount) throws Exception {
         return parseLong(transferToMaster(asset, amount, LIBRARY_OBJECT));
@@ -4063,6 +4177,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#transfer-to-master-for-sub-account">
      * Transfer to Master (For Sub-account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToMaster")
     public <T> T transferToMaster(String asset, double amount, ReturnFormat format) throws Exception {
         return transferToMaster(asset, amount, -1, format);
@@ -4091,6 +4206,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Transfer to Master (For Sub-account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToMaster")
     public long transferToMaster(String asset, double amount, long recvWindow) throws Exception {
         return parseLong(transferToMaster(asset, amount, recvWindow, LIBRARY_OBJECT));
@@ -4119,6 +4235,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#transfer-to-master-for-sub-account">
      * Transfer to Master (For Sub-account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToMaster")
     public <T> T transferToMaster(String asset, double amount, long recvWindow, ReturnFormat format) throws Exception {
         return returnTransferId(sendPostSignedRequest(SUB_ACCOUNT_TRANSFER_SUB_TO_MASTER_ENDPOINT,
@@ -4188,6 +4305,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Sub-account Transfer History (For Sub-account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/transfer/subUserHistory")
     public ArrayList<SubAccountTransfer> getSubAccountTransferHistory() throws Exception {
         return getSubAccountTransferHistory(LIBRARY_OBJECT);
@@ -4213,6 +4331,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#sub-account-transfer-history-for-sub-account">
      * Sub-account Transfer History (For Sub-account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/transfer/subUserHistory")
     public <T> T getSubAccountTransferHistory(ReturnFormat format) throws Exception {
         return getSubAccountTransferHistory(null, format);
@@ -4260,6 +4379,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Sub-account Transfer History (For Sub-account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/transfer/subUserHistory")
     public ArrayList<SubAccountTransfer> getSubAccountTransferHistory(Params extraParams) throws Exception {
         return getSubAccountTransferHistory(extraParams, LIBRARY_OBJECT);
@@ -4308,6 +4428,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Sub-account Transfer History (For Sub-account)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/transfer/subUserHistory")
     public <T> T getSubAccountTransferHistory(Params extraParams, ReturnFormat format) throws Exception {
         extraParams = createTimestampPayload(extraParams);
@@ -4350,6 +4471,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Universal Transfer (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/universalTransfer")
     public SubUniversalTransfer execSubUniversalTransfer(PrincipalAccountType fromAccountType,
                                                          PrincipalAccountType toAccountType, String asset,
@@ -4381,6 +4503,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#universal-transfer-for-master-account">
      * Universal Transfer (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/universalTransfer")
     public <T> T execSubUniversalTransfer(PrincipalAccountType fromAccountType, PrincipalAccountType toAccountType,
                                           String asset, double amount, ReturnFormat format) throws Exception {
@@ -4430,6 +4553,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Universal Transfer (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/universalTransfer")
     public SubUniversalTransfer execSubUniversalTransfer(PrincipalAccountType fromAccountType,
                                                          PrincipalAccountType toAccountType, String asset, double amount,
@@ -4481,6 +4605,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Universal Transfer (For Master Account)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/universalTransfer")
     public <T> T execSubUniversalTransfer(PrincipalAccountType fromAccountType, PrincipalAccountType toAccountType,
                                           String asset, double amount, Params extraParams,
@@ -4523,6 +4648,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Universal Transfer History (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/universalTransfer")
     public SubUniversalTransferHistory getUniversalTransferHistory() throws Exception {
         return getUniversalTransferHistory(LIBRARY_OBJECT);
@@ -4548,6 +4674,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-universal-transfer-history-for-master-account">
      * Query Universal Transfer History (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/universalTransfer")
     public <T> T getUniversalTransferHistory(ReturnFormat format) throws Exception {
         return getUniversalTransferHistory(null, format);
@@ -4603,6 +4730,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Universal Transfer History (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/universalTransfer")
     public SubUniversalTransferHistory getUniversalTransferHistory(Params extraParams) throws Exception {
         return getUniversalTransferHistory(extraParams, LIBRARY_OBJECT);
@@ -4659,6 +4787,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Universal Transfer History (For Master Account)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/universalTransfer")
     public <T> T getUniversalTransferHistory(Params extraParams, ReturnFormat format) throws Exception {
         extraParams = createTimestampPayload(extraParams);
@@ -4703,6 +4832,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Universal Transfer History (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/sub-account/futures/account")
     public <T> T getSubFuturesAccountDetail(String email, FuturesType type) throws Exception {
         return getSubFuturesAccountDetail(email, type, LIBRARY_OBJECT);
@@ -4730,6 +4860,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-detail-on-sub-account-39-s-futures-account-v2-for-master-account">
      * Query Universal Transfer History (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/sub-account/futures/account")
     public <T> T getSubFuturesAccountDetail(String email, FuturesType type, ReturnFormat format) throws Exception {
         return getSubFuturesAccountDetail(email, type, -1, format);
@@ -4766,6 +4897,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Universal Transfer History (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/sub-account/futures/account")
     public <T> T getSubFuturesAccountDetail(String email, FuturesType type, long recvWindow) throws Exception {
         return getSubFuturesAccountDetail(email, type, recvWindow, LIBRARY_OBJECT);
@@ -4795,6 +4927,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Universal Transfer History (For Master Account)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/sub-account/futures/account")
     public <T> T getSubFuturesAccountDetail(String email, FuturesType type, long recvWindow,
                                             ReturnFormat format) throws Exception {
@@ -4864,6 +4997,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Summary of Sub-account's Futures Account V2 (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/sub-account/futures/accountSummary")
     public <T> T getSummarySubFuturesAccount(FuturesType type) throws Exception {
         return getSummarySubFuturesAccount(type, LIBRARY_OBJECT);
@@ -4890,6 +5024,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-sub-account-39-s-futures-account-v2-for-master-account">
      * Get Summary of Sub-account's Futures Account V2 (For Master Account)</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/sub-account/futures/accountSummary")
     public <T> T getSummarySubFuturesAccount(FuturesType type, ReturnFormat format) throws Exception {
         return getSummarySubFuturesAccount(type, null, format);
@@ -4937,6 +5072,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Summary of Sub-account's Futures Account V2 (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/sub-account/futures/accountSummary")
     public <T> T getSummarySubFuturesAccount(FuturesType type, Params extraParams) throws Exception {
         return getSummarySubFuturesAccount(type, extraParams, LIBRARY_OBJECT);
@@ -4977,6 +5113,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Summary of Sub-account's Futures Account V2 (For Master Account)</a>
      **/
     @Returner
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/sub-account/futures/accountSummary")
     public <T> T getSummarySubFuturesAccount(FuturesType type, Params extraParams, ReturnFormat format) throws Exception {
         extraParams = createTimestampPayload(extraParams);
@@ -5048,6 +5185,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/sub-account/futures/positionRisk")
     public <T> ArrayList<T> getFuturesPositionRisk(SubFuturesAccount subFuturesAccount, FuturesType type) throws Exception {
         return getFuturesPositionRisk(subFuturesAccount.getEmail(), type, LIBRARY_OBJECT);
@@ -5076,6 +5214,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Futures Position-Risk of Sub-account V2 (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/sub-account/futures/positionRisk")
     public <T> T getFuturesPositionRisk(SubFuturesAccount subFuturesAccount, FuturesType type,
                                         ReturnFormat format) throws Exception {
@@ -5112,6 +5251,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Futures Position-Risk of Sub-account V2 (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/sub-account/futures/positionRisk")
     public <T> ArrayList<T> getFuturesPositionRisk(String email, FuturesType type) throws Exception {
         return getFuturesPositionRisk(email, type, LIBRARY_OBJECT);
@@ -5139,6 +5279,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-futures-position-risk-of-sub-account-v2-for-master-account">
      * Get Futures Position-Risk of Sub-account V2 (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/sub-account/futures/positionRisk")
     public <T> T getFuturesPositionRisk(String email, FuturesType type, ReturnFormat format) throws Exception {
         return getFuturesPositionRisk(email, type, -1, format);
@@ -5176,6 +5317,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/sub-account/futures/positionRisk")
     public <T> ArrayList<T> getFuturesPositionRisk(SubFuturesAccount subFuturesAccount, FuturesType type,
                                                    long recvWindow) throws Exception {
@@ -5206,6 +5348,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Futures Position-Risk of Sub-account V2 (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/sub-account/futures/positionRisk")
     public <T> T getFuturesPositionRisk(SubFuturesAccount subFuturesAccount, FuturesType type, long recvWindow,
                                         ReturnFormat format) throws Exception {
@@ -5243,6 +5386,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Futures Position-Risk of Sub-account V2 (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/sub-account/futures/positionRisk")
     public <T> ArrayList<T> getFuturesPositionRisk(String email, FuturesType type, long recvWindow) throws Exception {
         return getFuturesPositionRisk(email, type, recvWindow, LIBRARY_OBJECT);
@@ -5272,6 +5416,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Futures Position-Risk of Sub-account V2 (For Master Account)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/sub-account/futures/positionRisk")
     public <T> T getFuturesPositionRisk(String email, FuturesType type, long recvWindow,
                                         ReturnFormat format) throws Exception {
@@ -5342,6 +5487,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/blvt/enable")
     public SubAccountEnabledResult enableLeverageTokenSubAccount(SubAccount subAccount) throws Exception {
         return enableLeverageTokenSubAccount(subAccount.getEmail(), LIBRARY_OBJECT);
@@ -5369,6 +5515,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Enable Leverage Token for Sub-account (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/blvt/enable")
     public <T> T enableLeverageTokenSubAccount(SubAccount subAccount, ReturnFormat format) throws Exception {
         return enableLeverageTokenSubAccount(subAccount.getEmail(), format);
@@ -5395,6 +5542,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Enable Leverage Token for Sub-account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/blvt/enable")
     public SubAccountEnabledResult enableLeverageTokenSubAccount(String email) throws Exception {
         return enableLeverageTokenSubAccount(email, LIBRARY_OBJECT);
@@ -5421,6 +5569,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-leverage-token-for-sub-account-for-master-account">
      * Enable Leverage Token for Sub-account (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/blvt/enable")
     public <T> T enableLeverageTokenSubAccount(String email, ReturnFormat format) throws Exception {
         return enableLeverageTokenSubAccount(email, -1, format);
@@ -5449,6 +5598,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/blvt/enable")
     public SubAccountEnabledResult enableLeverageTokenSubAccount(SubAccount subAccount, long recvWindow) throws Exception {
         return enableLeverageTokenSubAccount(subAccount.getEmail(), recvWindow, LIBRARY_OBJECT);
@@ -5477,6 +5627,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Enable Leverage Token for Sub-account (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/blvt/enable")
     public <T> T enableLeverageTokenSubAccount(SubAccount subAccount, long recvWindow, ReturnFormat format) throws Exception {
         return enableLeverageTokenSubAccount(subAccount.getEmail(), recvWindow, format);
@@ -5504,6 +5655,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Enable Leverage Token for Sub-account (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/blvt/enable")
     public SubAccountEnabledResult enableLeverageTokenSubAccount(String email, long recvWindow) throws Exception {
         return enableLeverageTokenSubAccount(email, recvWindow, LIBRARY_OBJECT);
@@ -5531,6 +5683,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-leverage-token-for-sub-account-for-master-account">
      * Enable Leverage Token for Sub-account (For Master Account)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/blvt/enable")
     public <T> T enableLeverageTokenSubAccount(String email, long recvWindow, ReturnFormat format) throws Exception {
         Params payload = createEmailPayload(email, recvWindow, false);
@@ -5580,6 +5733,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/subAccountApi/ipRestriction")
     public IPRestriction getSubAccountAPIKeyIpRestriction(SubAccount subAccount, String subAccountAPIKey) throws Exception {
         return getSubAccountAPIKeyIpRestriction(subAccount.getEmail(), subAccountAPIKey, LIBRARY_OBJECT);
@@ -5608,6 +5762,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get IP Restriction for a Sub-account API Key (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/subAccountApi/ipRestriction")
     public <T> T getSubAccountAPIKeyIpRestriction(SubAccount subAccount, String subAccountAPIKey,
                                                   ReturnFormat format) throws Exception {
@@ -5636,6 +5791,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get IP Restriction for a Sub-account API Key (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/subAccountApi/ipRestriction")
     public IPRestriction getSubAccountAPIKeyIpRestriction(String email, String subAccountAPIKey) throws Exception {
         return getSubAccountAPIKeyIpRestriction(email, subAccountAPIKey, LIBRARY_OBJECT);
@@ -5663,6 +5819,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-ip-restriction-for-a-sub-account-api-key-for-master-account">
      * Get IP Restriction for a Sub-account API Key (For Master Account)</a>
      **/
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/subAccountApi/ipRestriction")
     public <T> T getSubAccountAPIKeyIpRestriction(String email, String subAccountAPIKey,
                                                   ReturnFormat format) throws Exception {
@@ -5693,6 +5850,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/subAccountApi/ipRestriction")
     public IPRestriction getSubAccountAPIKeyIpRestriction(SubAccount subAccount, String subAccountAPIKey,
                                                           long recvWindow) throws Exception {
@@ -5723,6 +5881,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get IP Restriction for a Sub-account API Key (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/subAccountApi/ipRestriction")
     public <T> T getSubAccountAPIKeyIpRestriction(SubAccount subAccount, String subAccountAPIKey, long recvWindow,
                                                   ReturnFormat format) throws Exception {
@@ -5752,6 +5911,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get IP Restriction for a Sub-account API Key (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/subAccountApi/ipRestriction")
     public IPRestriction getSubAccountAPIKeyIpRestriction(String email, String subAccountAPIKey,
                                                           long recvWindow) throws Exception {
@@ -5781,6 +5941,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-ip-restriction-for-a-sub-account-api-key-for-master-account">
      * Get IP Restriction for a Sub-account API Key (For Master Account)</a>
      **/
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/subAccountApi/ipRestriction")
     public <T> T getSubAccountAPIKeyIpRestriction(String email, String subAccountAPIKey, long recvWindow,
                                                   ReturnFormat format) throws Exception {
@@ -5812,6 +5973,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/sub-account/subAccountApi/ipRestriction/ipList")
     public IPRestriction deleteSubAccountAPIKeyIpList(SubAccount subAccount, String subAccountAPIKey) throws Exception {
         return deleteSubAccountAPIKeyIpList(subAccount.getEmail(), subAccountAPIKey, LIBRARY_OBJECT);
@@ -5840,6 +6002,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get IP Restriction for a Sub-account API Key (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/sub-account/subAccountApi/ipRestriction/ipList")
     public <T> T deleteSubAccountAPIKeyIpList(SubAccount subAccount, String subAccountAPIKey,
                                               ReturnFormat format) throws Exception {
@@ -5868,6 +6031,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get IP Restriction for a Sub-account API Key (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/sub-account/subAccountApi/ipRestriction/ipList")
     public IPRestriction deleteSubAccountAPIKeyIpList(String email, String subAccountAPIKey) throws Exception {
         return deleteSubAccountAPIKeyIpList(email, subAccountAPIKey, LIBRARY_OBJECT);
@@ -5895,6 +6059,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-ip-restriction-for-a-sub-account-api-key-for-master-account">
      * Get IP Restriction for a Sub-account API Key (For Master Account)</a>
      **/
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/sub-account/subAccountApi/ipRestriction/ipList")
     public <T> T deleteSubAccountAPIKeyIpList(String email, String subAccountAPIKey,
                                               ReturnFormat format) throws Exception {
@@ -5934,6 +6099,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/sub-account/subAccountApi/ipRestriction/ipList")
     public IPRestriction deleteSubAccountAPIKeyIpList(SubAccount subAccount, String subAccountAPIKey,
                                                       Params extraParams) throws Exception {
@@ -5973,6 +6139,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get IP Restriction for a Sub-account API Key (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/sub-account/subAccountApi/ipRestriction/ipList")
     public <T> T deleteSubAccountAPIKeyIpList(SubAccount subAccount, String subAccountAPIKey, Params extraParams,
                                               ReturnFormat format) throws Exception {
@@ -6011,6 +6178,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get IP Restriction for a Sub-account API Key (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/sub-account/subAccountApi/ipRestriction/ipList")
     public IPRestriction deleteSubAccountAPIKeyIpList(String email, String subAccountAPIKey,
                                                       Params extraParams) throws Exception {
@@ -6049,6 +6217,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-ip-restriction-for-a-sub-account-api-key-for-master-account">
      * Get IP Restriction for a Sub-account API Key (For Master Account)</a>
      **/
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/sub-account/subAccountApi/ipRestriction/ipList")
     public <T> T deleteSubAccountAPIKeyIpList(String email, String subAccountAPIKey, Params extraParams,
                                               ReturnFormat format) throws Exception {
@@ -6101,6 +6270,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v2/sub-account/subAccountApi/ipRestriction")
     public IPRestrictionUpdated updateSubAccountAPIKeyIpRestriction(SubAccount subAccount, String subAccountAPIKey,
                                                                     IPStatus status) throws Exception {
@@ -6131,6 +6301,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Update IP Restriction for Sub-Account API key (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v2/sub-account/subAccountApi/ipRestriction")
     public <T> T updateSubAccountAPIKeyIpRestriction(SubAccount subAccount, String subAccountAPIKey, IPStatus status,
                                                      ReturnFormat format) throws Exception {
@@ -6160,6 +6331,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Update IP Restriction for Sub-Account API key (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v2/sub-account/subAccountApi/ipRestriction")
     public IPRestrictionUpdated updateSubAccountAPIKeyIpRestriction(String email, String subAccountAPIKey,
                                                                     IPStatus status) throws Exception {
@@ -6189,6 +6361,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#update-ip-restriction-for-sub-account-api-key-for-master-account">
      * Update IP Restriction for Sub-Account API key (For Master Account)</a>
      **/
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v2/sub-account/subAccountApi/ipRestriction")
     public <T> T updateSubAccountAPIKeyIpRestriction(String email, String subAccountAPIKey, IPStatus status,
                                                      ReturnFormat format) throws Exception {
@@ -6229,6 +6402,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v2/sub-account/subAccountApi/ipRestriction")
     public IPRestrictionUpdated updateSubAccountAPIKeyIpRestriction(SubAccount subAccount, String subAccountAPIKey,
                                                                     IPStatus status, Params extraParams) throws Exception {
@@ -6270,6 +6444,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Update IP Restriction for Sub-Account API key (For Master Account)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v2/sub-account/subAccountApi/ipRestriction")
     public <T> T updateSubAccountAPIKeyIpRestriction(SubAccount subAccount, String subAccountAPIKey, IPStatus status,
                                                      Params extraParams, ReturnFormat format) throws Exception {
@@ -6309,6 +6484,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Update IP Restriction for Sub-Account API key (For Master Account)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v2/sub-account/subAccountApi/ipRestriction")
     public IPRestrictionUpdated updateSubAccountAPIKeyIpRestriction(String email, String subAccountAPIKey, IPStatus status,
                                                                     Params extraParams) throws Exception {
@@ -6349,6 +6525,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Update IP Restriction for Sub-Account API key (For Master Account)</a>
      **/
     @Returner
+    @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v2/sub-account/subAccountApi/ipRestriction")
     public <T> T updateSubAccountAPIKeyIpRestriction(String email, String subAccountAPIKey, IPStatus status,
                                                      Params extraParams, ReturnFormat format) throws Exception {
@@ -6391,6 +6568,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Deposit Assets Into The Managed Sub-account（For Investor Master Account）</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/managed-subaccount/deposit")
     public long depositAssetsIntoManagedSubAccount(String toEmail, String asset, double amount) throws Exception {
         return parseLong(depositAssetsIntoManagedSubAccount(toEmail, asset, amount, LIBRARY_OBJECT));
@@ -6419,6 +6597,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-assets-into-the-managed-sub-account-for-investor-master-account">
      * Deposit Assets Into The Managed Sub-account（For Investor Master Account）</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/managed-subaccount/deposit")
     public <T> T depositAssetsIntoManagedSubAccount(String toEmail, String asset, double amount,
                                                     ReturnFormat format) throws Exception {
@@ -6449,6 +6628,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Deposit Assets Into The Managed Sub-account（For Investor Master Account）</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/managed-subaccount/deposit")
     public long depositAssetsIntoManagedSubAccount(String toEmail, String asset, double amount,
                                                    long recvWindow) throws Exception {
@@ -6479,6 +6659,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-assets-into-the-managed-sub-account-for-investor-master-account">
      * Deposit Assets Into The Managed Sub-account（For Investor Master Account）</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/managed-subaccount/deposit")
     public <T> T depositAssetsIntoManagedSubAccount(String toEmail, String asset, double amount,
                                                     long recvWindow, ReturnFormat format) throws Exception {
@@ -6513,6 +6694,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/asset")
     public ArrayList<ManagedSubAccountAssetDetails> getManagedSubAccountAssetDetails(SubAccount subAccount) throws Exception {
         return getManagedSubAccountAssetDetails(subAccount.getEmail(), LIBRARY_OBJECT);
@@ -6540,6 +6722,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub-account Asset Details（For Investor Master Account）</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/asset")
     public <T> T getManagedSubAccountAssetDetails(SubAccount subAccount, ReturnFormat format) throws Exception {
         return getManagedSubAccountAssetDetails(subAccount.getEmail(), format);
@@ -6566,6 +6749,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub-account Asset Details（For Investor Master Account）</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/asset")
     public ArrayList<ManagedSubAccountAssetDetails> getManagedSubAccountAssetDetails(String email) throws Exception {
         return getManagedSubAccountAssetDetails(email, LIBRARY_OBJECT);
@@ -6592,6 +6776,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-managed-sub-account-asset-details-for-investor-master-account">
      * Query Managed Sub-account Asset Details（For Investor Master Account）</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/asset")
     public <T> T getManagedSubAccountAssetDetails(String email, ReturnFormat format) throws Exception {
         return getManagedSubAccountAssetDetails(email, -1, format);
@@ -6620,6 +6805,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/asset")
     public ArrayList<ManagedSubAccountAssetDetails> getManagedSubAccountAssetDetails(SubAccount subAccount,
                                                                                      long recvWindow) throws Exception {
@@ -6649,6 +6835,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub-account Asset Details（For Investor Master Account）</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/asset")
     public <T> T getManagedSubAccountAssetDetails(SubAccount subAccount, long recvWindow,
                                                   ReturnFormat format) throws Exception {
@@ -6677,6 +6864,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub-account Asset Details（For Investor Master Account）</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/asset")
     public ArrayList<ManagedSubAccountAssetDetails> getManagedSubAccountAssetDetails(String email,
                                                                                      long recvWindow) throws Exception {
@@ -6706,6 +6894,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub-account Asset Details（For Investor Master Account）</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/asset")
     public <T> T getManagedSubAccountAssetDetails(String email, long recvWindow, ReturnFormat format) throws Exception {
         String assetResponse = sendGetSignedRequest(MANAGED_SUB_ACCOUNT_ASSET_ENDPOINT, createEmailPayload(email,
@@ -6747,6 +6936,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Withdraw Assets From The Managed Sub-account（For Investor Master Account）</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/managed-subaccount/withdraw")
     public long withdrawAssetsFromManagedSubAccount(String fromEmail, String asset, double amount) throws Exception {
         return parseLong(withdrawAssetsFromManagedSubAccount(fromEmail, asset, amount, LIBRARY_OBJECT));
@@ -6775,6 +6965,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdrawl-assets-from-the-managed-sub-account-for-investor-master-account">
      * Withdraw Assets From The Managed Sub-account（For Investor Master Account）</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/managed-subaccount/withdraw")
     public <T> T withdrawAssetsFromManagedSubAccount(String fromEmail, String asset, double amount,
                                                      ReturnFormat format) throws Exception {
@@ -6816,6 +7007,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Withdraw Assets From The Managed Sub-account（For Investor Master Account）</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/managed-subaccount/withdraw")
     public long withdrawAssetsFromManagedSubAccount(String fromEmail, String asset, double amount,
                                                     Params extraParams) throws Exception {
@@ -6857,6 +7049,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdrawl-assets-from-the-managed-sub-account-for-investor-master-account">
      * Withdraw Assets From The Managed Sub-account（For Investor Master Account）</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/managed-subaccount/withdraw")
     public <T> T withdrawAssetsFromManagedSubAccount(String fromEmail, String asset, double amount,
                                                      Params extraParams, ReturnFormat format) throws Exception {
@@ -6891,6 +7084,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "2400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/accountSnapshot")
     public <T> T getManagedSubAccountSnapshot(SubAccount subAccount, AccountType type) throws Exception {
         return getManagedSubAccountSnapshot(subAccount.getEmail(), type, LIBRARY_OBJECT);
@@ -6919,6 +7113,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub-account Snapshot&#xFF08;For Investor Master Account&#xFF09;</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "2400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/accountSnapshot")
     public <T> T getManagedSubAccountSnapshot(SubAccount subAccount, AccountType type, ReturnFormat format) throws Exception {
         return getManagedSubAccountSnapshot(subAccount.getEmail(), type, format);
@@ -6946,6 +7141,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub-account Snapshot&#xFF08;For Investor Master Account&#xFF09;</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "2400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/accountSnapshot")
     public <T> T getManagedSubAccountSnapshot(String email, AccountType type) throws Exception {
         return getManagedSubAccountSnapshot(email, type, LIBRARY_OBJECT);
@@ -6973,6 +7169,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-managed-sub-account-snapshot-for-investor-master-account">
      * Query Managed Sub-account Snapshot&#xFF08;For Investor Master Account&#xFF09;</a>
      **/
+    @RequestWeight(weight = "2400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/accountSnapshot")
     public <T> T getManagedSubAccountSnapshot(String email, AccountType type, ReturnFormat format) throws Exception {
         return getManagedSubAccountSnapshot(email, type, null, format);
@@ -7017,6 +7214,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "2400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/accountSnapshot")
     public <T> T getManagedSubAccountSnapshot(SubAccount subAccount, AccountType type, Params extraParams) throws Exception {
         return getManagedSubAccountSnapshot(subAccount.getEmail(), type, extraParams, LIBRARY_OBJECT);
@@ -7061,6 +7259,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub-account Snapshot&#xFF08;For Investor Master Account&#xFF09;</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "2400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/accountSnapshot")
     public <T> T getManagedSubAccountSnapshot(SubAccount subAccount, AccountType type, Params extraParams,
                                               ReturnFormat format) throws Exception {
@@ -7105,6 +7304,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub-account Snapshot&#xFF08;For Investor Master Account&#xFF09;</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "2400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/accountSnapshot")
     public <T> T getManagedSubAccountSnapshot(String email, AccountType type, Params extraParams) throws Exception {
         return getManagedSubAccountSnapshot(email, type, extraParams, LIBRARY_OBJECT);
@@ -7148,6 +7348,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-managed-sub-account-snapshot-for-investor-master-account">
      * Query Managed Sub-account Snapshot&#xFF08;For Investor Master Account&#xFF09;</a>
      **/
+    @RequestWeight(weight = "2400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/accountSnapshot")
     public <T> T getManagedSubAccountSnapshot(String email, AccountType type, Params extraParams,
                                               ReturnFormat format) throws Exception {
@@ -7184,6 +7385,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/queryTransLogForInvestor")
     public SubAccountTransferLog getInvestorTransferLog(SubAccount account, long startTime, long endTime, int page,
                                                         int limit) throws Exception {
@@ -7216,6 +7418,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub Account Transfer Log (For Investor Master Account) (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/queryTransLogForInvestor")
     public <T> T getInvestorTransferLog(SubAccount account, long startTime, long endTime, int page, int limit,
                                         ReturnFormat format) throws Exception {
@@ -7247,6 +7450,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub Account Transfer Log (For Investor Master Account) (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/queryTransLogForInvestor")
     public SubAccountTransferLog getInvestorTransferLog(String email, long startTime, long endTime, int page,
                                                         int limit) throws Exception {
@@ -7278,6 +7482,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-managed-sub-account-transfer-log-for-investor-master-account-user_data">
      * Query Managed Sub Account Transfer Log (For Investor Master Account) (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/queryTransLogForInvestor")
     public <T> T getInvestorTransferLog(String email, long startTime, long endTime, int page, int limit,
                                         ReturnFormat format) throws Exception {
@@ -7321,6 +7526,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/queryTransLogForInvestor")
     public SubAccountTransferLog getInvestorTransferLog(SubAccount account, long startTime, long endTime, int page,
                                                         int limit, Params extraParams) throws Exception {
@@ -7365,6 +7571,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub Account Transfer Log (For Investor Master Account) (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/queryTransLogForInvestor")
     public <T> T getInvestorTransferLog(SubAccount account, long startTime, long endTime, int page, int limit,
                                         Params extraParams, ReturnFormat format) throws Exception {
@@ -7407,6 +7614,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub Account Transfer Log (For Investor Master Account) (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/queryTransLogForInvestor")
     public SubAccountTransferLog getInvestorTransferLog(String email, long startTime, long endTime, int page,
                                                         int limit, Params extraParams) throws Exception {
@@ -7449,6 +7657,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-managed-sub-account-transfer-log-for-investor-master-account-user_data">
      * Query Managed Sub Account Transfer Log (For Investor Master Account) (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/queryTransLogForInvestor")
     public <T> T getInvestorTransferLog(String email, long startTime, long endTime, int page, int limit,
                                         Params extraParams, ReturnFormat format) throws Exception {
@@ -7482,6 +7691,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/queryTransLogForTradeParent")
     public SubAccountTransferLog getTradingTeamTransferLog(SubAccount account, long startTime, long endTime,
                                                            int page, int limit) throws Exception {
@@ -7514,6 +7724,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub Account Transfer Log (For Trading Team Master Account) (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/queryTransLogForTradeParent")
     public <T> T getTradingTeamTransferLog(SubAccount account, long startTime, long endTime, int page, int limit,
                                            ReturnFormat format) throws Exception {
@@ -7545,6 +7756,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub Account Transfer Log (For Trading Team Master Account) (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/queryTransLogForTradeParent")
     public SubAccountTransferLog getTradingTeamTransferLog(String email, long startTime, long endTime, int page,
                                                            int limit) throws Exception {
@@ -7576,6 +7788,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-managed-sub-account-transfer-log-for-trading-team-master-account-user_data">
      * Query Managed Sub Account Transfer Log (For Trading Team Master Account) (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/queryTransLogForTradeParent")
     public <T> T getTradingTeamTransferLog(String email, long startTime, long endTime, int page, int limit,
                                            ReturnFormat format) throws Exception {
@@ -7619,6 +7832,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/queryTransLogForTradeParent")
     public SubAccountTransferLog getTradingTeamTransferLog(SubAccount account, long startTime, long endTime,
                                                            int page, int limit, Params extraParams) throws Exception {
@@ -7663,6 +7877,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub Account Transfer Log (For Trading Team Master Account) (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/queryTransLogForTradeParent")
     public <T> T getTradingTeamTransferLog(SubAccount account, long startTime, long endTime, int page, int limit,
                                            Params extraParams, ReturnFormat format) throws Exception {
@@ -7705,6 +7920,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub Account Transfer Log (For Trading Team Master Account) (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/queryTransLogForTradeParent")
     public SubAccountTransferLog getTradingTeamTransferLog(String email, long startTime, long endTime, int page,
                                                            int limit, Params extraParams) throws Exception {
@@ -7747,6 +7963,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-managed-sub-account-transfer-log-for-trading-team-master-account-user_data">
      * Query Managed Sub Account Transfer Log (For Trading Team Master Account) (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/queryTransLogForTradeParent")
     public <T> T getTradingTeamTransferLog(String email, long startTime, long endTime, int page, int limit,
                                            Params extraParams, ReturnFormat format) throws Exception {
@@ -7827,6 +8044,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/fetch-future-asset")
     public FuturesAccountSnapshot getManagedSubAccountFuturesAssetDetails(SubFuturesAccount subAccount) throws Exception {
         return getManagedSubAccountFuturesAssetDetails(subAccount.getEmail(), LIBRARY_OBJECT);
@@ -7854,6 +8072,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub-account Futures Asset Details（For Investor Master Account）(USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/fetch-future-asset")
     public <T> T getManagedSubAccountFuturesAssetDetails(SubFuturesAccount subAccount, ReturnFormat format) throws Exception {
         return getManagedSubAccountFuturesAssetDetails(subAccount.getEmail(), format);
@@ -7880,6 +8099,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub-account Futures Asset Details（For Investor Master Account）(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/fetch-future-asset")
     public FuturesAccountSnapshot getManagedSubAccountFuturesAssetDetails(String email) throws Exception {
         return getManagedSubAccountFuturesAssetDetails(email, LIBRARY_OBJECT);
@@ -7906,6 +8126,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-managed-sub-account-futures-asset-details-for-investor-master-account-user_data">
      * Query Managed Sub-account Futures Asset Details（For Investor Master Account）(USER_DATA)</a>
      **/
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/fetch-future-asset")
     public <T> T getManagedSubAccountFuturesAssetDetails(String email, ReturnFormat format) throws Exception {
         return returnAccountSnapshot(futures, sendGetSignedRequest(MANAGED_SUB_ACCOUNT_FETCH_FUTURE_ASSET_ENDPOINT
@@ -7934,6 +8155,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/marginAsset")
     public SubMarginAccountAssetDetails getManagedSubAccountMarginAssetDetails(SubMarginAccount subAccount) throws Exception {
         return getManagedSubAccountMarginAssetDetails(subAccount.getEmail(), LIBRARY_OBJECT);
@@ -7961,6 +8183,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub-account Margin Asset Details (For Investor Master Account) (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/marginAsset")
     public <T> T getManagedSubAccountMarginAssetDetails(SubMarginAccount subAccount, ReturnFormat format) throws Exception {
         return getManagedSubAccountMarginAssetDetails(subAccount.getEmail(), format);
@@ -7987,6 +8210,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub-account Margin Asset Details (For Investor Master Account) (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/marginAsset")
     public SubMarginAccountAssetDetails getManagedSubAccountMarginAssetDetails(String email) throws Exception {
         return getManagedSubAccountMarginAssetDetails(email, LIBRARY_OBJECT);
@@ -8014,6 +8238,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub-account Margin Asset Details (For Investor Master Account) (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/marginAsset")
     public <T> T getManagedSubAccountMarginAssetDetails(String email, ReturnFormat format) throws Exception {
         String detailsResponse = sendGetSignedRequest(MANAGED_SUB_ACCOUNT_MARGIN_ASSET_ENDPOINT + "?email="
@@ -8050,6 +8275,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v4/sub-account/assets")
     public ArrayList<SpotBalance> getMasterAccountAssets(SubAccount subAccount) throws Exception {
         return getMasterAccountAssets(subAccount.getEmail(), LIBRARY_OBJECT);
@@ -8077,6 +8303,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Assets (For Master Account)(USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v4/sub-account/assets")
     public <T> T getMasterAccountAssets(SubAccount subAccount, ReturnFormat format) throws Exception {
         return getMasterAccountAssets(subAccount.getEmail(), format);
@@ -8103,6 +8330,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Assets (For Master Account)(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v4/sub-account/assets")
     public ArrayList<SpotBalance> getMasterAccountAssets(String email) throws Exception {
         return getMasterAccountAssets(email, LIBRARY_OBJECT);
@@ -8129,6 +8357,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-assets-for-master-account-user_data">
      * Query Sub-account Assets (For Master Account)(USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v4/sub-account/assets")
     public <T> T getMasterAccountAssets(String email, ReturnFormat format) throws Exception {
         return getMasterAccountAssets(email, -1, format);
@@ -8157,6 +8386,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v4/sub-account/assets")
     public ArrayList<SpotBalance> getMasterAccountAssets(SubAccount subAccount, long recvWindow) throws Exception {
         return getMasterAccountAssets(subAccount.getEmail(), recvWindow, LIBRARY_OBJECT);
@@ -8185,6 +8415,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Assets (For Master Account)(USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v4/sub-account/assets")
     public <T> T getMasterAccountAssets(SubAccount subAccount, long recvWindow, ReturnFormat format) throws Exception {
         return getMasterAccountAssets(subAccount.getEmail(), recvWindow, format);
@@ -8212,6 +8443,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Assets (For Master Account)(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v4/sub-account/assets")
     public ArrayList<SpotBalance> getMasterAccountAssets(String email, long recvWindow) throws Exception {
         return getMasterAccountAssets(email, recvWindow, LIBRARY_OBJECT);
@@ -8239,6 +8471,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-assets-for-master-account-user_data">
      * Query Sub-account Assets (For Master Account)(USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v4/sub-account/assets")
     public <T> T getMasterAccountAssets(String email, long recvWindow, ReturnFormat format) throws Exception {
         return returnBalances(sendGetSignedRequest(SUB_ACCOUNT_ASSETS_V4_ENDPOINT, createEmailPayload(email, recvWindow,
@@ -8290,6 +8523,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub-account List (For Investor)(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/info")
     public ManagedSubAccountList getManagedSubAccountList() throws Exception {
         return getManagedSubAccountList(LIBRARY_OBJECT);
@@ -8315,6 +8549,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-managed-sub-account-list-for-investor-user_data">
      * Query Managed Sub-account List (For Investor)(USER_DATA)</a>
      **/
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/info")
     public <T> T getManagedSubAccountList(ReturnFormat format) throws Exception {
         return getManagedSubAccountList(null, format);
@@ -8356,6 +8591,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub-account List (For Investor)(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/info")
     public ManagedSubAccountList getManagedSubAccountList(Params extraParams) throws Exception {
         return getManagedSubAccountList(extraParams, LIBRARY_OBJECT);
@@ -8398,6 +8634,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Managed Sub-account List (For Investor)(USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/info")
     public <T> T getManagedSubAccountList(Params extraParams, ReturnFormat format) throws Exception {
         extraParams = createTimestampPayload(extraParams);
@@ -8434,6 +8671,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/transaction-tatistics")
     public SubAccountTransactionsStatistics getSubAccountTransactionStatistic(SubAccount subAccount) throws Exception {
         return getSubAccountTransactionStatistic(subAccount.getEmail(), LIBRARY_OBJECT);
@@ -8461,6 +8699,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Transaction Statistics (For Master Account) (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/transaction-tatistics")
     public <T> T getSubAccountTransactionStatistic(SubAccount subAccount, ReturnFormat format) throws Exception {
         return getSubAccountTransactionStatistic(subAccount.getEmail(), format);
@@ -8487,6 +8726,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Transaction Statistics (For Master Account) (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/transaction-tatistics")
     public SubAccountTransactionsStatistics getSubAccountTransactionStatistic(String email) throws Exception {
         return getSubAccountTransactionStatistic(email, LIBRARY_OBJECT);
@@ -8513,6 +8753,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-transaction-tatistics-for-master-account-user_data">
      * Query Sub-account Transaction Statistics (For Master Account) (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/transaction-tatistics")
     public <T> T getSubAccountTransactionStatistic(String email, ReturnFormat format) throws Exception {
         return getSubAccountTransactionStatistic(email, -1, format);
@@ -8541,6 +8782,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/transaction-tatistics")
     public SubAccountTransactionsStatistics getSubAccountTransactionStatistic(SubAccount subAccount,
                                                                               long recvWindow) throws Exception {
@@ -8570,6 +8812,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Transaction Statistics (For Master Account) (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/transaction-tatistics")
     public <T> T getSubAccountTransactionStatistic(SubAccount subAccount, long recvWindow,
                                                    ReturnFormat format) throws Exception {
@@ -8598,6 +8841,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Transaction Statistics (For Master Account) (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/transaction-tatistics")
     public SubAccountTransactionsStatistics getSubAccountTransactionStatistic(String email,
                                                                               long recvWindow) throws Exception {
@@ -8627,6 +8871,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Query Sub-account Transaction Statistics (For Master Account) (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/transaction-tatistics")
     public <T> T getSubAccountTransactionStatistic(String email, long recvWindow, ReturnFormat format) throws Exception {
         String transactionsResponse = sendGetSignedRequest(SUB_ACCOUNT_TRANSACTION_STATISTICS_ENDPOINT,
@@ -8684,6 +8929,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/deposit/address")
     public DepositAddress getManagedSubAccountDepositAddress(SubAccount subAccount, String coin) throws Exception {
         return getManagedSubAccountDepositAddress(subAccount.getEmail(), coin, LIBRARY_OBJECT);
@@ -8712,6 +8958,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Managed Sub-account Deposit Address (For Investor Master Account) (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/deposit/address")
     public <T> T getManagedSubAccountDepositAddress(SubAccount subAccount, String coin, ReturnFormat format) throws Exception {
         return getManagedSubAccountDepositAddress(subAccount.getEmail(), coin, format);
@@ -8739,6 +8986,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Managed Sub-account Deposit Address (For Investor Master Account) (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/deposit/address")
     public DepositAddress getManagedSubAccountDepositAddress(String email, String coin) throws Exception {
         return getManagedSubAccountDepositAddress(email, coin, LIBRARY_OBJECT);
@@ -8766,6 +9014,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-managed-sub-account-deposit-address-for-investor-master-account-user_data">
      * Get Managed Sub-account Deposit Address (For Investor Master Account) (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/deposit/address")
     public <T> T getManagedSubAccountDepositAddress(String email, String coin, ReturnFormat format) throws Exception {
         return getManagedSubAccountDepositAddress(email, coin, null, format);
@@ -8804,6 +9053,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/deposit/address")
     public DepositAddress getManagedSubAccountDepositAddress(SubAccount subAccount, String coin,
                                                              Params extraParams) throws Exception {
@@ -8843,6 +9093,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Managed Sub-account Deposit Address (For Investor Master Account) (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/deposit/address")
     public <T> T getManagedSubAccountDepositAddress(SubAccount subAccount, String coin, Params extraParams,
                                                     ReturnFormat format) throws Exception {
@@ -8881,6 +9132,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * Get Managed Sub-account Deposit Address (For Investor Master Account) (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/deposit/address")
     public DepositAddress getManagedSubAccountDepositAddress(String email, String coin, Params extraParams) throws Exception {
         return getManagedSubAccountDepositAddress(email, coin, extraParams, LIBRARY_OBJECT);
@@ -8918,6 +9170,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-managed-sub-account-deposit-address-for-investor-master-account-user_data">
      * Get Managed Sub-account Deposit Address (For Investor Master Account) (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/deposit/address")
     public <T> T getManagedSubAccountDepositAddress(String email, String coin, Params extraParams,
                                                     ReturnFormat format) throws Exception {

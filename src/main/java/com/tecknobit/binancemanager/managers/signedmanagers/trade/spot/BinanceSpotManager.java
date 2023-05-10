@@ -1,9 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot;
 
-import com.tecknobit.apimanager.annotations.RequestPath;
-import com.tecknobit.apimanager.annotations.Returner;
-import com.tecknobit.apimanager.annotations.WrappedRequest;
-import com.tecknobit.apimanager.annotations.Wrapper;
+import com.tecknobit.apimanager.annotations.*;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.market.records.stats.ExchangeInformation.SelfTradePreventionMode;
@@ -109,7 +106,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceSpotManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
@@ -123,7 +120,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceSpotManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
@@ -136,7 +133,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceSpotManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
@@ -149,7 +146,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
     /**
      * Constructor to init {@link BinanceSpotManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/
@@ -236,6 +233,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Test New Order (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1")
     @RequestPath(method = POST, path = "/api/v3/order/test")
     public boolean testNewOrder(String symbol, Side side, OrderType type, OrderResponseType newOrderRespType,
                                 Params extraParams) throws Exception {
@@ -303,6 +301,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      * Test New Order (TRADE)</a>
      **/
+    @RequestWeight(weight = "1")
     @RequestPath(method = POST, path = "/api/v3/order/test")
     public boolean testNewOrder(String symbol, Side side, OrderType type, Params extraParams) throws Exception {
         if (extraParams == null)
@@ -367,6 +366,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendLimitOrder(String symbol, Side side, double quantity, double price,
                                                   TimeInForce timeInForce, Params extraParams) throws Exception {
@@ -426,6 +426,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * New Order (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendLimitOrder(String symbol, Side side, double quantity, double price, TimeInForce timeInForce,
                                 Params extraParams, ReturnFormat format) throws Exception {
@@ -490,6 +491,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendMarketOrderQty(String symbol, Side side, double quantity,
                                                       Params extraParams) throws Exception {
@@ -553,6 +555,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * New Order (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendMarketOrderQty(String symbol, Side side, double quantity, Params extraParams,
                                     ReturnFormat format) throws Exception {
@@ -617,6 +620,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendMarketOrderQuoteQty(String symbol, Side side, double quoteQuantity,
                                                            Params extraParams) throws Exception {
@@ -680,6 +684,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * New Order (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendMarketOrderQuoteQty(String symbol, Side side, double quoteQuantity, Params extraParams,
                                          ReturnFormat format) throws Exception {
@@ -740,6 +745,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendStopLossOrderPrice(String symbol, Side side, double quantity, double stopPrice,
                                                           Params extraParams) throws Exception {
@@ -799,6 +805,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendStopLossOrderPrice(String symbol, Side side, double quantity, double stopPrice, Params extraParams,
                                         ReturnFormat format) throws Exception {
@@ -859,6 +866,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendStopLossOrderDelta(String symbol, Side side, double quantity, double trailingDelta,
                                                           Params extraParams) throws Exception {
@@ -918,6 +926,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendStopLossOrderDelta(String symbol, Side side, double quantity, double trailingDelta,
                                         Params extraParams, ReturnFormat format) throws Exception {
@@ -979,6 +988,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendStopLossLimitOrderPrice(String symbol, Side side, TimeInForce timeInForce,
                                                                double quantity, double price, double stopPrice,
@@ -1039,6 +1049,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendStopLossLimitOrderPrice(String symbol, Side side, TimeInForce timeInForce, double quantity,
                                              double price, double stopPrice, Params extraParams,
@@ -1099,6 +1110,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendStopLossLimitOrderDelta(String symbol, Side side, TimeInForce timeInForce,
                                                                double quantity, double price, double trailingDelta,
@@ -1159,6 +1171,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendStopLossLimitOrderDelta(String symbol, Side side, TimeInForce timeInForce, double quantity,
                                              double price, double trailingDelta, Params extraParams,
@@ -1217,6 +1230,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendTakeProfitOrderPrice(String symbol, Side side, double quantity, double stopPrice,
                                                             Params extraParams) throws Exception {
@@ -1273,6 +1287,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendTakeProfitOrderPrice(String symbol, Side side, double quantity, double stopPrice,
                                           Params extraParams, ReturnFormat format) throws Exception {
@@ -1330,6 +1345,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendTakeProfitOrderDelta(String symbol, Side side, double quantity, double trailingDelta,
                                                             Params extraParams) throws Exception {
@@ -1386,6 +1402,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendTakeProfitOrderDelta(String symbol, Side side, double quantity, double trailingDelta,
                                           Params extraParams, ReturnFormat format) throws Exception {
@@ -1445,6 +1462,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendTakeProfitLimitOrderPrice(String symbol, Side side, TimeInForce timeInForce,
                                                                  double quantity, double price, double stopPrice,
@@ -1505,6 +1523,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendTakeProfitLimitOrderPrice(String symbol, Side side, TimeInForce timeInForce, double quantity,
                                                double price, double stopPrice, Params extraParams,
@@ -1565,6 +1584,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendTakeProfitLimitOrderDelta(String symbol, Side side, TimeInForce timeInForce,
                                                                  double quantity, double price, double trailingDelta,
@@ -1627,6 +1647,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * New Order (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendTakeProfitLimitOrderDelta(String symbol, Side side, TimeInForce timeInForce, double quantity,
                                                double price, double trailingDelta, Params extraParams,
@@ -1685,6 +1706,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendLimitMakerOrder(String symbol, Side side, double quantity, double price,
                                                        Params extraParams) throws Exception {
@@ -1741,6 +1763,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendLimitMakerOrder(String symbol, Side side, double quantity, double price,
                                      Params extraParams, ReturnFormat format) throws Exception {
@@ -1790,6 +1813,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendLimitOrder(String symbol, Side side, OrderResponseType newOrderRespType,
                                                   TimeInForce timeInForce, double quantity, double price,
@@ -1839,6 +1863,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendLimitOrder(String symbol, Side side, OrderResponseType newOrderRespType, TimeInForce timeInForce,
                                 double quantity, double price, Params extraParams, ReturnFormat format) throws Exception {
@@ -1891,6 +1916,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendMarketOrderQty(String symbol, Side side, OrderResponseType newOrderRespType,
                                                       double quantity, Params extraParams) throws Exception {
@@ -1942,6 +1968,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendMarketOrderQty(String symbol, Side side, OrderResponseType newOrderRespType, double quantity,
                                     Params extraParams, ReturnFormat format) throws Exception {
@@ -1991,6 +2018,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendMarketOrderQuoteQty(String symbol, Side side, OrderResponseType newOrderRespType,
                                                            double quoteQuantity, Params extraParams) throws Exception {
@@ -2039,6 +2067,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendMarketOrderQuoteQty(String symbol, Side side, OrderResponseType newOrderRespType, double quoteQuantity,
                                          Params extraParams, ReturnFormat format) throws Exception {
@@ -2086,6 +2115,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendStopLossOrderPrice(String symbol, Side side, OrderResponseType newOrderRespType,
                                                           double quantity, double stopPrice,
@@ -2133,6 +2163,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendStopLossOrderPrice(String symbol, Side side, OrderResponseType newOrderRespType, double quantity,
                                         double stopPrice, Params extraParams, ReturnFormat format) throws Exception {
@@ -2180,6 +2211,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendStopLossOrderDelta(String symbol, Side side, OrderResponseType newOrderRespType,
                                                           double quantity, double trailingDelta,
@@ -2227,6 +2259,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendStopLossOrderDelta(String symbol, Side side, OrderResponseType newOrderRespType, double quantity,
                                         double trailingDelta, Params extraParams, ReturnFormat format) throws Exception {
@@ -2273,6 +2306,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendStopLossLimitOrderPrice(String symbol, Side side, OrderResponseType newOrderRespType,
                                                                TimeInForce timeInForce, double quantity, double price,
@@ -2320,6 +2354,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendStopLossLimitOrderPrice(String symbol, Side side, OrderResponseType newOrderRespType,
                                              TimeInForce timeInForce, double quantity, double price, double stopPrice,
@@ -2367,6 +2402,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendStopLossLimitOrderDelta(String symbol, Side side, OrderResponseType newOrderRespType,
                                                                TimeInForce timeInForce, double quantity, double price,
@@ -2414,6 +2450,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendStopLossLimitOrderDelta(String symbol, Side side, OrderResponseType newOrderRespType,
                                              TimeInForce timeInForce, double quantity, double price, double trailingDelta,
@@ -2462,6 +2499,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendTakeProfitOrderPrice(String symbol, Side side, OrderResponseType newOrderRespType,
                                                             double quantity, double stopPrice,
@@ -2509,6 +2547,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendTakeProfitOrderPrice(String symbol, Side side, OrderResponseType newOrderRespType, double quantity,
                                           double stopPrice, Params extraParams, ReturnFormat format) throws Exception {
@@ -2556,6 +2595,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendTakeProfitOrderDelta(String symbol, Side side, OrderResponseType newOrderRespType,
                                                             double quantity, double trailingDelta,
@@ -2604,6 +2644,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendTakeProfitOrderDelta(String symbol, Side side, OrderResponseType newOrderRespType, double quantity,
                                           double trailingDelta, Params extraParams, ReturnFormat format) throws Exception {
@@ -2650,6 +2691,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendTakeProfitLimitOrderPrice(String symbol, Side side, OrderResponseType newOrderRespType,
                                                                  TimeInForce timeInForce, double quantity, double price,
@@ -2697,6 +2739,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendTakeProfitLimitOrderPrice(String symbol, Side side, OrderResponseType newOrderRespType,
                                                TimeInForce timeInForce, double quantity, double price, double stopPrice,
@@ -2743,6 +2786,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendTakeProfitLimitOrderDelta(String symbol, Side side, OrderResponseType newOrderRespType,
                                                TimeInForce timeInForce, double quantity, double price,
@@ -2790,6 +2834,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendTakeProfitLimitOrderDelta(String symbol, Side side, OrderResponseType newOrderRespType,
                                                TimeInForce timeInForce, double quantity, double price,
@@ -2836,6 +2881,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T extends SpotOrder> T sendLimitMakerOrder(String symbol, Side side, OrderResponseType newOrderRespType,
                                                        double quantity, double price, Params extraParams) throws Exception {
@@ -2879,6 +2925,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP/UID)")
     @RequestPath(method = POST, path = "/api/v3/order")
     public <T> T sendLimitMakerOrder(String symbol, Side side, OrderResponseType newOrderRespType, double quantity,
                                      double price, Params extraParams, ReturnFormat format) throws Exception {
@@ -2954,6 +3001,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/order")
     public SpotOrderDetails cancelOrder(Order order) throws Exception {
         return cancelOrder(order.getSymbol(), order.getOrderId(), LIBRARY_OBJECT);
@@ -2981,6 +3029,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Cancel Order (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/order")
     public <T> T cancelOrder(Order order, ReturnFormat format) throws Exception {
         return cancelOrder(order.getSymbol(), order.getOrderId(), format);
@@ -3008,6 +3057,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Cancel Order (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/order")
     public SpotOrderDetails cancelOrder(String symbol, long orderId) throws Exception {
         return cancelOrder(symbol, orderId, LIBRARY_OBJECT);
@@ -3035,6 +3085,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
      * Cancel Order (TRADE)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/order")
     public <T> T cancelOrder(String symbol, long orderId, ReturnFormat format) throws Exception {
         return returnSpotOrderDetails(sendDeleteSignedRequest(SPOT_ORDER_ENDPOINT, getTimestampParam() + "&symbol="
@@ -3063,6 +3114,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/order")
     public SpotOrderDetails cancelOrder(String symbol, String origClientOrderId) throws Exception {
         return cancelOrder(symbol, origClientOrderId, LIBRARY_OBJECT);
@@ -3090,6 +3142,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-order-trade">
      * Cancel Order (TRADE)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/order")
     public <T> T cancelOrder(String symbol, String origClientOrderId, ReturnFormat format) throws Exception {
         return returnSpotOrderDetails(sendDeleteSignedRequest(SPOT_ORDER_ENDPOINT, getTimestampParam() + "&symbol="
@@ -3138,6 +3191,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/order")
     public SpotOrderDetails cancelOrder(Order order, Params extraParams) throws Exception {
         return cancelOrder(order.getSymbol(), order.getOrderId(), extraParams, LIBRARY_OBJECT);
@@ -3185,6 +3239,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Cancel Order (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/order")
     public <T> T cancelOrder(Order order, Params extraParams, ReturnFormat format) throws Exception {
         return cancelOrder(order.getSymbol(), order.getOrderId(), extraParams, format);
@@ -3233,6 +3288,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/order")
     public SpotOrderDetails cancelOrder(String symbol, long orderId, Params extraParams) throws Exception {
         return cancelOrder(symbol, orderId, extraParams, LIBRARY_OBJECT);
@@ -3281,6 +3337,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/order")
     public <T> T cancelOrder(String symbol, long orderId, Params extraParams, ReturnFormat format) throws Exception {
         return returnSpotOrderDetails(sendDeleteSignedRequest(SPOT_ORDER_ENDPOINT, apiRequest.encodeAdditionalParams(
@@ -3327,6 +3384,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/order")
     public SpotOrderDetails cancelOrder(String symbol, String origClientOrderId, Params extraParams) throws Exception {
         return cancelOrder(symbol, origClientOrderId, extraParams, LIBRARY_OBJECT);
@@ -3372,6 +3430,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Cancel Order (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/order")
     public <T> T cancelOrder(String symbol, String origClientOrderId, Params extraParams,
                              ReturnFormat format) throws Exception {
@@ -3418,6 +3477,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/openOrders")
     public OpenSpotOrders cancelAllOpenOrders(String symbol) throws Exception {
         return cancelAllOpenOrders(symbol, LIBRARY_OBJECT);
@@ -3442,6 +3502,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/openOrders")
     public <T> T cancelAllOpenOrders(String symbol, ReturnFormat format) throws Exception {
         return returnOpenSpotOrders(sendDeleteSignedRequest(SPOT_OPEN_ORDERS_ENDPOINT, getTimestampParam()
@@ -3468,6 +3529,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/openOrders")
     public OpenSpotOrders cancelAllOpenOrders(String symbol, long recvWindow) throws Exception {
         return cancelAllOpenOrders(symbol, recvWindow, LIBRARY_OBJECT);
@@ -3495,6 +3557,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade">
      * Cancel all Open Orders on a Symbol (TRADE)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/openOrders")
     public <T> T cancelAllOpenOrders(String symbol, long recvWindow, ReturnFormat format) throws Exception {
         return returnOpenSpotOrders(sendDeleteSignedRequest(SPOT_OPEN_ORDERS_ENDPOINT, getTimestampParam() + "&symbol="
@@ -3541,6 +3604,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Query Order (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/order")
     public SpotOrderStatus getOrderStatus(Order order) throws Exception {
         return getOrderStatus(order.getSymbol(), order.getOrderId(), LIBRARY_OBJECT);
@@ -3568,6 +3632,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Query Order (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/order")
     public <T> T getOrderStatus(Order order, ReturnFormat format) throws Exception {
         return getOrderStatus(order.getSymbol(), order.getOrderId(), format);
@@ -3595,6 +3660,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Query Order (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/order")
     public SpotOrderStatus getOrderStatus(String symbol, long orderId) throws Exception {
         return getOrderStatus(symbol, orderId, LIBRARY_OBJECT);
@@ -3620,6 +3686,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/order")
     public <T> T getOrderStatus(String symbol, long orderId, ReturnFormat format) throws Exception {
         return returnOrderStatus(sendGetSignedRequest(SPOT_ORDER_ENDPOINT, getTimestampParam() + "&symbol=" + symbol
@@ -3646,6 +3713,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/order")
     public SpotOrderStatus getOrderStatus(String symbol, String origClientOrderId) throws Exception {
         return getOrderStatus(symbol, origClientOrderId, LIBRARY_OBJECT);
@@ -3673,6 +3741,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data">
      * Query Order (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/order")
     public <T> T getOrderStatus(String symbol, String origClientOrderId, ReturnFormat format) throws Exception {
         return returnOrderStatus(sendGetSignedRequest(SPOT_ORDER_ENDPOINT, getTimestampParam() + "&symbol=" + symbol
@@ -3702,6 +3771,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/order")
     public SpotOrderStatus getOrderStatus(Order order, long recvWindow) throws Exception {
         return getOrderStatus(order.getSymbol(), order.getOrderId(), recvWindow, LIBRARY_OBJECT);
@@ -3730,6 +3800,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Query Order (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/order")
     public <T> T getOrderStatus(Order order, long recvWindow, ReturnFormat format) throws Exception {
         return getOrderStatus(order.getSymbol(), order.getOrderId(), recvWindow, format);
@@ -3756,6 +3827,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/order")
     public SpotOrderStatus getOrderStatus(String symbol, long orderId, long recvWindow) throws Exception {
         return getOrderStatus(symbol, orderId, recvWindow, LIBRARY_OBJECT);
@@ -3782,6 +3854,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/order")
     public <T> T getOrderStatus(String symbol, long orderId, long recvWindow, ReturnFormat format) throws Exception {
         return returnOrderStatus(sendGetSignedRequest(SPOT_ORDER_ENDPOINT, getTimestampParam() + "&symbol=" + symbol
@@ -3809,6 +3882,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/order")
     public SpotOrderStatus getOrderStatus(String symbol, String origClientOrderId, long recvWindow) throws Exception {
         return getOrderStatus(symbol, origClientOrderId, recvWindow, LIBRARY_OBJECT);
@@ -3837,6 +3911,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-order-user_data">
      * Query Order (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/order")
     public <T> T getOrderStatus(String symbol, String origClientOrderId, long recvWindow,
                                 ReturnFormat format) throws Exception {
@@ -3920,6 +3995,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public SpotOrderCAS casLimitOrder(String symbol, Side side, ReplaceMode cancelReplaceMode, TimeInForce timeInForce,
                                       double quantity, double price, Params extraParams) throws Exception {
@@ -3983,6 +4059,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Cancel an Existing Order and Send a New Order (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public <T> T casLimitOrder(String symbol, Side side, ReplaceMode cancelReplaceMode, TimeInForce timeInForce,
                                double quantity, double price, Params extraParams, ReturnFormat format) throws Exception {
@@ -4048,6 +4125,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public SpotOrderCAS casMarketOrderQty(String symbol, Side side, ReplaceMode cancelReplaceMode, double quantity,
                                           Params extraParams) throws Exception {
@@ -4113,6 +4191,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public SpotOrderCAS casMarketOrderQty(String symbol, Side side, ReplaceMode cancelReplaceMode, double quantity,
                                           Params extraParams, ReturnFormat format) throws Exception {
@@ -4177,6 +4256,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public SpotOrderCAS casMarketOrderQuoteQty(String symbol, Side side, ReplaceMode cancelReplaceMode,
                                                double quoteQuantity, Params extraParams) throws Exception {
@@ -4240,6 +4320,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Cancel an Existing Order and Send a New Order (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public <T> T casMarketOrderQuoteQty(String symbol, Side side, ReplaceMode cancelReplaceMode, double quoteQuantity,
                                         Params extraParams, ReturnFormat format) throws Exception {
@@ -4305,6 +4386,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public SpotOrderCAS casStopLossOrderPrice(String symbol, Side side, ReplaceMode cancelReplaceMode, double quantity,
                                               double stopPrice, Params extraParams) throws Exception {
@@ -4369,6 +4451,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Cancel an Existing Order and Send a New Order (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public <T> T casStopLossOrderPrice(String symbol, Side side, ReplaceMode cancelReplaceMode, double quantity,
                                        double stopPrice, Params extraParams, ReturnFormat format) throws Exception {
@@ -4434,6 +4517,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public SpotOrderCAS casStopLossOrderDelta(String symbol, Side side, ReplaceMode cancelReplaceMode, double quantity,
                                               double trailingDelta, Params extraParams) throws Exception {
@@ -4498,6 +4582,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Cancel an Existing Order and Send a New Order (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public <T> T casStopLossOrderDelta(String symbol, Side side, ReplaceMode cancelReplaceMode, double quantity,
                                        double trailingDelta, Params extraParams, ReturnFormat format) throws Exception {
@@ -4562,6 +4647,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public SpotOrderCAS casStopLossLimitOrderPrice(String symbol, Side side, ReplaceMode cancelReplaceMode,
                                                    TimeInForce timeInForce, double quantity, double price,
@@ -4627,6 +4713,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Cancel an Existing Order and Send a New Order (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public <T> T casStopLossLimitOrderPrice(String symbol, Side side, ReplaceMode cancelReplaceMode,
                                             TimeInForce timeInForce, double quantity, double price, double stopPrice,
@@ -4692,6 +4779,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public SpotOrderCAS casStopLossLimitOrderDelta(String symbol, Side side, ReplaceMode cancelReplaceMode,
                                                    TimeInForce timeInForce, double quantity, double price,
@@ -4757,6 +4845,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Cancel an Existing Order and Send a New Order (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public <T> T casStopLossLimitOrderDelta(String symbol, Side side, ReplaceMode cancelReplaceMode,
                                             TimeInForce timeInForce, double quantity, double price, double trailingDelta,
@@ -4823,6 +4912,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public SpotOrderCAS casTakeProfitOrderPrice(String symbol, Side side, ReplaceMode cancelReplaceMode, double quantity,
                                                 double stopPrice, Params extraParams) throws Exception {
@@ -4887,6 +4977,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Cancel an Existing Order and Send a New Order (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public <T> T casTakeProfitOrderPrice(String symbol, Side side, ReplaceMode cancelReplaceMode, double quantity,
                                          double stopPrice, Params extraParams, ReturnFormat format) throws Exception {
@@ -4952,6 +5043,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public SpotOrderCAS casTakeProfitOrderDelta(String symbol, Side side, ReplaceMode cancelReplaceMode, double quantity,
                                                 double trailingDelta, Params extraParams) throws Exception {
@@ -5017,6 +5109,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Cancel an Existing Order and Send a New Order (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public <T> T casTakeProfitOrderDelta(String symbol, Side side, ReplaceMode cancelReplaceMode, double quantity,
                                          double trailingDelta, Params extraParams, ReturnFormat format) throws Exception {
@@ -5084,6 +5177,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public SpotOrderCAS casTakeProfitLimitOrderPrice(String symbol, Side side, ReplaceMode cancelReplaceMode,
                                                      TimeInForce timeInForce, double quantity, double price,
@@ -5152,6 +5246,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Cancel an Existing Order and Send a New Order (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public <T> T casTakeProfitLimitOrderPrice(String symbol, Side side, ReplaceMode cancelReplaceMode,
                                               TimeInForce timeInForce, double quantity, double price, double stopPrice,
@@ -5220,6 +5315,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public SpotOrderCAS casTakeProfitLimitOrderDelta(String symbol, Side side, ReplaceMode cancelReplaceMode,
                                                      TimeInForce timeInForce, double quantity, double price,
@@ -5288,6 +5384,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Cancel an Existing Order and Send a New Order (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public <T> T casTakeProfitLimitOrderDelta(String symbol, Side side, ReplaceMode cancelReplaceMode,
                                               TimeInForce timeInForce, double quantity, double price, double trailingDelta,
@@ -5354,6 +5451,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public SpotOrderCAS casLimitMakerOrder(String symbol, Side side, ReplaceMode cancelReplaceMode, double quantity,
                                            double price, Params extraParams) throws Exception {
@@ -5418,6 +5516,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Cancel an Existing Order and Send a New Order (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/api/v3/order/cancelReplace")
     public <T> T casLimitMakerOrder(String symbol, Side side, ReplaceMode cancelReplaceMode, double quantity, double price,
                                     Params extraParams, ReturnFormat format) throws Exception {
@@ -5475,6 +5574,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Current Open Orders (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3/40(IP)")
     @RequestPath(method = GET, path = "/api/v3/openOrders")
     public ArrayList<SpotOrderStatus> getCurrentOpenOrders() throws Exception {
         return getCurrentOpenOrders(LIBRARY_OBJECT);
@@ -5500,6 +5600,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#current-open-orders-user_data">
      * Current Open Orders (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "3/40(IP)")
     @RequestPath(method = GET, path = "/api/v3/openOrders")
     public <T> T getCurrentOpenOrders(ReturnFormat format) throws Exception {
         return returnOrdersList(sendGetSignedRequest(SPOT_OPEN_ORDERS_ENDPOINT, getTimestampParam()), format);
@@ -5534,6 +5635,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Current Open Orders (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3/40(IP)")
     @RequestPath(method = GET, path = "/api/v3/openOrders")
     public ArrayList<SpotOrderStatus> getCurrentOpenOrders(Params extraParams) throws Exception {
         return getCurrentOpenOrders(extraParams, LIBRARY_OBJECT);
@@ -5566,6 +5668,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "3/40(IP)")
     @RequestPath(method = GET, path = "/api/v3/openOrders")
     public <T> T getCurrentOpenOrders(Params extraParams, ReturnFormat format) throws Exception {
         return returnOrdersList(sendGetSignedRequest(SPOT_OPEN_ORDERS_ENDPOINT,
@@ -5591,6 +5694,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/allOrders")
     public ArrayList<SpotOrderStatus> getAllOrders(String symbol) throws Exception {
         return getAllOrders(symbol, LIBRARY_OBJECT);
@@ -5617,6 +5721,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-orders-user_data">
      * All Orders (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/allOrders")
     public <T> T getAllOrders(String symbol, ReturnFormat format) throws Exception {
         return returnOrdersList(sendGetSignedRequest(SPOT_ALL_ORDERS_LIST_ENDPOINT, getTimestampParam() + "&symbol="
@@ -5658,6 +5763,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * All Orders (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/allOrders")
     public ArrayList<SpotOrderStatus> getAllOrders(String symbol, Params extraParams) throws Exception {
         return getAllOrders(symbol, extraParams, LIBRARY_OBJECT);
@@ -5696,6 +5802,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/allOrders")
     public <T> T getAllOrders(String symbol, Params extraParams, ReturnFormat format) throws Exception {
         return returnOrdersList(sendGetSignedRequest(SPOT_ALL_ORDERS_LIST_ENDPOINT, apiRequest.encodeAdditionalParams(
@@ -5748,6 +5855,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP) / 2(UID)")
     @RequestPath(method = POST, path = "/api/v3/order/oco")
     public ComposedSpotOrderDetails sendNewOCOOrder(String symbol, Side side, double price, double stopPrice) throws Exception {
         return sendNewOCOOrder(symbol, side, price, stopPrice, LIBRARY_OBJECT);
@@ -5778,6 +5886,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * New OCO (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP) / 2(UID)")
     @RequestPath(method = POST, path = "/api/v3/order/oco")
     public <T> T sendNewOCOOrder(String symbol, Side side, double price, double stopPrice,
                                  ReturnFormat format) throws Exception {
@@ -5816,6 +5925,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP) / 2(UID)")
     @RequestPath(method = POST, path = "/api/v3/order/oco")
     public ComposedSpotOrderDetails sendNewOCOOrder(String symbol, Side side, double price, double stopPrice,
                                                     double stopLimitPrice, TimeInForce stopLimitTimeInForce) throws Exception {
@@ -5849,6 +5959,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * New OCO (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP) / 2(UID)")
     @RequestPath(method = POST, path = "/api/v3/order/oco")
     public <T> T sendNewOCOOrder(String symbol, Side side, double price, double stopPrice, double stopLimitPrice,
                                  TimeInForce stopLimitTimeInForce, ReturnFormat format) throws Exception {
@@ -5940,6 +6051,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP) / 2(UID)")
     @RequestPath(method = POST, path = "/api/v3/order/oco")
     public ComposedSpotOrderDetails sendNewOCOOrder(String symbol, Side side, double price, double stopPrice,
                                                     Params extraParams) throws Exception {
@@ -6024,6 +6136,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP) / 2(UID)")
     @RequestPath(method = POST, path = "/api/v3/order/oco")
     public <T> T sendNewOCOOrder(String symbol, Side side, double price, double stopPrice, Params extraParams,
                                  ReturnFormat format) throws Exception {
@@ -6108,6 +6221,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP) / 2(UID)")
     @RequestPath(method = POST, path = "/api/v3/order/oco")
     public ComposedSpotOrderDetails sendNewOCOOrder(String symbol, Side side, double price, double stopPrice,
                                                     double stopLimitPrice, TimeInForce stopLimitTimeInForce,
@@ -6190,6 +6304,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP) / 2(UID)")
     @RequestPath(method = POST, path = "/api/v3/order/oco")
     public <T> T sendNewOCOOrder(String symbol, Side side, double price, double stopPrice, double stopLimitPrice,
                                  TimeInForce stopLimitTimeInForce, Params extraParams,
@@ -6223,6 +6338,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/orderList")
     public ComposedSpotOrderDetails cancelAllOCOOrders(String symbol, long orderListId) throws Exception {
         return cancelAllOCOOrders(symbol, orderListId, LIBRARY_OBJECT);
@@ -6248,6 +6364,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/orderList")
     public <T> T cancelAllOCOOrders(String symbol, long orderListId, ReturnFormat format) throws Exception {
         return returnComposedOrderDetails(sendDeleteSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() +
@@ -6274,6 +6391,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/orderList")
     public ComposedSpotOrderDetails cancelAllOCOOrders(String symbol, String listClientOrderId) throws Exception {
         return cancelAllOCOOrders(symbol, listClientOrderId, LIBRARY_OBJECT);
@@ -6301,6 +6419,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-oco-trade">
      * Cancel OCO (TRADE)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/orderList")
     public <T> T cancelAllOCOOrders(String symbol, String listClientOrderId, ReturnFormat format) throws Exception {
         return returnComposedOrderDetails(sendDeleteSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() +
@@ -6338,6 +6457,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/orderList")
     public ComposedSpotOrderDetails cancelAllOCOOrders(String symbol, long orderListId, Params extraParams) throws Exception {
         return cancelAllOCOOrders(symbol, orderListId, extraParams, LIBRARY_OBJECT);
@@ -6374,6 +6494,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/orderList")
     public <T> T cancelAllOCOOrders(String symbol, long orderListId, Params extraParams,
                                     ReturnFormat format) throws Exception {
@@ -6415,6 +6536,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/orderList")
     public ComposedSpotOrderDetails cancelAllOCOOrders(String symbol, String listClientOrderId,
                                                        Params extraParams) throws Exception {
@@ -6454,6 +6576,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Cancel OCO (TRADE)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/api/v3/orderList")
     public <T> T cancelAllOCOOrders(String symbol, String listClientOrderId, Params extraParams,
                                     ReturnFormat format) throws Exception {
@@ -6503,6 +6626,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Query OCO (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/orderList")
     public OrderDetails getOCOOrderStatus(String symbol, long orderListId) throws Exception {
         return getOCOOrderStatus(symbol, orderListId, LIBRARY_OBJECT);
@@ -6529,6 +6653,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/orderList")
     public <T> T getOCOOrderStatus(String symbol, long orderListId, ReturnFormat format) throws Exception {
         return returnOrderStatus(sendGetSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() + "&symbol="
@@ -6556,6 +6681,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/orderList")
     public OrderDetails getOCOOrderStatus(String symbol, long orderListId, long recvWindow) throws Exception {
         return getOCOOrderStatus(symbol, orderListId, recvWindow, LIBRARY_OBJECT);
@@ -6580,6 +6706,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/orderList")
     public <T> T getOCOOrderStatus(String symbol, long orderListId, long recvWindow, ReturnFormat format) throws Exception {
         return returnOCOOrderStatus(sendGetSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() + "&symbol="
@@ -6607,6 +6734,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/orderList")
     public OrderDetails getOCOOrderStatus(String symbol, String listClientOrderId) throws Exception {
         return getOCOOrderStatus(symbol, listClientOrderId, LIBRARY_OBJECT);
@@ -6634,6 +6762,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-oco-user_data">
      * Query OCO (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/orderList")
     public <T> T getOCOOrderStatus(String symbol, String listClientOrderId, ReturnFormat format) throws Exception {
         return returnOCOOrderStatus(sendGetSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() + "&symbol="
@@ -6663,6 +6792,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Query OCO (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/orderList")
     public OrderDetails getOCOOrderStatus(String symbol, String listClientOrderId, long recvWindow) throws Exception {
         return getOCOOrderStatus(symbol, listClientOrderId, recvWindow, LIBRARY_OBJECT);
@@ -6689,6 +6819,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "2(IP)")
     @RequestPath(method = GET, path = "/api/v3/orderList")
     public <T> T getOCOOrderStatus(String symbol, String listClientOrderId, long recvWindow,
                                    ReturnFormat format) throws Exception {
@@ -6737,6 +6868,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Query all OCO (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/allOrderList")
     public ArrayList<OrderDetails> getAllOCOOrders() throws Exception {
         return getAllOCOOrders(LIBRARY_OBJECT);
@@ -6760,6 +6892,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/allOrderList")
     public <T> T getAllOCOOrders(ReturnFormat format) throws Exception {
         return returnOCOOrdersList(sendGetSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam()), format);
@@ -6786,6 +6919,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/allOrderList")
     public ArrayList<OrderDetails> getAllOCOOrders(long fromId, String timeParam, long timeParamValue) throws Exception {
         return getAllOCOOrders(fromId, timeParam, timeParamValue, LIBRARY_OBJECT);
@@ -6814,6 +6948,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-all-oco-user_data">
      * Query all OCO (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/allOrderList")
     public <T> T getAllOCOOrders(long fromId, String timeParam, long timeParamValue, ReturnFormat format) throws Exception {
         return returnOCOOrdersList(sendGetSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT, getTimestampParam() +
@@ -6853,6 +6988,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/allOrderList")
     public ArrayList<OrderDetails> getAllOCOOrders(Params extraParams) throws Exception {
         return getAllOCOOrders(extraParams, LIBRARY_OBJECT);
@@ -6891,6 +7027,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/allOrderList")
     public <T> T getAllOCOOrders(Params extraParams, ReturnFormat format) throws Exception {
         return returnOCOOrdersList(sendGetSignedRequest(SPOT_OCO_ORDER_LIST_ENDPOINT,
@@ -6935,6 +7072,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Query all OCO (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/allOrderList")
     public ArrayList<OrderDetails> getAllOCOOrders(long fromId, String timeParam, long timeParamValue,
                                                    Params extraParams) throws Exception {
@@ -6979,6 +7117,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-all-oco-user_data">
      * Query all OCO (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/allOrderList")
     public <T> T getAllOCOOrders(long fromId, String timeParam, long timeParamValue, Params extraParams,
                                  ReturnFormat format) throws Exception {
@@ -7008,6 +7147,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Query Open OCO (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3(IP)")
     @RequestPath(method = GET, path = "/api/v3/openOrderList")
     public ArrayList<OrderDetails> getOpenOCOOrders() throws Exception {
         return getOpenOCOOrders(LIBRARY_OBJECT);
@@ -7031,6 +7171,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "3(IP)")
     @RequestPath(method = GET, path = "/api/v3/openOrderList")
     public <T> T getOpenOCOOrders(ReturnFormat format) throws Exception {
         return returnOCOOrdersList(sendGetSignedRequest(SPOT_OCO_OPEN_ORDER_LIST_ENDPOINT, getTimestampParam()), format);
@@ -7057,6 +7198,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Query Open OCO (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "3(IP)")
     @RequestPath(method = GET, path = "/api/v3/openOrderList")
     public ArrayList<OrderDetails> getOpenOCOOrders(long recvWindow) throws Exception {
         return getOpenOCOOrders(recvWindow, LIBRARY_OBJECT);
@@ -7081,6 +7223,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "3(IP)")
     @RequestPath(method = GET, path = "/api/v3/openOrderList")
     public <T> T getOpenOCOOrders(long recvWindow, ReturnFormat format) throws Exception {
         return returnOCOOrdersList(sendGetSignedRequest(SPOT_OCO_OPEN_ORDER_LIST_ENDPOINT, getTimestampParam()
@@ -7131,6 +7274,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Account Information (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/account")
     public SpotAccountInformation getSpotAccountInformation() throws Exception {
         return getSpotAccountInformation(LIBRARY_OBJECT);
@@ -7156,6 +7300,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data">
      * Account Information (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/account")
     public <T> T getSpotAccountInformation(ReturnFormat format) throws Exception {
         return returnAccountInformation(sendGetSignedRequest(SPOT_ACCOUNT_INFORMATION_ENDPOINT, getTimestampParam()), format);
@@ -7180,6 +7325,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/account")
     public SpotAccountInformation getSpotAccountInformation(double recvWindow) throws Exception {
         return getSpotAccountInformation(recvWindow, LIBRARY_OBJECT);
@@ -7204,6 +7350,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/account")
     public <T> T getSpotAccountInformation(double recvWindow, ReturnFormat format) throws Exception {
         return returnAccountInformation(sendGetSignedRequest(SPOT_ACCOUNT_INFORMATION_ENDPOINT, getTimestampParam()
@@ -7250,6 +7397,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Account Trade List (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/myTrades")
     public ArrayList<SpotAccountTradesList> getAccountTradesList(String symbol) throws Exception {
         return getAccountTradesList(symbol, LIBRARY_OBJECT);
@@ -7276,6 +7424,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data">
      * Account Trade List (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/myTrades")
     public <T> T getAccountTradesList(String symbol, ReturnFormat format) throws Exception {
         return returnTradesList(sendGetSignedRequest(SPOT_ACCOUNT_TRADE_LIST_ENDPOINT, getTimestampParam() +
@@ -7324,6 +7473,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/myTrades")
     public ArrayList<SpotAccountTradesList> getAccountTradesList(String symbol, Params extraParams) throws Exception {
         return getAccountTradesList(symbol, extraParams, LIBRARY_OBJECT);
@@ -7371,6 +7521,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/api/v3/myTrades")
     public <T> T getAccountTradesList(String symbol, Params extraParams, ReturnFormat format) throws Exception {
         return returnTradesList(sendGetSignedRequest(SPOT_ACCOUNT_TRADE_LIST_ENDPOINT, apiRequest.encodeAdditionalParams(
@@ -7421,6 +7572,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Query Current Order Count Usage (TRADE)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "20(IP)")
     @RequestPath(method = GET, path = "/api/v3/rateLimit/order")
     public ArrayList<OrderCountUsage> getCurrentOrderCountUsage() throws Exception {
         return getCurrentOrderCountUsage(LIBRARY_OBJECT);
@@ -7444,6 +7596,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "20(IP)")
     @RequestPath(method = GET, path = "/api/v3/rateLimit/order")
     public <T> T getCurrentOrderCountUsage(ReturnFormat format) throws Exception {
         return returnCountUsageList(sendGetSignedRequest(SPOT_ACCOUNT_CURRENT_ORDER_COUNT_USAGE, getTimestampParam()), format);
@@ -7468,6 +7621,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
     @Wrapper
+    @RequestWeight(weight = "20(IP)")
     @RequestPath(method = GET, path = "/api/v3/rateLimit/order")
     public ArrayList<OrderCountUsage> getCurrentOrderCountUsage(long recvWindow) throws Exception {
         return getCurrentOrderCountUsage(recvWindow, LIBRARY_OBJECT);
@@ -7492,6 +7646,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * **/
+    @RequestWeight(weight = "20(IP)")
     @RequestPath(method = GET, path = "/api/v3/rateLimit/order")
     public <T> T getCurrentOrderCountUsage(long recvWindow, ReturnFormat format) throws Exception {
         return returnCountUsageList(sendGetSignedRequest(SPOT_ACCOUNT_CURRENT_ORDER_COUNT_USAGE,
@@ -7560,6 +7715,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Query Prevented Matches (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1/10(IP)")
     @RequestPath(method = GET, path = "/api/v3/myPreventedMatches")
     public ArrayList<PreventedMatch> getPreventedMatches(String symbol, Params extraParams) throws Exception {
         return getPreventedMatches(symbol, extraParams, LIBRARY_OBJECT);
@@ -7605,6 +7761,7 @@ public class BinanceSpotManager extends BinanceSignedManager {
      * Query Prevented Matches (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1/10(IP)")
     @RequestPath(method = GET, path = "/api/v3/myPreventedMatches")
     public <T> T getPreventedMatches(String symbol, Params extraParams, ReturnFormat format) throws Exception {
         String preventedMatchesResponse = sendGetSignedRequest(MY_PREVENTED_MATCHES, apiRequest.encodeAdditionalParams(

@@ -1,9 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.savings;
 
-import com.tecknobit.apimanager.annotations.RequestPath;
-import com.tecknobit.apimanager.annotations.Returner;
-import com.tecknobit.apimanager.annotations.WrappedRequest;
-import com.tecknobit.apimanager.annotations.Wrapper;
+import com.tecknobit.apimanager.annotations.*;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
@@ -121,7 +118,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceSavingsManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
@@ -135,7 +132,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceSavingsManager}
      *
-     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
@@ -148,7 +145,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceSavingsManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
@@ -161,7 +158,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
     /**
      * Constructor to init a {@link BinanceSavingsManager}
      *
-     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search the is working
+     * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
      **/
@@ -210,6 +207,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Flexible Product List (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/product/list")
     public ArrayList<FlexibleProduct> getFlexibleProductList() throws Exception {
         return getFlexibleProductList(LIBRARY_OBJECT);
@@ -235,6 +233,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-flexible-product-list-user_data">
      * Get Flexible Product List (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/product/list")
     public <T> T getFlexibleProductList(ReturnFormat format) throws Exception {
         return getFlexibleProductList(null, format);
@@ -281,6 +280,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Flexible Product List (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/product/list")
     public ArrayList<FlexibleProduct> getFlexibleProductList(Params extraParams) throws Exception {
         return getFlexibleProductList(extraParams, LIBRARY_OBJECT);
@@ -328,6 +328,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Flexible Product List (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/product/list")
     public <T> T getFlexibleProductList(Params extraParams, ReturnFormat format) throws Exception {
         String listResponse = sendGetSignedRequest(LENDING_DAILY_PRODUCT_LIST_ENDPOINT,
@@ -368,6 +369,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userLeftQuota")
     public PurchaseQuota getLeftDailyPurchaseQuota(FlexibleProduct product) throws Exception {
         return getLeftDailyPurchaseQuota(product.getProductId(), LIBRARY_OBJECT);
@@ -395,6 +397,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Left Daily Purchase Quota of Flexible Product (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userLeftQuota")
     public <T> T getLeftDailyPurchaseQuota(FlexibleProduct product, ReturnFormat format) throws Exception {
         return getLeftDailyPurchaseQuota(product.getProductId(), format);
@@ -421,6 +424,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Left Daily Purchase Quota of Flexible Product (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userLeftQuota")
     public PurchaseQuota getLeftDailyPurchaseQuota(String productId) throws Exception {
         return getLeftDailyPurchaseQuota(productId, LIBRARY_OBJECT);
@@ -447,6 +451,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-left-daily-purchase-quota-of-flexible-product-user_data">
      * Get Left Daily Purchase Quota of Flexible Product (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userLeftQuota")
     public <T> T getLeftDailyPurchaseQuota(String productId, ReturnFormat format) throws Exception {
         return getLeftDailyPurchaseQuota(productId, -1, format);
@@ -475,6 +480,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userLeftQuota")
     public PurchaseQuota getLeftDailyPurchaseQuota(FlexibleProduct product, long recvWindow) throws Exception {
         return getLeftDailyPurchaseQuota(product.getProductId(), recvWindow, LIBRARY_OBJECT);
@@ -503,6 +509,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Left Daily Purchase Quota of Flexible Product (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userLeftQuota")
     public <T> T getLeftDailyPurchaseQuota(FlexibleProduct product, long recvWindow, ReturnFormat format) throws Exception {
         return getLeftDailyPurchaseQuota(product.getProductId(), recvWindow, format);
@@ -530,6 +537,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Left Daily Purchase Quota of Flexible Product (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userLeftQuota")
     public PurchaseQuota getLeftDailyPurchaseQuota(String productId, long recvWindow) throws Exception {
         return getLeftDailyPurchaseQuota(productId, recvWindow, LIBRARY_OBJECT);
@@ -558,6 +566,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Left Daily Purchase Quota of Flexible Product (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userLeftQuota")
     public <T> T getLeftDailyPurchaseQuota(String productId, long recvWindow, ReturnFormat format) throws Exception {
         String purchaseResponse = sendGetSignedRequest(LENDING_DAILY_USER_LEFT_QUOTA_ENDPOINT,
@@ -595,6 +604,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/purchase")
     public long purchaseFlexibleProduct(FlexibleProduct product, double amount) throws Exception {
         return parseLong(purchaseFlexibleProduct(product.getProductId(), amount, LIBRARY_OBJECT));
@@ -623,6 +633,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Purchase Flexible Product (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/purchase")
     public <T> T purchaseFlexibleProduct(FlexibleProduct product, double amount, ReturnFormat format) throws Exception {
         return purchaseFlexibleProduct(product.getProductId(), amount, format);
@@ -650,6 +661,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Purchase Flexible Product (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/purchase")
     public long purchaseFlexibleProduct(String productId, double amount) throws Exception {
         return parseLong(purchaseFlexibleProduct(productId, amount, LIBRARY_OBJECT));
@@ -677,6 +689,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-flexible-product-user_data">
      * Purchase Flexible Product (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/purchase")
     public <T> T purchaseFlexibleProduct(String productId, double amount, ReturnFormat format) throws Exception {
         return purchaseFlexibleProduct(productId, amount, -1, format);
@@ -706,6 +719,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/purchase")
     public long purchaseFlexibleProduct(FlexibleProduct product, double amount, long recvWindow) throws Exception {
         return parseLong(purchaseFlexibleProduct(product.getProductId(), amount, recvWindow, LIBRARY_OBJECT));
@@ -735,6 +749,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Purchase Flexible Product (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/purchase")
     public <T> T purchaseFlexibleProduct(FlexibleProduct product, double amount, long recvWindow,
                                          ReturnFormat format) throws Exception {
@@ -764,6 +779,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Purchase Flexible Product (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/purchase")
     public long purchaseFlexibleProduct(String productId, double amount, long recvWindow) throws Exception {
         return parseLong(purchaseFlexibleProduct(productId, amount, recvWindow, LIBRARY_OBJECT));
@@ -793,6 +809,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Purchase Flexible Product (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/purchase")
     public <T> T purchaseFlexibleProduct(String productId, double amount, long recvWindow,
                                          ReturnFormat format) throws Exception {
@@ -823,6 +840,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userRedemptionQuota")
     public RedemptionQuota getLeftDailyRedemptionQuota(FlexibleProduct product, RedemptionType type) throws Exception {
         return getLeftDailyRedemptionQuota(product.getProductId(), type, LIBRARY_OBJECT);
@@ -851,6 +869,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Left Daily Redemption Quota of Flexible Product (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userRedemptionQuota")
     public <T> T getLeftDailyRedemptionQuota(FlexibleProduct product, RedemptionType type,
                                              ReturnFormat format) throws Exception {
@@ -879,6 +898,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Left Daily Redemption Quota of Flexible Product (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userRedemptionQuota")
     public RedemptionQuota getLeftDailyRedemptionQuota(String productId, RedemptionType type) throws Exception {
         return getLeftDailyRedemptionQuota(productId, type, LIBRARY_OBJECT);
@@ -906,6 +926,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-left-daily-redemption-quota-of-flexible-product-user_data">
      * Get Left Daily Redemption Quota of Flexible Product (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userRedemptionQuota")
     public <T> T getLeftDailyRedemptionQuota(String productId, RedemptionType type, ReturnFormat format) throws Exception {
         return getLeftDailyRedemptionQuota(productId, type, -1, format);
@@ -935,6 +956,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userRedemptionQuota")
     public RedemptionQuota getLeftDailyRedemptionQuota(FlexibleProduct product, RedemptionType type,
                                                        long recvWindow) throws Exception {
@@ -965,6 +987,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Left Daily Redemption Quota of Flexible Product (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userRedemptionQuota")
     public <T> T getLeftDailyRedemptionQuota(FlexibleProduct product, RedemptionType type, long recvWindow,
                                              ReturnFormat format) throws Exception {
@@ -994,6 +1017,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Left Daily Redemption Quota of Flexible Product (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userRedemptionQuota")
     public RedemptionQuota getLeftDailyRedemptionQuota(String productId, RedemptionType type,
                                                        long recvWindow) throws Exception {
@@ -1024,6 +1048,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Left Daily Redemption Quota of Flexible Product (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userRedemptionQuota")
     public <T> T getLeftDailyRedemptionQuota(String productId, RedemptionType type, long recvWindow,
                                              ReturnFormat format) throws Exception {
@@ -1078,6 +1103,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Redeem Flexible Product (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/redeem")
     public boolean redeemFlexibleProduct(FlexibleProduct product, double amount, RedemptionType type) throws Exception {
         return redeemFlexibleProduct(product.getProductId(), amount, type);
@@ -1106,6 +1132,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Redeem Flexible Product (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/redeem")
     public boolean redeemFlexibleProduct(String productId, double amount, RedemptionType type) throws Exception {
         return redeemFlexibleProduct(productId, amount, type, -1);
@@ -1135,6 +1162,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Redeem Flexible Product (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/redeem")
     public boolean redeemFlexibleProduct(FlexibleProduct product, double amount, RedemptionType type,
                                          long recvWindow) throws Exception {
@@ -1164,6 +1192,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-flexible-product-user_data">
      * Redeem Flexible Product (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/redeem")
     public boolean redeemFlexibleProduct(String productId, double amount, RedemptionType type,
                                          long recvWindow) throws Exception {
@@ -1211,6 +1240,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Flexible Product Position (USER_DATA) </a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/token/position")
     public ArrayList<FlexibleProductPosition> getFlexibleProductPosition() throws Exception {
         return getFlexibleProductPosition(LIBRARY_OBJECT);
@@ -1236,6 +1266,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-flexible-product-position-user_data">
      * Get Flexible Product Position (USER_DATA) </a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/token/position")
     public <T> T getFlexibleProductPosition(ReturnFormat format) throws Exception {
         return getFlexibleProductPosition(null, format);
@@ -1270,6 +1301,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Flexible Product Position (USER_DATA) </a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/token/position")
     public ArrayList<FlexibleProductPosition> getFlexibleProductPosition(Params extraParams) throws Exception {
         return getFlexibleProductPosition(extraParams, LIBRARY_OBJECT);
@@ -1305,6 +1337,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Flexible Product Position (USER_DATA) </a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/token/position")
     public <T> T getFlexibleProductPosition(Params extraParams, ReturnFormat format) throws Exception {
         String listResponse = sendGetSignedRequest(LENDING_DAILY_TOKEN_POSITION_ENDPOINT,
@@ -1344,6 +1377,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Fixed and Activity Project List(USER_DATA) </a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/project/list")
     public ArrayList<FixedActivityProject> getFixedActivityProjectList(SavingActivityType type) throws Exception {
         return getFixedActivityProjectList(type, LIBRARY_OBJECT);
@@ -1370,6 +1404,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-fixed-and-activity-project-list-user_data">
      * Get Fixed and Activity Project List(USER_DATA) </a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/project/list")
     public <T> T getFixedActivityProjectList(SavingActivityType type, ReturnFormat format) throws Exception {
         return getFixedActivityProjectList(type, null, format);
@@ -1420,6 +1455,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Fixed and Activity Project List(USER_DATA) </a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/project/list")
     public ArrayList<FixedActivityProject> getFixedActivityProjectList(SavingActivityType type,
                                                                        Params extraParams) throws Exception {
@@ -1472,6 +1508,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Fixed and Activity Project List(USER_DATA) </a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/project/list")
     public <T> T getFixedActivityProjectList(SavingActivityType type, Params extraParams,
                                              ReturnFormat format) throws Exception {
@@ -1515,6 +1552,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/customizedFixed/purchase")
     public long purchaseFixedActivityProject(FixedActivityProject project, int lot) throws Exception {
         return parseLong(purchaseFixedActivityProject(project.getProjectId(), lot, LIBRARY_OBJECT));
@@ -1543,6 +1581,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Purchase Fixed/Activity Project (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/customizedFixed/purchase")
     public <T> T purchaseFixedActivityProject(FixedActivityProject project, int lot, ReturnFormat format) throws Exception {
         return purchaseFixedActivityProject(project.getProjectId(), lot, format);
@@ -1570,6 +1609,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Purchase Fixed/Activity Project (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/customizedFixed/purchase")
     public long purchaseFixedActivityProject(String projectId, int lot) throws Exception {
         return parseLong(purchaseFixedActivityProject(projectId, lot, LIBRARY_OBJECT));
@@ -1597,6 +1637,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-fixed-activity-project-user_data">
      * Purchase Fixed/Activity Project (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/customizedFixed/purchase")
     public <T> T purchaseFixedActivityProject(String projectId, int lot, ReturnFormat format) throws Exception {
         return purchaseFixedActivityProject(projectId, lot, -1, format);
@@ -1626,6 +1667,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/customizedFixed/purchase")
     public long purchaseFixedActivityProject(FixedActivityProject project, int lot, long recvWindow) throws Exception {
         return parseLong(purchaseFixedActivityProject(project.getProjectId(), lot, recvWindow, LIBRARY_OBJECT));
@@ -1655,6 +1697,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Purchase Fixed/Activity Project (USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/customizedFixed/purchase")
     public <T> T purchaseFixedActivityProject(FixedActivityProject project, int lot, long recvWindow,
                                               ReturnFormat format) throws Exception {
@@ -1684,6 +1727,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Purchase Fixed/Activity Project (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/customizedFixed/purchase")
     public long purchaseFixedActivityProject(String projectId, int lot, long recvWindow) throws Exception {
         return parseLong(purchaseFixedActivityProject(projectId, lot, recvWindow, LIBRARY_OBJECT));
@@ -1712,6 +1756,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-fixed-activity-project-user_data">
      * Purchase Fixed/Activity Project (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/customizedFixed/purchase")
     public <T> T purchaseFixedActivityProject(String projectId, int lot, long recvWindow,
                                               ReturnFormat format) throws Exception {
@@ -1763,6 +1808,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Fixed/Activity Project Position (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/project/position/list")
     public ArrayList<FixedActivityProjectPosition> getFixedActivityProjectPosition() throws Exception {
         return getFixedActivityProjectPosition(LIBRARY_OBJECT);
@@ -1788,6 +1834,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-fixed-activity-project-position-user_data">
      * Get Fixed/Activity Project Position (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/project/position/list")
     public <T> T getFixedActivityProjectPosition(ReturnFormat format) throws Exception {
         return getFixedActivityProjectPosition(null, format);
@@ -1828,6 +1875,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Fixed/Activity Project Position (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/project/position/list")
     public ArrayList<FixedActivityProjectPosition> getFixedActivityProjectPosition(Params extraParams) throws Exception {
         return getFixedActivityProjectPosition(extraParams, LIBRARY_OBJECT);
@@ -1869,6 +1917,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Fixed/Activity Project Position (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/project/position/list")
     public <T> T getFixedActivityProjectPosition(Params extraParams, ReturnFormat format) throws Exception {
         String listResponse = sendGetSignedRequest(LENDING_PROJECT_POSITION_LIST_ENDPOINT,
@@ -1908,6 +1957,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Lending Account (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/account")
     public LendingAccount getLendingAccount() throws Exception {
         return getLendingAccount(LIBRARY_OBJECT);
@@ -1933,6 +1983,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#lending-account-user_data">
      * Lending Account (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/account")
     public <T> T getLendingAccount(ReturnFormat format) throws Exception {
         return getLendingAccount(-1, format);
@@ -1959,6 +2010,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Lending Account (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/account")
     public LendingAccount getLendingAccount(long recvWindow) throws Exception {
         return getLendingAccount(recvWindow, LIBRARY_OBJECT);
@@ -1986,6 +2038,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Lending Account (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/account")
     public <T> T getLendingAccount(long recvWindow, ReturnFormat format) throws Exception {
         Params query = createTimestampPayload(null);
@@ -2023,6 +2076,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Purchase Record (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/purchaseRecord")
     public ArrayList<PurchaseRecord> getPurchaseRecord(SavingActivityType type) throws Exception {
         return getPurchaseRecord(type, LIBRARY_OBJECT);
@@ -2049,6 +2103,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-purchase-record-user_data">
      * Get Purchase Record (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/purchaseRecord")
     public <T> T getPurchaseRecord(SavingActivityType type, ReturnFormat format) throws Exception {
         return getPurchaseRecord(type, null, format);
@@ -2096,6 +2151,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Purchase Record (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/purchaseRecord")
     public ArrayList<PurchaseRecord> getPurchaseRecord(SavingActivityType type, Params extraParams) throws Exception {
         return getPurchaseRecord(type, extraParams, LIBRARY_OBJECT);
@@ -2144,6 +2200,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Purchase Record (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/purchaseRecord")
     public <T> T getPurchaseRecord(SavingActivityType type, Params extraParams, ReturnFormat format) throws Exception {
         extraParams = createTimestampPayload(extraParams);
@@ -2192,6 +2249,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Redemption Record (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/redemptionRecord")
     public <T> ArrayList<T> getRedemptionRecord(SavingActivityType type) throws Exception {
         return getRedemptionRecord(type, LIBRARY_OBJECT);
@@ -2218,6 +2276,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-redemption-record-user_data">
      * Get Redemption Record (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/redemptionRecord")
     public <T> T getRedemptionRecord(SavingActivityType type, ReturnFormat format) throws Exception {
         return getRedemptionRecord(type, null, format);
@@ -2273,6 +2332,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Redemption Record (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/redemptionRecord")
     public <T> ArrayList<T> getRedemptionRecord(SavingActivityType type, Params extraParams) throws Exception {
         return getRedemptionRecord(type, extraParams, LIBRARY_OBJECT);
@@ -2321,6 +2381,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Redemption Record (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/redemptionRecord")
     public <T> T getRedemptionRecord(SavingActivityType type, Params extraParams, ReturnFormat format) throws Exception {
         extraParams = createTimestampPayload(extraParams);
@@ -2366,6 +2427,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Interest History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/interestHistory")
     public ArrayList<SavingInterest> getInterestHistory(SavingActivityType type) throws Exception {
         return getInterestHistory(type, LIBRARY_OBJECT);
@@ -2392,6 +2454,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data-2">
      * Get Interest History (USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/interestHistory")
     public <T> T getInterestHistory(SavingActivityType type, ReturnFormat format) throws Exception {
         return getInterestHistory(type, null, format);
@@ -2439,6 +2502,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Interest History (USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/interestHistory")
     public ArrayList<SavingInterest> getInterestHistory(SavingActivityType type, Params extraParams) throws Exception {
         return getInterestHistory(type, extraParams, LIBRARY_OBJECT);
@@ -2487,6 +2551,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Get Interest History (USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/interestHistory")
     public <T> T getInterestHistory(SavingActivityType type, Params extraParams, ReturnFormat format) throws Exception {
         extraParams = createTimestampPayload(extraParams);
@@ -2529,6 +2594,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/positionChanged")
     public ChangePositionResult changeFixedActivityPosition(FixedActivityProject project, int lot) throws Exception {
         return changeFixedActivityPosition(project.getProjectId(), lot, LIBRARY_OBJECT);
@@ -2557,6 +2623,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Change Fixed/Activity Position to Daily Position(USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/positionChanged")
     public <T> T changeFixedActivityPosition(FixedActivityProject project, int lot, ReturnFormat format) throws Exception {
         return changeFixedActivityPosition(project.getProjectId(), lot, format);
@@ -2584,6 +2651,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Change Fixed/Activity Position to Daily Position(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/positionChanged")
     public ChangePositionResult changeFixedActivityPosition(String projectId, int lot) throws Exception {
         return changeFixedActivityPosition(projectId, lot, LIBRARY_OBJECT);
@@ -2611,6 +2679,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#change-fixed-activity-position-to-daily-position-user_data">
      * Change Fixed/Activity Position to Daily Position(USER_DATA)</a>
      **/
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/positionChanged")
     public <T> T changeFixedActivityPosition(String projectId, int lot, ReturnFormat format) throws Exception {
         return changeFixedActivityPosition(projectId, lot, null, format);
@@ -2648,6 +2717,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      **/
     @Wrapper
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/positionChanged")
     public ChangePositionResult changeFixedActivityPosition(FixedActivityProject project, int lot,
                                                             Params extraParams) throws Exception {
@@ -2686,6 +2756,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Change Fixed/Activity Position to Daily Position(USER_DATA)</a>
      **/
     @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/positionChanged")
     public <T> T changeFixedActivityPosition(FixedActivityProject project, int lot, Params extraParams,
                                              ReturnFormat format) throws Exception {
@@ -2723,6 +2794,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Change Fixed/Activity Position to Daily Position(USER_DATA)</a>
      **/
     @Wrapper
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/positionChanged")
     public ChangePositionResult changeFixedActivityPosition(String projectId, int lot, Params extraParams) throws Exception {
         return changeFixedActivityPosition(projectId, lot, extraParams, LIBRARY_OBJECT);
@@ -2760,6 +2832,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * Change Fixed/Activity Position to Daily Position(USER_DATA)</a>
      **/
     @Returner
+    @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/positionChanged")
     public <T> T changeFixedActivityPosition(String projectId, int lot, Params extraParams,
                                              ReturnFormat format) throws Exception {
