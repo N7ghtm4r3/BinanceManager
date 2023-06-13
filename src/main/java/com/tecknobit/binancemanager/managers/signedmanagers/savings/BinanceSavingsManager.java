@@ -42,77 +42,77 @@ import static java.lang.Long.parseLong;
  * Savings endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
- **/
+ */
 public class BinanceSavingsManager extends BinanceSignedManager {
 
     /**
      * {@code LENDING_DAILY_PRODUCT_LIST_ENDPOINT} is constant for LENDING_DAILY_PRODUCT_LIST_ENDPOINT's endpoint
-     **/
+     */
     public static final String LENDING_DAILY_PRODUCT_LIST_ENDPOINT = "/sapi/v1/lending/daily/product/list";
 
     /**
      * {@code LENDING_DAILY_USER_LEFT_QUOTA_ENDPOINT} is constant for LENDING_DAILY_USER_LEFT_QUOTA_ENDPOINT's endpoint
-     **/
+     */
     public static final String LENDING_DAILY_USER_LEFT_QUOTA_ENDPOINT = "/sapi/v1/lending/daily/userLeftQuota";
 
     /**
      * {@code LENDING_DAILY_PURCHASE_ENDPOINT} is constant for LENDING_DAILY_PURCHASE_ENDPOINT's endpoint
-     **/
+     */
     public static final String LENDING_DAILY_PURCHASE_ENDPOINT = "/sapi/v1/lending/daily/purchase";
 
     /**
      * {@code LENDING_DAILY_USER_REDEMPTION_QUOTA_ENDPOINT} is constant for LENDING_DAILY_USER_REDEMPTION_QUOTA_ENDPOINT's endpoint
-     **/
+     */
     public static final String LENDING_DAILY_USER_REDEMPTION_QUOTA_ENDPOINT = "/sapi/v1/lending/daily/userRedemptionQuota";
 
     /**
      * {@code LENDING_DAILY_REDEEM_ENDPOINT} is constant for LENDING_DAILY_REDEEM_ENDPOINT's endpoint
-     **/
+     */
     public static final String LENDING_DAILY_REDEEM_ENDPOINT = "/sapi/v1/lending/daily/redeem";
 
     /**
      * {@code LENDING_DAILY_TOKEN_POSITION_ENDPOINT} is constant for LENDING_DAILY_TOKEN_POSITION_ENDPOINT's endpoint
-     **/
+     */
     public static final String LENDING_DAILY_TOKEN_POSITION_ENDPOINT = "/sapi/v1/lending/daily/token/position";
 
     /**
      * {@code LENDING_PROJECT_LIST_ENDPOINT} is constant for LENDING_PROJECT_LIST_ENDPOINT's endpoint
-     **/
+     */
     public static final String LENDING_PROJECT_LIST_ENDPOINT = "/sapi/v1/lending/project/list";
 
     /**
      * {@code LENDING_CUSTOMIZED_FIXED_PURCHASE_ENDPOINT} is constant for LENDING_CUSTOMIZED_FIXED_PURCHASE_ENDPOINT's endpoint
-     **/
+     */
     public static final String LENDING_CUSTOMIZED_FIXED_PURCHASE_ENDPOINT = "/sapi/v1/lending/customizedFixed/purchase";
 
     /**
      * {@code LENDING_PROJECT_POSITION_LIST_ENDPOINT} is constant for LENDING_PROJECT_POSITION_LIST_ENDPOINT's endpoint
-     **/
+     */
     public static final String LENDING_PROJECT_POSITION_LIST_ENDPOINT = "/sapi/v1/lending/project/position/list";
 
     /**
      * {@code LENDING_UNION_ACCOUNT_ENDPOINT} is constant for LENDING_UNION_ACCOUNT_ENDPOINT's endpoint
-     **/
+     */
     public static final String LENDING_UNION_ACCOUNT_ENDPOINT = "/sapi/v1/lending/union/account";
 
     /**
      * {@code LENDING_UNION_PURCHASE_RECORD_ENDPOINT} is constant for LENDING_UNION_PURCHASE_RECORD_ENDPOINT's endpoint
-     **/
+     */
     public static final String LENDING_UNION_PURCHASE_RECORD_ENDPOINT = "/sapi/v1/lending/union/purchaseRecord";
 
     /**
      * {@code LENDING_UNION_REDEMPTION_RECORD_ENDPOINT} is constant for LENDING_UNION_REDEMPTION_RECORD_ENDPOINT's endpoint
-     **/
+     */
     public static final String LENDING_UNION_REDEMPTION_RECORD_ENDPOINT = "/sapi/v1/lending/union/redemptionRecord";
 
     /**
      * {@code LENDING_UNION_INTEREST_HISTORY_ENDPOINT} is constant for LENDING_UNION_INTEREST_HISTORY_ENDPOINT's endpoint
-     **/
+     */
     public static final String LENDING_UNION_INTEREST_HISTORY_ENDPOINT = "/sapi/v1/lending/union/interestHistory";
 
     /**
      * {@code LENDING_POSITION_CHANGED_ENDPOINT} is constant for LENDING_POSITION_CHANGED_ENDPOINT's endpoint
-     **/
+     */
     public static final String LENDING_POSITION_CHANGED_ENDPOINT = "/sapi/v1/lending/positionChanged";
 
     /**
@@ -123,7 +123,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceSavingsManager(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
                                  String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
@@ -136,7 +136,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceSavingsManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
                                  String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, apiKey, secretKey);
@@ -149,7 +149,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceSavingsManager(String baseEndpoint, int timeout, String apiKey,
                                  String secretKey) throws SystemException, IOException {
         super(baseEndpoint, timeout, apiKey, secretKey);
@@ -161,7 +161,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceSavingsManager(String baseEndpoint, String apiKey, String secretKey) throws SystemException, IOException {
         super(baseEndpoint, apiKey, secretKey);
     }
@@ -181,7 +181,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *        BinanceSignedManager secondManager = new BinanceSignedManager(); //same credentials used
      *     }
      * </pre>
-     **/
+     */
     public BinanceSavingsManager() {
         super();
     }
@@ -205,7 +205,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-flexible-product-list-user_data">
      * Get Flexible Product List (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/product/list")
@@ -232,7 +232,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-flexible-product-list-user_data">
      * Get Flexible Product List (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/product/list")
     public <T> T getFlexibleProductList(ReturnFormat format) throws Exception {
@@ -278,7 +278,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-flexible-product-list-user_data">
      * Get Flexible Product List (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/product/list")
@@ -326,7 +326,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-flexible-product-list-user_data">
      * Get Flexible Product List (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/product/list")
@@ -366,7 +366,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-left-daily-purchase-quota-of-flexible-product-user_data">
      * Get Left Daily Purchase Quota of Flexible Product (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -395,7 +395,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-left-daily-purchase-quota-of-flexible-product-user_data">
      * Get Left Daily Purchase Quota of Flexible Product (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userLeftQuota")
@@ -422,7 +422,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-left-daily-purchase-quota-of-flexible-product-user_data">
      * Get Left Daily Purchase Quota of Flexible Product (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userLeftQuota")
@@ -450,7 +450,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-left-daily-purchase-quota-of-flexible-product-user_data">
      * Get Left Daily Purchase Quota of Flexible Product (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userLeftQuota")
     public <T> T getLeftDailyPurchaseQuota(String productId, ReturnFormat format) throws Exception {
@@ -477,7 +477,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-left-daily-purchase-quota-of-flexible-product-user_data">
      * Get Left Daily Purchase Quota of Flexible Product (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -507,7 +507,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-left-daily-purchase-quota-of-flexible-product-user_data">
      * Get Left Daily Purchase Quota of Flexible Product (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userLeftQuota")
@@ -535,7 +535,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-left-daily-purchase-quota-of-flexible-product-user_data">
      * Get Left Daily Purchase Quota of Flexible Product (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userLeftQuota")
@@ -564,7 +564,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-left-daily-purchase-quota-of-flexible-product-user_data">
      * Get Left Daily Purchase Quota of Flexible Product (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userLeftQuota")
@@ -601,7 +601,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-flexible-product-user_data">
      * Purchase Flexible Product (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -631,7 +631,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-flexible-product-user_data">
      * Purchase Flexible Product (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/purchase")
@@ -659,7 +659,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-flexible-product-user_data">
      * Purchase Flexible Product (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/purchase")
@@ -688,7 +688,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-flexible-product-user_data">
      * Purchase Flexible Product (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/purchase")
     public <T> T purchaseFlexibleProduct(String productId, double amount, ReturnFormat format) throws Exception {
@@ -716,7 +716,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-flexible-product-user_data">
      * Purchase Flexible Product (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -747,7 +747,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-flexible-product-user_data">
      * Purchase Flexible Product (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/purchase")
@@ -777,7 +777,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-flexible-product-user_data">
      * Purchase Flexible Product (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/purchase")
@@ -807,7 +807,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-flexible-product-user_data">
      * Purchase Flexible Product (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/purchase")
@@ -837,7 +837,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-left-daily-redemption-quota-of-flexible-product-user_data">
      * Get Left Daily Redemption Quota of Flexible Product (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -867,7 +867,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-left-daily-redemption-quota-of-flexible-product-user_data">
      * Get Left Daily Redemption Quota of Flexible Product (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userRedemptionQuota")
@@ -896,7 +896,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-left-daily-redemption-quota-of-flexible-product-user_data">
      * Get Left Daily Redemption Quota of Flexible Product (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userRedemptionQuota")
@@ -925,7 +925,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-left-daily-redemption-quota-of-flexible-product-user_data">
      * Get Left Daily Redemption Quota of Flexible Product (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userRedemptionQuota")
     public <T> T getLeftDailyRedemptionQuota(String productId, RedemptionType type, ReturnFormat format) throws Exception {
@@ -953,7 +953,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-left-daily-redemption-quota-of-flexible-product-user_data">
      * Get Left Daily Redemption Quota of Flexible Product (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -985,7 +985,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-left-daily-redemption-quota-of-flexible-product-user_data">
      * Get Left Daily Redemption Quota of Flexible Product (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userRedemptionQuota")
@@ -1015,7 +1015,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-left-daily-redemption-quota-of-flexible-product-user_data">
      * Get Left Daily Redemption Quota of Flexible Product (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userRedemptionQuota")
@@ -1046,7 +1046,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-left-daily-redemption-quota-of-flexible-product-user_data">
      * Get Left Daily Redemption Quota of Flexible Product (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/userRedemptionQuota")
@@ -1071,7 +1071,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @param productId:  the product id to insert
      * @param recvWindow: request is valid for in ms, must be less than 60000
      * @return query as {@link Params}
-     **/
+     */
     private Params getLeftQuotaQuery(String productId, long recvWindow) {
         Params query = createTimestampPayload(null);
         query.addParam("productId", productId);
@@ -1101,7 +1101,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-flexible-product-user_data">
      * Redeem Flexible Product (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/redeem")
@@ -1130,7 +1130,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-flexible-product-user_data">
      * Redeem Flexible Product (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/redeem")
@@ -1160,7 +1160,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-flexible-product-user_data">
      * Redeem Flexible Product (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/redeem")
@@ -1191,7 +1191,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-flexible-product-user_data">
      * Redeem Flexible Product (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/daily/redeem")
     public boolean redeemFlexibleProduct(String productId, double amount, RedemptionType type,
@@ -1209,7 +1209,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @param amount:     the amount of the operation
      * @param recvWindow: request is valid for in ms, must be less than 60000
      * @return payload as {@link Params}
-     **/
+     */
     private Params createFlexibleOpePayload(String productId, double amount, long recvWindow) {
         Params payload = new Params();
         payload.addParam("productId", productId);
@@ -1238,7 +1238,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-flexible-product-position-user_data">
      * Get Flexible Product Position (USER_DATA) </a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/token/position")
@@ -1265,7 +1265,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-flexible-product-position-user_data">
      * Get Flexible Product Position (USER_DATA) </a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/token/position")
     public <T> T getFlexibleProductPosition(ReturnFormat format) throws Exception {
@@ -1299,7 +1299,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-flexible-product-position-user_data">
      * Get Flexible Product Position (USER_DATA) </a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/token/position")
@@ -1335,7 +1335,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-flexible-product-position-user_data">
      * Get Flexible Product Position (USER_DATA) </a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/daily/token/position")
@@ -1375,7 +1375,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-fixed-and-activity-project-list-user_data">
      * Get Fixed and Activity Project List(USER_DATA) </a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/project/list")
@@ -1403,7 +1403,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-fixed-and-activity-project-list-user_data">
      * Get Fixed and Activity Project List(USER_DATA) </a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/project/list")
     public <T> T getFixedActivityProjectList(SavingActivityType type, ReturnFormat format) throws Exception {
@@ -1453,7 +1453,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-fixed-and-activity-project-list-user_data">
      * Get Fixed and Activity Project List(USER_DATA) </a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/project/list")
@@ -1506,7 +1506,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-fixed-and-activity-project-list-user_data">
      * Get Fixed and Activity Project List(USER_DATA) </a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/project/list")
@@ -1549,7 +1549,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-fixed-activity-project-user_data">
      * Purchase Fixed/Activity Project (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -1579,7 +1579,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-fixed-activity-project-user_data">
      * Purchase Fixed/Activity Project (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/customizedFixed/purchase")
@@ -1607,7 +1607,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-fixed-activity-project-user_data">
      * Purchase Fixed/Activity Project (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/customizedFixed/purchase")
@@ -1636,7 +1636,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-fixed-activity-project-user_data">
      * Purchase Fixed/Activity Project (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/customizedFixed/purchase")
     public <T> T purchaseFixedActivityProject(String projectId, int lot, ReturnFormat format) throws Exception {
@@ -1664,7 +1664,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-fixed-activity-project-user_data">
      * Purchase Fixed/Activity Project (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -1695,7 +1695,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-fixed-activity-project-user_data">
      * Purchase Fixed/Activity Project (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/customizedFixed/purchase")
@@ -1725,7 +1725,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-fixed-activity-project-user_data">
      * Purchase Fixed/Activity Project (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/customizedFixed/purchase")
@@ -1755,7 +1755,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-fixed-activity-project-user_data">
      * Purchase Fixed/Activity Project (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/customizedFixed/purchase")
     public <T> T purchaseFixedActivityProject(String projectId, int lot, long recvWindow,
@@ -1774,7 +1774,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      * @param purchaseResponse: obtained from Binance's response
      * @param format:           return type formatter -> {@link ReturnFormat}
      * @return purchase id as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnPurchaseId(String purchaseResponse, ReturnFormat format) {
         switch (format) {
@@ -1806,7 +1806,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-fixed-activity-project-position-user_data">
      * Get Fixed/Activity Project Position (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/project/position/list")
@@ -1833,7 +1833,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-fixed-activity-project-position-user_data">
      * Get Fixed/Activity Project Position (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/project/position/list")
     public <T> T getFixedActivityProjectPosition(ReturnFormat format) throws Exception {
@@ -1873,7 +1873,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-fixed-activity-project-position-user_data">
      * Get Fixed/Activity Project Position (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/project/position/list")
@@ -1915,7 +1915,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-fixed-activity-project-position-user_data">
      * Get Fixed/Activity Project Position (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/project/position/list")
@@ -1955,7 +1955,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#lending-account-user_data">
      * Lending Account (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/account")
@@ -1982,7 +1982,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#lending-account-user_data">
      * Lending Account (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/account")
     public <T> T getLendingAccount(ReturnFormat format) throws Exception {
@@ -2008,7 +2008,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#lending-account-user_data">
      * Lending Account (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/account")
@@ -2036,7 +2036,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#lending-account-user_data">
      * Lending Account (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/account")
@@ -2074,7 +2074,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-purchase-record-user_data">
      * Get Purchase Record (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/purchaseRecord")
@@ -2102,7 +2102,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-purchase-record-user_data">
      * Get Purchase Record (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/purchaseRecord")
     public <T> T getPurchaseRecord(SavingActivityType type, ReturnFormat format) throws Exception {
@@ -2149,7 +2149,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-purchase-record-user_data">
      * Get Purchase Record (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/purchaseRecord")
@@ -2198,7 +2198,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-purchase-record-user_data">
      * Get Purchase Record (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/purchaseRecord")
@@ -2247,7 +2247,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-redemption-record-user_data">
      * Get Redemption Record (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/redemptionRecord")
@@ -2275,7 +2275,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-redemption-record-user_data">
      * Get Redemption Record (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/redemptionRecord")
     public <T> T getRedemptionRecord(SavingActivityType type, ReturnFormat format) throws Exception {
@@ -2330,7 +2330,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-redemption-record-user_data">
      * Get Redemption Record (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/redemptionRecord")
@@ -2379,7 +2379,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-redemption-record-user_data">
      * Get Redemption Record (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/redemptionRecord")
@@ -2425,7 +2425,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data-2">
      * Get Interest History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/interestHistory")
@@ -2453,7 +2453,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data-2">
      * Get Interest History (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/interestHistory")
     public <T> T getInterestHistory(SavingActivityType type, ReturnFormat format) throws Exception {
@@ -2500,7 +2500,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data-2">
      * Get Interest History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/interestHistory")
@@ -2549,7 +2549,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data-2">
      * Get Interest History (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/lending/union/interestHistory")
@@ -2591,7 +2591,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#change-fixed-activity-position-to-daily-position-user_data">
      * Change Fixed/Activity Position to Daily Position(USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -2621,7 +2621,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#change-fixed-activity-position-to-daily-position-user_data">
      * Change Fixed/Activity Position to Daily Position(USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/positionChanged")
@@ -2649,7 +2649,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#change-fixed-activity-position-to-daily-position-user_data">
      * Change Fixed/Activity Position to Daily Position(USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/positionChanged")
@@ -2678,7 +2678,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#change-fixed-activity-position-to-daily-position-user_data">
      * Change Fixed/Activity Position to Daily Position(USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/positionChanged")
     public <T> T changeFixedActivityPosition(String projectId, int lot, ReturnFormat format) throws Exception {
@@ -2714,7 +2714,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#change-fixed-activity-position-to-daily-position-user_data">
      * Change Fixed/Activity Position to Daily Position(USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -2754,7 +2754,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#change-fixed-activity-position-to-daily-position-user_data">
      * Change Fixed/Activity Position to Daily Position(USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/positionChanged")
@@ -2792,7 +2792,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#change-fixed-activity-position-to-daily-position-user_data">
      * Change Fixed/Activity Position to Daily Position(USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/positionChanged")
@@ -2830,7 +2830,7 @@ public class BinanceSavingsManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#change-fixed-activity-position-to-daily-position-user_data">
      * Change Fixed/Activity Position to Daily Position(USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/lending/positionChanged")

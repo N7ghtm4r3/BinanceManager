@@ -18,7 +18,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-user-universal-transfer-history-user_data">
  * Query User Universal Transfer History (USER_DATA) </a>
  * @see BinanceRowsList
- **/
+ */
 public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer> {
 
     /**
@@ -26,7 +26,7 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
      *
      * @param total : number of items
      * @param rows  :  list of the items
-     **/
+     */
     public UniversalTransferHistory(int total, ArrayList<UniversalTransfer> rows) {
         super(total, rows);
     }
@@ -35,7 +35,7 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
      * Constructor to init {@link UniversalTransferHistory}
      *
      * @param jTransfersList : list details as {@link JSONObject}
-     **/
+     */
     public UniversalTransferHistory(JSONObject jTransfersList) {
         super(jTransfersList);
         for (Object row : hItem.fetchList("rows"))
@@ -44,122 +44,154 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
 
     /**
      * {@code TransferType} list of available transfer types
-     **/
+     */
     public enum TransferType {
 
         /**
          * {@code "MAIN_UMFUTURE"} transfer type
-         **/
+         *
+         * @deprecated this type is deprecated and will be removed in the next release
+         */
+        @Deprecated
         MAIN_UMFUTURE,
 
         /**
          * {@code "MAIN_CMFUTURE"} transfer type
-         **/
+         *
+         * @deprecated this type is deprecated and will be removed in the next release
+         */
+        @Deprecated
         MAIN_CMFUTURE,
 
         /**
          * {@code "MAIN_MARGIN"} transfer type
-         **/
+         */
         MAIN_MARGIN,
 
         /**
          * {@code "UMFUTURE_MAIN"} transfer type
-         **/
+         *
+         * @deprecated this type is deprecated and will be removed in the next release
+         */
+        @Deprecated
         UMFUTURE_MAIN,
 
         /**
          * {@code "UMFUTURE_MARGIN"} transfer type
-         **/
+         *
+         * @deprecated this type is deprecated and will be removed in the next release
+         */
+        @Deprecated
         UMFUTURE_MARGIN,
 
         /**
          * {@code "CMFUTURE_MAIN"} transfer type
-         **/
+         */
         CMFUTURE_MAIN,
 
         /**
          * {@code "CMFUTURE_MARGIN"} transfer type
-         **/
+         *
+         * @deprecated this type is deprecated and will be removed in the next release
+         */
+        @Deprecated
         CMFUTURE_MARGIN,
 
         /**
          * {@code "MARGIN_MAIN"} transfer type
-         **/
+         */
         MARGIN_MAIN,
 
         /**
          * {@code "MARGIN_UMFUTURE"} transfer type
-         **/
+         *
+         * @deprecated this type is deprecated and will be removed in the next release
+         */
+        @Deprecated
         MARGIN_UMFUTURE,
 
         /**
          * {@code "MARGIN_CMFUTURE"} transfer type
-         **/
+         *
+         * @deprecated this type is deprecated and will be removed in the next release
+         */
+        @Deprecated
         MARGIN_CMFUTURE,
 
         /**
          * {@code "ISOLATEDMARGIN_MARGIN"} transfer type
-         **/
+         */
         ISOLATEDMARGIN_MARGIN,
 
         /**
          * {@code "MARGIN_ISOLATEDMARGIN"} transfer type
-         **/
+         */
         MARGIN_ISOLATEDMARGIN,
 
         /**
          * {@code "ISOLATEDMARGIN_ISOLATEDMARGIN"} transfer type
-         **/
+         */
         ISOLATEDMARGIN_ISOLATEDMARGIN,
 
         /**
          * {@code "MAIN_FUNDING"} transfer type
-         **/
+         */
         MAIN_FUNDING,
 
         /**
          * {@code "FUNDING_MAIN"} transfer type
-         **/
+         */
         FUNDING_MAIN,
 
         /**
          * {@code "FUNDING_UMFUTURE"} transfer type
-         **/
+         *
+         * @deprecated this type is deprecated and will be removed in the next release
+         */
+        @Deprecated
         FUNDING_UMFUTURE,
 
         /**
          * {@code "UMFUTURE_FUNDING"} transfer type
-         **/
+         *
+         * @deprecated this type is deprecated and will be removed in the next release
+         */
+        @Deprecated
         UMFUTURE_FUNDING,
 
         /**
          * {@code "MARGIN_FUNDING"} transfer type
-         **/
+         */
         MARGIN_FUNDING,
 
         /**
          * {@code "FUNDING_MARGIN"} transfer type
-         **/
+         */
         FUNDING_MARGIN,
 
         /**
          * {@code "FUNDING_CMFUTURE"} transfer type
-         **/
+         *
+         * @deprecated this type is deprecated and will be removed in the next release
+         */
+        @Deprecated
         FUNDING_CMFUTURE,
 
         /**
          * {@code "CMFUTURE_FUNDING"} transfer type
-         **/
+         * @deprecated this type is deprecated and will be removed in the next release
+         */
+        @Deprecated
         CMFUTURE_FUNDING,
 
         /**
          * {@code "MAIN_PORTFOLIO_MARGIN"} transfer type
-         **/
+         */
         MAIN_PORTFOLIO_MARGIN,
 
         /**
          * {@code "PORTFOLIO_MARGIN_MAIN"} transfer type
-         **/
+         */
         PORTFOLIO_MARGIN_MAIN
 
     }
@@ -168,29 +200,29 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
 
         /**
          * {@code type} is instance that memorizes type value
-         **/
+         */
         private final TransferType type;
 
         /**
          * {@code asset} is instance that memorizes asset value
-         **/
+         */
         private final String asset;
 
         /**
          * {@code amount} is instance that memorizes amount value
-         **/
+         */
         private final double amount;
         /**
          * {@code status} is instance that memorizes status value
-         **/
+         */
         private final Order.Status status;
         /**
          * {@code tranId} is instance that memorizes transaction identifier value
-         **/
+         */
         private final long tranId;
         /**
          * {@code timestamp} is instance that memorizes timestamp value
-         **/
+         */
         private final long timestamp;
 
         /**
@@ -202,7 +234,7 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
          * @param status:    status value
          * @param tranId:    transaction identifier value
          * @param timestamp: timestamp value
-         **/
+         */
         public UniversalTransfer(String asset, double amount, TransferType type, Order.Status status, long tranId, long timestamp) {
             this.asset = asset;
             this.amount = amount;
@@ -216,7 +248,7 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
          * Constructor to init {@link UniversalTransfer} object
          *
          * @param jTransfer: universal transfer details as {@link JSONObject}
-         **/
+         */
         public UniversalTransfer(JSONObject jTransfer) {
             this(jTransfer.getString("asset"), jTransfer.getDouble("amount"),
                     TransferType.valueOf(jTransfer.getString("type")),
@@ -229,7 +261,7 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
          * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
-         **/
+         */
         public String getAsset() {
             return asset;
         }
@@ -239,7 +271,7 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
          * No-any params required
          *
          * @return {@link #amount} instance as double
-         **/
+         */
         public double getAmount() {
             return amount;
         }
@@ -249,7 +281,7 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
          * No-any params required
          *
          * @return {@link #type} instance as {@link TransferType}
-         **/
+         */
         public TransferType getType() {
             return type;
         }
@@ -260,7 +292,7 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
          * @param decimals: number of digits to round final value
          * @return {@link #amount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getAmount(int decimals) {
             return roundValue(amount, decimals);
         }
@@ -270,7 +302,7 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
          * No-any params required
          *
          * @return {@link #status} instance as {@link Order.Status}
-         **/
+         */
         public Order.Status getStatus() {
             return status;
         }
@@ -280,7 +312,7 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
          * No-any params required
          *
          * @return {@link #tranId} instance as long
-         **/
+         */
         public long getTranId() {
             return tranId;
         }
@@ -290,7 +322,7 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
          * No-any params required
          *
          * @return {@link #timestamp} instance as long
-         **/
+         */
         public long getTimestamp() {
             return timestamp;
         }
@@ -300,7 +332,7 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
          * No-any params required
          *
          * @return {@link #timestamp} instance as {@link Date}
-         **/
+         */
         public Date getDate() {
             return TimeFormatter.getDate(timestamp);
         }

@@ -33,50 +33,50 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *     </li>
  * </ul>
  * @see BinanceItem
- **/
+ */
 @Structure
 public abstract class BLVTStructure extends BinanceItem {
 
     /**
      * {@code BLVTStatus} list of available BLVT statuses
-     **/
+     */
     public enum BLVTStatus {
 
         /**
          * {@code S} BLVT status
-         **/
+         */
         S,
 
         /**
          * {@code P} BLVT status
-         **/
+         */
         P,
 
         /**
          * {@code F} BLVT status
-         **/
+         */
         F
 
     }
 
     /**
      * {@code id} of the BLVT
-     **/
+     */
     protected final long id;
 
     /**
      * {@code tokenName} token name of the BLVT
-     **/
+     */
     protected final String tokenName;
 
     /**
      * {@code amount} of the BLVT
-     **/
+     */
     protected final double amount;
 
     /**
      * {@code timestamp} of the BLVT
-     **/
+     */
     protected final long timestamp;
 
     /**
@@ -86,7 +86,7 @@ public abstract class BLVTStructure extends BinanceItem {
      * @param tokenName: token name of the BLVT
      * @param amount:    amount of the BLVT
      * @param timestamp: timestamp of the BLVT
-     **/
+     */
     public BLVTStructure(long id, String tokenName, double amount, long timestamp) {
         super(null);
         this.id = id;
@@ -99,7 +99,7 @@ public abstract class BLVTStructure extends BinanceItem {
      * Constructor to init {@link BLVTStructure} object
      *
      * @param jBLVTStructure: BLVT structure details as {@link JSONObject}
-     **/
+     */
     public BLVTStructure(JSONObject jBLVTStructure) {
         super(jBLVTStructure);
         id = hItem.getLong("id", 0);
@@ -113,7 +113,7 @@ public abstract class BLVTStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #id} instance as long
-     **/
+     */
     public long getId() {
         return id;
     }
@@ -123,7 +123,7 @@ public abstract class BLVTStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #tokenName} instance as {@link String}
-     **/
+     */
     public String getTokenName() {
         return tokenName;
     }
@@ -133,7 +133,7 @@ public abstract class BLVTStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #amount} instance as double
-     **/
+     */
     public double getAmount() {
         return amount;
     }
@@ -144,7 +144,7 @@ public abstract class BLVTStructure extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #amount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getAmount(int decimals) {
         return roundValue(amount, decimals);
     }
@@ -154,7 +154,7 @@ public abstract class BLVTStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #timestamp} instance as long
-     **/
+     */
     public long getTimestamp() {
         return timestamp;
     }
@@ -164,7 +164,7 @@ public abstract class BLVTStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #timestamp} instance as {@link Date}
-     **/
+     */
     public Date getDate() {
         return TimeFormatter.getDate(timestamp);
     }

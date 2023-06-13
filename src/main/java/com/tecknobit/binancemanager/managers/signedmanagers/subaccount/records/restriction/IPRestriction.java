@@ -22,12 +22,12 @@ import java.util.ArrayList;
  * </ul>
  * @see BinanceItem
  * @see RestrictionStructure
- **/
+ */
 public class IPRestriction extends RestrictionStructure {
 
     /**
      * {@code ipRestrict} whether the ip is restricted
-     **/
+     */
     private final boolean ipRestrict;
 
     /**
@@ -37,7 +37,7 @@ public class IPRestriction extends RestrictionStructure {
      * @param updateTime  : update time of the ip restriction
      * @param apiKey      : api key of the ip restriction
      * @param ipRestrict: whether the ip is restricted
-     **/
+     */
     public IPRestriction(ArrayList<String> ipList, long updateTime, String apiKey, boolean ipRestrict) {
         super(ipList, updateTime, apiKey);
         this.ipRestrict = ipRestrict;
@@ -47,7 +47,7 @@ public class IPRestriction extends RestrictionStructure {
      * Constructor to init {@link IPRestriction} object
      *
      * @param jIPRestriction : ip restriction details as {@link JSONObject}
-     **/
+     */
     public IPRestriction(JSONObject jIPRestriction) {
         super(jIPRestriction);
         ipRestrict = hItem.getBoolean("ipRestrict");
@@ -58,7 +58,7 @@ public class IPRestriction extends RestrictionStructure {
      * No-any params required
      *
      * @return {@link #ipRestrict} instance as boolean
-     **/
+     */
     public boolean isIpRestrict() {
         return ipRestrict;
     }

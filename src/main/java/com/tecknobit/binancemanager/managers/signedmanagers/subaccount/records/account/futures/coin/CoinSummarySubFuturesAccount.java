@@ -13,12 +13,12 @@ import java.util.ArrayList;
  * Get Summary of Sub-account's Futures Account V2 (For Master Account)</a>
  * @see BinanceItem
  * @see SubCoinStructure
- **/
+ */
 public class CoinSummarySubFuturesAccount extends SubCoinStructure {
 
     /**
      * {@code subAccountList} list of subaccounts
-     **/
+     */
     private final ArrayList<SummarySubFuturesAccountCoinItem> subAccountList;
 
     /**
@@ -29,7 +29,7 @@ public class CoinSummarySubFuturesAccount extends SubCoinStructure {
      * @param totalWalletBalanceOfBTC: total wallet balance of BTC of the coin summary of a sub futures account
      * @param asset: asset of the coin summary of a sub futures account
      * @param subAccountList: list of subaccounts
-     **/
+     */
     public CoinSummarySubFuturesAccount(double totalMarginBalanceOfBTC, double totalUnrealizedProfitOfBTC,
                                         double totalWalletBalanceOfBTC, String asset,
                                         ArrayList<SummarySubFuturesAccountCoinItem> subAccountList) {
@@ -41,7 +41,7 @@ public class CoinSummarySubFuturesAccount extends SubCoinStructure {
      * Constructor to init {@link CoinSummarySubFuturesAccount} object
      *
      * @param jCoinSummarySubFuturesAccount: coin summary of a sub futures account details as {@link JSONObject}
-     **/
+     */
     public CoinSummarySubFuturesAccount(JSONObject jCoinSummarySubFuturesAccount) {
         super(jCoinSummarySubFuturesAccount);
         subAccountList = new ArrayList<>();
@@ -56,7 +56,7 @@ public class CoinSummarySubFuturesAccount extends SubCoinStructure {
      * No-any params required
      *
      * @return {@link #asset} instance as {@link ArrayList} of {@link SummarySubFuturesAccountCoinItem}
-     **/
+     */
     public ArrayList<SummarySubFuturesAccountCoinItem> getSubAccountList() {
         return subAccountList;
     }
@@ -68,12 +68,12 @@ public class CoinSummarySubFuturesAccount extends SubCoinStructure {
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see SubCoinStructure
-     **/
+     */
     public static class SummarySubFuturesAccountCoinItem extends SubCoinStructure {
 
         /**
          * {@code email} of the summary sub futures account coin item
-         **/
+         */
         private final String email;
 
         /**
@@ -84,7 +84,7 @@ public class CoinSummarySubFuturesAccount extends SubCoinStructure {
          * @param totalWalletBalanceOfBTC: total wallet balance of BTC of the summary sub futures account coin item
          * @param asset: asset of the coin summary sub futures account coin item
          * @param email: email of the summary sub futures account coin item
-         **/
+         */
         public SummarySubFuturesAccountCoinItem(double totalMarginBalanceOfBTC, double totalUnrealizedProfitOfBTC,
                                                 double totalWalletBalanceOfBTC, String asset, String email) {
             super(totalMarginBalanceOfBTC, totalUnrealizedProfitOfBTC, totalWalletBalanceOfBTC, asset);
@@ -95,7 +95,7 @@ public class CoinSummarySubFuturesAccount extends SubCoinStructure {
          * Constructor to init {@link SummarySubFuturesAccountCoinItem} object
          *
          * @param jSummarySubFuturesAccountCoinItem: summary sub futures account coin item details as {@link JSONObject}
-         **/
+         */
         public SummarySubFuturesAccountCoinItem(JSONObject jSummarySubFuturesAccountCoinItem) {
             super(jSummarySubFuturesAccountCoinItem);
             email = hItem.getString("email");
@@ -106,7 +106,7 @@ public class CoinSummarySubFuturesAccount extends SubCoinStructure {
          * No-any params required
          *
          * @return {@link #email} instance as {@link String}
-         * */
+         */
         public String getEmail() {
             return email;
         }

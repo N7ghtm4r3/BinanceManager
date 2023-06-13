@@ -26,42 +26,45 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * Futures</a>
  * @see BinanceManager
  * @see BinanceSignedManager
- **/
+ */
 public class BinanceFuturesManager extends BinanceSignedManager {
 
     /**
      * {@code FUTURES_TRANSFER_ENDPOINT} is constant for FUTURES_TRANSFER_ENDPOINT's endpoint
-     **/
+     *
+     * @deprecated this endpoint is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     public static final String FUTURES_TRANSFER_ENDPOINT = "/sapi/v1/futures/transfer";
 
     /**
      * {@code FUTURES_LOAN_BORROW_HISTORY_ENDPOINT} is constant for FUTURES_LOAN_BORROW_HISTORY_ENDPOINT's endpoint
-     **/
+     */
     public static final String FUTURES_LOAN_BORROW_HISTORY_ENDPOINT = "/sapi/v1/futures/loan/borrow/history";
 
     /**
      * {@code FUTURES_LOAN_REPAY_HISTORY_ENDPOINT} is constant for FUTURES_LOAN_REPAY_HISTORY_ENDPOINT's endpoint
-     **/
+     */
     public static final String FUTURES_LOAN_REPAY_HISTORY_ENDPOINT = "/sapi/v1/futures/loan/repay/history";
 
     /**
      * {@code FUTURES_LOAN_WALLET_ENDPOINT} is constant for FUTURES_LOAN_WALLET_ENDPOINT's endpoint
-     **/
+     */
     public static final String FUTURES_LOAN_WALLET_ENDPOINT = "/sapi/v2/futures/loan/wallet";
 
     /**
      * {@code FUTURES_LOAN_ADJUST_COLLATERAL_HISTORY_ENDPOINT} is constant for FUTURES_LOAN_ADJUST_COLLATERAL_HISTORY_ENDPOINT's endpoint
-     **/
+     */
     public static final String FUTURES_LOAN_ADJUST_COLLATERAL_HISTORY_ENDPOINT = "/sapi/v1/futures/loan/adjustCollateral/history";
 
     /**
      * {@code FUTURES_LOAN_LIQUIDATION_HISTORY_ENDPOINT} is constant for FUTURES_LOAN_LIQUIDATION_HISTORY_ENDPOINT's endpoint
-     **/
+     */
     public static final String FUTURES_LOAN_LIQUIDATION_HISTORY_ENDPOINT = "/sapi/v1/futures/loan/liquidationHistory";
 
     /**
      * {@code FUTURES_LOAN_INTEREST_HISTORY_ENDPOINT} is constant for FUTURES_LOAN_INTEREST_HISTORY_ENDPOINT's endpoint
-     **/
+     */
     public static final String FUTURES_LOAN_INTEREST_HISTORY_ENDPOINT = "/sapi/v1/futures/loan/interestHistory";
 
     /**
@@ -72,7 +75,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceFuturesManager(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
                                  String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
@@ -85,7 +88,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceFuturesManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
                                  String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, apiKey, secretKey);
@@ -98,7 +101,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceFuturesManager(String baseEndpoint, int timeout, String apiKey,
                                  String secretKey) throws SystemException, IOException {
         super(baseEndpoint, timeout, apiKey, secretKey);
@@ -110,7 +113,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceFuturesManager(String baseEndpoint, String apiKey, String secretKey) throws SystemException, IOException {
         super(baseEndpoint, apiKey, secretKey);
     }
@@ -130,7 +133,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *        BinanceSignedManager secondManager = new BinanceSignedManager(); //same credentials used
      *     }
      * </pre>
-     **/
+     */
     public BinanceFuturesManager() {
         super();
     }
@@ -156,7 +159,9 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-future-account-transfer-user_data">
      * New Future Account Transfer (USER_DATA)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/futures/transfer")
@@ -186,7 +191,9 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-future-account-transfer-user_data">
      * New Future Account Transfer (USER_DATA)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/futures/transfer")
     public <T> T execNewFutureAccountTransfer(String asset, double amount, FutureTransactionType type,
@@ -216,7 +223,9 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-future-account-transfer-user_data">
      * New Future Account Transfer (USER_DATA)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/futures/transfer")
@@ -248,7 +257,9 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-future-account-transfer-user_data">
      * New Future Account Transfer (USER_DATA)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/futures/transfer")
@@ -291,7 +302,9 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-future-account-transaction-history-list-user_data">
      * Get Future Account Transaction History List (USER_DATA)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/transfer")
@@ -320,7 +333,9 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-future-account-transaction-history-list-user_data">
      * Get Future Account Transaction History List (USER_DATA)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/transfer")
     public <T> T getFutureAccountTransactionsHistory(String asset, long startTime, ReturnFormat format) throws Exception {
@@ -362,7 +377,9 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-future-account-transaction-history-list-user_data">
      * Get Future Account Transaction History List (USER_DATA)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/transfer")
@@ -407,7 +424,9 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-future-account-transaction-history-list-user_data">
      * Get Future Account Transaction History List (USER_DATA)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     @Returner
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/transfer")
@@ -448,7 +467,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-borrow-history-user_data">
      * Cross-Collateral Borrow History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/borrow/history")
@@ -475,7 +494,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-borrow-history-user_data">
      * Cross-Collateral Borrow History (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/borrow/history")
     public <T> T getCrossCollateralBorrowHistory(ReturnFormat format) throws Exception {
@@ -518,7 +537,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-borrow-history-user_data">
      * Cross-Collateral Borrow History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/borrow/history")
@@ -563,7 +582,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-borrow-history-user_data">
      * Cross-Collateral Borrow History (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/borrow/history")
@@ -601,7 +620,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-repayment-history-user_data">
      * Cross-Collateral Repayment History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/repay/history")
@@ -628,7 +647,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-repayment-history-user_data">
      * Cross-Collateral Repayment History (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/repay/history")
     public <T> T getCrossCollateralRepaymentHistory(ReturnFormat format) throws Exception {
@@ -671,7 +690,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-repayment-history-user_data">
      * Cross-Collateral Repayment History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/repay/history")
@@ -716,7 +735,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-repayment-history-user_data">
      * Cross-Collateral Repayment History (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/repay/history")
@@ -754,7 +773,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-wallet-v2-user_data">
      * Cross-Collateral Wallet V2 (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/futures/loan/wallet")
@@ -781,7 +800,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-wallet-v2-user_data">
      * Cross-Collateral Wallet V2 (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/futures/loan/wallet")
     public <T> T getCrossCollateralWallet(ReturnFormat format) throws Exception {
@@ -807,7 +826,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-wallet-v2-user_data">
      * Cross-Collateral Wallet V2 (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/futures/loan/wallet")
@@ -835,7 +854,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-wallet-v2-user_data">
      * Cross-Collateral Wallet V2 (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v2/futures/loan/wallet")
@@ -874,7 +893,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#adjust-cross-collateral-ltv-history-user_data">
      * Adjust Cross-Collateral LTV History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/adjustCollateral/history")
@@ -901,7 +920,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#adjust-cross-collateral-ltv-history-user_data">
      * Adjust Cross-Collateral LTV History (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/adjustCollateral/history")
     public <T> T getAdjustCrossCollateralLTVHistory(ReturnFormat format) throws Exception {
@@ -947,7 +966,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#adjust-cross-collateral-ltv-history-user_data">
      * Adjust Cross-Collateral LTV History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/adjustCollateral/history")
@@ -995,7 +1014,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#adjust-cross-collateral-ltv-history-user_data">
      * Adjust Cross-Collateral LTV History (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/adjustCollateral/history")
@@ -1033,7 +1052,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-liquidation-history-user_data">
      * Cross-Collateral Liquidation History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/liquidationHistory")
@@ -1060,7 +1079,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-liquidation-history-user_data">
      * Cross-Collateral Liquidation History (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/liquidationHistory")
     public <T> T getCrossCollateralLiquidationHistory(ReturnFormat format) throws Exception {
@@ -1106,7 +1125,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-liquidation-history-user_data">
      * Cross-Collateral Liquidation History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/liquidationHistory")
@@ -1154,7 +1173,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-liquidation-history-user_data">
      * Cross-Collateral Liquidation History (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/liquidationHistory")
@@ -1192,7 +1211,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-interest-history-user_data">
      * Cross-Collateral Interest History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/interestHistory")
@@ -1219,7 +1238,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-interest-history-user_data">
      * Cross-Collateral Interest History (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/interestHistory")
     public <T> T getCrossCollateralInterestHistory(ReturnFormat format) throws Exception {
@@ -1268,7 +1287,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-interest-history-user_data">
      * Cross-Collateral Interest History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/interestHistory")
@@ -1319,7 +1338,7 @@ public class BinanceFuturesManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-interest-history-user_data">
      * Cross-Collateral Interest History (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/futures/loan/interestHistory")

@@ -35,45 +35,45 @@ import java.util.List;
  *     </li>
  * </ul>
  * @see BinanceItem
- **/
+ */
 @Structure
 public abstract class PoolStructure extends BinanceItem {
 
     /**
      * {@code BSwapStatus} list of available BSwap statuses
-     **/
+     */
     public enum BSwapStatus {
 
         /**
          * {@code pending} BSwap status
-         **/
+         */
         pending(0),
 
         /**
          * {@code success} BSwap status
-         **/
+         */
         success(1),
 
         /**
          * {@code failed} BSwap status
-         **/
+         */
         failed(2);
 
         /**
          * {@code status} value
-         **/
+         */
         private final int status;
 
         /**
          * {@code VALUES} list of the statuses
-         **/
+         */
         private static final List<BSwapStatus> VALUES = Arrays.stream(BSwapStatus.values()).toList();
 
         /**
          * Constructor to init {@link BSwapStatus} object
          *
          * @param status: status value
-         **/
+         */
         BSwapStatus(int status) {
             this.status = status;
         }
@@ -83,7 +83,7 @@ public abstract class PoolStructure extends BinanceItem {
          * No-any params required
          *
          * @return {@link #status} instance as int
-         **/
+         */
         public int getStatus() {
             return status;
         }
@@ -93,7 +93,7 @@ public abstract class PoolStructure extends BinanceItem {
          *
          * @param status: status to reach
          * @return enum constant as {@link BSwapStatus}
-         **/
+         */
         public static BSwapStatus reachEnumConstant(int status) {
             return VALUES.get(status);
         }
@@ -103,7 +103,7 @@ public abstract class PoolStructure extends BinanceItem {
          * No-any params required
          *
          * @return {@link #status} instance as {@link String}
-         **/
+         */
         @Override
         public String toString() {
             return status + "";
@@ -113,29 +113,29 @@ public abstract class PoolStructure extends BinanceItem {
 
     /**
      * {@code PoolType} list of available pool types
-     **/
+     */
     public enum PoolType {
 
         /**
          * {@code SINGLE} pool type
-         **/
+         */
         SINGLE,
 
         /**
          * {@code COMBINATION} pool type
-         **/
+         */
         COMBINATION
 
     }
 
     /**
      * {@code poolId} id of the pool
-     **/
+     */
     protected final long poolId;
 
     /**
      * {@code poolName} name of the pool
-     **/
+     */
     protected final String poolName;
 
     /**
@@ -143,7 +143,7 @@ public abstract class PoolStructure extends BinanceItem {
      *
      * @param poolId:   id of the pool
      * @param poolName: name of the pool
-     **/
+     */
     public PoolStructure(long poolId, String poolName) {
         super(null);
         this.poolId = poolId;
@@ -154,7 +154,7 @@ public abstract class PoolStructure extends BinanceItem {
      * Constructor to init {@link PoolStructure} object
      *
      * @param jPoolStructure: pool structure details as {@link JSONObject}
-     **/
+     */
     public PoolStructure(JSONObject jPoolStructure) {
         super(jPoolStructure);
         poolId = hItem.getLong("poolId", 0);
@@ -166,7 +166,7 @@ public abstract class PoolStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #poolId} instance as long
-     **/
+     */
     public long getPoolId() {
         return poolId;
     }
@@ -176,7 +176,7 @@ public abstract class PoolStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #poolName} instance as {@link String}
-     **/
+     */
     public String getPoolName() {
         return poolName;
     }

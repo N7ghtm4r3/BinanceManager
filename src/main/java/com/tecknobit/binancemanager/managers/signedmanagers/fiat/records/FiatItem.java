@@ -24,70 +24,70 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *           Get Fiat Payments History (USER_DATA)</a>
  *     </li>
  * </ul>
- **/
+ */
 @Structure
 public abstract class FiatItem extends BinanceItem {
 
     /**
      * {@code FiatStatus} list of available fiat statuses
-     **/
+     */
     public enum FiatStatus {
 
         /**
          * {@code Expired} fiat status
-         **/
+         */
         Expired("Expired"),
 
         /**
          * {@code Processing} fiat status
-         **/
+         */
         Processing("Processing"),
 
         /**
          * {@code Failed} fiat status
-         **/
+         */
         Failed("Failed"),
 
         /**
          * {@code Successful} fiat status
-         **/
+         */
         Successful("Successful"),
 
         /**
          * {@code Finished} fiat status
-         **/
+         */
         Finished("Finished"),
 
         /**
          * {@code Refunding} fiat status
-         **/
+         */
         Refunding("Refunding"),
 
         /**
          * {@code Refunded} fiat status
-         **/
+         */
         Refunded("Refunded"),
 
         /**
          * {@code Refund Failed} fiat status
-         **/
+         */
         Refund_Failed("Refund Failed"),
 
         /**
          * {@code Order Partial credit Stopped} fiat status
-         **/
+         */
         Order_Partial_Credit_Stopped("Order Partial credit Stopped");
 
         /**
          * {@code status} of fiat item
-         **/
+         */
         private final String status;
 
         /**
          * Constructor to init {@link FiatStatus}
          *
          * @param status: fiat status
-         **/
+         */
         FiatStatus(String status) {
             this.status = status;
         }
@@ -97,7 +97,7 @@ public abstract class FiatItem extends BinanceItem {
          * No-any params required
          *
          * @return {@link #status} instance as {@link String}
-         **/
+         */
         @Override
         public String toString() {
             return status;
@@ -107,32 +107,32 @@ public abstract class FiatItem extends BinanceItem {
 
     /**
      * {@code orderNo} order number
-     **/
+     */
     protected final String orderNo;
 
     /**
      * {@code fiatCurrency} fiat token
-     **/
+     */
     protected final String fiatCurrency;
 
     /**
      * {@code totalFee} trade fee
-     **/
+     */
     protected final double totalFee;
 
     /**
      * {@code status} fiat item status
-     **/
+     */
     protected final FiatStatus status;
 
     /**
      * {@code createTime} creation time of the fiat item
-     **/
+     */
     protected final long createTime;
 
     /**
      * {@code updateTime} update time of the fiat item
-     **/
+     */
     protected final long updateTime;
 
     /**
@@ -144,7 +144,7 @@ public abstract class FiatItem extends BinanceItem {
      * @param status:       fiat item status
      * @param createTime:   creation time of the fiat item
      * @param updateTime:   update time of the fiat item
-     **/
+     */
     public FiatItem(String orderNo, String fiatCurrency, double totalFee, FiatStatus status, long createTime,
                     long updateTime) {
         super(null);
@@ -160,7 +160,7 @@ public abstract class FiatItem extends BinanceItem {
      * Constructor to init {@link FiatItem} object
      *
      * @param jFiatItem: fiat item details as {@link JSONObject}
-     **/
+     */
     public FiatItem(JSONObject jFiatItem) {
         super(jFiatItem);
         orderNo = hItem.getString("orderNo");
@@ -176,7 +176,7 @@ public abstract class FiatItem extends BinanceItem {
      * No-any params required
      *
      * @return {@link #orderNo} instance as {@link String}
-     **/
+     */
     public String getOrderNo() {
         return orderNo;
     }
@@ -186,7 +186,7 @@ public abstract class FiatItem extends BinanceItem {
      * No-any params required
      *
      * @return {@link #fiatCurrency} instance as {@link String}
-     **/
+     */
     public String getFiatCurrency() {
         return fiatCurrency;
     }
@@ -196,7 +196,7 @@ public abstract class FiatItem extends BinanceItem {
      * No-any params required
      *
      * @return {@link #totalFee} instance as double
-     **/
+     */
     public double getTotalFee() {
         return totalFee;
     }
@@ -207,7 +207,7 @@ public abstract class FiatItem extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #totalFee} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTotalFee(int decimals) {
         return roundValue(totalFee, decimals);
     }
@@ -217,7 +217,7 @@ public abstract class FiatItem extends BinanceItem {
      * No-any params required
      *
      * @return {@link #status} instance as {@link FiatStatus}
-     **/
+     */
     public FiatStatus getStatus() {
         return status;
     }
@@ -227,7 +227,7 @@ public abstract class FiatItem extends BinanceItem {
      * No-any params required
      *
      * @return {@link #createTime} instance as long
-     **/
+     */
     public long getCreateTime() {
         return createTime;
     }
@@ -237,7 +237,7 @@ public abstract class FiatItem extends BinanceItem {
      * No-any params required
      *
      * @return {@link #createTime} instance as {@link Date}
-     **/
+     */
     public Date getCreateDate() {
         return TimeFormatter.getDate(createTime);
     }
@@ -247,7 +247,7 @@ public abstract class FiatItem extends BinanceItem {
      * No-any params required
      *
      * @return {@link #updateTime} instance as long
-     **/
+     */
     public long getUpdateTime() {
         return updateTime;
     }
@@ -257,7 +257,7 @@ public abstract class FiatItem extends BinanceItem {
      * No-any params required
      *
      * @return {@link #updateTime} instance as {@link Date}
-     **/
+     */
     public Date getUdpateDate() {
         return TimeFormatter.getDate(updateTime);
     }

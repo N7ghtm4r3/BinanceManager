@@ -17,22 +17,22 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Get Pool Configure (USER_DATA)</a>
  * @see BinanceItem
  * @see PoolStructure
- **/
+ */
 public class PoolConfigure extends PoolStructure {
 
     /**
      * {@code updateTime} update time of the pool configure
-     **/
+     */
     private final long updateTime;
 
     /**
      * {@code liquidity} liquidity of the pool configure
-     **/
+     */
     private final LiquidityConfigure liquidity;
 
     /**
      * {@code configures} of the pool configure
-     **/
+     */
     private final ArrayList<AssetConfigure> configures;
 
     /**
@@ -43,7 +43,7 @@ public class PoolConfigure extends PoolStructure {
      * @param updateTime: update time of the pool configure
      * @param liquidity: liquidity of the pool configure
      * @param configures: configures of the pool configure
-     **/
+     */
     public PoolConfigure(long poolId, String poolName, long updateTime, LiquidityConfigure liquidity,
                          ArrayList<AssetConfigure> configures) {
         super(poolId, poolName);
@@ -56,7 +56,7 @@ public class PoolConfigure extends PoolStructure {
      * Constructor to init {@link PoolConfigure} object
      *
      * @param jPoolConfigure: pool configure details as {@link JSONObject}
-     **/
+     */
     public PoolConfigure(JSONObject jPoolConfigure) {
         super(jPoolConfigure);
         updateTime = hItem.getLong("updateTime", 0);
@@ -72,7 +72,7 @@ public class PoolConfigure extends PoolStructure {
      * No-any params required
      *
      * @return {@link #updateTime} instance as long
-     **/
+     */
     public long getUpdateTime() {
         return updateTime;
     }
@@ -82,7 +82,7 @@ public class PoolConfigure extends PoolStructure {
      * No-any params required
      *
      * @return {@link #updateTime} instance as {@link Date}
-     **/
+     */
     public Date getUpdateDate() {
         return TimeFormatter.getDate(updateTime);
     }
@@ -92,7 +92,7 @@ public class PoolConfigure extends PoolStructure {
      * No-any params required
      *
      * @return {@link #liquidity} instance as {@link LiquidityConfigure}
-     **/
+     */
     public LiquidityConfigure getLiquidity() {
         return liquidity;
     }
@@ -102,7 +102,7 @@ public class PoolConfigure extends PoolStructure {
      * No-any params required
      *
      * @return {@link #configures} instance as {@link ArrayList} of {@link AssetConfigure}
-     **/
+     */
     public ArrayList<AssetConfigure> getConfigures() {
         return configures;
     }
@@ -112,22 +112,22 @@ public class PoolConfigure extends PoolStructure {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class LiquidityConfigure extends BinanceItem {
 
         /**
          * {@code constantA} constant A of the liquidity configure
-         **/
+         */
         private final double constantA;
 
         /**
          * {@code minRedeemShare} min redeem share of the liquidity configure
-         **/
+         */
         private final double minRedeemShare;
 
         /**
          * {@code slippageTolerance} slippage tolerance of the liquidity configure
-         **/
+         */
         private final double slippageTolerance;
 
         /**
@@ -136,7 +136,7 @@ public class PoolConfigure extends PoolStructure {
          * @param constantA: constant A of the liquidity configure
          * @param minRedeemShare: min redeem share of the liquidity configure
          * @param slippageTolerance: slippage tolerance of the liquidity configure
-         **/
+         */
         public LiquidityConfigure(double constantA, double minRedeemShare, double slippageTolerance) {
             super(null);
             this.constantA = constantA;
@@ -148,7 +148,7 @@ public class PoolConfigure extends PoolStructure {
          * Constructor to init {@link LiquidityConfigure} object
          *
          * @param jConfigureLiquidity: liquidity configure details as {@link JSONObject}
-         **/
+         */
         public LiquidityConfigure(JSONObject jConfigureLiquidity) {
             super(jConfigureLiquidity);
             constantA = hItem.getDouble("constantA", 0);
@@ -161,7 +161,7 @@ public class PoolConfigure extends PoolStructure {
          * No-any params required
          *
          * @return {@link #constantA} instance as double
-         **/
+         */
         public double getConstantA() {
             return constantA;
         }
@@ -172,7 +172,7 @@ public class PoolConfigure extends PoolStructure {
          * @param decimals: number of digits to round final value
          * @return {@link #constantA} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getConstantA(int decimals) {
             return roundValue(constantA, decimals);
         }
@@ -182,7 +182,7 @@ public class PoolConfigure extends PoolStructure {
          * No-any params required
          *
          * @return {@link #minRedeemShare} instance as double
-         **/
+         */
         public double getMinRedeemShare() {
             return minRedeemShare;
         }
@@ -193,7 +193,7 @@ public class PoolConfigure extends PoolStructure {
          * @param decimals: number of digits to round final value
          * @return {@link #minRedeemShare} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getMinRedeemShare(int decimals) {
             return roundValue(minRedeemShare, decimals);
         }
@@ -203,7 +203,7 @@ public class PoolConfigure extends PoolStructure {
          * No-any params required
          *
          * @return {@link #slippageTolerance} instance as double
-         **/
+         */
         public double getSlippageTolerance() {
             return slippageTolerance;
         }
@@ -214,7 +214,7 @@ public class PoolConfigure extends PoolStructure {
          * @param decimals: number of digits to round final value
          * @return {@link #slippageTolerance} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getSlippageTolerance(int decimals) {
             return roundValue(slippageTolerance, decimals);
         }
@@ -226,32 +226,32 @@ public class PoolConfigure extends PoolStructure {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class AssetConfigure extends BinanceItem {
 
         /**
          * {@code asset} of the configuration
-         **/
+         */
         private final String asset;
 
         /**
          * {@code minAdd} min add of the asset configure
-         **/
+         */
         private final double minAdd;
 
         /**
          * {@code maxAdd} max add of the asset configure
-         **/
+         */
         private final double maxAdd;
 
         /**
          * {@code minSwap} min swap of the asset configure
-         **/
+         */
         private final double minSwap;
 
         /**
          * {@code maxSwap} max swap of the asset configure
-         **/
+         */
         private final double maxSwap;
 
         /**
@@ -262,7 +262,7 @@ public class PoolConfigure extends PoolStructure {
          * @param maxAdd: max add of the asset configure
          * @param minSwap: min swap of the asset configure
          * @param maxSwap: max swap of the asset configure
-         **/
+         */
         public AssetConfigure(String asset, double minAdd, double maxAdd, double minSwap, double maxSwap) {
             super(null);
             this.asset = asset;
@@ -276,7 +276,7 @@ public class PoolConfigure extends PoolStructure {
          * Constructor to init {@link AssetConfigure} object
          *
          * @param jAssetConfigure: asset configure details as {@link JSONObject}
-         **/
+         */
         public AssetConfigure(JSONObject jAssetConfigure) {
             super(jAssetConfigure);
             asset = hItem.getString("asset");
@@ -291,7 +291,7 @@ public class PoolConfigure extends PoolStructure {
          * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
-         **/
+         */
         public String getAsset() {
             return asset;
         }
@@ -301,7 +301,7 @@ public class PoolConfigure extends PoolStructure {
          * No-any params required
          *
          * @return {@link #minAdd} instance as double
-         **/
+         */
         public double getMinAdd() {
             return minAdd;
         }
@@ -312,7 +312,7 @@ public class PoolConfigure extends PoolStructure {
          * @param decimals: number of digits to round final value
          * @return {@link #minAdd} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getMinAdd(int decimals) {
             return roundValue(minAdd, decimals);
         }
@@ -322,7 +322,7 @@ public class PoolConfigure extends PoolStructure {
          * No-any params required
          *
          * @return {@link #maxAdd} instance as double
-         **/
+         */
         public double getMaxAdd() {
             return maxAdd;
         }
@@ -333,7 +333,7 @@ public class PoolConfigure extends PoolStructure {
          * @param decimals: number of digits to round final value
          * @return {@link #maxAdd} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getMaxAdd(int decimals) {
             return roundValue(maxAdd, decimals);
         }
@@ -343,7 +343,7 @@ public class PoolConfigure extends PoolStructure {
          * No-any params required
          *
          * @return {@link #minSwap} instance as double
-         **/
+         */
         public double getMinSwap() {
             return minSwap;
         }
@@ -354,7 +354,7 @@ public class PoolConfigure extends PoolStructure {
          * @param decimals: number of digits to round final value
          * @return {@link #minSwap} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getMinSwap(int decimals) {
             return roundValue(minSwap, decimals);
         }
@@ -364,7 +364,7 @@ public class PoolConfigure extends PoolStructure {
          * No-any params required
          *
          * @return {@link #maxSwap} instance as double
-         **/
+         */
         public double getMaxSwap() {
             return maxSwap;
         }
@@ -375,7 +375,7 @@ public class PoolConfigure extends PoolStructure {
          * @param decimals: number of digits to round final value
          * @return {@link #maxSwap} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getMaxSwap(int decimals) {
             return roundValue(maxSwap, decimals);
         }

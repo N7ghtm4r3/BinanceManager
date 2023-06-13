@@ -19,12 +19,12 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
  * Daily Account Snapshot (USER_DATA)</a>
  * @see AccountSnapshot
- **/
+ */
 public class SpotAccountSnapshot extends AccountSnapshot {
 
     /**
      * {@code assetsSpotData} is instance that memorizes list of {@link SpotData}
-     **/
+     */
     private ArrayList<SpotData> assetsSpotData;
 
     /**
@@ -34,7 +34,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
      * @param msg:            message of response
      * @param snapshotVos:    details as {@link JSONArray}
      * @param assetsSpotData: list of {@link SpotData}
-     **/
+     */
     public SpotAccountSnapshot(int code, String msg, JSONArray snapshotVos, ArrayList<SpotData> assetsSpotData) {
         super(code, msg, spot, snapshotVos);
         this.assetsSpotData = assetsSpotData;
@@ -47,7 +47,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
      * @param msg:         message of response
      * @param snapshotVos: details as {@link String}
      * @apiNote this constructor is useful to pass a {@code "JSON"} array in {@link String} format
-     **/
+     */
     public SpotAccountSnapshot(int code, String msg, String snapshotVos) {
         super(code, msg, spot, snapshotVos);
     }
@@ -59,7 +59,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
      * @param msg:         message of response
      * @param snapshotVos: details as {@link String}
      * @apiNote this constructor is useful to pass a {@code "JSON"} array in {@link String} format
-     **/
+     */
     public <T> SpotAccountSnapshot(int code, String msg, T snapshotVos) {
         super(code, msg, spot, snapshotVos);
     }
@@ -68,7 +68,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
      * Constructor to init {@link SpotAccountSnapshot} object
      *
      * @param spotAccount: futures account snapshot details as {@link JSONObject}
-     **/
+     */
     public SpotAccountSnapshot(JSONObject spotAccount) {
         super(spotAccount);
         assetsSpotData = new ArrayList<>();
@@ -81,7 +81,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
      *
      * @param jsonBalances: snapshotVos obtain by AccountSnapshot {@code "Binance"} request
      * @return list as {@link ArrayList} of {@link SpotBalance}
-     **/
+     */
     @Returner
     public static ArrayList<SpotBalance> getBalancesSpot(JSONArray jsonBalances) {
         ArrayList<SpotBalance> spotBalances = new ArrayList<>();
@@ -95,7 +95,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
      * No-any params required
      *
      * @return {@link #assetsSpotData} instance as {@link ArrayList} of {@link SpotData}
-     **/
+     */
     public ArrayList<SpotData> getAssetsSpotData() {
         return assetsSpotData;
     }
@@ -104,7 +104,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
      * Method to set {@link #assetsSpotData} instance <br>
      *
      * @param assetsSpotData: list of {@link SpotData} to set
-     **/
+     */
     public void setAssetsSpotData(ArrayList<SpotData> assetsSpotData) {
         this.assetsSpotData = assetsSpotData;
     }
@@ -113,7 +113,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
      * Method to add a spot data  to {@link #assetsSpotData}
      *
      * @param spotData: spot data to add
-     **/
+     */
     public void insertDataFuture(SpotData spotData) {
         if (!this.assetsSpotData.contains(spotData))
             this.assetsSpotData.add(spotData);
@@ -124,7 +124,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
      *
      * @param spotData: spot data  to remove
      * @return result of operation as boolean
-     **/
+     */
     public boolean removeDataFuture(SpotData spotData) {
         return assetsSpotData.remove(spotData);
     }
@@ -134,29 +134,29 @@ public class SpotAccountSnapshot extends AccountSnapshot {
      *
      * @param index: index to fetch the SpotData data
      * @return futures spot as {@link SpotData}
-     **/
+     */
     public SpotData getAssetSpotData(int index) {
         return assetsSpotData.get(index);
     }
 
     /**
      * The {@code SpotData} class is useful to create a spot data object
-     **/
+     */
     public static class SpotData {
 
         /**
          * {@code totalAssetOfBtc} is instance that memorizes total asset of Bitcoin
-         **/
+         */
         private double totalAssetOfBtc;
 
         /**
          * {@code updateTime} is instance that memorizes update time value
-         **/
+         */
         private long updateTime;
 
         /**
          * {@code spotBalances} is instance that memorizes list of {@link SpotBalance}
-         **/
+         */
         private ArrayList<SpotBalance> spotBalances;
 
         /**
@@ -166,7 +166,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          * @param updateTime:      update time value
          * @param spotBalances:    list of {@link SpotBalance}
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public SpotData(double totalAssetOfBtc, long updateTime, ArrayList<SpotBalance> spotBalances) {
             if (totalAssetOfBtc < 0)
                 throw new IllegalArgumentException("Total asset of BTC value cannot be less than 0");
@@ -184,7 +184,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          *
          * @param spotData: spot data details as {@link JSONObject}
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public SpotData(JSONObject spotData) {
             JsonHelper hSpotData = new JsonHelper(spotData);
             totalAssetOfBtc = hSpotData.getDouble("totalAssetOfBtc", 0);
@@ -201,7 +201,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          * No-any params required
          *
          * @return {@link #totalAssetOfBtc} instance as double
-         **/
+         */
         public double getTotalAssetOfBtc() {
             return totalAssetOfBtc;
         }
@@ -212,7 +212,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          * @param decimals: number of digits to round final value
          * @return {@link #totalAssetOfBtc} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getTotalAssetOfBtc(int decimals) {
             return roundValue(totalAssetOfBtc, decimals);
         }
@@ -222,7 +222,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          *
          * @param totalAssetOfBtc: total asset of Bitcoin
          * @throws IllegalArgumentException when total asset of Bitcoin value is less than 0
-         **/
+         */
         public void setTotalAssetOfBtc(double totalAssetOfBtc) {
             if (totalAssetOfBtc < 0)
                 throw new IllegalArgumentException("Total asset of BTC value cannot be less than 0");
@@ -234,7 +234,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          * No-any params required
          *
          * @return {@link #updateTime} instance as long
-         **/
+         */
         public long getUpdateTime() {
             return updateTime;
         }
@@ -244,7 +244,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          * No-any params required
          *
          * @return {@link #updateTime} instance as {@link Date}
-         **/
+         */
         public Date getUpdateDate() {
             return TimeFormatter.getDate(updateTime);
         }
@@ -254,7 +254,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          *
          * @param updateTime: update time value
          * @throws IllegalArgumentException when update time value is less than 0
-         **/
+         */
         public void setUpdateTime(long updateTime) {
             if (updateTime < 0)
                 throw new IllegalArgumentException("Update time value cannot be less than 0");
@@ -266,7 +266,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          * No-any params required
          *
          * @return {@link #spotBalances} instance as {@link ArrayList} of {@link SpotBalance}
-         **/
+         */
         public ArrayList<SpotBalance> getBalancesSpotList() {
             return spotBalances;
         }
@@ -275,7 +275,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          * Method to set {@link #spotBalances} instance <br>
          *
          * @param spotBalances: list of {@link SpotBalance} to set
-         **/
+         */
         public void setSpotBalancesList(ArrayList<SpotBalance> spotBalances) {
             this.spotBalances = spotBalances;
         }
@@ -284,7 +284,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          * Method to add a spot balance  to {@link #spotBalances}
          *
          * @param spotBalance: spot balance to add
-         **/
+         */
         public void insertSpotBalance(SpotBalance spotBalance) {
             if (!spotBalances.contains(spotBalance))
                 spotBalances.add(spotBalance);
@@ -295,7 +295,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          *
          * @param spotBalance: spot balance  to remove
          * @return result of operation as boolean
-         **/
+         */
         public boolean removeSpotBalance(SpotBalance spotBalance) {
             return spotBalances.remove(spotBalance);
         }
@@ -305,7 +305,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          *
          * @param index: index to fetch the spot balance
          * @return spot balance as {@link SpotBalance}
-         **/
+         */
         public SpotBalance getSpotBalance(int index) {
             return spotBalances.get(index);
         }
@@ -327,22 +327,22 @@ public class SpotAccountSnapshot extends AccountSnapshot {
      * The {@code SpotBalance} class is useful to format a spot balance
      *
      * @author N7ghtm4r3 - Tecknobit
-     **/
+     */
     public static class SpotBalance {
 
         /**
          * {@code asset} is instance that memorizes asset
-         **/
+         */
         protected final String asset;
 
         /**
          * {@code free} is instance that memorizes free amount of asset
-         **/
+         */
         protected double free;
 
         /**
          * {@code locked} is instance that memorizes amount locked for asset
-         **/
+         */
         protected double locked;
 
         /**
@@ -352,7 +352,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          * @param free:   free amount of asset
          * @param locked: amount locked for asset
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public SpotBalance(String asset, double free, double locked) {
             this.asset = asset;
             if (free < 0)
@@ -370,7 +370,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          *
          * @param balanceSpot: balance spot details as {@link JSONObject}
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public SpotBalance(JSONObject balanceSpot) {
             asset = balanceSpot.getString("asset");
             free = balanceSpot.getDouble("free");
@@ -386,7 +386,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
-         **/
+         */
         public String getAsset() {
             return asset;
         }
@@ -396,7 +396,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          * No-any params required
          *
          * @return {@link #free} instance as double
-         **/
+         */
         public double getFree() {
             return free;
         }
@@ -407,7 +407,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          * @param decimals: number of digits to round final value
          * @return {@link #free} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getFree(int decimals) {
             return roundValue(free, decimals);
         }
@@ -417,7 +417,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          *
          * @param free: free amount of asset
          * @throws IllegalArgumentException when free value is less than 0
-         **/
+         */
         public void setFree(double free) {
             if (free < 0)
                 throw new IllegalArgumentException("Free value cannot be less than 0");
@@ -429,7 +429,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          * No-any params required
          *
          * @return {@link #locked} instance as double
-         **/
+         */
         public double getLocked() {
             return locked;
         }
@@ -440,7 +440,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          * @param decimals: number of digits to round final value
          * @return {@link #locked} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getLocked(int decimals) {
             return roundValue(locked, decimals);
         }
@@ -450,7 +450,7 @@ public class SpotAccountSnapshot extends AccountSnapshot {
          *
          * @param locked: amount locked for asset
          * @throws IllegalArgumentException when amount locked value is less than 0
-         **/
+         */
         public void setLocked(double locked) {
             if (locked < 0)
                 throw new IllegalArgumentException("Locked value cannot be less than 0");

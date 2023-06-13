@@ -24,14 +24,14 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.mining.record
  * @see BinanceItem
  * @see BinanceManager.BinanceResponse
  * @see MiningResponse
- **/
+ */
 public class HashrateResaleList extends MiningResponse<HashrateResale> {
 
     /**
      * Constructor to init {@link HashrateResaleList} object
      *
      * @param data: hash rate resale list
-     **/
+     */
     public HashrateResaleList(HashrateResale data) {
         super(data);
     }
@@ -40,7 +40,7 @@ public class HashrateResaleList extends MiningResponse<HashrateResale> {
      * Constructor to init {@link HashrateResaleList} object
      *
      * @param jHashrateResaleList: hash rate resale list details as {@link JSONObject}
-     **/
+     */
     public HashrateResaleList(JSONObject jHashrateResaleList) {
         super(jHashrateResaleList);
         JSONObject jData = hItem.getJSONObject("data");
@@ -56,12 +56,12 @@ public class HashrateResaleList extends MiningResponse<HashrateResale> {
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see DataListItem
-     **/
+     */
     public static class HashrateResale extends DataListItem {
 
         /**
          * {@code configDetails} config details list
-         **/
+         */
         private final ArrayList<ConfigDetail> configDetails;
 
         /**
@@ -70,7 +70,7 @@ public class HashrateResaleList extends MiningResponse<HashrateResale> {
          * @param totalNum: total num of the config details
          * @param pageSize: page size of the config details
          * @param configDetails: config details list
-         **/
+         */
         public HashrateResale(int totalNum, int pageSize, ArrayList<ConfigDetail> configDetails) {
             super(totalNum, pageSize);
             this.configDetails = configDetails;
@@ -80,7 +80,7 @@ public class HashrateResaleList extends MiningResponse<HashrateResale> {
          * Constructor to init {@link HashrateResale} object
          *
          * @param jHashrateResale: hashrate resale details as {@link JSONObject}
-         **/
+         */
         public HashrateResale(JSONObject jHashrateResale) {
             super(jHashrateResale);
             configDetails = new ArrayList<>();
@@ -95,7 +95,7 @@ public class HashrateResaleList extends MiningResponse<HashrateResale> {
          * No-any params required
          *
          * @return {@link #configDetails} instance as {@link ArrayList} of {@link ConfigDetail}
-         **/
+         */
         public ArrayList<ConfigDetail> getConfigDetails() {
             return configDetails;
         }
@@ -106,44 +106,44 @@ public class HashrateResaleList extends MiningResponse<HashrateResale> {
          * @author N7ghtm4r3 - Tecknobit
          * @see BinanceItem
          * @see HashrateResaleStructure
-         **/
+         */
         public static class ConfigDetail extends HashrateResaleStructure {
 
             /**
              * {@code configDetails} list of available config statuses
-             **/
+             */
             public enum ConfigStatus {
 
                 /**
                  * {@code Processing} config status
-                 **/
+                 */
                 Processing(0),
 
                 /**
                  * {@code Cancelled} config status
-                 **/
+                 */
                 Cancelled(1),
 
                 /**
                  * {@code Terminated} config status
-                 **/
+                 */
                 Terminated(2);
 
                 /**
                  * {@code status} config status value
-                 **/
+                 */
                 private final int status;
 
                 /**
                  * {@code VALUES} list of the types
-                 **/
+                 */
                 private static final List<ConfigStatus> VALUES = Arrays.stream(ConfigStatus.values()).toList();
 
                 /**
                  * Constructor to init {@link ConfigStatus} object
                  *
                  * @param status: config status value
-                 **/
+                 */
                 ConfigStatus(int status) {
                     this.status = status;
                 }
@@ -153,7 +153,7 @@ public class HashrateResaleList extends MiningResponse<HashrateResale> {
                  * No-any params required
                  *
                  * @return {@link #status} instance as int
-                 **/
+                 */
                 public int getStatus() {
                     return status;
                 }
@@ -163,7 +163,7 @@ public class HashrateResaleList extends MiningResponse<HashrateResale> {
                  *
                  * @param value: value to reach
                  * @return enum constant as {@link Profit.ProfitStatus}
-                 **/
+                 */
                 public static ConfigStatus reachEnumConstant(int value) {
                     return VALUES.get(value);
                 }
@@ -173,7 +173,7 @@ public class HashrateResaleList extends MiningResponse<HashrateResale> {
                  * No-any params required
                  *
                  * @return {@link #status} instance as {@link String}
-                 **/
+                 */
                 @Override
                 public String toString() {
                     return status + "";
@@ -183,22 +183,22 @@ public class HashrateResaleList extends MiningResponse<HashrateResale> {
 
             /**
              * {@code configId} mining ID
-             **/
+             */
             private final long configId;
 
             /**
              * {@code startDay} start date
-             **/
+             */
             private final long startDay;
 
             /**
              * {@code endDay} end date
-             **/
+             */
             private final long endDay;
 
             /**
              * {@code status} config status value
-             **/
+             */
             private final ConfigStatus status;
 
             /**
@@ -212,7 +212,7 @@ public class HashrateResaleList extends MiningResponse<HashrateResale> {
              * @param startDay: start date
              * @param endDay: end date
              * @param status: config status value
-             **/
+             */
             public ConfigDetail(String poolUsername, String toPoolUsername, String algoName, long hashRate, long configId,
                                 long startDay, long endDay, ConfigStatus status) {
                 super(poolUsername, toPoolUsername, algoName, hashRate);
@@ -226,7 +226,7 @@ public class HashrateResaleList extends MiningResponse<HashrateResale> {
              * Constructor to init {@link ConfigDetail} object
              *
              * @param jConfigDetail: config detail as {@link JSONObject}
-             **/
+             */
             public ConfigDetail(JSONObject jConfigDetail) {
                 super(jConfigDetail);
                 configId = hItem.getLong("configId", 0);
@@ -240,7 +240,7 @@ public class HashrateResaleList extends MiningResponse<HashrateResale> {
              * No-any params required
              *
              * @return {@link #configId} instance as long
-             **/
+             */
             public long getConfigId() {
                 return configId;
             }
@@ -250,7 +250,7 @@ public class HashrateResaleList extends MiningResponse<HashrateResale> {
              * No-any params required
              *
              * @return {@link #startDay} instance as long
-             **/
+             */
             public long getStartDay() {
                 return startDay;
             }
@@ -260,7 +260,7 @@ public class HashrateResaleList extends MiningResponse<HashrateResale> {
              * No-any params required
              *
              * @return {@link #startDay} instance as {@link Date}
-             **/
+             */
             public Date getStartDayDate() {
                 return TimeFormatter.getDate(startDay);
             }
@@ -270,7 +270,7 @@ public class HashrateResaleList extends MiningResponse<HashrateResale> {
              * No-any params required
              *
              * @return {@link #endDay} instance as long
-             **/
+             */
             public long getEndDay() {
                 return endDay;
             }
@@ -280,7 +280,7 @@ public class HashrateResaleList extends MiningResponse<HashrateResale> {
              * No-any params required
              *
              * @return {@link #endDay} instance as {@link Date}
-             **/
+             */
             public Date getEndDayDate() {
                 return TimeFormatter.getDate(endDay);
             }
@@ -290,7 +290,7 @@ public class HashrateResaleList extends MiningResponse<HashrateResale> {
              * No-any params required
              *
              * @return {@link #status} instance as {@link ConfigStatus}
-             **/
+             */
             public ConfigStatus getStatus() {
                 return status;
             }

@@ -16,17 +16,17 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see BinanceItem
  * @see BinanceWebsocketResponse
  * @see WbsMarketItem
- **/
+ */
 public class WbsMiniTicker extends WbsMarketItem {
 
     /**
      * {@code totalTradedBaseAssetVolume} total traded base asset volume of the mini ticker
-     * **/
+     */
     protected final double totalTradedBaseAssetVolume;
 
     /**
      * {@code totalTradedQuoteAssetVolume} total traded quote asset volume of the mini ticker
-     * **/
+     */
     protected final double totalTradedQuoteAssetVolume;
 
     /**
@@ -41,7 +41,7 @@ public class WbsMiniTicker extends WbsMarketItem {
      * @param lowPrice : low price of the websocket mini ticker
      * @param totalTradedBaseAssetVolume : total traded base asset volume of the mini ticker
      * @param totalTradedQuoteAssetVolume : total traded quote asset volume of the mini ticker
-     **/
+     */
     public WbsMiniTicker(EventType eventType, long eventTime, String symbol, double closePrice, double openPrice,
                          double highPrice, double lowPrice, double totalTradedBaseAssetVolume,
                          double totalTradedQuoteAssetVolume) {
@@ -54,7 +54,7 @@ public class WbsMiniTicker extends WbsMarketItem {
      * Constructor to init {@link WbsMiniTicker} object
      *
      * @param jWbsMiniTicker : websocket mini ticker details as {@link JSONObject}
-     **/
+     */
     public WbsMiniTicker(JSONObject jWbsMiniTicker) {
         super(jWbsMiniTicker);
         totalTradedBaseAssetVolume = hItem.getDouble("v", 0);
@@ -66,7 +66,7 @@ public class WbsMiniTicker extends WbsMarketItem {
      * No-any params required
      *
      * @return {@link #totalTradedBaseAssetVolume} instance as double
-     **/
+     */
     public double getTotalTradedBaseAssetVolume() {
         return totalTradedBaseAssetVolume;
     }
@@ -77,7 +77,7 @@ public class WbsMiniTicker extends WbsMarketItem {
      * @param decimals: number of digits to round final value
      * @return {@link #totalTradedBaseAssetVolume} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTotalTradedBaseAssetVolume(int decimals) {
         return roundValue(totalTradedBaseAssetVolume, decimals);
     }
@@ -87,7 +87,7 @@ public class WbsMiniTicker extends WbsMarketItem {
      * No-any params required
      *
      * @return {@link #totalTradedQuoteAssetVolume} instance as double
-     **/
+     */
     public double getTotalTradedQuoteAssetVolume() {
         return totalTradedQuoteAssetVolume;
     }
@@ -98,7 +98,7 @@ public class WbsMiniTicker extends WbsMarketItem {
      * @param decimals: number of digits to round final value
      * @return {@link #totalTradedQuoteAssetVolume} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTotalTradedQuoteAssetVolume(int decimals) {
         return roundValue(totalTradedQuoteAssetVolume, decimals);
     }

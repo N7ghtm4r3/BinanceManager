@@ -31,17 +31,17 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.algo.records.
  * </ul>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
 
     /**
      * {@code executedQty} executed quantity of the orders list
-     **/
+     */
     private final double executedQty;
 
     /**
      * {@code executedAmt} executed amount of the orders list
-     **/
+     */
     private final double executedAmt;
 
     /**
@@ -51,7 +51,7 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
      * @param subOrders :  list of the orders
      * @param executedQty     : executed quantity of the orders list
      * @param executedAmt :  executed amount of the orders list
-     **/
+     */
     public SubAlgoOrdersList(int total, ArrayList<SubAlgoOrder> subOrders, double executedQty, double executedAmt) {
         super(total, subOrders);
         this.executedQty = executedQty;
@@ -62,7 +62,7 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
      * Constructor to init {@link SubAlgoOrdersList}
      *
      * @param jSubAlgoOrdersList : orders list details as {@link JSONObject}
-     **/
+     */
     public SubAlgoOrdersList(JSONObject jSubAlgoOrdersList) {
         super(jSubAlgoOrdersList);
         executedQty = hItem.getDouble("executedQty", 0);
@@ -76,7 +76,7 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
      * No-any params required
      *
      * @return {@link #executedQty} instance as double
-     **/
+     */
     public double getExecutedQty() {
         return executedQty;
     }
@@ -87,7 +87,7 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
      * @param decimals: number of digits to round final value
      * @return {@link #executedQty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getExecutedQty(int decimals) {
         return roundValue(executedQty, decimals);
     }
@@ -97,7 +97,7 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
      * No-any params required
      *
      * @return {@link #executedAmt} instance as double
-     **/
+     */
     public double getExecutedAmt() {
         return executedAmt;
     }
@@ -108,7 +108,7 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
      * @param decimals: number of digits to round final value
      * @return {@link #executedAmt} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getExecutedAmt(int decimals) {
         return roundValue(executedAmt, decimals);
     }
@@ -119,7 +119,7 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
      * @param algoOrdersResponse: obtained from Binance's response
      * @param format:             return type formatter -> {@link ReturnFormat}
      * @return sub algo orders list as {@code "format"} defines
-     **/
+     */
     @Returner
     public static <T> T returnSubAlgoOrders(String algoOrdersResponse, ReturnFormat format) {
         switch (format) {
@@ -138,42 +138,42 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see AlgoOrderStructure
-     **/
+     */
     public static class SubAlgoOrder extends AlgoOrderStructure {
 
         /**
          * {@code orderId} id of the sub algo order
-         **/
+         */
         private final long orderId;
 
         /**
          * {@code orderStatus} status of the sub algo order
-         **/
+         */
         private final Status orderStatus;
 
         /**
          * {@code feeAmt} fee amount of the sub algo order
-         **/
+         */
         private final double feeAmt;
 
         /**
          * {@code feeAsset} fee asset of the sub algo order
-         **/
+         */
         private final String feeAsset;
 
         /**
          * {@code subId} sub id of the sub algo order
-         **/
+         */
         private final long subId;
 
         /**
          * {@code timeInForce} time in force of the sub algo order
-         **/
+         */
         private final TimeInForce timeInForce;
 
         /**
          * {@code origQty} origin quantity of the sub algo order
-         **/
+         */
         private final double origQty;
 
         /**
@@ -193,7 +193,7 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
          * @param subId       : sub id of the sub algo order
          * @param timeInForce : time in force of the sub algo order
          * @param origQty     : origin quantity of the sub algo order
-         **/
+         */
         public SubAlgoOrder(long algoId, String symbol, Order.Side side, double executedQty, double executedAmt,
                             double avgPrice, long bookTime, long orderId, Status orderStatus, double feeAmt,
                             String feeAsset, long subId, TimeInForce timeInForce, double origQty) {
@@ -211,7 +211,7 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
          * Constructor to init {@link SubAlgoOrder}
          *
          * @param jSubAlgoOrder : sub algo order details as {@link JSONObject}
-         **/
+         */
         public SubAlgoOrder(JSONObject jSubAlgoOrder) {
             super(jSubAlgoOrder);
             orderId = hItem.getLong("orderId", 0);
@@ -228,7 +228,7 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
          * No-any params required
          *
          * @return {@link #orderId} instance as long
-         **/
+         */
         public long getOrderId() {
             return orderId;
         }
@@ -238,7 +238,7 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
          * No-any params required
          *
          * @return {@link #orderStatus} instance as {@link Status}
-         **/
+         */
         public Status getOrderStatus() {
             return orderStatus;
         }
@@ -248,7 +248,7 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
          * No-any params required
          *
          * @return {@link #feeAmt} instance as double
-         **/
+         */
         public double getFeeAmt() {
             return feeAmt;
         }
@@ -259,7 +259,7 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
          * @param decimals: number of digits to round final value
          * @return {@link #feeAmt} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getFeeAmt(int decimals) {
             return roundValue(feeAmt, decimals);
         }
@@ -269,7 +269,7 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
          * No-any params required
          *
          * @return {@link #feeAsset} instance as {@link String}
-         **/
+         */
         public String getFeeAsset() {
             return feeAsset;
         }
@@ -279,7 +279,7 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
          * No-any params required
          *
          * @return {@link #subId} instance as long
-         **/
+         */
         public long getSubId() {
             return subId;
         }
@@ -289,7 +289,7 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
          * No-any params required
          *
          * @return {@link #timeInForce} instance as {@link TimeInForce}
-         **/
+         */
         public TimeInForce getTimeInForce() {
             return timeInForce;
         }
@@ -299,7 +299,7 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
          * No-any params required
          *
          * @return {@link #origQty} instance as double
-         **/
+         */
         public double getOrigQty() {
             return origQty;
         }
@@ -310,7 +310,7 @@ public class SubAlgoOrdersList extends BinanceRowsList<SubAlgoOrder> {
          * @param decimals: number of digits to round final value
          * @return {@link #origQty} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getOrigQty(int decimals) {
             return roundValue(origQty, decimals);
         }

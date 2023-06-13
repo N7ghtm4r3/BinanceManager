@@ -17,23 +17,23 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see BinanceItem
  * @see SavingStructure
  * @see SavingRecordStructure
- **/
+ */
 @Structure
 public abstract class RedemptionRecord extends SavingRecordStructure {
 
     /**
      * {@code principal} of the redemption record
-     **/
+     */
     protected final double principal;
 
     /**
      * {@code projectId} project id of the redemption record
-     **/
+     */
     protected final String projectId;
 
     /**
      * {@code projectName} project name of the redemption record
-     **/
+     */
     protected final String projectName;
 
     /**
@@ -46,7 +46,7 @@ public abstract class RedemptionRecord extends SavingRecordStructure {
      * @param principal:   principal of the redemption record
      * @param projectId:   project id of the redemption record
      * @param projectName: project name of the redemption record
-     **/
+     */
     public RedemptionRecord(String asset, double amount, long createTime, String status, double principal,
                             String projectId, String projectName) {
         super(asset, amount, createTime, status);
@@ -59,7 +59,7 @@ public abstract class RedemptionRecord extends SavingRecordStructure {
      * Constructor to init {@link RedemptionRecord} object
      *
      * @param jRedemptionRecord: redemption record detailS as {@link JSONObject}
-     **/
+     */
     public RedemptionRecord(JSONObject jRedemptionRecord) {
         super(jRedemptionRecord);
         principal = hItem.getDouble("principal", 0);
@@ -72,7 +72,7 @@ public abstract class RedemptionRecord extends SavingRecordStructure {
      * No-any params required
      *
      * @return {@link #principal} instance as double
-     **/
+     */
     public double getPrincipal() {
         return principal;
     }
@@ -83,7 +83,7 @@ public abstract class RedemptionRecord extends SavingRecordStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #principal} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getPrincipal(int decimals) {
         return roundValue(principal, decimals);
     }
@@ -93,7 +93,7 @@ public abstract class RedemptionRecord extends SavingRecordStructure {
      * No-any params required
      *
      * @return {@link #projectId} instance as {@link String}
-     **/
+     */
     public String getProjectId() {
         return projectId;
     }
@@ -103,7 +103,7 @@ public abstract class RedemptionRecord extends SavingRecordStructure {
      * No-any params required
      *
      * @return {@link #projectName} instance as {@link String}
-     **/
+     */
     public String getProjectName() {
         return projectName;
     }

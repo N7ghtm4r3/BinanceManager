@@ -12,44 +12,44 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-staking-product-list-user_data">
  * Get Staking Product List(USER_DATA)</a>
  * @see BinanceItem
- **/
+ */
 public class StakingProduct extends BinanceItem {
 
     /**
      * {@code ProductType} list of available product types
-     **/
+     */
     public enum ProductType {
 
         /**
          * {@code STAKING} product type
-         **/
+         */
         STAKING,
 
         /**
          * {@code F_DEFI} product type
-         **/
+         */
         F_DEFI,
 
         /**
          * {@code L_DEFI} product type
-         **/
+         */
         L_DEFI
 
     }
 
     /**
      * {@code projectId} project id of the staking product
-     **/
+     */
     private final String projectId;
 
     /**
      * {@code detail} of the staking product
-     **/
+     */
     private final StakingDetail detail;
 
     /**
      * {@code quota} of the staking product
-     **/
+     */
     private final StakingQuota quota;
 
     /**
@@ -58,7 +58,7 @@ public class StakingProduct extends BinanceItem {
      * @param projectId: project id of the staking product
      * @param detail:    detail of the staking product
      * @param quota:     quota of the staking product
-     **/
+     */
     public StakingProduct(String projectId, StakingDetail detail, StakingQuota quota) {
         super(null);
         this.projectId = projectId;
@@ -70,7 +70,7 @@ public class StakingProduct extends BinanceItem {
      * Constructor to init {@link StakingProduct} object
      *
      * @param jStakingProduct: staking product details as {@link JSONObject}
-     **/
+     */
     public StakingProduct(JSONObject jStakingProduct) {
         super(jStakingProduct);
         projectId = hItem.getString("projectId");
@@ -83,7 +83,7 @@ public class StakingProduct extends BinanceItem {
      * No-any params required
      *
      * @return {@link #projectId} instance as {@link String}
-     **/
+     */
     public String getProjectId() {
         return projectId;
     }
@@ -93,7 +93,7 @@ public class StakingProduct extends BinanceItem {
      * No-any params required
      *
      * @return {@link #detail} instance as {@link StakingDetail}
-     **/
+     */
     public StakingDetail getDetail() {
         return detail;
     }
@@ -103,7 +103,7 @@ public class StakingProduct extends BinanceItem {
      * No-any params required
      *
      * @return {@link #quota} instance as {@link StakingQuota}
-     **/
+     */
     public StakingQuota getQuota() {
         return quota;
     }
@@ -113,32 +113,32 @@ public class StakingProduct extends BinanceItem {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class StakingDetail extends BinanceItem {
 
         /**
          * {@code asset} lock up asset
-         **/
+         */
         protected final String asset;
 
         /**
          * {@code rewardAsset} earn Asset
-         **/
+         */
         protected final String rewardAsset;
 
         /**
          * {@code duration} lock period(days)
-         **/
+         */
         protected final int duration;
 
         /**
          * {@code renewable} project supports renewal
-         **/
+         */
         protected final boolean renewable;
 
         /**
          * {@code apy} value of the staking product
-         **/
+         */
         protected final double apy;
 
         /**
@@ -149,7 +149,7 @@ public class StakingProduct extends BinanceItem {
          * @param duration:    lock period(days)
          * @param renewable:   project supports renewal
          * @param apy:         value of the staking product
-         **/
+         */
         public StakingDetail(String asset, String rewardAsset, int duration, boolean renewable, double apy) {
             super(null);
             this.asset = asset;
@@ -163,7 +163,7 @@ public class StakingProduct extends BinanceItem {
          * Constructor to init {@link StakingDetail} object
          *
          * @param jStakingDetail: staking details as {@link JSONObject}
-         **/
+         */
         public StakingDetail(JSONObject jStakingDetail) {
             super(jStakingDetail);
             asset = hItem.getString("asset");
@@ -181,7 +181,7 @@ public class StakingProduct extends BinanceItem {
          * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
-         **/
+         */
         public String getAsset() {
             return asset;
         }
@@ -191,7 +191,7 @@ public class StakingProduct extends BinanceItem {
          * No-any params required
          *
          * @return {@link #rewardAsset} instance as {@link String}
-         **/
+         */
         public String getRewardAsset() {
             return rewardAsset;
         }
@@ -201,7 +201,7 @@ public class StakingProduct extends BinanceItem {
          * No-any params required
          *
          * @return {@link #duration} instance as int
-         **/
+         */
         public int getDuration() {
             return duration;
         }
@@ -211,7 +211,7 @@ public class StakingProduct extends BinanceItem {
          * No-any params required
          *
          * @return {@link #renewable} instance as boolean
-         **/
+         */
         public boolean isRenewable() {
             return renewable;
         }
@@ -221,7 +221,7 @@ public class StakingProduct extends BinanceItem {
          * No-any params required
          *
          * @return {@link #apy} instance as double
-         **/
+         */
         public double getApy() {
             return apy;
         }
@@ -232,7 +232,7 @@ public class StakingProduct extends BinanceItem {
          * @param decimals: number of digits to round final value
          * @return {@link #apy} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getApy(int decimals) {
             return roundValue(apy, decimals);
         }
@@ -244,17 +244,17 @@ public class StakingProduct extends BinanceItem {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class StakingQuota extends BinanceItem {
 
         /**
          * {@code totalPersonalQuota} total Personal quota
-         **/
+         */
         private final double totalPersonalQuota;
 
         /**
          * {@code minimum} minimum amount per order
-         **/
+         */
         private final double minimum;
 
         /**
@@ -262,7 +262,7 @@ public class StakingProduct extends BinanceItem {
          *
          * @param totalPersonalQuota: total Personal quota
          * @param minimum:            minimum amount per order
-         **/
+         */
         public StakingQuota(double totalPersonalQuota, double minimum) {
             super(null);
             this.totalPersonalQuota = totalPersonalQuota;
@@ -273,7 +273,7 @@ public class StakingProduct extends BinanceItem {
          * Constructor to init {@link StakingQuota} object
          *
          * @param jStakingQuota: staking quota details as {@link JSONObject}
-         **/
+         */
         public StakingQuota(JSONObject jStakingQuota) {
             super(jStakingQuota);
             totalPersonalQuota = hItem.getDouble("totalPersonalQuota", 0);
@@ -285,7 +285,7 @@ public class StakingProduct extends BinanceItem {
          * No-any params required
          *
          * @return {@link #totalPersonalQuota} instance as double
-         **/
+         */
         public double getTotalPersonalQuota() {
             return totalPersonalQuota;
         }
@@ -296,7 +296,7 @@ public class StakingProduct extends BinanceItem {
          * @param decimals: number of digits to round final value
          * @return {@link #totalPersonalQuota} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getTotalPersonalQuota(int decimals) {
             return roundValue(totalPersonalQuota, decimals);
         }
@@ -306,7 +306,7 @@ public class StakingProduct extends BinanceItem {
          * No-any params required
          *
          * @return {@link #minimum} instance as double
-         **/
+         */
         public double getMinimum() {
             return minimum;
         }
@@ -317,7 +317,7 @@ public class StakingProduct extends BinanceItem {
          * @param decimals: number of digits to round final value
          * @return {@link #minimum} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getMinimum(int decimals) {
             return roundValue(minimum, decimals);
         }

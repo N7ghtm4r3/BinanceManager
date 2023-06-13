@@ -17,22 +17,22 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Payload: Balance Update</a>
  * @see BinanceItem
  * @see BinanceWebsocketResponse
- **/
+ */
 public class BalanceUpdate extends BinanceWebsocketResponse {
 
     /**
      * {@code asset} of the balance update
-     **/
+     */
     private final String asset;
 
     /**
      * {@code balanceDelta} balance delta of the balance update
-     **/
+     */
     private final double balanceDelta;
 
     /**
      * {@code clearTime} clear time of the balance update
-     **/
+     */
     private final long clearTime;
 
     /**
@@ -43,7 +43,7 @@ public class BalanceUpdate extends BinanceWebsocketResponse {
      * @param asset:        asset of the balance update
      * @param balanceDelta: balance delta of the balance update
      * @param clearTime:    clear time of the balance update
-     **/
+     */
     public BalanceUpdate(EventType eventType, long eventTime, String asset, double balanceDelta, long clearTime) {
         super(eventType, eventTime);
         this.asset = asset;
@@ -55,7 +55,7 @@ public class BalanceUpdate extends BinanceWebsocketResponse {
      * Constructor to init {@link BalanceUpdate} object
      *
      * @param jBalanceUpdate: balance update details as {@link JSONObject}
-     **/
+     */
     public BalanceUpdate(JSONObject jBalanceUpdate) {
         super(jBalanceUpdate);
         asset = hItem.getString("a");
@@ -68,7 +68,7 @@ public class BalanceUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #asset} instance as {@link String}
-     **/
+     */
     public String getAsset() {
         return asset;
     }
@@ -78,7 +78,7 @@ public class BalanceUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #balanceDelta} instance as double
-     **/
+     */
     public double getBalanceDelta() {
         return balanceDelta;
     }
@@ -89,7 +89,7 @@ public class BalanceUpdate extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #balanceDelta} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBalanceDelta(int decimals) {
         return roundValue(balanceDelta, decimals);
     }
@@ -99,7 +99,7 @@ public class BalanceUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #clearTime} instance as long
-     **/
+     */
     public long getClearTime() {
         return clearTime;
     }
@@ -109,7 +109,7 @@ public class BalanceUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #clearTime} instance as {@link Date}
-     **/
+     */
     public Date getClearDate() {
         return TimeFormatter.getDate(clearTime);
     }

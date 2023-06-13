@@ -36,42 +36,42 @@ import static com.tecknobit.binancemanager.managers.records.websocketstream.Bina
  * @see BinanceManager
  * @see BinanceSignedManager
  * @see BinanceWebsocketManager
- **/
+ */
 public class BinanceBLVTManager extends BinanceWebsocketManager {
 
     /**
      * {@code BLVT_TOKEN_INFO_ENDPOINT} is constant for BLVT_TOKEN_INFO_ENDPOINT's endpoint
-     **/
+     */
     public static final String BLVT_TOKEN_INFO_ENDPOINT = "/sapi/v1/blvt/tokenInfo";
 
     /**
      * {@code BLVT_SUBSCRIBE_ENDPOINT} is constant for BLVT_SUBSCRIBE_ENDPOINT's endpoint
-     **/
+     */
     public static final String BLVT_SUBSCRIBE_ENDPOINT = "/sapi/v1/blvt/subscribe";
 
     /**
      * {@code BLVT_SUBSCRIBE_RECORD_ENDPOINT} is constant for BLVT_SUBSCRIBE_RECORD_ENDPOINT's endpoint
-     **/
+     */
     public static final String BLVT_SUBSCRIBE_RECORD_ENDPOINT = BLVT_SUBSCRIBE_ENDPOINT + "/record";
 
     /**
      * {@code BLVT_REDEEM_ENDPOINT} is constant for BLVT_REDEEM_ENDPOINT's endpoint
-     **/
+     */
     public static final String BLVT_REDEEM_ENDPOINT = "/sapi/v1/blvt/redeem";
 
     /**
      * {@code BLVT_REDEEM_RECORD_ENDPOINT} is constant for BLVT_REDEEM_RECORD_ENDPOINT's endpoint
-     **/
+     */
     public static final String BLVT_REDEEM_RECORD_ENDPOINT = BLVT_REDEEM_ENDPOINT + "/record";
 
     /**
      * {@code BLVT_USER_LIMIT_ENDPOINT} is constant for BLVT_USER_LIMIT_ENDPOINT's endpoint
-     **/
+     */
     public static final String BLVT_USER_LIMIT_ENDPOINT = "/sapi/v1/blvt/userLimit";
 
     /**
      * {@code BLVT_WEBSOCKET_STREAM_ENDPOINT} is constant for BLVT_WEBSOCKET_STREAM_ENDPOINT's endpoint
-     **/
+     */
     public static final String BLVT_WEBSOCKET_STREAM_ENDPOINT = "wss://nbstream.binance.com/lvt-p";
 
     /**
@@ -82,7 +82,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceBLVTManager(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
                               String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
@@ -95,7 +95,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceBLVTManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
                               String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, apiKey, secretKey);
@@ -108,7 +108,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceBLVTManager(String baseEndpoint, int timeout, String apiKey,
                               String secretKey) throws SystemException, IOException {
         super(baseEndpoint, timeout, apiKey, secretKey);
@@ -120,7 +120,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceBLVTManager(String baseEndpoint, String apiKey, String secretKey) throws SystemException, IOException {
         super(baseEndpoint, apiKey, secretKey);
     }
@@ -140,7 +140,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *        BinanceSignedManager secondManager = new BinanceSignedManager(); //same credentials used
      *     }
      * </pre>
-     **/
+     */
     public BinanceBLVTManager() {
         super();
     }
@@ -164,7 +164,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-blvt-info-market_data">
      * Get BLVT Info (MARKET_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/tokenInfo")
@@ -191,7 +191,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-blvt-info-market_data">
      * Get BLVT Info (MARKET_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/tokenInfo")
     public <T> T getBLVTInfo(ReturnFormat format) throws Exception {
@@ -217,7 +217,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-blvt-info-market_data">
      * Get BLVT Info (MARKET_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/tokenInfo")
@@ -245,7 +245,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-blvt-info-market_data">
      * Get BLVT Info (MARKET_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/tokenInfo")
@@ -290,7 +290,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#subscribe-blvt-user_data">
      * Subscribe BLVT (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -320,7 +320,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#subscribe-blvt-user_data">
      * Subscribe BLVT (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/subscribe")
@@ -348,7 +348,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#subscribe-blvt-user_data">
      * Subscribe BLVT (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/subscribe")
@@ -377,7 +377,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#subscribe-blvt-user_data">
      * Subscribe BLVT (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/subscribe")
     public <T> T subscribeBLVT(String tokenName, double cost, ReturnFormat format) throws Exception {
@@ -405,7 +405,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#subscribe-blvt-user_data">
      * Subscribe BLVT (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -436,7 +436,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#subscribe-blvt-user_data">
      * Subscribe BLVT (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/subscribe")
@@ -465,7 +465,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#subscribe-blvt-user_data">
      * Subscribe BLVT (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/subscribe")
@@ -495,7 +495,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#subscribe-blvt-user_data">
      * Subscribe BLVT (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/subscribe")
@@ -535,7 +535,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-subscription-record-user_data">
      * Query Subscription Record (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/subscribe/record")
@@ -562,7 +562,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-subscription-record-user_data">
      * Query Subscription Record (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/subscribe/record")
     public <T> T getBLVTSubscriptions(ReturnFormat format) throws Exception {
@@ -608,7 +608,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-subscription-record-user_data">
      * Query Subscription Record (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/subscribe/record")
@@ -656,7 +656,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-subscription-record-user_data">
      * Query Subscription Record (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/subscribe/record")
@@ -697,7 +697,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-blvt-user_data">
      * Redeem BLVT (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -727,7 +727,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-blvt-user_data">
      * Redeem BLVT (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/redeem")
@@ -755,7 +755,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-blvt-user_data">
      * Redeem BLVT (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/redeem")
@@ -784,7 +784,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-blvt-user_data">
      * Redeem BLVT (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/redeem")
     public <T> T redeemBLVT(String tokenName, double amount, ReturnFormat format) throws Exception {
@@ -812,7 +812,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-blvt-user_data">
      * Redeem BLVT (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -843,7 +843,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-blvt-user_data">
      * Redeem BLVT (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/redeem")
@@ -872,7 +872,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-blvt-user_data">
      * Redeem BLVT (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/redeem")
@@ -902,7 +902,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-blvt-user_data">
      * Redeem BLVT (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/blvt/redeem")
@@ -942,7 +942,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-redemption-record-user_data">
      * Query Redemption Record (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/redeem/record")
@@ -969,7 +969,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-redemption-record-user_data">
      * Query Redemption Record (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/redeem/record")
     public <T> T getBLVTRedemptions(ReturnFormat format) throws Exception {
@@ -1015,7 +1015,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-redemption-record-user_data">
      * Query Redemption Record (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/redeem/record")
@@ -1063,7 +1063,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-redemption-record-user_data">
      * Query Redemption Record (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/redeem/record")
@@ -1103,7 +1103,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-blvt-user-limit-info-user_data">
      * Get BLVT User Limit Info (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/userLimit")
@@ -1130,7 +1130,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-blvt-user-limit-info-user_data">
      * Get BLVT User Limit Info (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/userLimit")
     public <T> T getBLVTUserLimitInfo(ReturnFormat format) throws Exception {
@@ -1164,7 +1164,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-blvt-user-limit-info-user_data">
      * Get BLVT User Limit Info (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/userLimit")
@@ -1200,7 +1200,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-blvt-user-limit-info-user_data">
      * Get BLVT User Limit Info (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/blvt/userLimit")
@@ -1239,7 +1239,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#websocket-blvt-info-streams">
      * Websocket BLVT Info Streams</a>
-     **/
+     */
     @Wrapper
     @RequestPath(method = GET, path = "wss://nbstream.binance.com/lvt-p<tokenName>@tokenNav")
     public void startWbsBLVTInfoStream(BLVTStructure token) throws Exception {
@@ -1264,7 +1264,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#websocket-blvt-info-streams">
      * Websocket BLVT Info Streams</a>
-     **/
+     */
     @Wrapper
     @RequestPath(method = GET, path = "wss://nbstream.binance.com/lvt-p<tokenName>@tokenNav")
     public void startWbsBLVTInfoStream(String tokenName) throws Exception {
@@ -1287,7 +1287,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *         {@link #startWbsBLVTInfoStream(String)}
      *     </li>
      * </ul>
-     **/
+     */
     @Wrapper
     public WbsBLVTInfo getWbsBLVTInfo() {
         return getWbsBLVTInfo(LIBRARY_OBJECT);
@@ -1309,7 +1309,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *         {@link #startWbsBLVTInfoStream(String)}
      *     </li>
      * </ul>
-     **/
+     */
     @Returner
     public <T> T getWbsBLVTInfo(ReturnFormat format) {
         waitCorrectResponse(nav);
@@ -1342,7 +1342,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#websocket-blvt-nav-kline-candlestick-streams">
      * Websocket BLVT NAV Kline/Candlestick Streams</a>
-     **/
+     */
     @Wrapper
     @RequestPath(method = GET, path = "wss://nbstream.binance.com/lvt-p<tokenName>@nav_kline_<interval>")
     public void startWbsBLVTCandlestickStream(BLVTStructure token, Interval interval) throws Exception {
@@ -1368,7 +1368,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#websocket-blvt-nav-kline-candlestick-streams">
      * Websocket BLVT NAV Kline/Candlestick Streams</a>
-     **/
+     */
     @RequestPath(method = GET, path = "wss://nbstream.binance.com/lvt-p<tokenName>@nav_kline_<interval>")
     public void startWbsBLVTCandlestickStream(String tokenName, Interval interval) throws Exception {
         startWebsocket(BLVT_WEBSOCKET_STREAM_ENDPOINT + tokenName.toUpperCase() + "@nav_kline_" + interval);
@@ -1390,7 +1390,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *         {@link #startWbsBLVTCandlestickStream(String, Interval)} (String)}
      *     </li>
      * </ul>
-     **/
+     */
     @Wrapper
     public WbsBLVTCandlestick getWbsBLVTCandlestick() {
         return getWbsBLVTCandlestick(LIBRARY_OBJECT);
@@ -1412,7 +1412,7 @@ public class BinanceBLVTManager extends BinanceWebsocketManager {
      *         {@link #startWbsBLVTCandlestickStream(String, Interval)} (String)}
      *     </li>
      * </ul>
-     **/
+     */
     @Returner
     public <T> T getWbsBLVTCandlestick(ReturnFormat format) {
         waitCorrectResponse(kline);

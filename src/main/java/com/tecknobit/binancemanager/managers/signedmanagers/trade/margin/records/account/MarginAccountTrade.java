@@ -13,47 +13,47 @@ import java.util.Date;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-isolated-margin-account-trade">
  * Enable Isolated Margin Account (TRADE)</a>
  * @see Fill
- **/
+ */
 public class MarginAccountTrade extends Fill {
 
     /**
      * {@code id} is instance that memorizes identifier of margin account trade
-     * **/
+     */
     private final long id;
 
     /**
      * {@code isBestMatch} is instance that memorizes if is best match of the margin account trade
-     * **/
+     */
     private boolean isBestMatch;
 
     /**
      * {@code isBuyer} is instance that memorizes if is buyer of margin account trade
-     * **/
+     */
     private boolean isBuyer;
 
     /**
      * {@code isMaker} is instance that memorizes if is maker of margin account trade
-     * **/
+     */
     private boolean isMaker;
 
     /**
      * {@code orderId} is instance that memorizes identifier of trade
-     * **/
+     */
     private final long orderId;
 
     /**
      * {@code symbol} is instance that memorizes symbol of trade
-     * **/
+     */
     private final String symbol;
 
     /**
      * {@code symbol} is instance that memorizes if is isolated trade
-     * **/
+     */
     private boolean isIsolated;
 
     /**
      * {@code time} is instance that memorizes time of order trade
-     * **/
+     */
     private final long time;
 
     /** Constructor to init {@link MarginAccountTrade} object
@@ -69,7 +69,7 @@ public class MarginAccountTrade extends Fill {
      * @param isIsolated: if is isolated trade
      * @param time: time of order trade
      * @throws IllegalArgumentException if parameters range is not respected
-     * **/
+     */
     public MarginAccountTrade(double commission, String commissionAsset, long id, boolean isBestMatch, boolean isBuyer,
                               boolean isMaker, long orderId, double price, double qty, String symbol, boolean isIsolated,
                               long time) {
@@ -89,7 +89,7 @@ public class MarginAccountTrade extends Fill {
      *
      * @param marginAccountTrade: margin account trade details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
-     **/
+     */
     public MarginAccountTrade(JSONObject marginAccountTrade) {
         super(marginAccountTrade);
         id = marginAccountTrade.getLong("id");
@@ -107,7 +107,7 @@ public class MarginAccountTrade extends Fill {
      * No-any params required
      *
      * @return {@link #id} instance as long
-     **/
+     */
     public long getId() {
         return id;
     }
@@ -117,7 +117,7 @@ public class MarginAccountTrade extends Fill {
      * No-any params required
      *
      * @return {@link #isBestMatch} instance as boolean
-     **/
+     */
     public boolean isBestMatch() {
         return isBestMatch;
     }
@@ -126,7 +126,7 @@ public class MarginAccountTrade extends Fill {
      * Method to set {@link #isBestMatch}
      *
      * @param bestMatch: if is best match of the margin account trade
-     **/
+     */
     public void setBestMatch(boolean bestMatch) {
         isBestMatch = bestMatch;
     }
@@ -136,7 +136,7 @@ public class MarginAccountTrade extends Fill {
      * No-any params required
      *
      * @return {@link #isBuyer} instance as boolean
-     **/
+     */
     public boolean isBuyer() {
         return isBuyer;
     }
@@ -145,7 +145,7 @@ public class MarginAccountTrade extends Fill {
      * Method to set {@link #isBuyer}
      *
      * @param buyer: if is buyer of margin account trade
-     **/
+     */
     public void setBuyer(boolean buyer) {
         isBuyer = buyer;
     }
@@ -155,7 +155,7 @@ public class MarginAccountTrade extends Fill {
      * No-any params required
      *
      * @return {@link #isMaker} instance as boolean
-     **/
+     */
     public boolean isMaker() {
         return isMaker;
     }
@@ -164,7 +164,7 @@ public class MarginAccountTrade extends Fill {
      * Method to set {@link #isMaker}
      *
      * @param maker: if is maker of margin account trade
-     **/
+     */
     public void setMaker(boolean maker) {
         isMaker = maker;
     }
@@ -174,7 +174,7 @@ public class MarginAccountTrade extends Fill {
      * No-any params required
      *
      * @return {@link #orderId} instance as long
-     **/
+     */
     public long getOrderId() {
         return orderId;
     }
@@ -184,7 +184,7 @@ public class MarginAccountTrade extends Fill {
      * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
-     **/
+     */
     public String getSymbol() {
         return symbol;
     }
@@ -194,7 +194,7 @@ public class MarginAccountTrade extends Fill {
      * No-any params required
      *
      * @return {@link #isIsolated} instance as boolean
-     **/
+     */
     public boolean isIsolated() {
         return isIsolated;
     }
@@ -203,7 +203,7 @@ public class MarginAccountTrade extends Fill {
      * Method to set {@link #isIsolated}
      *
      * @param isolated: if is isolated trade
-     **/
+     */
     public void setIsolated(boolean isolated) {
         isIsolated = isolated;
     }
@@ -213,7 +213,7 @@ public class MarginAccountTrade extends Fill {
      * No-any params required
      *
      * @return {@link #time} instance as long
-     **/
+     */
     public long getTime() {
         return time;
     }
@@ -223,7 +223,7 @@ public class MarginAccountTrade extends Fill {
      * No-any params required
      *
      * @return {@link #time} instance as {@link Date}
-     **/
+     */
     public Date getTransactionDate() {
         return TimeFormatter.getDate(time);
     }

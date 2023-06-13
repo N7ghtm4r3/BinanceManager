@@ -16,27 +16,27 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Get Claimed History (USER_DATA)</a>
  * @see BinanceItem
  * @see PoolStructure
- **/
+ */
 public class ClaimedHistoryItem extends PoolStructure {
 
     /**
      * {@code assetRewards} asset rewards of the item
-     **/
+     */
     private final String assetRewards;
 
     /**
      * {@code claimTime} claim time of the item
-     **/
+     */
     private final long claimTime;
 
     /**
      * {@code claimAmount} claim amount of the item
-     **/
+     */
     private final double claimAmount;
 
     /**
      * {@code status} of the item
-     **/
+     */
     private final BSwapStatus status;
 
     /**
@@ -48,7 +48,7 @@ public class ClaimedHistoryItem extends PoolStructure {
      * @param claimTime:    claim time of the item
      * @param claimAmount:  claim amount of the item
      * @param status:       status of the item
-     **/
+     */
     public ClaimedHistoryItem(long poolId, String poolName, String assetRewards, long claimTime, double claimAmount,
                               BSwapStatus status) {
         super(poolId, poolName);
@@ -62,7 +62,7 @@ public class ClaimedHistoryItem extends PoolStructure {
      * Constructor to init {@link ClaimedHistoryItem} object
      *
      * @param jClaimedHistoryItem: claimed history item details as {@link JSONObject}
-     **/
+     */
     public ClaimedHistoryItem(JSONObject jClaimedHistoryItem) {
         super(jClaimedHistoryItem);
         assetRewards = hItem.getString("assetRewards");
@@ -76,7 +76,7 @@ public class ClaimedHistoryItem extends PoolStructure {
      * No-any params required
      *
      * @return {@link #assetRewards} instance as {@link String}
-     **/
+     */
     public String getAssetRewards() {
         return assetRewards;
     }
@@ -86,7 +86,7 @@ public class ClaimedHistoryItem extends PoolStructure {
      * No-any params required
      *
      * @return {@link #claimTime} instance as long
-     **/
+     */
     public long getClaimTime() {
         return claimTime;
     }
@@ -96,7 +96,7 @@ public class ClaimedHistoryItem extends PoolStructure {
      * No-any params required
      *
      * @return {@link #claimTime} instance as {@link Date}
-     **/
+     */
     public Date getClaimDate() {
         return TimeFormatter.getDate(claimTime);
     }
@@ -106,7 +106,7 @@ public class ClaimedHistoryItem extends PoolStructure {
      * No-any params required
      *
      * @return {@link #claimAmount} instance as double
-     **/
+     */
     public double getClaimAmount() {
         return claimAmount;
     }
@@ -117,7 +117,7 @@ public class ClaimedHistoryItem extends PoolStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #claimAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getClaimAmount(int decimals) {
         return roundValue(claimAmount, decimals);
     }
@@ -127,7 +127,7 @@ public class ClaimedHistoryItem extends PoolStructure {
      * No-any params required
      *
      * @return {@link #status} instance as {@link BSwapStatus}
-     **/
+     */
     public BSwapStatus getStatus() {
         return status;
     }

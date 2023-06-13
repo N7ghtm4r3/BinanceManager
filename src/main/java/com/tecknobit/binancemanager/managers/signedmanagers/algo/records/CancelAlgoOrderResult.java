@@ -25,12 +25,12 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat;
  * @see BinanceItem
  * @see BinanceResponse
  * @see AlgoOperationResult
- **/
+ */
 public class CancelAlgoOrderResult extends AlgoOperationResult {
 
     /**
      * {@code algoId} algo identifier
-     **/
+     */
     private final long algoId;
 
     /**
@@ -38,7 +38,7 @@ public class CancelAlgoOrderResult extends AlgoOperationResult {
      *
      * @param success: whether the operation has been successful
      * @param algoId:  algo identifier
-     **/
+     */
     public CancelAlgoOrderResult(boolean success, long algoId) {
         super(success);
         this.algoId = algoId;
@@ -48,7 +48,7 @@ public class CancelAlgoOrderResult extends AlgoOperationResult {
      * Constructor to init {@link CancelAlgoOrderResult} object
      *
      * @param jCancelAlgoOrderResult: cancel algo result details as {@link JSONObject}
-     **/
+     */
     public CancelAlgoOrderResult(JSONObject jCancelAlgoOrderResult) {
         super(jCancelAlgoOrderResult);
         algoId = hItem.getLong("algoId", 0);
@@ -59,7 +59,7 @@ public class CancelAlgoOrderResult extends AlgoOperationResult {
      * No-any params required
      *
      * @return {@link #algoId} instance as long
-     **/
+     */
     public long getAlgoId() {
         return algoId;
     }
@@ -70,7 +70,7 @@ public class CancelAlgoOrderResult extends AlgoOperationResult {
      * @param algoOrderResponse: obtained from Binance's response
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return cancel algo order as {@code "format"} defines
-     **/
+     */
     @Returner
     public static <T> T returnCancelAlgoOrder(String algoOrderResponse, ReturnFormat format) {
         switch (format) {

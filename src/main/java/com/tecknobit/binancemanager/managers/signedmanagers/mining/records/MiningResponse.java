@@ -67,37 +67,37 @@ import org.json.JSONObject;
  * </ul>
  * @see BinanceItem
  * @see BinanceResponse
- **/
+ */
 @Structure
 public abstract class MiningResponse<T> extends BinanceItem implements BinanceResponse {
 
     /**
      * {@code HashRateType} list of available hashrate types
-     **/
+     */
     public enum HashRateType {
 
         /**
          * {@code H_hashrate} hourly hashrate type
-         **/
+         */
         H_hashrate,
 
         /**
          * {@code D_hashrate} daily hashrate type
-         **/
+         */
         D_hashrate
 
     }
 
     /**
      * {@code data} contained by the structure
-     **/
+     */
     protected T data;
 
     /**
      * Constructor to init {@link MiningResponse} object
      *
      * @param data: data contained by the structure
-     **/
+     */
     public MiningResponse(T data) {
         super(null);
         this.data = data;
@@ -107,7 +107,7 @@ public abstract class MiningResponse<T> extends BinanceItem implements BinanceRe
      * Constructor to init {@link MiningResponse} object
      *
      * @param jMiningResponse: mining response details as {@link JSONObject}
-     **/
+     */
     public MiningResponse(JSONObject jMiningResponse) {
         super(jMiningResponse);
     }
@@ -117,7 +117,7 @@ public abstract class MiningResponse<T> extends BinanceItem implements BinanceRe
      * No-any params required
      *
      * @return {@link #data} instance as {@link T}
-     **/
+     */
     public T getData() {
         return data;
     }
@@ -129,7 +129,7 @@ public abstract class MiningResponse<T> extends BinanceItem implements BinanceRe
      * @return code of error as int
      * *
      * @implSpec if code error is not present in {@code "Binance"}'s response will be returned -1 as default
-     **/
+     */
     @Override
     public int getCode() {
         if (hItem != null)
@@ -144,7 +144,7 @@ public abstract class MiningResponse<T> extends BinanceItem implements BinanceRe
      * @return message of error as {@link String}
      * *
      * @implSpec if message error is not present in {@code "Binance"}'s response will be returned null as default
-     **/
+     */
     @Override
     public String getMessage() {
         if (hItem != null)

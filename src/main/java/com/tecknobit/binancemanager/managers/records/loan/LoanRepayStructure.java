@@ -13,23 +13,23 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see BinanceItem
  * @see LoanBaseStructure
  * @see LoanBaseRepayStructure
- **/
+ */
 @Structure
 public abstract class LoanRepayStructure extends LoanBaseRepayStructure {
 
     /**
      * {@code remainingPrincipal} remaining principal of the loan repay
-     **/
+     */
     protected final double remainingPrincipal;
 
     /**
      * {@code remainingInterest} remaining interest of the loan repay
-     **/
+     */
     protected final double remainingInterest;
 
     /**
      * {@code currentLTV} current LTV of the loan repay
-     **/
+     */
     protected final double currentLTV;
 
     /**
@@ -41,7 +41,7 @@ public abstract class LoanRepayStructure extends LoanBaseRepayStructure {
      * @param remainingPrincipal: remaining principal of the loan repay
      * @param remainingInterest:  remaining interest of the loan repay
      * @param currentLTV:         current LTV of the loan repay
-     **/
+     */
     public LoanRepayStructure(String loanCoin, String collateralCoin, RepayStatus repayStatus, double remainingPrincipal,
                               double remainingInterest, double currentLTV) {
         super(loanCoin, collateralCoin, repayStatus);
@@ -54,7 +54,7 @@ public abstract class LoanRepayStructure extends LoanBaseRepayStructure {
      * Constructor to init {@link LoanRepayStructure} object
      *
      * @param jLoanRepayStructure: loan repay structure details as {@link JSONObject}
-     **/
+     */
     public LoanRepayStructure(JSONObject jLoanRepayStructure) {
         super(jLoanRepayStructure);
         remainingPrincipal = hItem.getDouble("remainingPrincipal", 0);
@@ -67,7 +67,7 @@ public abstract class LoanRepayStructure extends LoanBaseRepayStructure {
      * No-any params required
      *
      * @return {@link #remainingPrincipal} instance as double
-     **/
+     */
     public double getRemainingPrincipal() {
         return remainingPrincipal;
     }
@@ -78,7 +78,7 @@ public abstract class LoanRepayStructure extends LoanBaseRepayStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #remainingPrincipal} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRemainingPrincipal(int decimals) {
         return roundValue(remainingPrincipal, decimals);
     }
@@ -88,7 +88,7 @@ public abstract class LoanRepayStructure extends LoanBaseRepayStructure {
      * No-any params required
      *
      * @return {@link #remainingInterest} instance as double
-     **/
+     */
     public double getRemainingInterest() {
         return remainingInterest;
     }
@@ -99,7 +99,7 @@ public abstract class LoanRepayStructure extends LoanBaseRepayStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #remainingInterest} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRemainingInterest(int decimals) {
         return roundValue(remainingInterest, decimals);
     }
@@ -109,7 +109,7 @@ public abstract class LoanRepayStructure extends LoanBaseRepayStructure {
      * No-any params required
      *
      * @return {@link #currentLTV} instance as double
-     **/
+     */
     public double getCurrentLTV() {
         return currentLTV;
     }
@@ -120,7 +120,7 @@ public abstract class LoanRepayStructure extends LoanBaseRepayStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #currentLTV} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getCurrentLTV(int decimals) {
         return roundValue(currentLTV, decimals);
     }

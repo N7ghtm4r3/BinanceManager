@@ -13,42 +13,42 @@ import java.util.Date;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-39-s-status-on-margin-futures-for-master-account">
  * Get Sub-account's Status on Margin/Futures (For Master Account)</a>
  * @see BinanceItem
- **/
+ */
 public class SubAccountStatus extends BinanceItem {
 
     /**
      * {@code email} of the subaccount
-     **/
+     */
     private final String email;
 
     /**
      * {@code isSubUserEnabled} whether the subaccount is enabled
-     **/
+     */
     private final boolean isSubUserEnabled;
 
     /**
      * {@code isUserActive} whether the subaccount is user active
-     **/
+     */
     private final boolean isUserActive;
 
     /**
      * {@code insertTime} insert time of the subaccount
-     **/
+     */
     private final long insertTime;
 
     /**
      * {@code isMarginEnabled} whether the subaccount is margin enabled
-     **/
+     */
     private final boolean isMarginEnabled;
 
     /**
      * {@code isFutureEnabled} whether the subaccount is future enabled
-     **/
+     */
     private final boolean isFutureEnabled;
 
     /**
      * {@code mobile} phone number of the subaccount
-     **/
+     */
     private final long mobile;
 
     /**
@@ -61,7 +61,7 @@ public class SubAccountStatus extends BinanceItem {
      * @param isMarginEnabled: whether the subaccount is margin enabled
      * @param isFutureEnabled  : whether the subaccount is future enabled
      * @param mobile           : mobile phone number of the subaccount
-     **/
+     */
     public SubAccountStatus(String email, boolean isSubUserEnabled, boolean isUserActive, long insertTime,
                             boolean isMarginEnabled, boolean isFutureEnabled, long mobile) {
         super(null);
@@ -78,7 +78,7 @@ public class SubAccountStatus extends BinanceItem {
      * Constructor to init {@link SubAccountStatus} object
      *
      * @param jSubAccountStatus : subaccount status details as {@link JSONObject}
-     **/
+     */
     public SubAccountStatus(JSONObject jSubAccountStatus) {
         super(jSubAccountStatus);
         email = hItem.getString("email");
@@ -95,7 +95,7 @@ public class SubAccountStatus extends BinanceItem {
      * No-any params required
      *
      * @return {@link #email} instance as {@link String}
-     **/
+     */
     public String getEmail() {
         return email;
     }
@@ -105,7 +105,7 @@ public class SubAccountStatus extends BinanceItem {
      * No-any params required
      *
      * @return {@link #isSubUserEnabled} instance as boolean
-     **/
+     */
     public boolean isSubUserEnabled() {
         return isSubUserEnabled;
     }
@@ -115,7 +115,7 @@ public class SubAccountStatus extends BinanceItem {
      * No-any params required
      *
      * @return {@link #isUserActive} instance as boolean
-     **/
+     */
     public boolean isUserActive() {
         return isUserActive;
     }
@@ -125,7 +125,7 @@ public class SubAccountStatus extends BinanceItem {
      * No-any params required
      *
      * @return {@link #insertTime} instance as long
-     **/
+     */
     public long getInsertTime() {
         return insertTime;
     }
@@ -135,7 +135,7 @@ public class SubAccountStatus extends BinanceItem {
      * No-any params required
      *
      * @return {@link #insertTime} instance as {@link Date}
-     **/
+     */
     public Date getInsertDate() {
         return TimeFormatter.getDate(insertTime);
     }
@@ -145,7 +145,7 @@ public class SubAccountStatus extends BinanceItem {
      * No-any params required
      *
      * @return {@link #isMarginEnabled} instance as boolean
-     **/
+     */
     public boolean isMarginEnabled() {
         return isMarginEnabled;
     }
@@ -155,7 +155,7 @@ public class SubAccountStatus extends BinanceItem {
      * No-any params required
      *
      * @return {@link #isFutureEnabled} instance as boolean
-     **/
+     */
     public boolean isFutureEnabled() {
         return isFutureEnabled;
     }
@@ -165,7 +165,7 @@ public class SubAccountStatus extends BinanceItem {
      * No-any params required
      *
      * @return {@link #mobile} instance as long
-     **/
+     */
     public long getMobile() {
         return mobile;
     }

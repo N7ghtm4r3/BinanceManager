@@ -17,52 +17,52 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
  * Withdraw History (supporting network) (USER_DATA)</a>
- **/
+ */
 public class Withdraw {
 
     /**
      * {@code status} is instance that memorizes transfer status value
-     **/
+     */
     private final WithdrawStatus status;
 
     /**
      * {@code address} is instance that memorizes address value
-     **/
+     */
     private final String address;
 
     /**
      * {@code amount} is instance that memorizes amount value
-     **/
+     */
     private final double amount;
 
     /**
      * {@code applyTime} is instance that memorizes apply time value
-     * **/
+     */
     private final String applyTime;
 
     /**
      * {@code coin} is instance that memorizes coin value
-     * **/
+     */
     private final String coin;
 
     /**
      * {@code id} is instance that memorizes identifier value
-     * **/
+     */
     private final String id;
 
     /**
      * {@code withdrawOrderId} is instance that memorizes identifier of withdraw value
-     * **/
+     */
     private final String withdrawOrderId;
 
     /**
      * {@code network} is instance that memorizes network value
-     * **/
+     */
     private final String network;
 
     /**
      * {@code transferType} is instance that memorizes transfer type value
-     * **/
+     */
     private final int transferType;
 
     /** Constructor to init {@link Withdraw} object
@@ -79,7 +79,7 @@ public class Withdraw {
      * @param confirmNo: confirms number value
      * @param info: info value
      * @param txId: transaction identifier value
-     * **/
+     */
     public Withdraw(String address, double amount, String applyTime, String coin, String id, String withdrawOrderId,
                     String network, int transferType, WithdrawStatus status, double transactionFee, int confirmNo,
                     String info, String txId) {
@@ -100,22 +100,22 @@ public class Withdraw {
 
     /**
      * {@code transactionFee} is instance that memorizes transaction fee value
-     **/
+     */
     private final double transactionFee;
 
     /**
      * {@code confirmNo} is instance that memorizes confirms number value
-     **/
+     */
     private final int confirmNo;
 
     /**
      * {@code info} is instance that memorizes info value
-     **/
+     */
     private final String info;
 
     /**
      * {@code txId} is instance that memorizes transaction identifier value
-     **/
+     */
     private final String txId;
 
     /**
@@ -125,7 +125,7 @@ public class Withdraw {
      * @param amount:  amount value
      * @param coin:    coin value
      * @apiNote this constructor is useful to create a  {@link Withdraw} only with the mandatory params
-     **/
+     */
     public Withdraw(String address, double amount, String coin) {
         this(address, amount, null, coin, null, null, null, -1, Processing, 0, 0, null, null);
     }
@@ -134,7 +134,7 @@ public class Withdraw {
      * Constructor to init {@link Withdraw} object
      *
      * @param withdraw: withdraw details as {@link JSONObject}
-     **/
+     */
     public Withdraw(JSONObject withdraw) {
         JsonHelper hWithdraw = new JsonHelper(withdraw);
         address = hWithdraw.getString("address");
@@ -157,7 +157,7 @@ public class Withdraw {
      * No-any params required
      *
      * @return {@link #status} instance as int
-     **/
+     */
     public WithdrawStatus getStatus() {
         return status;
     }
@@ -167,7 +167,7 @@ public class Withdraw {
      * No-any params required
      *
      * @return {@link #address} instance as {@link String}
-     **/
+     */
     public String getAddress() {
         return address;
     }
@@ -177,7 +177,7 @@ public class Withdraw {
      * No-any params required
      *
      * @return {@link #amount} instance as double
-     **/
+     */
     public double getAmount() {
         return amount;
     }
@@ -188,7 +188,7 @@ public class Withdraw {
      * @param decimals: number of digits to round final value
      * @return {@link #amount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getAmount(int decimals) {
         return roundValue(amount, decimals);
     }
@@ -198,7 +198,7 @@ public class Withdraw {
      * No-any params required
      *
      * @return {@link #applyTime} instance as {@link String}
-     **/
+     */
     public String getApplyTime() {
         return applyTime;
     }
@@ -208,7 +208,7 @@ public class Withdraw {
      * No-any params required
      *
      * @return {@link #applyTime} instance as long
-     **/
+     */
     public long getApplyTimestamp() {
         TimeFormatter.changeDefaultPattern("yyyy-mm-dd HH:mm:ss");
         return TimeFormatter.getDateTimestamp(applyTime);
@@ -219,7 +219,7 @@ public class Withdraw {
      * No-any params required
      *
      * @return {@link #applyTime} instance as {@link Date}
-     **/
+     */
     public Date getApplyDate() {
         return TimeFormatter.getDate(getApplyTimestamp());
     }
@@ -229,7 +229,7 @@ public class Withdraw {
      * No-any params required
      *
      * @return {@link #coin} instance as {@link String}
-     **/
+     */
     public String getCoin() {
         return coin;
     }
@@ -239,7 +239,7 @@ public class Withdraw {
      * No-any params required
      *
      * @return {@link #id} instance as {@link String}
-     **/
+     */
     public String getId() {
         return id;
     }
@@ -249,7 +249,7 @@ public class Withdraw {
      * No-any params required
      *
      * @return {@link #withdrawOrderId} instance as {@link String}
-     **/
+     */
     public String getWithdrawOrderId() {
         return withdrawOrderId;
     }
@@ -259,7 +259,7 @@ public class Withdraw {
      * No-any params required
      *
      * @return {@link #network} instance as {@link String}
-     **/
+     */
     public String getNetwork() {
         return network;
     }
@@ -269,59 +269,59 @@ public class Withdraw {
      * No-any params required
      *
      * @return {@link #transferType} instance as int
-     **/
+     */
     public int getTransferType() {
         return transferType;
     }
 
     /**
      * {@code WithdrawStatus} list of available withdraw statutes
-     **/
+     */
     public enum WithdrawStatus {
 
         /**
          * {@code "Email_Sent"} status
-         * **/
+         */
         Email_Sent(0),
 
         /**
          * {@code "Cancelled"} status
-         * **/
+         */
         Cancelled(1),
 
         /**
          * {@code "Awaiting_Approval"} status
-         * **/
+         */
         Awaiting_Approval(2),
 
         /**
          * {@code "Rejected"} status
-         * **/
+         */
         Rejected(3),
 
         /**
          * {@code "Processing"} status
-         * **/
+         */
         Processing(4),
 
         /**
          * {@code "Failure"} status
-         * **/
+         */
         Failure(5),
 
         /**
          * {@code "Completed"} status
-         * **/
+         */
         Completed(6);
 
         /**
          * {@code "status"} value
-         * **/
+         */
         private final int status;
 
         /** Constructor to init {@link Deposit.DepositStatus}
          * @param status: status value
-         * **/
+         */
         WithdrawStatus(int status) {
             this.status = status;
         }
@@ -331,7 +331,7 @@ public class Withdraw {
          * No-any params required
          *
          * @return {@link WithdrawStatus} corresponding value
-         **/
+         */
         public static WithdrawStatus valueOf(int status) {
             switch (status) {
                 case 0:
@@ -356,7 +356,7 @@ public class Withdraw {
          * No-any params required
          *
          * @return {@link #status} instance as {@link String}
-         **/
+         */
         @Override
         public String toString() {
             return String.valueOf(status);
@@ -369,7 +369,7 @@ public class Withdraw {
      * No-any params required
      *
      * @return {@link #transactionFee} instance as double
-     **/
+     */
     public double getTransactionFee() {
         return transactionFee;
     }
@@ -380,7 +380,7 @@ public class Withdraw {
      * @param decimals: number of digits to round final value
      * @return {@link #transactionFee} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTransactionFee(int decimals) {
         return roundValue(transactionFee, decimals);
     }
@@ -390,7 +390,7 @@ public class Withdraw {
      * No-any params required
      *
      * @return {@link #confirmNo} instance as int
-     **/
+     */
     public int getConfirmNo() {
         return confirmNo;
     }
@@ -400,7 +400,7 @@ public class Withdraw {
      * No-any params required
      *
      * @return {@link #info} instance as {@link String}
-     **/
+     */
     public String getInfo() {
         return info;
     }
@@ -410,7 +410,7 @@ public class Withdraw {
      * No-any params required
      *
      * @return {@link #txId} instance as {@link String}
-     **/
+     */
     public String getTxId() {
         return txId;
     }

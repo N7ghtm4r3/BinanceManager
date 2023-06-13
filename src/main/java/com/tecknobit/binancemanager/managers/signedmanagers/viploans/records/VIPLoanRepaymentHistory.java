@@ -21,7 +21,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.viploans.reco
  * Get VIP Loan Repayment History (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class VIPLoanRepaymentHistory extends BinanceRowsList<VIPLoanRepayment> {
 
     /**
@@ -29,7 +29,7 @@ public class VIPLoanRepaymentHistory extends BinanceRowsList<VIPLoanRepayment> {
      *
      * @param total      : number of repayments
      * @param repayments :  list of the repayments
-     **/
+     */
     public VIPLoanRepaymentHistory(int total, ArrayList<VIPLoanRepayment> repayments) {
         super(total, repayments);
     }
@@ -38,7 +38,7 @@ public class VIPLoanRepaymentHistory extends BinanceRowsList<VIPLoanRepayment> {
      * Constructor to init {@link VIPLoanRepaymentHistory}
      *
      * @param jHistory : history details as {@link JSONObject}
-     **/
+     */
     public VIPLoanRepaymentHistory(JSONObject jHistory) {
         super(jHistory);
         for (Object row : hItem.fetchList("rows"))
@@ -51,22 +51,22 @@ public class VIPLoanRepaymentHistory extends BinanceRowsList<VIPLoanRepayment> {
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see LoanBaseStructure
-     **/
+     */
     public static class VIPLoanRepayment extends LoanBaseRepayStructure {
 
         /**
          * {@code repayTime} repay time of the VIP loan repayment
-         **/
+         */
         protected final long repayTime;
 
         /**
          * {@code orderId} order id of the VIP loan repayment
-         **/
+         */
         protected final long orderId;
 
         /**
          * {@code repayAmount} repay amount of the loan
-         **/
+         */
         protected final double repayAmount;
 
         /**
@@ -78,7 +78,7 @@ public class VIPLoanRepaymentHistory extends BinanceRowsList<VIPLoanRepayment> {
          * @param repayStatus:    repay status of the loan
          * @param repayTime:      repay time of the VIP loan repayment
          * @param orderId:        order id of the VIP loan repayment
-         **/
+         */
         public VIPLoanRepayment(String loanCoin, String collateralCoin, RepayStatus repayStatus, long repayTime,
                                 long orderId, double repayAmount) {
             super(loanCoin, collateralCoin, repayStatus);
@@ -91,7 +91,7 @@ public class VIPLoanRepaymentHistory extends BinanceRowsList<VIPLoanRepayment> {
          * Constructor to init {@link VIPLoanRepayment} object
          *
          * @param jVIPLoanRepayment: VIP loan repayment  details as {@link JSONObject}
-         **/
+         */
         public VIPLoanRepayment(JSONObject jVIPLoanRepayment) {
             super(jVIPLoanRepayment);
             repayTime = hItem.getLong("repayTime", 0);
@@ -104,7 +104,7 @@ public class VIPLoanRepaymentHistory extends BinanceRowsList<VIPLoanRepayment> {
          * No-any params required
          *
          * @return {@link #repayTime} instance as long
-         **/
+         */
         public long getRepayTime() {
             return repayTime;
         }
@@ -114,7 +114,7 @@ public class VIPLoanRepaymentHistory extends BinanceRowsList<VIPLoanRepayment> {
          * No-any params required
          *
          * @return {@link #repayTime} instance as {@link Date}
-         **/
+         */
         public Date getRepayDate() {
             return TimeFormatter.getDate(repayTime);
         }
@@ -124,7 +124,7 @@ public class VIPLoanRepaymentHistory extends BinanceRowsList<VIPLoanRepayment> {
          * No-any params required
          *
          * @return {@link #orderId} instance as long
-         **/
+         */
         public long getOrderId() {
             return orderId;
         }
@@ -134,7 +134,7 @@ public class VIPLoanRepaymentHistory extends BinanceRowsList<VIPLoanRepayment> {
          * No-any params required
          *
          * @return {@link #repayAmount} instance as double
-         **/
+         */
         public double getRepayAmount() {
             return repayAmount;
         }
@@ -145,7 +145,7 @@ public class VIPLoanRepaymentHistory extends BinanceRowsList<VIPLoanRepayment> {
          * @param decimals: number of digits to round final value
          * @return {@link #repayAmount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getRepayAmount(int decimals) {
             return roundValue(repayAmount, decimals);
         }

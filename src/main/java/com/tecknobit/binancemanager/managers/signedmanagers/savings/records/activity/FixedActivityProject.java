@@ -15,79 +15,79 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see BinanceItem
  * @see SavingStructure
  * @see SavingActivityStructure
- **/
+ */
 public class FixedActivityProject extends SavingActivityStructure {
 
     /**
      * {@code SortBy} list of available sorters
-     **/
+     */
     public enum SortBy {
 
         /**
          * {@code START_TIME} sorter
-         **/
+         */
         START_TIME,
 
         /**
          * {@code LOT_SIZE} sorter
-         **/
+         */
         LOT_SIZE,
 
         /**
          * {@code INTEREST_RATE} sorter
-         **/
+         */
         INTEREST_RATE,
 
         /**
          * {@code DURATION} sorter
-         **/
+         */
         DURATION
 
     }
 
     /**
      * {@code displayPriority} display priority of the fixed activity/project
-     **/
+     */
     private final int displayPriority;
 
     /**
      * {@code interestPerLot} interest per-lot of the fixed activity/project
-     **/
+     */
     private final double interestPerLot;
 
     /**
      * {@code lotSize} lot size of the fixed activity/project
-     **/
+     */
     private final double lotSize;
 
     /**
      * {@code lotsLowLimit} lots low limit of the fixed activity/project
-     **/
+     */
     private final int lotsLowLimit;
 
     /**
      * {@code lotsPurchased} lots purchased of the fixed activity/project
-     **/
+     */
     private final int lotsPurchased;
 
     /**
      * {@code lotsUpLimit} lots up limit of the fixed activity/project
-     **/
+     */
     private final int lotsUpLimit;
 
     /**
      * {@code maxLotsPerUser} max lots per user of the fixed activity/project
-     **/
+     */
     private final int maxLotsPerUser;
 
     /**
      * {@code needKyc} whether the fixed activity/project need kyc
-     **/
+     */
     private final boolean needKyc;
 
     /**
      * {@code withAreaLimitation} whether the fixed activity/project is with area limitation
-     **/
+     */
     private final boolean withAreaLimitation;
 
     /**
@@ -109,7 +109,7 @@ public class FixedActivityProject extends SavingActivityStructure {
      * @param maxLotsPerUser:     max lots per user of the fixed activity/project
      * @param needKyc:            whether the fixed activity/project need kyc
      * @param withAreaLimitation: whether the fixed activity/project is with area limitation
-     **/
+     */
     public FixedActivityProject(String asset, int duration, double interestRate, String projectId, String projectName,
                                 SavingStatus status, SavingActivityType type, int displayPriority, double interestPerLot,
                                 double lotSize, int lotsLowLimit, int lotsPurchased, int lotsUpLimit, int maxLotsPerUser,
@@ -130,7 +130,7 @@ public class FixedActivityProject extends SavingActivityStructure {
      * Constructor to init {@link FixedActivityProject} object
      *
      * @param jFixedActivityProject: fixed activity/project details as {@link JSONObject}
-     **/
+     */
     public FixedActivityProject(JSONObject jFixedActivityProject) {
         super(jFixedActivityProject);
         displayPriority = hItem.getInt("displayPriority", 0);
@@ -149,7 +149,7 @@ public class FixedActivityProject extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #displayPriority} instance as int
-     **/
+     */
     public int getDisplayPriority() {
         return displayPriority;
     }
@@ -159,7 +159,7 @@ public class FixedActivityProject extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #interestPerLot} instance as double
-     **/
+     */
     public double getInterestPerLot() {
         return interestPerLot;
     }
@@ -170,7 +170,7 @@ public class FixedActivityProject extends SavingActivityStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #interestPerLot} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getInterestPerLot(int decimals) {
         return roundValue(interestPerLot, decimals);
     }
@@ -180,7 +180,7 @@ public class FixedActivityProject extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #lotSize} instance as double
-     **/
+     */
     public double getLotSize() {
         return lotSize;
     }
@@ -191,7 +191,7 @@ public class FixedActivityProject extends SavingActivityStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #lotSize} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getLotSize(int decimals) {
         return roundValue(lotSize, decimals);
     }
@@ -201,7 +201,7 @@ public class FixedActivityProject extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #lotsLowLimit} instance as int
-     **/
+     */
     public int getLotsLowLimit() {
         return lotsLowLimit;
     }
@@ -211,7 +211,7 @@ public class FixedActivityProject extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #lotsPurchased} instance as int
-     **/
+     */
     public int getLotsPurchased() {
         return lotsPurchased;
     }
@@ -221,7 +221,7 @@ public class FixedActivityProject extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #lotsUpLimit} instance as int
-     **/
+     */
     public int getLotsUpLimit() {
         return lotsUpLimit;
     }
@@ -231,7 +231,7 @@ public class FixedActivityProject extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #maxLotsPerUser} instance as int
-     **/
+     */
     public int getMaxLotsPerUser() {
         return maxLotsPerUser;
     }
@@ -241,7 +241,7 @@ public class FixedActivityProject extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #needKyc} instance as boolean
-     **/
+     */
     public boolean isNeededKyc() {
         return needKyc;
     }
@@ -251,7 +251,7 @@ public class FixedActivityProject extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #withAreaLimitation} instance as boolean
-     **/
+     */
     public boolean isWithAreaLimitation() {
         return withAreaLimitation;
     }

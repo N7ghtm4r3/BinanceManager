@@ -42,43 +42,43 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *     </li>
  * </ul>
  * @see BinanceItem
- **/
+ */
 @Structure
 public abstract class AlgoOrderStructure extends BinanceItem {
 
     /**
      * {@code algoId} id of the algo order
-     **/
+     */
     protected final long algoId;
 
     /**
      * {@code symbol} of the algo order
-     **/
+     */
     protected final String symbol;
 
     /**
      * {@code side} of the algo order
-     **/
+     */
     protected final Side side;
 
     /**
      * {@code executedQty} executed quantity of the algo order
-     **/
+     */
     protected final double executedQty;
 
     /**
      * {@code executedAmt} executed amount of the algo order
-     **/
+     */
     protected final double executedAmt;
 
     /**
      * {@code avgPrice} average price of the algo order
-     **/
+     */
     protected final double avgPrice;
 
     /**
      * {@code bookTime} book time of the algo order
-     **/
+     */
     protected final long bookTime;
 
     /**
@@ -91,7 +91,7 @@ public abstract class AlgoOrderStructure extends BinanceItem {
      * @param executedAmt : executed amount of the algo order
      * @param avgPrice    : average price of the algo order
      * @param bookTime    : book time of the algo order
-     **/
+     */
     public AlgoOrderStructure(long algoId, String symbol, Side side, double executedQty, double executedAmt,
                               double avgPrice, long bookTime) {
         super(null);
@@ -108,7 +108,7 @@ public abstract class AlgoOrderStructure extends BinanceItem {
      * Constructor to init {@link AlgoOrderStructure}
      *
      * @param jAlgoOrderStructure : algo order structure details as {@link JSONObject}
-     **/
+     */
     public AlgoOrderStructure(JSONObject jAlgoOrderStructure) {
         super(jAlgoOrderStructure);
         algoId = hItem.getLong("algoId", 0);
@@ -125,7 +125,7 @@ public abstract class AlgoOrderStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #algoId} instance as long
-     **/
+     */
     public long getAlgoId() {
         return algoId;
     }
@@ -135,7 +135,7 @@ public abstract class AlgoOrderStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
-     **/
+     */
     public String getSymbol() {
         return symbol;
     }
@@ -145,7 +145,7 @@ public abstract class AlgoOrderStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #side} instance as {@link Side}
-     **/
+     */
     public Side getSide() {
         return side;
     }
@@ -155,7 +155,7 @@ public abstract class AlgoOrderStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #executedQty} instance as double
-     **/
+     */
     public double getExecutedQty() {
         return executedQty;
     }
@@ -166,7 +166,7 @@ public abstract class AlgoOrderStructure extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #executedQty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getExecutedQty(int decimals) {
         return roundValue(executedQty, decimals);
     }
@@ -176,7 +176,7 @@ public abstract class AlgoOrderStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #executedAmt} instance as double
-     **/
+     */
     public double getExecutedAmt() {
         return executedAmt;
     }
@@ -187,7 +187,7 @@ public abstract class AlgoOrderStructure extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #executedAmt} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getExecutedAmt(int decimals) {
         return roundValue(executedAmt, decimals);
     }
@@ -197,7 +197,7 @@ public abstract class AlgoOrderStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #avgPrice} instance as double
-     **/
+     */
     public double getAvgPrice() {
         return avgPrice;
     }
@@ -208,7 +208,7 @@ public abstract class AlgoOrderStructure extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #avgPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getAvgPrice(int decimals) {
         return roundValue(avgPrice, decimals);
     }
@@ -218,7 +218,7 @@ public abstract class AlgoOrderStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #bookTime} instance as long
-     **/
+     */
     public long getBookTime() {
         return bookTime;
     }
@@ -228,7 +228,7 @@ public abstract class AlgoOrderStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #bookTime} instance as {@link Date}
-     **/
+     */
     public Date getBookDate() {
         return TimeFormatter.getDate(bookTime);
     }

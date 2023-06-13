@@ -15,52 +15,52 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-prevented-matches-user_data">
  * Query Prevented Matches (USER_DATA)</a>
- **/
+ */
 public class PreventedMatch {
 
     /**
      * {@code symbol} symbol of the match
-     **/
+     */
     private final String symbol;
 
     /**
      * {@code preventedMatchId} prevented match identifier
-     **/
+     */
     private final long preventedMatchId;
 
     /**
      * {@code takerOrderId} taker order identifier
-     **/
+     */
     private final long takerOrderId;
 
     /**
      * {@code makerOrderId} maker order identifier
-     **/
+     */
     private final long makerOrderId;
 
     /**
      * {@code tradeGroupId} trade group identifier
-     **/
+     */
     private final long tradeGroupId;
 
     /**
      * {@code selfTradePreventionMode} self trade prevention mode value
-     **/
+     */
     private final SelfTradePreventionMode selfTradePreventionMode;
 
     /**
      * {@code price} price value
-     **/
+     */
     private final double price;
 
     /**
      * {@code makerPreventedQuantity} maker prevented quantity value
-     **/
+     */
     private final double makerPreventedQuantity;
 
     /**
      * {@code transactTime} transaction time value
-     **/
+     */
     private final long transactTime;
 
     /**
@@ -75,7 +75,7 @@ public class PreventedMatch {
      * @param price:                     price value
      * @param makerPreventedQuantity:    maker prevented quantity value
      * @param transactTime:              transaction time value
-     **/
+     */
     public PreventedMatch(String symbol, long preventedMatchId, long takerOrderId, long makerOrderId, long tradeGroupId,
                           SelfTradePreventionMode selfTradePreventionMode, double price, double makerPreventedQuantity,
                           long transactTime) {
@@ -94,7 +94,7 @@ public class PreventedMatch {
      * Constructor to init {@link PreventedMatch} object
      *
      * @param jPreventedMatch: prevented match details as {@link JSONObject}
-     **/
+     */
     public PreventedMatch(JSONObject jPreventedMatch) {
         JsonHelper hPreventedMatch = new JsonHelper(jPreventedMatch);
         symbol = hPreventedMatch.getString("symbol");
@@ -113,7 +113,7 @@ public class PreventedMatch {
      * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
-     **/
+     */
     public String getSymbol() {
         return symbol;
     }
@@ -123,7 +123,7 @@ public class PreventedMatch {
      * No-any params required
      *
      * @return {@link #preventedMatchId} instance as long
-     **/
+     */
     public long getPreventedMatchId() {
         return preventedMatchId;
     }
@@ -133,7 +133,7 @@ public class PreventedMatch {
      * No-any params required
      *
      * @return {@link #takerOrderId} instance as long
-     **/
+     */
     public long getTakerOrderId() {
         return takerOrderId;
     }
@@ -143,7 +143,7 @@ public class PreventedMatch {
      * No-any params required
      *
      * @return {@link #makerOrderId} instance as long
-     **/
+     */
     public long getMakerOrderId() {
         return makerOrderId;
     }
@@ -153,7 +153,7 @@ public class PreventedMatch {
      * No-any params required
      *
      * @return {@link #tradeGroupId} instance as long
-     **/
+     */
     public long getTradeGroupId() {
         return tradeGroupId;
     }
@@ -163,7 +163,7 @@ public class PreventedMatch {
      * No-any params required
      *
      * @return {@link #selfTradePreventionMode} instance as {@link SelfTradePreventionMode}
-     **/
+     */
     public SelfTradePreventionMode getSelfTradePreventionMode() {
         return selfTradePreventionMode;
     }
@@ -173,7 +173,7 @@ public class PreventedMatch {
      * No-any params required
      *
      * @return {@link #price} instance as double
-     **/
+     */
     public double getPrice() {
         return price;
     }
@@ -184,7 +184,7 @@ public class PreventedMatch {
      * @param decimals: number of digits to round final value
      * @return {@link #price} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getPrice(int decimals) {
         return roundValue(price, decimals);
     }
@@ -194,7 +194,7 @@ public class PreventedMatch {
      * No-any params required
      *
      * @return {@link #makerPreventedQuantity} instance as double
-     **/
+     */
     public double getMakerPreventedQuantity() {
         return makerPreventedQuantity;
     }
@@ -205,7 +205,7 @@ public class PreventedMatch {
      * @param decimals: number of digits to round final value
      * @return {@link #makerPreventedQuantity} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getMakerPreventedQuantity(int decimals) {
         return roundValue(makerPreventedQuantity, decimals);
     }
@@ -215,7 +215,7 @@ public class PreventedMatch {
      * No-any params required
      *
      * @return {@link #transactTime} instance as long
-     **/
+     */
     public long getTransactTime() {
         return transactTime;
     }
@@ -225,7 +225,7 @@ public class PreventedMatch {
      * No-any params required
      *
      * @return {@link #transactTime} instance as {@link Date}
-     **/
+     */
     public Date getTransactDate() {
         return TimeFormatter.getDate(transactTime);
     }

@@ -20,17 +20,17 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  * Payload: Account Update</a>
  * @see BinanceItem
  * @see BinanceWebsocketResponse
- **/
+ */
 public class AccountUpdate extends BinanceWebsocketResponse {
 
     /**
      * {@code lastAccountUpdate} time of the last account update
-     **/
+     */
     private final long lastAccountUpdate;
 
     /**
      * {@code balances} of the account update
-     **/
+     */
     private final ArrayList<SpotBalance> balances;
 
     /**
@@ -40,7 +40,7 @@ public class AccountUpdate extends BinanceWebsocketResponse {
      * @param eventTime:         event time of the account update
      * @param lastAccountUpdate: time of the last account update
      * @param balances:          balances of the account update
-     **/
+     */
     public AccountUpdate(EventType eventType, long eventTime, long lastAccountUpdate, ArrayList<SpotBalance> balances) {
         super(eventType, eventTime);
         this.lastAccountUpdate = lastAccountUpdate;
@@ -51,7 +51,7 @@ public class AccountUpdate extends BinanceWebsocketResponse {
      * Constructor to init {@link AccountUpdate} object
      *
      * @param jAccountUpdate: account update details as {@link JSONObject}
-     **/
+     */
     public AccountUpdate(JSONObject jAccountUpdate) {
         super(jAccountUpdate);
         lastAccountUpdate = hItem.getLong("u", 0);
@@ -67,7 +67,7 @@ public class AccountUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #lastAccountUpdate} instance as long
-     **/
+     */
     public long getLastAccountUpdate() {
         return lastAccountUpdate;
     }
@@ -77,7 +77,7 @@ public class AccountUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #lastAccountUpdate} instance as {@link Date}
-     **/
+     */
     public Date getLastAccountUpdateDate() {
         return TimeFormatter.getDate(lastAccountUpdate);
     }
@@ -87,7 +87,7 @@ public class AccountUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #balances} instance as {@link ArrayList} of {@link SpotBalance}
-     **/
+     */
     public ArrayList<SpotBalance> getBalances() {
         return balances;
     }

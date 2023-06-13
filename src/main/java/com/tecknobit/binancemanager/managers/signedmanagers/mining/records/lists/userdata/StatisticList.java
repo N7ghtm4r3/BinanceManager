@@ -18,14 +18,14 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.mining.record
  * @see BinanceItem
  * @see BinanceResponse
  * @see MiningResponse
- **/
+ */
 public class StatisticList extends MiningResponse<MiningStatistic> {
 
     /**
      * Constructor to init {@link StatisticList} object
      *
      * @param data: statistic list
-     **/
+     */
     public StatisticList(MiningStatistic data) {
         super(data);
     }
@@ -34,7 +34,7 @@ public class StatisticList extends MiningResponse<MiningStatistic> {
      * Constructor to init {@link StatisticList} object
      *
      * @param jStatisticList: statistic list details as {@link JSONObject}
-     **/
+     */
     public StatisticList(JSONObject jStatisticList) {
         super(jStatisticList);
         JSONObject jData = hItem.getJSONObject("data");
@@ -49,52 +49,52 @@ public class StatisticList extends MiningResponse<MiningStatistic> {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class MiningStatistic extends BinanceItem {
 
         /**
          * {@code fifteenMinHashRate} 15 mins hashrate
-         **/
+         */
         private final String fifteenMinHashRate;
 
         /**
          * {@code dayHashRate} 24H Hashrate
-         **/
+         */
         private final String dayHashRate;
 
         /**
          * {@code validNum} effective quantity
-         **/
+         */
         private final int validNum;
 
         /**
          * {@code invalidNum} invalid quantity
-         **/
+         */
         private final int invalidNum;
 
         /**
          * {@code profitToday} today's estimate
-         **/
+         */
         private final HashMap<String, Double> profitToday;
 
         /**
          * {@code profitYesterday} yesterday's earnings
-         **/
+         */
         private final HashMap<String, Double> profitYesterday;
 
         /**
          * {@code userName} mining account
-         **/
+         */
         private final String userName;
 
         /**
          * {@code unit} hashrate unit
-         **/
+         */
         private final String unit;
 
         /**
          * {@code algo} algorithm
-         **/
+         */
         private final String algo;
 
         /**
@@ -109,7 +109,7 @@ public class StatisticList extends MiningResponse<MiningStatistic> {
          * @param userName: mining account
          * @param unit: hashrate unit
          * @param algo: algorithm
-         **/
+         */
         public MiningStatistic(String fifteenMinHashRate, String dayHashRate, int validNum, int invalidNum,
                                HashMap<String, Double> profitToday, HashMap<String, Double> profitYesterday,
                                String userName, String unit, String algo) {
@@ -129,7 +129,7 @@ public class StatisticList extends MiningResponse<MiningStatistic> {
          * Constructor to init {@link MiningStatistic} object
          *
          * @param jMiningStatistic: mining statistic details as {@link JSONObject}
-         **/
+         */
         public MiningStatistic(JSONObject jMiningStatistic) {
             super(jMiningStatistic);
             fifteenMinHashRate = hItem.getString("fifteenMinHashRate");
@@ -148,7 +148,7 @@ public class StatisticList extends MiningResponse<MiningStatistic> {
          *
          * @param jMap: map from fetch the details
          * @return profit map as {@link HashMap} of {@link String} and {@link Double}
-         * **/
+         */
         private HashMap<String, Double> loadProfitMap(JSONObject jMap) {
             HashMap<String, Double> profitMap = new HashMap<>();
             for (String key : jMap.keySet())
@@ -161,7 +161,7 @@ public class StatisticList extends MiningResponse<MiningStatistic> {
          * No-any params required
          *
          * @return {@link #fifteenMinHashRate} instance as {@link String}
-         **/
+         */
         public String getFifteenMinHashRate() {
             return fifteenMinHashRate;
         }
@@ -171,7 +171,7 @@ public class StatisticList extends MiningResponse<MiningStatistic> {
          * No-any params required
          *
          * @return {@link #dayHashRate} instance as {@link String}
-         **/
+         */
         public String getDayHashRate() {
             return dayHashRate;
         }
@@ -181,7 +181,7 @@ public class StatisticList extends MiningResponse<MiningStatistic> {
          * No-any params required
          *
          * @return {@link #validNum} instance as long
-         **/
+         */
         public int getValidNum() {
             return validNum;
         }
@@ -191,7 +191,7 @@ public class StatisticList extends MiningResponse<MiningStatistic> {
          * No-any params required
          *
          * @return {@link #invalidNum} instance as long
-         **/
+         */
         public int getInvalidNum() {
             return invalidNum;
         }
@@ -201,7 +201,7 @@ public class StatisticList extends MiningResponse<MiningStatistic> {
          * No-any params required
          *
          * @return {@link #profitToday} instance as {@link HashMap} of {@link String} and {@link Double}
-         **/
+         */
         public HashMap<String, Double> getProfitToday() {
             return profitToday;
         }
@@ -211,7 +211,7 @@ public class StatisticList extends MiningResponse<MiningStatistic> {
          * No-any params required
          *
          * @return {@link #profitYesterday} instance as {@link HashMap} of {@link String} and {@link Double}
-         **/
+         */
         public HashMap<String, Double> getProfitYesterday() {
             return profitYesterday;
         }
@@ -221,7 +221,7 @@ public class StatisticList extends MiningResponse<MiningStatistic> {
          * No-any params required
          *
          * @return {@link #userName} instance as {@link String}
-         **/
+         */
         public String getUserName() {
             return userName;
         }
@@ -231,7 +231,7 @@ public class StatisticList extends MiningResponse<MiningStatistic> {
          * No-any params required
          *
          * @return {@link #unit} instance as {@link String}
-         **/
+         */
         public String getUnit() {
             return unit;
         }
@@ -241,7 +241,7 @@ public class StatisticList extends MiningResponse<MiningStatistic> {
          * No-any params required
          *
          * @return {@link #algo} instance as {@link String}
-         **/
+         */
         public String getAlgo() {
             return algo;
         }

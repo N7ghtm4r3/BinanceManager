@@ -15,32 +15,32 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data">
  * Query Cross Margin Fee Data (USER_DATA)</a>
  * @see IsolatedData
- **/
+ */
 public class CrossMarginFee extends IsolatedData {
 
     /**
      * {@code vipLevel} is instance that memorizes vip level
-     **/
+     */
     private final int vipLevel;
 
     /**
      * {@code yearlyInterest} is instance that memorizes if is a transfer in
-     **/
+     */
     private final boolean transferIn;
 
     /**
      * {@code borrowable} is instance that memorizes if is borrowable
-     **/
+     */
     private final boolean borrowable;
 
     /**
      * {@code yearlyInterest} is instance that memorizes value of yearly interest
-     **/
+     */
     private final double yearlyInterest;
 
     /**
      * {@code marginablePairsList} is instance that memorizes list of pairs data
-     **/
+     */
     private final ArrayList<String> marginablePairsList;
 
     /** Constructor to init {@link CrossMarginFee} object
@@ -53,7 +53,7 @@ public class CrossMarginFee extends IsolatedData {
      * @param borrowLimit: limit for borrow
      * @param marginablePairsList: list of pairs data
      * @throws IllegalArgumentException if parameters range is not respected
-     * **/
+     */
     public CrossMarginFee(String coin, double dailyInterest, double borrowLimit, int vipLevel, boolean transferIn,
                           boolean borrowable, double yearlyInterest, ArrayList<String> marginablePairsList) {
         super(coin, dailyInterest, borrowLimit);
@@ -69,7 +69,7 @@ public class CrossMarginFee extends IsolatedData {
      *
      * @param marginFee: margin fee details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
-     **/
+     */
     public CrossMarginFee(JSONObject marginFee) {
         super(marginFee);
         vipLevel = marginFee.getInt("vipLevel");
@@ -89,7 +89,7 @@ public class CrossMarginFee extends IsolatedData {
      * No-any params required
      *
      * @return {@link #vipLevel} instance as int
-     **/
+     */
     public int getVipLevel() {
         return vipLevel;
     }
@@ -99,7 +99,7 @@ public class CrossMarginFee extends IsolatedData {
      * No-any params required
      *
      * @return {@link #transferIn} instance as boolean
-     **/
+     */
     public boolean isTransferIn() {
         return transferIn;
     }
@@ -109,7 +109,7 @@ public class CrossMarginFee extends IsolatedData {
      * No-any params required
      *
      * @return {@link #borrowable} instance as boolean
-     **/
+     */
     public boolean isBorrowable() {
         return borrowable;
     }
@@ -119,7 +119,7 @@ public class CrossMarginFee extends IsolatedData {
      * No-any params required
      *
      * @return {@link #yearlyInterest} instance as double
-     **/
+     */
     public double getYearlyInterest() {
         return yearlyInterest;
     }
@@ -130,7 +130,7 @@ public class CrossMarginFee extends IsolatedData {
      * @param decimals: number of digits to round final value
      * @return {@link #yearlyInterest} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getYearlyInterest(int decimals) {
         return roundValue(yearlyInterest, decimals);
     }
@@ -140,7 +140,7 @@ public class CrossMarginFee extends IsolatedData {
      * No-any params required
      *
      * @return {@link #marginablePairsList} instance as {@link ArrayList} of {@link String}
-     **/
+     */
     public ArrayList<String> getMarginablePairsList() {
         return marginablePairsList;
     }
@@ -149,7 +149,7 @@ public class CrossMarginFee extends IsolatedData {
      * Method to add a marginable pair to {@link #marginablePairsList}
      *
      * @param marginablePair: marginable pair to add
-     **/
+     */
     public void insertMarginablePair(String marginablePair) {
         if (!marginablePairsList.contains(marginablePair))
             marginablePairsList.add(marginablePair);
@@ -160,7 +160,7 @@ public class CrossMarginFee extends IsolatedData {
      *
      * @param marginablePair: marginable pair to remove
      * @return result of operation as boolean
-     **/
+     */
     public boolean removeMarginablePair(String marginablePair) {
         return marginablePairsList.remove(marginablePair);
     }
@@ -170,7 +170,7 @@ public class CrossMarginFee extends IsolatedData {
      *
      * @param index: index to fetch the marginable pair
      * @return marginable pair as {@link String}
-     **/
+     */
     public String getMarginablePair(int index) {
         return marginablePairsList.get(index);
     }

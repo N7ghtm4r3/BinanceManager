@@ -20,7 +20,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.fiat.records.
  * @see BinanceItem
  * @see BinanceDataList
  * @see BinanceResponse
- **/
+ */
 public class FiatPaymentsHistory extends BinanceDataList<FiatPayment> {
 
     /**
@@ -29,7 +29,7 @@ public class FiatPaymentsHistory extends BinanceDataList<FiatPayment> {
      * @param total:   number of items
      * @param success: whether the list is created with success
      * @param data:    {@link FiatPayment} of the list
-     **/
+     */
     public FiatPaymentsHistory(int total, boolean success, ArrayList<FiatPayment> data) {
         super(total, success, data);
     }
@@ -38,7 +38,7 @@ public class FiatPaymentsHistory extends BinanceDataList<FiatPayment> {
      * Constructor to init {@link FiatPaymentsHistory} object
      *
      * @param jFiatPayments: fiat payments details as {@link JSONObject}
-     **/
+     */
     public FiatPaymentsHistory(JSONObject jFiatPayments) {
         super(jFiatPayments);
         JSONArray jData = hItem.getJSONArray("data", new JSONArray());
@@ -52,44 +52,44 @@ public class FiatPaymentsHistory extends BinanceDataList<FiatPayment> {
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see FiatItem
-     **/
+     */
     public static class FiatPayment extends FiatItem {
 
         /**
          * {@code PaymentMethod} list of available payment methods
-         **/
+         */
         public enum PaymentMethod {
 
             /**
              * {@code Cash Balance} payment method
-             **/
+             */
             Cash_Balance("Cash Balance"),
 
             /**
              * {@code Credit Card} payment method
-             **/
+             */
             Credit_Card("Credit Card"),
 
             /**
              * {@code Online Banking} payment method
-             **/
+             */
             Online_Banking("Online Banking"),
 
             /**
              * {@code Bank Transfer} payment method
-             **/
+             */
             Bank_Transfer("Bank Transfer");
 
             /**
              * {@code method} of the payment
-             **/
+             */
             private final String method;
 
             /**
              * Constructor to init {@link PaymentMethod}
              *
              * @param method: of the payment
-             **/
+             */
             PaymentMethod(String method) {
                 this.method = method;
             }
@@ -99,7 +99,7 @@ public class FiatPaymentsHistory extends BinanceDataList<FiatPayment> {
              * No-any params required
              *
              * @return {@link #method} instance as {@link String}
-             **/
+             */
             @Override
             public String toString() {
                 return method;
@@ -109,27 +109,27 @@ public class FiatPaymentsHistory extends BinanceDataList<FiatPayment> {
 
         /**
          * {@code sourceAmount} fiat trade amount
-         **/
+         */
         private final double sourceAmount;
 
         /**
          * {@code obtainAmount} crypto trade amount
-         **/
+         */
         private final double obtainAmount;
 
         /**
          * {@code cryptocurrency} crypto token
-         **/
+         */
         private final String cryptocurrency;
 
         /**
          * {@code price} of the payment
-         **/
+         */
         private final double price;
 
         /**
          * {@code paymentMethod} method of the payment
-         **/
+         */
         private final PaymentMethod paymentMethod;
 
         /**
@@ -146,7 +146,7 @@ public class FiatPaymentsHistory extends BinanceDataList<FiatPayment> {
          * @param cryptocurrency: crypto token
          * @param price:          price of the payment
          * @param paymentMethod:  method of the payment
-         **/
+         */
         public FiatPayment(String orderNo, String fiatCurrency, double totalFee, FiatStatus status, long createTime,
                            long updateTime, double sourceAmount, double obtainAmount, String cryptocurrency, double price,
                            PaymentMethod paymentMethod) {
@@ -162,7 +162,7 @@ public class FiatPaymentsHistory extends BinanceDataList<FiatPayment> {
          * Constructor to init {@link FiatPayment} object
          *
          * @param jFiatPayment: fiat payment details as {@link JSONObject}
-         **/
+         */
         public FiatPayment(JSONObject jFiatPayment) {
             super(jFiatPayment);
             sourceAmount = hItem.getDouble("sourceAmount", 0);
@@ -177,7 +177,7 @@ public class FiatPaymentsHistory extends BinanceDataList<FiatPayment> {
          * No-any params required
          *
          * @return {@link #sourceAmount} instance as double
-         **/
+         */
         public double getSourceAmount() {
             return sourceAmount;
         }
@@ -188,7 +188,7 @@ public class FiatPaymentsHistory extends BinanceDataList<FiatPayment> {
          * @param decimals: number of digits to round final value
          * @return {@link #sourceAmount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getSourceAmount(int decimals) {
             return roundValue(sourceAmount, decimals);
         }
@@ -198,7 +198,7 @@ public class FiatPaymentsHistory extends BinanceDataList<FiatPayment> {
          * No-any params required
          *
          * @return {@link #obtainAmount} instance as double
-         **/
+         */
         public double getObtainAmount() {
             return obtainAmount;
         }
@@ -209,7 +209,7 @@ public class FiatPaymentsHistory extends BinanceDataList<FiatPayment> {
          * @param decimals: number of digits to round final value
          * @return {@link #obtainAmount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getObtainAmount(int decimals) {
             return roundValue(obtainAmount, decimals);
         }
@@ -219,7 +219,7 @@ public class FiatPaymentsHistory extends BinanceDataList<FiatPayment> {
          * No-any params required
          *
          * @return {@link #cryptocurrency} instance as {@link String}
-         **/
+         */
         public String getCryptocurrency() {
             return cryptocurrency;
         }
@@ -229,7 +229,7 @@ public class FiatPaymentsHistory extends BinanceDataList<FiatPayment> {
          * No-any params required
          *
          * @return {@link #price} instance as double
-         **/
+         */
         public double getPrice() {
             return price;
         }
@@ -240,7 +240,7 @@ public class FiatPaymentsHistory extends BinanceDataList<FiatPayment> {
          * @param decimals: number of digits to round final value
          * @return {@link #price} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getPrice(int decimals) {
             return roundValue(price, decimals);
         }
@@ -250,7 +250,7 @@ public class FiatPaymentsHistory extends BinanceDataList<FiatPayment> {
          * No-any params required
          *
          * @return {@link #paymentMethod} instance as {@link PaymentMethod}
-         **/
+         */
         public PaymentMethod getPaymentMethod() {
             return paymentMethod;
         }

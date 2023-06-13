@@ -24,28 +24,28 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * </ul>
  * @see BinanceItem
  * @see SavingStructure
- **/
+ */
 @Structure
 public abstract class SavingProductStructure extends SavingStructure {
 
     /**
      * {@code tierAnnualInterestRate} tier annual interest rate of the saving product
-     **/
+     */
     protected final TierAnnualInterestRate tierAnnualInterestRate;
 
     /**
      * {@code canRedeem} whether the saving product can redeem
-     **/
+     */
     protected final boolean canRedeem;
 
     /**
      * {@code productId} product id of the saving product
-     **/
+     */
     protected final String productId;
 
     /**
      * {@code averageAnnualInterestRate} average annual interest rate of the saving product
-     **/
+     */
     protected final double averageAnnualInterestRate;
 
     /**
@@ -56,7 +56,7 @@ public abstract class SavingProductStructure extends SavingStructure {
      * @param canRedeem:                 whether the saving product can redeem
      * @param productId:                 product id of the saving product
      * @param averageAnnualInterestRate: average annual interest rate of the saving product
-     **/
+     */
     public SavingProductStructure(String asset, TierAnnualInterestRate tierAnnualInterestRate, boolean canRedeem,
                                   String productId, double averageAnnualInterestRate) {
         super(asset);
@@ -70,7 +70,7 @@ public abstract class SavingProductStructure extends SavingStructure {
      * Constructor to init {@link SavingProductStructure} object
      *
      * @param jSavingProductStructure: saving product details as {@link JSONObject}
-     **/
+     */
     public SavingProductStructure(JSONObject jSavingProductStructure) {
         super(jSavingProductStructure);
         JSONObject jTier = hItem.getJSONObject("tierAnnualInterestRate");
@@ -88,7 +88,7 @@ public abstract class SavingProductStructure extends SavingStructure {
      * No-any params required
      *
      * @return {@link #tierAnnualInterestRate} instance as {@link TierAnnualInterestRate}
-     **/
+     */
     public TierAnnualInterestRate getTierAnnualInterestRate() {
         return tierAnnualInterestRate;
     }
@@ -98,7 +98,7 @@ public abstract class SavingProductStructure extends SavingStructure {
      * No-any params required
      *
      * @return {@link #canRedeem} instance as boolean
-     **/
+     */
     public boolean canRedeem() {
         return canRedeem;
     }
@@ -108,7 +108,7 @@ public abstract class SavingProductStructure extends SavingStructure {
      * No-any params required
      *
      * @return {@link #productId} instance as {@link String}
-     **/
+     */
     public String getProductId() {
         return productId;
     }
@@ -118,7 +118,7 @@ public abstract class SavingProductStructure extends SavingStructure {
      * No-any params required
      *
      * @return {@link #averageAnnualInterestRate} instance as double
-     **/
+     */
     public double getAverageAnnualInterestRate() {
         return averageAnnualInterestRate;
     }
@@ -129,7 +129,7 @@ public abstract class SavingProductStructure extends SavingStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #averageAnnualInterestRate} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getAverageAnnualInterestRate(int decimals) {
         return roundValue(averageAnnualInterestRate, decimals);
     }
@@ -139,22 +139,22 @@ public abstract class SavingProductStructure extends SavingStructure {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class TierAnnualInterestRate extends BinanceItem {
 
         /**
          * {@code _0_5BTC} 0-5 BTC
-         **/
+         */
         private final double _0_5BTC;
 
         /**
          * {@code _5_10BTC} 5-10 BTC
-         **/
+         */
         private final double _5_10BTC;
 
         /**
          * {@code _m10BTC} >10 BTC
-         **/
+         */
         private final double _m10BTC;
 
         /**
@@ -163,7 +163,7 @@ public abstract class SavingProductStructure extends SavingStructure {
          * @param _0_5BTC:  0-5 BTC
          * @param _5_10BTC: 5-10 BTC
          * @param _m10BTC:  >10 BTC
-         **/
+         */
         public TierAnnualInterestRate(double _0_5BTC, double _5_10BTC, double _m10BTC) {
             super(null);
             this._0_5BTC = _0_5BTC;
@@ -175,7 +175,7 @@ public abstract class SavingProductStructure extends SavingStructure {
          * Constructor to init {@link TierAnnualInterestRate} object
          *
          * @param jTierAnnualInterestRate: tier annual interest rate details as {@link JSONObject}
-         **/
+         */
         public TierAnnualInterestRate(JSONObject jTierAnnualInterestRate) {
             super(jTierAnnualInterestRate);
             _0_5BTC = hItem.getDouble("0-5BTC", 0);
@@ -188,7 +188,7 @@ public abstract class SavingProductStructure extends SavingStructure {
          * No-any params required
          *
          * @return {@link #_0_5BTC} instance as double
-         **/
+         */
         public double get_0_5BTC() {
             return _0_5BTC;
         }
@@ -199,7 +199,7 @@ public abstract class SavingProductStructure extends SavingStructure {
          * @param decimals: number of digits to round final value
          * @return {@link #_0_5BTC} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double get_0_5BTC(int decimals) {
             return roundValue(_0_5BTC, decimals);
         }
@@ -209,7 +209,7 @@ public abstract class SavingProductStructure extends SavingStructure {
          * No-any params required
          *
          * @return {@link #_5_10BTC} instance as double
-         **/
+         */
         public double get_5_10BTC() {
             return _5_10BTC;
         }
@@ -220,7 +220,7 @@ public abstract class SavingProductStructure extends SavingStructure {
          * @param decimals: number of digits to round final value
          * @return {@link #_5_10BTC} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double get_5_10BTC(int decimals) {
             return roundValue(_5_10BTC, decimals);
         }
@@ -230,7 +230,7 @@ public abstract class SavingProductStructure extends SavingStructure {
          * No-any params required
          *
          * @return {@link #_m10BTC} instance as double
-         **/
+         */
         public double get_m10BTC() {
             return _m10BTC;
         }
@@ -241,7 +241,7 @@ public abstract class SavingProductStructure extends SavingStructure {
          * @param decimals: number of digits to round final value
          * @return {@link #_m10BTC} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double get_m10BTC(int decimals) {
             return roundValue(_m10BTC, decimals);
         }

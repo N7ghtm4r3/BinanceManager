@@ -13,22 +13,22 @@ import org.json.JSONObject;
  * @see BinanceItem
  * @see BinanceWebsocketResponse
  * @see WbsTradeStructure
- **/
+ */
 public class WbsTrade extends WbsTradeStructure {
 
     /**
      * {@code tradeId} trade id of the websocket trade
-     * **/
+     */
     private final long tradeId;
 
     /**
      * {@code buyerOrderId} buyer order id of the websocket trade
-     * **/
+     */
     private final long buyerOrderId;
 
     /**
      * {@code sellerOrderId} seller order id of the websocket trade
-     * **/
+     */
     private final long sellerOrderId;
 
     /**
@@ -44,7 +44,7 @@ public class WbsTrade extends WbsTradeStructure {
      * @param tradeId : trade id of the websocket trade
      * @param buyerOrderId : buyer order id of the websocket trade
      * @param sellerOrderId : seller order id of the websocket trade
-     **/
+     */
     public WbsTrade(EventType eventType, long eventTime, String symbol, double price, double quantity, long tradeTime,
                     boolean isBuyerMarketMaker, long tradeId, long buyerOrderId, long sellerOrderId) {
         super(eventType, eventTime, symbol, price, quantity, tradeTime, isBuyerMarketMaker);
@@ -57,7 +57,7 @@ public class WbsTrade extends WbsTradeStructure {
      * Constructor to init {@link WbsTrade} object
      *
      * @param jWbsTrade : websocket trade details as {@link JSONObject}
-     **/
+     */
     public WbsTrade(JSONObject jWbsTrade) {
         super(jWbsTrade);
         tradeId = hItem.getLong("t", 0);
@@ -70,7 +70,7 @@ public class WbsTrade extends WbsTradeStructure {
      * No-any params required
      *
      * @return {@link #tradeId} instance as long
-     **/
+     */
     public long getTradeId() {
         return tradeId;
     }
@@ -80,7 +80,7 @@ public class WbsTrade extends WbsTradeStructure {
      * No-any params required
      *
      * @return {@link #buyerOrderId} instance as long
-     **/
+     */
     public long getBuyerOrderId() {
         return buyerOrderId;
     }
@@ -90,7 +90,7 @@ public class WbsTrade extends WbsTradeStructure {
      * No-any params required
      *
      * @return {@link #sellerOrderId} instance as long
-     **/
+     */
     public long getSellerOrderId() {
         return sellerOrderId;
     }

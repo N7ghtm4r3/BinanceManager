@@ -15,12 +15,12 @@ import java.util.ArrayList;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-all-open-orders-on-a-symbol-trade">
  * Cancel all Open Orders on a Symbol (TRADE)</a>
  * @see OrderDetails
- **/
+ */
 public class ComposedSpotOrderDetails extends OrderDetails {
 
     /**
      * {@code orderReportsList} is instance that memorizes order reports list
-     **/
+     */
     private ArrayList<SpotOrderDetails> orderReportsList;
 
     /**
@@ -35,7 +35,7 @@ public class ComposedSpotOrderDetails extends OrderDetails {
      * @param symbol:            symbol used in the order
      * @param orders:            list of {@link Order}
      * @param orderReportsList:  list of {@link SpotOrderDetails}
-     **/
+     */
     public ComposedSpotOrderDetails(long orderListId, String contingencyType, Status listStatusType, Status listOrderStatus,
                                     String listClientOrderId, long transactionTime, String symbol, ArrayList<Order> orders,
                                     ArrayList<SpotOrderDetails> orderReportsList) {
@@ -48,7 +48,7 @@ public class ComposedSpotOrderDetails extends OrderDetails {
      * Constructor to init {@link ComposedSpotOrderDetails} object
      *
      * @param composedSpotOrder: composed spot order details as {@link JSONObject}
-     **/
+     */
     public ComposedSpotOrderDetails(JSONObject composedSpotOrder) {
         super(composedSpotOrder);
         orderReportsList = new ArrayList<>();
@@ -62,7 +62,7 @@ public class ComposedSpotOrderDetails extends OrderDetails {
      * No-any params required
      *
      * @return {@link #orderReportsList} instance as {@link ArrayList} of {@link SpotOrderDetails}
-     **/
+     */
     public ArrayList<SpotOrderDetails> getOrderReportsList() {
         return orderReportsList;
     }
@@ -71,7 +71,7 @@ public class ComposedSpotOrderDetails extends OrderDetails {
      * Method to set {@link #orderReportsList} instance <br>
      *
      * @param orderReportsList: list of {@link SpotOrderDetails} to set
-     **/
+     */
     public void setOrderReportsList(ArrayList<SpotOrderDetails> orderReportsList) {
         this.orderReportsList = orderReportsList;
     }
@@ -80,7 +80,7 @@ public class ComposedSpotOrderDetails extends OrderDetails {
      * Method to add an order report  to {@link #orderReportsList}
      *
      * @param orderReport: order report to add
-     **/
+     */
     public void insertOrderReport(SpotOrderDetails orderReport) {
         if (!orderReportsList.contains(orderReport))
             orderReportsList.add(orderReport);
@@ -91,7 +91,7 @@ public class ComposedSpotOrderDetails extends OrderDetails {
      *
      * @param orderReport: order report  to remove
      * @return result of operation as boolean
-     **/
+     */
     public boolean removeOrderReport(SpotOrderDetails orderReport) {
         return orderReportsList.remove(orderReport);
     }
@@ -101,7 +101,7 @@ public class ComposedSpotOrderDetails extends OrderDetails {
      *
      * @param index: index to fetch the details of the spot order
      * @return permission as {@link SpotOrderDetails}
-     **/
+     */
     public SpotOrderDetails getOrderReport(int index) {
         return orderReportsList.get(index);
     }

@@ -10,6 +10,7 @@ import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.portfoliomargin.records.*;
+import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.BinanceMarginManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -28,42 +29,46 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * Portfolio Margin Endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
- **/
+ */
 public class BinancePortfolioMarginManager extends BinanceSignedManager {
 
     /**
      * {@code PORTFOLIO_ACCOUNT_ENDPOINT} is constant for PORTFOLIO_ACCOUNT_ENDPOINT's endpoint
-     **/
+     */
     public static final String PORTFOLIO_ACCOUNT_ENDPOINT = "/sapi/v1/portfolio/account";
 
     /**
      * {@code PORTFOLIO_COLLATERAL_RATE_ENDPOINT} is constant for PORTFOLIO_COLLATERAL_RATE_ENDPOINT's endpoint
-     **/
+     */
     public static final String PORTFOLIO_COLLATERAL_RATE_ENDPOINT = "/sapi/v1/portfolio/collateralRate";
 
     /**
      * {@code PORTFOLIO_PM_LOAN_ENDPOINT} is constant for PORTFOLIO_PM_LOAN_ENDPOINT's endpoint
-     **/
+     */
     public static final String PORTFOLIO_PM_LOAN_ENDPOINT = "/sapi/v1/portfolio/pmLoan";
 
     /**
      * {@code PORTFOLIO_REPAY_ENDPOINT} is constant for PORTFOLIO_REPAY_ENDPOINT's endpoint
-     **/
+     */
     public static final String PORTFOLIO_REPAY_ENDPOINT = "/sapi/v1/portfolio/repay";
 
     /**
      * {@code PORTFOLIO_INTEREST_HISTORY_ENDPOINT} is constant for PORTFOLIO_INTEREST_HISTORY_ENDPOINT's endpoint
-     **/
+     */
     public static final String PORTFOLIO_INTEREST_HISTORY_ENDPOINT = "/sapi/v1/portfolio/interest-history";
 
     /**
      * {@code PORTFOLIO_INTEREST_RATE_ENDPOINT} is constant for PORTFOLIO_INTEREST_RATE_ENDPOINT's endpoint
-     **/
+     *
+     * @deprecated this endpoint is deprecated and will be removed in the next release of the library, use instead
+     * {@link BinanceMarginManager#MARGIN_INTEREST_RATE_HISTORY_ENDPOINT}
+     */
+    @Deprecated
     public static final String PORTFOLIO_INTEREST_RATE_ENDPOINT = "/sapi/v1/portfolio/interest-rate";
 
     /**
      * {@code PORTFOLIO_ASSET_INDEX_PRICE_ENDPOINT} is constant for PORTFOLIO_ASSET_INDEX_PRICE_ENDPOINT's endpoint
-     **/
+     */
     public static final String PORTFOLIO_ASSET_INDEX_PRICE_ENDPOINT = "/sapi/v1/portfolio/asset-index-price";
 
     /**
@@ -74,7 +79,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinancePortfolioMarginManager(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
                                          String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
@@ -87,7 +92,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinancePortfolioMarginManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
                                          String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, apiKey, secretKey);
@@ -100,7 +105,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinancePortfolioMarginManager(String baseEndpoint, int timeout, String apiKey,
                                          String secretKey) throws SystemException, IOException {
         super(baseEndpoint, timeout, apiKey, secretKey);
@@ -112,7 +117,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinancePortfolioMarginManager(String baseEndpoint, String apiKey,
                                          String secretKey) throws SystemException, IOException {
         super(baseEndpoint, apiKey, secretKey);
@@ -133,7 +138,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *        BinanceSignedManager secondManager = new BinanceSignedManager(); //same credentials used
      *     }
      * </pre>
-     **/
+     */
     public BinancePortfolioMarginManager() {
         super();
     }
@@ -157,7 +162,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-portfolio-margin-account-info-user_data">
      * Get Portfolio Margin Account Info (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/account")
@@ -184,7 +189,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-portfolio-margin-account-info-user_data">
      * Get Portfolio Margin Account Info (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/account")
     public <T> T getPortfolioMarginAccountInfo(ReturnFormat format) throws Exception {
@@ -210,7 +215,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-portfolio-margin-account-info-user_data">
      * Get Portfolio Margin Account Info (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/account")
@@ -238,7 +243,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-portfolio-margin-account-info-user_data">
      * Get Portfolio Margin Account Info (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/account")
@@ -273,7 +278,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-portfolio-margin-account-info-user_data">
      * Portfolio Margin Collateral Rate (MARKET_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/collateralRate")
@@ -300,7 +305,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-portfolio-margin-account-info-user_data">
      * Portfolio Margin Collateral Rate (MARKET_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/collateralRate")
@@ -339,7 +344,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-bankruptcy-loan-amount-user_data">
      * Query Portfolio Margin Bankruptcy Loan Amount (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "500(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/pmLoan")
@@ -366,7 +371,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-bankruptcy-loan-amount-user_data">
      * Query Portfolio Margin Bankruptcy Loan Amount (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "500(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/pmLoan")
     public <T> T getPortfolioMarginBankruptcyLoanAmount(ReturnFormat format) throws Exception {
@@ -392,7 +397,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-bankruptcy-loan-amount-user_data">
      * Query Portfolio Margin Bankruptcy Loan Amount (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "500(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/pmLoan")
@@ -420,7 +425,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-bankruptcy-loan-amount-user_data">
      * Query Portfolio Margin Bankruptcy Loan Amount (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "500(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/pmLoan")
@@ -455,7 +460,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#portfolio-margin-bankruptcy-loan-repay">
      * Portfolio Margin Bankruptcy Loan Repay</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/portfolio/repay")
@@ -482,7 +487,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#portfolio-margin-bankruptcy-loan-repay">
      * Portfolio Margin Bankruptcy Loan Repay</a>
-     **/
+     */
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/portfolio/repay")
     public <T> T marginBankruptcyLoanRepay(ReturnFormat format) throws Exception {
@@ -508,7 +513,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#portfolio-margin-bankruptcy-loan-repay">
      * Portfolio Margin Bankruptcy Loan Repay</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/portfolio/repay")
@@ -536,7 +541,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#portfolio-margin-bankruptcy-loan-repay">
      * Portfolio Margin Bankruptcy Loan Repay</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/portfolio/repay")
@@ -561,7 +566,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *
      * @param recvWindow: request is valid for in ms, must be less than 60000
      * @return query as {@link String}
-     **/
+     */
     public String createQuery(long recvWindow) {
         String query = getTimestampParam();
         if (recvWindow != -1)
@@ -588,7 +593,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-history-user_data">
      * Query Portfolio Margin Interest History(USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-history")
@@ -615,7 +620,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-history-user_data">
      * Query Portfolio Margin Interest History(USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-history")
     public <T> T getPortfolioMarginInterestHistory(ReturnFormat format) throws Exception {
@@ -660,7 +665,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-history-user_data">
      * Query Portfolio Margin Interest History(USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-history")
@@ -707,7 +712,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-history-user_data">
      * Query Portfolio Margin Interest History(USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-history")
@@ -742,7 +747,10 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-rate-market_data">
      * Query Portfolio Margin Interest Rate (MARKET_DATA)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library, use instead
+     * {@link BinanceMarginManager#getInterestRateHistory}'s method
+     */
+    @Deprecated
     @Wrapper
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-rate")
@@ -769,7 +777,10 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-rate-market_data">
      * Query Portfolio Margin Interest Rate (MARKET_DATA)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library, use instead
+     * {@link BinanceMarginManager#getInterestRateHistory}'s method
+     */
+    @Deprecated
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-rate")
     public <T> T getPortfolioMarginInterestRate(ReturnFormat format) throws Exception {
@@ -804,7 +815,10 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-rate-market_data">
      * Query Portfolio Margin Interest Rate (MARKET_DATA)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library, use instead
+     * {@link BinanceMarginManager#getInterestRateHistory}'s method
+     */
+    @Deprecated
     @Wrapper
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-rate")
@@ -841,12 +855,15 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-rate-market_data">
      * Query Portfolio Margin Interest Rate (MARKET_DATA)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library, use instead
+     * {@link BinanceMarginManager#getInterestRateHistory}'s method
+     */
+    @Deprecated
     @Returner
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-rate")
     public <T> T getPortfolioMarginInterestRate(Params extraParams, ReturnFormat format) throws Exception {
-        String listResponse = sendGetRequest(PORTFOLIO_COLLATERAL_RATE_ENDPOINT, extraParams, apiKey);
+        String listResponse = sendGetRequest(PORTFOLIO_INTEREST_RATE_ENDPOINT, extraParams, apiKey);
         switch (format) {
             case JSON:
                 return (T) new JSONArray(listResponse);
@@ -880,7 +897,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-asset-index-price-market_data">
      * Query Portfolio Margin Asset Index Price (MARKET_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1 / 50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/asset-index-price")
@@ -907,7 +924,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-asset-index-price-market_data">
      * Query Portfolio Margin Asset Index Price (MARKET_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1 / 50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/asset-index-price")
     public <T> T getPortfolioMarginAssetPrice(ReturnFormat format) throws Exception {
@@ -933,7 +950,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-asset-index-price-market_data">
      * Query Portfolio Margin Asset Index Price (MARKET_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1 / 50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/asset-index-price")
@@ -961,7 +978,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-asset-index-price-market_data">
      * Query Portfolio Margin Asset Index Price (MARKET_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1 / 50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/portfolio/asset-index-price")

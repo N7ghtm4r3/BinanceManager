@@ -15,22 +15,22 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Query Sub-account Spot Assets Summary (For Master Account)</a>
  * @see BinanceItem
  * @see AssetTransfer
- **/
+ */
 public class SpotAssetsSummary extends BinanceItem {
 
     /**
      * {@code totalCount} total count of the spot assets summary
-     **/
+     */
     private final int totalCount;
 
     /**
      * {@code masterAccountTotalAsset} master account total asset of the spot assets summary
-     **/
+     */
     private final double masterAccountTotalAsset;
 
     /**
      * {@code spotSubUserAssetBtcVoList} spot sub-user asset Btc vo list of the spot assets summary
-     **/
+     */
     private final ArrayList<SpotSubUserAsset> spotSubUserAssetBtcVoList;
 
     /**
@@ -39,7 +39,7 @@ public class SpotAssetsSummary extends BinanceItem {
      * @param totalCount     : total count of the spot assets summary
      * @param masterAccountTotalAsset     : master account total asset of the spot assets summary
      * @param spotSubUserAssetBtcVoList : spot sub-user asset Btc vo list of the spot assets summary
-     **/
+     */
     public SpotAssetsSummary(int totalCount, double masterAccountTotalAsset,
                              ArrayList<SpotSubUserAsset> spotSubUserAssetBtcVoList) {
         super(null);
@@ -52,7 +52,7 @@ public class SpotAssetsSummary extends BinanceItem {
      * Constructor to init {@link SpotAssetsSummary} object
      *
      * @param jSpotAssetsSummary: spot assets summary details as {@link JSONObject}
-     **/
+     */
     public SpotAssetsSummary(JSONObject jSpotAssetsSummary) {
         super(jSpotAssetsSummary);
         totalCount = hItem.getInt("totalCount", 0);
@@ -69,7 +69,7 @@ public class SpotAssetsSummary extends BinanceItem {
      * No-any params required
      *
      * @return {@link #totalCount} instance as int
-     **/
+     */
     public int getTotalCount() {
         return totalCount;
     }
@@ -79,7 +79,7 @@ public class SpotAssetsSummary extends BinanceItem {
      * No-any params required
      *
      * @return {@link #masterAccountTotalAsset} instance as double
-     **/
+     */
     public double getMasterAccountTotalAsset() {
         return masterAccountTotalAsset;
     }
@@ -90,7 +90,7 @@ public class SpotAssetsSummary extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #masterAccountTotalAsset} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getMasterAccountTotalAsset(int decimals) {
         return roundValue(masterAccountTotalAsset, decimals);
     }
@@ -100,7 +100,7 @@ public class SpotAssetsSummary extends BinanceItem {
      * No-any params required
      *
      * @return {@link #spotSubUserAssetBtcVoList} instance as {@link ArrayList} of {@link SpotSubUserAsset}
-     **/
+     */
     public ArrayList<SpotSubUserAsset> getSpotSubUserAssetBtcVoList() {
         return spotSubUserAssetBtcVoList;
     }
@@ -111,17 +111,17 @@ public class SpotAssetsSummary extends BinanceItem {
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see AssetTransfer
-     **/
+     */
     public static class SpotSubUserAsset extends BinanceItem {
 
         /**
          * {@code email} of the spot sub-user asset
-         **/
+         */
         private final String email;
 
         /**
          * {@code totalAsset} total asset of the spot sub-user asset
-         **/
+         */
         private final double totalAsset;
 
         /**
@@ -129,7 +129,7 @@ public class SpotAssetsSummary extends BinanceItem {
          *
          * @param email: email of the spot sub-user asset
          * @param totalAsset: total asset of the spot sub-user asset
-         **/
+         */
         public SpotSubUserAsset(String email, double totalAsset) {
             super(null);
             this.email = email;
@@ -140,7 +140,7 @@ public class SpotAssetsSummary extends BinanceItem {
          * Constructor to init {@link SpotSubUserAsset} object
          *
          * @param jSpotSubUserAsset: spot sub-user asset details as {@link JSONObject}
-         **/
+         */
         public SpotSubUserAsset(JSONObject jSpotSubUserAsset) {
             super(jSpotSubUserAsset);
             email = hItem.getString("email");
@@ -152,7 +152,7 @@ public class SpotAssetsSummary extends BinanceItem {
          * No-any params required
          *
          * @return {@link #email} instance as {@link String}
-         **/
+         */
         public String getEmail() {
             return email;
         }
@@ -162,7 +162,7 @@ public class SpotAssetsSummary extends BinanceItem {
          * No-any params required
          *
          * @return {@link #totalAsset} instance as double
-         **/
+         */
         public double getTotalAsset() {
             return totalAsset;
         }
@@ -173,7 +173,7 @@ public class SpotAssetsSummary extends BinanceItem {
          * @param decimals: number of digits to round final value
          * @return {@link #totalAsset} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getTotalAsset(int decimals) {
             return roundValue(totalAsset, decimals);
         }

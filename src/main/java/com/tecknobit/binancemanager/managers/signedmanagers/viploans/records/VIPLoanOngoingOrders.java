@@ -19,7 +19,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.viploans.reco
  * Get VIP Loan Ongoing Orders (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class VIPLoanOngoingOrders extends BinanceRowsList<VIPLoanOrder> {
 
     /**
@@ -27,7 +27,7 @@ public class VIPLoanOngoingOrders extends BinanceRowsList<VIPLoanOrder> {
      *
      * @param total  : number of orders
      * @param orders :  list of the orders
-     **/
+     */
     public VIPLoanOngoingOrders(int total, ArrayList<VIPLoanOrder> orders) {
         super(total, orders);
     }
@@ -36,7 +36,7 @@ public class VIPLoanOngoingOrders extends BinanceRowsList<VIPLoanOrder> {
      * Constructor to init {@link VIPLoanOngoingOrders}
      *
      * @param jList : list details as {@link JSONObject}
-     **/
+     */
     public VIPLoanOngoingOrders(JSONObject jList) {
         super(jList);
         for (Object row : hItem.fetchList("rows"))
@@ -50,27 +50,27 @@ public class VIPLoanOngoingOrders extends BinanceRowsList<VIPLoanOrder> {
      * @see BinanceItem
      * @see LoanBaseStructure
      * @see LoanOrder
-     **/
+     */
     public static class VIPLoanOrder extends LoanOrder {
 
         /**
          * {@code collateralAccountId} collateral account id of the vip loan order
-         **/
+         */
         private final long collateralAccountId;
 
         /**
          * {@code collateralValue} collateral value of the vip loan order
-         **/
+         */
         private final double collateralValue;
 
         /**
          * {@code totalCollateralValueAfterHaircut} total collateral value after haircut of the vip loan order
-         **/
+         */
         private final double totalCollateralValueAfterHaircut;
 
         /**
          * {@code lockedCollateralValue} locked collateral value of the vip loan order
-         **/
+         */
         private final double lockedCollateralValue;
 
         /**
@@ -87,7 +87,7 @@ public class VIPLoanOngoingOrders extends BinanceRowsList<VIPLoanOrder> {
          * @param collateralValue                   :     collateral value of the vip loan order
          * @param totalCollateralValueAfterHaircut: total collateral value after haircut of the vip loan order
          * @param lockedCollateralValue:            locked collateral value of the vip loan order
-         **/
+         */
         public VIPLoanOrder(String loanCoin, String collateralCoin, long orderId, double totalDebt, double residualInterest,
                             double currentLTV, long expirationTime, long collateralAccountId, double collateralValue,
                             double totalCollateralValueAfterHaircut, double lockedCollateralValue) {
@@ -102,7 +102,7 @@ public class VIPLoanOngoingOrders extends BinanceRowsList<VIPLoanOrder> {
          * Constructor to init {@link VIPLoanOrder} object
          *
          * @param jVIPLoanOrder: VIP loan order details as {@link JSONObject}
-         **/
+         */
         public VIPLoanOrder(JSONObject jVIPLoanOrder) {
             super(jVIPLoanOrder);
             collateralAccountId = hItem.getLong("collateralAccountId", 0);
@@ -116,7 +116,7 @@ public class VIPLoanOngoingOrders extends BinanceRowsList<VIPLoanOrder> {
          * No-any params required
          *
          * @return {@link #collateralAccountId} instance as long
-         **/
+         */
         public long getCollateralAccountId() {
             return collateralAccountId;
         }
@@ -126,7 +126,7 @@ public class VIPLoanOngoingOrders extends BinanceRowsList<VIPLoanOrder> {
          * No-any params required
          *
          * @return {@link #collateralValue} instance as double
-         **/
+         */
         public double getCollateralValue() {
             return collateralValue;
         }
@@ -137,7 +137,7 @@ public class VIPLoanOngoingOrders extends BinanceRowsList<VIPLoanOrder> {
          * @param decimals: number of digits to round final value
          * @return {@link #collateralValue} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getCollateralValue(int decimals) {
             return roundValue(collateralValue, decimals);
         }
@@ -147,7 +147,7 @@ public class VIPLoanOngoingOrders extends BinanceRowsList<VIPLoanOrder> {
          * No-any params required
          *
          * @return {@link #totalCollateralValueAfterHaircut} instance as double
-         **/
+         */
         public double getTotalCollateralValueAfterHaircut() {
             return totalCollateralValueAfterHaircut;
         }
@@ -158,7 +158,7 @@ public class VIPLoanOngoingOrders extends BinanceRowsList<VIPLoanOrder> {
          * @param decimals: number of digits to round final value
          * @return {@link #totalCollateralValueAfterHaircut} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getTotalCollateralValueAfterHaircut(int decimals) {
             return roundValue(totalCollateralValueAfterHaircut, decimals);
         }
@@ -168,7 +168,7 @@ public class VIPLoanOngoingOrders extends BinanceRowsList<VIPLoanOrder> {
          * No-any params required
          *
          * @return {@link #lockedCollateralValue} instance as double
-         **/
+         */
         public double getLockedCollateralValue() {
             return lockedCollateralValue;
         }
@@ -179,7 +179,7 @@ public class VIPLoanOngoingOrders extends BinanceRowsList<VIPLoanOrder> {
          * @param decimals: number of digits to round final value
          * @return {@link #lockedCollateralValue} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getLockedCollateralValue(int decimals) {
             return roundValue(lockedCollateralValue, decimals);
         }

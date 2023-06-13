@@ -16,82 +16,82 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-blvt-info-market_data">
  * Get BLVT Info (MARKET_DATA)</a>
  * @see BinanceItem
- **/
+ */
 public class BLVTInfo extends BinanceItem {
 
     /**
      * {@code tokenName} token name of the BLVT info
-     **/
+     */
     private final String tokenName;
 
     /**
      * {@code description} of the BLVT info
-     **/
+     */
     private final String description;
 
     /**
      * {@code underlying} of the BLVT info
-     **/
+     */
     private final String underlying;
 
     /**
      * {@code tokenIssued} token issued of the BLVT info
-     **/
+     */
     private final double tokenIssued;
 
     /**
      * {@code basket} of the BLVT info
-     **/
+     */
     private final String basket;
 
     /**
      * {@code currentBaskets} current baskets of the BLVT info
-     **/
+     */
     private final ArrayList<Basket> currentBaskets;
 
     /**
      * {@code nav} of the BLVT info
-     **/
+     */
     private final double nav;
 
     /**
      * {@code realLeverage} real leverage of the BLVT info
-     **/
+     */
     private final double realLeverage;
 
     /**
      * {@code fundingRate} funding rate of the BLVT info
-     **/
+     */
     private final double fundingRate;
 
     /**
      * {@code dailyManagementFee} daily management fee of the BLVT info
-     **/
+     */
     private final double dailyManagementFee;
 
     /**
      * {@code purchaseFeePct} purchase fee pct of the BLVT info
-     **/
+     */
     private final double purchaseFeePct;
 
     /**
      * {@code dailyPurchaseLimit} daily purchase limit of the BLVT info
-     **/
+     */
     private final double dailyPurchaseLimit;
 
     /**
      * {@code redeemFeePct} redeem fee pct of the BLVT info
-     **/
+     */
     private final double redeemFeePct;
 
     /**
      * {@code dailyRedeemLimit} daily redeem limit of the BLVT info
-     **/
+     */
     private final double dailyRedeemLimit;
 
     /**
      * {@code timestamp} of the BLVT info
-     **/
+     */
     private final long timestamp;
 
     /**
@@ -112,7 +112,7 @@ public class BLVTInfo extends BinanceItem {
      * @param redeemFeePct: redeem fee pct of the BLVT info
      * @param dailyRedeemLimit: daily redeem limit of the BLVT info
      * @param timestamp: timestamp of the BLVT info
-     **/
+     */
     public BLVTInfo(String tokenName, String description, String underlying, double tokenIssued, String basket,
                     ArrayList<Basket> currentBaskets, double nav, double realLeverage, double fundingRate,
                     double dailyManagementFee, double purchaseFeePct, double dailyPurchaseLimit, double redeemFeePct,
@@ -139,7 +139,7 @@ public class BLVTInfo extends BinanceItem {
      * Constructor to init {@link BLVTInfo} object
      *
      * @param jBLVTInfo: BVLT info details as {@link JSONObject}
-     **/
+     */
     public BLVTInfo(JSONObject jBLVTInfo) {
         super(jBLVTInfo);
         tokenName = hItem.getString("tokenName");
@@ -166,7 +166,7 @@ public class BLVTInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #tokenName} instance as {@link String}
-     **/
+     */
     public String getTokenName() {
         return tokenName;
     }
@@ -176,7 +176,7 @@ public class BLVTInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #description} instance as {@link String}
-     **/
+     */
     public String getDescription() {
         return description;
     }
@@ -186,7 +186,7 @@ public class BLVTInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #underlying} instance as {@link String}
-     **/
+     */
     public String getUnderlying() {
         return underlying;
     }
@@ -196,7 +196,7 @@ public class BLVTInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #tokenIssued} instance as double
-     **/
+     */
     public double getTokenIssued() {
         return tokenIssued;
     }
@@ -207,7 +207,7 @@ public class BLVTInfo extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #tokenIssued} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTokenIssued(int decimals) {
         return roundValue(tokenIssued, decimals);
     }
@@ -217,7 +217,7 @@ public class BLVTInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #basket} instance as {@link String}
-     **/
+     */
     public String getBasket() {
         return basket;
     }
@@ -227,7 +227,7 @@ public class BLVTInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #currentBaskets} instance as {@link ArrayList} of {@link Basket}
-     **/
+     */
     public ArrayList<Basket> getCurrentBaskets() {
         return currentBaskets;
     }
@@ -237,7 +237,7 @@ public class BLVTInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #nav} instance as double
-     **/
+     */
     public double getNav() {
         return nav;
     }
@@ -248,7 +248,7 @@ public class BLVTInfo extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #nav} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getNav(int decimals) {
         return roundValue(nav, decimals);
     }
@@ -258,7 +258,7 @@ public class BLVTInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #realLeverage} instance as double
-     **/
+     */
     public double getRealLeverage() {
         return realLeverage;
     }
@@ -269,7 +269,7 @@ public class BLVTInfo extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #realLeverage} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRealLeverage(int decimals) {
         return roundValue(realLeverage, decimals);
     }
@@ -279,7 +279,7 @@ public class BLVTInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #fundingRate} instance as double
-     **/
+     */
     public double getFundingRate() {
         return fundingRate;
     }
@@ -290,7 +290,7 @@ public class BLVTInfo extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #fundingRate} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getFundingRate(int decimals) {
         return roundValue(fundingRate, decimals);
     }
@@ -300,7 +300,7 @@ public class BLVTInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #dailyManagementFee} instance as double
-     **/
+     */
     public double getDailyManagementFee() {
         return dailyManagementFee;
     }
@@ -311,7 +311,7 @@ public class BLVTInfo extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #dailyManagementFee} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getDailyManagementFee(int decimals) {
         return roundValue(dailyManagementFee, decimals);
     }
@@ -321,7 +321,7 @@ public class BLVTInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #purchaseFeePct instance as double
-     **/
+     */
     public double getPurchaseFeePct() {
         return purchaseFeePct;
     }
@@ -332,7 +332,7 @@ public class BLVTInfo extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #purchaseFeePct} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getPurchaseFeePct(int decimals) {
         return roundValue(purchaseFeePct, decimals);
     }
@@ -342,7 +342,7 @@ public class BLVTInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #dailyPurchaseLimit} instance as double
-     **/
+     */
     public double getDailyPurchaseLimit() {
         return dailyPurchaseLimit;
     }
@@ -353,7 +353,7 @@ public class BLVTInfo extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #dailyPurchaseLimit} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getDailyPurchaseLimit(int decimals) {
         return roundValue(dailyPurchaseLimit, decimals);
     }
@@ -363,7 +363,7 @@ public class BLVTInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #redeemFeePct} instance as double
-     **/
+     */
     public double getRedeemFeePct() {
         return redeemFeePct;
     }
@@ -374,7 +374,7 @@ public class BLVTInfo extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #redeemFeePct} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRedeemFeePct(int decimals) {
         return roundValue(redeemFeePct, decimals);
     }
@@ -384,7 +384,7 @@ public class BLVTInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #dailyRedeemLimit} instance as double
-     **/
+     */
     public double getDailyRedeemLimit() {
         return dailyRedeemLimit;
     }
@@ -395,7 +395,7 @@ public class BLVTInfo extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #dailyRedeemLimit} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getDailyRedeemLimit(int decimals) {
         return roundValue(dailyRedeemLimit, decimals);
     }
@@ -405,7 +405,7 @@ public class BLVTInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #timestamp} instance as long
-     **/
+     */
     public long getTimestamp() {
         return timestamp;
     }
@@ -415,7 +415,7 @@ public class BLVTInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #timestamp} instance as {@link Date}
-     **/
+     */
     public Date getDate() {
         return TimeFormatter.getDate(timestamp);
     }
@@ -425,22 +425,22 @@ public class BLVTInfo extends BinanceItem {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class Basket extends BinanceItem {
 
         /**
          * {@code symbol} of the basket
-         **/
+         */
         private final String symbol;
 
         /**
          * {@code amount} of the basket
-         **/
+         */
         private final double amount;
 
         /**
          * {@code notionalValue} notional value of the basket
-         **/
+         */
         private final double notionalValue;
 
         /**
@@ -449,7 +449,7 @@ public class BLVTInfo extends BinanceItem {
          * @param symbol:        symbol of the basket
          * @param amount:        amount of the basket
          * @param notionalValue: notional value of the basket
-         **/
+         */
         public Basket(String symbol, double amount, double notionalValue) {
             super(null);
             this.symbol = symbol;
@@ -461,7 +461,7 @@ public class BLVTInfo extends BinanceItem {
          * Constructor to init {@link Basket} object
          *
          * @param jBasket: basket details as {@link JSONObject}
-         **/
+         */
         public Basket(JSONObject jBasket) {
             super(jBasket);
             symbol = hItem.getString("symbol");
@@ -474,7 +474,7 @@ public class BLVTInfo extends BinanceItem {
          * No-any params required
          *
          * @return {@link #symbol} instance as {@link String}
-         **/
+         */
         public String getSymbol() {
             return symbol;
         }
@@ -484,7 +484,7 @@ public class BLVTInfo extends BinanceItem {
          * No-any params required
          *
          * @return {@link #amount} instance as double
-         **/
+         */
         public double getAmount() {
             return amount;
         }
@@ -495,7 +495,7 @@ public class BLVTInfo extends BinanceItem {
          * @param decimals: number of digits to round final value
          * @return {@link #amount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getAmount(int decimals) {
             return roundValue(amount, decimals);
         }
@@ -505,7 +505,7 @@ public class BLVTInfo extends BinanceItem {
          * No-any params required
          *
          * @return {@link #notionalValue} instance as double
-         **/
+         */
         public double getNotionalValue() {
             return notionalValue;
         }
@@ -516,7 +516,7 @@ public class BLVTInfo extends BinanceItem {
          * @param decimals: number of digits to round final value
          * @return {@link #notionalValue} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getNotionalValue(int decimals) {
             return roundValue(notionalValue, decimals);
         }

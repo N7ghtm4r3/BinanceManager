@@ -18,57 +18,57 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see BinanceItem
  * @see SavingStructure
  * @see SavingActivityStructure
- **/
+ */
 public class FixedActivityProjectPosition extends SavingActivityStructure {
 
     /**
      * {@code canTransfer} whether the fixed activity/project position can transfer
-     **/
+     */
     private final boolean canTransfer;
 
     /**
      * {@code createTimestamp} create timestamp of the fixed activity/project position
-     **/
+     */
     private final long createTimestamp;
 
     /**
      * {@code endTime} end time of the fixed activity/project position
-     **/
+     */
     private final long endTime;
 
     /**
      * {@code interest} of the fixed activity/project position
-     **/
+     */
     private final double interest;
 
     /**
      * {@code lot} of the fixed activity/project position
-     **/
+     */
     private final int lot;
 
     /**
      * {@code positionId} position id of the fixed activity/project position
-     **/
+     */
     private final long positionId;
 
     /**
      * {@code principal} of the fixed activity/project position
-     **/
+     */
     private final double principal;
 
     /**
      * {@code purchaseTime} purchase time of the fixed activity/project position
-     **/
+     */
     private final long purchaseTime;
 
     /**
      * {@code redeemDate} redeem date of the fixed activity/project position
-     **/
+     */
     private final String redeemDate;
 
     /**
      * {@code startTime} start time of the fixed activity/project position
-     **/
+     */
     private final long startTime;
 
     /**
@@ -91,7 +91,7 @@ public class FixedActivityProjectPosition extends SavingActivityStructure {
      * @param purchaseTime:     purchase time of the fixed activity/project position
      * @param redeemDate:       redeem date of the fixed activity/project position
      * @param startTime:        start time of the fixed activity/project position
-     **/
+     */
     public FixedActivityProjectPosition(String asset, int duration, double interestRate, String projectId,
                                         String projectName, SavingStatus status, SavingActivityType type,
                                         boolean canTransfer, long createTimestamp, long endTime, double interest, int lot,
@@ -115,7 +115,7 @@ public class FixedActivityProjectPosition extends SavingActivityStructure {
      *
      * @param jFixedActivityProjectPosition: fixed activity/project position details as {@link JSONObject
      *                                       }
-     **/
+     */
     public FixedActivityProjectPosition(JSONObject jFixedActivityProjectPosition) {
         super(jFixedActivityProjectPosition);
         canTransfer = hItem.getBoolean("canTransfer");
@@ -135,7 +135,7 @@ public class FixedActivityProjectPosition extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #canTransfer} instance as boolean
-     **/
+     */
     public boolean canTransfer() {
         return canTransfer;
     }
@@ -145,7 +145,7 @@ public class FixedActivityProjectPosition extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #createTimestamp} instance as long
-     **/
+     */
     public long getCreateTimestamp() {
         return createTimestamp;
     }
@@ -155,7 +155,7 @@ public class FixedActivityProjectPosition extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #createTimestamp} instance as {@link Date}
-     **/
+     */
     public Date getCreateDate() {
         return TimeFormatter.getDate(createTimestamp);
     }
@@ -165,7 +165,7 @@ public class FixedActivityProjectPosition extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #endTime} instance as long
-     **/
+     */
     public long getEndTime() {
         return endTime;
     }
@@ -175,7 +175,7 @@ public class FixedActivityProjectPosition extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #endTime} instance as {@link Date}
-     **/
+     */
     public Date getEndDate() {
         return TimeFormatter.getDate(endTime);
     }
@@ -185,7 +185,7 @@ public class FixedActivityProjectPosition extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #interest} instance as double
-     **/
+     */
     public double getInterest() {
         return interest;
     }
@@ -196,7 +196,7 @@ public class FixedActivityProjectPosition extends SavingActivityStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #interest} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getInterest(int decimals) {
         return roundValue(interest, decimals);
     }
@@ -206,7 +206,7 @@ public class FixedActivityProjectPosition extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #lot} instance as int
-     **/
+     */
     public int getLot() {
         return lot;
     }
@@ -216,7 +216,7 @@ public class FixedActivityProjectPosition extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #positionId} instance as long
-     **/
+     */
     public long getPositionId() {
         return positionId;
     }
@@ -226,7 +226,7 @@ public class FixedActivityProjectPosition extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #principal} instance as double
-     **/
+     */
     public double getPrincipal() {
         return principal;
     }
@@ -237,7 +237,7 @@ public class FixedActivityProjectPosition extends SavingActivityStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #principal} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getPrincipal(int decimals) {
         return roundValue(principal, decimals);
     }
@@ -247,7 +247,7 @@ public class FixedActivityProjectPosition extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #purchaseTime} instance as long
-     **/
+     */
     public long getPurchaseTime() {
         return purchaseTime;
     }
@@ -257,7 +257,7 @@ public class FixedActivityProjectPosition extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #purchaseTime} instance as {@link Date}
-     **/
+     */
     public Date getPurchaseDate() {
         return TimeFormatter.getDate(purchaseTime);
     }
@@ -267,7 +267,7 @@ public class FixedActivityProjectPosition extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #redeemDate} instance as {@link String}
-     **/
+     */
     public String getRedeemDate() {
         return redeemDate;
     }
@@ -277,7 +277,7 @@ public class FixedActivityProjectPosition extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #redeemDate} instance as long
-     **/
+     */
     public long getRedeemTimestamp() {
         return TimeFormatter.getDateTimestamp(redeemDate, "yyyy-MM-dd");
     }
@@ -287,7 +287,7 @@ public class FixedActivityProjectPosition extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #startTime} instance as long
-     **/
+     */
     public long getStartTime() {
         return startTime;
     }
@@ -297,7 +297,7 @@ public class FixedActivityProjectPosition extends SavingActivityStructure {
      * No-any params required
      *
      * @return {@link #startTime} instance as {@link Date}
-     **/
+     */
     public Date getStartDate() {
         return TimeFormatter.getDate(startTime);
     }

@@ -23,49 +23,51 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.futures.recor
  * Get Future Account Transaction History List (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ * @deprecated this object will be removed in the next release
+ */
+@Deprecated
 public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAccountTransaction> {
 
     /**
      * {@code FutureTransactionType} list of available future transaction types
-     **/
+     */
     public enum FutureTransactionType {
 
         /**
          * {@code SPOT_ACCOUNT_TO_USDT_FUTURES_ACCOUNT} transaction type
-         **/
+         */
         SPOT_ACCOUNT_TO_USDT_FUTURES_ACCOUNT(1),
 
         /**
          * {@code USDT_FUTURES_ACCOUNT_TO_SPOT_ACCOUNT} transaction type
-         **/
+         */
         USDT_FUTURES_ACCOUNT_TO_SPOT_ACCOUNT(2),
 
         /**
          * {@code SPOT_ACCOUNT_TO_COIN_FUTURES_ACCOUNT} transaction type
-         **/
+         */
         SPOT_ACCOUNT_TO_COIN_FUTURES_ACCOUNT(3),
 
         /**
          * {@code COIN_FUTURES_ACCOUNT_TO_SPOT_ACCOUNT} transaction type
-         **/
+         */
         COIN_FUTURES_ACCOUNT_TO_SPOT_ACCOUNT(4);
 
         /**
          * {@code VALUES} list of the types
-         **/
+         */
         private static final List<FutureTransactionType> VALUES = Arrays.stream(FutureTransactionType.values()).toList();
 
         /**
          * {@code type} type value
-         **/
+         */
         private final int type;
 
         /**
          * Constructor to init {@link FutureTransactionType} object
          *
          * @param type: type value
-         **/
+         */
         FutureTransactionType(int type) {
             this.type = type;
         }
@@ -75,7 +77,7 @@ public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAcco
          *
          * @param value: value to reach
          * @return enum constant as {@link FutureTransactionType}
-         **/
+         */
         public static FutureTransactionType reachEnumConstant(int value) {
             return VALUES.get(value);
         }
@@ -85,7 +87,7 @@ public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAcco
          * No-any params required
          *
          * @return {@link #type} instance as int
-         **/
+         */
         public int getType() {
             return type;
         }
@@ -95,7 +97,7 @@ public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAcco
          * No-any params required
          *
          * @return {@link #type} instance as {@link String}
-         **/
+         */
         @Override
         public String toString() {
             return type + "";
@@ -108,7 +110,7 @@ public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAcco
      *
      * @param total        : number of transactions
      * @param transactions :  list of the transactions
-     **/
+     */
     public FutureAccountTransactionsHistory(int total, ArrayList<FutureAccountTransaction> transactions) {
         super(total, transactions);
     }
@@ -117,7 +119,7 @@ public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAcco
      * Constructor to init {@link FutureAccountTransactionsHistory}
      *
      * @param jTransactions : list details as {@link JSONObject}
-     **/
+     */
     public FutureAccountTransactionsHistory(JSONObject jTransactions) {
         super(jTransactions);
         JSONArray jFTransactions = hItem.getJSONArray("rows", new JSONArray());
@@ -130,37 +132,37 @@ public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAcco
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class FutureAccountTransaction extends BinanceItem {
 
         /**
          * {@code asset} of the transaction
-         **/
+         */
         private final String asset;
 
         /**
          * {@code tranId} id of the transaction
-         **/
+         */
         private final long tranId;
 
         /**
          * {@code amount} of the transaction
-         **/
+         */
         private final double amount;
 
         /**
          * {@code type} of the transaction
-         **/
+         */
         private final FutureTransactionType type;
 
         /**
          * {@code timestamp} of the transaction
-         **/
+         */
         private final long timestamp;
 
         /**
          * {@code status} of the transaction
-         **/
+         */
         private final Status status;
 
         /**
@@ -172,7 +174,7 @@ public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAcco
          * @param type      : type of the transaction
          * @param timestamp : timestamp of the transaction
          * @param status    : status
-         **/
+         */
         public FutureAccountTransaction(String asset, long tranId, double amount, FutureTransactionType type,
                                         long timestamp, Status status) {
             super(null);
@@ -188,7 +190,7 @@ public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAcco
          * Constructor to init {@link FutureAccountTransaction}
          *
          * @param jFutureAccountTransaction : transaction details as {@link JSONObject}
-         **/
+         */
         public FutureAccountTransaction(JSONObject jFutureAccountTransaction) {
             super(jFutureAccountTransaction);
             asset = hItem.getString("asset");
@@ -204,7 +206,7 @@ public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAcco
          * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
-         **/
+         */
         public String getAsset() {
             return asset;
         }
@@ -214,7 +216,7 @@ public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAcco
          * No-any params required
          *
          * @return {@link #tranId} instance as long
-         **/
+         */
         public long getTranId() {
             return tranId;
         }
@@ -224,7 +226,7 @@ public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAcco
          * No-any params required
          *
          * @return {@link #amount} instance as double
-         **/
+         */
         public double getAmount() {
             return amount;
         }
@@ -235,7 +237,7 @@ public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAcco
          * @param decimals: number of digits to round final value
          * @return {@link #amount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getAmount(int decimals) {
             return roundValue(amount, decimals);
         }
@@ -245,7 +247,7 @@ public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAcco
          * No-any params required
          *
          * @return {@link #type} instance as {@link FutureTransactionType}
-         **/
+         */
         public FutureTransactionType getType() {
             return type;
         }
@@ -255,7 +257,7 @@ public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAcco
          * No-any params required
          *
          * @return {@link #timestamp} instance as long
-         **/
+         */
         public long getTimestamp() {
             return timestamp;
         }
@@ -265,7 +267,7 @@ public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAcco
          * No-any params required
          *
          * @return {@link #timestamp} instance as {@link Date}
-         **/
+         */
         public Date getDate() {
             return TimeFormatter.getDate(timestamp);
         }
@@ -275,7 +277,7 @@ public class FutureAccountTransactionsHistory extends BinanceRowsList<FutureAcco
          * No-any params required
          *
          * @return {@link #status} instance as {@link Status}
-         **/
+         */
         public Status getStatus() {
             return status;
         }

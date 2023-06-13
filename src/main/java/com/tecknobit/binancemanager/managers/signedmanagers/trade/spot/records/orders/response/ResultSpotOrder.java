@@ -18,64 +18,64 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * New Order (TRADE)</a>
  * @see Order
  * @see SpotOrder
- **/
+ */
 public class ResultSpotOrder extends ACKSpotOrder {
 
     /**
      * {@code price} is instance that memorizes price in the order
-     * **/
+     */
     protected final double price;
 
     /**
      * {@code origQty} is instance that memorizes origin quantity in the order
-     * **/
+     */
     protected final double origQty;
 
     /**
      * {@code executedQty} is instance that memorizes executed quantity in the order
-     * **/
+     */
     protected final double executedQty;
 
     /**
      * {@code cummulativeQuoteQty} is instance that memorizes cummulative quantity in the order
-     * **/
+     */
     protected final double cummulativeQuoteQty;
 
     /**
      * {@code status} is instance that memorizes status of the order
-     **/
+     */
     protected final Status status;
 
     /**
      * {@code timeInForce} is instance that memorizes time in force of the order
-     **/
+     */
     protected final TimeInForce timeInForce;
 
     /**
      * {@code type} is instance that memorizes type of the order
-     **/
+     */
     protected final OrderType type;
 
     /**
      * {@code side} is instance that memorizes side of the order
-     **/
+     */
     protected final Side side;
 
     /**
      * {@code workingTime} indicating when the order started working on the order book
-     **/
+     */
     protected final long workingTime;
 
     /**
      * {@code selfTradePreventionMode} is instance that contains the self trade prevention mode
-     **/
+     */
     protected final SelfTradePreventionMode selfTradePreventionMode;
 
     /**
      * {@code trailingTime} indicating the time when the trailing order is active and tracking price changes,
      * will appear for the following order types (TAKE_PROFIT, TAKE_PROFIT_LIMIT, STOP_LOSS, STOP_LOSS_LIMIT
      * if trailingDelta parameter was provided)
-     **/
+     */
     protected final long trailingTime;
 
     /**
@@ -99,7 +99,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * @param workingTime             : indicating when the order started working on the order book
      * @param selfTradePreventionMode : self trade prevention mode
      * @param trailingTime:           indicating the time when the trailing order is active and tracking price changes
-     **/
+     */
     public ResultSpotOrder(String symbol, long orderId, String clientOrderId, long orderListId, long transactTime,
                            long preventedMatchId, double preventedQuantity, double price, double origQty,
                            double executedQty, double cummulativeQuoteQty, Status status, TimeInForce timeInForce,
@@ -123,7 +123,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * Constructor to init {@link ResultSpotOrder} object
      *
      * @param resultOrder: result order details as {@link JSONObject}
-     **/
+     */
     public ResultSpotOrder(JSONObject resultOrder) {
         super(resultOrder);
         price = hOrder.getDouble("price");
@@ -144,7 +144,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * No-any params required
      *
      * @return {@link #price} instance as double
-     **/
+     */
     public double getPrice() {
         return price;
     }
@@ -155,7 +155,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * @param decimals: number of digits to round final value
      * @return {@link #price} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getPrice(int decimals) {
         return roundValue(price, decimals);
     }
@@ -165,7 +165,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * No-any params required
      *
      * @return {@link #origQty} instance as double
-     **/
+     */
     public double getOrigQty() {
         return origQty;
     }
@@ -176,7 +176,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * @param decimals: number of digits to round final value
      * @return {@link #origQty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getOrigQty(int decimals) {
         return roundValue(origQty, decimals);
     }
@@ -186,7 +186,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * No-any params required
      *
      * @return {@link #executedQty} instance as double
-     **/
+     */
     public double getExecutedQty() {
         return executedQty;
     }
@@ -197,7 +197,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * @param decimals: number of digits to round final value
      * @return {@link #executedQty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getExecutedQty(int decimals) {
         return roundValue(executedQty, decimals);
     }
@@ -207,7 +207,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * No-any params required
      *
      * @return {@link #cummulativeQuoteQty} instance as double
-     **/
+     */
     public double getCummulativeQuoteQty() {
         return cummulativeQuoteQty;
     }
@@ -218,7 +218,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * @param decimals: number of digits to round final value
      * @return {@link #cummulativeQuoteQty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getCummulativeQuoteQty(int decimals) {
         return roundValue(cummulativeQuoteQty, decimals);
     }
@@ -228,7 +228,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * No-any params required
      *
      * @return {@link #status} instance as {@link Status}
-     **/
+     */
     public Status getStatus() {
         return status;
     }
@@ -238,7 +238,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * No-any params required
      *
      * @return {@link #timeInForce} instance as {@link TimeInForce}
-     **/
+     */
     public TimeInForce getTimeInForce() {
         return timeInForce;
     }
@@ -248,7 +248,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * No-any params required
      *
      * @return {@link #type} instance as {@link OrderType}
-     **/
+     */
     public OrderType getType() {
         return type;
     }
@@ -258,7 +258,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * No-any params required
      *
      * @return {@link #side} instance as {@link Side}
-     **/
+     */
     public Side getSide() {
         return side;
     }
@@ -268,7 +268,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * No-any params required
      *
      * @return {@link #workingTime} instance as long
-     **/
+     */
     public long getWorkingTime() {
         return workingTime;
     }
@@ -278,7 +278,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * No-any params required
      *
      * @return {@link #workingTime} instance as {@link Date}
-     **/
+     */
     public Date getWorkingTimeDate() {
         return TimeFormatter.getDate(workingTime);
     }
@@ -288,7 +288,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * No-any params required
      *
      * @return {@link #selfTradePreventionMode} instance as {@link String}
-     **/
+     */
     public SelfTradePreventionMode getSelfTradePreventionMode() {
         return selfTradePreventionMode;
     }
@@ -298,7 +298,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * No-any params required
      *
      * @return {@link #trailingTime} instance as long
-     **/
+     */
     public long getTrailingTime() {
         return trailingTime;
     }
@@ -308,7 +308,7 @@ public class ResultSpotOrder extends ACKSpotOrder {
      * No-any params required
      *
      * @return {@link #trailingTime} instance as {@link Date}
-     **/
+     */
     public Date getTrailingTimeDate() {
         return TimeFormatter.getDate(trailingTime);
     }

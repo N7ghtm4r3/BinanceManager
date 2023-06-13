@@ -20,7 +20,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.fiat.records.
  * @see BinanceItem
  * @see BinanceDataList
  * @see BinanceResponse
- **/
+ */
 public class FiatOperationsHistory extends BinanceDataList<FiatOperation> {
 
     /**
@@ -29,7 +29,7 @@ public class FiatOperationsHistory extends BinanceDataList<FiatOperation> {
      * @param total:   number of items
      * @param success: whether the list is created with success
      * @param data:    {@link FiatOperationsHistory} of the list
-     **/
+     */
     public FiatOperationsHistory(int total, boolean success, ArrayList<FiatOperation> data) {
         super(total, success, data);
     }
@@ -38,7 +38,7 @@ public class FiatOperationsHistory extends BinanceDataList<FiatOperation> {
      * Constructor to init {@link FiatOperationsHistory} object
      *
      * @param jFiatOperations: fiat operations list details as {@link JSONObject}
-     **/
+     */
     public FiatOperationsHistory(JSONObject jFiatOperations) {
         super(jFiatOperations);
         JSONArray jData = hItem.getJSONArray("data", new JSONArray());
@@ -52,22 +52,22 @@ public class FiatOperationsHistory extends BinanceDataList<FiatOperation> {
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see FiatItem
-     **/
+     */
     public static class FiatOperation extends FiatItem {
 
         /**
          * {@code indicatedAmount} the indicated amount in the operation
-         **/
+         */
         private final double indicatedAmount;
 
         /**
          * {@code amount} of the operation
-         **/
+         */
         private final double amount;
 
         /**
          * {@code method} trade method
-         **/
+         */
         private final String method;
 
         /**
@@ -82,7 +82,7 @@ public class FiatOperationsHistory extends BinanceDataList<FiatOperation> {
          * @param indicatedAmount: the indicated amount in the operation
          * @param amount:          amount of the operation
          * @param method:          trade method
-         **/
+         */
         public FiatOperation(String orderNo, String fiatCurrency, double totalFee, FiatStatus status, long createTime,
                              long updateTime, double indicatedAmount, double amount, String method) {
             super(orderNo, fiatCurrency, totalFee, status, createTime, updateTime);
@@ -95,7 +95,7 @@ public class FiatOperationsHistory extends BinanceDataList<FiatOperation> {
          * Constructor to init {@link FiatOperation} object
          *
          * @param jFiatOperation: fiat operation details as {@link JSONObject}
-         **/
+         */
         public FiatOperation(JSONObject jFiatOperation) {
             super(jFiatOperation);
             indicatedAmount = hItem.getDouble("indicatedAmount", 0);
@@ -108,7 +108,7 @@ public class FiatOperationsHistory extends BinanceDataList<FiatOperation> {
          * No-any params required
          *
          * @return {@link #indicatedAmount} instance as double
-         **/
+         */
         public double getIndicatedAmount() {
             return indicatedAmount;
         }
@@ -119,7 +119,7 @@ public class FiatOperationsHistory extends BinanceDataList<FiatOperation> {
          * @param decimals: number of digits to round final value
          * @return {@link #indicatedAmount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getIndicatedAmount(int decimals) {
             return roundValue(indicatedAmount, decimals);
         }
@@ -129,7 +129,7 @@ public class FiatOperationsHistory extends BinanceDataList<FiatOperation> {
          * No-any params required
          *
          * @return {@link #amount} instance as double
-         **/
+         */
         public double getAmount() {
             return amount;
         }
@@ -140,7 +140,7 @@ public class FiatOperationsHistory extends BinanceDataList<FiatOperation> {
          * @param decimals: number of digits to round final value
          * @return {@link #amount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getAmount(int decimals) {
             return roundValue(amount, decimals);
         }
@@ -150,7 +150,7 @@ public class FiatOperationsHistory extends BinanceDataList<FiatOperation> {
          * No-any params required
          *
          * @return {@link #method} instance as {@link String}
-         **/
+         */
         public String getMethod() {
             return method;
         }

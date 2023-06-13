@@ -20,12 +20,12 @@ import java.util.ArrayList;
  * @see Order
  * @see SpotOrder
  * @see ResultSpotOrder
- **/
+ */
 public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
 
     /**
      * {@code fills} is instance that memorizes fills list
-     **/
+     */
     private ArrayList<FillSpot> fills;
 
     /**
@@ -50,7 +50,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
      * @param selfTradePreventionMode : self trade prevention mode
      * @param trailingTime            : indicating the time when the trailing order is active and tracking price changes
      * @param fills:                  fills list
-     **/
+     */
     public FullSpotOrder(String symbol, long orderId, String clientOrderId, long orderListId, long transactTime,
                          long preventedMatchId, double preventedQuantity, double price, double origQty, double executedQty,
                          double cummulativeQuoteQty, Status status, TimeInForce timeInForce, OrderType type, Side side,
@@ -66,7 +66,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
      * Constructor to init {@link FullSpotOrder} object
      *
      * @param fullSpotOrder: full spot details as {@link JSONObject}
-     **/
+     */
     public FullSpotOrder(JSONObject fullSpotOrder) {
         super(fullSpotOrder);
         fills = new ArrayList<>();
@@ -80,7 +80,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
      * No-any params required
      *
      * @return {@link #fills} instance as {@link ArrayList} of {@link FillSpot}
-     **/
+     */
     public ArrayList<FillSpot> getFills() {
         return fills;
     }
@@ -89,7 +89,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
      * Method to set {@link #fills} instance <br>
      *
      * @param fills: list of {@link SpotOrderDetails} to set
-     **/
+     */
     public void setFills(ArrayList<FillSpot> fills) {
         this.fills = fills;
     }
@@ -98,7 +98,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
      * Method to add a fill spot  to {@link #fills}
      *
      * @param fillSpot: fill spot to add
-     **/
+     */
     public void insertFill(FillSpot fillSpot) {
         if (!fills.contains(fillSpot))
             fills.add(fillSpot);
@@ -109,7 +109,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
      *
      * @param fillSpot: fill spot  to remove
      * @return result of operation as boolean
-     **/
+     */
     public boolean removeFill(FillSpot fillSpot) {
         return fills.remove(fillSpot);
     }
@@ -119,7 +119,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
      *
      * @param index: index to fetch the composed fill spot
      * @return fill spot as {@link SpotOrderDetails}
-     **/
+     */
     public FillSpot getFill(int index) {
         return fills.get(index);
     }
@@ -131,7 +131,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
      * @return code of error as int
      * *
      * @implSpec if code error is not present in {@code "Binance"}'s response will be returned -1 as default
-     **/
+     */
     @Override
     public int getCode() {
         if (hOrder != null)
@@ -146,7 +146,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
      * @return message of error as {@link String}
      * *
      * @implSpec if message error is not present in {@code "Binance"}'s response will be returned null as default
-     **/
+     */
     @Override
     public String getMessage() {
         if (hOrder != null)
@@ -158,12 +158,12 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
      * The {@code FillSpot} class is useful to obtain and format FillSpot object
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#new-order-trade">
      *      https://binance-docs.github.io/apidocs/spot/en/#new-order-trade</a>
-     * **/
+     */
     public static class FillSpot extends Fill {
 
         /**
          * {@code tradeId} is instance that memorizes trade identifier
-         * **/
+         */
         private final long tradeId;
 
         /** Constructor to init {@link Fill} object
@@ -172,7 +172,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
          * @param commission: commission of a fill
          * @param commissionAsset: commission asset of a fill
          * @param tradeId: trade identifier
-         * **/
+         */
         public FillSpot(double price, double qty, double commission, String commissionAsset, long tradeId) {
             super(price, qty, commission, commissionAsset);
             this.tradeId = tradeId;
@@ -182,7 +182,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
          * Constructor to init {@link Fill} object
          *
          * @param jFillSpot: fill spot details as {@link JSONObject}
-         **/
+         */
         public FillSpot(JSONObject jFillSpot) {
             super(jFillSpot);
             this.tradeId = jFillSpot.getLong("tradeId");
@@ -193,7 +193,7 @@ public class FullSpotOrder extends ResultSpotOrder implements BinanceResponse {
          * No-any params required
          *
          * @return {@link #tradeId} instance as long
-         **/
+         */
         public long getTradeId() {
             return tradeId;
         }

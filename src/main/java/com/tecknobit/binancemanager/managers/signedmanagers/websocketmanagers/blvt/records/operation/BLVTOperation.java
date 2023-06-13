@@ -24,18 +24,18 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * </ul>
  * @see BinanceItem
  * @see BLVTStructure
- **/
+ */
 @Structure
 public abstract class BLVTOperation extends BLVTStructure {
 
     /**
      * {@code nav} of the BLVT operation
-     **/
+     */
     protected final double nav;
 
     /**
      * {@code fee} of the BLVT operation
-     **/
+     */
     protected final double fee;
 
     /**
@@ -47,7 +47,7 @@ public abstract class BLVTOperation extends BLVTStructure {
      * @param timestamp: timestamp of the BLVT operation
      * @param nav:       nav of the BLVT operation
      * @param fee:       fee of the BLVT operation
-     **/
+     */
     public BLVTOperation(long id, String tokenName, double amount, long timestamp, double nav, double fee) {
         super(id, tokenName, amount, timestamp);
         this.nav = nav;
@@ -58,7 +58,7 @@ public abstract class BLVTOperation extends BLVTStructure {
      * Constructor to init {@link BLVTOperation} object
      *
      * @param jBLVTOperation: BLVT operation details as {@link JSONObject}
-     **/
+     */
     public BLVTOperation(JSONObject jBLVTOperation) {
         super(jBLVTOperation);
         nav = hItem.getDouble("nav", 0);
@@ -70,7 +70,7 @@ public abstract class BLVTOperation extends BLVTStructure {
      * No-any params required
      *
      * @return {@link #nav} instance as double
-     **/
+     */
     public double getNav() {
         return nav;
     }
@@ -81,7 +81,7 @@ public abstract class BLVTOperation extends BLVTStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #nav} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getNav(int decimals) {
         return roundValue(nav, decimals);
     }
@@ -91,7 +91,7 @@ public abstract class BLVTOperation extends BLVTStructure {
      * No-any params required
      *
      * @return {@link #fee} instance as double
-     **/
+     */
     public double getFee() {
         return fee;
     }
@@ -102,7 +102,7 @@ public abstract class BLVTOperation extends BLVTStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #fee} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getFee(int decimals) {
         return roundValue(fee, decimals);
     }

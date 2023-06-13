@@ -17,7 +17,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.cryptoloans.r
  * Get Loanable Assets Data (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
 
     /**
@@ -25,7 +25,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
      *
      * @param total  : number of assets
      * @param assets :  list of the assets
-     **/
+     */
     public LoanableAssetsData(int total, ArrayList<LoanableAsset> assets) {
         super(total, assets);
     }
@@ -34,7 +34,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
      * Constructor to init {@link LoanableAssetsData}
      *
      * @param jList : list details as {@link JSONObject}
-     **/
+     */
     public LoanableAssetsData(JSONObject jList) {
         super(jList);
         for (Object row : hItem.fetchList("rows"))
@@ -46,77 +46,77 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class LoanableAsset extends BinanceItem {
 
         /**
          * {@code loanCoin} loan coin of the loanable asset
-         **/
+         */
         private final String loanCoin;
 
         /**
          * {@code _7dHourlyInterestRate} 7 hourly interest rate of the loanable asset
-         **/
+         */
         private final double _7dHourlyInterestRate;
 
         /**
          * {@code _7dDailyInterestRate} 7 daily interest rate of the loanable asset
-         **/
+         */
         private final double _7dDailyInterestRate;
 
         /**
          * {@code _14dHourlyInterestRate} 14 hourly interest rate of the loanable asset
-         **/
+         */
         private final double _14dHourlyInterestRate;
 
         /**
          * {@code _14dDailyInterestRate} 14 daily interest rate of the loanable asset
-         **/
+         */
         private final double _14dDailyInterestRate;
 
         /**
          * {@code _30dHourlyInterestRate} 30 hourly interest rate of the loanable asset
-         **/
+         */
         private final double _30dHourlyInterestRate;
 
         /**
          * {@code _30dDailyInterestRate} 30 daily interest rate of the loanable asset
-         **/
+         */
         private final double _30dDailyInterestRate;
 
         /**
          * {@code _90dHourlyInterestRate} 90 hourly interest rate of the loanable asset
-         **/
+         */
         private final double _90dHourlyInterestRate;
 
         /**
          * {@code _90dDailyInterestRate} 90 daily interest rate of the loanable asset
-         **/
+         */
         private final double _90dDailyInterestRate;
 
         /**
          * {@code _180dHourlyInterestRate} 180 hourly interest rate of the loanable asset
-         **/
+         */
         private final double _180dHourlyInterestRate;
 
         /**
          * {@code _180dDailyInterestRate} 180 daily interest rate of the loanable asset
-         **/
+         */
         private final double _180dDailyInterestRate;
 
         /**
          * {@code minLimit} min limit of the loanable asset
-         **/
+         */
         private final double minLimit;
 
         /**
          * {@code maxLimit} max limit of the loanable asset
-         **/
+         */
         private final double maxLimit;
 
         /**
          * {@code vipLevel} vip level of the loanable asset
-         **/
+         */
         private final int vipLevel;
 
         /**
@@ -136,7 +136,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * @param minLimit                : min limit of the loanable asset
          * @param maxLimit                : max limit of the loanable asset
          * @param vipLevel                : vip level of the loanable asset
-         **/
+         */
         public LoanableAsset(String loanCoin, double _7dHourlyInterestRate, double _7dDailyInterestRate,
                              double _14dHourlyInterestRate, double _14dDailyInterestRate, double _30dHourlyInterestRate,
                              double _30dDailyInterestRate, double _90dHourlyInterestRate, double _90dDailyInterestRate,
@@ -163,7 +163,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * Constructor to init {@link LoanableAsset}
          *
          * @param jLoanableAsset : loanable asset details as {@link JSONObject}
-         **/
+         */
         public LoanableAsset(JSONObject jLoanableAsset) {
             super(jLoanableAsset);
             loanCoin = hItem.getString("loanCoin");
@@ -187,7 +187,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * No-any params required
          *
          * @return {@link #loanCoin} instance as {@link String}
-         **/
+         */
         public String getLoanCoin() {
             return loanCoin;
         }
@@ -197,7 +197,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * No-any params required
          *
          * @return {@link #_7dHourlyInterestRate} instance as double
-         **/
+         */
         public double get7dHourlyInterestRate() {
             return _7dHourlyInterestRate;
         }
@@ -208,7 +208,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * @param decimals: number of digits to round final value
          * @return {@link #_7dHourlyInterestRate} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double get7dHourlyInterestRate(int decimals) {
             return roundValue(_7dHourlyInterestRate, decimals);
         }
@@ -218,7 +218,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * No-any params required
          *
          * @return {@link #_7dDailyInterestRate} instance as double
-         **/
+         */
         public double get7dDailyInterestRate() {
             return _7dDailyInterestRate;
         }
@@ -229,7 +229,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * @param decimals: number of digits to round final value
          * @return {@link #_7dDailyInterestRate} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double get7dDailyInterestRate(int decimals) {
             return roundValue(_7dDailyInterestRate, decimals);
         }
@@ -239,7 +239,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * No-any params required
          *
          * @return {@link #_14dHourlyInterestRate} instance as double
-         **/
+         */
         public double get14dHourlyInterestRate() {
             return _14dHourlyInterestRate;
         }
@@ -250,7 +250,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * @param decimals: number of digits to round final value
          * @return {@link #_14dHourlyInterestRate} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double get14dHourlyInterestRate(int decimals) {
             return roundValue(_14dHourlyInterestRate, decimals);
         }
@@ -260,7 +260,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * No-any params required
          *
          * @return {@link #_14dDailyInterestRate} instance as double
-         **/
+         */
         public double get14dDailyInterestRate() {
             return _14dDailyInterestRate;
         }
@@ -271,7 +271,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * @param decimals: number of digits to round final value
          * @return {@link #_14dDailyInterestRate} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double get14dDailyInterestRate(int decimals) {
             return roundValue(_14dDailyInterestRate, decimals);
         }
@@ -281,7 +281,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * No-any params required
          *
          * @return {@link #_30dHourlyInterestRate} instance as double
-         **/
+         */
         public double get30dHourlyInterestRate() {
             return _30dHourlyInterestRate;
         }
@@ -292,7 +292,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * @param decimals: number of digits to round final value
          * @return {@link #_30dHourlyInterestRate} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double get30dHourlyInterestRate(int decimals) {
             return roundValue(_30dHourlyInterestRate, decimals);
         }
@@ -302,7 +302,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * No-any params required
          *
          * @return {@link #_30dDailyInterestRate} instance as double
-         **/
+         */
         public double get30dDailyInterestRate() {
             return _30dDailyInterestRate;
         }
@@ -313,7 +313,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * @param decimals: number of digits to round final value
          * @return {@link #_30dDailyInterestRate} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double get30dDailyInterestRate(int decimals) {
             return roundValue(_30dDailyInterestRate, decimals);
         }
@@ -323,7 +323,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * No-any params required
          *
          * @return {@link #_90dHourlyInterestRate} instance as double
-         **/
+         */
         public double get90dHourlyInterestRate() {
             return _90dHourlyInterestRate;
         }
@@ -334,7 +334,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * @param decimals: number of digits to round final value
          * @return {@link #_90dHourlyInterestRate} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double get90dHourlyInterestRate(int decimals) {
             return roundValue(_90dHourlyInterestRate, decimals);
         }
@@ -344,7 +344,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * No-any params required
          *
          * @return {@link #_90dDailyInterestRate} instance as double
-         **/
+         */
         public double get90dDailyInterestRate() {
             return _90dDailyInterestRate;
         }
@@ -355,7 +355,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * @param decimals: number of digits to round final value
          * @return {@link #_90dDailyInterestRate} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double get90dDailyInterestRate(int decimals) {
             return roundValue(_90dDailyInterestRate, decimals);
         }
@@ -365,7 +365,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * No-any params required
          *
          * @return {@link #_180dHourlyInterestRate} instance as double
-         **/
+         */
         public double get180dHourlyInterestRate() {
             return _180dHourlyInterestRate;
         }
@@ -376,7 +376,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * @param decimals: number of digits to round final value
          * @return {@link #_180dHourlyInterestRate} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double get180dHourlyInterestRate(int decimals) {
             return roundValue(_180dHourlyInterestRate, decimals);
         }
@@ -386,7 +386,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * No-any params required
          *
          * @return {@link #_180dDailyInterestRate} instance as double
-         **/
+         */
         public double get180dDailyInterestRate() {
             return _180dDailyInterestRate;
         }
@@ -397,7 +397,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * @param decimals: number of digits to round final value
          * @return {@link #_180dDailyInterestRate} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double get180dDailyInterestRate(int decimals) {
             return roundValue(_180dDailyInterestRate, decimals);
         }
@@ -407,7 +407,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * No-any params required
          *
          * @return {@link #minLimit} instance as double
-         **/
+         */
         public double getMinLimit() {
             return minLimit;
         }
@@ -418,7 +418,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * @param decimals: number of digits to round final value
          * @return {@link #minLimit} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getMinLimit(int decimals) {
             return roundValue(minLimit, decimals);
         }
@@ -428,7 +428,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * No-any params required
          *
          * @return {@link #maxLimit} instance as double
-         **/
+         */
         public double getMaxLimit() {
             return maxLimit;
         }
@@ -439,7 +439,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * @param decimals: number of digits to round final value
          * @return {@link #maxLimit} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getMaxLimit(int decimals) {
             return roundValue(maxLimit, decimals);
         }
@@ -449,7 +449,7 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * No-any params required
          *
          * @return {@link #vipLevel} instance as int
-         **/
+         */
         public int getVipLevel() {
             return vipLevel;
         }

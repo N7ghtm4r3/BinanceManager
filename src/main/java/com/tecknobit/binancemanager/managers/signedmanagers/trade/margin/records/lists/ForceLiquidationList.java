@@ -19,7 +19,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
  * Get Force Liquidation Record (USER_DATA)</a>
  * @see BinanceRowsList
- **/
+ */
 public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
 
     /**
@@ -27,7 +27,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
      *
      * @param total:                 total size of force liquidations
      * @param liquidationAssetsList: list of {@link Liquidation}
-     **/
+     */
     public ForceLiquidationList(int total, ArrayList<Liquidation> liquidationAssetsList) {
         super(total, liquidationAssetsList);
     }
@@ -36,7 +36,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
      * Constructor to init {@link ForceLiquidationList} object
      *
      * @param jsonLiquidation: margin force liquidation details as {@link JSONObject}
-     **/
+     */
     public ForceLiquidationList(JSONObject jsonLiquidation) {
         super(jsonLiquidation);
         for (Object row : hItem.fetchList("rows"))
@@ -47,52 +47,52 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
      * The {@code Liquidation} class is useful to create a force liquidation type
      *
      * @author N7ghtm4r3 - Tecknobit
-     **/
+     */
     public static class Liquidation {
 
         /**
          * {@code orderId} is instance that memorizes identifier of order
-         **/
+         */
         private final long orderId;
         /**
          * {@code symbol} is instance that memorizes symbol of order
-         **/
+         */
         private final String symbol;
         /**
          * {@code timeInForce} is instance that memorizes time in force of order
-         **/
+         */
         private final TimeInForce timeInForce;
 
         /**
          * {@code price} is instance that memorizes price of order
-         **/
+         */
         private double price;
 
         /**
          * {@code qty} is instance that memorizes quantity of order
-         **/
+         */
         private double qty;
         /**
          * {@code avgPrice} is instance that memorizes average price of liquidation asset
-         **/
+         */
         private double avgPrice;
         /**
          * {@code executedQty} is instance that memorizes executed quantity of liquidation asset
-         **/
+         */
         private double executedQty;
         /**
          * {@code side} is instance that memorizes side of order
-         **/
+         */
         private Side side;
 
         /**
          * {@code isIsolated} is instance that memorizes if order is isolated
-         **/
+         */
         private boolean isIsolated;
 
         /**
          * {@code updatedTime} is instance that memorizes time of order
-         **/
+         */
         private long updatedTime;
 
         /**
@@ -109,7 +109,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          * @param isIsolated:  order is isolated
          * @param updatedTime: time of order
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public Liquidation(double avgPrice, double executedQty, long orderId, double price, double qty,
                            Side side, String symbol, TimeInForce timeInForce, boolean isIsolated,
                            long updatedTime) {
@@ -145,7 +145,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          *
          * @param forceLiquidationAsset: force liquidation asset details as {@link JSONObject}
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public Liquidation(JSONObject forceLiquidationAsset) {
             this(forceLiquidationAsset.getDouble("avgPrice"), forceLiquidationAsset.getDouble("executedQty"),
                     forceLiquidationAsset.getLong("orderId"), forceLiquidationAsset.getDouble("price"),
@@ -160,7 +160,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          * No-any params required
          *
          * @return {@link #avgPrice} instance as double
-         **/
+         */
         public double getAvgPrice() {
             return avgPrice;
         }
@@ -170,7 +170,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          *
          * @param avgPrice: average price of liquidation asset
          * @throws IllegalArgumentException when average price of liquidation asset value is less than 0
-         **/
+         */
         public void setAvgPrice(double avgPrice) {
             if (avgPrice < 0)
                 throw new IllegalArgumentException("Average price value cannot be less than 0");
@@ -183,7 +183,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          * @param decimals: number of digits to round final value
          * @return {@link #avgPrice} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getAvgPrice(int decimals) {
             return roundValue(avgPrice, decimals);
         }
@@ -193,7 +193,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          * No-any params required
          *
          * @return {@link #executedQty} instance as double
-         **/
+         */
         public double getExecutedQty() {
             return executedQty;
         }
@@ -203,7 +203,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          *
          * @param executedQty: executed quantity of liquidation asset
          * @throws IllegalArgumentException when executed quantity of liquidation asset value is less than 0
-         **/
+         */
         public void setExecutedQty(double executedQty) {
             if (executedQty < 0)
                 throw new IllegalArgumentException("Executed quantity value cannot be less than 0");
@@ -216,7 +216,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          * @param decimals: number of digits to round final value
          * @return {@link #executedQty} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getExecutedQty(int decimals) {
             return roundValue(executedQty, decimals);
         }
@@ -226,7 +226,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          * No-any params required
          *
          * @return {@link #orderId} instance as double
-         **/
+         */
         public long getOrderId() {
             return orderId;
         }
@@ -236,7 +236,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          * No-any params required
          *
          * @return {@link #price} instance as double
-         **/
+         */
         public double getPrice() {
             return price;
         }
@@ -246,7 +246,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          *
          * @param price: price of order
          * @throws IllegalArgumentException when price of order value is less than 0
-         **/
+         */
         public void setPrice(double price) {
             if (price < 0)
                 throw new IllegalArgumentException("Price value cannot be less than 0");
@@ -259,7 +259,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          * @param decimals: number of digits to round final value
          * @return {@link #price} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getPrice(int decimals) {
             return roundValue(price, decimals);
         }
@@ -269,7 +269,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          * No-any params required
          *
          * @return {@link #qty} instance as double
-         **/
+         */
         public double getQty() {
             return qty;
         }
@@ -279,7 +279,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          *
          * @param qty: quantity of order
          * @throws IllegalArgumentException when quantity of order value is less than 0
-         **/
+         */
         public void setQty(double qty) {
             if (qty < 0)
                 throw new IllegalArgumentException("Quantity value cannot be less than 0");
@@ -292,7 +292,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          * @param decimals: number of digits to round final value
          * @return {@link #qty} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getQty(int decimals) {
             return roundValue(qty, decimals);
         }
@@ -302,7 +302,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          * No-any params required
          *
          * @return {@link #side} instance as {@link Side}
-         **/
+         */
         public Side getSide() {
             return side;
         }
@@ -312,7 +312,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          *
          * @param side: side of order
          * @throws IllegalArgumentException when side is not valid
-         **/
+         */
         public void setSide(Side side) {
             this.side = side;
         }
@@ -322,7 +322,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          * No-any params required
          *
          * @return {@link #symbol} instance as {@link String}
-         **/
+         */
         public String getSymbol() {
             return symbol;
         }
@@ -332,7 +332,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          * No-any params required
          *
          * @return {@link #timeInForce} instance as {@link TimeInForce}
-         **/
+         */
         public TimeInForce getTimeInForce() {
             return timeInForce;
         }
@@ -342,7 +342,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          * No-any params required
          *
          * @return {@link #isIsolated} instance as boolean
-         **/
+         */
         public boolean isIsolated() {
             return isIsolated;
         }
@@ -351,7 +351,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          * Method to set {@link #isIsolated}
          *
          * @param isolated: if order is isolated
-         **/
+         */
         public void setIsolated(boolean isolated) {
             isIsolated = isolated;
         }
@@ -361,7 +361,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          * No-any params required
          *
          * @return {@link #updatedTime} instance as long
-         **/
+         */
         public long getUpdatedTime() {
             return updatedTime;
         }
@@ -371,7 +371,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          *
          * @param updatedTime: time of order
          * @throws IllegalArgumentException when time of order value is less than 0
-         **/
+         */
         public void setUpdatedTime(long updatedTime) {
             if (updatedTime < 0)
                 throw new IllegalArgumentException("Updated time value cannot be less than 0");
@@ -383,7 +383,7 @@ public class ForceLiquidationList extends BinanceRowsList<Liquidation> {
          * No-any params required
          *
          * @return {@link #updatedTime} instance as {@link Date}
-         **/
+         */
         public Date getUpdatedDate() {
             return TimeFormatter.getDate(updatedTime);
         }

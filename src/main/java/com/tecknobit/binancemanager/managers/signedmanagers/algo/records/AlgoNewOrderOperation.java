@@ -33,12 +33,12 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat;
  * @see BinanceItem
  * @see BinanceResponse
  * @see AlgoOperationResult
- **/
+ */
 public class AlgoNewOrderOperation extends AlgoOperationResult {
 
     /**
      * {@code clientAlgoId} client algo identifier
-     **/
+     */
     private final String clientAlgoId;
 
     /**
@@ -46,7 +46,7 @@ public class AlgoNewOrderOperation extends AlgoOperationResult {
      *
      * @param success:      whether the operation has been successful
      * @param clientAlgoId: client algo identifier
-     **/
+     */
     public AlgoNewOrderOperation(boolean success, String clientAlgoId) {
         super(success);
         this.clientAlgoId = clientAlgoId;
@@ -56,7 +56,7 @@ public class AlgoNewOrderOperation extends AlgoOperationResult {
      * Constructor to init {@link AlgoNewOrderOperation} object
      *
      * @param jAlgoNewOrderOperation: algo new order operation details as {@link JSONObject}
-     **/
+     */
     public AlgoNewOrderOperation(JSONObject jAlgoNewOrderOperation) {
         super(jAlgoNewOrderOperation);
         clientAlgoId = hItem.getString("clientAlgoId");
@@ -67,7 +67,7 @@ public class AlgoNewOrderOperation extends AlgoOperationResult {
      * No-any params required
      *
      * @return {@link #clientAlgoId} instance as {@link String}
-     **/
+     */
     public String getClientAlgoId() {
         return clientAlgoId;
     }
@@ -78,7 +78,7 @@ public class AlgoNewOrderOperation extends AlgoOperationResult {
      * @param algoOrderResponse: obtained from Binance's response
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return algo order operation as {@code "format"} defines
-     **/
+     */
     @Returner
     public static <T> T returnAlgoOrderNewOperation(String algoOrderResponse, ReturnFormat format) {
         switch (format) {

@@ -22,43 +22,43 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *     </li>
  * </ul>
  * @see BinanceItem
- **/
+ */
 @Structure
 public abstract class SubFuturesAccountStructure extends BinanceItem {
 
     /**
      * {@code totalInitialMargin} total initial margin of the sub futures account structure
-     **/
+     */
     protected final double totalInitialMargin;
 
     /**
      * {@code totalMaintenanceMargin} total maintenance margin of the sub futures account structure
-     **/
+     */
     protected final double totalMaintenanceMargin;
 
     /**
      * {@code totalMarginBalance} total margin balance of the sub futures account structure
-     **/
+     */
     protected final double totalMarginBalance;
 
     /**
      * {@code totalOpenOrderInitialMargin} total open order initial margin of the sub futures account structure
-     **/
+     */
     protected final double totalOpenOrderInitialMargin;
 
     /**
      * {@code totalPositionInitialMargin} total position initial margin of the sub futures account structure
-     **/
+     */
     protected final double totalPositionInitialMargin;
 
     /**
      * {@code totalUnrealizedProfit} total unrealized profit of the sub futures account structure
-     **/
+     */
     protected final double totalUnrealizedProfit;
 
     /**
      * {@code totalWalletBalance} total wallet balance of the sub futures account structure
-     **/
+     */
     protected final double totalWalletBalance;
 
     /**
@@ -71,7 +71,7 @@ public abstract class SubFuturesAccountStructure extends BinanceItem {
      * @param totalPositionInitialMargin:  total position initial margin of the sub futures account structure
      * @param totalUnrealizedProfit:       total unrealized profit of the sub futures account structure
      * @param totalWalletBalance:          total wallet balance of the sub futures account structure
-     **/
+     */
     public SubFuturesAccountStructure(double totalInitialMargin, double totalMaintenanceMargin, double totalMarginBalance,
                                       double totalOpenOrderInitialMargin, double totalPositionInitialMargin,
                                       double totalUnrealizedProfit, double totalWalletBalance) {
@@ -89,7 +89,7 @@ public abstract class SubFuturesAccountStructure extends BinanceItem {
      * Constructor to init {@link SubFuturesAccountStructure} object
      *
      * @param jSubFuturesAccountStructure: sub futures account structure details as {@link JSONObject}
-     **/
+     */
     public SubFuturesAccountStructure(JSONObject jSubFuturesAccountStructure) {
         super(jSubFuturesAccountStructure);
         totalInitialMargin = hItem.getDouble("totalInitialMargin", 0);
@@ -106,7 +106,7 @@ public abstract class SubFuturesAccountStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #totalInitialMargin} instance as double
-     **/
+     */
     public double getTotalInitialMargin() {
         return totalInitialMargin;
     }
@@ -117,7 +117,7 @@ public abstract class SubFuturesAccountStructure extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #totalInitialMargin} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTotalInitialMargin(int decimals) {
         return roundValue(totalInitialMargin, decimals);
     }
@@ -127,7 +127,7 @@ public abstract class SubFuturesAccountStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #totalMaintenanceMargin} instance as double
-     **/
+     */
     public double getTotalMaintenanceMargin() {
         return totalMaintenanceMargin;
     }
@@ -138,7 +138,7 @@ public abstract class SubFuturesAccountStructure extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #totalMaintenanceMargin} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTotalMaintenanceMargin(int decimals) {
         return roundValue(totalMaintenanceMargin, decimals);
     }
@@ -148,7 +148,7 @@ public abstract class SubFuturesAccountStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #totalMarginBalance} instance as double
-     **/
+     */
     public double getTotalMarginBalance() {
         return totalMarginBalance;
     }
@@ -159,7 +159,7 @@ public abstract class SubFuturesAccountStructure extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #totalMarginBalance} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTotalMarginBalance(int decimals) {
         return roundValue(totalMarginBalance, decimals);
     }
@@ -169,7 +169,7 @@ public abstract class SubFuturesAccountStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #totalOpenOrderInitialMargin} instance as double
-     **/
+     */
     public double getTotalOpenOrderInitialMargin() {
         return totalOpenOrderInitialMargin;
     }
@@ -180,7 +180,7 @@ public abstract class SubFuturesAccountStructure extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #totalOpenOrderInitialMargin} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTotalOpenOrderInitialMargin(int decimals) {
         return roundValue(totalOpenOrderInitialMargin, decimals);
     }
@@ -190,7 +190,7 @@ public abstract class SubFuturesAccountStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #totalPositionInitialMargin} instance as double
-     **/
+     */
     public double getTotalPositionInitialMargin() {
         return totalPositionInitialMargin;
     }
@@ -201,7 +201,7 @@ public abstract class SubFuturesAccountStructure extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #totalPositionInitialMargin} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTotalPositionInitialMargin(int decimals) {
         return roundValue(totalPositionInitialMargin, decimals);
     }
@@ -211,7 +211,7 @@ public abstract class SubFuturesAccountStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #totalUnrealizedProfit} instance as double
-     **/
+     */
     public double getTotalUnrealizedProfit() {
         return totalUnrealizedProfit;
     }
@@ -222,7 +222,7 @@ public abstract class SubFuturesAccountStructure extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #totalUnrealizedProfit} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTotalUnrealizedProfit(int decimals) {
         return roundValue(totalUnrealizedProfit, decimals);
     }
@@ -232,7 +232,7 @@ public abstract class SubFuturesAccountStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #totalWalletBalance} instance as double
-     **/
+     */
     public double getTotalWalletBalance() {
         return totalWalletBalance;
     }
@@ -243,7 +243,7 @@ public abstract class SubFuturesAccountStructure extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #totalWalletBalance} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTotalWalletBalance(int decimals) {
         return roundValue(totalWalletBalance, decimals);
     }

@@ -13,23 +13,23 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#spot-account-trade">
  * Spot Account/Trade</a>
  * @see Order
- **/
+ */
 @Structure
 public abstract class SpotOrder extends Order {
 
     /**
      * {@code orderListId} is instance that memorizes order list identifier
-     **/
+     */
     protected final long orderListId;
 
     /**
      * {@code preventedMatchId} prevented match identifier
-     **/
+     */
     protected final long preventedMatchId;
 
     /**
      * {@code preventedQuantity} prevented quantity value
-     **/
+     */
     protected final double preventedQuantity;
 
     /**
@@ -41,7 +41,7 @@ public abstract class SpotOrder extends Order {
      * @param orderListId:       list order identifier
      * @param preventedMatchId:  prevented match identifier
      * @param preventedQuantity: prevented quantity value
-     **/
+     */
     public SpotOrder(String symbol, long orderId, String clientOrderId, long orderListId, long preventedMatchId,
                      double preventedQuantity) {
         super(symbol, orderId, clientOrderId);
@@ -54,7 +54,7 @@ public abstract class SpotOrder extends Order {
      * Constructor to init {@link SpotOrder} object
      *
      * @param spotOrder: spot order details as {@link JSONObject}
-     **/
+     */
     public SpotOrder(JSONObject spotOrder) {
         super(spotOrder);
         orderListId = hOrder.getLong("orderListId");
@@ -67,7 +67,7 @@ public abstract class SpotOrder extends Order {
      * No-any params required
      *
      * @return {@link #orderListId} instance as long
-     **/
+     */
     public long getOrderListId() {
         return orderListId;
     }
@@ -77,7 +77,7 @@ public abstract class SpotOrder extends Order {
      * No-any params required
      *
      * @return {@link #preventedMatchId} instance as long
-     **/
+     */
     public long getPreventedMatchId() {
         return preventedMatchId;
     }
@@ -87,7 +87,7 @@ public abstract class SpotOrder extends Order {
      * No-any params required
      *
      * @return {@link #preventedQuantity} instance as double
-     **/
+     */
     public double getPreventedQuantity() {
         return preventedQuantity;
     }
@@ -98,7 +98,7 @@ public abstract class SpotOrder extends Order {
      * @param decimals: number of digits to round final value
      * @return {@link #preventedQuantity} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getPreventedQuantity(int decimals) {
         return roundValue(preventedQuantity, decimals);
     }

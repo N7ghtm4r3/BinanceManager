@@ -15,64 +15,64 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see BinanceItem
- **/
+ */
 public class Profit extends BinanceItem {
 
     /**
      * {@code ProfitType} list of available profit types
-     **/
+     */
     public enum ProfitType {
 
         /**
          * {@code unpaid} profit type
-         **/
+         */
         Mining_Wallet(0),
 
         /**
          * {@code paying} profit type
-         **/
+         */
         Mining_Address(5),
 
         /**
          * {@code unpaid} profit type
-         **/
+         */
         Pool_Savings(7),
 
         /**
          * {@code paying} profit type
-         **/
+         */
         Transferred(8),
 
         /**
          * {@code unpaid} profit type
-         **/
+         */
         Income_Transfer(31),
 
         /**
          * {@code paying} profit type
-         **/
+         */
         Hashrate_Resale_Mining_Wallet(32),
 
         /**
          * {@code unpaid} profit type
-         **/
+         */
         Hashrate_Resale_Pool_Savings(33);
 
         /**
          * {@code type} profit type value
-         **/
+         */
         private final int type;
 
         /**
          * {@code VALUES} list of the types
-         **/
+         */
         private static final List<ProfitType> VALUES = Arrays.stream(ProfitType.values()).toList();
 
         /**
          * Constructor to init {@link ProfitType} object
          *
          * @param type: profit type value
-         **/
+         */
         ProfitType(int type) {
             this.type = type;
         }
@@ -82,7 +82,7 @@ public class Profit extends BinanceItem {
          * No-any params required
          *
          * @return {@link #type} instance as int
-         **/
+         */
         public int getType() {
             return type;
         }
@@ -92,7 +92,7 @@ public class Profit extends BinanceItem {
          *
          * @param value: value to reach
          * @return enum constant as {@link ProfitType}
-         **/
+         */
         public static ProfitType reachEnumConstant(int value) {
             return VALUES.get(value);
         }
@@ -102,7 +102,7 @@ public class Profit extends BinanceItem {
          * No-any params required
          *
          * @return {@link #type} instance as {@link String}
-         **/
+         */
         @Override
         public String toString() {
             return type + "";
@@ -112,39 +112,39 @@ public class Profit extends BinanceItem {
 
     /**
      * {@code ProfitStatus} list of available profit statuses
-     **/
+     */
     public enum ProfitStatus {
 
         /**
          * {@code unpaid} profit type
-         **/
+         */
         unpaid(0),
 
         /**
          * {@code paying} profit type
-         **/
+         */
         paying(1),
 
         /**
          * {@code paid} profit type
-         **/
+         */
         paid(2);
 
         /**
          * {@code type} profit type value
-         **/
+         */
         private final int status;
 
         /**
          * {@code VALUES} list of the statuses
-         **/
+         */
         private static final List<ProfitStatus> VALUES = Arrays.stream(ProfitStatus.values()).toList();
 
         /**
          * Constructor to init {@link ProfitStatus} object
          *
          * @param status: profit type value
-         **/
+         */
         ProfitStatus(int status) {
             this.status = status;
         }
@@ -154,7 +154,7 @@ public class Profit extends BinanceItem {
          * No-any params required
          *
          * @return {@link #status} instance as int
-         **/
+         */
         public int getStatus() {
             return status;
         }
@@ -164,7 +164,7 @@ public class Profit extends BinanceItem {
          *
          * @param value: value to reach
          * @return enum constant as {@link ProfitStatus}
-         **/
+         */
         public static ProfitStatus reachEnumConstant(int value) {
             return VALUES.get(value);
         }
@@ -174,7 +174,7 @@ public class Profit extends BinanceItem {
          * No-any params required
          *
          * @return {@link #status} instance as {@link String}
-         **/
+         */
         @Override
         public String toString() {
             return status + "";
@@ -184,27 +184,27 @@ public class Profit extends BinanceItem {
 
     /**
      * {@code time} mining date
-     **/
+     */
     protected final long time;
 
     /**
      * {@code type} of the profit
-     **/
+     */
     protected final ProfitType type;
 
     /**
      * {@code profitAmount} earnings amount
-     **/
+     */
     protected final double profitAmount;
 
     /**
      * {@code coinName} coin type
-     **/
+     */
     protected final String coinName;
 
     /**
      * {@code type} profit type value
-     **/
+     */
     protected final ProfitStatus status;
 
     /**
@@ -215,7 +215,7 @@ public class Profit extends BinanceItem {
      * @param profitAmount: earnings amount
      * @param coinName:     coin type
      * @param status:       profit type value
-     **/
+     */
     public Profit(long time, ProfitType type, double profitAmount, String coinName, ProfitStatus status) {
         super(null);
         this.time = time;
@@ -229,7 +229,7 @@ public class Profit extends BinanceItem {
      * Constructor to init {@link Profit} object
      *
      * @param jProfit: profit details as {@link JSONObject}
-     **/
+     */
     public Profit(JSONObject jProfit) {
         super(jProfit);
         time = hItem.getLong("time", 0);
@@ -244,7 +244,7 @@ public class Profit extends BinanceItem {
      * No-any params required
      *
      * @return {@link #time} instance as long
-     **/
+     */
     public long getTime() {
         return time;
     }
@@ -254,7 +254,7 @@ public class Profit extends BinanceItem {
      * No-any params required
      *
      * @return {@link #time} instance as {@link Date}
-     **/
+     */
     public Date getDate() {
         return TimeFormatter.getDate(time);
     }
@@ -264,7 +264,7 @@ public class Profit extends BinanceItem {
      * No-any params required
      *
      * @return {@link #type} instance as {@link ProfitType}
-     **/
+     */
     public ProfitType getType() {
         return type;
     }
@@ -274,7 +274,7 @@ public class Profit extends BinanceItem {
      * No-any params required
      *
      * @return {@link #profitAmount} instance as double
-     **/
+     */
     public double getProfitAmount() {
         return profitAmount;
     }
@@ -285,7 +285,7 @@ public class Profit extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #profitAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getProfitAmount(int decimals) {
         return roundValue(profitAmount, decimals);
     }
@@ -295,7 +295,7 @@ public class Profit extends BinanceItem {
      * No-any params required
      *
      * @return {@link #coinName} instance as {@link String}
-     **/
+     */
     public String getCoinName() {
         return coinName;
     }
@@ -305,7 +305,7 @@ public class Profit extends BinanceItem {
      * No-any params required
      *
      * @return {@link #status} instance as {@link ProfitStatus}
-     **/
+     */
     public ProfitStatus getStatus() {
         return status;
     }

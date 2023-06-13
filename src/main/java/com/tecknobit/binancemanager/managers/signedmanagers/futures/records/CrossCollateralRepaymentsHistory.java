@@ -20,7 +20,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.futures.recor
  * Cross-Collateral Repayment History (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossCollateralRepayment> {
 
     /**
@@ -28,7 +28,7 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
      *
      * @param total      : number of repayments
      * @param repayments :  list of the repayments
-     **/
+     */
     public CrossCollateralRepaymentsHistory(int total, ArrayList<CrossCollateralRepayment> repayments) {
         super(total, repayments);
     }
@@ -37,7 +37,7 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
      * Constructor to init {@link CrossCollateralRepaymentsHistory}
      *
      * @param jHistory : history details as {@link JSONObject}
-     **/
+     */
     public CrossCollateralRepaymentsHistory(JSONObject jHistory) {
         super(jHistory);
         for (Object row : hItem.fetchList("rows"))
@@ -50,69 +50,69 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see CrossCollateralItem
-     **/
+     */
     public static class CrossCollateralRepayment extends CrossCollateralItem {
 
         /**
          * {@code RepayType} list of available repay types
-         **/
+         */
         public enum RepayType {
 
             /**
              * {@code NORMAL} repay type
-             **/
+             */
             NORMAL,
 
             /**
              * {@code COLLATERAL} repay type
-             **/
+             */
             COLLATERAL
 
         }
 
         /**
          * {@code amount} of the repayment
-         **/
+         */
         private final double amount;
 
         /**
          * {@code type} of the repayment
-         **/
+         */
         private final RepayType repayType;
 
         /**
          * {@code releasedCollateral} released collateral of the repayment
-         **/
+         */
         private final double releasedCollateral;
 
         /**
          * {@code price} of the repayment
-         **/
+         */
         private final double price;
 
         /**
          * {@code repayCollateral} repay collateral of the repayment
-         **/
+         */
         private final double repayCollateral;
 
         /**
          * {@code confirmedTime} confirmed time of the repayment
-         **/
+         */
         private final long confirmedTime;
 
         /**
          * {@code updateTime} update time of the repayment
-         **/
+         */
         private final long updateTime;
 
         /**
          * {@code status} of the repayment
-         **/
+         */
         private final Status status;
 
         /**
          * {@code repayId} id of the repayment
-         **/
+         */
         private final long repayId;
 
         /**
@@ -129,7 +129,7 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
          * @param updateTime:         update time of the repayment
          * @param status:             status of the repayment
          * @param repayId:            id of the repayment
-         **/
+         */
         public CrossCollateralRepayment(String coin, String collateralCoin, double amount, RepayType repayType,
                                         double releasedCollateral, double price, double repayCollateral,
                                         long confirmedTime, long updateTime, Status status, long repayId) {
@@ -149,7 +149,7 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
          * Constructor to init {@link CrossCollateralRepayment} object
          *
          * @param jCrossCollateralRepayment: cross collateral repayment details as {@link JSONObject}
-         **/
+         */
         public CrossCollateralRepayment(JSONObject jCrossCollateralRepayment) {
             super(jCrossCollateralRepayment);
             amount = hItem.getDouble("amount", 0);
@@ -168,7 +168,7 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
          * No-any params required
          *
          * @return {@link #amount} instance as double
-         **/
+         */
         public double getAmount() {
             return amount;
         }
@@ -179,7 +179,7 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
          * @param decimals: number of digits to round final value
          * @return {@link #amount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getAmount(int decimals) {
             return roundValue(amount, decimals);
         }
@@ -189,7 +189,7 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
          * No-any params required
          *
          * @return {@link #repayType} instance as {@link RepayType}
-         **/
+         */
         public RepayType getRepayType() {
             return repayType;
         }
@@ -199,7 +199,7 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
          * No-any params required
          *
          * @return {@link #releasedCollateral} instance as double
-         **/
+         */
         public double getReleasedCollateral() {
             return releasedCollateral;
         }
@@ -210,7 +210,7 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
          * @param decimals: number of digits to round final value
          * @return {@link #releasedCollateral} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getReleasedCollateral(int decimals) {
             return roundValue(releasedCollateral, decimals);
         }
@@ -220,7 +220,7 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
          * No-any params required
          *
          * @return {@link #price} instance as double
-         **/
+         */
         public double getPrice() {
             return price;
         }
@@ -231,7 +231,7 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
          * @param decimals: number of digits to round final value
          * @return {@link #price} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getPrice(int decimals) {
             return roundValue(price, decimals);
         }
@@ -241,7 +241,7 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
          * No-any params required
          *
          * @return {@link #repayCollateral} instance as double
-         **/
+         */
         public double getRepayCollateral() {
             return repayCollateral;
         }
@@ -252,7 +252,7 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
          * @param decimals: number of digits to round final value
          * @return {@link #repayCollateral} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getRepayCollateral(int decimals) {
             return roundValue(repayCollateral, decimals);
         }
@@ -262,7 +262,7 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
          * No-any params required
          *
          * @return {@link #confirmedTime} instance as long
-         **/
+         */
         public long getConfirmedTime() {
             return confirmedTime;
         }
@@ -272,7 +272,7 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
          * No-any params required
          *
          * @return {@link #confirmedTime} instance as {@link Date}
-         **/
+         */
         public Date getConfirmDate() {
             return TimeFormatter.getDate(confirmedTime);
         }
@@ -282,7 +282,7 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
          * No-any params required
          *
          * @return {@link #updateTime} instance as long
-         **/
+         */
         public long getUpdateTime() {
             return updateTime;
         }
@@ -292,7 +292,7 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
          * No-any params required
          *
          * @return {@link #updateTime} instance as {@link Date}
-         **/
+         */
         public Date getUpdateDate() {
             return TimeFormatter.getDate(updateTime);
         }
@@ -302,7 +302,7 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
          * No-any params required
          *
          * @return {@link #status} instance as {@link Status}
-         **/
+         */
         public Status getStatus() {
             return status;
         }
@@ -312,7 +312,7 @@ public class CrossCollateralRepaymentsHistory extends BinanceRowsList<CrossColla
          * No-any params required
          *
          * @return {@link #repayId} instance as long
-         **/
+         */
         public long getRepayId() {
             return repayId;
         }

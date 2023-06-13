@@ -2,6 +2,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.giftcard.records;
 
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
+import com.tecknobit.binancemanager.managers.records.BinanceResponseStructure;
 import org.json.JSONObject;
 
 /**
@@ -12,16 +13,16 @@ import org.json.JSONObject;
  * Fetch RSA Public Key (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceManager.BinanceResponse
- * @see GiftCardStructure
- **/
-public class BinanceRSAPublicKey extends GiftCardStructure<String> {
+ * @see BinanceResponseStructure
+ */
+public class BinanceRSAPublicKey extends BinanceResponseStructure<String> {
 
     /**
      * Constructor to init {@link BinanceRSAPublicKey} object
      *
      * @param success: whether the operation has been successful
      * @param data:    data of the public key
-     **/
+     */
     public BinanceRSAPublicKey(boolean success, String data) {
         super(success, data);
     }
@@ -30,7 +31,7 @@ public class BinanceRSAPublicKey extends GiftCardStructure<String> {
      * Constructor to init {@link BinanceRSAPublicKey} object
      *
      * @param jBinanceRSAPublicKey: Binance RSA public key details as {@link JSONObject}
-     **/
+     */
     public BinanceRSAPublicKey(JSONObject jBinanceRSAPublicKey) {
         super(jBinanceRSAPublicKey);
         data = hItem.getString("data");

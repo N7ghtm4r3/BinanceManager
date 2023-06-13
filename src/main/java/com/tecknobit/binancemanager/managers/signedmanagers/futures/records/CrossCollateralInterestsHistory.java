@@ -19,7 +19,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.futures.recor
  * Cross-Collateral Interest History (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class CrossCollateralInterestsHistory extends BinanceRowsList<CrossCollateralInterest> {
 
     /**
@@ -27,7 +27,7 @@ public class CrossCollateralInterestsHistory extends BinanceRowsList<CrossCollat
      *
      * @param total     : number of interests
      * @param interests :  list of the interests
-     **/
+     */
     public CrossCollateralInterestsHistory(int total, ArrayList<CrossCollateralInterest> interests) {
         super(total, interests);
     }
@@ -36,7 +36,7 @@ public class CrossCollateralInterestsHistory extends BinanceRowsList<CrossCollat
      * Constructor to init {@link CrossCollateralInterestsHistory}
      *
      * @param jHistory : history details as {@link JSONObject}
-     **/
+     */
     public CrossCollateralInterestsHistory(JSONObject jHistory) {
         super(jHistory);
         for (Object row : hItem.fetchList("rows"))
@@ -48,42 +48,42 @@ public class CrossCollateralInterestsHistory extends BinanceRowsList<CrossCollat
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class CrossCollateralInterest extends BinanceItem {
 
         /**
          * {@code collateralCoin} collateral coin of the cross collateral interest
-         **/
+         */
         private final String collateralCoin;
 
         /**
          * {@code interestCoin} interest coin of the cross collateral interest
-         **/
+         */
         private final String interestCoin;
 
         /**
          * {@code interest} of the cross collateral interest
-         **/
+         */
         private final double interest;
 
         /**
          * {@code interestFreeLimitUsed} interest free limit used of the cross collateral interest
-         **/
+         */
         private final double interestFreeLimitUsed;
 
         /**
          * {@code principalForInterest} principal for interest of the cross collateral interest
-         **/
+         */
         private final double principalForInterest;
 
         /**
          * {@code interestRate} interest rate of the cross collateral interest
-         **/
+         */
         private final double interestRate;
 
         /**
          * {@code time} of the cross collateral interest
-         **/
+         */
         private final long time;
 
         /**
@@ -96,7 +96,7 @@ public class CrossCollateralInterestsHistory extends BinanceRowsList<CrossCollat
          * @param principalForInterest  : principal for interest of the cross collateral interest
          * @param interestRate          : interest rate of the cross collateral interest
          * @param time                  : time of the cross collateral interest
-         **/
+         */
         public CrossCollateralInterest(String collateralCoin, String interestCoin, double interest,
                                        double interestFreeLimitUsed, double principalForInterest, double interestRate,
                                        long time) {
@@ -114,7 +114,7 @@ public class CrossCollateralInterestsHistory extends BinanceRowsList<CrossCollat
          * Constructor to init {@link CrossCollateralInterest}
          *
          * @param jCrossCollateralInterest : cross collateral interest details as {@link JSONObject}
-         **/
+         */
         public CrossCollateralInterest(JSONObject jCrossCollateralInterest) {
             super(jCrossCollateralInterest);
             collateralCoin = hItem.getString("collateralCoin");
@@ -131,7 +131,7 @@ public class CrossCollateralInterestsHistory extends BinanceRowsList<CrossCollat
          * No-any params required
          *
          * @return {@link #collateralCoin} instance as {@link String}
-         **/
+         */
         public String getCollateralCoin() {
             return collateralCoin;
         }
@@ -141,7 +141,7 @@ public class CrossCollateralInterestsHistory extends BinanceRowsList<CrossCollat
          * No-any params required
          *
          * @return {@link #interestCoin} instance as {@link String}
-         **/
+         */
         public String getInterestCoin() {
             return interestCoin;
         }
@@ -151,7 +151,7 @@ public class CrossCollateralInterestsHistory extends BinanceRowsList<CrossCollat
          * No-any params required
          *
          * @return {@link #interest} instance as double
-         **/
+         */
         public double getInterest() {
             return interest;
         }
@@ -162,7 +162,7 @@ public class CrossCollateralInterestsHistory extends BinanceRowsList<CrossCollat
          * @param decimals: number of digits to round final value
          * @return {@link #interest} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getInterest(int decimals) {
             return roundValue(interest, decimals);
         }
@@ -172,7 +172,7 @@ public class CrossCollateralInterestsHistory extends BinanceRowsList<CrossCollat
          * No-any params required
          *
          * @return {@link #interestFreeLimitUsed} instance as double
-         **/
+         */
         public double getInterestFreeLimitUsed() {
             return interestFreeLimitUsed;
         }
@@ -183,7 +183,7 @@ public class CrossCollateralInterestsHistory extends BinanceRowsList<CrossCollat
          * @param decimals: number of digits to round final value
          * @return {@link #interestFreeLimitUsed} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getInterestFreeLimitUsed(int decimals) {
             return roundValue(interestFreeLimitUsed, decimals);
         }
@@ -193,7 +193,7 @@ public class CrossCollateralInterestsHistory extends BinanceRowsList<CrossCollat
          * No-any params required
          *
          * @return {@link #principalForInterest} instance as double
-         **/
+         */
         public double getPrincipalForInterest() {
             return principalForInterest;
         }
@@ -204,7 +204,7 @@ public class CrossCollateralInterestsHistory extends BinanceRowsList<CrossCollat
          * @param decimals: number of digits to round final value
          * @return {@link #principalForInterest} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getPrincipalForInterest(int decimals) {
             return roundValue(principalForInterest, decimals);
         }
@@ -214,7 +214,7 @@ public class CrossCollateralInterestsHistory extends BinanceRowsList<CrossCollat
          * No-any params required
          *
          * @return {@link #interestRate} instance as double
-         **/
+         */
         public double getInterestRate() {
             return interestRate;
         }
@@ -225,7 +225,7 @@ public class CrossCollateralInterestsHistory extends BinanceRowsList<CrossCollat
          * @param decimals: number of digits to round final value
          * @return {@link #interestRate} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getInterestRate(int decimals) {
             return roundValue(interestRate, decimals);
         }
@@ -235,7 +235,7 @@ public class CrossCollateralInterestsHistory extends BinanceRowsList<CrossCollat
          * No-any params required
          *
          * @return {@link #time} instance as long
-         **/
+         */
         public long getTime() {
             return time;
         }
@@ -245,7 +245,7 @@ public class CrossCollateralInterestsHistory extends BinanceRowsList<CrossCollat
          * No-any params required
          *
          * @return {@link #time} instance as {@link Date}
-         **/
+         */
         public Date getDate() {
             return TimeFormatter.getDate(time);
         }

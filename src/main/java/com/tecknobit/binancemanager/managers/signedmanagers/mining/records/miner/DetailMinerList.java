@@ -21,14 +21,14 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.mining.record
  * @see BinanceItem
  * @see BinanceResponse
  * @see MiningResponse
- **/
+ */
 public class DetailMinerList extends MiningResponse<ArrayList<DetailMiner>> {
 
     /**
      * Constructor to init {@link DetailMinerList} object
      *
      * @param data: detail miner list 
-     **/
+     */
     public DetailMinerList(ArrayList<DetailMiner> data) {
         super(data);
     }
@@ -37,7 +37,7 @@ public class DetailMinerList extends MiningResponse<ArrayList<DetailMiner>> {
      * Constructor to init {@link DetailMinerList} object
      *
      * @param jDetailMinerList: detail miner list details as {@link JSONObject}
-     **/
+     */
     public DetailMinerList(JSONObject jDetailMinerList) {
         super(jDetailMinerList);
         data = new ArrayList<>();
@@ -52,22 +52,22 @@ public class DetailMinerList extends MiningResponse<ArrayList<DetailMiner>> {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class DetailMiner extends BinanceItem {
 
         /**
          * {@code workerName} worker name of the detail miner
-         **/
+         */
         private final String workerName;
 
         /**
          * {@code type} of the detail miner
-         **/
+         */
         private final HashRateType type;
 
         /**
          * {@code hashrateDatas} hashrate datas of the detail miner
-         **/
+         */
         private final ArrayList<HashrateData> hashrateDatas;
 
         /**
@@ -76,7 +76,7 @@ public class DetailMinerList extends MiningResponse<ArrayList<DetailMiner>> {
          * @param workerName: worker name of the detail miner
          * @param type: type of the detail miner
          * @param hashrateDatas: hashrate datas of the detail miner
-         **/
+         */
         public DetailMiner(String workerName, HashRateType type, ArrayList<HashrateData> hashrateDatas) {
             super(null);
             this.workerName = workerName;
@@ -88,7 +88,7 @@ public class DetailMinerList extends MiningResponse<ArrayList<DetailMiner>> {
          * Constructor to init {@link DetailMiner} object
          *
          * @param jDetailMiner: detail miner as {@link JSONObject}
-         **/
+         */
         public DetailMiner(JSONObject jDetailMiner) {
             super(jDetailMiner);
             workerName = hItem.getString("workerName");
@@ -103,7 +103,7 @@ public class DetailMinerList extends MiningResponse<ArrayList<DetailMiner>> {
          * No-any params required
          *
          * @return {@link #workerName} instance as {@link String}
-         **/
+         */
         public String getWorkerName() {
             return workerName;
         }
@@ -113,7 +113,7 @@ public class DetailMinerList extends MiningResponse<ArrayList<DetailMiner>> {
          * No-any params required
          *
          * @return {@link #type} instance as {@link HashRateType}
-         **/
+         */
         public HashRateType getType() {
             return type;
         }
@@ -123,7 +123,7 @@ public class DetailMinerList extends MiningResponse<ArrayList<DetailMiner>> {
          * No-any params required
          *
          * @return {@link #hashrateDatas} instance as {@link ArrayList} of {@link HashrateData}
-         **/
+         */
         public ArrayList<HashrateData> getHashrateDatas() {
             return hashrateDatas;
         }
@@ -133,22 +133,22 @@ public class DetailMinerList extends MiningResponse<ArrayList<DetailMiner>> {
          *
          * @author N7ghtm4r3 - Tecknobit
          * @see BinanceItem
-         **/
+         */
         public static class HashrateData extends BinanceItem {
 
             /**
              * {@code time} of the hashrate data
-             **/
+             */
             private final long time;
 
             /**
              * {@code hashrate} hashrate of the data
-             **/
+             */
             private final String hashrate;
 
             /**
              * {@code reject} of the hashrate data
-             **/
+             */
             private final double reject;
 
             /**
@@ -157,7 +157,7 @@ public class DetailMinerList extends MiningResponse<ArrayList<DetailMiner>> {
              * @param time: time of the hashrate data
              * @param hashrate: hashrate of the data
              * @param reject: reject of the hashrate data
-             **/
+             */
             public HashrateData(long time, String hashrate, double reject) {
                 super(null);
                 this.time = time;
@@ -169,7 +169,7 @@ public class DetailMinerList extends MiningResponse<ArrayList<DetailMiner>> {
              * Constructor to init {@link HashrateData} object
              *
              * @param jHashrateData: hashrate data details as {@link JSONObject}
-             **/
+             */
             public HashrateData(JSONObject jHashrateData) {
                 super(jHashrateData);
                 time = hItem.getLong("time", 0);
@@ -182,7 +182,7 @@ public class DetailMinerList extends MiningResponse<ArrayList<DetailMiner>> {
              * No-any params required
              *
              * @return {@link #time} instance as long
-             **/
+             */
             public long getTime() {
                 return time;
             }
@@ -192,7 +192,7 @@ public class DetailMinerList extends MiningResponse<ArrayList<DetailMiner>> {
              * No-any params required
              *
              * @return {@link #time} instance as {@link Date}
-             **/
+             */
             public Date getDate() {
                 return TimeFormatter.getDate(time);
             }
@@ -202,7 +202,7 @@ public class DetailMinerList extends MiningResponse<ArrayList<DetailMiner>> {
              * No-any params required
              *
              * @return {@link #hashrate} instance as {@link String}
-             **/
+             */
             public String getHashrate() {
                 return hashrate;
             }
@@ -212,7 +212,7 @@ public class DetailMinerList extends MiningResponse<ArrayList<DetailMiner>> {
              * No-any params required
              *
              * @return {@link #reject} instance as double
-             **/
+             */
             public double getReject() {
                 return reject;
             }
@@ -223,7 +223,7 @@ public class DetailMinerList extends MiningResponse<ArrayList<DetailMiner>> {
              * @param decimals: number of digits to round final value
              * @return {@link #reject} instance rounded with decimal digits inserted
              * @throws IllegalArgumentException if decimalDigits is negative
-             **/
+             */
             public double getReject(int decimals) {
                 return roundValue(reject, decimals);
             }

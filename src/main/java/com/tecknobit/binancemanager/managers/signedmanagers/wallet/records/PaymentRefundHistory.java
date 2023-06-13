@@ -16,7 +16,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cloud-mining-payment-and-refund-history-user_data">
  * Get Cloud-Mining payment and refund history (USER_DATA)</a>
  * @see BinanceRowsList
- **/
+ */
 public class PaymentRefundHistory extends BinanceRowsList<PaymentRefund> {
 
     /**
@@ -24,7 +24,7 @@ public class PaymentRefundHistory extends BinanceRowsList<PaymentRefund> {
      *
      * @param total : number of payment / refund
      * @param rows  :  list of the payment / refund
-     **/
+     */
     public PaymentRefundHistory(int total, ArrayList<PaymentRefund> rows) {
         super(total, rows);
     }
@@ -33,7 +33,7 @@ public class PaymentRefundHistory extends BinanceRowsList<PaymentRefund> {
      * Constructor to init {@link PaymentRefundHistory}
      *
      * @param jList : payment and refund history details as {@link JSONObject}
-     **/
+     */
     public PaymentRefundHistory(JSONObject jList) {
         super(jList);
         for (Object row : hItem.fetchList("rows"))
@@ -45,27 +45,27 @@ public class PaymentRefundHistory extends BinanceRowsList<PaymentRefund> {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BUSDConvert
-     **/
+     */
     public static class PaymentRefund extends BUSDConvert {
 
         /**
          * {@code createTime} create time of the payment / refund record
-         **/
+         */
         private final long createTime;
 
         /**
          * {@code type} type of the payment / refund record
-         **/
+         */
         private final int type;
 
         /**
          * {@code asset} asset of the payment / refund record
-         **/
+         */
         private final String asset;
 
         /**
          * {@code amount} amount of the payment / refund record
-         **/
+         */
         private final double amount;
 
         /**
@@ -77,7 +77,7 @@ public class PaymentRefundHistory extends BinanceRowsList<PaymentRefund> {
          * @param type:       type of the payment / refund record
          * @param asset:      asset of the payment / refund record
          * @param amount:     amount of the payment / refund record
-         **/
+         */
         public PaymentRefund(long tranId, String status, long createTime, int type, String asset, double amount) {
             super(tranId, status);
             this.createTime = createTime;
@@ -90,7 +90,7 @@ public class PaymentRefundHistory extends BinanceRowsList<PaymentRefund> {
          * Constructor to init {@link BUSDConvert} object
          *
          * @param jConvert :  BUSD convert details as {@link JSONObject}
-         **/
+         */
         public PaymentRefund(JSONObject jConvert) {
             super(jConvert);
             createTime = jConvert.getLong("createTime");
@@ -104,7 +104,7 @@ public class PaymentRefundHistory extends BinanceRowsList<PaymentRefund> {
          * No-any params required
          *
          * @return {@link #createTime} instance as long
-         **/
+         */
         public long getCreateTime() {
             return createTime;
         }
@@ -114,7 +114,7 @@ public class PaymentRefundHistory extends BinanceRowsList<PaymentRefund> {
          * No-any params required
          *
          * @return {@link #type} instance as int
-         **/
+         */
         public int getType() {
             return type;
         }
@@ -124,7 +124,7 @@ public class PaymentRefundHistory extends BinanceRowsList<PaymentRefund> {
          * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
-         **/
+         */
         public String getAsset() {
             return asset;
         }
@@ -134,7 +134,7 @@ public class PaymentRefundHistory extends BinanceRowsList<PaymentRefund> {
          * No-any params required
          *
          * @return {@link #amount} instance as double
-         **/
+         */
         public double getAmount() {
             return amount;
         }
@@ -145,7 +145,7 @@ public class PaymentRefundHistory extends BinanceRowsList<PaymentRefund> {
          * @param decimals: number of digits to round final value
          * @return {@link #amount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getAmount(int decimals) {
             return roundValue(amount, decimals);
         }

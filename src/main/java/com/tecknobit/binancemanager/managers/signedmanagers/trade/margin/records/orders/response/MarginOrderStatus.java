@@ -18,27 +18,27 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see MarginOrder
  * @see ACKMarginOrder
  * @see ResultMarginOrder
- **/
+ */
 public class MarginOrderStatus extends ResultMarginOrder {
 
     /**
      * {@code icebergQty} is instance that memorizes iceberg quantity
-     * **/
+     */
     private final double icebergQty;
 
     /**
      * {@code isWorking} is instance that memorizes if is working
-     * **/
+     */
     private final boolean isWorking;
 
     /**
      * {@code stopPrice} is instance that memorizes stop price value
-     * **/
+     */
     private final double stopPrice;
 
     /**
      * {@code time} is instance that memorizes time value
-     * **/
+     */
     private final long time;
 
     /** Constructor to init {@link MarginOrderStatus} object
@@ -59,7 +59,7 @@ public class MarginOrderStatus extends ResultMarginOrder {
      * @param isWorking: is working
      * @param stopPrice: stop price value
      * @param time: time value
-     * **/
+     */
     public MarginOrderStatus(String symbol, long orderId, String clientOrderId, long updateTime, boolean isIsolated,
                              double price, double origQty, double executedQty, double cummulativeQuoteQty, Status status,
                              TimeInForce timeInForce, OrderType type, Side side, double icebergQty, boolean isWorking,
@@ -76,7 +76,7 @@ public class MarginOrderStatus extends ResultMarginOrder {
      * Constructor to init {@link MarginOrderStatus} object
      *
      * @param resultMarginOrder: result margin order details as {@link JSONObject}
-     **/
+     */
     public MarginOrderStatus(JSONObject resultMarginOrder) {
         super(resultMarginOrder);
         icebergQty = resultMarginOrder.getDouble("icebergQty");
@@ -90,7 +90,7 @@ public class MarginOrderStatus extends ResultMarginOrder {
      * No-any params required
      *
      * @return {@link #icebergQty} instance as double
-     **/
+     */
     public double getIcebergQty() {
         return icebergQty;
     }
@@ -101,7 +101,7 @@ public class MarginOrderStatus extends ResultMarginOrder {
      * @param decimals: number of digits to round final value
      * @return {@link #icebergQty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getIcebergQty(int decimals) {
         return roundValue(icebergQty, decimals);
     }
@@ -111,7 +111,7 @@ public class MarginOrderStatus extends ResultMarginOrder {
      * No-any params required
      *
      * @return {@link #isWorking} instance as boolean
-     **/
+     */
     public boolean isWorking() {
         return isWorking;
     }
@@ -121,7 +121,7 @@ public class MarginOrderStatus extends ResultMarginOrder {
      * No-any params required
      *
      * @return {@link #stopPrice} instance as double
-     **/
+     */
     public double getStopPrice() {
         return stopPrice;
     }
@@ -132,7 +132,7 @@ public class MarginOrderStatus extends ResultMarginOrder {
      * @param decimals: number of digits to round final value
      * @return {@link #stopPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getStopPrice(int decimals) {
         return roundValue(stopPrice, decimals);
     }
@@ -142,7 +142,7 @@ public class MarginOrderStatus extends ResultMarginOrder {
      * No-any params required
      *
      * @return {@link #time} instance as long
-     **/
+     */
     public long getTime() {
         return time;
     }
@@ -152,7 +152,7 @@ public class MarginOrderStatus extends ResultMarginOrder {
      * No-any params required
      *
      * @return {@link #time} instance as {@link Date}
-     **/
+     */
     public Date getTransactionDate() {
         return TimeFormatter.getDate(time);
     }
@@ -162,7 +162,7 @@ public class MarginOrderStatus extends ResultMarginOrder {
      * No-any params required
      *
      * @return {@link #transactTime} instance as long
-     **/
+     */
     public long getUpdateTime() {
         return transactTime;
     }
@@ -172,7 +172,7 @@ public class MarginOrderStatus extends ResultMarginOrder {
      * No-any params required
      *
      * @return {@link #transactTime} instance as {@link Date}
-     **/
+     */
     public Date getUpdateDate() {
         return TimeFormatter.getDate(transactTime);
     }

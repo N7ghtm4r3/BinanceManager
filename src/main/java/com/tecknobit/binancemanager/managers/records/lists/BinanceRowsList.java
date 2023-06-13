@@ -15,18 +15,18 @@ import java.util.Date;
  * @param <T> type of the item to insert in the list
  * @author N7ghtm4r3 - Tecknobit
  * @see BinanceItem
- **/
+ */
 @Structure
 public abstract class BinanceRowsList<T> extends BinanceItem {
 
     /**
      * {@code total} number of items
-     **/
+     */
     protected int total;
 
     /**
      * {@code rows} list of the items
-     **/
+     */
     protected final ArrayList<T> rows;
 
     /**
@@ -34,7 +34,7 @@ public abstract class BinanceRowsList<T> extends BinanceItem {
      *
      * @param total: number of items
      * @param rows:  list of the items
-     **/
+     */
     public BinanceRowsList(int total, ArrayList<T> rows) {
         super(null);
         this.total = total;
@@ -45,7 +45,7 @@ public abstract class BinanceRowsList<T> extends BinanceItem {
      * Constructor to init {@link BinanceRowsList}
      *
      * @param jList: list details as {@link JSONObject}
-     **/
+     */
     public BinanceRowsList(JSONObject jList) {
         super(jList);
         total = hItem.getInt("total", 0);
@@ -57,7 +57,7 @@ public abstract class BinanceRowsList<T> extends BinanceItem {
      * No-any params required
      *
      * @return {@link #total} instance as int
-     **/
+     */
     public int getTotal() {
         return total;
     }
@@ -67,7 +67,7 @@ public abstract class BinanceRowsList<T> extends BinanceItem {
      * No-any params required
      *
      * @return {@link #rows} instance as {@link ArrayList} of {@link T}
-     **/
+     */
     public ArrayList<T> getRows() {
         return rows;
     }
@@ -76,7 +76,7 @@ public abstract class BinanceRowsList<T> extends BinanceItem {
      * Method to add an item to {@link #rows}
      *
      * @param row: row to add
-     **/
+     */
     public void addRow(T row) {
         if (!rows.contains(row)) {
             rows.add(row);
@@ -89,7 +89,7 @@ public abstract class BinanceRowsList<T> extends BinanceItem {
      *
      * @param row: row to remove
      * @return result of operation as boolean
-     **/
+     */
     public boolean removeRow(T row) {
         boolean removed = rows.remove(row);
         if (removed)
@@ -102,7 +102,7 @@ public abstract class BinanceRowsList<T> extends BinanceItem {
      *
      * @param index: index to fetch the row
      * @return row as {@link T}
-     **/
+     */
     public T getRow(int index) {
         return rows.get(index);
     }
@@ -111,27 +111,27 @@ public abstract class BinanceRowsList<T> extends BinanceItem {
      * The {@code MarginListItem} class is useful to create a {@code "Binance"}'s margin list item
      *
      * @author N7ghtm4r3 - Tecknobit
-     **/
+     */
     public static class MarginListItem {
 
         /**
          * {@code symbol} is instance that memorizes asset
-         **/
+         */
         protected final String asset;
 
         /**
          * {@code txId} is instance that memorizes identifier of transaction
-         **/
+         */
         protected final long txId;
 
         /**
          * {@code timestamp} is instance that memorizes timestamp of transaction
-         **/
+         */
         protected final long timestamp;
 
         /**
          * {@code status} is instance that memorizes status of transaction
-         **/
+         */
         protected final Status status;
 
         /**
@@ -142,7 +142,7 @@ public abstract class BinanceRowsList<T> extends BinanceItem {
          * @param timestamp: timestamp of transaction
          * @param status:    status of transaction
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public MarginListItem(String asset, long txId, long timestamp, Status status) {
             this.asset = asset;
             this.txId = txId;
@@ -158,7 +158,7 @@ public abstract class BinanceRowsList<T> extends BinanceItem {
          *
          * @param marginList: margin assets list details as {@link JSONObject}
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public MarginListItem(JSONObject marginList) {
             this(marginList.getString("asset"), marginList.getLong("txId"), marginList.getLong("timestamp"),
                     Status.valueOf(marginList.getString("status")));
@@ -169,7 +169,7 @@ public abstract class BinanceRowsList<T> extends BinanceItem {
          * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
-         **/
+         */
         public String getAsset() {
             return asset;
         }
@@ -179,7 +179,7 @@ public abstract class BinanceRowsList<T> extends BinanceItem {
          * No-any params required
          *
          * @return {@link #txId} instance as long
-         **/
+         */
         public long getTxId() {
             return txId;
         }
@@ -189,7 +189,7 @@ public abstract class BinanceRowsList<T> extends BinanceItem {
          * No-any params required
          *
          * @return {@link #timestamp} instance as long
-         **/
+         */
         public long getTimestamp() {
             return timestamp;
         }
@@ -199,7 +199,7 @@ public abstract class BinanceRowsList<T> extends BinanceItem {
          * No-any params required
          *
          * @return {@link #timestamp} instance as {@link Date}
-         **/
+         */
         public Date getDate() {
             return TimeFormatter.getDate(timestamp);
         }
@@ -209,7 +209,7 @@ public abstract class BinanceRowsList<T> extends BinanceItem {
          * No-any params required
          *
          * @return {@link #status} instance as {@link Status}
-         **/
+         */
         public Status getStatus() {
             return status;
         }

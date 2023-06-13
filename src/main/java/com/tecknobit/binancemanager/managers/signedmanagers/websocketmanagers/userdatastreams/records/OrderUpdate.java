@@ -25,249 +25,249 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Payload: Order Update</a>
  * @see BinanceItem
  * @see BinanceWebsocketResponse
- **/
+ */
 public class OrderUpdate extends BinanceWebsocketResponse {
 
     /**
      * {@code ExecutionType} list of available execution types
-     **/
+     */
     public enum ExecutionType {
 
         /**
          * {@code NEW} execution type
-         **/
+         */
         NEW,
 
         /**
          * {@code CANCELED} execution type
-         **/
+         */
         CANCELED,
 
         /**
          * {@code REPLACED} execution type
-         **/
+         */
         REPLACED,
 
         /**
          * {@code REJECTED} execution type
-         **/
+         */
         REJECTED,
 
         /**
          * {@code TRADE} execution type
-         **/
+         */
         TRADE,
 
         /**
          * {@code EXPIRED} execution type
-         **/
+         */
         EXPIRED,
 
         /**
          * {@code TRADE_PREVENTION} execution type
-         **/
+         */
         TRADE_PREVENTION
 
     }
 
     /**
      * {@code symbol} of the order update
-     **/
+     */
     private final String symbol;
 
     /**
      * {@code clientOrderId} client order id of the order update
-     **/
+     */
     private final String clientOrderId;
 
     /**
      * {@code side} of the order update
-     **/
+     */
     private final Side side;
 
     /**
      * {@code type} of the order update
-     **/
+     */
     private final OrderType type;
 
     /**
      * {@code timeInForce} time in force of the order update
-     **/
+     */
     private final TimeInForce timeInForce;
 
     /**
      * {@code orderQuantity} order quantity of the order update
-     **/
+     */
     private final double orderQuantity;
 
     /**
      * {@code orderPrice} order price of the order update
-     **/
+     */
     private final double orderPrice;
 
     /**
      * {@code stopPrice} stop price of the order update
-     **/
+     */
     private final double stopPrice;
 
     /**
      * {@code trailingDelta} trailing delta of the order update
-     **/
+     */
     private final double trailingDelta;
 
     /**
      * {@code icebergQuantity} iceberg quantity of the order update
-     **/
+     */
     private final double icebergQuantity;
 
     /**
      * {@code orderListId} order list id of the order update
-     **/
+     */
     private final long orderListId;
 
     /**
      * {@code originalClientOrderId} original client order id of the order update
-     **/
+     */
     private final long originalClientOrderId;
 
     /**
      * {@code currentExecutionType} current execution type of the order update
-     **/
+     */
     private final ExecutionType currentExecutionType;
 
     /**
      * {@code currentOrderStatus} current order status of the order update
-     **/
+     */
     private final Status currentOrderStatus;
 
     /**
      * {@code orderRejectReason} order reject reason of the order update
-     **/
+     */
     private final String orderRejectReason;
 
     /**
      * {@code orderId} id of the order update
-     **/
+     */
     private final long orderId;
 
     /**
      * {@code lastExecutedQuantity} last executed quantity of the order update
-     **/
+     */
     private final double lastExecutedQuantity;
 
     /**
      * {@code lastCumulativeFilledQuantity} last cumulative filled quantity of the order update
-     **/
+     */
     private final double lastCumulativeFilledQuantity;
 
     /**
      * {@code lastExecutedPrice} last executed price of the order update
-     **/
+     */
     private final double lastExecutedPrice;
 
     /**
      * {@code commissionAmount} commission amount of the order update
-     **/
+     */
     private final double commissionAmount;
 
     /**
      * {@code commissionAsset} commission asset of the order update
-     **/
+     */
     private final String commissionAsset;
 
     /**
      * {@code transactionTime} transaction time of the order update
-     **/
+     */
     private final long transactionTime;
 
     /**
      * {@code tradeId} trade id of the order update
-     **/
+     */
     private final long tradeId;
 
     /**
      * {@code preventedMatchId} prevented match id of the order update
-     **/
+     */
     private final long preventedMatchId;
 
     /**
      * {@code isInTheOrderBook} whether the order update is in the book
-     **/
+     */
     private final boolean isInTheOrderBook;
 
     /**
      * {@code isTradeMakerSide} whether the order update is trade maker side
-     **/
+     */
     private final boolean isTradeMakerSide;
 
     /**
      * {@code orderCreationTime} order creation time of the order update
-     **/
+     */
     private final long orderCreationTime;
 
     /**
      * {@code cumulativeQuoteAssetTransactedQuantity} cumulative quote asset transacted quantity of the order update
-     **/
+     */
     private final double cumulativeQuoteAssetTransactedQuantity;
 
     /**
      * {@code lastQuoteAssetTransactedQuantity} last quote asset transacted quantity of the order update
-     **/
+     */
     private final double lastQuoteAssetTransactedQuantity;
 
     /**
      * {@code quoteOrderQuantity} quote order quantity of the order update
-     **/
+     */
     private final double quoteOrderQuantity;
 
     /**
      * {@code trailingTime} trailing time of the order update
-     **/
+     */
     private final long trailingTime;
 
     /**
      * {@code strategyId} strategy id of the order update
-     **/
+     */
     private final long strategyId;
 
     /**
      * {@code strategyType} strategy type of the order update
-     **/
+     */
     private final long strategyType;
 
     /**
      * {@code workingTime} working time of the order update
-     **/
+     */
     private final long workingTime;
 
     /**
      * {@code selfTradePreventionMode} self trade prevention mode of the order update
-     **/
+     */
     private final SelfTradePreventionMode selfTradePreventionMode;
 
     /**
      * {@code tradeGroupId} trade group id of the order update
-     **/
+     */
     private final long tradeGroupId;
 
     /**
      * {@code counterOrderId} counter order id of the order update
-     **/
+     */
     private final long counterOrderId;
 
     /**
      * {@code preventedQuantity} prevented quantity of the order update
-     **/
+     */
     private final double preventedQuantity;
 
     /**
      * {@code lastPreventedQuantity} last prevented quantity of the order update
-     **/
+     */
     private final double lastPreventedQuantity;
 
     /**
      * {@code listStatus} list status of the order update
-     **/
+     */
     private final ListStatus listStatus;
 
     /**
@@ -315,7 +315,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * @param preventedQuantity:                      prevented quantity of the order update
      * @param lastPreventedQuantity:                  last prevented quantity of the order update
      * @param listStatus:                             list status of the order update
-     **/
+     */
     public OrderUpdate(EventType eventType, long eventTime, String symbol, String clientOrderId, Side side, OrderType type,
                        TimeInForce timeInForce, double orderQuantity, double orderPrice, double stopPrice,
                        double trailingDelta, double icebergQuantity, long orderListId, long originalClientOrderId,
@@ -375,7 +375,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * Constructor to init {@link OrderUpdate} object
      *
      * @param jOrderUpdate: order update details as {@link JSONObject}
-     **/
+     */
     public OrderUpdate(JSONObject jOrderUpdate) {
         super(jOrderUpdate);
         symbol = hItem.getString("s");
@@ -429,7 +429,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
-     **/
+     */
     public String getSymbol() {
         return symbol;
     }
@@ -439,7 +439,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #clientOrderId} instance as {@link String}
-     **/
+     */
     public String getClientOrderId() {
         return clientOrderId;
     }
@@ -449,7 +449,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #side} instance as {@link Side}
-     **/
+     */
     public Side getSide() {
         return side;
     }
@@ -459,7 +459,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #type} instance as {@link OrderType}
-     **/
+     */
     public OrderType getType() {
         return type;
     }
@@ -469,7 +469,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #timeInForce} instance as {@link TimeInForce}
-     **/
+     */
     public TimeInForce getTimeInForce() {
         return timeInForce;
     }
@@ -479,7 +479,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #orderQuantity} instance as double
-     **/
+     */
     public double getOrderQuantity() {
         return orderQuantity;
     }
@@ -490,7 +490,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #orderQuantity} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getOrderQuantity(int decimals) {
         return roundValue(orderQuantity, decimals);
     }
@@ -500,7 +500,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #orderPrice} instance as double
-     **/
+     */
     public double getOrderPrice() {
         return orderPrice;
     }
@@ -511,7 +511,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #orderPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getOrderPrice(int decimals) {
         return roundValue(orderPrice, decimals);
     }
@@ -521,7 +521,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #stopPrice} instance as double
-     **/
+     */
     public double getStopPrice() {
         return stopPrice;
     }
@@ -532,7 +532,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #stopPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getStopPrice(int decimals) {
         return roundValue(stopPrice, decimals);
     }
@@ -542,7 +542,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #trailingDelta} instance as double
-     **/
+     */
     public double getTrailingDelta() {
         return trailingDelta;
     }
@@ -553,7 +553,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #trailingDelta} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTrailingDelta(int decimals) {
         return roundValue(trailingDelta, decimals);
     }
@@ -563,7 +563,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #icebergQuantity} instance as double
-     **/
+     */
     public double getIcebergQuantity() {
         return icebergQuantity;
     }
@@ -574,7 +574,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #icebergQuantity} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getIcebergQuantity(int decimals) {
         return roundValue(icebergQuantity, decimals);
     }
@@ -584,7 +584,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #orderListId} instance as long
-     **/
+     */
     public long getOrderListId() {
         return orderListId;
     }
@@ -594,7 +594,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #originalClientOrderId} instance as long
-     **/
+     */
     public long getOriginalClientOrderId() {
         return originalClientOrderId;
     }
@@ -604,7 +604,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #currentExecutionType} instance as {@link ExecutionType}
-     **/
+     */
     public ExecutionType getCurrentExecutionType() {
         return currentExecutionType;
     }
@@ -614,7 +614,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #currentOrderStatus} instance as {@link Status}
-     **/
+     */
     public Status getCurrentOrderStatus() {
         return currentOrderStatus;
     }
@@ -624,7 +624,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #orderRejectReason} instance as {@link String}
-     **/
+     */
     public String getOrderRejectReason() {
         return orderRejectReason;
     }
@@ -634,7 +634,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #orderId} instance as long
-     **/
+     */
     public long getOrderId() {
         return orderId;
     }
@@ -644,7 +644,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #lastExecutedQuantity} instance as double
-     **/
+     */
     public double getLastExecutedQuantity() {
         return lastExecutedQuantity;
     }
@@ -655,7 +655,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #lastExecutedQuantity} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getLastExecutedQuantity(int decimals) {
         return roundValue(lastExecutedQuantity, decimals);
     }
@@ -665,7 +665,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #lastCumulativeFilledQuantity} instance as double
-     **/
+     */
     public double getLastCumulativeFilledQuantity() {
         return lastCumulativeFilledQuantity;
     }
@@ -676,7 +676,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #lastCumulativeFilledQuantity} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getLastCumulativeFilledQuantity(int decimals) {
         return roundValue(lastCumulativeFilledQuantity, decimals);
     }
@@ -686,7 +686,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #lastExecutedPrice} instance as double
-     **/
+     */
     public double getLastExecutedPrice() {
         return lastExecutedPrice;
     }
@@ -697,7 +697,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #lastExecutedPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getLastExecutedPrice(int decimals) {
         return roundValue(lastExecutedPrice, decimals);
     }
@@ -707,7 +707,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #commissionAmount} instance as double
-     **/
+     */
     public double getCommissionAmount() {
         return commissionAmount;
     }
@@ -718,7 +718,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #commissionAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getCommissionAmount(int decimals) {
         return roundValue(commissionAmount, decimals);
     }
@@ -728,7 +728,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #commissionAsset} instance as {@link String}
-     **/
+     */
     public String getCommissionAsset() {
         return commissionAsset;
     }
@@ -738,7 +738,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #transactionTime} instance as long
-     **/
+     */
     public long getTransactionTime() {
         return transactionTime;
     }
@@ -748,7 +748,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #transactionTime} instance as {@link Date}
-     **/
+     */
     public Date getTransactionDate() {
         return TimeFormatter.getDate(transactionTime);
     }
@@ -758,7 +758,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #tradeId} instance as long
-     **/
+     */
     public long getTradeId() {
         return tradeId;
     }
@@ -768,7 +768,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #preventedMatchId} instance as long
-     **/
+     */
     public long getPreventedMatchId() {
         return preventedMatchId;
     }
@@ -778,7 +778,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #isInTheOrderBook} instance as boolean
-     **/
+     */
     public boolean isInTheOrderBook() {
         return isInTheOrderBook;
     }
@@ -788,7 +788,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #isTradeMakerSide} instance as boolean
-     **/
+     */
     public boolean isTradeMakerSide() {
         return isTradeMakerSide;
     }
@@ -798,7 +798,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #orderCreationTime} instance as long
-     **/
+     */
     public long getOrderCreationTime() {
         return orderCreationTime;
     }
@@ -808,7 +808,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #orderCreationTime} instance as {@link Date}
-     **/
+     */
     public Date getOrderCreationDate() {
         return TimeFormatter.getDate(orderCreationTime);
     }
@@ -818,7 +818,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #cumulativeQuoteAssetTransactedQuantity} instance as double
-     **/
+     */
     public double getCumulativeQuoteAssetTransactedQuantity() {
         return cumulativeQuoteAssetTransactedQuantity;
     }
@@ -829,7 +829,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #cumulativeQuoteAssetTransactedQuantity} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getCumulativeQuoteAssetTransactedQuantity(int decimals) {
         return roundValue(cumulativeQuoteAssetTransactedQuantity, decimals);
     }
@@ -839,7 +839,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #lastQuoteAssetTransactedQuantity} instance as double
-     **/
+     */
     public double getLastQuoteAssetTransactedQuantity() {
         return lastQuoteAssetTransactedQuantity;
     }
@@ -849,7 +849,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      *
      * @param decimals: number of digits to round final value
      * @return {@link #lastQuoteAssetTransactedQuantity if decimalDigits is negative
-     **/
+     */
     public double getLastQuoteAssetTransactedQuantity(int decimals) {
         return roundValue(lastQuoteAssetTransactedQuantity, decimals);
     }
@@ -859,7 +859,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #quoteOrderQuantity} instance as double
-     **/
+     */
     public double getQuoteOrderQuantity() {
         return quoteOrderQuantity;
     }
@@ -870,7 +870,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #quoteOrderQuantity} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getQuoteOrderQuantity(int decimals) {
         return roundValue(quoteOrderQuantity, decimals);
     }
@@ -880,7 +880,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #trailingTime} instance as long
-     **/
+     */
     public long getTrailingTime() {
         return trailingTime;
     }
@@ -890,7 +890,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #trailingTime} instance as {@link Date}
-     **/
+     */
     public Date getTrailingDate() {
         return TimeFormatter.getDate(trailingTime);
     }
@@ -900,7 +900,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #strategyId} instance as long
-     **/
+     */
     public long getStrategyId() {
         return strategyId;
     }
@@ -910,7 +910,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #strategyType} instance as long
-     **/
+     */
     public long getStrategyType() {
         return strategyType;
     }
@@ -920,7 +920,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #workingTime} instance as long
-     **/
+     */
     public long getWorkingTime() {
         return workingTime;
     }
@@ -930,7 +930,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #workingTime} instance as {@link Date}
-     **/
+     */
     public Date getWorkingDate() {
         return TimeFormatter.getDate(workingTime);
     }
@@ -940,7 +940,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #selfTradePreventionMode} instance as {@link SelfTradePreventionMode}
-     **/
+     */
     public SelfTradePreventionMode getSelfTradePreventionMode() {
         return selfTradePreventionMode;
     }
@@ -950,7 +950,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #tradeGroupId} instance as long
-     **/
+     */
     public long getTradeGroupId() {
         return tradeGroupId;
     }
@@ -960,7 +960,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #counterOrderId} instance as long
-     **/
+     */
     public long getCounterOrderId() {
         return counterOrderId;
     }
@@ -970,7 +970,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #preventedQuantity} instance as double
-     **/
+     */
     public double getPreventedQuantity() {
         return preventedQuantity;
     }
@@ -981,7 +981,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #preventedQuantity} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getPreventedQuantity(int decimals) {
         return roundValue(preventedQuantity, decimals);
     }
@@ -991,7 +991,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #lastPreventedQuantity} instance as double
-     **/
+     */
     public double getLastPreventedQuantity() {
         return lastPreventedQuantity;
     }
@@ -1002,7 +1002,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #lastPreventedQuantity} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getLastPreventedQuantity(int decimals) {
         return roundValue(lastPreventedQuantity, decimals);
     }
@@ -1012,7 +1012,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #listStatus} instance as {@link ListStatus}
-     **/
+     */
     public ListStatus getListStatus() {
         return listStatus;
     }
@@ -1023,52 +1023,52 @@ public class OrderUpdate extends BinanceWebsocketResponse {
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see BinanceWebsocketResponse
-     **/
+     */
     public static class ListStatus extends BinanceWebsocketResponse {
 
         /**
          * {@code symbol} of the list status
-         **/
+         */
         private final String symbol;
 
         /**
          * {@code orderListId} order list id of the list status
-         **/
+         */
         private final long orderListId;
 
         /**
          * {@code contingencyType} contingency type of the list status
-         **/
+         */
         private final String contingencyType;
 
         /**
          * {@code listStatusType} list status type of the list status
-         **/
+         */
         private final String listStatusType;
 
         /**
          * {@code listOrderStatus} list order status of the list status
-         **/
+         */
         private final Status listOrderStatus;
 
         /**
          * {@code listRejectReason} list reject reason of the list status
-         **/
+         */
         private final String listRejectReason;
 
         /**
          * {@code listClientOrderId} list client order id of the list status
-         **/
+         */
         private final String listClientOrderId;
 
         /**
          * {@code transactionTime} transaction time of the list status
-         **/
+         */
         private final long transactionTime;
 
         /**
          * {@code orders} of the list status
-         **/
+         */
         private final ArrayList<Order> orders;
 
         /**
@@ -1085,7 +1085,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
          * @param listClientOrderId: list client order id of the list status
          * @param transactionTime:   transaction time of the list status
          * @param orders:            orders of the list status
-         **/
+         */
         public ListStatus(EventType eventType, long eventTime, String symbol, long orderListId, String contingencyType,
                           String listStatusType, Status listOrderStatus, String listRejectReason, String listClientOrderId,
                           long transactionTime, ArrayList<Order> orders) {
@@ -1105,7 +1105,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
          * Constructor to init {@link ListStatus} object
          *
          * @param jListStatus: list status details as {@link JSONObject}
-         **/
+         */
         public ListStatus(JSONObject jListStatus) {
             super(jListStatus);
             symbol = hItem.getString("s");
@@ -1130,7 +1130,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
          * No-any params required
          *
          * @return {@link #symbol} instance as {@link String}
-         **/
+         */
         public String getSymbol() {
             return symbol;
         }
@@ -1140,7 +1140,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
          * No-any params required
          *
          * @return {@link #orderListId} instance as long
-         **/
+         */
         public long getOrderListId() {
             return orderListId;
         }
@@ -1150,7 +1150,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
          * No-any params required
          *
          * @return {@link #contingencyType} instance as {@link String}
-         **/
+         */
         public String getContingencyType() {
             return contingencyType;
         }
@@ -1160,7 +1160,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
          * No-any params required
          *
          * @return {@link #listStatusType} instance as {@link String}
-         **/
+         */
         public String getListStatusType() {
             return listStatusType;
         }
@@ -1170,7 +1170,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
          * No-any params required
          *
          * @return {@link #listOrderStatus} instance as {@link String}
-         **/
+         */
         public Status getListOrderStatus() {
             return listOrderStatus;
         }
@@ -1180,7 +1180,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
          * No-any params required
          *
          * @return {@link #listRejectReason} instance as {@link String}
-         **/
+         */
         public String getListRejectReason() {
             return listRejectReason;
         }
@@ -1190,7 +1190,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
          * No-any params required
          *
          * @return {@link #listClientOrderId} instance as {@link String}
-         **/
+         */
         public String getListClientOrderId() {
             return listClientOrderId;
         }
@@ -1200,7 +1200,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
          * No-any params required
          *
          * @return {@link #transactionTime} instance as long
-         **/
+         */
         public long getTransactionTime() {
             return transactionTime;
         }
@@ -1210,7 +1210,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
          * No-any params required
          *
          * @return {@link #transactionTime} instance as {@link Date}
-         **/
+         */
         public Date getTransactionDate() {
             return TimeFormatter.getDate(transactionTime);
         }
@@ -1220,7 +1220,7 @@ public class OrderUpdate extends BinanceWebsocketResponse {
          * No-any params required
          *
          * @return {@link #orders} instance as {@link ArrayList} of {@link Order}
-         **/
+         */
         public ArrayList<Order> getOrders() {
             return orders;
         }

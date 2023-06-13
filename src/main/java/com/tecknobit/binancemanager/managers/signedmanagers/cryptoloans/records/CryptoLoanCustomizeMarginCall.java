@@ -19,7 +19,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.cryptoloans.r
  * Crypto Loan Customize Margin Call (TRADE)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class CryptoLoanCustomizeMarginCall extends BinanceRowsList<MarginCall> {
 
     /**
@@ -27,7 +27,7 @@ public class CryptoLoanCustomizeMarginCall extends BinanceRowsList<MarginCall> {
      *
      * @param total : number of calls
      * @param calls :  list of the calls
-     **/
+     */
     public CryptoLoanCustomizeMarginCall(int total, ArrayList<MarginCall> calls) {
         super(total, calls);
     }
@@ -36,7 +36,7 @@ public class CryptoLoanCustomizeMarginCall extends BinanceRowsList<MarginCall> {
      * Constructor to init {@link CryptoLoanCustomizeMarginCall}
      *
      * @param jList : list details as {@link JSONObject}
-     **/
+     */
     public CryptoLoanCustomizeMarginCall(JSONObject jList) {
         super(jList);
         for (Object row : hItem.fetchList("rows"))
@@ -48,32 +48,32 @@ public class CryptoLoanCustomizeMarginCall extends BinanceRowsList<MarginCall> {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class MarginCall extends BinanceItem {
 
         /**
          * {@code orderId} order id of the margin call
-         **/
+         */
         private final long orderId;
 
         /**
          * {@code collateralCoin} collateral coin of the margin call
-         **/
+         */
         private final String collateralCoin;
 
         /**
          * {@code preMarginCall} pre margin call of the margin call
-         **/
+         */
         private final double preMarginCall;
 
         /**
          * {@code afterMarginCall} after margin call of the margin call
-         **/
+         */
         private final double afterMarginCall;
 
         /**
          * {@code customizeTime} customize time of the margin call
-         **/
+         */
         private final long customizeTime;
 
         /**
@@ -84,7 +84,7 @@ public class CryptoLoanCustomizeMarginCall extends BinanceRowsList<MarginCall> {
          * @param preMarginCall   : pre margin call of the margin call
          * @param afterMarginCall : after margin call of the margin call
          * @param customizeTime   : customize time of the margin call
-         **/
+         */
         public MarginCall(long orderId, String collateralCoin, double preMarginCall, double afterMarginCall,
                           long customizeTime) {
             super(null);
@@ -99,7 +99,7 @@ public class CryptoLoanCustomizeMarginCall extends BinanceRowsList<MarginCall> {
          * Constructor to init {@link MarginCall}
          *
          * @param jMarginCall : margin call details as {@link JSONObject}
-         **/
+         */
         public MarginCall(JSONObject jMarginCall) {
             super(jMarginCall);
             orderId = hItem.getLong("orderId", 0);
@@ -114,7 +114,7 @@ public class CryptoLoanCustomizeMarginCall extends BinanceRowsList<MarginCall> {
          * No-any params required
          *
          * @return {@link #orderId} instance as long
-         **/
+         */
         public long getOrderId() {
             return orderId;
         }
@@ -124,7 +124,7 @@ public class CryptoLoanCustomizeMarginCall extends BinanceRowsList<MarginCall> {
          * No-any params required
          *
          * @return {@link #collateralCoin} instance as {@link String}
-         **/
+         */
         public String getCollateralCoin() {
             return collateralCoin;
         }
@@ -134,7 +134,7 @@ public class CryptoLoanCustomizeMarginCall extends BinanceRowsList<MarginCall> {
          * No-any params required
          *
          * @return {@link #preMarginCall} instance as double
-         **/
+         */
         public double getPreMarginCall() {
             return preMarginCall;
         }
@@ -145,7 +145,7 @@ public class CryptoLoanCustomizeMarginCall extends BinanceRowsList<MarginCall> {
          * @param decimals: number of digits to round final value
          * @return {@link #preMarginCall} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getPreMarginCall(int decimals) {
             return roundValue(preMarginCall, decimals);
         }
@@ -155,7 +155,7 @@ public class CryptoLoanCustomizeMarginCall extends BinanceRowsList<MarginCall> {
          * No-any params required
          *
          * @return {@link #afterMarginCall} instance as double
-         **/
+         */
         public double getAfterMarginCall() {
             return afterMarginCall;
         }
@@ -166,7 +166,7 @@ public class CryptoLoanCustomizeMarginCall extends BinanceRowsList<MarginCall> {
          * @param decimals: number of digits to round final value
          * @return {@link #afterMarginCall} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getAfterMarginCall(int decimals) {
             return roundValue(afterMarginCall, decimals);
         }
@@ -176,7 +176,7 @@ public class CryptoLoanCustomizeMarginCall extends BinanceRowsList<MarginCall> {
          * No-any params required
          *
          * @return {@link #customizeTime} instance as long
-         **/
+         */
         public long getCustomizeTime() {
             return customizeTime;
         }
@@ -186,7 +186,7 @@ public class CryptoLoanCustomizeMarginCall extends BinanceRowsList<MarginCall> {
          * No-any params required
          *
          * @return {@link #customizeTime} instance as {@link Date}
-         **/
+         */
         public Date getCustomizeDate() {
             return TimeFormatter.getDate(customizeTime);
         }

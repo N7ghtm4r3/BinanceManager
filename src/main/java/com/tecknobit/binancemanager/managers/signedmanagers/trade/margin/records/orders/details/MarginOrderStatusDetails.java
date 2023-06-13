@@ -14,12 +14,12 @@ import java.util.ArrayList;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-order-trade">
  * Margin Account Cancel Order (TRADE)</a>
  * @see OrderDetails
- **/
+ */
 public class MarginOrderStatusDetails extends OrderDetails {
 
     /**
      * {@code isIsolated} is instance that memorizes if is isolated
-     * **/
+     */
     private final boolean isIsolated;
 
     /**
@@ -33,7 +33,7 @@ public class MarginOrderStatusDetails extends OrderDetails {
      * @param transactionTime:    transaction time of the order
      * @param symbol:             symbol used in the order
      * @param isIsolated:         is isolated
-     **/
+     */
     public MarginOrderStatusDetails(long orderListId, String contingencyType, Status listStatusType, Status listOrderStatus,
                                     String listClientOrderId, long transactionTime, String symbol,
                                     ArrayList<Order> orders, boolean isIsolated) {
@@ -46,7 +46,7 @@ public class MarginOrderStatusDetails extends OrderDetails {
      * Constructor to init {@link MarginOrderStatusDetails} object
      *
      * @param marginOrderStatus: margin order status details as {@link JSONObject}
-     **/
+     */
     public MarginOrderStatusDetails(JSONObject marginOrderStatus) {
         super(marginOrderStatus);
         isIsolated = hOrder.getBoolean("isIsolated");
@@ -57,7 +57,7 @@ public class MarginOrderStatusDetails extends OrderDetails {
      * No-any params required
      *
      * @return {@link #isIsolated} instance as boolean
-     **/
+     */
     public boolean isIsolated() {
         return isIsolated;
     }

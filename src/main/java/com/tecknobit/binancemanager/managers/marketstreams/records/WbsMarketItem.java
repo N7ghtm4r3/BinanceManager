@@ -24,33 +24,33 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * </ul>
  * @see BinanceItem
  * @see BinanceWebsocketResponse
- **/
+ */
 @Structure
 public abstract class WbsMarketItem extends BinanceWebsocketResponse {
 
     /**
      * {@code symbol} of the websocket market item
-     **/
+     */
     protected final String symbol;
 
     /**
      * {@code closePrice} close price of the websocket market item
-     **/
+     */
     protected final double closePrice;
 
     /**
      * {@code openPrice} open price of the websocket market item
-     **/
+     */
     protected final double openPrice;
 
     /**
      * {@code highPrice} high price of the websocket market item
-     **/
+     */
     protected final double highPrice;
 
     /**
      * {@code lowPrice} low price of the websocket market item
-     **/
+     */
     protected final double lowPrice;
 
     /**
@@ -63,7 +63,7 @@ public abstract class WbsMarketItem extends BinanceWebsocketResponse {
      * @param openPrice  : open price of the websocket market item
      * @param highPrice  : high price of the websocket market item
      * @param lowPrice   : low price of the websocket market item
-     **/
+     */
     public WbsMarketItem(EventType eventType, long eventTime, String symbol, double closePrice, double openPrice,
                          double highPrice, double lowPrice) {
         super(eventType, eventTime);
@@ -78,7 +78,7 @@ public abstract class WbsMarketItem extends BinanceWebsocketResponse {
      * Constructor to init {@link WbsMarketItem} object
      *
      * @param jWbsMarketItem : websocket market item details as {@link JSONObject}
-     **/
+     */
     public WbsMarketItem(JSONObject jWbsMarketItem) {
         super(jWbsMarketItem);
         symbol = hItem.getString("s");
@@ -93,7 +93,7 @@ public abstract class WbsMarketItem extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
-     **/
+     */
     public String getSymbol() {
         return symbol;
     }
@@ -103,7 +103,7 @@ public abstract class WbsMarketItem extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #closePrice} instance as double
-     **/
+     */
     public double getClosePrice() {
         return closePrice;
     }
@@ -114,7 +114,7 @@ public abstract class WbsMarketItem extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #closePrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getClosePrice(int decimals) {
         return roundValue(closePrice, decimals);
     }
@@ -124,7 +124,7 @@ public abstract class WbsMarketItem extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #openPrice} instance as double
-     **/
+     */
     public double getOpenPrice() {
         return openPrice;
     }
@@ -135,7 +135,7 @@ public abstract class WbsMarketItem extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #openPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getOpenPrice(int decimals) {
         return roundValue(openPrice, decimals);
     }
@@ -145,7 +145,7 @@ public abstract class WbsMarketItem extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #highPrice} instance as double
-     **/
+     */
     public double getHighPrice() {
         return highPrice;
     }
@@ -156,7 +156,7 @@ public abstract class WbsMarketItem extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #highPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getHighPrice(int decimals) {
         return roundValue(highPrice, decimals);
     }
@@ -166,7 +166,7 @@ public abstract class WbsMarketItem extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #lowPrice} instance as double
-     **/
+     */
     public double getLowPrice() {
         return lowPrice;
     }
@@ -177,7 +177,7 @@ public abstract class WbsMarketItem extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #lowPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getLowPrice(int decimals) {
         return roundValue(lowPrice, decimals);
     }

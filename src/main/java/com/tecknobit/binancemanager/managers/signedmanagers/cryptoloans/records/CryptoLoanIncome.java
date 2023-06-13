@@ -15,74 +15,74 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-crypto-loans-income-history-user_data">
  * Get Crypto Loans Income History (USER_DATA)</a>
  * @see BinanceItem
- **/
+ */
 public class CryptoLoanIncome extends BinanceItem {
 
     /**
      * {@code LoanType} list of available loan types
-     **/
+     */
     public enum LoanType {
 
         /**
          * {@code borrowIn} loan type
-         **/
+         */
         borrowIn,
 
         /**
          * {@code collateralSpent} loan type
-         **/
+         */
         collateralSpent,
 
         /**
          * {@code repayAmount} loan type
-         **/
+         */
         repayAmount,
 
         /**
          * {@code collateralReturn} loan type
-         **/
+         */
         collateralReturn,
 
         /**
          * {@code addCollateral} loan type
-         **/
+         */
         addCollateral,
 
         /**
          * {@code removeCollateral} loan type
-         **/
+         */
         removeCollateral,
 
         /**
          * {@code collateralReturnAfterLiquidation} loan type
-         **/
+         */
         collateralReturnAfterLiquidation
 
     }
 
     /**
      * {@code asset} of the loan income
-     **/
+     */
     private final String asset;
 
     /**
      * {@code type} of the loan income
-     **/
+     */
     private final LoanType type;
 
     /**
      * {@code amount} of the loan income
-     **/
+     */
     private final double amount;
 
     /**
      * {@code timestamp} of the loan income
-     **/
+     */
     private final long timestamp;
 
     /**
      * {@code tranId} tran id of the loan income
-     **/
+     */
     private final long tranId;
 
     /**
@@ -93,7 +93,7 @@ public class CryptoLoanIncome extends BinanceItem {
      * @param amount    :amount of the loan income
      * @param timestamp :timestamp of the loan income
      * @param tranId    : tran id of the loan income
-     **/
+     */
     public CryptoLoanIncome(String asset, LoanType type, double amount, long timestamp, long tranId) {
         super(null);
         this.asset = asset;
@@ -107,7 +107,7 @@ public class CryptoLoanIncome extends BinanceItem {
      * Constructor to init {@link CryptoLoanIncome} object
      *
      * @param jCryptoLoanIncome : crypto loan income details as {@link JSONObject}
-     **/
+     */
     public CryptoLoanIncome(JSONObject jCryptoLoanIncome) {
         super(jCryptoLoanIncome);
         asset = hItem.getString("asset");
@@ -122,7 +122,7 @@ public class CryptoLoanIncome extends BinanceItem {
      * No-any params required
      *
      * @return {@link #asset} instance as {@link String}
-     **/
+     */
     public String getAsset() {
         return asset;
     }
@@ -132,7 +132,7 @@ public class CryptoLoanIncome extends BinanceItem {
      * No-any params required
      *
      * @return {@link #type} instance as {@link LoanType}
-     **/
+     */
     public LoanType getType() {
         return type;
     }
@@ -142,7 +142,7 @@ public class CryptoLoanIncome extends BinanceItem {
      * No-any params required
      *
      * @return {@link #amount} instance as double
-     **/
+     */
     public double getAmount() {
         return amount;
     }
@@ -153,7 +153,7 @@ public class CryptoLoanIncome extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #amount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getAmount(int decimals) {
         return roundValue(amount, decimals);
     }
@@ -163,7 +163,7 @@ public class CryptoLoanIncome extends BinanceItem {
      * No-any params required
      *
      * @return {@link #timestamp} instance as long
-     **/
+     */
     public long getTimestamp() {
         return timestamp;
     }
@@ -173,7 +173,7 @@ public class CryptoLoanIncome extends BinanceItem {
      * No-any params required
      *
      * @return {@link #timestamp} instance as {@link Date}
-     **/
+     */
     public Date getDate() {
         return TimeFormatter.getDate(timestamp);
     }
@@ -183,7 +183,7 @@ public class CryptoLoanIncome extends BinanceItem {
      * No-any params required
      *
      * @return {@link #tranId} instance as long
-     **/
+     */
     public long getTranId() {
         return tranId;
     }

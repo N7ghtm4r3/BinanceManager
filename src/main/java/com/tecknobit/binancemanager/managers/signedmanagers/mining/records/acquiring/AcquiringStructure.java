@@ -20,23 +20,23 @@ import org.json.JSONObject;
  *     </li>
  * </ul>
  * @see BinanceItem
- **/
+ */
 @Structure
 public abstract class AcquiringStructure extends BinanceItem {
 
     /**
      * {@code algoName} algo name of the acquiring structure
-     **/
+     */
     protected final String algoName;
 
     /**
      * {@code algoId} algo id of the acquiring structure
-     **/
+     */
     protected final long algoId;
 
     /**
      * {@code poolIndex} pool index of the acquiring structure
-     **/
+     */
     protected final int poolIndex;
 
     /**
@@ -45,7 +45,7 @@ public abstract class AcquiringStructure extends BinanceItem {
      * @param algoName:  algo name of the acquiring structure
      * @param algoId:    algo id of the acquiring structure
      * @param poolIndex: pool index of the acquiring structure
-     **/
+     */
     public AcquiringStructure(String algoName, long algoId, int poolIndex) {
         super(null);
         this.algoName = algoName;
@@ -57,7 +57,7 @@ public abstract class AcquiringStructure extends BinanceItem {
      * Constructor to init {@link AcquiringStructure} object
      *
      * @param jAcquiringStructure: acquiring structure details as {@link JSONObject}
-     **/
+     */
     public AcquiringStructure(JSONObject jAcquiringStructure) {
         super(jAcquiringStructure);
         algoName = hItem.getString("algoName");
@@ -70,7 +70,7 @@ public abstract class AcquiringStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #algoName} instance as {@link String}
-     **/
+     */
     public String getAlgoName() {
         return algoName;
     }
@@ -80,7 +80,7 @@ public abstract class AcquiringStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #algoId} instance as long
-     **/
+     */
     public long getAlgoId() {
         return algoId;
     }
@@ -90,7 +90,7 @@ public abstract class AcquiringStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #poolIndex} instance as int
-     **/
+     */
     public int getPoolIndex() {
         return poolIndex;
     }

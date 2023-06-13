@@ -9,18 +9,18 @@ import org.json.JSONObject;
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see BinanceItem
- **/
+ */
 @Structure
 public abstract class LoanBaseStructure extends BinanceItem {
 
     /**
      * {@code loanCoin} coin of the loan
-     **/
+     */
     protected final String loanCoin;
 
     /**
      * {@code collateralCoin} collateral coin of the loan
-     **/
+     */
     protected final String collateralCoin;
 
     /**
@@ -28,7 +28,7 @@ public abstract class LoanBaseStructure extends BinanceItem {
      *
      * @param loanCoin:       coin of the loan
      * @param collateralCoin: collateral coin of the loan
-     **/
+     */
     public LoanBaseStructure(String loanCoin, String collateralCoin) {
         super(null);
         this.loanCoin = loanCoin;
@@ -39,7 +39,7 @@ public abstract class LoanBaseStructure extends BinanceItem {
      * Constructor to init {@link LoanBaseStructure} object
      *
      * @param jLoanBaseStructure: loan base structure details as {@link JSONObject}
-     **/
+     */
     public LoanBaseStructure(JSONObject jLoanBaseStructure) {
         super(jLoanBaseStructure);
         loanCoin = hItem.getString("loanCoin");
@@ -51,7 +51,7 @@ public abstract class LoanBaseStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #loanCoin} instance as {@link String}
-     **/
+     */
     public String getLoanCoin() {
         return loanCoin;
     }
@@ -61,7 +61,7 @@ public abstract class LoanBaseStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #collateralCoin} instance as {@link String}
-     **/
+     */
     public String getCollateralCoin() {
         return collateralCoin;
     }

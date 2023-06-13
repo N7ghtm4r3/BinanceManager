@@ -27,34 +27,34 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *     </li>
  * </ul>
  * @see BinanceItem
- **/
+ */
 public class SubAccountTransferLog extends BinanceItem {
 
     /**
      * {@code TransferDirection} list of available transfer directions
-     **/
+     */
     public enum TransferDirection {
 
         /**
          * {@code FROM} transfer direction
-         **/
+         */
         FROM,
 
         /**
          * {@code TO} transfer direction
-         **/
+         */
         TO
 
     }
 
     /**
      * {@code count} of the transfer log
-     **/
+     */
     private final int count;
 
     /**
      * {@code transferLogs} list of transfer logs
-     **/
+     */
     private final ArrayList<TransferLog> transferLogs;
 
     /**
@@ -62,7 +62,7 @@ public class SubAccountTransferLog extends BinanceItem {
      *
      * @param count        : count of the transfer log
      * @param transferLogs : list of transfer logs
-     **/
+     */
     public SubAccountTransferLog(int count, ArrayList<TransferLog> transferLogs) {
         super(null);
         this.count = count;
@@ -73,7 +73,7 @@ public class SubAccountTransferLog extends BinanceItem {
      * Constructor to init {@link SubAccountTransferLog} object
      *
      * @param jSubAccountTransferLog: subaccount transfer log details as {@link JSONObject}
-     **/
+     */
     public SubAccountTransferLog(JSONObject jSubAccountTransferLog) {
         super(jSubAccountTransferLog);
         count = hItem.getInt("count");
@@ -89,7 +89,7 @@ public class SubAccountTransferLog extends BinanceItem {
      * No-any params required
      *
      * @return {@link #count} instance as int
-     **/
+     */
     public int getCount() {
         return count;
     }
@@ -99,7 +99,7 @@ public class SubAccountTransferLog extends BinanceItem {
      * No-any params required
      *
      * @return {@link #transferLogs} instance as {@link ArrayList} of {@link TransferLog}
-     **/
+     */
     public ArrayList<TransferLog> getTransferLogs() {
         return transferLogs;
     }
@@ -110,32 +110,32 @@ public class SubAccountTransferLog extends BinanceItem {
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see SubTransferStructure
-     **/
+     */
     public static class TransferLog extends SubTransferStructure {
 
         /**
          * {@code fromEmail} from email of the transfer log
-         **/
+         */
         private final String fromEmail;
 
         /**
          * {@code toEmail} to email of the transfer log
-         **/
+         */
         private final String toEmail;
 
         /**
          * {@code amount} of the transfer log
-         **/
+         */
         private final double amount;
 
         /**
          * {@code scheduledData} scheduled data of the transfer log
-         **/
+         */
         private final long scheduledData;
 
         /**
          * {@code createTime} create time of the transfer log
-         **/
+         */
         private final long createTime;
 
         /**
@@ -151,7 +151,7 @@ public class SubAccountTransferLog extends BinanceItem {
          * @param amount          : amount of the transfer log
          * @param scheduledData   : scheduled data of the transfer log
          * @param createTime      : create time of the transfer log
-         **/
+         */
         public TransferLog(long tranId, String asset, PrincipalAccountType fromAccountType,
                            PrincipalAccountType toAccountType, TransferStatus status, String fromEmail,
                            String toEmail, double amount, long scheduledData, long createTime) {
@@ -167,7 +167,7 @@ public class SubAccountTransferLog extends BinanceItem {
          * Constructor to init {@link TransferLog} object
          *
          * @param jTransferLog: transfer log details as {@link JSONObject}
-         **/
+         */
         public TransferLog(JSONObject jTransferLog) {
             super(jTransferLog);
             fromEmail = hItem.getString("fromEmail");
@@ -182,7 +182,7 @@ public class SubAccountTransferLog extends BinanceItem {
          * No-any params required
          *
          * @return {@link #fromEmail} instance as {@link String}
-         **/
+         */
         public String getFromEmail() {
             return fromEmail;
         }
@@ -192,7 +192,7 @@ public class SubAccountTransferLog extends BinanceItem {
          * No-any params required
          *
          * @return {@link #toEmail} instance as {@link String}
-         **/
+         */
         public String getToEmail() {
             return toEmail;
         }
@@ -202,7 +202,7 @@ public class SubAccountTransferLog extends BinanceItem {
          * No-any params required
          *
          * @return {@link #amount} instance as double
-         **/
+         */
         public double getAmount() {
             return amount;
         }
@@ -213,7 +213,7 @@ public class SubAccountTransferLog extends BinanceItem {
          * @param decimals: number of digits to round final value
          * @return {@link #amount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getAmount(int decimals) {
             return roundValue(amount, decimals);
         }
@@ -223,7 +223,7 @@ public class SubAccountTransferLog extends BinanceItem {
          * No-any params required
          *
          * @return {@link #scheduledData} instance as long
-         **/
+         */
         public long getScheduledData() {
             return scheduledData;
         }
@@ -233,7 +233,7 @@ public class SubAccountTransferLog extends BinanceItem {
          * No-any params required
          *
          * @return {@link #scheduledData} instance as {@link Date}
-         **/
+         */
         public Date getScheduledDate() {
             return TimeFormatter.getDate(scheduledData);
         }
@@ -243,7 +243,7 @@ public class SubAccountTransferLog extends BinanceItem {
          * No-any params required
          *
          * @return {@link #createTime} instance as long
-         **/
+         */
         public long getCreateTime() {
             return createTime;
         }
@@ -253,7 +253,7 @@ public class SubAccountTransferLog extends BinanceItem {
          * No-any params required
          *
          * @return {@link #createTime} instance as {@link Date}
-         **/
+         */
         public Date getCreateDate() {
             return TimeFormatter.getDate(createTime);
         }

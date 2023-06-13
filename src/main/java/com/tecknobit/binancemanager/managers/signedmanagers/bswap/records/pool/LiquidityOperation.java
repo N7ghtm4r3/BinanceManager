@@ -16,49 +16,49 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Get Liquidity Operation Record (USER_DATA)</a>
  * @see BinanceItem
  * @see PoolStructure
- **/
+ */
 public class LiquidityOperation extends PoolStructure {
 
     /**
      * {@code Operation} list of available liquidity operations
-     **/
+     */
     public enum Operation {
 
         /**
          * {@code ADD} liquidity operation
-         **/
+         */
         ADD,
 
         /**
          * {@code REMOVE} liquidity operation
-         **/
+         */
         REMOVE
 
     }
 
     /**
      * {@code operationId} id of the liquidity operation
-     **/
+     */
     private final long operationId;
 
     /**
      * {@code operation} of the liquidity
-     **/
+     */
     private final Operation operation;
 
     /**
      * {@code status} of the liquidity operation
-     **/
+     */
     private final BSwapStatus status;
 
     /**
      * {@code updateTime} update time of the liquidity operation
-     **/
+     */
     private final long updateTime;
 
     /**
      * {@code shareAmount} share amount of the liquidity operation
-     **/
+     */
     private final double shareAmount;
 
     /**
@@ -71,7 +71,7 @@ public class LiquidityOperation extends PoolStructure {
      * @param status:      status of the liquidity operation
      * @param updateTime:  update time of the liquidity operation
      * @param shareAmount: share amount of the liquidity operation
-     **/
+     */
     public LiquidityOperation(long poolId, String poolName, long operationId, Operation operation,
                               BSwapStatus status, long updateTime, double shareAmount) {
         super(poolId, poolName);
@@ -86,7 +86,7 @@ public class LiquidityOperation extends PoolStructure {
      * Constructor to init {@link LiquidityOperation} object
      *
      * @param jLiquidityOperation: liquidity operation details as {@link JSONObject}
-     **/
+     */
     public LiquidityOperation(JSONObject jLiquidityOperation) {
         super(jLiquidityOperation);
         operationId = hItem.getLong("operationId", 0);
@@ -101,7 +101,7 @@ public class LiquidityOperation extends PoolStructure {
      * No-any params required
      *
      * @return {@link #operationId} instance as long
-     **/
+     */
     public long getOperationId() {
         return operationId;
     }
@@ -111,7 +111,7 @@ public class LiquidityOperation extends PoolStructure {
      * No-any params required
      *
      * @return {@link #operation} instance as {@link Operation}
-     **/
+     */
     public Operation getOperation() {
         return operation;
     }
@@ -121,7 +121,7 @@ public class LiquidityOperation extends PoolStructure {
      * No-any params required
      *
      * @return {@link #status} instance as {@link BSwapStatus}
-     **/
+     */
     public BSwapStatus getStatus() {
         return status;
     }
@@ -131,7 +131,7 @@ public class LiquidityOperation extends PoolStructure {
      * No-any params required
      *
      * @return {@link #updateTime} instance as long
-     **/
+     */
     public long getUpdateTime() {
         return updateTime;
     }
@@ -141,7 +141,7 @@ public class LiquidityOperation extends PoolStructure {
      * No-any params required
      *
      * @return {@link #updateTime} instance as {@link Date}
-     **/
+     */
     public Date getUpdateDate() {
         return TimeFormatter.getDate(updateTime);
     }
@@ -151,7 +151,7 @@ public class LiquidityOperation extends PoolStructure {
      * No-any params required
      *
      * @return {@link #shareAmount} instance as double
-     **/
+     */
     public double getShareAmount() {
         return shareAmount;
     }
@@ -162,7 +162,7 @@ public class LiquidityOperation extends PoolStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #shareAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getShareAmount(int decimals) {
         return roundValue(shareAmount, decimals);
     }

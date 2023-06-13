@@ -20,17 +20,17 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see SavingStructure
  * @see SavingRecordStructure
  * @see RedemptionRecord
- **/
+ */
 public class FixedActivityProductRedemption extends RedemptionRecord {
 
     /**
      * {@code principal} of the fixed/activity product redemption record
-     **/
+     */
     private final double interest;
 
     /**
      * {@code startTime} start time of the fixed/activity product redemption record
-     **/
+     */
     private final long startTime;
 
     /**
@@ -45,7 +45,7 @@ public class FixedActivityProductRedemption extends RedemptionRecord {
      * @param projectName: project name of the fixed/activity product redemption record
      * @param interest:    interest of the fixed/activity product redemption record
      * @param startTime:   start time of the fixed/activity product redemption record
-     **/
+     */
     public FixedActivityProductRedemption(String asset, double amount, long createTime, String status, double principal,
                                           String projectId, String projectName, double interest, long startTime) {
         super(asset, amount, createTime, status, principal, projectId, projectName);
@@ -57,7 +57,7 @@ public class FixedActivityProductRedemption extends RedemptionRecord {
      * Constructor to init {@link FixedActivityProductRedemption} object
      *
      * @param jFixedActivityProductRedemption: fixed activity product redemption details as {@link JSONObject}
-     **/
+     */
     public FixedActivityProductRedemption(JSONObject jFixedActivityProductRedemption) {
         super(jFixedActivityProductRedemption);
         interest = hItem.getDouble("interest", 0);
@@ -69,7 +69,7 @@ public class FixedActivityProductRedemption extends RedemptionRecord {
      * No-any params required
      *
      * @return {@link #interest} instance as double
-     **/
+     */
     public double getInterest() {
         return interest;
     }
@@ -80,7 +80,7 @@ public class FixedActivityProductRedemption extends RedemptionRecord {
      * @param decimals: number of digits to round final value
      * @return {@link #interest} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getInterest(int decimals) {
         return roundValue(interest, decimals);
     }
@@ -90,7 +90,7 @@ public class FixedActivityProductRedemption extends RedemptionRecord {
      * No-any params required
      *
      * @return {@link #startTime} instance as long
-     **/
+     */
     public long getStartTime() {
         return startTime;
     }
@@ -100,7 +100,7 @@ public class FixedActivityProductRedemption extends RedemptionRecord {
      * No-any params required
      *
      * @return {@link #startTime} instance as {@link Date}
-     **/
+     */
     public Date getStartDate() {
         return TimeFormatter.getDate(startTime);
     }

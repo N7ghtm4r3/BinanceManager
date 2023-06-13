@@ -24,61 +24,61 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * </ul>
  * @see BinanceItem
  * @see SavingStructure
- **/
+ */
 @Structure
 public abstract class SavingActivityStructure extends SavingStructure {
 
     /**
      * {@code SavingActivityType} list of available saving activity types
-     **/
+     */
     public enum SavingActivityType {
 
         /**
          * {@code DAILY} saving activity type
-         **/
+         */
         DAILY,
 
         /**
          * {@code ACTIVITY} saving activity type
-         **/
+         */
         ACTIVITY,
 
         /**
          * {@code CUSTOMIZED_FIXED} saving activity type
-         **/
+         */
         CUSTOMIZED_FIXED
 
     }
 
     /**
      * {@code duration} of the saving activity
-     **/
+     */
     protected final int duration;
 
     /**
      * {@code interestRate} interest rate of the saving activity
-     **/
+     */
     protected final double interestRate;
 
     /**
      * {@code projectId} project id of the saving activity
-     **/
+     */
     protected final String projectId;
 
     /**
      * {@code projectName} project name of the saving activity
-     **/
+     */
     protected final String projectName;
 
     /**
      * {@code status} of the saving activity
-     **/
+     */
 
     protected final SavingStatus status;
 
     /**
      * {@code type} of the saving activity
-     **/
+     */
     protected final SavingActivityType type;
 
     /**
@@ -91,7 +91,7 @@ public abstract class SavingActivityStructure extends SavingStructure {
      * @param projectName:      project name of the saving activity
      * @param status:           status of the saving activity
      * @param type:             type of the saving activity
-     **/
+     */
     public SavingActivityStructure(String asset, int duration, double interestRate, String projectId, String projectName,
                                    SavingStatus status, SavingActivityType type) {
         super(asset);
@@ -107,7 +107,7 @@ public abstract class SavingActivityStructure extends SavingStructure {
      * Constructor to init {@link SavingActivityStructure} object
      *
      * @param jSavingProductStructure: saving activity structure details as {@link JSONObject}
-     **/
+     */
     public SavingActivityStructure(JSONObject jSavingProductStructure) {
         super(jSavingProductStructure);
         duration = hItem.getInt("duration", 0);
@@ -123,7 +123,7 @@ public abstract class SavingActivityStructure extends SavingStructure {
      * No-any params required
      *
      * @return {@link #duration} instance as int
-     **/
+     */
     public int getDuration() {
         return duration;
     }
@@ -133,7 +133,7 @@ public abstract class SavingActivityStructure extends SavingStructure {
      * No-any params required
      *
      * @return {@link #interestRate} instance as double
-     **/
+     */
     public double getInterestRate() {
         return interestRate;
     }
@@ -144,7 +144,7 @@ public abstract class SavingActivityStructure extends SavingStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #interestRate} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getInterestRate(int decimals) {
         return roundValue(interestRate, decimals);
     }
@@ -154,7 +154,7 @@ public abstract class SavingActivityStructure extends SavingStructure {
      * No-any params required
      *
      * @return {@link #projectId} instance as {@link String}
-     **/
+     */
     public String getProjectId() {
         return projectId;
     }
@@ -164,7 +164,7 @@ public abstract class SavingActivityStructure extends SavingStructure {
      * No-any params required
      *
      * @return {@link #projectName} instance as {@link String}
-     **/
+     */
     public String getProjectName() {
         return projectName;
     }
@@ -174,7 +174,7 @@ public abstract class SavingActivityStructure extends SavingStructure {
      * No-any params required
      *
      * @return {@link #status} instance as {@link SavingStatus}
-     **/
+     */
     public SavingStatus getStatus() {
         return status;
     }
@@ -184,7 +184,7 @@ public abstract class SavingActivityStructure extends SavingStructure {
      * No-any params required
      *
      * @return {@link #type} instance as {@link SavingActivityType}
-     **/
+     */
     public SavingActivityType getType() {
         return type;
     }

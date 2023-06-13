@@ -27,33 +27,33 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * </ul>
  * @see BinanceItem
  * @see BinanceWebsocketResponse
- **/
+ */
 @Structure
 public abstract class WbsTradeStructure extends BinanceWebsocketResponse {
 
     /**
      * {@code symbol} of the websocket trade structure
-     **/
+     */
     protected final String symbol;
 
     /**
      * {@code price} of the websocket trade structure
-     **/
+     */
     protected final double price;
 
     /**
      * {@code quantity} of the websocket trade structure
-     **/
+     */
     protected final double quantity;
 
     /**
      * {@code tradeTime} trade time of the websocket trade structure
-     **/
+     */
     protected final long tradeTime;
 
     /**
      * {@code isBuyerMarketMaker} whether the websocket trade structure is buyer market taker
-     **/
+     */
     protected final boolean isBuyerMarketMaker;
 
     /**
@@ -66,7 +66,7 @@ public abstract class WbsTradeStructure extends BinanceWebsocketResponse {
      * @param quantity           : quantity of the websocket trade structure
      * @param tradeTime          : trade time of the websocket trade structure
      * @param isBuyerMarketMaker : whether the websocket trade structure is buyer market taker
-     **/
+     */
     public WbsTradeStructure(EventType eventType, long eventTime, String symbol, double price, double quantity,
                              long tradeTime, boolean isBuyerMarketMaker) {
         super(eventType, eventTime);
@@ -81,7 +81,7 @@ public abstract class WbsTradeStructure extends BinanceWebsocketResponse {
      * Constructor to init {@link WbsTradeStructure} object
      *
      * @param jWbsTradeStructure: websocket trade structure details as {@link JSONObject}
-     **/
+     */
     public WbsTradeStructure(JSONObject jWbsTradeStructure) {
         super(jWbsTradeStructure);
         symbol = hItem.getString("s");
@@ -96,7 +96,7 @@ public abstract class WbsTradeStructure extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
-     **/
+     */
     public String getSymbol() {
         return symbol;
     }
@@ -106,7 +106,7 @@ public abstract class WbsTradeStructure extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #price} instance as double
-     **/
+     */
     public double getPrice() {
         return price;
     }
@@ -117,7 +117,7 @@ public abstract class WbsTradeStructure extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #price} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getPrice(int decimals) {
         return roundValue(price, decimals);
     }
@@ -127,7 +127,7 @@ public abstract class WbsTradeStructure extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #quantity} instance as double
-     **/
+     */
     public double getQuantity() {
         return quantity;
     }
@@ -138,7 +138,7 @@ public abstract class WbsTradeStructure extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #quantity} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getQuantity(int decimals) {
         return roundValue(quantity, decimals);
     }
@@ -148,7 +148,7 @@ public abstract class WbsTradeStructure extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #tradeTime} instance as long
-     **/
+     */
     public long getTradeTime() {
         return tradeTime;
     }
@@ -158,7 +158,7 @@ public abstract class WbsTradeStructure extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #tradeTime} instance as {@link Date}
-     **/
+     */
     public Date getTradeDate() {
         return TimeFormatter.getDate(tradeTime);
     }
@@ -168,7 +168,7 @@ public abstract class WbsTradeStructure extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #isBuyerMarketMaker} instance as boolean
-     **/
+     */
     public boolean isBuyerMarketMaker() {
         return isBuyerMarketMaker;
     }

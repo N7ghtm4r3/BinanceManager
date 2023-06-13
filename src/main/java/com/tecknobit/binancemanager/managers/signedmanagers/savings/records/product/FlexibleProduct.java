@@ -15,81 +15,81 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see BinanceItem
  * @see SavingStructure
  * @see SavingProductStructure
- **/
+ */
 public class FlexibleProduct extends SavingProductStructure {
 
     /**
      * {@code FlexibleProductStatus} list of available flexible product statuses
-     **/
+     */
     public enum FlexibleProductStatus {
 
         /**
          * {@code ALL} flexible product status
-         **/
+         */
         ALL,
 
         /**
          * {@code SUBSCRIBABLE} flexible product status
-         **/
+         */
         SUBSCRIBABLE,
 
         /**
          * {@code UNSUBSCRIBABLE} flexible product status
-         **/
+         */
         UNSUBSCRIBABLE
 
     }
 
     /**
      * {@code Featured} list of available featured
-     **/
+     */
     public enum Featured {
 
         /**
          * {@code TRUE} featured
-         **/
+         */
         TRUE,
 
         /**
          * {@code ALL} featured
-         **/
+         */
         ALL
 
     }
 
     /**
      * {@code canPurchase} whether the flexible product can purchase
-     **/
+     */
     private final boolean canPurchase;
 
     /**
      * {@code featured} whether the flexible product is featured
-     **/
+     */
     private final boolean featured;
 
     /**
      * {@code minPurchaseAmount} min purchase amount of the flexible product
-     **/
+     */
     private final double minPurchaseAmount;
 
     /**
      * {@code purchaseAmount} purchase amount of the flexible product
-     **/
+     */
     private final double purchaseAmount;
 
     /**
      * {@code status} of the flexible product
-     **/
+     */
     private final SavingStatus status;
 
     /**
      * {@code upLimit} up limit of the flexible product
-     **/
+     */
     private final double upLimit;
 
     /**
      * {@code upLimitPerUser} up limit per user of the flexible product
-     **/
+     */
     private final double upLimitPerUser;
 
     /**
@@ -107,7 +107,7 @@ public class FlexibleProduct extends SavingProductStructure {
      * @param status:                    status of the flexible product
      * @param upLimit:                   up limit of the flexible product
      * @param upLimitPerUser:            up limit per user of the flexible product
-     **/
+     */
     public FlexibleProduct(String asset, TierAnnualInterestRate tierAnnualInterestRate, boolean canRedeem, String productId,
                            double averageAnnualInterestRate, boolean canPurchase, boolean featured, double minPurchaseAmount,
                            double purchaseAmount, SavingStatus status, double upLimit, double upLimitPerUser) {
@@ -125,7 +125,7 @@ public class FlexibleProduct extends SavingProductStructure {
      * Constructor to init {@link FlexibleProduct} object
      *
      * @param jFlexibleProduct: flexible product details as {@link JSONObject}
-     **/
+     */
     public FlexibleProduct(JSONObject jFlexibleProduct) {
         super(jFlexibleProduct);
         canPurchase = hItem.getBoolean("canPurchase");
@@ -142,7 +142,7 @@ public class FlexibleProduct extends SavingProductStructure {
      * No-any params required
      *
      * @return {@link #canPurchase} instance as boolean
-     **/
+     */
     public boolean canPurchase() {
         return canPurchase;
     }
@@ -152,7 +152,7 @@ public class FlexibleProduct extends SavingProductStructure {
      * No-any params required
      *
      * @return {@link #featured} instance as boolean
-     **/
+     */
     public boolean isFeatured() {
         return featured;
     }
@@ -162,7 +162,7 @@ public class FlexibleProduct extends SavingProductStructure {
      * No-any params required
      *
      * @return {@link #minPurchaseAmount} instance as double
-     **/
+     */
     public double getMinPurchaseAmount() {
         return minPurchaseAmount;
     }
@@ -173,7 +173,7 @@ public class FlexibleProduct extends SavingProductStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #minPurchaseAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getMinPurchaseAmount(int decimals) {
         return roundValue(minPurchaseAmount, decimals);
     }
@@ -183,7 +183,7 @@ public class FlexibleProduct extends SavingProductStructure {
      * No-any params required
      *
      * @return {@link #purchaseAmount} instance as double
-     **/
+     */
     public double getPurchaseAmount() {
         return purchaseAmount;
     }
@@ -194,7 +194,7 @@ public class FlexibleProduct extends SavingProductStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #purchaseAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getPurchaseAmount(int decimals) {
         return roundValue(purchaseAmount, decimals);
     }
@@ -204,7 +204,7 @@ public class FlexibleProduct extends SavingProductStructure {
      * No-any params required
      *
      * @return {@link #status} instance as {@link SavingStatus}
-     **/
+     */
     public SavingStatus getStatus() {
         return status;
     }
@@ -214,7 +214,7 @@ public class FlexibleProduct extends SavingProductStructure {
      * No-any params required
      *
      * @return {@link #upLimit} instance as double
-     **/
+     */
     public double getUpLimit() {
         return upLimit;
     }
@@ -225,7 +225,7 @@ public class FlexibleProduct extends SavingProductStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #upLimit} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getUpLimit(int decimals) {
         return roundValue(upLimit, decimals);
     }
@@ -235,7 +235,7 @@ public class FlexibleProduct extends SavingProductStructure {
      * No-any params required
      *
      * @return {@link #upLimitPerUser} instance as double
-     **/
+     */
     public double getUpLimitPerUser() {
         return upLimitPerUser;
     }
@@ -246,7 +246,7 @@ public class FlexibleProduct extends SavingProductStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #upLimitPerUser} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getUpLimitPerUser(int decimals) {
         return roundValue(upLimitPerUser, decimals);
     }

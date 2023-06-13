@@ -28,23 +28,23 @@ import java.util.Date;
  *     </li>
  * </ul>
  * @see BinanceItem
- **/
+ */
 @Structure
 public abstract class RestrictionStructure extends BinanceItem {
 
     /**
      * {@code ipList} ip list of the restriction structure
-     **/
+     */
     protected final ArrayList<String> ipList;
 
     /**
      * {@code updateTime} update time of the restriction structure
-     **/
+     */
     protected final long updateTime;
 
     /**
      * {@code apiKey} api key of the restriction structure
-     **/
+     */
     protected final String apiKey;
 
     /**
@@ -53,7 +53,7 @@ public abstract class RestrictionStructure extends BinanceItem {
      * @param ipList     : ip list of the restriction structure
      * @param updateTime : update time of the restriction structure
      * @param apiKey     : api key of the restriction structure
-     **/
+     */
     public RestrictionStructure(ArrayList<String> ipList, long updateTime, String apiKey) {
         super(null);
         this.ipList = ipList;
@@ -65,7 +65,7 @@ public abstract class RestrictionStructure extends BinanceItem {
      * Constructor to init {@link RestrictionStructure} object
      *
      * @param jRestrictionStructure : restriction structure details as {@link JSONObject}
-     **/
+     */
     public RestrictionStructure(JSONObject jRestrictionStructure) {
         super(jRestrictionStructure);
         ipList = hItem.fetchList("ipList");
@@ -78,7 +78,7 @@ public abstract class RestrictionStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #ipList} instance as {@link ArrayList} of {@link String}
-     **/
+     */
     public ArrayList<String> getIpList() {
         return ipList;
     }
@@ -88,7 +88,7 @@ public abstract class RestrictionStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #updateTime} instance as long
-     **/
+     */
     public long getUpdateTime() {
         return updateTime;
     }
@@ -98,7 +98,7 @@ public abstract class RestrictionStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #updateTime} instance as {@link Date}
-     **/
+     */
     public Date getUpdateDate() {
         return TimeFormatter.getDate(updateTime);
     }
@@ -108,7 +108,7 @@ public abstract class RestrictionStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #apiKey} instance as {@link String}
-     **/
+     */
     public String getApiKey() {
         return apiKey;
     }

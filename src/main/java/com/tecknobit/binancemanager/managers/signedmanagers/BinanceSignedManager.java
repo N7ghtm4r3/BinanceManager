@@ -20,17 +20,17 @@ import static com.tecknobit.apimanager.apis.APIRequest.getSignature;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
  * Introduction</a>
  * @see BinanceManager
- **/
+ */
 public class BinanceSignedManager extends BinanceManager {
 
     /**
      * {@code apiKey} is instance that contains api key of {@code "Binance"}'s account
-     **/
+     */
     protected final String apiKey;
 
     /**
      * {@code secretKey} is instance that contains secret key of {@code "Binance"}'s account
-     **/
+     */
     protected final String secretKey;
 
     /**
@@ -41,7 +41,7 @@ public class BinanceSignedManager extends BinanceManager {
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceSignedManager(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
                                 String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, timeout);
@@ -57,7 +57,7 @@ public class BinanceSignedManager extends BinanceManager {
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceSignedManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
                                 String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage);
@@ -73,7 +73,7 @@ public class BinanceSignedManager extends BinanceManager {
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceSignedManager(String baseEndpoint, int timeout, String apiKey,
                                 String secretKey) throws SystemException, IOException {
         super(baseEndpoint, timeout);
@@ -88,7 +88,7 @@ public class BinanceSignedManager extends BinanceManager {
      * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceSignedManager(String baseEndpoint, String apiKey, String secretKey) throws SystemException, IOException {
         super(baseEndpoint);
         this.apiKey = apiKey;
@@ -111,7 +111,7 @@ public class BinanceSignedManager extends BinanceManager {
      *        BinanceSignedManager secondManager = new BinanceSignedManager(); //same credentials used
      *     }
      * </pre>
-     **/
+     */
     public BinanceSignedManager() {
         super();
         apiKey = properties.getProperty("apiKey");
@@ -123,7 +123,7 @@ public class BinanceSignedManager extends BinanceManager {
      *
      * @param apiKey    your api key
      * @param secretKey your secret key
-     **/
+     */
     protected void storeKeys(String apiKey, String secretKey) {
         properties.setProperty("apiKey", apiKey);
         properties.setProperty("secretKey", secretKey);
@@ -134,7 +134,7 @@ public class BinanceSignedManager extends BinanceManager {
      *
      * @param extraParams: extra params of the request
      * @return payload as {@link Params}
-     **/
+     */
     protected Params createTimestampPayload(Params extraParams) {
         if (extraParams == null)
             extraParams = new Params();
@@ -147,7 +147,7 @@ public class BinanceSignedManager extends BinanceManager {
      *
      * @param endpoint: endpoint to request
      * @return response of the request
-     **/
+     */
     @Wrapper
     protected String sendGetSignedRequest(String endpoint) throws Exception {
         return sendGetSignedRequest(endpoint, (String) null);
@@ -159,7 +159,7 @@ public class BinanceSignedManager extends BinanceManager {
      * @param endpoint : endpoint to request
      * @param params   :   params HTTP for the request
      * @return response of the request
-     **/
+     */
     @Wrapper
     protected String sendGetSignedRequest(String endpoint, Params params) throws Exception {
         String query = null;
@@ -174,7 +174,7 @@ public class BinanceSignedManager extends BinanceManager {
      * @param endpoint : endpoint to request
      * @param params   :   params HTTP for the request
      * @return response of the request
-     **/
+     */
     protected String sendGetSignedRequest(String endpoint, String params) throws Exception {
         APIRequest.Params mParams = new APIRequest.Params();
         if (params == null)
@@ -188,7 +188,7 @@ public class BinanceSignedManager extends BinanceManager {
      *
      * @param endpoint: endpoint to request
      * @return response of the request
-     **/
+     */
     @Wrapper
     protected String sendDeleteSignedRequest(String endpoint) throws Exception {
         return sendDeleteSignedRequest(endpoint, (String) null);
@@ -200,7 +200,7 @@ public class BinanceSignedManager extends BinanceManager {
      * @param endpoint: endpoint to request
      * @param params:   params HTTP for the request
      * @return response of the request
-     **/
+     */
     @Wrapper
     protected String sendDeleteSignedRequest(String endpoint, Params params) throws Exception {
         if (params == null)
@@ -214,7 +214,7 @@ public class BinanceSignedManager extends BinanceManager {
      * @param endpoint: endpoint to request
      * @param params:   params HTTP for the request
      * @return response of the request
-     **/
+     */
     protected String sendDeleteSignedRequest(String endpoint, String params) throws Exception {
         APIRequest.Params mParams = new APIRequest.Params();
         if (params == null)
@@ -229,7 +229,7 @@ public class BinanceSignedManager extends BinanceManager {
      * @param endpoint: endpoint to request
      * @param params:   params HTTP for the request
      * @return response of the request
-     **/
+     */
     protected String sendPostSignedRequest(String endpoint, Params params) throws Exception {
         if (params == null)
             params = new Params();
@@ -244,7 +244,7 @@ public class BinanceSignedManager extends BinanceManager {
      * @param trainIdResponse: obtained from Binance's response
      * @param format:          return type formatter -> {@link ReturnFormat}
      * @return transaction identifier as {@code "format"} defines
-     **/
+     */
     @Returner
     protected <T> T returnTranId(String trainIdResponse, ReturnFormat format) {
         switch (format) {
@@ -262,7 +262,7 @@ public class BinanceSignedManager extends BinanceManager {
      * No-any params required
      *
      * @return apiKey
-     **/
+     */
     public String getApiKey() {
         return apiKey;
     }
@@ -272,7 +272,7 @@ public class BinanceSignedManager extends BinanceManager {
      * No-any params required
      *
      * @return secretKey
-     **/
+     */
     public String getSecretKey() {
         return secretKey;
     }

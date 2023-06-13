@@ -11,42 +11,42 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-asset-user_data">
  * User Asset (USER_DATA)</a>
- **/
+ */
 public class UserAsset {
 
     /**
      * {@code asset} asset value
-     **/
+     */
     private final String asset;
 
     /**
      * {@code free} free value
-     **/
+     */
     private double free;
 
     /**
      * {@code locked} locked value
-     **/
+     */
     private double locked;
 
     /**
      * {@code freeze} freeze value
-     **/
+     */
     private double freeze;
 
     /**
      * {@code withdrawing} withdrawing value
-     **/
+     */
     private double withdrawing;
 
     /**
      * {@code ipoable} ipoable value
-     **/
+     */
     private double ipoable;
 
     /**
      * {@code btcValuation} btc valuation value
-     **/
+     */
     private double btcValuation;
 
     /**
@@ -59,7 +59,7 @@ public class UserAsset {
      * @param withdrawing:  withdrawing value
      * @param ipoable:      ipoable value
      * @param btcValuation: btc valuation value
-     **/
+     */
     public UserAsset(String asset, double free, double locked, double freeze, double withdrawing, double ipoable,
                      double btcValuation) {
         this.asset = asset;
@@ -75,7 +75,7 @@ public class UserAsset {
      * Constructor to init {@link UserAsset} object
      *
      * @param jAsset: user asset details as {@link JSONObject}
-     **/
+     */
     public UserAsset(JSONObject jAsset) {
         JsonHelper hAsset = new JsonHelper(jAsset);
         this.asset = hAsset.getString("asset");
@@ -92,7 +92,7 @@ public class UserAsset {
      * No-any params required
      *
      * @return {@link #asset} instance as {@link String}
-     **/
+     */
     public String getAsset() {
         return asset;
     }
@@ -102,7 +102,7 @@ public class UserAsset {
      * No-any params required
      *
      * @return {@link #free} instance as double
-     **/
+     */
     public double getFree() {
         return free;
     }
@@ -111,7 +111,7 @@ public class UserAsset {
      * Method to set {@link #free}
      *
      * @param free: maker commission
-     **/
+     */
     public void setFree(double free) {
         this.free = free;
     }
@@ -122,7 +122,7 @@ public class UserAsset {
      * @param decimals: number of digits to round final value
      * @return {@link #free} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getFree(int decimals) {
         return roundValue(free, decimals);
     }
@@ -132,7 +132,7 @@ public class UserAsset {
      * No-any params required
      *
      * @return {@link #locked} instance as double
-     **/
+     */
     public double getLocked() {
         return locked;
     }
@@ -141,7 +141,7 @@ public class UserAsset {
      * Method to set {@link #locked}
      *
      * @param locked: maker commission
-     **/
+     */
     public void setLocked(double locked) {
         this.locked = locked;
     }
@@ -152,7 +152,7 @@ public class UserAsset {
      * @param decimals: number of digits to round final value
      * @return {@link #locked} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getLocked(int decimals) {
         return roundValue(locked, decimals);
     }
@@ -162,7 +162,7 @@ public class UserAsset {
      * No-any params required
      *
      * @return {@link #freeze} instance as double
-     **/
+     */
     public double getFreeze() {
         return freeze;
     }
@@ -171,7 +171,7 @@ public class UserAsset {
      * Method to set {@link #freeze}
      *
      * @param freeze: maker commission
-     **/
+     */
     public void setFreeze(double freeze) {
         this.freeze = freeze;
     }
@@ -182,7 +182,7 @@ public class UserAsset {
      * @param decimals: number of digits to round final value
      * @return {@link #freeze} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getFreeze(int decimals) {
         return roundValue(freeze, decimals);
     }
@@ -192,7 +192,7 @@ public class UserAsset {
      * No-any params required
      *
      * @return {@link #withdrawing} instance as double
-     **/
+     */
     public double getWithdrawing() {
         return withdrawing;
     }
@@ -201,7 +201,7 @@ public class UserAsset {
      * Method to set {@link #withdrawing}
      *
      * @param withdrawing: maker commission
-     **/
+     */
     public void setWithdrawing(double withdrawing) {
         this.withdrawing = withdrawing;
     }
@@ -212,7 +212,7 @@ public class UserAsset {
      * @param decimals: number of digits to round final value
      * @return {@link #withdrawing} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getWithdrawing(int decimals) {
         return roundValue(withdrawing, decimals);
     }
@@ -222,7 +222,7 @@ public class UserAsset {
      * No-any params required
      *
      * @return {@link #ipoable} instance as double
-     **/
+     */
     public double getIpoable() {
         return ipoable;
     }
@@ -231,7 +231,7 @@ public class UserAsset {
      * Method to set {@link #ipoable}
      *
      * @param ipoable: maker commission
-     **/
+     */
     public void setIpoable(double ipoable) {
         this.ipoable = ipoable;
     }
@@ -242,7 +242,7 @@ public class UserAsset {
      * @param decimals: number of digits to round final value
      * @return {@link #ipoable} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getIpoable(int decimals) {
         return roundValue(ipoable, decimals);
     }
@@ -252,7 +252,7 @@ public class UserAsset {
      * No-any params required
      *
      * @return {@link #btcValuation} instance as double
-     **/
+     */
     public double getBtcValuation() {
         return btcValuation;
     }
@@ -261,7 +261,7 @@ public class UserAsset {
      * Method to set {@link #btcValuation}
      *
      * @param btcValuation: maker commission
-     **/
+     */
     public void setBtcValuation(double btcValuation) {
         this.btcValuation = btcValuation;
     }
@@ -272,7 +272,7 @@ public class UserAsset {
      * @param decimals: number of digits to round final value
      * @return {@link #btcValuation} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBtcValuation(int decimals) {
         return roundValue(btcValuation, decimals);
     }

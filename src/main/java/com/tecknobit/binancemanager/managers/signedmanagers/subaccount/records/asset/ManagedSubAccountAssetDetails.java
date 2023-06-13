@@ -13,37 +13,37 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Query Managed Sub-account Asset Details（For Investor Master Account）</a>
  * @see BinanceItem
  * @see AssetTransfer
- **/
+ */
 public class ManagedSubAccountAssetDetails extends BinanceItem {
 
     /**
      * {@code coin} of the managed subaccount asset details
-     **/
+     */
     private final String coin;
 
     /**
      * {@code name} of the managed subaccount asset details
-     **/
+     */
     private final String name;
 
     /**
      * {@code totalBalance} total balance of the managed subaccount asset details
-     **/
+     */
     private final double totalBalance;
 
     /**
      * {@code availableBalance} available balance of the managed subaccount asset details
-     **/
+     */
     private final double availableBalance;
 
     /**
      * {@code inOrder} in order of the managed subaccount asset details
-     **/
+     */
     private final double inOrder;
 
     /**
      * {@code btcValue} btc value of the managed subaccount asset details
-     **/
+     */
     private final double btcValue;
 
     /**
@@ -55,7 +55,7 @@ public class ManagedSubAccountAssetDetails extends BinanceItem {
      * @param availableBalance : available balance of the managed subaccount asset details
      * @param inOrder          : in order of the managed subaccount asset details
      * @param btcValue         : btc value of the managed subaccount asset details
-     **/
+     */
     public ManagedSubAccountAssetDetails(String coin, String name, double totalBalance, double availableBalance,
                                          double inOrder, double btcValue) {
         super(null);
@@ -71,7 +71,7 @@ public class ManagedSubAccountAssetDetails extends BinanceItem {
      * Constructor to init {@link ManagedSubAccountAssetDetails} object
      *
      * @param jManagedSubAccountAssetDetails: managed subaccount asset details as {@link JSONObject}
-     **/
+     */
     public ManagedSubAccountAssetDetails(JSONObject jManagedSubAccountAssetDetails) {
         super(jManagedSubAccountAssetDetails);
         coin = hItem.getString("coin");
@@ -87,7 +87,7 @@ public class ManagedSubAccountAssetDetails extends BinanceItem {
      * No-any params required
      *
      * @return {@link #coin} instance as {@link String}
-     **/
+     */
     public String getCoin() {
         return coin;
     }
@@ -97,7 +97,7 @@ public class ManagedSubAccountAssetDetails extends BinanceItem {
      * No-any params required
      *
      * @return {@link #name} instance as {@link String}
-     **/
+     */
     public String getName() {
         return name;
     }
@@ -107,7 +107,7 @@ public class ManagedSubAccountAssetDetails extends BinanceItem {
      * No-any params required
      *
      * @return {@link #totalBalance} instance as double
-     **/
+     */
     public double getTotalBalance() {
         return totalBalance;
     }
@@ -118,7 +118,7 @@ public class ManagedSubAccountAssetDetails extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #totalBalance} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTotalBalance(int decimals) {
         return roundValue(totalBalance, decimals);
     }
@@ -128,7 +128,7 @@ public class ManagedSubAccountAssetDetails extends BinanceItem {
      * No-any params required
      *
      * @return {@link #availableBalance} instance as double
-     **/
+     */
     public double getAvailableBalance() {
         return availableBalance;
     }
@@ -139,7 +139,7 @@ public class ManagedSubAccountAssetDetails extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #availableBalance} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getAvailableBalance(int decimals) {
         return roundValue(availableBalance, decimals);
     }
@@ -149,7 +149,7 @@ public class ManagedSubAccountAssetDetails extends BinanceItem {
      * No-any params required
      *
      * @return {@link #inOrder} instance as double
-     **/
+     */
     public double getInOrder() {
         return inOrder;
     }
@@ -160,7 +160,7 @@ public class ManagedSubAccountAssetDetails extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #inOrder} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getInOrder(int decimals) {
         return roundValue(inOrder, decimals);
     }
@@ -170,7 +170,7 @@ public class ManagedSubAccountAssetDetails extends BinanceItem {
      * No-any params required
      *
      * @return {@link #btcValue} instance as double
-     **/
+     */
     public double getBtcValue() {
         return btcValue;
     }
@@ -181,7 +181,7 @@ public class ManagedSubAccountAssetDetails extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #btcValue} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBtcValue(int decimals) {
         return roundValue(btcValue, decimals);
     }

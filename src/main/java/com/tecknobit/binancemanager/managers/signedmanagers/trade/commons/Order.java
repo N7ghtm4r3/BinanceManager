@@ -41,27 +41,27 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.Params;
  * Query Cross Margin Account Details (USER_DATA)</a>
  * </li>
  * </ul>
- **/
+ */
 public class Order {
 
     /**
      * {@code orderId} is instance that memorizes order identifier
-     **/
+     */
     protected final long orderId;
 
     /**
      * {@code symbol} is instance that memorizes symbol used in the order
-     **/
+     */
     protected final String symbol;
 
     /**
      * {@code clientOrderId} is instance that memorizes client order identifier
-     **/
+     */
     protected final String clientOrderId;
 
     /**
      * {@code jsonHelper} is instance that memorizes {@link JsonHelper} tool
-     **/
+     */
     protected final JsonHelper hOrder;
 
     /**
@@ -70,7 +70,7 @@ public class Order {
      * @param symbol:        symbol used in the order
      * @param orderId:       order identifier
      * @param clientOrderId: client order identifier
-     **/
+     */
     public Order(String symbol, long orderId, String clientOrderId) {
         this.symbol = symbol;
         this.orderId = orderId;
@@ -82,7 +82,7 @@ public class Order {
      * Constructor to init {@link Order} object
      *
      * @param order: order details as {@link JSONObject}
-     **/
+     */
     public Order(JSONObject order) {
         hOrder = new JsonHelper(order);
         symbol = hOrder.getString("symbol");
@@ -102,7 +102,7 @@ public class Order {
      *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      * Test New Order (TRADE)</a>
-     **/
+     */
     public static Params getLimitPayload(TimeInForce timeInForce, double quantity, double price, Params extraParams) {
         Params payload = new Params();
         payload.addParam("timeInForce", timeInForce);
@@ -124,7 +124,7 @@ public class Order {
      *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      * Test New Order (TRADE)</a>
-     **/
+     */
     public static Params getMarketPayload(String keyQty, double qty, Params extraParams) {
         Params payload = new Params();
         payload.addParam(keyQty, sNotationParse(8, qty));
@@ -145,7 +145,7 @@ public class Order {
      *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      * Test New Order (TRADE)</a>
-     **/
+     */
     public static Params getLevelPayload(double quantity, String key, double value, Params extraParams) {
         Params payload = new Params();
         payload.addParam("quantity", sNotationParse(8, quantity));
@@ -169,7 +169,7 @@ public class Order {
      *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      * Test New Order (TRADE)</a>
-     **/
+     */
     public static Params getLevelLimitPayload(TimeInForce timeInForce, double quantity, double price, String key, double value,
                                               Params extraParams) {
         Params payload = getLimitPayload(timeInForce, quantity, price, extraParams);
@@ -188,7 +188,7 @@ public class Order {
      *newOrderRespType, recvWindow), see official {@code "Binance"}'s documentation to implement in the right combination
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#test-new-order-trade">
      * Test New Order (TRADE)</a>
-     **/
+     */
     public static Params getLimitMakerPayload(double quantity, double price, Params extraParams) {
         Params payload = new Params();
         payload.addParam("quantity", sNotationParse(8, quantity));
@@ -203,7 +203,7 @@ public class Order {
      * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
-     **/
+     */
     public String getSymbol() {
         return symbol;
     }
@@ -213,7 +213,7 @@ public class Order {
      * No-any params required
      *
      * @return {@link #orderId} instance as long
-     **/
+     */
     public long getOrderId() {
         return orderId;
     }
@@ -223,7 +223,7 @@ public class Order {
      * No-any params required
      *
      * @return {@link #clientOrderId} instance as {@link String}
-     **/
+     */
     public String getClientOrderId() {
         return clientOrderId;
     }
@@ -241,202 +241,202 @@ public class Order {
 
     /**
      * {@code Side} list of available sides for an order
-     **/
+     */
     public enum Side {
 
         /**
          * {@code "BUY"} side
-         **/
+         */
         BUY,
 
         /**
          * {@code "SELL"} side
-         **/
+         */
         SELL
 
     }
 
     /**
      * {@code OrderType} list of available types for an order
-     **/
+     */
     public enum OrderType {
 
         /**
          * {@code "LIMIT"} type
-         **/
+         */
         LIMIT,
 
         /**
          * {@code "MARKET"} type
-         **/
+         */
         MARKET,
 
         /**
          * {@code "STOP_LOSS"} type
-         **/
+         */
         STOP_LOSS,
 
         /**
          * {@code "STOP_LOSS_LIMIT"} type
-         **/
+         */
         STOP_LOSS_LIMIT,
 
         /**
          * {@code "TAKE_PROFIT"} type
-         **/
+         */
         TAKE_PROFIT,
 
         /**
          * {@code "TAKE_PROFIT_LIMIT"} type
-         **/
+         */
         TAKE_PROFIT_LIMIT,
 
         /**
          * {@code "LIMIT_MAKER"} type
-         **/
+         */
         LIMIT_MAKER
 
     }
 
     /**
      * {@code TimeInForce} list of available time in force for an order
-     **/
+     */
     public enum TimeInForce {
 
         /**
          * {@code "GTC"} time in force -> {@code "Good Till Canceled"}
-         **/
+         */
         GTC,
 
         /**
          * {@code "IOC"} time in force -> {@code "Immediate Or Cancel"}
-         **/
+         */
         IOC,
 
         /**
          * {@code "FOK"} time in force -> {@code "Fill Or Kill"}
-         **/
+         */
         FOK
 
     }
 
     /**
      * {@code OrderResponseType} list of available response type for an order
-     **/
+     */
     public enum OrderResponseType {
 
         /**
          * {@code "ACK"} response type
-         **/
+         */
         ACK,
 
         /**
          * {@code "RESULT"} response type
-         **/
+         */
         RESULT,
 
         /**
          * {@code "FULL"} response type
-         **/
+         */
         FULL
 
     }
 
     /**
      * {@code Status} list of available statuses for an order
-     **/
+     */
     public enum Status {
 
         /**
          * {@code "COMPLETED"} status
-         **/
+         */
         COMPLETED,
 
         /**
          * {@code "CONFIRMED"} status
-         **/
+         */
         CONFIRMED,
 
         /**
          * {@code "PENDING"} status
-         **/
+         */
         PENDING,
 
         /**
          * {@code "FAILED"} status
-         **/
+         */
         FAILED,
 
         /**
          * {@code "NEW"} status
-         **/
+         */
         NEW,
 
         /**
          * {@code "PARTIALLY_FILLED"} status
-         **/
+         */
         PARTIALLY_FILLED,
 
         /**
          * {@code "FILLED"} status
-         **/
+         */
         FILLED,
 
         /**
          * {@code "CANCELED"} status
-         **/
+         */
         CANCELED,
 
         /**
          * {@code "PENDING_CANCELED"} status
-         **/
+         */
         PENDING_CANCELED,
 
         /**
          * {@code "REJECTED"} status
-         **/
+         */
         REJECTED,
 
         /**
          * {@code "EXPIRED"} status
-         **/
+         */
         EXPIRED,
 
         /**
          * {@code "EXECUTING"} status
-         **/
+         */
         EXECUTING,
 
         /**
          * {@code "ALL_DONE"} status
-         **/
+         */
         ALL_DONE,
 
         /**
          * {@code "REJECT"} status
-         **/
+         */
         REJECT,
 
         /**
          * {@code "EXPIRED_IN_MATCH"} status
-         **/
+         */
         EXPIRED_IN_MATCH
 
     }
 
     /**
      * {@code CancelRestriction} list of available cancel restrictions for an order
-     **/
+     */
     public enum CancelRestriction {
 
         /**
          * {@code "ONLY_NEW"} cancel will succeed if the order status is {@link Status#NEW}
-         **/
+         */
         ONLY_NEW,
 
         /**
          * {@code "ONLY_PARTIALLY_FILLED"} cancel will succeed if order status is {@link Status#PARTIALLY_FILLED}
-         **/
+         */
         ONLY_PARTIALLY_FILLED
 
     }

@@ -13,32 +13,32 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-sub-account-39-s-futures-account-v2-for-master-account">
  * Get Futures Position-Risk of Sub-account V2 (For Master Account)</a>
  * @see BinanceItem
- **/
+ */
 public class CoinFuturesPositionRisk extends RiskStructure {
 
     /**
      * {@code isolated} whether the coin futures position risk is isolated
-     **/
+     */
     private final boolean isolated;
 
     /**
      * {@code isolatedWallet} isolated wallet of the coin futures position risk
-     **/
+     */
     private final double isolatedWallet;
 
     /**
      * {@code isolatedMargin} isolated margin of the coin futures position risk
-     **/
+     */
     private final double isolatedMargin;
 
     /**
      * {@code maxNotional} whether the coin futures position risk is auto add margin
-     **/
+     */
     private final boolean isAutoAddMargin;
 
     /**
      * {@code positionSide} position side of the coin futures position risk
-     **/
+     */
     private final PositionSide positionSide;
 
     /**
@@ -55,7 +55,7 @@ public class CoinFuturesPositionRisk extends RiskStructure {
      * @param isolatedMargin   : isolated margin of the coin futures position risk
      * @param isAutoAddMargin: whether the coin futures position risk is auto add margin
      * @param positionSide     : position side of the coin futures position risk
-     **/
+     */
     public CoinFuturesPositionRisk(double entryPrice, double leverage, double markPrice, double positionAmount,
                                    String symbol, double unrealizedProfit, boolean isolated, double isolatedWallet,
                                    double isolatedMargin, boolean isAutoAddMargin, PositionSide positionSide) {
@@ -71,7 +71,7 @@ public class CoinFuturesPositionRisk extends RiskStructure {
      * Constructor to init {@link FuturesPositionRisk} object
      *
      * @param jCoinFuturesPositionRisk: coin futures position risk details as {@link JSONObject}
-     **/
+     */
     public CoinFuturesPositionRisk(JSONObject jCoinFuturesPositionRisk) {
         super(jCoinFuturesPositionRisk);
         isolated = hItem.getBoolean("isolated");
@@ -86,7 +86,7 @@ public class CoinFuturesPositionRisk extends RiskStructure {
      * No-any params required
      *
      * @return {@link #isolated} instance as boolean
-     **/
+     */
     public boolean isIsolated() {
         return isolated;
     }
@@ -96,7 +96,7 @@ public class CoinFuturesPositionRisk extends RiskStructure {
      * No-any params required
      *
      * @return {@link #isolatedWallet} instance as double
-     **/
+     */
     public double getIsolatedWallet() {
         return isolatedWallet;
     }
@@ -107,7 +107,7 @@ public class CoinFuturesPositionRisk extends RiskStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #isolatedWallet} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getIsolatedWallet(int decimals) {
         return roundValue(isolatedWallet, decimals);
     }
@@ -117,7 +117,7 @@ public class CoinFuturesPositionRisk extends RiskStructure {
      * No-any params required
      *
      * @return {@link #isolatedMargin} instance as double
-     **/
+     */
     public double getIsolatedMargin() {
         return isolatedMargin;
     }
@@ -128,7 +128,7 @@ public class CoinFuturesPositionRisk extends RiskStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #isolatedMargin} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getIsolatedMargin(int decimals) {
         return roundValue(isolatedMargin, decimals);
     }
@@ -138,7 +138,7 @@ public class CoinFuturesPositionRisk extends RiskStructure {
      * No-any params required
      *
      * @return {@link #isAutoAddMargin} instance as boolean
-     **/
+     */
     public boolean isAutoAddMargin() {
         return isAutoAddMargin;
     }
@@ -148,7 +148,7 @@ public class CoinFuturesPositionRisk extends RiskStructure {
      * No-any params required
      *
      * @return {@link #positionSide} instance as {@link PositionSide}
-     **/
+     */
     public PositionSide getPositionSide() {
         return positionSide;
     }

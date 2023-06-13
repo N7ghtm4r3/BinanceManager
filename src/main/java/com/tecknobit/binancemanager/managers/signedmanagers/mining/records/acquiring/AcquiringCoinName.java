@@ -18,14 +18,14 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.mining.record
  * @see BinanceItem
  * @see BinanceResponse
  * @see MiningResponse
- **/
+ */
 public class AcquiringCoinName extends MiningResponse<ArrayList<AcquiringCoinNameItem>> {
 
     /**
      * Constructor to init {@link AcquiringCoinName} object
      *
      * @param data: acquiring coin names
-     **/
+     */
     public AcquiringCoinName(ArrayList<AcquiringCoinNameItem> data) {
         super(data);
     }
@@ -34,7 +34,7 @@ public class AcquiringCoinName extends MiningResponse<ArrayList<AcquiringCoinNam
      * Constructor to init {@link AcquiringCoinName} object
      *
      * @param jAcquiringCoinName: acquiring coin name response as {@link JSONObject}
-     **/
+     */
     public AcquiringCoinName(JSONObject jAcquiringCoinName) {
         super(jAcquiringCoinName);
         data = new ArrayList<>();
@@ -48,17 +48,17 @@ public class AcquiringCoinName extends MiningResponse<ArrayList<AcquiringCoinNam
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see AcquiringStructure
-     **/
+     */
     public static class AcquiringCoinNameItem extends AcquiringStructure {
 
         /**
          * {@code coinName} name of the coin item
-         **/
+         */
         private final String coinName;
 
         /**
          * {@code coinId} id of the coin name item
-         **/
+         */
         private final long coinId;
 
         /**
@@ -69,7 +69,7 @@ public class AcquiringCoinName extends MiningResponse<ArrayList<AcquiringCoinNam
          * @param poolIndex: pool index of the coin name item
          * @param coinName: name of the coin item
          * @param coinId: id of the coin name item
-         **/
+         */
         public AcquiringCoinNameItem(String algoName, long algoId, int poolIndex, String coinName, long coinId) {
             super(algoName, algoId, poolIndex);
             this.coinName = coinName;
@@ -80,7 +80,7 @@ public class AcquiringCoinName extends MiningResponse<ArrayList<AcquiringCoinNam
          * Constructor to init {@link AcquiringCoinNameItem} object
          *
          * @param jAcquiringCoinNameItem: acquiring coin name item details as {@link JSONObject}
-         **/
+         */
         public AcquiringCoinNameItem(JSONObject jAcquiringCoinNameItem) {
             super(jAcquiringCoinNameItem);
             coinName = hItem.getString("coinName");
@@ -92,7 +92,7 @@ public class AcquiringCoinName extends MiningResponse<ArrayList<AcquiringCoinNam
          * No-any params required
          *
          * @return {@link #coinName} instance as {@link String}
-         **/
+         */
         public String getCoinName() {
             return coinName;
         }
@@ -102,7 +102,7 @@ public class AcquiringCoinName extends MiningResponse<ArrayList<AcquiringCoinNam
          * No-any params required
          *
          * @return {@link #coinId} instance as long
-         **/
+         */
         public long getCoinId() {
             return coinId;
         }

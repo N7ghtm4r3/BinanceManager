@@ -13,22 +13,22 @@ import org.json.JSONObject;
  * @see BinanceItem
  * @see BinanceWebsocketResponse
  * @see WbsTradeStructure
- **/
+ */
 public class AggregateTrade extends WbsTradeStructure {
 
     /**
      * {@code aggregateTradeId} aggregate trade id of the websocket aggregate trade
-     * **/
+     */
     private final long aggregateTradeId;
 
     /**
      * {@code firstTradeId} first trade id of the websocket aggregate trade
-     * **/
+     */
     private final long firstTradeId;
 
     /**
      * {@code lastTradeId} last trade id of the websocket aggregate trade
-     * **/
+     */
     private final long lastTradeId;
 
     /**
@@ -44,7 +44,7 @@ public class AggregateTrade extends WbsTradeStructure {
      * @param aggregateTradeId : aggregate trade id of the websocket aggregate trade
      * @param firstTradeId : first trade id of the websocket aggregate trade
      * @param lastTradeId : last trade id of the websocket aggregate trade
-     **/
+     */
     public AggregateTrade(EventType eventType, long eventTime, String symbol, double price, double quantity,
                           long tradeTime, boolean isBuyerMarketMaker, long aggregateTradeId, long firstTradeId,
                           long lastTradeId) {
@@ -58,7 +58,7 @@ public class AggregateTrade extends WbsTradeStructure {
      * Constructor to init {@link AggregateTrade} object
      *
      * @param jAggregateTrade : websocket aggregate trade details as {@link JSONObject}
-     **/
+     */
     public AggregateTrade(JSONObject jAggregateTrade) {
         super(jAggregateTrade);
         aggregateTradeId = hItem.getLong("a", 0);
@@ -71,7 +71,7 @@ public class AggregateTrade extends WbsTradeStructure {
      * No-any params required
      *
      * @return {@link #aggregateTradeId} instance as long
-     **/
+     */
     public long getAggregateTradeId() {
         return aggregateTradeId;
     }
@@ -81,7 +81,7 @@ public class AggregateTrade extends WbsTradeStructure {
      * No-any params required
      *
      * @return {@link #firstTradeId} instance as long
-     **/
+     */
     public long getFirstTradeId() {
         return firstTradeId;
     }
@@ -91,7 +91,7 @@ public class AggregateTrade extends WbsTradeStructure {
      * No-any params required
      *
      * @return {@link #lastTradeId} instance as long
-     **/
+     */
     public long getLastTradeId() {
         return lastTradeId;
     }

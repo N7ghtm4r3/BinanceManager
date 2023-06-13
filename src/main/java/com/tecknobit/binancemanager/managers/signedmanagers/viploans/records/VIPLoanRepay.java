@@ -16,12 +16,12 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see BinanceItem
  * @see LoanBaseStructure
  * @see LoanRepayStructure
- **/
+ */
 public class VIPLoanRepay extends LoanRepayStructure {
 
     /**
      * {@code repayAmount} repay amount of the loan
-     **/
+     */
     private final double repayAmount;
 
     /**
@@ -34,7 +34,7 @@ public class VIPLoanRepay extends LoanRepayStructure {
      * @param remainingPrincipal: remaining principal of the VIP loan repay
      * @param remainingInterest:  remaining interest of the VIP loan repay
      * @param currentLTV:         current LTV of the VIP loan repay
-     **/
+     */
     public VIPLoanRepay(String loanCoin, String collateralCoin, RepayStatus repayStatus, double remainingPrincipal,
                         double remainingInterest, double currentLTV, double repayAmount) {
         super(loanCoin, collateralCoin, repayStatus, remainingPrincipal, remainingInterest, currentLTV);
@@ -45,7 +45,7 @@ public class VIPLoanRepay extends LoanRepayStructure {
      * Constructor to init {@link VIPLoanRepay} object
      *
      * @param jVIPLoanRepay: VIP loan repay details as {@link JSONObject}
-     **/
+     */
     public VIPLoanRepay(JSONObject jVIPLoanRepay) {
         super(jVIPLoanRepay);
         repayAmount = hItem.getDouble("repayAmount", 0);
@@ -56,7 +56,7 @@ public class VIPLoanRepay extends LoanRepayStructure {
      * No-any params required
      *
      * @return {@link #repayAmount} instance as double
-     **/
+     */
     public double getRepayAmount() {
         return repayAmount;
     }
@@ -67,7 +67,7 @@ public class VIPLoanRepay extends LoanRepayStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #repayAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRepayAmount(int decimals) {
         return roundValue(repayAmount, decimals);
     }

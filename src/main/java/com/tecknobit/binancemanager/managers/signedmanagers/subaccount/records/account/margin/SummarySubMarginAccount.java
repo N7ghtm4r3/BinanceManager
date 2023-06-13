@@ -14,12 +14,12 @@ import java.util.ArrayList;
  * Get Summary of Sub-account's Margin Account (For Master Account)</a>
  * @see BinanceItem
  * @see MarginAccount
- **/
+ */
 public class SummarySubMarginAccount extends MarginAccount {
 
     /**
      * {@code subAccountList} subaccount list the summary sub margin account
-     **/
+     */
     private final ArrayList<SummarySubMarginAccountItem> subAccountList;
 
     /**
@@ -29,7 +29,7 @@ public class SummarySubMarginAccount extends MarginAccount {
      * @param totalLiabilityOfBtc : total liability of Bitcoin
      * @param totalNetAssetOfBtc  :  total net asset of Bitcoin
      * @param subAccountList      :  subaccount list the summary sub margin account
-     **/
+     */
     public SummarySubMarginAccount(double totalAssetOfBtc, double totalLiabilityOfBtc, double totalNetAssetOfBtc,
                                    ArrayList<SummarySubMarginAccountItem> subAccountList) {
         super(totalAssetOfBtc, totalLiabilityOfBtc, totalNetAssetOfBtc);
@@ -40,7 +40,7 @@ public class SummarySubMarginAccount extends MarginAccount {
      * Constructor to init {@link SummarySubMarginAccount} object
      *
      * @param jSummarySubMarginAccount : summary sub margin account details as {@link JSONObject}
-     **/
+     */
     public SummarySubMarginAccount(JSONObject jSummarySubMarginAccount) {
         super(jSummarySubMarginAccount);
         subAccountList = new ArrayList<>();
@@ -55,7 +55,7 @@ public class SummarySubMarginAccount extends MarginAccount {
      * No-any params required
      *
      * @return {@link #subAccountList} instance as {@link ArrayList} of {@link SummarySubMarginAccountItem}
-     **/
+     */
     public ArrayList<SummarySubMarginAccountItem> getSubAccountList() {
         return subAccountList;
     }
@@ -66,12 +66,12 @@ public class SummarySubMarginAccount extends MarginAccount {
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see MarginAccount
-     **/
+     */
     public static class SummarySubMarginAccountItem extends MarginAccount {
 
         /**
          * {@code email} subaccount list the summary sub margin account item
-         **/
+         */
         private final String email;
 
         /**
@@ -81,7 +81,7 @@ public class SummarySubMarginAccount extends MarginAccount {
          * @param totalLiabilityOfBtc : total liability of Bitcoin
          * @param totalNetAssetOfBtc  :  total net asset of Bitcoin
          * @param email  :  subaccount list the summary sub margin account item
-         **/
+         */
         public SummarySubMarginAccountItem(double totalAssetOfBtc, double totalLiabilityOfBtc, double totalNetAssetOfBtc,
                                            String email) {
             super(totalAssetOfBtc, totalLiabilityOfBtc, totalNetAssetOfBtc);
@@ -92,7 +92,7 @@ public class SummarySubMarginAccount extends MarginAccount {
          * Constructor to init {@link SummarySubMarginAccountItem} object
          *
          * @param jSummarySubMarginAccountItem : summary sub margin account item details as {@link JSONObject}
-         **/
+         */
         public SummarySubMarginAccountItem(JSONObject jSummarySubMarginAccountItem) {
             super(jSummarySubMarginAccountItem);
             email = hItem.getString("email");
@@ -103,7 +103,7 @@ public class SummarySubMarginAccount extends MarginAccount {
          * No-any params required
          *
          * @return {@link #email} instance as {@link String}
-         **/
+         */
         public String getEmail() {
             return email;
         }

@@ -18,67 +18,67 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Websocket BLVT NAV Kline/Candlestick Streams</a>
  * @see BinanceItem
  * @see BinanceWebsocketResponse
- **/
+ */
 public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
 
     /**
      * {@code BLVTName} BLVT name of the candlestick
-     **/
+     */
     private final String BLVTName;
 
     /**
      * {@code startTime} start time of the candlestick
-     **/
+     */
     private final long startTime;
 
     /**
      * {@code closeTime} close time of the candlestick
-     **/
+     */
     private final long closeTime;
 
     /**
      * {@code interval} of the candlestick
-     **/
+     */
     private final Interval interval;
 
     /**
      * {@code firstUpdateTime} first update time of the candlestick
-     **/
+     */
     private final long firstUpdateTime;
 
     /**
      * {@code lastUpdateTime} last update time of the candlestick
-     **/
+     */
     private final long lastUpdateTime;
 
     /**
      * {@code openPrice} open price of the candlestick
-     **/
+     */
     private final double openPrice;
 
     /**
      * {@code closePrice} close price of the candlestick
-     **/
+     */
     private final double closePrice;
 
     /**
      * {@code highestPrice} highest price of the candlestick
-     **/
+     */
     private final double highestPrice;
 
     /**
      * {@code lowestPrice} lowest price of the candlestick
-     **/
+     */
     private final double lowestPrice;
 
     /**
      * {@code realLeverage} real leverage of the candlestick
-     **/
+     */
     private final double realLeverage;
 
     /**
      * {@code numberOfUpdate} number of update of the candlestick
-     **/
+     */
     private final int numberOfUpdate;
 
     /**
@@ -98,7 +98,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * @param lowestPrice:     lowest price of the candlestick
      * @param realLeverage:    real leverage of the candlestick
      * @param numberOfUpdate:  number of update of the candlestick
-     **/
+     */
     public WbsBLVTCandlestick(EventType eventType, long eventTime, String BLVTName, long startTime, long closeTime,
                               Interval interval, long firstUpdateTime, long lastUpdateTime, double openPrice,
                               double closePrice, double highestPrice, double lowestPrice, double realLeverage,
@@ -122,7 +122,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * Constructor to init {@link WbsBLVTCandlestick} object
      *
      * @param jWbsBLVTCandlestick: websocket candlestick details as {@link JSONObject}
-     **/
+     */
     public WbsBLVTCandlestick(JSONObject jWbsBLVTCandlestick) {
         super(jWbsBLVTCandlestick);
         BLVTName = hItem.getString("s");
@@ -145,7 +145,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #BLVTName} instance as {@link String}
-     **/
+     */
     public String getBLVTName() {
         return BLVTName;
     }
@@ -155,7 +155,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #startTime} instance as long
-     **/
+     */
     public long getStartTime() {
         return startTime;
     }
@@ -165,7 +165,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #startTime} instance as {@link Date}
-     **/
+     */
     public Date getStartDate() {
         return TimeFormatter.getDate(startTime);
     }
@@ -175,7 +175,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #closeTime} instance as long
-     **/
+     */
     public long getCloseTime() {
         return closeTime;
     }
@@ -185,7 +185,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #closeTime} instance as {@link Date}
-     **/
+     */
     public Date getCloseDate() {
         return TimeFormatter.getDate(closeTime);
     }
@@ -195,7 +195,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #interval} instance as {@link Interval}
-     **/
+     */
     public Interval getInterval() {
         return interval;
     }
@@ -205,7 +205,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #firstUpdateTime} instance as long
-     **/
+     */
     public long getFirstUpdateTime() {
         return firstUpdateTime;
     }
@@ -215,7 +215,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #firstUpdateTime} instance as {@link Date}
-     **/
+     */
     public Date getFirstUpdateDate() {
         return TimeFormatter.getDate(firstUpdateTime);
     }
@@ -225,7 +225,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #lastUpdateTime} instance as long
-     **/
+     */
     public long getLastUpdateTime() {
         return lastUpdateTime;
     }
@@ -235,7 +235,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #lastUpdateTime} instance as {@link Date}
-     **/
+     */
     public Date getLastUpdateDate() {
         return TimeFormatter.getDate(lastUpdateTime);
     }
@@ -245,7 +245,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #openPrice} instance as double
-     **/
+     */
     public double getOpenPrice() {
         return openPrice;
     }
@@ -256,7 +256,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #openPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getOpenPrice(int decimals) {
         return roundValue(openPrice, decimals);
     }
@@ -266,7 +266,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #closePrice} instance as double
-     **/
+     */
     public double getClosePrice() {
         return closePrice;
     }
@@ -277,7 +277,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #closePrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getClosePrice(int decimals) {
         return roundValue(closePrice, decimals);
     }
@@ -287,7 +287,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #highestPrice} instance as double
-     **/
+     */
     public double getHighestPrice() {
         return highestPrice;
     }
@@ -298,7 +298,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #highestPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getHighestPrice(int decimals) {
         return roundValue(highestPrice, decimals);
     }
@@ -308,7 +308,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #lowestPrice} instance as double
-     **/
+     */
     public double getLowestPrice() {
         return lowestPrice;
     }
@@ -319,7 +319,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #lowestPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getLowestPrice(int decimals) {
         return roundValue(lowestPrice, decimals);
     }
@@ -329,7 +329,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #realLeverage} instance as double
-     **/
+     */
     public double getRealLeverage() {
         return realLeverage;
     }
@@ -340,7 +340,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #realLeverage} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRealLeverage(int decimals) {
         return roundValue(realLeverage, decimals);
     }
@@ -350,7 +350,7 @@ public class WbsBLVTCandlestick extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #numberOfUpdate} instance as int
-     **/
+     */
     public int getNumberOfUpdate() {
         return numberOfUpdate;
     }

@@ -22,27 +22,27 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * </ul>
  * @see BinanceItem
  * @see SwapBaseStructure
- **/
+ */
 public class SwapPreview extends SwapBaseStructure {
 
     /**
      * {@code quoteAmount} quote amount of the swap preview
-     **/
+     */
     private final double quoteAmount;
 
     /**
      * {@code baseAmount} quote amount of the swap preview
-     **/
+     */
     private final double baseAmount;
 
     /**
      * {@code share} of the swap preview
-     **/
+     */
     private final double share;
 
     /**
      * {@code slippage} of the swap preview
-     **/
+     */
     private final double slippage;
 
     /**
@@ -56,7 +56,7 @@ public class SwapPreview extends SwapBaseStructure {
      * @param baseAmount:  base amount of the swap preview
      * @param share:       share of the swap preview
      * @param slippage:    slippage of the swap preview
-     **/
+     */
     public SwapPreview(String quoteAsset, String baseAsset, double price, double fee, double quoteAmount,
                        double baseAmount, double share, double slippage) {
         super(quoteAsset, baseAsset, price, fee);
@@ -70,7 +70,7 @@ public class SwapPreview extends SwapBaseStructure {
      * Constructor to init {@link SwapPreview} object
      *
      * @param jSwapPreview: swap preview details as {@link JSONObject}
-     **/
+     */
     public SwapPreview(JSONObject jSwapPreview) {
         super(jSwapPreview);
         quoteAmount = hItem.getDouble("quoteAmt", 0);
@@ -84,7 +84,7 @@ public class SwapPreview extends SwapBaseStructure {
      * No-any params required
      *
      * @return {@link #quoteAmount} instance as double
-     **/
+     */
     public double getQuoteAmount() {
         return quoteAmount;
     }
@@ -95,7 +95,7 @@ public class SwapPreview extends SwapBaseStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #quoteAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getQuoteAmount(int decimals) {
         return roundValue(quoteAmount, decimals);
     }
@@ -105,7 +105,7 @@ public class SwapPreview extends SwapBaseStructure {
      * No-any params required
      *
      * @return {@link #baseAmount} instance as double
-     **/
+     */
     public double getBaseAmount() {
         return baseAmount;
     }
@@ -116,7 +116,7 @@ public class SwapPreview extends SwapBaseStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #baseAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBaseAmount(int decimals) {
         return roundValue(baseAmount, decimals);
     }
@@ -126,7 +126,7 @@ public class SwapPreview extends SwapBaseStructure {
      * No-any params required
      *
      * @return {@link #share} instance as double
-     **/
+     */
     public double getShare() {
         return share;
     }
@@ -137,7 +137,7 @@ public class SwapPreview extends SwapBaseStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #share} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getShare(int decimals) {
         return roundValue(share, decimals);
     }
@@ -147,7 +147,7 @@ public class SwapPreview extends SwapBaseStructure {
      * No-any params required
      *
      * @return {@link #slippage} instance as double
-     **/
+     */
     public double getSlippage() {
         return slippage;
     }
@@ -158,7 +158,7 @@ public class SwapPreview extends SwapBaseStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #slippage} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getSlippage(int decimals) {
         return roundValue(slippage, decimals);
     }

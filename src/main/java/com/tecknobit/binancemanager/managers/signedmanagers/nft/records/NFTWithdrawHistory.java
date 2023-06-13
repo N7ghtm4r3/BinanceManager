@@ -18,7 +18,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.nft.records.N
  * Get NFT Withdraw History (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class NFTWithdrawHistory extends BinanceRowsList<NFTWithdraw> {
 
     /**
@@ -26,7 +26,7 @@ public class NFTWithdrawHistory extends BinanceRowsList<NFTWithdraw> {
      *
      * @param total       : number of withdrawals
      * @param withdrawals :  list of the withdrawals
-     **/
+     */
     public NFTWithdrawHistory(int total, ArrayList<NFTWithdraw> withdrawals) {
         super(total, withdrawals);
     }
@@ -35,7 +35,7 @@ public class NFTWithdrawHistory extends BinanceRowsList<NFTWithdraw> {
      * Constructor to init {@link NFTWithdrawHistory}
      *
      * @param jHistory : history details as {@link JSONObject}
-     **/
+     */
     public NFTWithdrawHistory(JSONObject jHistory) {
         super(jHistory);
         for (Object withdraw : hItem.fetchList("list"))
@@ -49,17 +49,17 @@ public class NFTWithdrawHistory extends BinanceRowsList<NFTWithdraw> {
      * @see BinanceItem
      * @see NFTAsset
      * @see NFTDeposit
-     **/
+     */
     public static class NFTWithdraw extends NFTDeposit {
 
         /**
          * {@code fee} of the NFT withdraw
-         **/
+         */
         private final double fee;
 
         /**
          * {@code feeAsset} fee asset of the NFT withdraw
-         **/
+         */
         private final String feeAsset;
 
         /**
@@ -72,7 +72,7 @@ public class NFTWithdrawHistory extends BinanceRowsList<NFTWithdraw> {
          * @param timestamp:       timestamp of the NFT withdraw
          * @param fee:             fee of the NFT withdraw
          * @param feeAsset:        fee asset of the NFT withdraw
-         **/
+         */
         public NFTWithdraw(String network, long tokenId, String contractAddress, String txId, long timestamp, double fee,
                            String feeAsset) {
             super(network, tokenId, contractAddress, txId, timestamp);
@@ -84,7 +84,7 @@ public class NFTWithdrawHistory extends BinanceRowsList<NFTWithdraw> {
          * Constructor to init {@link NFTWithdraw} object
          *
          * @param jNFTWithdraw: NFT withdraw details as {@link JSONObject}
-         **/
+         */
         public NFTWithdraw(JSONObject jNFTWithdraw) {
             super(jNFTWithdraw);
             fee = hItem.getDouble("fee", 0);
@@ -96,7 +96,7 @@ public class NFTWithdrawHistory extends BinanceRowsList<NFTWithdraw> {
          * No-any params required
          *
          * @return {@link #fee} instance as double
-         **/
+         */
         public double getFee() {
             return fee;
         }
@@ -107,7 +107,7 @@ public class NFTWithdrawHistory extends BinanceRowsList<NFTWithdraw> {
          * @param decimals: number of digits to round final value
          * @return {@link #fee} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getFee(int decimals) {
             return roundValue(fee, decimals);
         }
@@ -117,7 +117,7 @@ public class NFTWithdrawHistory extends BinanceRowsList<NFTWithdraw> {
          * No-any params required
          *
          * @return {@link #feeAsset} instance as {@link String}
-         **/
+         */
         public String getFeeAsset() {
             return feeAsset;
         }

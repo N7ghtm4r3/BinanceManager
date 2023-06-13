@@ -20,28 +20,28 @@ import org.json.JSONObject;
  *     </li>
  * </ul>
  * @see BinanceItem
- **/
+ */
 @Structure
 public abstract class HashrateResaleStructure extends BinanceItem {
 
     /**
      * {@code poolUsername} transfer out of subaccount
-     **/
+     */
     protected final String poolUsername;
 
     /**
      * {@code toPoolUsername} transfer into subaccount
-     **/
+     */
     protected final String toPoolUsername;
 
     /**
      * {@code algoName} transfer algorithm
-     **/
+     */
     protected final String algoName;
 
     /**
      * {@code hashRate} transferred hashrate quantity
-     **/
+     */
     protected final long hashRate;
 
     /**
@@ -51,7 +51,7 @@ public abstract class HashrateResaleStructure extends BinanceItem {
      * @param toPoolUsername: transfer into subaccount
      * @param algoName:       transfer algorithm
      * @param hashRate:       transferred hashrate quantity
-     **/
+     */
     public HashrateResaleStructure(String poolUsername, String toPoolUsername, String algoName, long hashRate) {
         super(null);
         this.poolUsername = poolUsername;
@@ -64,7 +64,7 @@ public abstract class HashrateResaleStructure extends BinanceItem {
      * Constructor to init {@link HashrateResaleStructure} object
      *
      * @param jHashrateResaleStructure: hashrate resale structure details as {@link JSONObject}
-     **/
+     */
     public HashrateResaleStructure(JSONObject jHashrateResaleStructure) {
         super(jHashrateResaleStructure);
         poolUsername = hItem.getString("poolUsername");
@@ -78,7 +78,7 @@ public abstract class HashrateResaleStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #poolUsername} instance as {@link String}
-     **/
+     */
     public String getPoolUsername() {
         return poolUsername;
     }
@@ -88,7 +88,7 @@ public abstract class HashrateResaleStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #toPoolUsername} instance as {@link String}
-     **/
+     */
     public String getToPoolUsername() {
         return toPoolUsername;
     }
@@ -98,7 +98,7 @@ public abstract class HashrateResaleStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #algoName} instance as {@link String}
-     **/
+     */
     public String getAlgoName() {
         return algoName;
     }
@@ -108,7 +108,7 @@ public abstract class HashrateResaleStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #hashRate} instance as long
-     **/
+     */
     public long getHashRate() {
         return hashRate;
     }

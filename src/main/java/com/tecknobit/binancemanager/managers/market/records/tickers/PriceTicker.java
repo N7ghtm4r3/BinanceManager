@@ -11,12 +11,12 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#symbol-price-ticker">
  * Symbol Price Ticker</a>
  * @see Ticker
- **/
+ */
 public class PriceTicker extends Ticker {
 
     /**
      * {@code price} is instance that contains price in the ticker
-     **/
+     */
     private final double price;
 
     /**
@@ -24,7 +24,7 @@ public class PriceTicker extends Ticker {
      *
      * @param symbol: symbol of the ticker
      * @param price:  price in the ticker
-     **/
+     */
     public PriceTicker(String symbol, double price) {
         super(symbol);
         this.price = price;
@@ -34,7 +34,7 @@ public class PriceTicker extends Ticker {
      * Constructor to init {@link PriceTicker} object
      *
      * @param jPriceTicker: price ticker details as {@link JSONObject}
-     **/
+     */
     public PriceTicker(JSONObject jPriceTicker) {
         super(jPriceTicker.getString("symbol"));
         price = jPriceTicker.getDouble("price");
@@ -45,7 +45,7 @@ public class PriceTicker extends Ticker {
      * No-any params required
      *
      * @return {@link #price} instance as double
-     **/
+     */
     public double getPrice() {
         return price;
     }
@@ -56,7 +56,7 @@ public class PriceTicker extends Ticker {
      * @param decimals: number of digits to round final value
      * @return {@link #price} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getPrice(int decimals) {
         return roundValue(price, decimals);
     }

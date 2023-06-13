@@ -17,7 +17,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
  * Asset Dividend Record (USER_DATA)</a>
  * @see BinanceRowsList
- **/
+ */
 public class AssetsDividendList extends BinanceRowsList<AssetDividendDetails> {
 
     /**
@@ -25,7 +25,7 @@ public class AssetsDividendList extends BinanceRowsList<AssetDividendDetails> {
      *
      * @param total:                total size of {@link #rows}
      * @param assetDividendDetails: list of {@link AssetDividendDetails}
-     **/
+     */
     public AssetsDividendList(int total, ArrayList<AssetDividendDetails> assetDividendDetails) {
         super(total, assetDividendDetails);
     }
@@ -34,7 +34,7 @@ public class AssetsDividendList extends BinanceRowsList<AssetDividendDetails> {
      * Constructor to init {@link AssetsDividendList} object
      *
      * @param jAssetDividend : asset dividend details as {@link JSONObject}
-     **/
+     */
     public AssetsDividendList(JSONObject jAssetDividend) {
         super(jAssetDividend);
         for (Object row : hItem.fetchList("rows"))
@@ -45,37 +45,37 @@ public class AssetsDividendList extends BinanceRowsList<AssetDividendDetails> {
      * The {@code AssetDividendDetails} class is useful to create an asset with its dividend details
      *
      * @author N7ghtm4r3 - Tecknobit
-     **/
+     */
     public static final class AssetDividendDetails {
 
         /**
          * {@code id} is instance that memorizes asset dividend details identifier
-         * **/
+         */
         private final long id;
 
         /**
          * {@code id} is instance that memorizes amount value
-         * **/
+         */
         private final double amount;
 
         /**
          * {@code asset} is instance that memorizes asset value
-         * **/
+         */
         private final String asset;
 
         /**
          * {@code divTime} is instance that memorizes division time value
-         * **/
+         */
         private final long divTime;
 
         /**
          * {@code enInfo} is instance that memorizes en info value
-         * **/
+         */
         private final String enInfo;
 
         /**
          * {@code tranId} is instance that memorizes transaction identifier
-         * **/
+         */
         private final long tranId;
 
         /**
@@ -88,7 +88,7 @@ public class AssetsDividendList extends BinanceRowsList<AssetDividendDetails> {
          * @param enInfo:  en info value
          * @param tranId:  transaction identifier
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public AssetDividendDetails(long id, double amount, String asset, long divTime, String enInfo, long tranId) {
             this.id = id;
             this.amount = amount;
@@ -102,7 +102,7 @@ public class AssetsDividendList extends BinanceRowsList<AssetDividendDetails> {
          * Constructor to init {@link AssetDividendDetails} object
          *
          * @param jDividend: dividend details as {@link JSONObject}
-         **/
+         */
         public AssetDividendDetails(JSONObject jDividend) {
             this(jDividend.getLong("id"), jDividend.getDouble("amount"), jDividend.getString("asset"),
                     jDividend.getLong("divTime"), jDividend.getString("enInfo"), jDividend.getLong("tranId"));
@@ -113,7 +113,7 @@ public class AssetsDividendList extends BinanceRowsList<AssetDividendDetails> {
          * No-any params required
          *
          * @return {@link #id} instance as long
-         **/
+         */
         public long getId() {
             return id;
         }
@@ -123,7 +123,7 @@ public class AssetsDividendList extends BinanceRowsList<AssetDividendDetails> {
          * No-any params required
          *
          * @return {@link #amount} instance as double
-         **/
+         */
         public double getAmount() {
             return amount;
         }
@@ -134,7 +134,7 @@ public class AssetsDividendList extends BinanceRowsList<AssetDividendDetails> {
          * @param decimals: number of digits to round final value
          * @return {@link #amount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getAmount(int decimals) {
             return roundValue(amount, decimals);
         }
@@ -144,7 +144,7 @@ public class AssetsDividendList extends BinanceRowsList<AssetDividendDetails> {
          * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
-         **/
+         */
         public String getAsset() {
             return asset;
         }
@@ -154,7 +154,7 @@ public class AssetsDividendList extends BinanceRowsList<AssetDividendDetails> {
          * No-any params required
          *
          * @return {@link #divTime} instance as long
-         **/
+         */
         public long getDivTime() {
             return divTime;
         }
@@ -164,7 +164,7 @@ public class AssetsDividendList extends BinanceRowsList<AssetDividendDetails> {
          * No-any params required
          *
          * @return {@link #divTime} instance as {@link Date}
-         **/
+         */
         public Date getDivDate() {
             return TimeFormatter.getDate(divTime);
         }
@@ -174,7 +174,7 @@ public class AssetsDividendList extends BinanceRowsList<AssetDividendDetails> {
          * No-any params required
          *
          * @return {@link #enInfo} instance as {@link String}
-         **/
+         */
         public String getEnInfo() {
             return enInfo;
         }
@@ -184,7 +184,7 @@ public class AssetsDividendList extends BinanceRowsList<AssetDividendDetails> {
          * No-any params required
          *
          * @return {@link #tranId} instance as long
-         **/
+         */
         public long getTranId() {
             return tranId;
         }

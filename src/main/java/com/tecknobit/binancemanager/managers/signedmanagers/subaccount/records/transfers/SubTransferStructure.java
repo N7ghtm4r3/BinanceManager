@@ -31,33 +31,33 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.subaccount.re
  *     </li>
  * </ul>
  * @see BinanceItem
- **/
+ */
 @Structure
 public abstract class SubTransferStructure extends BinanceItem {
 
     /**
      * {@code tranId} transaction id of the sub transfer
-     **/
+     */
     protected final long tranId;
 
     /**
      * {@code asset} of the sub transfer
-     **/
+     */
     protected final String asset;
 
     /**
      * {@code fromAccountType} from account type of the sub transfer
-     **/
+     */
     protected final PrincipalAccountType fromAccountType;
 
     /**
      * {@code toAccountType} to account type of the sub transfer
-     **/
+     */
     protected final PrincipalAccountType toAccountType;
 
     /**
      * {@code status} of the sub transfer
-     **/
+     */
     protected final TransferStatus status;
 
     /**
@@ -68,7 +68,7 @@ public abstract class SubTransferStructure extends BinanceItem {
      * @param fromAccountType : from account type of the sub transfer
      * @param toAccountType   : to account type of the sub transfer
      * @param status          : status of the sub transfer
-     **/
+     */
     public SubTransferStructure(long tranId, String asset, PrincipalAccountType fromAccountType,
                                 PrincipalAccountType toAccountType, TransferStatus status) {
         super(null);
@@ -83,7 +83,7 @@ public abstract class SubTransferStructure extends BinanceItem {
      * Constructor to init {@link SubTransferStructure} object
      *
      * @param jSubAccountTransfer: subaccount transfer details as {@link JSONObject}
-     **/
+     */
     public SubTransferStructure(JSONObject jSubAccountTransfer) {
         super(jSubAccountTransfer);
         asset = hItem.getString("asset");
@@ -110,7 +110,7 @@ public abstract class SubTransferStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #tranId} instance as long
-     **/
+     */
     public long getTranId() {
         return tranId;
     }
@@ -120,7 +120,7 @@ public abstract class SubTransferStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #asset} instance as {@link String}
-     **/
+     */
     public String getAsset() {
         return asset;
     }
@@ -130,7 +130,7 @@ public abstract class SubTransferStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #fromAccountType} instance as {@link PrincipalAccountType}
-     **/
+     */
     public PrincipalAccountType getFromAccountType() {
         return fromAccountType;
     }
@@ -140,7 +140,7 @@ public abstract class SubTransferStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #toAccountType} instance as {@link PrincipalAccountType}
-     **/
+     */
     public PrincipalAccountType getToAccountType() {
         return toAccountType;
     }
@@ -150,7 +150,7 @@ public abstract class SubTransferStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #status} instance as {@link TransferStatus}
-     **/
+     */
     public TransferStatus getStatus() {
         return status;
     }

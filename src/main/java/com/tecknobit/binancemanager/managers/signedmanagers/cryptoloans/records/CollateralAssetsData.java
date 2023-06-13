@@ -17,7 +17,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.cryptoloans.r
  * Get Collateral Assets Data (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class CollateralAssetsData extends BinanceRowsList<AssetData> {
 
     /**
@@ -25,7 +25,7 @@ public class CollateralAssetsData extends BinanceRowsList<AssetData> {
      *
      * @param total  : number of assets
      * @param assets :  list of the assets
-     **/
+     */
     public CollateralAssetsData(int total, ArrayList<AssetData> assets) {
         super(total, assets);
     }
@@ -34,7 +34,7 @@ public class CollateralAssetsData extends BinanceRowsList<AssetData> {
      * Constructor to init {@link CollateralAssetsData}
      *
      * @param jList : list details as {@link JSONObject}
-     **/
+     */
     public CollateralAssetsData(JSONObject jList) {
         super(jList);
         for (Object row : hItem.fetchList("rows"))
@@ -46,37 +46,37 @@ public class CollateralAssetsData extends BinanceRowsList<AssetData> {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class AssetData extends BinanceItem {
 
         /**
          * {@code collateralCoin} collateral coin of the asset data
-         **/
+         */
         private final String collateralCoin;
 
         /**
          * {@code initialLTV} initial LTV of the asset data
-         **/
+         */
         private final double initialLTV;
 
         /**
          * {@code marginCallLTV} margin call LTV of the asset data
-         **/
+         */
         private final double marginCallLTV;
 
         /**
          * {@code liquidationLTV} liquidation LTV of the asset data
-         **/
+         */
         private final double liquidationLTV;
 
         /**
          * {@code maxLimit} max limit of the asset data
-         **/
+         */
         private final double maxLimit;
 
         /**
          * {@code vipLevel} vip level of the asset data
-         **/
+         */
         private final int vipLevel;
 
         /**
@@ -88,7 +88,7 @@ public class CollateralAssetsData extends BinanceRowsList<AssetData> {
          * @param liquidationLTV: liquidation LTV of the asset data
          * @param maxLimit:       max limit of the asset data
          * @param vipLevel:       vip level of the asset data
-         **/
+         */
         public AssetData(String collateralCoin, double initialLTV, double marginCallLTV, double liquidationLTV,
                          double maxLimit, int vipLevel) {
             super(null);
@@ -104,7 +104,7 @@ public class CollateralAssetsData extends BinanceRowsList<AssetData> {
          * Constructor to init {@link AssetData} object
          *
          * @param jAssetData: asset data details as {@link JSONObject}
-         **/
+         */
         public AssetData(JSONObject jAssetData) {
             super(jAssetData);
             collateralCoin = hItem.getString("collateralCoin");
@@ -120,7 +120,7 @@ public class CollateralAssetsData extends BinanceRowsList<AssetData> {
          * No-any params required
          *
          * @return {@link #collateralCoin} instance as {@link String}
-         **/
+         */
         public String getCollateralCoin() {
             return collateralCoin;
         }
@@ -130,7 +130,7 @@ public class CollateralAssetsData extends BinanceRowsList<AssetData> {
          * No-any params required
          *
          * @return {@link #initialLTV} instance as double
-         **/
+         */
         public double getInitialLTV() {
             return initialLTV;
         }
@@ -141,7 +141,7 @@ public class CollateralAssetsData extends BinanceRowsList<AssetData> {
          * @param decimals: number of digits to round final value
          * @return {@link #initialLTV} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getInitialLTV(int decimals) {
             return roundValue(initialLTV, decimals);
         }
@@ -151,7 +151,7 @@ public class CollateralAssetsData extends BinanceRowsList<AssetData> {
          * No-any params required
          *
          * @return {@link #marginCallLTV} instance as double
-         **/
+         */
         public double getMarginCallLTV() {
             return marginCallLTV;
         }
@@ -162,7 +162,7 @@ public class CollateralAssetsData extends BinanceRowsList<AssetData> {
          * @param decimals: number of digits to round final value
          * @return {@link #marginCallLTV} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getMarginCallLTV(int decimals) {
             return roundValue(marginCallLTV, decimals);
         }
@@ -172,7 +172,7 @@ public class CollateralAssetsData extends BinanceRowsList<AssetData> {
          * No-any params required
          *
          * @return {@link #marginCallLTV} instance as double
-         **/
+         */
         public double getLiquidationLTV() {
             return liquidationLTV;
         }
@@ -183,7 +183,7 @@ public class CollateralAssetsData extends BinanceRowsList<AssetData> {
          * @param decimals: number of digits to round final value
          * @return {@link #marginCallLTV} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getLiquidationLTV(int decimals) {
             return roundValue(marginCallLTV, decimals);
         }
@@ -193,7 +193,7 @@ public class CollateralAssetsData extends BinanceRowsList<AssetData> {
          * No-any params required
          *
          * @return {@link #maxLimit} instance as double
-         **/
+         */
         public double getMaxLimit() {
             return maxLimit;
         }
@@ -204,7 +204,7 @@ public class CollateralAssetsData extends BinanceRowsList<AssetData> {
          * @param decimals: number of digits to round final value
          * @return {@link #maxLimit} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getMaxLimit(int decimals) {
             return roundValue(maxLimit, decimals);
         }
@@ -214,7 +214,7 @@ public class CollateralAssetsData extends BinanceRowsList<AssetData> {
          * No-any params required
          *
          * @return {@link #vipLevel} instance as int
-         **/
+         */
         public int getVipLevel() {
             return vipLevel;
         }

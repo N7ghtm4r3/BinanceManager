@@ -14,17 +14,17 @@ import java.util.Date;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-managed-sub-account-list-for-investor-user_data">
  * Query Managed Sub-account List (For Investor)(USER_DATA)</a>
  * @see BinanceItem
- **/
+ */
 public class ManagedSubAccountList extends BinanceItem {
 
     /**
      * {@code total} of the managed subaccount list
-     **/
+     */
     private final int total;
 
     /**
      * {@code subUsersInfo} sub users info list
-     **/
+     */
     private final ArrayList<SubUserInfo> subUsersInfo;
 
     /**
@@ -32,7 +32,7 @@ public class ManagedSubAccountList extends BinanceItem {
      *
      * @param total : total of the managed subaccount list
      * @param subUsersInfo : sub users info list
-     **/
+     */
     public ManagedSubAccountList(int total, ArrayList<SubUserInfo> subUsersInfo) {
         super(null);
         this.total = total;
@@ -43,7 +43,7 @@ public class ManagedSubAccountList extends BinanceItem {
      * Constructor to init {@link ManagedSubAccountList} object
      *
      * @param jManagedSubAccountList : managed subaccount list details as {@link JSONObject}
-     **/
+     */
     public ManagedSubAccountList(JSONObject jManagedSubAccountList) {
         super(jManagedSubAccountList);
         total = hItem.getInt("total", 0);
@@ -59,7 +59,7 @@ public class ManagedSubAccountList extends BinanceItem {
      * No-any params required
      *
      * @return {@link #total} instance as int
-     **/
+     */
     public int getTotal() {
         return total;
     }
@@ -69,7 +69,7 @@ public class ManagedSubAccountList extends BinanceItem {
      * No-any params required
      *
      * @return {@link #subUsersInfo} instance as {@link ArrayList} of {@link SubUserInfo}
-     **/
+     */
     public ArrayList<SubUserInfo> getSubUsersInfo() {
         return subUsersInfo;
     }
@@ -79,62 +79,62 @@ public class ManagedSubAccountList extends BinanceItem {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class SubUserInfo extends BinanceItem {
 
         /**
          * {@code rootUserId} root user id of the sub user info
-         **/
+         */
         private final long rootUserId;
 
         /**
          * {@code managersubUserId} manager sub user id of the sub user info
-         **/
+         */
         private final long managersubUserId;
 
         /**
          * {@code bindParentUserId} bind parent user id of the sub user info
-         **/
+         */
         private final long bindParentUserId;
 
         /**
          * {@code email} of the sub user info
-         **/
+         */
         private final String email;
 
         /**
          * {@code insertTimestamp} insert timestamp of the sub user info
-         **/
+         */
         private final long insertTimestamp;
 
         /**
          * {@code bindParentEmail} bind parent email of the sub user info
-         **/
+         */
         private final String bindParentEmail;
 
         /**
          * {@code isSubUserEnabled} whether the sub user is enabled
-         **/
+         */
         private final boolean isSubUserEnabled;
 
         /**
          * {@code isUserActive} whether the sub user is active
-         **/
+         */
         private final boolean isUserActive;
 
         /**
          * {@code isMarginEnabled} whether the sub user has margin enabled
-         **/
+         */
         private final boolean isMarginEnabled;
 
         /**
          * {@code isFutureEnabled} whether the sub user has future enabled
-         **/
+         */
         private final boolean isFutureEnabled;
 
         /**
          * {@code isSignedLVTRiskAgreement} whether the sub user has signed LVT risk agreement
-         **/
+         */
         private final boolean isSignedLVTRiskAgreement;
 
         /**
@@ -151,7 +151,7 @@ public class ManagedSubAccountList extends BinanceItem {
          * @param isMarginEnabled : whether the sub user has margin enabled
          * @param isFutureEnabled : whether the sub user has future enabled
          * @param isSignedLVTRiskAgreement : whether the sub user has signed LVT risk agreement
-         **/
+         */
         public SubUserInfo(long rootUserId, long managersubUserId, long bindParentUserId, String email,
                            long insertTimestamp, String bindParentEmail, boolean isSubUserEnabled, boolean isUserActive,
                            boolean isMarginEnabled, boolean isFutureEnabled, boolean isSignedLVTRiskAgreement) {
@@ -173,7 +173,7 @@ public class ManagedSubAccountList extends BinanceItem {
          * Constructor to init {@link SubUserInfo} object
          *
          * @param jSubUserInfo: sub user info details as {@link JSONObject}
-         **/
+         */
         public SubUserInfo(JSONObject jSubUserInfo) {
             super(jSubUserInfo);
             rootUserId = hItem.getLong("rootUserId", 0);
@@ -194,7 +194,7 @@ public class ManagedSubAccountList extends BinanceItem {
          * No-any params required
          *
          * @return {@link #rootUserId} instance as long
-         **/
+         */
         public long getRootUserId() {
             return rootUserId;
         }
@@ -204,7 +204,7 @@ public class ManagedSubAccountList extends BinanceItem {
          * No-any params required
          *
          * @return {@link #managersubUserId} instance as long
-         **/
+         */
         public long getManagersubUserId() {
             return managersubUserId;
         }
@@ -214,7 +214,7 @@ public class ManagedSubAccountList extends BinanceItem {
          * No-any params required
          *
          * @return {@link #bindParentUserId} instance as long
-         **/
+         */
         public long getBindParentUserId() {
             return bindParentUserId;
         }
@@ -224,7 +224,7 @@ public class ManagedSubAccountList extends BinanceItem {
          * No-any params required
          *
          * @return {@link #email} instance as {@link String}
-         **/
+         */
         public String getEmail() {
             return email;
         }
@@ -234,7 +234,7 @@ public class ManagedSubAccountList extends BinanceItem {
          * No-any params required
          *
          * @return {@link #insertTimestamp} instance as long
-         **/
+         */
         public long getInsertTimestamp() {
             return insertTimestamp;
         }
@@ -244,7 +244,7 @@ public class ManagedSubAccountList extends BinanceItem {
          * No-any params required
          *
          * @return {@link #insertTimestamp} instance as {@link Date}
-         **/
+         */
         public Date getInsertDate() {
             return TimeFormatter.getDate(insertTimestamp);
         }
@@ -254,7 +254,7 @@ public class ManagedSubAccountList extends BinanceItem {
          * No-any params required
          *
          * @return {@link #bindParentEmail} instance as {@link String}
-         **/
+         */
         public String getBindParentEmail() {
             return bindParentEmail;
         }
@@ -264,7 +264,7 @@ public class ManagedSubAccountList extends BinanceItem {
          * No-any params required
          *
          * @return {@link #isSubUserEnabled} instance as boolean
-         **/
+         */
         public boolean isSubUserEnabled() {
             return isSubUserEnabled;
         }
@@ -274,7 +274,7 @@ public class ManagedSubAccountList extends BinanceItem {
          * No-any params required
          *
          * @return {@link #isUserActive} instance as boolean
-         **/
+         */
         public boolean isUserActive() {
             return isUserActive;
         }
@@ -284,7 +284,7 @@ public class ManagedSubAccountList extends BinanceItem {
          * No-any params required
          *
          * @return {@link #isMarginEnabled} instance as boolean
-         **/
+         */
         public boolean isMarginEnabled() {
             return isMarginEnabled;
         }
@@ -294,7 +294,7 @@ public class ManagedSubAccountList extends BinanceItem {
          * No-any params required
          *
          * @return {@link #isFutureEnabled} instance as boolean
-         **/
+         */
         public boolean isFutureEnabled() {
             return isFutureEnabled;
         }
@@ -304,7 +304,7 @@ public class ManagedSubAccountList extends BinanceItem {
          * No-any params required
          *
          * @return {@link #isSignedLVTRiskAgreement} instance as boolean
-         **/
+         */
         public boolean isSignedLVTRiskAgreement() {
             return isSignedLVTRiskAgreement;
         }

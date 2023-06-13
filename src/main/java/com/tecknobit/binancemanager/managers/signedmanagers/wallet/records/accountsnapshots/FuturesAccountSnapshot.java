@@ -20,12 +20,12 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#daily-account-snapshot-user_data">
  * Daily Account Snapshot (USER_DATA)</a>
  * @see AccountSnapshot
- **/
+ */
 public class FuturesAccountSnapshot extends AccountSnapshot {
 
     /**
      * {@code futuresData} is instance that memorizes list of {@link FuturesData}
-     **/
+     */
     private ArrayList<FuturesData> futuresData;
 
     /**
@@ -35,7 +35,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
      * @param msg:         message of response
      * @param snapshotVos: details as {@link JSONArray}
      * @param futuresData: list of {@link FuturesData}
-     **/
+     */
     public FuturesAccountSnapshot(int code, String msg, JSONArray snapshotVos, ArrayList<FuturesData> futuresData) {
         super(code, msg, futures, snapshotVos);
         this.futuresData = futuresData;
@@ -48,7 +48,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
      * @param msg:         message of response
      * @param snapshotVos: details as {@link String}
      * @apiNote this constructor is useful to pass a {@code "JSON"} array in {@link String} format
-     **/
+     */
     public FuturesAccountSnapshot(int code, String msg, String snapshotVos) {
         super(code, msg, futures, snapshotVos);
     }
@@ -60,7 +60,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
      * @param msg:         message of response
      * @param snapshotVos: details as {@link String}
      * @apiNote this constructor is useful to pass a {@code "JSON"} array in {@link String} format
-     **/
+     */
     public <T> FuturesAccountSnapshot(int code, String msg, T snapshotVos) {
         super(code, msg, futures, snapshotVos);
     }
@@ -69,7 +69,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
      * Constructor to init {@link FuturesAccountSnapshot} object
      *
      * @param futuresAccount: futures account snapshot details as {@link JSONObject}
-     **/
+     */
     public FuturesAccountSnapshot(JSONObject futuresAccount) {
         super(futuresAccount);
         futuresData = new ArrayList<>();
@@ -82,7 +82,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
      * No-any params required
      *
      * @return {@link #futuresData} instance as {@link ArrayList} of {@link MarginOrderDetails}
-     **/
+     */
     public ArrayList<FuturesData> getDataFutures() {
         return futuresData;
     }
@@ -91,7 +91,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
      * Method to set {@link #futuresData} instance <br>
      *
      * @param futuresData: list of {@link FuturesData} to set
-     **/
+     */
     public void setDataFuturesList(ArrayList<FuturesData> futuresData) {
         this.futuresData = futuresData;
     }
@@ -100,7 +100,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
      * Method to add a futures data  to {@link #futuresData}
      *
      * @param futuresData: futures data to add
-     **/
+     */
     public void insertDataFuture(FuturesData futuresData) {
         if (!this.futuresData.contains(futuresData))
             this.futuresData.add(futuresData);
@@ -111,7 +111,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
      *
      * @param futuresData: futures data  to remove
      * @return result of operation as boolean
-     **/
+     */
     public boolean removeDataFuture(FuturesData futuresData) {
         return this.futuresData.remove(futuresData);
     }
@@ -121,7 +121,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
      *
      * @param index: index to fetch the futures data
      * @return futures data as {@link FuturesData}
-     **/
+     */
     public FuturesData getDataFuture(int index) {
         return futuresData.get(index);
     }
@@ -130,22 +130,22 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
      * The {@code FuturesData} class is useful to create a data futures object
      *
      * @author N7ghtm4r3 - Tecknobit
-     **/
+     */
     public static class FuturesData {
 
         /**
          * {@code updateTime} is instance that memorizes update time value
-         **/
+         */
         private final long updateTime;
 
         /**
          * {@code futuresAssets} is instance that memorizes list of {@link FuturesAsset}
-         **/
+         */
         private ArrayList<FuturesAsset> futuresAssets;
 
         /**
          * {@code futuresPositions} is instance that memorizes list of {@link FuturesPosition}
-         **/
+         */
         private ArrayList<FuturesPosition> futuresPositions;
 
         /**
@@ -154,7 +154,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * @param updateTime:      update time value
          * @param futureAssets:    list of {@link FuturesAsset}
          * @param futurePositions: list of {@link FuturesPosition}
-         **/
+         */
         public FuturesData(long updateTime, ArrayList<FuturesAsset> futureAssets, ArrayList<FuturesPosition> futurePositions) {
             this.updateTime = updateTime;
             this.futuresAssets = futureAssets;
@@ -165,7 +165,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * Constructor to init {@link FuturesData} object
          *
          * @param dataFutures: futures data details as {@link JSONObject}
-         **/
+         */
         public FuturesData(JSONObject dataFutures) {
             JsonHelper hFutures = new JsonHelper(dataFutures);
             updateTime = dataFutures.getLong("updateTime");
@@ -184,7 +184,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * No-any params required
          *
          * @return {@link #updateTime} instance as long
-         **/
+         */
         public long getUpdateTime() {
             return updateTime;
         }
@@ -194,7 +194,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * No-any params required
          *
          * @return {@link #updateTime} instance as {@link Date}
-         **/
+         */
         public Date getUpdateDate() {
             return TimeFormatter.getDate(updateTime);
         }
@@ -204,7 +204,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * No-any params required
          *
          * @return {@link #futuresAssets} instance as {@link ArrayList} of {@link FuturesAsset}
-         **/
+         */
         public ArrayList<FuturesAsset> getAssetFuturesList() {
             return futuresAssets;
         }
@@ -213,7 +213,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * Method to set {@link #futuresData} instance <br>
          *
          * @param futuresAssets: list of {@link FuturesAsset} to set
-         **/
+         */
         public void setAssetFuturesList(ArrayList<FuturesAsset> futuresAssets) {
             this.futuresAssets = futuresAssets;
         }
@@ -222,7 +222,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * Method to add a futures asset  to {@link #futuresAssets}
          *
          * @param futuresAsset: futures asset to add
-         **/
+         */
         public void insertAssetFuture(FuturesAsset futuresAsset) {
             if (!futuresAssets.contains(futuresAsset))
                 futuresAssets.add(futuresAsset);
@@ -233,7 +233,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          *
          * @param futuresAsset: futures asset  to remove
          * @return result of operation as boolean
-         **/
+         */
         public boolean removeAssetFuture(FuturesAsset futuresAsset) {
             return futuresAssets.remove(futuresAsset);
         }
@@ -243,7 +243,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          *
          * @param index: index to fetch the futures asset
          * @return futures asset as {@link FuturesAsset}
-         **/
+         */
         public FuturesAsset getAssetFutures(int index) {
             return futuresAssets.get(index);
         }
@@ -253,7 +253,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * No-any params required
          *
          * @return {@link #futuresData} instance as {@link ArrayList} of {@link MarginOrderDetails}
-         **/
+         */
         public ArrayList<FuturesPosition> getPositionFuturesList() {
             return futuresPositions;
         }
@@ -262,7 +262,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * Method to set {@link #futuresPositions} instance <br>
          *
          * @param futuresPositions: list of {@link FuturesPosition} to set
-         **/
+         */
         public void setPositionFuturesList(ArrayList<FuturesPosition> futuresPositions) {
             this.futuresPositions = futuresPositions;
         }
@@ -271,7 +271,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * Method to add a futures position  to {@link #futuresData}
          *
          * @param futuresPosition: futures position to add
-         **/
+         */
         public void insertAssetFuture(FuturesPosition futuresPosition) {
             if (!futuresPositions.contains(futuresPosition))
                 futuresPositions.add(futuresPosition);
@@ -282,7 +282,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          *
          * @param futuresPosition: futures position  to remove
          * @return result of operation as boolean
-         **/
+         */
         public boolean removeAssetFuture(FuturesPosition futuresPosition) {
             return futuresPositions.remove(futuresPosition);
         }
@@ -292,7 +292,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          *
          * @param index: index to fetch the futures position
          * @return position as {@link FuturesPosition}
-         **/
+         */
         public FuturesPosition getPositionFutures(int index) {
             return futuresPositions.get(index);
         }
@@ -314,22 +314,22 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
      * The {@code FuturesAsset} class is useful to create a futures asset
      *
      * @author N7ghtm4r3 - Tecknobit
-     **/
+     */
     public static class FuturesAsset {
 
         /**
          * {@code asset} is instance that memorizes asset value
-         **/
+         */
         private final String asset;
 
         /**
          * {@code marginBalance} is instance that memorizes margin balance value
-         **/
+         */
         private double marginBalance;
 
         /**
          * {@code walletBalance} is instance that memorizes wallet balance value
-         **/
+         */
         private double walletBalance;
 
         /**
@@ -339,7 +339,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * @param marginBalance: list of {@link FuturesAsset}
          * @param walletBalance: list of {@link FuturesPosition}
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public FuturesAsset(String asset, double marginBalance, double walletBalance) {
             this.asset = asset;
             if (marginBalance < 0)
@@ -357,7 +357,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          *
          * @param futuresAsset: futures asset details as {@link JSONObject}
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public FuturesAsset(JSONObject futuresAsset) {
             this(futuresAsset.getString("asset"), futuresAsset.getDouble("marginBalance"),
                     futuresAsset.getDouble("walletBalance"));
@@ -368,7 +368,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
-         **/
+         */
         public String getAsset() {
             return asset;
         }
@@ -378,7 +378,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * No-any params required
          *
          * @return {@link #marginBalance} instance as double
-         **/
+         */
         public double getMarginBalance() {
             return marginBalance;
         }
@@ -388,7 +388,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          *
          * @param marginBalance: margin balance value
          * @throws IllegalArgumentException when margin balance value is less than 0
-         **/
+         */
         public void setMarginBalance(double marginBalance) {
             if (marginBalance < 0)
                 throw new IllegalArgumentException("Margin balance value cannot be less than 0");
@@ -401,7 +401,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * @param decimals: number of digits to round final value
          * @return {@link #marginBalance} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getMarginBalance(int decimals) {
             return roundValue(marginBalance, decimals);
         }
@@ -411,7 +411,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * No-any params required
          *
          * @return {@link #walletBalance} instance as double
-         **/
+         */
         public double getWalletBalance() {
             return walletBalance;
         }
@@ -421,7 +421,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          *
          * @param walletBalance: wallet balance value
          * @throws IllegalArgumentException when wallet balance value is less than 0
-         **/
+         */
         public void setWalletBalance(double walletBalance) {
             if (walletBalance < 0)
                 throw new IllegalArgumentException("Wallet balance value cannot be less than 0");
@@ -434,7 +434,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * @param decimals: number of digits to round final value
          * @return {@link #walletBalance} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getWalletBalance(int decimals) {
             return roundValue(walletBalance, decimals);
         }
@@ -457,32 +457,32 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class FuturesPosition extends BinanceItem {
 
         /**
          * {@code symbol} is instance that memorizes symbol value
-         **/
+         */
         private final String symbol;
 
         /**
          * {@code entryPrice} is instance that memorizes entry price value
-         **/
+         */
         private final double entryPrice;
 
         /**
          * {@code markPrice} is instance that memorizes mark price value
-         **/
+         */
         private final double markPrice;
 
         /**
          * {@code positionAmt} is instance that memorizes position amt value
-         **/
+         */
         private final double positionAmt;
 
         /**
          * {@code unRealizedProfit} is instance that unrealize profit value
-         **/
+         */
         private final double unRealizedProfit;
 
         /**
@@ -493,7 +493,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * @param positionAmt:      position amt value
          * @param symbol:           symbol value
          * @param unRealizedProfit: unrealize profit value
-         **/
+         */
         public FuturesPosition(double entryPrice, double markPrice, double positionAmt, String symbol,
                                double unRealizedProfit) {
             super(null);
@@ -508,7 +508,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * Constructor to init {@link FuturesPosition} object
          *
          * @param futuresPosition: futures position details as {@link JSONObject}
-         **/
+         */
         public FuturesPosition(JSONObject futuresPosition) {
             super(futuresPosition);
             entryPrice = hItem.getDouble("entryPrice", 0);
@@ -523,7 +523,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * No-any params required
          *
          * @return {@link #entryPrice} instance as double
-         **/
+         */
         public double getEntryPrice() {
             return entryPrice;
         }
@@ -534,7 +534,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * @param decimals: number of digits to round final value
          * @return {@link #entryPrice} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getEntryPrice(int decimals) {
             return roundValue(entryPrice, decimals);
         }
@@ -544,7 +544,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * No-any params required
          *
          * @return {@link #markPrice} instance as double
-         **/
+         */
         public double getMarkPrice() {
             return markPrice;
         }
@@ -555,7 +555,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * @param decimals: number of digits to round final value
          * @return {@link #markPrice} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getMarkPrice(int decimals) {
             return roundValue(markPrice, decimals);
         }
@@ -565,7 +565,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * No-any params required
          *
          * @return {@link #positionAmt} instance as double
-         **/
+         */
         public double getPositionAmt() {
             return positionAmt;
         }
@@ -576,7 +576,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * @param decimals: number of digits to round final value
          * @return {@link #positionAmt} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getPositionAmt(int decimals) {
             return roundValue(positionAmt, decimals);
         }
@@ -586,7 +586,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * No-any params required
          *
          * @return {@link #symbol} instance as {@link String}
-         **/
+         */
         public String getSymbol() {
             return symbol;
         }
@@ -596,7 +596,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * No-any params required
          *
          * @return {@link #unRealizedProfit} instance as double
-         **/
+         */
         public double getUnRealizedProfit() {
             return unRealizedProfit;
         }
@@ -607,7 +607,7 @@ public class FuturesAccountSnapshot extends AccountSnapshot {
          * @param decimals: number of digits to round final value
          * @return {@link #unRealizedProfit} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getUnRealizedProfit(int decimals) {
             return roundValue(unRealizedProfit, decimals);
         }

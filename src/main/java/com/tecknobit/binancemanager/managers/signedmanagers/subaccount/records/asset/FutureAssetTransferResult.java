@@ -11,17 +11,17 @@ import org.json.JSONObject;
  * Sub-account Futures Asset Transfer (For Master Account)</a>
  * @see BinanceItem
  * @see AssetTransfer
- **/
+ */
 public class FutureAssetTransferResult extends BinanceItem {
 
     /**
      * {@code success} whether the transfer has been successful
-     **/
+     */
     private final boolean success;
 
     /**
      * {@code txnId} transaction identifier of the transfer
-     **/
+     */
     private final long txnId;
 
     /**
@@ -29,7 +29,7 @@ public class FutureAssetTransferResult extends BinanceItem {
      *
      * @param success : whether the transfer has been successful
      * @param txnId   : transaction identifier of the transfer
-     **/
+     */
     public FutureAssetTransferResult(boolean success, long txnId) {
         super(null);
         this.success = success;
@@ -40,7 +40,7 @@ public class FutureAssetTransferResult extends BinanceItem {
      * Constructor to init {@link FutureAssetTransferResult} object
      *
      * @param jFutureAssetTransferResult: future asset transfer result details as {@link JSONObject}
-     **/
+     */
     public FutureAssetTransferResult(JSONObject jFutureAssetTransferResult) {
         super(jFutureAssetTransferResult);
         success = hItem.getBoolean("success");
@@ -52,7 +52,7 @@ public class FutureAssetTransferResult extends BinanceItem {
      * No-any params required
      *
      * @return {@link #success} instance as boolean
-     **/
+     */
     public boolean isSuccess() {
         return success;
     }
@@ -62,7 +62,7 @@ public class FutureAssetTransferResult extends BinanceItem {
      * No-any params required
      *
      * @return {@link #txnId} instance as long
-     **/
+     */
     public long getTxnId() {
         return txnId;
     }

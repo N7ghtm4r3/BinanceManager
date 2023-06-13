@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'tecknobit.com'
-version '2.0.1'
+version '2.0.2'
 
 repositories {
     mavenCentral()
@@ -16,7 +16,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
     implementation(group: 'commons-codec', name: 'commons-codec', version: '1.15')
     implementation 'org.java-websocket:Java-WebSocket:1.5.3'
-    implementation 'com.github.N7ghtm4r3:APIManager:2.1.2'
+    implementation 'com.github.N7ghtm4r3:APIManager:2.1.4'
     implementation 'org.json:json:20230227'
 }
 
@@ -25,7 +25,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'com.tecknobit.binancemanager'
             artifactId = 'BinanceManager'
-            version = '2.0.1'
+            version = '2.0.2'
             from components.java
         }
     }

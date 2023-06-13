@@ -16,17 +16,17 @@ import java.util.ArrayList;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-all-open-orders-on-a-symbol-trade">
  * Margin Account Cancel all Open Orders on a Symbol (TRADE)</a>
  * @see OrderDetails
- **/
+ */
 public class ComposedMarginOrderDetails extends OrderDetails {
 
     /**
      * {@code canceledMarginOrders} is instance that memorizes margin order details s list
-     **/
+     */
     private final ArrayList<MarginOrderDetails> canceledMarginOrders;
 
     /**
      * {@code isIsolated} is instance that memorizes if is isolated
-     * **/
+     */
     private final boolean isIsolated;
 
     /**
@@ -41,7 +41,7 @@ public class ComposedMarginOrderDetails extends OrderDetails {
      * @param symbol:               symbol used in the order
      * @param canceledMarginOrders: list of {@link MarginOrderDetails}
      * @param isIsolated:           is isolated
-     **/
+     */
     public ComposedMarginOrderDetails(long orderListId, String contingencyType, Status listStatusType, Status listOrderStatus,
                                       String listClientOrderId, long transactionTime, String symbol, ArrayList<Order> orders,
                                       ArrayList<MarginOrderDetails> canceledMarginOrders, boolean isIsolated) {
@@ -55,7 +55,7 @@ public class ComposedMarginOrderDetails extends OrderDetails {
      * Constructor to init {@link ComposedMarginOrderDetails} object
      *
      * @param marginOrderDetails: margin order details as {@link JSONObject}
-     **/
+     */
     public ComposedMarginOrderDetails(JSONObject marginOrderDetails) {
         super(marginOrderDetails);
         canceledMarginOrders = new ArrayList<>();
@@ -70,7 +70,7 @@ public class ComposedMarginOrderDetails extends OrderDetails {
      * No-any params required
      *
      * @return {@link #canceledMarginOrders} instance as {@link ArrayList} of {@link MarginOrderDetails}
-     **/
+     */
     public ArrayList<MarginOrderDetails> getCanceledMarginOrders() {
         return canceledMarginOrders;
     }
@@ -79,7 +79,7 @@ public class ComposedMarginOrderDetails extends OrderDetails {
      * Method to add a margin order details  to {@link #canceledMarginOrders}
      *
      * @param marginOrderDetails: margin order details to add
-     **/
+     */
     public void insertDetailMarginOrder(MarginOrderDetails marginOrderDetails) {
         if (!canceledMarginOrders.contains(marginOrderDetails))
             canceledMarginOrders.add(marginOrderDetails);
@@ -90,7 +90,7 @@ public class ComposedMarginOrderDetails extends OrderDetails {
      *
      * @param marginOrderDetails: margin order details  to remove
      * @return result of operation as boolean
-     **/
+     */
     public boolean removeDetailMarginOrder(MarginOrderDetails marginOrderDetails) {
         return canceledMarginOrders.remove(marginOrderDetails);
     }
@@ -100,7 +100,7 @@ public class ComposedMarginOrderDetails extends OrderDetails {
      *
      * @param index: index to fetch the margin order details
      * @return margin order details  as {@link MarginOrderDetails}
-     **/
+     */
     public MarginOrderDetails getCancelMarginOrder(int index) {
         return canceledMarginOrders.get(index);
     }
@@ -110,7 +110,7 @@ public class ComposedMarginOrderDetails extends OrderDetails {
      * No-any params required
      *
      * @return {@link #isIsolated} instance as boolean
-     **/
+     */
     public boolean isIsolated() {
         return isIsolated;
     }

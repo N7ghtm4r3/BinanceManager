@@ -17,52 +17,52 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Get Detail on Sub-account's Futures Account (For Master Account)</a>
  * @see BinanceItem
  * @see SubFuturesAccountStructure
- **/
+ */
 public class SubFuturesAccount extends SubFuturesAccountStructure {
 
     /**
      * {@code email} of the sub futures account
-     **/
+     */
     private final String email;
 
     /**
      * {@code asset} of the sub futures account
-     **/
+     */
     private final String asset;
 
     /**
      * {@code assets} of the sub futures account
-     **/
+     */
     private final ArrayList<SubFuturesAsset> assets;
 
     /**
      * {@code canDeposit} whether the sub futures account can deposit
-     **/
+     */
     private final boolean canDeposit;
 
     /**
      * {@code canTrade} whether the sub futures account can trade
-     **/
+     */
     private final boolean canTrade;
 
     /**
      * {@code canWithdraw} whether the sub futures account can withdraw
-     **/
+     */
     private final boolean canWithdraw;
 
     /**
      * {@code feeTier} fee tier of the sub futures account
-     **/
+     */
     private final int feeTier;
 
     /**
      * {@code updateTime} update time of the sub futures account
-     **/
+     */
     private final long updateTime;
 
     /**
      * {@code maxWithdrawAmount} max withdraw amount of the sub futures account
-     **/
+     */
     private final double maxWithdrawAmount;
 
     /**
@@ -84,7 +84,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
      * @param feeTier: fee tier of the sub futures account
      * @param updateTime: update time of the sub futures account
      * @param maxWithdrawAmount: max withdraw amount of the sub futures account
-     **/
+     */
     public SubFuturesAccount(double totalInitialMargin, double totalMaintenanceMargin, double totalMarginBalance,
                              double totalOpenOrderInitialMargin, double totalPositionInitialMargin,
                              double totalUnrealizedProfit, double totalWalletBalance, String email, String asset,
@@ -107,7 +107,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
      * Constructor to init {@link SubFuturesAccount} object
      *
      * @param jSubFuturesAccount: sub futures account detail as {@link JSONObject}
-     **/
+     */
     public SubFuturesAccount(JSONObject jSubFuturesAccount) {
         super(jSubFuturesAccount);
         email = hItem.getString("email");
@@ -130,7 +130,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
      * No-any params required
      *
      * @return {@link #email} instance as {@link String}
-     **/
+     */
     public String getEmail() {
         return email;
     }
@@ -140,7 +140,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
      * No-any params required
      *
      * @return {@link #asset} instance as {@link String}
-     **/
+     */
     public String getAsset() {
         return asset;
     }
@@ -150,7 +150,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
      * No-any params required
      *
      * @return {@link #assets} instance as {@link ArrayList} of {@link SubFuturesAsset}
-     **/
+     */
     public ArrayList<SubFuturesAsset> getAssets() {
         return assets;
     }
@@ -160,7 +160,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
      * No-any params required
      *
      * @return {@link #canDeposit} instance as boolean
-     **/
+     */
     public boolean canDeposit() {
         return canDeposit;
     }
@@ -170,7 +170,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
      * No-any params required
      *
      * @return {@link #canTrade} instance as boolean
-     **/
+     */
     public boolean canTrade() {
         return canTrade;
     }
@@ -180,7 +180,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
      * No-any params required
      *
      * @return {@link #canWithdraw} instance as boolean
-     **/
+     */
     public boolean canWithdraw() {
         return canWithdraw;
     }
@@ -190,7 +190,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
      * No-any params required
      *
      * @return {@link #feeTier} instance as int
-     **/
+     */
     public int getFeeTier() {
         return feeTier;
     }
@@ -200,7 +200,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
      * No-any params required
      *
      * @return {@link #maxWithdrawAmount} instance as double
-     **/
+     */
     public double getMaxWithdrawAmount() {
         return maxWithdrawAmount;
     }
@@ -211,7 +211,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #maxWithdrawAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getMaxWithdrawAmount(int decimals) {
         return roundValue(maxWithdrawAmount, decimals);
     }
@@ -221,7 +221,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
      * No-any params required
      *
      * @return {@link #updateTime} instance as long
-     **/
+     */
     public long getUpdateTime() {
         return updateTime;
     }
@@ -231,7 +231,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
      * No-any params required
      *
      * @return {@link #updateTime} instance as {@link Date}
-     **/
+     */
     public Date getUpdateDate() {
         return TimeFormatter.getDate(updateTime);
     }
@@ -241,52 +241,52 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class SubFuturesAsset extends BinanceItem {
 
         /**
          * {@code asset} of the sub futures asset
-         **/
+         */
         private final String asset;
 
         /**
          * {@code initialMargin} initial margin of the sub futures asset
-         **/
+         */
         private final double initialMargin;
 
         /**
          * {@code maintenanceMargin} maintenance margin of the sub futures asset
-         **/
+         */
         private final double maintenanceMargin;
 
         /**
          * {@code marginBalance} margin balance of the sub futures asset
-         **/
+         */
         private final double marginBalance;
 
         /**
          * {@code maxWithdrawAmount} max withdraw amount of the sub futures asset
-         **/
+         */
         private final double maxWithdrawAmount;
 
         /**
          * {@code openOrderInitialMargin} open order initial margin of the sub futures asset
-         **/
+         */
         private final double openOrderInitialMargin;
 
         /**
          * {@code positionInitialMargin} position initial margin of the sub futures asset
-         **/
+         */
         private final double positionInitialMargin;
 
         /**
          * {@code unrealizedProfit} unrealized profit of the sub futures asset
-         **/
+         */
         private final double unrealizedProfit;
 
         /**
          * {@code walletBalance} wallet balance of the sub futures asset
-         **/
+         */
         private final double walletBalance;
 
         /**
@@ -301,7 +301,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
          * @param positionInitialMargin: position initial margin of the sub futures asset
          * @param unrealizedProfit: unrealized profit of the sub futures asset
          * @param walletBalance: wallet balance of the sub futures asset
-         **/
+         */
         public SubFuturesAsset(String asset, double initialMargin, double maintenanceMargin, double marginBalance,
                                double maxWithdrawAmount, double openOrderInitialMargin, double positionInitialMargin,
                                double unrealizedProfit, double walletBalance) {
@@ -321,7 +321,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
          * Constructor to init {@link SubFuturesAsset} object
          *
          * @param jSubFuturesAsset: sub futures asset details as {@link JSONObject}
-         **/
+         */
         public SubFuturesAsset(JSONObject jSubFuturesAsset) {
             super(jSubFuturesAsset);
             asset = hItem.getString("asset");
@@ -340,7 +340,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
          * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
-         **/
+         */
         public String getAsset() {
             return asset;
         }
@@ -350,7 +350,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
          * No-any params required
          *
          * @return {@link #initialMargin} instance as double
-         **/
+         */
         public double getInitialMargin() {
             return initialMargin;
         }
@@ -361,7 +361,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
          * @param decimals: number of digits to round final value
          * @return {@link #initialMargin} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getInitialMargin(int decimals) {
             return roundValue(initialMargin, decimals);
         }
@@ -371,7 +371,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
          * No-any params required
          *
          * @return {@link #maintenanceMargin} instance as double
-         **/
+         */
         public double getMaintenanceMargin() {
             return maintenanceMargin;
         }
@@ -382,7 +382,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
          * @param decimals: number of digits to round final value
          * @return {@link #maintenanceMargin} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getMaintenanceMargin(int decimals) {
             return roundValue(maintenanceMargin, decimals);
         }
@@ -392,7 +392,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
          * No-any params required
          *
          * @return {@link #marginBalance} instance as double
-         **/
+         */
         public double getMarginBalance() {
             return marginBalance;
         }
@@ -403,7 +403,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
          * @param decimals: number of digits to round final value
          * @return {@link #marginBalance} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getMarginBalance(int decimals) {
             return roundValue(marginBalance, decimals);
         }
@@ -413,7 +413,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
          * No-any params required
          *
          * @return {@link #maxWithdrawAmount} instance as double
-         **/
+         */
         public double getMaxWithdrawAmount() {
             return maxWithdrawAmount;
         }
@@ -424,7 +424,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
          * @param decimals: number of digits to round final value
          * @return {@link #maxWithdrawAmount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getMaxWithdrawAmount(int decimals) {
             return roundValue(maxWithdrawAmount, decimals);
         }
@@ -434,7 +434,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
          * No-any params required
          *
          * @return {@link #openOrderInitialMargin} instance as double
-         **/
+         */
         public double getOpenOrderInitialMargin() {
             return openOrderInitialMargin;
         }
@@ -445,7 +445,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
          * @param decimals: number of digits to round final value
          * @return {@link #openOrderInitialMargin} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getOpenOrderInitialMargin(int decimals) {
             return roundValue(openOrderInitialMargin, decimals);
         }
@@ -455,7 +455,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
          * No-any params required
          *
          * @return {@link #positionInitialMargin} instance as double
-         **/
+         */
         public double getPositionInitialMargin() {
             return positionInitialMargin;
         }
@@ -466,7 +466,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
          * @param decimals: number of digits to round final value
          * @return {@link #positionInitialMargin} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getPositionInitialMargin(int decimals) {
             return roundValue(positionInitialMargin, decimals);
         }
@@ -476,7 +476,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
          * No-any params required
          *
          * @return {@link #unrealizedProfit} instance as double
-         **/
+         */
         public double getUnrealizedProfit() {
             return unrealizedProfit;
         }
@@ -487,7 +487,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
          * @param decimals: number of digits to round final value
          * @return {@link #unrealizedProfit} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getUnrealizedProfit(int decimals) {
             return roundValue(unrealizedProfit, decimals);
         }
@@ -497,7 +497,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
          * No-any params required
          *
          * @return {@link #walletBalance} instance as double
-         **/
+         */
         public double getWalletBalance() {
             return walletBalance;
         }
@@ -508,7 +508,7 @@ public class SubFuturesAccount extends SubFuturesAccountStructure {
          * @param decimals: number of digits to round final value
          * @return {@link #walletBalance} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getWalletBalance(int decimals) {
             return roundValue(walletBalance, decimals);
         }

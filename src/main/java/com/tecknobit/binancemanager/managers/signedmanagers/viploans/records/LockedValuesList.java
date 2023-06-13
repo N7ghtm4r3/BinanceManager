@@ -17,7 +17,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.viploans.reco
  * Check Locked Value of VIP Collateral Account (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class LockedValuesList extends BinanceRowsList<LockedValue> {
 
     /**
@@ -25,7 +25,7 @@ public class LockedValuesList extends BinanceRowsList<LockedValue> {
      *
      * @param total        : number of locked values
      * @param lockedValues :  list of the locked values
-     **/
+     */
     public LockedValuesList(int total, ArrayList<LockedValue> lockedValues) {
         super(total, lockedValues);
     }
@@ -34,7 +34,7 @@ public class LockedValuesList extends BinanceRowsList<LockedValue> {
      * Constructor to init {@link LockedValuesList}
      *
      * @param jList : list details as {@link JSONObject}
-     **/
+     */
     public LockedValuesList(JSONObject jList) {
         super(jList);
         for (Object row : hItem.fetchList("rows"))
@@ -46,22 +46,22 @@ public class LockedValuesList extends BinanceRowsList<LockedValue> {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class LockedValue extends BinanceItem {
 
         /**
          * {@code collateralAccountId} collateral account id of the locked value
-         **/
+         */
         private final long collateralAccountId;
 
         /**
          * {@code collateralCoin} collateral coin of the locked value
-         **/
+         */
         private final String collateralCoin;
 
         /**
          * {@code collateralValue} collateral value of the locked value
-         **/
+         */
         private final double collateralValue;
 
         /**
@@ -70,7 +70,7 @@ public class LockedValuesList extends BinanceRowsList<LockedValue> {
          * @param collateralAccountId: collateral account id of the locked value
          * @param collateralCoin:      collateral coin of the locked value
          * @param collateralValue:     collateral value of the locked value
-         **/
+         */
         public LockedValue(long collateralAccountId, String collateralCoin, double collateralValue) {
             super(null);
             this.collateralAccountId = collateralAccountId;
@@ -82,7 +82,7 @@ public class LockedValuesList extends BinanceRowsList<LockedValue> {
          * Constructor to init {@link LockedValue} object
          *
          * @param jLockedValue: locked value details as {@link JSONObject}
-         **/
+         */
         public LockedValue(JSONObject jLockedValue) {
             super(jLockedValue);
             collateralAccountId = hItem.getLong("collateralAccountId", 0);
@@ -95,7 +95,7 @@ public class LockedValuesList extends BinanceRowsList<LockedValue> {
          * No-any params required
          *
          * @return {@link #collateralAccountId} instance as long
-         **/
+         */
         public long getCollateralAccountId() {
             return collateralAccountId;
         }
@@ -105,7 +105,7 @@ public class LockedValuesList extends BinanceRowsList<LockedValue> {
          * No-any params required
          *
          * @return {@link #collateralCoin} instance as {@link String}
-         **/
+         */
         public String getCollateralCoin() {
             return collateralCoin;
         }
@@ -115,7 +115,7 @@ public class LockedValuesList extends BinanceRowsList<LockedValue> {
          * No-any params required
          *
          * @return {@link #collateralValue} instance as double
-         **/
+         */
         public double getCollateralValue() {
             return collateralValue;
         }
@@ -126,7 +126,7 @@ public class LockedValuesList extends BinanceRowsList<LockedValue> {
          * @param decimals: number of digits to round final value
          * @return {@link #collateralValue} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getCollateralValue(int decimals) {
             return roundValue(collateralValue, decimals);
         }

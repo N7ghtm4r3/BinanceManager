@@ -2,6 +2,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.wallet;
 
 import com.tecknobit.apimanager.annotations.*;
 import com.tecknobit.binancemanager.managers.BinanceManager;
+import com.tecknobit.binancemanager.managers.records.BinanceResponseStructure;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.FundingWallet;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.PaymentRefundHistory;
@@ -46,133 +47,138 @@ import static java.lang.Long.parseLong;
  * Wallet Endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
- **/
+ */
 public class BinanceWalletManager extends BinanceSignedManager {
 
     /**
      * {@code SYSTEM_STATUS_ENDPOINT} is constant for SYSTEM_STATUS_ENDPOINT's endpoint
-     **/
+     */
     public static final String SYSTEM_STATUS_ENDPOINT = "/sapi/v1/system/status";
 
     /**
      * {@code ALL_COINS_ENDPOINT} is constant for ALL_COINS_ENDPOINT's endpoint
-     **/
+     */
     public static final String ALL_COINS_ENDPOINT = "/sapi/v1/capital/config/getall";
 
     /**
      * {@code DAILY_ACCOUNT_SNAPSHOT_ENDPOINT} is constant for DAILY_ACCOUNT_SNAPSHOT_ENDPOINT's endpoint
-     **/
+     */
     public static final String DAILY_ACCOUNT_SNAPSHOT_ENDPOINT = "/sapi/v1/accountSnapshot";
 
     /**
      * {@code DISABLE_FAST_WITHDRAW_ENDPOINT} is constant for DISABLE_FAST_WITHDRAW_ENDPOINT's endpoint
-     **/
+     */
     public static final String DISABLE_FAST_WITHDRAW_ENDPOINT = "/sapi/v1/account/disableFastWithdrawSwitch";
 
     /**
      * {@code ENABLE_FAST_WITHDRAW_ENDPOINT} is constant for ENABLE_FAST_WITHDRAW_ENDPOINT's endpoint
-     **/
+     */
     public static final String ENABLE_FAST_WITHDRAW_ENDPOINT = "/sapi/v1/account/enableFastWithdrawSwitch";
 
     /**
      * {@code DEPOSIT_HISTORY_ENDPOINT} is constant for DEPOSIT_HISTORY_ENDPOINT's endpoint
-     **/
+     */
     public static final String DEPOSIT_HISTORY_ENDPOINT = "/sapi/v1/capital/deposit/hisrec";
 
     /**
      * {@code WITHDRAW_HISTORY_ENDPOINT} is constant for WITHDRAW_HISTORY_ENDPOINT's endpoint
-     **/
+     */
     public static final String WITHDRAW_HISTORY_ENDPOINT = "/sapi/v1/capital/withdraw/history";
 
     /**
      * {@code SUBMIT_WITHDRAW_ENDPOINT} is constant for SUBMIT_WITHDRAW_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUBMIT_WITHDRAW_ENDPOINT = "/sapi/v1/capital/withdraw/apply";
 
     /**
      * {@code DEPOSIT_ADDRESS_ENDPOINT} is constant for DEPOSIT_ADDRESS_ENDPOINT's endpoint
-     **/
+     */
     public static final String DEPOSIT_ADDRESS_ENDPOINT = "/sapi/v1/capital/deposit/address";
 
     /**
      * {@code ACCOUNT_STATUS_ENDPOINT} is constant for ACCOUNT_STATUS_ENDPOINT's endpoint
-     **/
+     */
     public static final String ACCOUNT_STATUS_ENDPOINT = "/sapi/v1/account/status";
 
     /**
      * {@code API_TRADING_STATUS_ENDPOINT} is constant for API_TRADING_STATUS_ENDPOINT's endpoint
-     **/
+     */
     public static final String API_TRADING_STATUS_ENDPOINT = "/sapi/v1/account/apiTradingStatus";
 
     /**
      * {@code DUST_LOG_ENDPOINT} is constant for DUST_LOG_ENDPOINT's endpoint
-     **/
+     */
     public static final String DUST_LOG_ENDPOINT = "/sapi/v1/asset/dribblet";
 
     /**
      * {@code ASSET_CONVERTIBLE_BNB_ENDPOINT} is constant for ASSET_CONVERTIBLE_BNB_ENDPOINT's endpoint
-     **/
+     */
     public static final String ASSET_CONVERTIBLE_BNB_ENDPOINT = "/sapi/v1/asset/dust-btc";
 
     /**
      * {@code DUST_TRANSFER_ENDPOINT} is constant for DUST_TRANSFER_ENDPOINT's endpoint
-     **/
+     */
     public static final String DUST_TRANSFER_ENDPOINT = "/sapi/v1/asset/dust";
 
     /**
      * {@code ASSET_DIVIDEND_ENDPOINT} is constant for ASSET_DIVIDEND_ENDPOINT's endpoint
-     **/
+     */
     public static final String ASSET_DIVIDEND_ENDPOINT = "/sapi/v1/asset/assetDividend";
 
     /**
      * {@code ASSET_DETAIL_ENDPOINT} is constant for ASSET_DETAIL_ENDPOINT's endpoint
-     **/
+     */
     public static final String ASSET_DETAIL_ENDPOINT = "/sapi/v1/asset/assetDetail";
 
     /**
      * {@code TRADE_FEE_ENDPOINT} is constant for TRADE_FEE_ENDPOINT's endpoint
-     **/
+     */
     public static final String TRADE_FEE_ENDPOINT = "/sapi/v1/asset/tradeFee";
 
     /**
      * {@code UNIVERSAL_TRANSFER_ENDPOINT} is constant for UNIVERSAL_TRANSFER_ENDPOINT's endpoint
-     **/
+     */
     public static final String UNIVERSAL_TRANSFER_ENDPOINT = "/sapi/v1/asset/transfer";
 
     /**
      * {@code FUNDING_WALLET_ENDPOINT} is constant for FUNDING_WALLET_ENDPOINT's endpoint
-     **/
+     */
     public static final String FUNDING_WALLET_ENDPOINT = "/sapi/v1/asset/get-funding-asset";
 
     /**
      * {@code USER_ASSET_ENDPOINT} is constant for USER_ASSET_ENDPOINT's endpoint
-     **/
+     */
     public static final String USER_ASSET_ENDPOINT = "/sapi/v3/asset/getUserAsset";
 
     /**
      * {@code BUSD_CONVERT_ENDPOINT} is constant for BUSD_CONVERT_ENDPOINT's endpoint
-     **/
+     */
     public static final String BUSD_CONVERT_ENDPOINT = "/sapi/v1/asset/convert-transfer";
 
     /**
      * {@code CONVERT_HISTORY_ENDPOINT} is constant for CONVERT_HISTORY_ENDPOINT's endpoint
-     **/
+     */
     public static final String CONVERT_HISTORY_ENDPOINT = "/sapi/v1/asset/convert-transfer/queryByPage";
 
     /**
      * {@code CONVERT_HISTORY_ENDPOINT} is constant for CONVERT_HISTORY_ENDPOINT's endpoint
-     **/
+     */
     public static final String GET_CLOUD_MINING_HISTORY_ENDPOINT = "/sapi/v1/asset/ledger-transfer/cloud-mining/queryByPage";
 
     /**
      * {@code API_KEY_PERMISSION_ENDPOINT} is constant for API_KEY_PERMISSION_ENDPOINT's endpoint
-     **/
+     */
     public static final String API_KEY_PERMISSION_ENDPOINT = "/sapi/v1/account/apiRestrictions";
 
     /**
      * {@code CONVERTIBLE_COINS_ENDPOINT} is constant for CONVERTIBLE_COINS_ENDPOINT's endpoint
-     **/
+     */
     public static final String CONVERTIBLE_COINS_ENDPOINT = "/sapi/v1/capital/contract/convertible-coins";
+
+    /**
+     * {@code CAPITAL_DEPOSIT_CREDIT_APPLY_ENDPOINT} is constant for CAPITAL_DEPOSIT_CREDIT_APPLY_ENDPOINT's endpoint
+     */
+    public static final String CAPITAL_DEPOSIT_CREDIT_APPLY_ENDPOINT = "/sapi/v1/capital/deposit/credit-apply";
 
     /**
      * Constructor to init a {@link BinanceWalletManager}
@@ -182,7 +188,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceWalletManager(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
                                 String secretKey) throws Exception {
         super(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
@@ -195,7 +201,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceWalletManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
                                 String secretKey) throws Exception {
         super(baseEndpoint, defaultErrorMessage, apiKey, secretKey);
@@ -208,7 +214,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceWalletManager(String baseEndpoint, int timeout, String apiKey, String secretKey) throws Exception {
         super(baseEndpoint, timeout, apiKey, secretKey);
     }
@@ -219,7 +225,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceWalletManager(String baseEndpoint, String apiKey, String secretKey) throws Exception {
         super(baseEndpoint, apiKey, secretKey);
     }
@@ -239,7 +245,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *        BinanceSignedManager secondManager = new BinanceSignedManager(); //same credentials used
      *     }
      * </pre>
-     **/
+     */
     public BinanceWalletManager() {
         super();
     }
@@ -263,7 +269,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
      * All Coins' Information (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/config/getall")
@@ -290,7 +296,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-coins-39-information-user_data">
      * All Coins' Information (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/config/getall")
@@ -327,7 +333,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestPath(method = GET, path = "/sapi/v1/capital/config/getall")
@@ -353,7 +359,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @WrappedRequest
     @RequestPath(method = GET, path = "/sapi/v1/capital/config/getall")
     public <T> T getSingleCoin(String coin, ReturnFormat format) throws Exception {
@@ -377,7 +383,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestPath(method = GET, path = "/sapi/v1/capital/config/getall")
@@ -403,7 +409,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @WrappedRequest
     @RequestPath(method = GET, path = "/sapi/v1/capital/config/getall")
     public <T> T getSingleCoinByName(String name, ReturnFormat format) throws Exception {
@@ -415,7 +421,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param value: name or coin param
      * @param format: return type formatter -> {@link ReturnFormat}
      * @return coin corresponding to params as {@code "format"} defines
-     * **/
+     */
     @Returner
     private <T> T returnSingleCoin(String key, String value, ReturnFormat format) throws Exception {
         value = value.toUpperCase();
@@ -457,7 +463,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "2400(IP)")
@@ -484,7 +490,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "2400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/accountSnapshot")
@@ -525,7 +531,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "2400(IP)")
@@ -567,7 +573,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "2400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/accountSnapshot")
@@ -596,7 +602,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-fast-withdraw-switch-user_data">
      * Disable Fast Withdraw Switch (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/account/disableFastWithdrawSwitch")
@@ -623,7 +629,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-fast-withdraw-switch-user_data">
      * Enable Fast Withdraw Switch (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/account/enableFastWithdrawSwitch")
@@ -659,7 +665,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *             Disable Fast Withdraw Switch (USER_DATA)</a>
      *     </li>
      * </ul>
-     **/
+     */
     public boolean switchFastWithdraw(boolean enableFastWithdraw) throws Exception {
         String switchOperationEndpoint = DISABLE_FAST_WITHDRAW_ENDPOINT;
         if (enableFastWithdraw)
@@ -686,7 +692,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
      * Withdraw(USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "600(UID)")
@@ -715,7 +721,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
      * Withdraw(USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "600(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/capital/withdraw/apply")
@@ -744,7 +750,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
      * Withdraw(USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "600(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/capital/withdraw/apply")
@@ -774,7 +780,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
      * Withdraw(USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "600(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/capital/withdraw/apply")
     public <T> T submitWithdraw(String coin, String address, double amount, ReturnFormat format) throws Exception {
@@ -834,7 +840,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @implSpec (keys accepted are withdrawOrderId, network, addressTag, transactionFeeFlag, name, walletType, recvWindow)
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
      * Withdraw(USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "600(UID)")
@@ -892,7 +898,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
      * Withdraw(USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "600(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/capital/withdraw/apply")
@@ -950,7 +956,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
      * Withdraw(USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "600(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/capital/withdraw/apply")
@@ -1009,7 +1015,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-user_data">
      * Withdraw(USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "600(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/capital/withdraw/apply")
     public <T> T submitWithdraw(String coin, String address, double amount, Params extraParams,
@@ -1027,7 +1033,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param format:           return type formatter -> {@link ReturnFormat}
      * @return withdrawal id as {@code "format"} defines
      * @apiNote in this case {@link ReturnFormat#LIBRARY_OBJECT} will return the id value as {@link String}
-     **/
+     */
     @Returner
     private <T> T returnWithdrawId(String withdrawResponse, ReturnFormat format) {
         switch (format) {
@@ -1059,7 +1065,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
      * Deposit History (supporting network) (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/hisrec")
@@ -1086,7 +1092,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
      * Deposit History (supporting network) (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/hisrec")
     public <T> T getDepositHistory(ReturnFormat format) throws Exception {
@@ -1136,7 +1142,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
      * Deposit History (supporting network) (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/hisrec")
@@ -1188,7 +1194,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data">
      * Deposit History (supporting network) (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/hisrec")
     public <T> T getDepositHistory(Params extraParams, ReturnFormat format) throws Exception {
@@ -1202,7 +1208,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param depositHistoryResponse: obtained from Binance's response
      * @param format:                 return type formatter -> {@link ReturnFormat}
      * @return deposits history as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnDepositHistory(String depositHistoryResponse, ReturnFormat format) {
         switch (format) {
@@ -1238,7 +1244,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
      * Withdraw History (supporting network) (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/withdraw/history")
@@ -1265,7 +1271,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
      * Withdraw History (supporting network) (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/withdraw/history")
     public <T> T getWithdrawHistory(ReturnFormat format) throws Exception {
@@ -1319,7 +1325,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
      * Withdraw History (supporting network) (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/withdraw/history")
@@ -1374,7 +1380,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data">
      * Withdraw History (supporting network) (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/withdraw/history")
     public <T> T getWithdrawHistory(Params extraParams, ReturnFormat format) throws Exception {
@@ -1388,7 +1394,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param withdrawHistoryResponse: obtained from Binance's response
      * @param format:                  return type formatter -> {@link ReturnFormat}
      * @return withdrawal history as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnWithdrawHistory(String withdrawHistoryResponse, ReturnFormat format) {
         switch (format) {
@@ -1424,7 +1430,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
      * Deposit Address (supporting network) (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "10(IP)")
@@ -1453,7 +1459,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
      * Deposit Address (supporting network) (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/address")
@@ -1480,7 +1486,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
      * Deposit Address (supporting network) (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/address")
@@ -1508,7 +1514,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
      * Deposit Address (supporting network) (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/address")
     public <T> T getDepositAddress(String coin, ReturnFormat format) throws Exception {
@@ -1536,7 +1542,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
      * Deposit Address (supporting network) (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "10(IP)")
@@ -1566,7 +1572,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
      * Deposit Address (supporting network) (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/address")
@@ -1594,7 +1600,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
      * Deposit Address (supporting network) (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/address")
@@ -1623,7 +1629,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#deposit-address-supporting-network-user_data">
      * Deposit Address (supporting network) (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/address")
     public <T> T getDepositAddress(String coin, String network, ReturnFormat format) throws Exception {
@@ -1650,7 +1656,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-status-user_data">
      * Account Status (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/account/status")
@@ -1678,7 +1684,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-status-user_data">
      * Account Status (USER_DATA)</a>
      * @implSpec in this case {@link ReturnFormat#LIBRARY_OBJECT} will return the status value as {@link String}
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/account/status")
@@ -1713,7 +1719,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data">
      * Account API Trading Status (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/account/apiTradingStatus")
@@ -1740,7 +1746,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-api-trading-status-user_data">
      * Account API Trading Status (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/account/apiTradingStatus")
@@ -1775,7 +1781,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
      * DustLog(USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/dribblet")
@@ -1802,7 +1808,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
      * DustLog(USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/dribblet")
     public <T> T getDustLog(ReturnFormat format) throws Exception {
@@ -1839,7 +1845,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
      * DustLog(USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/dribblet")
@@ -1878,7 +1884,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dustlog-user_data">
      * DustLog(USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/dribblet")
     public <T> T getDustLog(Params extraParams, ReturnFormat format) throws Exception {
@@ -1903,7 +1909,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/dust-btc")
@@ -1930,7 +1936,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
      * Get Assets That Can Be Converted Into BNB (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/dust-btc")
@@ -1963,7 +1969,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/asset/dust")
@@ -1989,7 +1995,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @Returner
     @RequestWeight(weight = "10(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/asset/dust")
@@ -2026,7 +2032,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
      * Asset Dividend Record (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/assetDividend")
@@ -2053,7 +2059,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/assetDividend")
     public <T> T getAssetsDividend(ReturnFormat format) throws Exception {
@@ -2096,7 +2102,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
      * Asset Dividend Record (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/assetDividend")
@@ -2141,7 +2147,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data">
      * Asset Dividend Record (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/assetDividend")
     public <T> T getAssetsDividend(Params extraParams, ReturnFormat format) throws Exception {
@@ -2155,7 +2161,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param assetsDividendResponse: obtained from Binance's response
      * @param format:                 return type formatter -> {@link ReturnFormat}
      * @return assets dividend list as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnAssetsDividend(String assetsDividendResponse, ReturnFormat format) {
         switch (format) {
@@ -2185,7 +2191,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/assetDetail")
@@ -2210,7 +2216,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/assetDetail")
@@ -2248,7 +2254,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/assetDetail")
@@ -2274,7 +2280,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/assetDetail")
@@ -2307,7 +2313,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/tradeFee")
@@ -2332,7 +2338,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/tradeFee")
@@ -2369,7 +2375,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/tradeFee")
@@ -2395,7 +2401,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/tradeFee")
@@ -2430,7 +2436,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @Wrapper
     @RequestWeight(weight = "900(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/asset/transfer")
@@ -2458,7 +2464,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @RequestWeight(weight = "900(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/asset/transfer")
     public <T> T getUniversalTransfer(TransferType type, String asset, double amount, ReturnFormat format) throws Exception {
@@ -2500,7 +2506,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @Wrapper
     @RequestWeight(weight = "900(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/asset/transfer")
@@ -2541,7 +2547,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @RequestWeight(weight = "900(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/asset/transfer")
     public <T> T getUniversalTransfer(TransferType type, String asset, double amount, Params extraParams,
@@ -2568,7 +2574,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
      * User Universal Transfer (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/asset/transfer")
@@ -2596,7 +2602,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
      * User Universal Transfer (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/asset/transfer")
     public <T> T getUniversalTransferHistory(TransferType type, ReturnFormat format) throws Exception {
@@ -2648,7 +2654,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
      * User Universal Transfer (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/asset/transfer")
@@ -2700,7 +2706,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
      * User Universal Transfer (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/asset/transfer")
     public <T> T getUniversalTransferHistory(TransferType type, Params extraParams, ReturnFormat format) throws Exception {
@@ -2714,7 +2720,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param universalTransferResponse: obtained from Binance's response
      * @param format:                    return type formatter -> {@link ReturnFormat}
      * @return universal transfer history as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnUniversalTransferHistory(String universalTransferResponse, ReturnFormat format) {
         switch (format) {
@@ -2744,7 +2750,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/asset/get-funding-asset")
@@ -2771,7 +2777,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data">
      * Funding Wallet (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/asset/get-funding-asset")
     public <T> T getFundingWallet(ReturnFormat format) throws Exception {
@@ -2808,7 +2814,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data">
      * Funding Wallet (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/asset/get-funding-asset")
@@ -2847,7 +2853,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data">
      * Funding Wallet (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/asset/get-funding-asset")
     public <T> T getFundingWallet(Params extraParams, ReturnFormat format) throws Exception {
@@ -2860,7 +2866,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param fundingWalletsResponse: obtained from Binance's response
      * @param format:                 return type formatter -> {@link ReturnFormat}
      * @return funding wallets history as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnFundingWallets(String fundingWalletsResponse, ReturnFormat format) {
         switch (format) {
@@ -2896,7 +2902,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-asset-user_data">
      * User Asset (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v3/asset/getUserAsset")
@@ -2923,7 +2929,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-asset-user_data">
      * User Asset (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v3/asset/getUserAsset")
     public <T> T getUserAssets(ReturnFormat format) throws Exception {
@@ -2960,7 +2966,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-asset-user_data">
      * User Asset (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v3/asset/getUserAsset")
@@ -2999,7 +3005,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-asset-user_data">
      * User Asset (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v3/asset/getUserAsset")
     public <T> T getUserAssets(Params extraParams, ReturnFormat format) throws Exception {
@@ -3012,7 +3018,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param userAssetsResponse: obtained from Binance's response
      * @param format:             return type formatter -> {@link ReturnFormat}
      * @return user assets as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnUserAssets(String userAssetsResponse, ReturnFormat format) {
         switch (format) {
@@ -3051,7 +3057,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-trade">
      * BUSD Convert (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/asset/convert-transfer")
@@ -3082,7 +3088,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-trade">
      * BUSD Convert (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "5(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/asset/convert-transfer")
     public <T> T BUSDConvert(String clientTranId, String asset, double amount, String targetAsset,
@@ -3118,7 +3124,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-trade">
      * BUSD Convert (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/asset/convert-transfer")
@@ -3151,7 +3157,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-trade">
      * BUSD Convert (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "5(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/asset/convert-transfer")
     public <T> T BUSDConvert(String clientTranId, String asset, double amount, String targetAsset, Type accountType,
@@ -3171,7 +3177,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param convertResponse: obtained from Binance's response
      * @param format:          return type formatter -> {@link ReturnFormat}
      * @return convert object as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnBUSDConvert(String convertResponse, ReturnFormat format) {
         switch (format) {
@@ -3204,7 +3210,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-history-user_data">
      * BUSD Convert History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/convert-transfer/queryByPage")
@@ -3233,7 +3239,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-history-user_data">
      * BUSD Convert History (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "5(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/convert-transfer/queryByPage")
     public <T> T getConvertHistory(long startTime, long endTime, ReturnFormat format) throws Exception {
@@ -3284,7 +3290,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-history-user_data">
      * BUSD Convert History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/convert-transfer/queryByPage")
@@ -3336,7 +3342,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#busd-convert-history-user_data">
      * BUSD Convert History (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "5(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/convert-transfer/queryByPage")
     public <T> T getConvertHistory(long startTime, long endTime, Params extraParams, ReturnFormat format) throws Exception {
@@ -3351,7 +3357,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param historyResponse: obtained from Binance's response
      * @param format:          return type formatter -> {@link ReturnFormat}
      * @return convert history as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnConvertHistory(String historyResponse, ReturnFormat format) {
         switch (format) {
@@ -3384,7 +3390,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cloud-mining-payment-and-refund-history-user_data">
      * Get Cloud-Mining payment and refund history (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "600(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/ledger-transfer/cloud-mining/queryByPage")
@@ -3413,7 +3419,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cloud-mining-payment-and-refund-history-user_data">
      * Get Cloud-Mining payment and refund history (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "600(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/ledger-transfer/cloud-mining/queryByPage")
     public <T> T getCloudMiningPaymentRefundHistory(long startTime, long endTime, ReturnFormat format) throws Exception {
@@ -3459,7 +3465,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cloud-mining-payment-and-refund-history-user_data">
      * Get Cloud-Mining payment and refund history (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "600(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/ledger-transfer/cloud-mining/queryByPage")
@@ -3507,7 +3513,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cloud-mining-payment-and-refund-history-user_data">
      * Get Cloud-Mining payment and refund history (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "600(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/ledger-transfer/cloud-mining/queryByPage")
     public <T> T getCloudMiningPaymentRefundHistory(long startTime, long endTime, Params extraParams,
@@ -3523,7 +3529,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @param historyResponse: obtained from Binance's response
      * @param format:          return type formatter -> {@link ReturnFormat}
      * @return payment and refund history as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnPaymentRefundHistory(String historyResponse, ReturnFormat format) {
         switch (format) {
@@ -3555,7 +3561,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data">
      * Get API Key Permission (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/account/apiRestrictions")
@@ -3582,7 +3588,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-api-key-permission-user_data">
      * Get API Key Permission (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/account/apiRestrictions")
@@ -3617,7 +3623,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-auto-converting-stable-coins-user_data">
      * Query auto-converting stable coins (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "600(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/contract/convertible-coins")
@@ -3644,7 +3650,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-auto-converting-stable-coins-user_data">
      * Query auto-converting stable coins (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "600(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/contract/convertible-coins")
     public <T> T getAutoConvertingStableCoins(ReturnFormat format) throws Exception {
@@ -3678,7 +3684,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#switch-on-off-busd-and-stable-coins-conversion-user_data">
      * Switch on/off BUSD and stable coins conversion (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "600(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/capital/contract/convertible-coins")
@@ -3705,7 +3711,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#switch-on-off-busd-and-stable-coins-conversion-user_data">
      * Switch on/off BUSD and stable coins conversion (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "600(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/capital/contract/convertible-coins")
@@ -3733,7 +3739,7 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#switch-on-off-busd-and-stable-coins-conversion-user_data">
      * Switch on/off BUSD and stable coins conversion (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "600(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/capital/contract/convertible-coins")
     public boolean switchStableCoinsConversion(String coin, boolean enable) throws Exception {
@@ -3742,6 +3748,147 @@ public class BinanceWalletManager extends BinanceSignedManager {
         payload.addParam("enable", enable);
         sendPostSignedRequest(CONVERTIBLE_COINS_ENDPOINT, payload);
         return apiRequest.getResponseStatusCode() == 200;
+    }
+
+    /**
+     * Request to apply deposit credit for expired address (One click arrival) <br>
+     * No-any params required
+     *
+     * @return apply deposit credit as {@link BinanceResponseStructure} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#one-click-arrival-deposit-apply-for-expired-address-deposit-user_data">
+     * One click arrival deposit apply (for expired address deposit) (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "1(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/capital/deposit/credit-apply")
+    public BinanceResponseStructure<Boolean> oneClickArrivalDepositApply() throws Exception {
+        return oneClickArrivalDepositApply(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to apply deposit credit for expired address (One click arrival)
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return apply deposit credit as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#one-click-arrival-deposit-apply-for-expired-address-deposit-user_data">
+     * One click arrival deposit apply (for expired address deposit) (USER_DATA)</a>
+     */
+    @RequestWeight(weight = "1(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/capital/deposit/credit-apply")
+    public <T> T oneClickArrivalDepositApply(ReturnFormat format) throws Exception {
+        return oneClickArrivalDepositApply(null, format);
+    }
+
+    /**
+     * Request to apply deposit credit for expired address (One click arrival)
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "depositId"} -> deposit record Id, priority use - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "txId"} -> deposit txId, used when depositId is not specified - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "subAccountId"} -> sub-accountId of Cloud user - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "subUserId"} -> sub-userId of parent user - [LONG]
+     *                           </li>
+     *                     </ul>
+     * @return apply deposit credit as {@link BinanceResponseStructure} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#one-click-arrival-deposit-apply-for-expired-address-deposit-user_data">
+     * One click arrival deposit apply (for expired address deposit) (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "1(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/capital/deposit/credit-apply")
+    public BinanceResponseStructure<Boolean> oneClickArrivalDepositApply(Params extraParams) throws Exception {
+        return oneClickArrivalDepositApply(extraParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to apply deposit credit for expired address (One click arrival)
+     *
+     * @param extraParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "depositId"} -> deposit record Id, priority use - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "txId"} -> deposit txId, used when depositId is not specified - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "subAccountId"} -> sub-accountId of Cloud user - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "subUserId"} -> sub-userId of parent user - [LONG]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return apply deposit credit as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#one-click-arrival-deposit-apply-for-expired-address-deposit-user_data">
+     * One click arrival deposit apply (for expired address deposit) (USER_DATA)</a>
+     */
+    @Returner
+    @RequestWeight(weight = "1(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/capital/deposit/credit-apply")
+    public <T> T oneClickArrivalDepositApply(Params extraParams, ReturnFormat format) throws Exception {
+        JSONObject response = new JSONObject(sendPostSignedRequest(CAPITAL_DEPOSIT_CREDIT_APPLY_ENDPOINT, extraParams));
+        return switch (format) {
+            case JSON -> (T) response;
+            case LIBRARY_OBJECT -> (T) new BinanceResponseStructure<Boolean>(response);
+            default -> (T) response.toString();
+        };
     }
 
 }

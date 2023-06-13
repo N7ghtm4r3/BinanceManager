@@ -12,37 +12,37 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#individual-symbol-book-ticker-streams">
  * Individual Symbol Book Ticker Streams</a>
  * @see BinanceItem
- **/
+ */
 public class WbsBookTicker extends BinanceItem {
 
     /**
      * {@code orderBookUpdateId} order book update id of the book ticker
-     **/
+     */
     private final long orderBookUpdateId;
 
     /**
      * {@code symbol} of the book ticker
-     **/
+     */
     private final String symbol;
 
     /**
      * {@code bestBidPrice} best bid price of the book ticker
-     **/
+     */
     private final double bestBidPrice;
 
     /**
      * {@code bestBidQuantity} best bid quantity of the book ticker
-     **/
+     */
     private final double bestBidQuantity;
 
     /**
      * {@code bestAskPrice} best ask price of the book ticker
-     **/
+     */
     private final double bestAskPrice;
 
     /**
      * {@code bestAskQuantity} best ask quantity of the book ticker
-     **/
+     */
     private final double bestAskQuantity;
 
     /**
@@ -54,7 +54,7 @@ public class WbsBookTicker extends BinanceItem {
      * @param bestBidQuantity   : best bid quantity of the book ticker
      * @param bestAskPrice      : best ask price of the book ticker
      * @param bestAskQuantity   : best ask quantity of the book ticker
-     **/
+     */
     public WbsBookTicker(long orderBookUpdateId, String symbol, double bestBidPrice, double bestBidQuantity,
                          double bestAskPrice, double bestAskQuantity) {
         super(null);
@@ -70,7 +70,7 @@ public class WbsBookTicker extends BinanceItem {
      * Constructor to init {@link WbsBookTicker} object
      *
      * @param jWbsBookTicker : websocket book ticker details as {@link JSONObject}
-     **/
+     */
     public WbsBookTicker(JSONObject jWbsBookTicker) {
         super(jWbsBookTicker);
         orderBookUpdateId = hItem.getLong("u", 0);
@@ -86,7 +86,7 @@ public class WbsBookTicker extends BinanceItem {
      * No-any params required
      *
      * @return {@link #orderBookUpdateId} instance as long
-     **/
+     */
     public long getOrderBookUpdateId() {
         return orderBookUpdateId;
     }
@@ -96,7 +96,7 @@ public class WbsBookTicker extends BinanceItem {
      * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
-     **/
+     */
     public String getSymbol() {
         return symbol;
     }
@@ -106,7 +106,7 @@ public class WbsBookTicker extends BinanceItem {
      * No-any params required
      *
      * @return {@link #bestBidPrice} instance as double
-     **/
+     */
     public double getBestBidPrice() {
         return bestBidPrice;
     }
@@ -117,7 +117,7 @@ public class WbsBookTicker extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #bestBidPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBestBidPrice(int decimals) {
         return roundValue(bestBidPrice, decimals);
     }
@@ -127,7 +127,7 @@ public class WbsBookTicker extends BinanceItem {
      * No-any params required
      *
      * @return {@link #bestBidQuantity} instance as double
-     **/
+     */
     public double getBestBidQuantity() {
         return bestBidQuantity;
     }
@@ -138,7 +138,7 @@ public class WbsBookTicker extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #bestBidQuantity} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBestBidQuantity(int decimals) {
         return roundValue(bestBidQuantity, decimals);
     }
@@ -148,7 +148,7 @@ public class WbsBookTicker extends BinanceItem {
      * No-any params required
      *
      * @return {@link #bestAskPrice} instance as double
-     **/
+     */
     public double getBestAskPrice() {
         return bestAskPrice;
     }
@@ -159,7 +159,7 @@ public class WbsBookTicker extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #bestAskPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBestAskPrice(int decimals) {
         return roundValue(bestAskPrice, decimals);
     }
@@ -169,7 +169,7 @@ public class WbsBookTicker extends BinanceItem {
      * No-any params required
      *
      * @return {@link #bestAskQuantity} instance as double
-     **/
+     */
     public double getBestAskQuantity() {
         return bestAskQuantity;
     }
@@ -180,7 +180,7 @@ public class WbsBookTicker extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #bestAskQuantity} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBestAskQuantity(int decimals) {
         return roundValue(bestAskQuantity, decimals);
     }

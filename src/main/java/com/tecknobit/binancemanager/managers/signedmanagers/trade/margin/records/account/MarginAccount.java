@@ -24,22 +24,22 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *             Daily Account Snapshot (USER_DATA)</a>
  *     </li>
  * </ul>
- **/
+ */
 public class MarginAccount extends BinanceItem {
 
     /**
      * {@code totalAssetOfBtc} is instance that memorizes total asset of Bitcoin
-     **/
+     */
     protected final double totalAssetOfBtc;
 
     /**
      * {@code totalLiabilityOfBtc} is instance that memorizes total liability of Bitcoin
-     **/
+     */
     protected final double totalLiabilityOfBtc;
 
     /**
      * {@code totalLiabilityOfBtc} is instance that memorizes total net asset of Bitcoin
-     **/
+     */
     protected final double totalNetAssetOfBtc;
 
     /**
@@ -48,7 +48,7 @@ public class MarginAccount extends BinanceItem {
      * @param totalAssetOfBtc:     total asset of Bitcoin
      * @param totalLiabilityOfBtc: total liability of Bitcoin
      * @param totalNetAssetOfBtc:  total net asset of Bitcoin
-     **/
+     */
     public MarginAccount(double totalAssetOfBtc, double totalLiabilityOfBtc, double totalNetAssetOfBtc) {
         super(null);
         this.totalAssetOfBtc = totalAssetOfBtc;
@@ -60,7 +60,7 @@ public class MarginAccount extends BinanceItem {
      * Constructor to init {@link MarginAccount} object
      *
      * @param marginAccount: margin account details as {@link JSONObject}
-     **/
+     */
     public MarginAccount(JSONObject marginAccount) {
         super(marginAccount);
         totalAssetOfBtc = hItem.getDouble("totalAssetOfBtc", 0);
@@ -73,7 +73,7 @@ public class MarginAccount extends BinanceItem {
      * No-any params required
      *
      * @return {@link #totalAssetOfBtc} instance as double
-     **/
+     */
     public double getTotalAssetOfBtc() {
         return totalAssetOfBtc;
     }
@@ -84,7 +84,7 @@ public class MarginAccount extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #totalAssetOfBtc} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTotalAssetOfBtc(int decimals) {
         return roundValue(totalAssetOfBtc, decimals);
     }
@@ -94,7 +94,7 @@ public class MarginAccount extends BinanceItem {
      * No-any params required
      *
      * @return {@link #totalLiabilityOfBtc} instance as double
-     **/
+     */
     public double getTotalLiabilityOfBtc() {
         return totalLiabilityOfBtc;
     }
@@ -105,7 +105,7 @@ public class MarginAccount extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #totalLiabilityOfBtc} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTotalLiabilityOfBtc(int decimals) {
         return roundValue(totalLiabilityOfBtc, decimals);
     }
@@ -115,7 +115,7 @@ public class MarginAccount extends BinanceItem {
      * No-any params required
      *
      * @return {@link #totalNetAssetOfBtc} instance as double
-     **/
+     */
     public double getTotalNetAssetOfBtc() {
         return totalNetAssetOfBtc;
     }
@@ -126,7 +126,7 @@ public class MarginAccount extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #totalNetAssetOfBtc} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTotalNetAssetOfBtc(int decimals) {
         return roundValue(totalNetAssetOfBtc, decimals);
     }

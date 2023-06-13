@@ -27,32 +27,32 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat;
  *     </li>
  * </ul>
  * @see BinanceItem
- **/
+ */
 public class OrderCountUsage extends BinanceItem {
 
     /**
      * {@code rateLimitType} is instance that memorizes rate limit type
-     **/
+     */
     private final RateLimitType rateLimitType;
 
     /**
      * {@code interval} is instance that memorizes interval value
-     **/
+     */
     private final RateLimitInterval interval;
 
     /**
      * {@code intervalNum} is instance that memorizes interval number value
-     **/
+     */
     private final int intervalNum;
 
     /**
      * {@code limit} is instance that memorizes limit value
-     * **/
+     */
     private final double limit;
 
     /**
      * {@code count} is instance that memorizes count value
-     * **/
+     */
     private final int count;
 
     /** Constructor to init {@link OrderCountUsage} object
@@ -61,7 +61,7 @@ public class OrderCountUsage extends BinanceItem {
      * @param intervalNum: interval number value
      * @param limit: limit value
      * @param count: count value
-     * **/
+     */
     public OrderCountUsage(RateLimitType rateLimitType, RateLimitInterval interval, int intervalNum, double limit,
                            int count) {
         super(null);
@@ -76,7 +76,7 @@ public class OrderCountUsage extends BinanceItem {
      * Constructor to init {@link OrderCountUsage} object
      *
      * @param orderCountUsage: order count usage details as {@link JSONObject}
-     **/
+     */
     public OrderCountUsage(JSONObject orderCountUsage) {
         super(orderCountUsage);
         rateLimitType = RateLimitType.valueOf(hItem.getString("rateLimitType"));
@@ -91,7 +91,7 @@ public class OrderCountUsage extends BinanceItem {
      * No-any params required
      *
      * @return {@link #rateLimitType} instance as {@link RateLimitType}
-     **/
+     */
     public RateLimitType getRateLimitType() {
         return rateLimitType;
     }
@@ -101,7 +101,7 @@ public class OrderCountUsage extends BinanceItem {
      * No-any params required
      *
      * @return {@link #interval} instance as {@link RateLimitInterval}
-     **/
+     */
     public RateLimitInterval getInterval() {
         return interval;
     }
@@ -111,7 +111,7 @@ public class OrderCountUsage extends BinanceItem {
      * No-any params required
      *
      * @return {@link #intervalNum} instance as int
-     **/
+     */
     public int getIntervalNum() {
         return intervalNum;
     }
@@ -121,7 +121,7 @@ public class OrderCountUsage extends BinanceItem {
      * No-any params required
      *
      * @return {@link #limit} instance as double
-     **/
+     */
     public double getLimit() {
         return limit;
     }
@@ -131,7 +131,7 @@ public class OrderCountUsage extends BinanceItem {
      * No-any params required
      *
      * @return {@link #count} instance as int
-     **/
+     */
     public int getCount() {
         return count;
     }
@@ -142,7 +142,7 @@ public class OrderCountUsage extends BinanceItem {
      * @param countUsageResponse: obtained from Binance's response
      * @param format:             return type formatter -> {@link ReturnFormat}
      * @return count usage list as {@code "format"} defines
-     **/
+     */
     @Returner
     public static <T> T returnCountUsageList(String countUsageResponse, ReturnFormat format) {
         switch (format) {

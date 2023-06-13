@@ -17,16 +17,16 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade</a>
  * @see OrderDetails
  * @see ComposedMarginOrderDetails
- **/
+ */
 public class OCOMarginOrder extends ComposedMarginOrderDetails {
 
     /**
      * {@code marginBuyBorrowAmount} is instance that memorizes margin buy borrow amount
-     **/
+     */
     private final double marginBuyBorrowAmount;
     /**
      * {@code marginBuyBorrowAsset} is instance that memorizes margin buy borrow asset
-     **/
+     */
     private final String marginBuyBorrowAsset;
 
     /**
@@ -44,7 +44,7 @@ public class OCOMarginOrder extends ComposedMarginOrderDetails {
      * @param isIsolated:              is isolated
      * @param marginBuyBorrowAmount:   margin buy borrow amount
      * @param marginBuyBorrowAsset:    margin buy borrow asset
-     **/
+     */
     public OCOMarginOrder(long orderListId, String contingencyType, Status listStatusType, Status listOrderStatus,
                           String listClientOrderId, long transactionTime, String symbol, ArrayList<Order> orders,
                           ArrayList<MarginOrderDetails> marginOrdersListDetails, boolean isIsolated,
@@ -59,7 +59,7 @@ public class OCOMarginOrder extends ComposedMarginOrderDetails {
      * Constructor to init {@link OCOMarginOrder} object
      *
      * @param ocoMarginOrder: oco margin order details as {@link JSONObject}
-     **/
+     */
     public OCOMarginOrder(JSONObject ocoMarginOrder) {
         super(ocoMarginOrder);
         marginBuyBorrowAmount = hOrder.getDouble("marginBuyBorrowAmount", 0);
@@ -71,7 +71,7 @@ public class OCOMarginOrder extends ComposedMarginOrderDetails {
      * No-any params required
      *
      * @return {@link #marginBuyBorrowAmount} instance as double
-     **/
+     */
     public double getMarginBuyBorrowAmount() {
         return marginBuyBorrowAmount;
     }
@@ -81,7 +81,7 @@ public class OCOMarginOrder extends ComposedMarginOrderDetails {
      * No-any params required
      *
      * @return {@link #marginBuyBorrowAsset} instance as {@link String}
-     **/
+     */
     public String getMarginBuyBorrowAsset() {
         return marginBuyBorrowAsset;
     }
@@ -92,29 +92,29 @@ public class OCOMarginOrder extends ComposedMarginOrderDetails {
      * @param decimals: number of digits to round final value
      * @return {@link #marginBuyBorrowAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getMarginBuyBorrowAmount(int decimals) {
         return roundValue(marginBuyBorrowAmount, decimals);
     }
 
     /**
      * {@code SideEffect} list of available side effects
-     **/
+     */
     public enum SideEffect {
 
         /**
          * {@code "NO_SIDE_EFFECT"} side effect
-         **/
+         */
         NO_SIDE_EFFECT,
 
         /**
          * {@code "MARGIN_BUY"} side effect
-         **/
+         */
         MARGIN_BUY,
 
         /**
          * {@code "AUTO_REPAY"} side effect
-         **/
+         */
         AUTO_REPAY
 
     }

@@ -19,7 +19,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.nft.records.N
  * Get NFT Transaction History (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class NFTTransactionHistory extends BinanceRowsList<NFTTransaction> {
 
     /**
@@ -27,7 +27,7 @@ public class NFTTransactionHistory extends BinanceRowsList<NFTTransaction> {
      *
      * @param total           : number of transactions
      * @param nftTransactions :  list of the transactions
-     **/
+     */
     public NFTTransactionHistory(int total, ArrayList<NFTTransaction> nftTransactions) {
         super(total, nftTransactions);
     }
@@ -36,7 +36,7 @@ public class NFTTransactionHistory extends BinanceRowsList<NFTTransaction> {
      * Constructor to init {@link NFTTransactionHistory}
      *
      * @param jHistory : history details as {@link JSONObject}
-     **/
+     */
     public NFTTransactionHistory(JSONObject jHistory) {
         super(jHistory);
         for (Object transaction : hItem.fetchList("list"))
@@ -48,32 +48,32 @@ public class NFTTransactionHistory extends BinanceRowsList<NFTTransaction> {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class NFTTransaction extends BinanceItem {
 
         /**
          * {@code orderNo} order number of the NFT transaction
-         **/
+         */
         private final String orderNo;
 
         /**
          * {@code tokens} of the NFT transaction
-         **/
+         */
         private final ArrayList<NFTAsset> tokens;
 
         /**
          * {@code tradeTime} trade time of the NFT transaction
-         **/
+         */
         private final long tradeTime;
 
         /**
          * {@code tradeAmount} trade amount of the NFT transaction
-         **/
+         */
         private final double tradeAmount;
 
         /**
          * {@code tradeCurrency} trade currency of the NFT transaction
-         **/
+         */
         private final String tradeCurrency;
 
         /**
@@ -84,7 +84,7 @@ public class NFTTransactionHistory extends BinanceRowsList<NFTTransaction> {
          * @param tradeTime:     trade time of the NFT transaction
          * @param tradeAmount:   trade amount of the NFT transaction
          * @param tradeCurrency: trade currency of the NFT transaction
-         **/
+         */
         public NFTTransaction(String orderNo, ArrayList<NFTAsset> tokens, long tradeTime, double tradeAmount,
                               String tradeCurrency) {
             super(null);
@@ -99,7 +99,7 @@ public class NFTTransactionHistory extends BinanceRowsList<NFTTransaction> {
          * Constructor to init {@link NFTTransaction} object
          *
          * @param jNFTTransaction: NFT transaction details as {@link JSONObject}
-         **/
+         */
         public NFTTransaction(JSONObject jNFTTransaction) {
             super(jNFTTransaction);
             orderNo = hItem.getString("orderNo");
@@ -116,7 +116,7 @@ public class NFTTransactionHistory extends BinanceRowsList<NFTTransaction> {
          * No-any params required
          *
          * @return {@link #orderNo} instance as {@link String}
-         **/
+         */
         public String getOrderNo() {
             return orderNo;
         }
@@ -126,7 +126,7 @@ public class NFTTransactionHistory extends BinanceRowsList<NFTTransaction> {
          * No-any params required
          *
          * @return {@link #tokens} instance as {@link ArrayList} of {@link NFTAsset}
-         **/
+         */
         public ArrayList<NFTAsset> getTokens() {
             return tokens;
         }
@@ -136,7 +136,7 @@ public class NFTTransactionHistory extends BinanceRowsList<NFTTransaction> {
          * No-any params required
          *
          * @return {@link #tradeTime} instance as long
-         **/
+         */
         public long getTradeTime() {
             return tradeTime;
         }
@@ -146,7 +146,7 @@ public class NFTTransactionHistory extends BinanceRowsList<NFTTransaction> {
          * No-any params required
          *
          * @return {@link #tradeTime} instance as {@link Date}
-         **/
+         */
         public Date getTradeDate() {
             return TimeFormatter.getDate(tradeTime);
         }
@@ -156,7 +156,7 @@ public class NFTTransactionHistory extends BinanceRowsList<NFTTransaction> {
          * No-any params required
          *
          * @return {@link #tradeAmount} instance as double
-         **/
+         */
         public double getTradeAmount() {
             return tradeAmount;
         }
@@ -167,7 +167,7 @@ public class NFTTransactionHistory extends BinanceRowsList<NFTTransaction> {
          * @param decimals: number of digits to round final value
          * @return {@link #tradeAmount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getTradeAmount(int decimals) {
             return roundValue(tradeAmount, decimals);
         }
@@ -177,7 +177,7 @@ public class NFTTransactionHistory extends BinanceRowsList<NFTTransaction> {
          * No-any params required
          *
          * @return {@link #tradeCurrency} instance as {@link String}
-         **/
+         */
         public String getTradeCurrency() {
             return tradeCurrency;
         }

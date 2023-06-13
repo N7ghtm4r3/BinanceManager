@@ -22,67 +22,67 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *     </li>
  * </ul>
  * @author N7ghtm4r3 - Tecknobit
- * **/
+ */
 public class Candlestick {
 
     /**
      * {@code openTime} is instance that contains open time of the candlestick
-     * **/
+     */
     private final long openTime;
 
     /**
      * {@code open} is instance that contains open price of the candlestick
-     * **/
+     */
     private final double open;
 
     /**
      * {@code high} is instance that contains high price of the candlestick
-     * **/
+     */
     private final double high;
 
     /**
      * {@code low} is instance that contains low price of the candlestick
-     * **/
+     */
     private final double low;
 
     /**
      * {@code close} is instance that contains close price of the candlestick
-     * **/
+     */
     private final double close;
 
     /**
      * {@code volume} is instance that contains volume of the candlestick
-     * **/
+     */
     private final double volume;
 
     /**
      * {@code closeTime} is instance that contains close time of the candlestick
-     * **/
+     */
     private final long closeTime;
 
     /**
      * {@code quoteAssetVolume} is instance that contains quote asset volume of the candlestick
-     * **/
+     */
     private final double quoteAssetVolume;
 
     /**
      * {@code numberOfTrades} is instance that contains count number of trades of the candlestick
-     * **/
+     */
     private final int numberOfTrades;
 
     /**
      * {@code takerBuyBaseAssetVolume} is instance that contains taker buy base asset volume of the candlestick
-     * **/
+     */
     private final double takerBuyBaseAssetVolume;
 
     /**
      * {@code takerBuyQuoteAssetVolume} is instance that contains taker buy quote asset volume of the candlestick
-     **/
+     */
     private final double takerBuyQuoteAssetVolume;
 
     /**
      * {@code valueToIgnore} is instance that contains value to ignore of the candlestick
-     **/
+     */
     private final double valueToIgnore;
 
     /**
@@ -99,7 +99,7 @@ public class Candlestick {
      * @param takerBuyBaseAssetVolume: taker buy base asset volume of the candlestick
      * @param takerBuyQuoteAssetVolume: taker buy quote asset volume of the candlestick
      * @param valueToIgnore: value to ignore of the candlestick
-     * **/
+     */
     public Candlestick(long openTime, double open, double high, double low, double close, double volume, long closeTime,
                        double quoteAssetVolume, int numberOfTrades, double takerBuyBaseAssetVolume,
                        double takerBuyQuoteAssetVolume, double valueToIgnore) {
@@ -121,7 +121,7 @@ public class Candlestick {
      * Constructor to init {@link Candlestick} object
      *
      * @param candlestick: candlestick details as {@link JSONArray}
-     **/
+     */
     public Candlestick(JSONArray candlestick) {
         this(candlestick.getLong(0), candlestick.getDouble(1), candlestick.getDouble(2),
                 candlestick.getDouble(3), candlestick.getDouble(4), candlestick.getDouble(5),
@@ -134,7 +134,7 @@ public class Candlestick {
      * No-any params required
      *
      * @return {@link #openTime} instance as long
-     **/
+     */
     public long getOpenTime() {
         return openTime;
     }
@@ -144,7 +144,7 @@ public class Candlestick {
      * No-any params required
      *
      * @return {@link #openTime} instance as {@link Date}
-     **/
+     */
     public Date getOpenDate() {
         return TimeFormatter.getDate(openTime);
     }
@@ -154,7 +154,7 @@ public class Candlestick {
      * No-any params required
      *
      * @return {@link #open} instance as double
-     **/
+     */
     public double getOpen() {
         return open;
     }
@@ -165,7 +165,7 @@ public class Candlestick {
      * @param decimals: number of digits to round final value
      * @return {@link #open} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getOpen(int decimals) {
         return roundValue(open, decimals);
     }
@@ -175,7 +175,7 @@ public class Candlestick {
      * No-any params required
      *
      * @return {@link #high} instance as double
-     **/
+     */
     public double getHigh() {
         return high;
     }
@@ -186,7 +186,7 @@ public class Candlestick {
      * @param decimals: number of digits to round final value
      * @return {@link #high} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getHigh(int decimals) {
         return roundValue(high, decimals);
     }
@@ -196,7 +196,7 @@ public class Candlestick {
      * No-any params required
      *
      * @return {@link #low} instance as double
-     **/
+     */
     public double getLow() {
         return low;
     }
@@ -207,7 +207,7 @@ public class Candlestick {
      * @param decimals: number of digits to round final value
      * @return {@link #low} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getLow(int decimals) {
         return roundValue(low, decimals);
     }
@@ -217,7 +217,7 @@ public class Candlestick {
      * No-any params required
      *
      * @return {@link #close} instance as double
-     **/
+     */
     public double getClose() {
         return close;
     }
@@ -228,7 +228,7 @@ public class Candlestick {
      * @param decimals: number of digits to round final value
      * @return {@link #close} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getClose(int decimals) {
         return roundValue(close, decimals);
     }
@@ -238,7 +238,7 @@ public class Candlestick {
      * No-any params required
      *
      * @return {@link #volume} instance as double
-     **/
+     */
     public double getVolume() {
         return volume;
     }
@@ -249,7 +249,7 @@ public class Candlestick {
      * @param decimals: number of digits to round final value
      * @return {@link #volume} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getVolume(int decimals) {
         return roundValue(volume, decimals);
     }
@@ -259,7 +259,7 @@ public class Candlestick {
      * No-any params required
      *
      * @return {@link #closeTime} instance as long
-     **/
+     */
     public long getCloseTime() {
         return closeTime;
     }
@@ -269,7 +269,7 @@ public class Candlestick {
      * No-any params required
      *
      * @return {@link #quoteAssetVolume} instance as double
-     **/
+     */
     public double getQuoteAssetVolume() {
         return quoteAssetVolume;
     }
@@ -280,7 +280,7 @@ public class Candlestick {
      * @param decimals: number of digits to round final value
      * @return {@link #quoteAssetVolume} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getQuoteAssetVolume(int decimals) {
         return roundValue(quoteAssetVolume, decimals);
     }
@@ -290,7 +290,7 @@ public class Candlestick {
      * No-any params required
      *
      * @return {@link #numberOfTrades} instance as int
-     **/
+     */
     public int getNumberOfTrades() {
         return numberOfTrades;
     }
@@ -300,7 +300,7 @@ public class Candlestick {
      * No-any params required
      *
      * @return {@link #takerBuyBaseAssetVolume} instance as double
-     **/
+     */
     public double getTakerBuyBaseAssetVolume() {
         return takerBuyBaseAssetVolume;
     }
@@ -311,7 +311,7 @@ public class Candlestick {
      * @param decimals: number of digits to round final value
      * @return {@link #takerBuyBaseAssetVolume} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTakerBuyBaseAssetVolume(int decimals) {
         return roundValue(takerBuyBaseAssetVolume, decimals);
     }
@@ -321,7 +321,7 @@ public class Candlestick {
      * No-any params required
      *
      * @return {@link #takerBuyQuoteAssetVolume} instance as double
-     **/
+     */
     public double getTakerBuyQuoteAssetVolume() {
         return takerBuyQuoteAssetVolume;
     }
@@ -332,7 +332,7 @@ public class Candlestick {
      * @param decimals: number of digits to round final value
      * @return {@link #takerBuyQuoteAssetVolume} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTakerBuyQuoteAssetVolume(int decimals) {
         return roundValue(takerBuyQuoteAssetVolume, decimals);
     }
@@ -342,7 +342,7 @@ public class Candlestick {
      * No-any params required
      *
      * @return {@link #valueToIgnore} instance as double
-     **/
+     */
     public double getValueToIgnore() {
         return valueToIgnore;
     }
@@ -353,7 +353,7 @@ public class Candlestick {
      * @param decimals: number of digits to round final value
      * @return {@link #valueToIgnore} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getValueToIgnore(int decimals) {
         return roundValue(valueToIgnore, decimals);
     }
@@ -371,94 +371,94 @@ public class Candlestick {
 
     /**
      * {@code Interval} list of intervals available for a candlestick
-     **/
+     */
     public enum Interval {
 
         /**
          * {@code "_1s"} one second interval
-         **/
+         */
         _1s("1s"),
 
         /**
          * {@code "_1m"} one minute interval
-         **/
+         */
         _1m("1m"),
 
         /**
          * {@code "_3m"} three minutes interval
-         **/
+         */
         _3m("3m"),
 
         /**
          * {@code "_5m"} five minutes interval
-         **/
+         */
         _5m("5m"),
 
         /**
          * {@code "_15m"} fifteen minutes interval
-         **/
+         */
         _15m("15m"),
 
         /**
          * {@code "_1h"} one hour interval
-         **/
+         */
         _1h("1h"),
 
         /**
          * {@code "_2h"} two hours interval
-         **/
+         */
         _2h("2h"),
 
         /**
          * {@code "_4h"} four hours interval
-         **/
+         */
         _4h("4h"),
 
         /**
          * {@code "_6h"} six hours interval
-         **/
+         */
         _6h("6h"),
 
         /**
          * {@code "_8h"} eight hours interval
-         **/
+         */
         _8h("8h"),
 
         /**
          * {@code "_12h"} twelve hours interval
-         **/
+         */
         _12h("12h"),
 
         /**
          * {@code "_1d"} one day interval
-         **/
+         */
         _1d("1d"),
 
         /**
          * {@code "_3d"} three days interval
-         **/
+         */
         _3d("3d"),
 
         /**
          * {@code "_1w"} one week interval
-         **/
+         */
         _1w("1w"),
 
         /**
          * {@code "_1M"} one month interval
-         **/
+         */
         _1M("1M");
 
         /**
          * {@code interval} interval type
-         **/
+         */
         private final String interval;
 
         /**
          * Constructor to init {@link Interval}
          *
          * @param interval: interval type
-         **/
+         */
         Interval(String interval) {
             this.interval = interval;
         }
@@ -468,7 +468,7 @@ public class Candlestick {
          *
          * @param interval: interval to reach
          * @return enum constant as {@link Interval}
-         **/
+         */
         public static Interval reachEnumConstant(String interval) {
             return Interval.valueOf("_" + interval);
         }
@@ -478,7 +478,7 @@ public class Candlestick {
          * No-any params required
          *
          * @return {@link #interval} instance as {@link String}
-         **/
+         */
         @Override
         public String toString() {
             return interval;

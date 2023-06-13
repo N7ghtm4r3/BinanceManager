@@ -23,12 +23,12 @@ import static com.tecknobit.binancemanager.managers.records.websocketstream.Bina
  * Introduction</a>
  * @see BinanceManager
  * @see BinanceSignedManager
- **/
+ */
 public class BinanceWebsocketManager extends BinanceSignedManager {
 
     /**
      * {@code webSocketResponse} response obtained from the websocket connection
-     **/
+     */
     protected volatile String webSocketResponse;
 
     /**
@@ -39,7 +39,7 @@ public class BinanceWebsocketManager extends BinanceSignedManager {
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceWebsocketManager(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
                                    String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
@@ -52,7 +52,7 @@ public class BinanceWebsocketManager extends BinanceSignedManager {
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceWebsocketManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
                                    String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, apiKey, secretKey);
@@ -65,7 +65,7 @@ public class BinanceWebsocketManager extends BinanceSignedManager {
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceWebsocketManager(String baseEndpoint, int timeout, String apiKey,
                                    String secretKey) throws SystemException, IOException {
         super(baseEndpoint, timeout, apiKey, secretKey);
@@ -77,7 +77,7 @@ public class BinanceWebsocketManager extends BinanceSignedManager {
      * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceWebsocketManager(String baseEndpoint, String apiKey,
                                    String secretKey) throws SystemException, IOException {
         super(baseEndpoint, apiKey, secretKey);
@@ -98,7 +98,7 @@ public class BinanceWebsocketManager extends BinanceSignedManager {
      *        BinanceSignedManager secondManager = new BinanceSignedManager(); //same credentials used
      *     }
      * </pre>
-     **/
+     */
     public BinanceWebsocketManager() {
         super();
     }
@@ -107,7 +107,7 @@ public class BinanceWebsocketManager extends BinanceSignedManager {
      * Method to start the websocket connection
      *
      * @param endpoint: the endpoint of the stream
-     **/
+     */
     protected void startWebsocket(String endpoint) throws Exception {
         new WebSocketClient(new URI(endpoint)) {
 
@@ -125,7 +125,7 @@ public class BinanceWebsocketManager extends BinanceSignedManager {
              * Callback for string messages received from the remote host
              *
              * @param message The UTF-8 decoded message that was received.
-             **/
+             */
             @Override
             public void onMessage(String message) {
                 webSocketResponse = message;
@@ -138,7 +138,7 @@ public class BinanceWebsocketManager extends BinanceSignedManager {
              * @param reason Additional information string
              * @param remote Returns whether the closing of the connection was initiated by the remote
              *               host.
-             **/
+             */
             @Override
             public void onClose(int code, String reason, boolean remote) {
             }
@@ -150,7 +150,7 @@ public class BinanceWebsocketManager extends BinanceSignedManager {
              * that probably means that you encountered a bug.<br>
              *
              * @param ex The exception causing this error
-             **/
+             */
             @Override
             public void onError(Exception ex) {
                 try {
@@ -166,7 +166,7 @@ public class BinanceWebsocketManager extends BinanceSignedManager {
      * Method to wait the correct response to format the correct object or return the correct response
      *
      * @param type: type of the event to wait
-     **/
+     */
     protected void waitCorrectResponse(EventType type) {
         while (webSocketResponse == null || valueOf(getString(new JSONObject(webSocketResponse), "e",
                 no_content.name())) != type) {

@@ -14,39 +14,39 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Adjust LTV - Crypto Loan Adjust LTV (TRADE)</a>
  * @see BinanceItem
  * @see LoanBaseStructure
- **/
+ */
 public class CryptoLoanAdjustLTV extends LoanBaseStructure {
 
     /**
      * {@code LoanAdjustDirection} list of available adjust directions
-     **/
+     */
     public enum LoanAdjustDirection {
 
         /**
          * {@code ADDITIONAL} adjust direction
-         **/
+         */
         ADDITIONAL,
 
         /**
          * {@code REDUCED} adjust direction
-         **/
+         */
         REDUCED
 
     }
 
     /**
      * {@code direction} of the loan adjust LTV
-     **/
+     */
     private final LoanAdjustDirection direction;
 
     /**
      * {@code amount} of the loan adjust LTV
-     **/
+     */
     private final double amount;
 
     /**
      * {@code currentLTV} current LTV of the loan adjust LTV
-     **/
+     */
     private final double currentLTV;
 
     /**
@@ -57,7 +57,7 @@ public class CryptoLoanAdjustLTV extends LoanBaseStructure {
      * @param direction      : direction of the loan adjust LTV
      * @param amount         : amount of the loan adjust LTV
      * @param currentLTV     : current LTV of the loan adjust LTV
-     **/
+     */
     public CryptoLoanAdjustLTV(String loanCoin, String collateralCoin, LoanAdjustDirection direction, double amount,
                                double currentLTV) {
         super(loanCoin, collateralCoin);
@@ -70,7 +70,7 @@ public class CryptoLoanAdjustLTV extends LoanBaseStructure {
      * Constructor to init {@link CryptoLoanAdjustLTV} object
      *
      * @param jCryptoLoanAdjustLTV : crypto loan adjust LTV details as {@link JSONObject}
-     **/
+     */
     public CryptoLoanAdjustLTV(JSONObject jCryptoLoanAdjustLTV) {
         super(jCryptoLoanAdjustLTV);
         direction = LoanAdjustDirection.valueOf(hItem.getString("direction"));
@@ -83,7 +83,7 @@ public class CryptoLoanAdjustLTV extends LoanBaseStructure {
      * No-any params required
      *
      * @return {@link #direction} instance as {@link LoanAdjustDirection}
-     **/
+     */
     public LoanAdjustDirection getDirection() {
         return direction;
     }
@@ -93,7 +93,7 @@ public class CryptoLoanAdjustLTV extends LoanBaseStructure {
      * No-any params required
      *
      * @return {@link #amount} instance as double
-     **/
+     */
     public double getAmount() {
         return amount;
     }
@@ -104,7 +104,7 @@ public class CryptoLoanAdjustLTV extends LoanBaseStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #amount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getAmount(int decimals) {
         return roundValue(amount, decimals);
     }
@@ -114,7 +114,7 @@ public class CryptoLoanAdjustLTV extends LoanBaseStructure {
      * No-any params required
      *
      * @return {@link #currentLTV} instance as double
-     **/
+     */
     public double getCurrentLTV() {
         return currentLTV;
     }
@@ -125,7 +125,7 @@ public class CryptoLoanAdjustLTV extends LoanBaseStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #currentLTV} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getCurrentLTV(int decimals) {
         return roundValue(currentLTV, decimals);
     }

@@ -20,32 +20,32 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *             24hr Ticker Price Change Statistics</a>
  *     </li>
  * </ul>
- **/
+ */
 public class OrderBookTicker extends Ticker {
 
     /**
      * {@code bidPrice} is instance that contains bids price in the order book ticker
-     * **/
+     */
     protected final double bidPrice;
 
     /**
      * {@code bidQty} is instance that contains bids quantity in the order book ticker
-     * **/
+     */
     protected final double bidQty;
 
     /**
      * {@code askPrice} is instance that contains ask price in the order book ticker
-     * **/
+     */
     protected final double askPrice;
 
     /**
      * {@code askQty} is instance that contains ask quantity in the order book ticker
-     * **/
+     */
     protected final double askQty;
 
     /**
      * {@code hTicker} is instance that is useful to work with JSON book details
-     * **/
+     */
     protected final JsonHelper hTicker;
 
     /** Constructor to init {@link OrderBookTicker} object
@@ -54,7 +54,7 @@ public class OrderBookTicker extends Ticker {
      * @param bidQty: bids quantity in the order book ticker
      * @param askPrice: ask price in the order book ticker
      * @param askQty: ask quantity in the order book ticker
-     * **/
+     */
     public OrderBookTicker(String symbol, double bidPrice, double bidQty, double askPrice, double askQty) {
         super(symbol);
         this.bidPrice = bidPrice;
@@ -67,7 +67,7 @@ public class OrderBookTicker extends Ticker {
     /** Constructor to init {@link OrderBookTicker} object
      *
      * @param book: book ticker details as {@link JSONObject}
-     * **/
+     */
     public OrderBookTicker(JSONObject book) {
         super(book.getString("symbol"));
         hTicker = new JsonHelper(book);
@@ -82,7 +82,7 @@ public class OrderBookTicker extends Ticker {
      * No-any params required
      *
      * @return {@link #bidPrice} instance as double
-     **/
+     */
     public double getBidPrice() {
         return bidPrice;
     }
@@ -93,7 +93,7 @@ public class OrderBookTicker extends Ticker {
      * @param decimals: number of digits to round final value
      * @return {@link #bidPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBidPrice(int decimals) {
         return roundValue(bidPrice, decimals);
     }
@@ -103,7 +103,7 @@ public class OrderBookTicker extends Ticker {
      * No-any params required
      *
      * @return {@link #bidQty} instance as double
-     **/
+     */
     public double getBidQty() {
         return bidQty;
     }
@@ -114,7 +114,7 @@ public class OrderBookTicker extends Ticker {
      * @param decimals: number of digits to round final value
      * @return {@link #bidQty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBidQty(int decimals) {
         return roundValue(bidPrice, decimals);
     }
@@ -124,7 +124,7 @@ public class OrderBookTicker extends Ticker {
      * No-any params required
      *
      * @return {@link #askPrice} instance as double
-     **/
+     */
     public double getAskPrice() {
         return askPrice;
     }
@@ -135,7 +135,7 @@ public class OrderBookTicker extends Ticker {
      * @param decimals: number of digits to round final value
      * @return {@link #askPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getAskPrice(int decimals) {
         return roundValue(askPrice, decimals);
     }
@@ -145,7 +145,7 @@ public class OrderBookTicker extends Ticker {
      * No-any params required
      *
      * @return {@link #askQty} instance as double
-     **/
+     */
     public double getAskQty() {
         return askQty;
     }
@@ -155,7 +155,7 @@ public class OrderBookTicker extends Ticker {
      * @param decimals: number of digits to round final value
      * @return {@link #askQty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getAskQty(int decimals) {
         return roundValue(askQty, decimals);
     }

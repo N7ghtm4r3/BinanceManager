@@ -21,12 +21,12 @@ import java.util.Date;
  * @see ACKSpotOrder
  * @see ResultSpotOrder
  * @see SpotOrder
- **/
+ */
 public class SpotOrderDetails extends ResultSpotOrder implements BinanceResponse {
 
     /**
      * {@code origClientOrderId} is instance that memorizes origin client order identifier
-     **/
+     */
     private final String origClientOrderId;
 
     /**
@@ -51,7 +51,7 @@ public class SpotOrderDetails extends ResultSpotOrder implements BinanceResponse
      * @param selfTradePreventionMode : self trade prevention mode
      * @param trailingTime            : indicating the time when the trailing order is active and tracking price changes
      * @param origClientOrderId:      origin client order id
-     **/
+     */
     public SpotOrderDetails(String symbol, long orderId, String clientOrderId, long orderListId, long transactTime,
                             long preventedMatchId, double preventedQuantity, double price, double origQty, double executedQty,
                             double cummulativeQuoteQty, Status status, TimeInForce timeInForce, OrderType type, Side side,
@@ -67,7 +67,7 @@ public class SpotOrderDetails extends ResultSpotOrder implements BinanceResponse
      * Constructor to init {@link SpotOrderDetails} object
      *
      * @param detailSpotOrder: spot order details as {@link JSONObject}
-     **/
+     */
     public SpotOrderDetails(JSONObject detailSpotOrder) {
         super(detailSpotOrder);
         origClientOrderId = hOrder.getString("origClientOrderId");
@@ -76,7 +76,7 @@ public class SpotOrderDetails extends ResultSpotOrder implements BinanceResponse
     /**
      * @return ever same value -1
      * @apiNote this method in {@link SpotOrderDetails} class will return ever -1
-     **/
+     */
     @Override
     public long getTransactTime() {
         return -1;
@@ -85,7 +85,7 @@ public class SpotOrderDetails extends ResultSpotOrder implements BinanceResponse
     /**
      * @return ever same value null
      * @apiNote this method in {@link SpotOrderDetails} class will return ever null
-     **/
+     */
     @Override
     public Date getTransactDate() {
         return null;
@@ -96,7 +96,7 @@ public class SpotOrderDetails extends ResultSpotOrder implements BinanceResponse
      * No-any params required
      *
      * @return stopPrice as double, if is a null field will return -1
-     **/
+     */
     public double getStopPrice() {
         return hOrder.getDouble("stopPrice", -1);
     }
@@ -106,7 +106,7 @@ public class SpotOrderDetails extends ResultSpotOrder implements BinanceResponse
      * No-any params required
      *
      * @return icebergQty as double, if is a null field will return -1
-     **/
+     */
     public double getIcebergQty() {
         return hOrder.getDouble("icebergQty", -1);
     }
@@ -118,7 +118,7 @@ public class SpotOrderDetails extends ResultSpotOrder implements BinanceResponse
      * @return code of error as int
      * *
      * @implSpec if code error is not present in {@code "Binance"}'s response will be returned -1 as default
-     **/
+     */
     @Override
     public int getCode() {
         if (hOrder != null)
@@ -133,7 +133,7 @@ public class SpotOrderDetails extends ResultSpotOrder implements BinanceResponse
      * @return message of error as {@link String}
      * *
      * @implSpec if message error is not present in {@code "Binance"}'s response will be returned null as default
-     **/
+     */
     @Override
     public String getMessage() {
         if (hOrder != null)

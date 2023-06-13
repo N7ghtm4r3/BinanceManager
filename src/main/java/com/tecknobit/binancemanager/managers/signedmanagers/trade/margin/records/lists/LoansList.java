@@ -15,7 +15,7 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data">
  * Query Loan Record (USER_DATA)</a>
  * @see BinanceRowsList
- **/
+ */
 public class LoansList extends BinanceRowsList<LoansList.Loan> {
 
     /**
@@ -23,7 +23,7 @@ public class LoansList extends BinanceRowsList<LoansList.Loan> {
      *
      * @param total:          total size of loans
      * @param loanAssetsList: list of {@link Loan}
-     **/
+     */
     public LoansList(int total, ArrayList<Loan> loanAssetsList) {
         super(total, loanAssetsList);
     }
@@ -32,7 +32,7 @@ public class LoansList extends BinanceRowsList<LoansList.Loan> {
      * Constructor to init {@link LoansList} object
      *
      * @param jLoansList: loan details as {@link JSONObject}
-     **/
+     */
     public LoansList(JSONObject jLoansList) {
         super(jLoansList);
         for (Object row : hItem.fetchList("rows"))
@@ -44,17 +44,17 @@ public class LoansList extends BinanceRowsList<LoansList.Loan> {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see MarginListItem
-     **/
+     */
     public static class Loan extends MarginListItem {
 
         /**
          * {@code isolatedSymbol} is instance that memorizes isolated symbol of the asset
-         **/
+         */
         private final String isolatedSymbol;
 
         /**
          * {@code principal} is instance that memorizes principal value
-         **/
+         */
         private double principal;
 
         /**
@@ -67,7 +67,7 @@ public class LoansList extends BinanceRowsList<LoansList.Loan> {
          * @param isolatedSymbol: symbol of the asset
          * @param principal:      principal value
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public Loan(String asset, long txId, long timestamp, Status status, String isolatedSymbol,
                     double principal) {
             super(asset, txId, timestamp, status);
@@ -83,7 +83,7 @@ public class LoansList extends BinanceRowsList<LoansList.Loan> {
          *
          * @param loanAsset: loan asset details as {@link JSONObject}
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public Loan(JSONObject loanAsset) {
             super(loanAsset);
             isolatedSymbol = loanAsset.getString("isolatedSymbol");
@@ -97,7 +97,7 @@ public class LoansList extends BinanceRowsList<LoansList.Loan> {
          * No-any params required
          *
          * @return {@link #isolatedSymbol} instance as {@link String}
-         **/
+         */
         public String getIsolatedSymbol() {
             return isolatedSymbol;
         }
@@ -107,7 +107,7 @@ public class LoansList extends BinanceRowsList<LoansList.Loan> {
          * No-any params required
          *
          * @return {@link #principal} instance as double
-         **/
+         */
         public double getPrincipal() {
             return principal;
         }
@@ -117,7 +117,7 @@ public class LoansList extends BinanceRowsList<LoansList.Loan> {
          *
          * @param principal: principal value
          * @throws IllegalArgumentException when principal value is less than 0
-         **/
+         */
         public void setPrincipal(double principal) {
             if (principal < 0)
                 throw new IllegalArgumentException("Principal value cannot be less than 0");
@@ -130,7 +130,7 @@ public class LoansList extends BinanceRowsList<LoansList.Loan> {
          * @param decimals: number of digits to round final value
          * @return {@link #principal} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getPrincipal(int decimals) {
             return roundValue(principal, decimals);
         }

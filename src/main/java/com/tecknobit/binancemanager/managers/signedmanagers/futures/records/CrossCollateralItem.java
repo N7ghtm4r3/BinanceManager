@@ -28,18 +28,18 @@ import org.json.JSONObject;
  *     </li>
  * </ul>
  * @see BinanceItem
- **/
+ */
 @Structure
 public abstract class CrossCollateralItem extends BinanceItem {
 
     /**
      * {@code coin} of the cross collateral
-     **/
+     */
     protected final String coin;
 
     /**
      * {@code collateralCoin} collateral coin of the cross collateral
-     **/
+     */
     protected final String collateralCoin;
 
     /**
@@ -47,7 +47,7 @@ public abstract class CrossCollateralItem extends BinanceItem {
      *
      * @param coin:           coin of the cross collateral
      * @param collateralCoin: collateral coin of the cross collateral
-     **/
+     */
     public CrossCollateralItem(String coin, String collateralCoin) {
         super(null);
         this.coin = coin;
@@ -58,7 +58,7 @@ public abstract class CrossCollateralItem extends BinanceItem {
      * Constructor to init {@link CrossCollateralItem} object
      *
      * @param jCrossCollateralItem: cross collateral item details as {@link JSONObject}
-     **/
+     */
     public CrossCollateralItem(JSONObject jCrossCollateralItem) {
         super(jCrossCollateralItem);
         coin = hItem.getString("coin");
@@ -70,7 +70,7 @@ public abstract class CrossCollateralItem extends BinanceItem {
      * No-any params required
      *
      * @return {@link #coin} instance as {@link String}
-     **/
+     */
     public String getCoin() {
         return coin;
     }
@@ -80,7 +80,7 @@ public abstract class CrossCollateralItem extends BinanceItem {
      * No-any params required
      *
      * @return {@link #collateralCoin} instance as {@link String}
-     **/
+     */
     public String getCollateralCoin() {
         return collateralCoin;
     }

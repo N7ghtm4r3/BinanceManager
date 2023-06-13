@@ -10,17 +10,17 @@ import org.json.JSONObject;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#purchase-staking-product-user_data">
  * Purchase Staking Product(USER_DATA)</a>
  * @see BinanceItem
- **/
+ */
 public class PurchaseStakingProductResult extends BinanceItem {
 
     /**
      * {@code positionId} position id of the purchase result
-     **/
+     */
     private final long positionId;
 
     /**
      * {@code success} whether the purchase result has been successful
-     **/
+     */
     private final boolean success;
 
     /**
@@ -28,7 +28,7 @@ public class PurchaseStakingProductResult extends BinanceItem {
      *
      * @param positionId: position id of the purchase result
      * @param success:    whether the purchase result has been successful
-     **/
+     */
     public PurchaseStakingProductResult(long positionId, boolean success) {
         super(null);
         this.positionId = positionId;
@@ -39,7 +39,7 @@ public class PurchaseStakingProductResult extends BinanceItem {
      * Constructor to init {@link PurchaseStakingProductResult} object
      *
      * @param jPurchaseStakingProductResult: staking product purchase result details as {@link JSONObject}
-     **/
+     */
     public PurchaseStakingProductResult(JSONObject jPurchaseStakingProductResult) {
         super(jPurchaseStakingProductResult);
         positionId = hItem.getLong("positionId", 0);
@@ -51,7 +51,7 @@ public class PurchaseStakingProductResult extends BinanceItem {
      * No-any params required
      *
      * @return {@link #positionId} instance as long
-     **/
+     */
     public long getPositionId() {
         return positionId;
     }
@@ -61,7 +61,7 @@ public class PurchaseStakingProductResult extends BinanceItem {
      * No-any params required
      *
      * @return {@link #success} instance as boolean
-     **/
+     */
     public boolean isSuccess() {
         return success;
     }

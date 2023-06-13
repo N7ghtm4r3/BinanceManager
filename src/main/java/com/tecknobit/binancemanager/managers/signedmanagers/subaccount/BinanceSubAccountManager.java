@@ -56,212 +56,218 @@ import static java.lang.Long.parseLong;
  * Sub-Account Endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
- **/
+ */
 public class BinanceSubAccountManager extends BinanceSignedManager {
 
     /**
      * {@code SUB_ACCOUNT_VIRTUAL_SUB_ACCOUNT_ENDPOINT} is constant for SUB_ACCOUNT_VIRTUAL_SUB_ACCOUNT_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_VIRTUAL_SUB_ACCOUNT_ENDPOINT = "/sapi/v1/sub-account/virtualSubAccount";
 
     /**
      * {@code SUB_ACCOUNT_LIST_ENDPOINT} is constant for SUB_ACCOUNT_LIST_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_LIST_ENDPOINT = "/sapi/v1/sub-account/list";
 
     /**
      * {@code SUB_ACCOUNT_SUB_TRANSFER_HISTORY_ENDPOINT} is constant for SUB_ACCOUNT_SUB_TRANSFER_HISTORY_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_SUB_TRANSFER_HISTORY_ENDPOINT = "/sapi/v1/sub-account/sub/transfer/history";
 
     /**
      * {@code SUB_ACCOUNT_FUTURES_INTERNAL_TRANSFER_ENDPOINT} is constant for SUB_ACCOUNT_FUTURES_INTERNAL_TRANSFER_ENDPOINT's endpoint
-     **/
+     *
+     * @deprecated this endpoint is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     public static final String SUB_ACCOUNT_FUTURES_INTERNAL_TRANSFER_ENDPOINT = "/sapi/v1/sub-account/futures/internalTransfer";
 
     /**
      * {@code SUB_ACCOUNT_ASSETS_ENDPOINT} is constant for SUB_ACCOUNT_ASSETS_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_ASSETS_ENDPOINT = "/sapi/v3/sub-account/assets";
 
     /**
      * {@code SUB_ACCOUNT_SPOT_SUMMARY_ENDPOINT} is constant for SUB_ACCOUNT_SPOT_SUMMARY_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_SPOT_SUMMARY_ENDPOINT = "/sapi/v1/sub-account/spotSummary";
 
     /**
      * {@code SUB_ACCOUNT_CAPITAL_DEPOSIT_SUB_ADDRESS_ENDPOINT} is constant for SUB_ACCOUNT_CAPITAL_DEPOSIT_SUB_ADDRESS_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_CAPITAL_DEPOSIT_SUB_ADDRESS_ENDPOINT = "/sapi/v1/capital/deposit/subAddress";
 
     /**
      * {@code SUB_ACCOUNT_CAPITAL_DEPOSIT_SUB_HISREC_ENDPOINT} is constant for SUB_ACCOUNT_CAPITAL_DEPOSIT_SUB_HISREC_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_CAPITAL_DEPOSIT_SUB_HISREC_ENDPOINT = "/sapi/v1/capital/deposit/subHisrec";
 
     /**
      * {@code SUB_ACCOUNT_STATUS_ENDPOINT} is constant for SUB_ACCOUNT_STATUS_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_STATUS_ENDPOINT = "/sapi/v1/sub-account/status";
 
     /**
      * {@code SUB_ACCOUNT_MARGIN_ENABLE_ENDPOINT} is constant for SUB_ACCOUNT_MARGIN_ENABLE_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_MARGIN_ENABLE_ENDPOINT = "/sapi/v1/sub-account/margin/enable";
 
     /**
      * {@code SUB_ACCOUNT_MARGIN_ACCOUNT_ENDPOINT} is constant for SUB_ACCOUNT_MARGIN_ACCOUNT_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_MARGIN_ACCOUNT_ENDPOINT = "/sapi/v1/sub-account/margin/account";
 
     /**
      * {@code SUB_ACCOUNT_MARGIN_ACCOUNT_SUMMARY_ENDPOINT} is constant for SUB_ACCOUNT_MARGIN_ACCOUNT_SUMMARY_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_MARGIN_ACCOUNT_SUMMARY_ENDPOINT = "/sapi/v1/sub-account/margin/accountSummary";
 
     /**
      * {@code SUB_ACCOUNT_FUTURES_ENABLE_ENDPOINT} is constant for SUB_ACCOUNT_FUTURES_ENABLE_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_FUTURES_ENABLE_ENDPOINT = "/sapi/v1/sub-account/futures/enable";
 
     /**
      * {@code SUB_ACCOUNT_FUTURES_ACCOUNT_ENDPOINT} is constant for SUB_ACCOUNT_FUTURES_ACCOUNT_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_FUTURES_ACCOUNT_ENDPOINT = "/sapi/v1/sub-account/futures/account";
 
     /**
      * {@code SUB_ACCOUNT_FUTURES_ACCOUNT_SUMMARY_ENDPOINT} is constant for SUB_ACCOUNT_FUTURES_ACCOUNT_SUMMARY_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_FUTURES_ACCOUNT_SUMMARY_ENDPOINT = "/sapi/v1/sub-account/futures/accountSummary";
 
     /**
      * {@code SUB_ACCOUNT_FUTURES_POSITION_RISK_ENDPOINT} is constant for SUB_ACCOUNT_FUTURES_POSITION_RISK_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_FUTURES_POSITION_RISK_ENDPOINT = "/sapi/v1/sub-account/futures/positionRisk";
 
     /**
      * {@code SUB_ACCOUNT_FUTURES_TRANSFER_ENDPOINT} is constant for SUB_ACCOUNT_FUTURES_TRANSFER_ENDPOINT's endpoint
-     **/
+     *
+     * @deprecated this endpoint is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     public static final String SUB_ACCOUNT_FUTURES_TRANSFER_ENDPOINT = "/sapi/v1/sub-account/futures/transfer";
 
     /**
      * {@code SUB_ACCOUNT_MARGIN_TRANSFER_ENDPOINT} is constant for SUB_ACCOUNT_MARGIN_TRANSFER_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_MARGIN_TRANSFER_ENDPOINT = "/sapi/v1/sub-account/margin/transfer ";
 
     /**
      * {@code SUB_ACCOUNT_TRANSFER_SUB_TO_SUB_ENDPOINT} is constant for SUB_ACCOUNT_TRANSFER_SUB_TO_SUB_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_TRANSFER_SUB_TO_SUB_ENDPOINT = "/sapi/v1/sub-account/transfer/subToSub";
 
     /**
      * {@code SUB_ACCOUNT_TRANSFER_SUB_TO_MASTER_ENDPOINT} is constant for SUB_ACCOUNT_TRANSFER_SUB_TO_MASTER_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_TRANSFER_SUB_TO_MASTER_ENDPOINT = "/sapi/v1/sub-account/transfer/subToMaster";
 
     /**
      * {@code SUB_ACCOUNT_TRANSFER_SUB_USER_HISTORY_ENDPOINT} is constant for SUB_ACCOUNT_TRANSFER_SUB_USER_HISTORY_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_TRANSFER_SUB_USER_HISTORY_ENDPOINT = "/sapi/v1/sub-account/transfer/subUserHistory";
 
     /**
      * {@code SUB_ACCOUNT_UNIVERSAL_TRANSFER_ENDPOINT} is constant for SUB_ACCOUNT_UNIVERSAL_TRANSFER_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_UNIVERSAL_TRANSFER_ENDPOINT = "/sapi/v1/sub-account/universalTransfer";
 
     /**
      * {@code SUB_ACCOUNT_FUTURES_ACCOUNT_V2_ENDPOINT} is constant for SUB_ACCOUNT_FUTURES_ACCOUNT_V2_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_FUTURES_ACCOUNT_V2_ENDPOINT = "/sapi/v2/sub-account/futures/account";
 
     /**
      * {@code SUB_ACCOUNT_FUTURES_ACCOUNT_SUMMARY_V2_ENDPOINT} is constant for SUB_ACCOUNT_FUTURES_ACCOUNT_SUMMARY_V2_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_FUTURES_ACCOUNT_SUMMARY_V2_ENDPOINT = "/sapi/v2/sub-account/futures/accountSummary";
 
     /**
      * {@code SUB_ACCOUNT_FUTURES_POSITION_RISK_V2_ENDPOINT} is constant for SUB_ACCOUNT_FUTURES_POSITION_RISK_V2_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_FUTURES_POSITION_RISK_V2_ENDPOINT = "/sapi/v2/sub-account/futures/positionRisk";
 
     /**
      * {@code SUB_ACCOUNT_BLVT_ENABLE_ENDPOINT} is constant for SUB_ACCOUNT_BLVT_ENABLE_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_BLVT_ENABLE_ENDPOINT = "/sapi/v1/sub-account/blvt/enable";
 
     /**
      * {@code SUB_ACCOUNT_API_IP_RESTRICTION_ENDPOINT} is constant for SUB_ACCOUNT_API_IP_RESTRICTION_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_API_IP_RESTRICTION_ENDPOINT = "/sapi/v1/sub-account/subAccountApi/ipRestriction";
 
     /**
      * {@code SUB_ACCOUNT_API_IP_LIST_ENDPOINT} is constant for SUB_ACCOUNT_API_IP_LIST_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_API_IP_LIST_ENDPOINT = "/sapi/v1/sub-account/subAccountApi/ipRestriction/ipList";
 
     /**
      * {@code SUB_ACCOUNT_API_IP_RESTRICTION_V2_ENDPOINT} is constant for SUB_ACCOUNT_API_IP_RESTRICTION_V2_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_API_IP_RESTRICTION_V2_ENDPOINT = "/sapi/v2/sub-account/subAccountApi/ipRestriction";
 
     /**
      * {@code MANAGED_SUB_ACCOUNT_DEPOSIT_ENDPOINT} is constant for MANAGED_SUB_ACCOUNT_DEPOSIT_ENDPOINT's endpoint
-     **/
+     */
     public static final String MANAGED_SUB_ACCOUNT_DEPOSIT_ENDPOINT = "/sapi/v1/managed-subaccount/deposit";
 
     /**
      * {@code MANAGED_SUB_ACCOUNT_ASSET_ENDPOINT} is constant for MANAGED_SUB_ACCOUNT_ASSET_ENDPOINT's endpoint
-     **/
+     */
     public static final String MANAGED_SUB_ACCOUNT_ASSET_ENDPOINT = "/sapi/v1/managed-subaccount/asset";
 
     /**
      * {@code MANAGED_SUB_ACCOUNT_WITHDRAW_ENDPOINT} is constant for MANAGED_SUB_ACCOUNT_WITHDRAW_ENDPOINT's endpoint
-     **/
+     */
     public static final String MANAGED_SUB_ACCOUNT_WITHDRAW_ENDPOINT = "/sapi/v1/managed-subaccount/withdraw";
 
     /**
      * {@code MANAGED_SUB_ACCOUNT_SNAPSHOT_ENDPOINT} is constant for MANAGED_SUB_ACCOUNT_SNAPSHOT_ENDPOINT's endpoint
-     **/
+     */
     public static final String MANAGED_SUB_ACCOUNT_SNAPSHOT_ENDPOINT = "/sapi/v1/managed-subaccount/accountSnapshot";
 
     /**
      * {@code MANAGED_SUB_ACCOUNT_TRANSLOG_FOR_INVESTOR_ENDPOINT} is constant for MANAGED_SUB_ACCOUNT_TRANSLOG_FOR_INVESTOR_ENDPOINT's endpoint
-     **/
+     */
     public static final String MANAGED_SUB_ACCOUNT_TRANSLOG_FOR_INVESTOR_ENDPOINT = "/sapi/v1/managed-subaccount/queryTransLogForInvestor";
 
     /**
      * {@code MANAGED_SUB_ACCOUNT_TRANSLOG_FOR_TRADE_PARENT_ENDPOINT} is constant for MANAGED_SUB_ACCOUNT_TRANSLOG_FOR_TRADE_PARENT_ENDPOINT's endpoint
-     **/
+     */
     public static final String MANAGED_SUB_ACCOUNT_TRANSLOG_FOR_TRADE_PARENT_ENDPOINT = "/sapi/v1/managed-subaccount/queryTransLogForTradeParent";
 
     /**
      * {@code MANAGED_SUB_ACCOUNT_FETCH_FUTURE_ASSET_ENDPOINT} is constant for MANAGED_SUB_ACCOUNT_FETCH_FUTURE_ASSET_ENDPOINT's endpoint
-     **/
+     */
     public static final String MANAGED_SUB_ACCOUNT_FETCH_FUTURE_ASSET_ENDPOINT = "/sapi/v1/managed-subaccount/fetch-future-asset";
 
     /**
      * {@code MANAGED_SUB_ACCOUNT_MARGIN_ASSET_ENDPOINT} is constant for MANAGED_SUB_ACCOUNT_MARGIN_ASSET_ENDPOINT's endpoint
-     **/
+     */
     public static final String MANAGED_SUB_ACCOUNT_MARGIN_ASSET_ENDPOINT = "/sapi/v1/managed-subaccount/marginAsset";
 
     /**
      * {@code SUB_ACCOUNT_ASSETS_V4_ENDPOINT} is constant for SUB_ACCOUNT_ASSETS_V4_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_ASSETS_V4_ENDPOINT = "/sapi/v4/sub-account/assets";
 
     /**
      * {@code MANAGED_SUB_ACCOUNT_INFO_ENDPOINT} is constant for MANAGED_SUB_ACCOUNT_INFO_ENDPOINT's endpoint
-     **/
+     */
     public static final String MANAGED_SUB_ACCOUNT_INFO_ENDPOINT = "/sapi/v1/managed-subaccount/info";
 
     /**
      * {@code SUB_ACCOUNT_TRANSACTION_STATISTICS_ENDPOINT} is constant for SUB_ACCOUNT_TRANSACTION_STATISTICS_ENDPOINT's endpoint
-     **/
+     */
     public static final String SUB_ACCOUNT_TRANSACTION_STATISTICS_ENDPOINT = "/sapi/v1/sub-account/transaction-tatistics";
 
     /**
      * {@code MANAGED_SUB_ACCOUNT_DEPOSIT_ADDRESS_ENDPOINT} is constant for MANAGED_SUB_ACCOUNT_DEPOSIT_ADDRESS_ENDPOINT's endpoint
-     **/
+     */
     public static final String MANAGED_SUB_ACCOUNT_DEPOSIT_ADDRESS_ENDPOINT = "/sapi/v1/managed-subaccount/deposit/address";
 
     /**
@@ -272,7 +278,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceSubAccountManager(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
                                     String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
@@ -285,7 +291,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceSubAccountManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
                                     String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, apiKey, secretKey);
@@ -298,7 +304,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceSubAccountManager(String baseEndpoint, int timeout, String apiKey,
                                     String secretKey) throws SystemException, IOException {
         super(baseEndpoint, timeout, apiKey, secretKey);
@@ -310,7 +316,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceSubAccountManager(String baseEndpoint, String apiKey,
                                     String secretKey) throws SystemException, IOException {
         super(baseEndpoint, apiKey, secretKey);
@@ -331,7 +337,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *        BinanceSignedManager secondManager = new BinanceSignedManager(); //same credentials used
      *     }
      * </pre>
-     **/
+     */
     public BinanceSubAccountManager() {
         super();
     }
@@ -355,7 +361,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#sub-account-endpoints">
      * Create a Virtual Sub-account(For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/virtualSubAccount")
@@ -383,7 +389,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#sub-account-endpoints">
      * Create a Virtual Sub-account(For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/virtualSubAccount")
     public <T> T createVirtualSubAccount(String subAccountString, ReturnFormat format) throws Exception {
@@ -410,7 +416,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#sub-account-endpoints">
      * Create a Virtual Sub-account(For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/virtualSubAccount")
@@ -439,7 +445,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#sub-account-endpoints">
      * Create a Virtual Sub-account(For Master Account)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/virtualSubAccount")
@@ -478,7 +484,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-list-for-master-account">
      * Query Sub-account List (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/list")
@@ -505,7 +511,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-list-for-master-account">
      * Query Sub-account List (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/list")
     public <T> T getSubAccountList(ReturnFormat format) throws Exception {
@@ -549,7 +555,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-list-for-master-account">
      * Query Sub-account List (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/list")
@@ -595,7 +601,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-list-for-master-account">
      * Query Sub-account List (For Master Account)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/list")
@@ -635,7 +641,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-spot-asset-transfer-history-for-master-account">
      * Query Sub-account Spot Asset Transfer History (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/sub/transfer/history")
@@ -662,7 +668,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-spot-asset-transfer-history-for-master-account">
      * Query Sub-account Spot Asset Transfer History (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/sub/transfer/history")
     public <T> T getSubAccountSpotTransferHistory(ReturnFormat format) throws Exception {
@@ -712,7 +718,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-spot-asset-transfer-history-for-master-account">
      * Query Sub-account Spot Asset Transfer History (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/sub/transfer/history")
@@ -764,7 +770,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-spot-asset-transfer-history-for-master-account">
      * Query Sub-account Spot Asset Transfer History (For Master Account)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/sub/transfer/history")
@@ -805,7 +811,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-futures-asset-transfer-history-for-master-account">
      * Query Sub-account Futures Asset Transfer History (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/internalTransfer")
@@ -834,7 +840,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-futures-asset-transfer-history-for-master-account">
      * Query Sub-account Futures Asset Transfer History (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/internalTransfer")
     public <T> T getSubAccountFutureTransferHistory(String email, FuturesType type, ReturnFormat format) throws Exception {
@@ -882,7 +888,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-futures-asset-transfer-history-for-master-account">
      * Query Sub-account Futures Asset Transfer History (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/internalTransfer")
@@ -933,7 +939,9 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-futures-asset-transfer-history-for-master-account">
      * Query Sub-account Futures Asset Transfer History (For Master Account)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/internalTransfer")
@@ -976,7 +984,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#sub-account-futures-asset-transfer-for-master-account">
      * Sub-account Futures Asset Transfer (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/internalTransfer")
@@ -1009,7 +1017,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#sub-account-futures-asset-transfer-for-master-account">
      * Sub-account Futures Asset Transfer (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/internalTransfer")
     public <T> T execFutureAssetTransfer(String fromEmail, String toEmail, FuturesType type, String asset,
@@ -1041,7 +1049,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#sub-account-futures-asset-transfer-for-master-account">
      * Sub-account Futures Asset Transfer (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/internalTransfer")
@@ -1075,7 +1083,9 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#sub-account-futures-asset-transfer-for-master-account">
      * Sub-account Futures Asset Transfer (For Master Account)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/internalTransfer")
@@ -1119,7 +1129,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-assets-for-master-account">
      * Query Sub-account Assets (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "60(UID)")
@@ -1148,7 +1158,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-assets-for-master-account">
      * Query Sub-account Assets (For Master Account)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v3/sub-account/assets")
@@ -1175,7 +1185,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-assets-for-master-account">
      * Query Sub-account Assets (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v3/sub-account/assets")
@@ -1203,7 +1213,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-assets-for-master-account">
      * Query Sub-account Assets (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v3/sub-account/assets")
     public <T> T getSubAccountAssets(String email, ReturnFormat format) throws Exception {
@@ -1230,7 +1240,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-assets-for-master-account">
      * Query Sub-account Assets (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "60(UID)")
@@ -1260,7 +1270,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-assets-for-master-account">
      * Query Sub-account Assets (For Master Account)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v3/sub-account/assets")
@@ -1288,7 +1298,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-assets-for-master-account">
      * Query Sub-account Assets (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v3/sub-account/assets")
@@ -1317,7 +1327,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-assets-for-master-account">
      * Query Sub-account Assets (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "60(UID)")
     @RequestPath(method = GET, path = "/sapi/v3/sub-account/assets")
     public <T> T getSubAccountAssets(String email, long recvWindow, ReturnFormat format) throws Exception {
@@ -1344,7 +1354,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-spot-assets-summary-for-master-account">
      * Query Sub-account Spot Assets Summary (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/spotSummary")
@@ -1371,7 +1381,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-spot-assets-summary-for-master-account">
      * Query Sub-account Spot Assets Summary (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/spotSummary")
     public <T> T getSubAccountSpotAssetsSummary(ReturnFormat format) throws Exception {
@@ -1412,7 +1422,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-spot-assets-summary-for-master-account">
      * Query Sub-account Spot Assets Summary (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/spotSummary")
@@ -1455,7 +1465,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-spot-assets-summary-for-master-account">
      * Query Sub-account Spot Assets Summary (For Master Account)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/spotSummary")
@@ -1492,7 +1502,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-address-for-master-account">
      * Get Sub-account Deposit Address (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -1522,7 +1532,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-address-for-master-account">
      * Get Sub-account Deposit Address (For Master Account)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subAddress")
@@ -1550,7 +1560,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-address-for-master-account">
      * Get Sub-account Deposit Address (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subAddress")
@@ -1579,7 +1589,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-address-for-master-account">
      * Get Sub-account Deposit Address (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subAddress")
     public <T> T getSubAccountDepositAddress(String email, String coin, ReturnFormat format) throws Exception {
@@ -1616,7 +1626,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-address-for-master-account">
      * Get Sub-account Deposit Address (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -1657,7 +1667,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-address-for-master-account">
      * Get Sub-account Deposit Address (For Master Account)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subAddress")
@@ -1696,7 +1706,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-address-for-master-account">
      * Get Sub-account Deposit Address (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subAddress")
@@ -1735,7 +1745,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-address-for-master-account">
      * Get Sub-account Deposit Address (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subAddress")
     public <T> T getSubAccountDepositAddress(String email, String coin, Params extraParams,
@@ -1763,7 +1773,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-history-for-master-account">
      * Get Sub-account Deposit Address (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -1792,7 +1802,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-history-for-master-account">
      * Get Sub-account Deposit Address (For Master Account)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subHisrec")
@@ -1819,7 +1829,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-history-for-master-account">
      * Get Sub-account Deposit Address (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subHisrec")
@@ -1847,7 +1857,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-history-for-master-account">
      * Get Sub-account Deposit Address (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subHisrec")
     public <T> T getSubAccountDepositHistory(String email, ReturnFormat format) throws Exception {
@@ -1901,7 +1911,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-history-for-master-account">
      * Get Sub-account Deposit Address (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -1959,7 +1969,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-history-for-master-account">
      * Get Sub-account Deposit Address (For Master Account)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subHisrec")
@@ -2015,7 +2025,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-history-for-master-account">
      * Get Sub-account Deposit Address (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subHisrec")
@@ -2071,7 +2081,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-history-for-master-account">
      * Get Sub-account Deposit Address (For Master Account)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/capital/deposit/subHisrec")
@@ -2112,7 +2122,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-39-s-status-on-margin-futures-for-master-account">
      * Get Sub-account's Status on Margin/Futures (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/status")
@@ -2139,7 +2149,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-39-s-status-on-margin-futures-for-master-account">
      * Get Sub-account's Status on Margin/Futures (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/status")
     public <T> T getSubAccountStatus(ReturnFormat format) throws Exception {
@@ -2174,7 +2184,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-39-s-status-on-margin-futures-for-master-account">
      * Get Sub-account's Status on Margin/Futures (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/status")
@@ -2211,7 +2221,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-39-s-status-on-margin-futures-for-master-account">
      * Get Sub-account's Status on Margin/Futures (For Master Account)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/status")
@@ -2251,7 +2261,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-margin-for-sub-account-for-master-account">
      * Enable Margin for Sub-account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -2280,7 +2290,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-margin-for-sub-account-for-master-account">
      * Enable Margin for Sub-account (For Master Account)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/enable")
@@ -2307,7 +2317,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-margin-for-sub-account-for-master-account">
      * Enable Margin for Sub-account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/enable")
@@ -2335,7 +2345,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-margin-for-sub-account-for-master-account">
      * Enable Margin for Sub-account (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/enable")
     public <T> T enableMarginSubAccount(String email, ReturnFormat format) throws Exception {
@@ -2362,7 +2372,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-margin-for-sub-account-for-master-account">
      * Enable Margin for Sub-account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -2392,7 +2402,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-margin-for-sub-account-for-master-account">
      * Enable Margin for Sub-account (For Master Account)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/enable")
@@ -2420,7 +2430,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-margin-for-sub-account-for-master-account">
      * Enable Margin for Sub-account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/enable")
@@ -2449,7 +2459,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-margin-for-sub-account-for-master-account">
      * Enable Margin for Sub-account (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/enable")
     public <T> T enableMarginSubAccount(String email, long recvWindow, ReturnFormat format) throws Exception {
@@ -2476,7 +2486,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-detail-on-sub-account-39-s-margin-account-for-master-account">
      * Get Detail on Sub-account's Margin Account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/margin/account")
@@ -2504,7 +2514,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-detail-on-sub-account-39-s-margin-account-for-master-account">
      * Get Detail on Sub-account's Margin Account (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/margin/account")
     public <T> T getSubMarginAccountDetail(String email, ReturnFormat format) throws Exception {
@@ -2531,7 +2541,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-detail-on-sub-account-39-s-margin-account-for-master-account">
      * Get Detail on Sub-account's Margin Account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/margin/account")
@@ -2560,7 +2570,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-detail-on-sub-account-39-s-margin-account-for-master-account">
      * Get Detail on Sub-account's Margin Account (For Master Account)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/margin/account")
@@ -2596,7 +2606,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-sub-account-39-s-margin-account-for-master-account">
      * Get Summary of Sub-account's Margin Account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/margin/accountSummary")
@@ -2623,7 +2633,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-sub-account-39-s-margin-account-for-master-account">
      * Get Summary of Sub-account's Margin Account (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/margin/accountSummary")
     public <T> T getSummarySubMarginAccount(ReturnFormat format) throws Exception {
@@ -2649,7 +2659,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-sub-account-39-s-margin-account-for-master-account">
      * Get Summary of Sub-account's Margin Account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/margin/accountSummary")
@@ -2677,7 +2687,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-sub-account-39-s-margin-account-for-master-account">
      * Get Summary of Sub-account's Margin Account (For Master Account)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/margin/accountSummary")
@@ -2715,7 +2725,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-futures-for-sub-account-for-master-account">
      * Enable Futures for Sub-account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -2744,7 +2754,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-futures-for-sub-account-for-master-account">
      * Enable Futures for Sub-account (For Master Account)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/enable")
@@ -2771,7 +2781,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-futures-for-sub-account-for-master-account">
      * Enable Futures for Sub-account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/enable")
@@ -2799,7 +2809,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-futures-for-sub-account-for-master-account">
      * Enable Futures for Sub-account (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/enable")
     public <T> T enableFuturesSubAccount(String email, ReturnFormat format) throws Exception {
@@ -2826,7 +2836,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-futures-for-sub-account-for-master-account">
      * Enable Futures for Sub-account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -2856,7 +2866,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-futures-for-sub-account-for-master-account">
      * Enable Futures for Sub-account (For Master Account)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/enable")
@@ -2884,7 +2894,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-futures-for-sub-account-for-master-account">
      * Enable Futures for Sub-account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/enable")
@@ -2913,7 +2923,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-futures-for-sub-account-for-master-account">
      * Enable Futures for Sub-account (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/enable")
     public <T> T enableFuturesSubAccount(String email, long recvWindow, ReturnFormat format) throws Exception {
@@ -2940,7 +2950,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-detail-on-sub-account-39-s-futures-account-for-master-account">
      * Get Detail on Sub-account's Futures Account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/account")
@@ -2968,7 +2978,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-detail-on-sub-account-39-s-futures-account-for-master-account">
      * Get Detail on Sub-account's Futures Account (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/account")
     public <T> T getSubFuturesAccountDetail(String email, ReturnFormat format) throws Exception {
@@ -2995,7 +3005,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-detail-on-sub-account-39-s-futures-account-for-master-account">
      * Get Detail on Sub-account's Futures Account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/account")
@@ -3024,7 +3034,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-detail-on-sub-account-39-s-futures-account-for-master-account">
      * Get Detail on Sub-account's Futures Account (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/account")
     public <T> T getSubFuturesAccountDetail(String email, long recvWindow, ReturnFormat format) throws Exception {
@@ -3051,7 +3061,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-sub-account-39-s-futures-account-for-master-account">
      * Get Summary of Sub-account's Futures Account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/accountSummary")
@@ -3078,7 +3088,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-sub-account-39-s-futures-account-for-master-account">
      * Get Summary of Sub-account's Futures Account (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/accountSummary")
     public <T> T getSummarySubFuturesAccount(ReturnFormat format) throws Exception {
@@ -3104,7 +3114,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-sub-account-39-s-futures-account-for-master-account">
      * Get Summary of Sub-account's Futures Account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/accountSummary")
@@ -3132,7 +3142,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-sub-account-39-s-futures-account-for-master-account">
      * Get Summary of Sub-account's Futures Account (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/accountSummary")
     public <T> T getSummarySubFuturesAccount(long recvWindow, ReturnFormat format) throws Exception {
@@ -3162,7 +3172,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-futures-position-risk-of-sub-account-for-master-account">
      * Get Futures Position-Risk of Sub-account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "10(IP)")
@@ -3191,7 +3201,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-futures-position-risk-of-sub-account-for-master-account">
      * Get Futures Position-Risk of Sub-account (For Master Account)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/positionRisk")
@@ -3218,7 +3228,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-futures-position-risk-of-sub-account-for-master-account">
      * Get Futures Position-Risk of Sub-account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/positionRisk")
@@ -3246,7 +3256,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-futures-position-risk-of-sub-account-for-master-account">
      * Get Futures Position-Risk of Sub-account (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/positionRisk")
     public <T> T getFuturesPositionRisk(String email, ReturnFormat format) throws Exception {
@@ -3273,7 +3283,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-futures-position-risk-of-sub-account-for-master-account">
      * Get Futures Position-Risk of Sub-account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "10(IP)")
@@ -3304,7 +3314,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-futures-position-risk-of-sub-account-for-master-account">
      * Get Futures Position-Risk of Sub-account (For Master Account)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/positionRisk")
@@ -3333,7 +3343,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-futures-position-risk-of-sub-account-for-master-account">
      * Get Futures Position-Risk of Sub-account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/positionRisk")
@@ -3362,7 +3372,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-futures-position-risk-of-sub-account-for-master-account">
      * Get Futures Position-Risk of Sub-account (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/futures/positionRisk")
     public <T> T getFuturesPositionRisk(String email, long recvWindow, ReturnFormat format) throws Exception {
@@ -3392,7 +3402,9 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#futures-transfer-for-sub-account-for-master-account">
      * Futures Transfer for Sub-account (For Master Account)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -3425,7 +3437,9 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#futures-transfer-for-sub-account-for-master-account">
      * Futures Transfer for Sub-account (For Master Account)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/transfer")
@@ -3456,7 +3470,9 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#futures-transfer-for-sub-account-for-master-account">
      * Futures Transfer for Sub-account (For Master Account)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/transfer")
@@ -3488,7 +3504,9 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#futures-transfer-for-sub-account-for-master-account">
      * Futures Transfer for Sub-account (For Master Account)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/transfer")
     public <T> T execFuturesTransfer(String email, String asset, double amount, FutureTransactionType type,
@@ -3519,7 +3537,9 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#futures-transfer-for-sub-account-for-master-account">
      * Futures Transfer for Sub-account (For Master Account)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -3553,7 +3573,9 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#futures-transfer-for-sub-account-for-master-account">
      * Futures Transfer for Sub-account (For Master Account)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/transfer")
@@ -3585,7 +3607,9 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#futures-transfer-for-sub-account-for-master-account">
      * Futures Transfer for Sub-account (For Master Account)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/transfer")
@@ -3618,7 +3642,9 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#futures-transfer-for-sub-account-for-master-account">
      * Futures Transfer for Sub-account (For Master Account)</a>
-     **/
+     * @deprecated this method is deprecated and will be removed in the next release of the library
+     */
+    @Deprecated
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/futures/transfer")
     public <T> T execFuturesTransfer(String email, String asset, double amount, FutureTransactionType type,
@@ -3649,7 +3675,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-transfer-for-sub-account-for-master-account">
      * Margin Transfer for Sub-account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -3682,7 +3708,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-transfer-for-sub-account-for-master-account">
      * Margin Transfer for Sub-account (For Master Account)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/transfer")
@@ -3713,7 +3739,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-transfer-for-sub-account-for-master-account">
      * Margin Transfer for Sub-account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/transfer")
@@ -3744,7 +3770,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-transfer-for-sub-account-for-master-account">
      * Margin Transfer for Sub-account (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/transfer")
     public <T> T execMarginTransfer(String email, String asset, double amount, SubMarginTransfer type,
@@ -3775,7 +3801,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-transfer-for-sub-account-for-master-account">
      * Margin Transfer for Sub-account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -3809,7 +3835,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-transfer-for-sub-account-for-master-account">
      * Margin Transfer for Sub-account (For Master Account)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/transfer")
@@ -3841,7 +3867,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-transfer-for-sub-account-for-master-account">
      * Margin Transfer for Sub-account (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/transfer")
@@ -3874,7 +3900,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-transfer-for-sub-account-for-master-account">
      * Margin Transfer for Sub-account (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/margin/transfer")
     public <T> T execMarginTransfer(String email, String asset, double amount, SubMarginTransfer type,
@@ -3904,7 +3930,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#transfer-to-sub-account-of-same-master-for-sub-account">
      * Transfer to Sub-account of Same Master (For Sub-account)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -3935,7 +3961,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#transfer-to-sub-account-of-same-master-for-sub-account">
      * Transfer to Sub-account of Same Master (For Sub-account)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToSub")
@@ -3965,7 +3991,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#transfer-to-sub-account-of-same-master-for-sub-account">
      * Transfer to Sub-account of Same Master (For Sub-account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToSub")
@@ -3995,7 +4021,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#transfer-to-sub-account-of-same-master-for-sub-account">
      * Transfer to Sub-account of Same Master (For Sub-account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToSub")
     public <T> T execSubToSubTransfer(String email, String asset, double amount, ReturnFormat format) throws Exception {
@@ -4024,7 +4050,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#transfer-to-sub-account-of-same-master-for-sub-account">
      * Transfer to Sub-account of Same Master (For Sub-account)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -4056,7 +4082,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#transfer-to-sub-account-of-same-master-for-sub-account">
      * Transfer to Sub-account of Same Master (For Sub-account)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToSub")
@@ -4087,7 +4113,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#transfer-to-sub-account-of-same-master-for-sub-account">
      * Transfer to Sub-account of Same Master (For Sub-account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToSub")
@@ -4118,7 +4144,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#transfer-to-sub-account-of-same-master-for-sub-account">
      * Transfer to Sub-account of Same Master (For Sub-account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToSub")
     public <T> T execSubToSubTransfer(String email, String asset, double amount, long recvWindow,
@@ -4147,7 +4173,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#transfer-to-master-for-sub-account">
      * Transfer to Master (For Sub-account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToMaster")
@@ -4176,7 +4202,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#transfer-to-master-for-sub-account">
      * Transfer to Master (For Sub-account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToMaster")
     public <T> T transferToMaster(String asset, double amount, ReturnFormat format) throws Exception {
@@ -4204,7 +4230,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#transfer-to-master-for-sub-account">
      * Transfer to Master (For Sub-account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToMaster")
@@ -4234,7 +4260,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#transfer-to-master-for-sub-account">
      * Transfer to Master (For Sub-account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/transfer/subToMaster")
     public <T> T transferToMaster(String asset, double amount, long recvWindow, ReturnFormat format) throws Exception {
@@ -4251,7 +4277,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @param type:       type of the transfer to execute
      * @param recvWindow: request is valid for in ms, must be less than 60000
      * @return payload as {@link Params}
-     **/
+     */
     private <T> Params createTransferPayload(String email, String asset, double amount, T type, long recvWindow) {
         Params payload = new Params();
         if (email != null)
@@ -4271,7 +4297,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      * @param transferResponse: obtained from Binance's response
      * @param format:           return type formatter -> {@link ReturnFormat}
      * @return transfer id as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnTransferId(String transferResponse, ReturnFormat format) {
         switch (format) {
@@ -4303,7 +4329,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#sub-account-transfer-history-for-sub-account">
      * Sub-account Transfer History (For Sub-account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/transfer/subUserHistory")
@@ -4330,7 +4356,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#sub-account-transfer-history-for-sub-account">
      * Sub-account Transfer History (For Sub-account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/transfer/subUserHistory")
     public <T> T getSubAccountTransferHistory(ReturnFormat format) throws Exception {
@@ -4377,7 +4403,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#sub-account-transfer-history-for-sub-account">
      * Sub-account Transfer History (For Sub-account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/transfer/subUserHistory")
@@ -4426,7 +4452,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#sub-account-transfer-history-for-sub-account">
      * Sub-account Transfer History (For Sub-account)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/sub-account/transfer/subUserHistory")
@@ -4469,7 +4495,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#universal-transfer-for-master-account">
      * Universal Transfer (For Master Account)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/universalTransfer")
@@ -4502,7 +4528,7 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#universal-transfer-for-master-account">
      * Universal Transfer (For Master Account)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/sub-account/universalTransfer")
     public <T> T execSubUniversalTransfer(PrincipalAccountType fromAccountType, PrincipalAccountType toAccountType,

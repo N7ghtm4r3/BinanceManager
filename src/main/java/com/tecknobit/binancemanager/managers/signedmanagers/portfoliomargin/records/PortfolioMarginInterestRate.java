@@ -12,22 +12,24 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-rate-market_data">
  * Query Portfolio Margin Interest Rate (MARKET_DATA)</a>
  * @see BinanceItem
- **/
+ * @deprecated this object will be removed in the next release
+ */
+@Deprecated
 public class PortfolioMarginInterestRate extends BinanceItem {
 
     /**
      * {@code asset} of the margin interest rate
-     **/
+     */
     private final String asset;
 
     /**
      * {@code dailyInterest} daily interest rate
-     **/
+     */
     private final double dailyInterest;
 
     /**
      * {@code yearlyInterest} annual interest rate
-     **/
+     */
     private final double yearlyInterest;
 
     /**
@@ -36,7 +38,7 @@ public class PortfolioMarginInterestRate extends BinanceItem {
      * @param asset          : asset of the margin interest rate
      * @param dailyInterest  : daily interest rate
      * @param yearlyInterest : annual interest rate
-     **/
+     */
     public PortfolioMarginInterestRate(String asset, double dailyInterest, double yearlyInterest) {
         super(null);
         this.asset = asset;
@@ -48,7 +50,7 @@ public class PortfolioMarginInterestRate extends BinanceItem {
      * Constructor to init {@link PortfolioMarginInterestRate}
      *
      * @param jPortfolioMarginInterestRate : margin interest rate details as {@link JSONObject}
-     **/
+     */
     public PortfolioMarginInterestRate(JSONObject jPortfolioMarginInterestRate) {
         super(jPortfolioMarginInterestRate);
         asset = hItem.getString("asset");
@@ -61,7 +63,7 @@ public class PortfolioMarginInterestRate extends BinanceItem {
      * No-any params required
      *
      * @return {@link #asset} instance as {@link String}
-     **/
+     */
     public String getAsset() {
         return asset;
     }
@@ -71,7 +73,7 @@ public class PortfolioMarginInterestRate extends BinanceItem {
      * No-any params required
      *
      * @return {@link #dailyInterest} instance as double
-     **/
+     */
     public double getDailyInterest() {
         return dailyInterest;
     }
@@ -82,7 +84,7 @@ public class PortfolioMarginInterestRate extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #dailyInterest} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getDailyInterest(int decimals) {
         return roundValue(dailyInterest, decimals);
     }
@@ -92,7 +94,7 @@ public class PortfolioMarginInterestRate extends BinanceItem {
      * No-any params required
      *
      * @return {@link #yearlyInterest} instance as double
-     **/
+     */
     public double getYearlyInterest() {
         return yearlyInterest;
     }
@@ -103,7 +105,7 @@ public class PortfolioMarginInterestRate extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #yearlyInterest} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getYearlyInterest(int decimals) {
         return roundValue(yearlyInterest, decimals);
     }

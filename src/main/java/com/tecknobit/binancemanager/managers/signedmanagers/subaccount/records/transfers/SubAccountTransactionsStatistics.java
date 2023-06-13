@@ -16,42 +16,42 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-account-transaction-tatistics-for-master-account-user_data">
  * Query Sub-account Transaction Statistics (For Master Account) (USER_DATA)</a>
  * @see BinanceItem
- **/
+ */
 public class SubAccountTransactionsStatistics extends BinanceItem {
 
     /**
      * {@code recent30BtcTotal} recent 30 btc total of the subaccount transactions statistics
-     **/
+     */
     private final double recent30BtcTotal;
 
     /**
      * {@code recent30BtcFuturesTotal} recent 30 btc futures total of the subaccount transactions statistics
-     **/
+     */
     private final double recent30BtcFuturesTotal;
 
     /**
      * {@code recent30BtcMarginTotal} recent 30 btc margin total of the subaccount transactions statistics
-     **/
+     */
     private final double recent30BtcMarginTotal;
 
     /**
      * {@code recent30BusdTotal} recent 30 busd total of the subaccount transactions statistics
-     **/
+     */
     private final double recent30BusdTotal;
 
     /**
      * {@code recent30BusdFuturesTotal} recent 30 busd futures total of the subaccount transactions statistics
-     **/
+     */
     private final double recent30BusdFuturesTotal;
 
     /**
      * {@code recent30BusdMarginTotal} recent 30 busd margin total of the subaccount transactions statistics
-     **/
+     */
     private final double recent30BusdMarginTotal;
 
     /**
      * {@code tradeInfoVos} trade info vos of the subaccount transactions statistics
-     **/
+     */
     private final ArrayList<SubTradeInfo> tradeInfoVos;
 
     /**
@@ -64,7 +64,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
      * @param recent30BusdFuturesTotal :  recent 30 busd futures total of the subaccount transactions statistics
      * @param recent30BusdMarginTotal     : recent 30 busd margin total of the subaccount transactions statistics
      * @param tradeInfoVos     : trade info vos of the subaccount transactions statistics
-     **/
+     */
     public SubAccountTransactionsStatistics(double recent30BtcTotal, double recent30BtcFuturesTotal,
                                             double recent30BtcMarginTotal, double recent30BusdTotal,
                                             double recent30BusdFuturesTotal, double recent30BusdMarginTotal,
@@ -83,7 +83,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
      * Constructor to init {@link SubAccountTransactionsStatistics} object
      *
      * @param jSubAccountTransactionsStatistics: subaccount transactions statistics details as {@link JSONObject}
-     **/
+     */
     public SubAccountTransactionsStatistics(JSONObject jSubAccountTransactionsStatistics) {
         super(jSubAccountTransactionsStatistics);
         recent30BtcTotal = hItem.getDouble("recent30BtcTotal", 0);
@@ -104,7 +104,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
      * No-any params required
      *
      * @return {@link #recent30BtcTotal} instance as double
-     **/
+     */
     public double getRecent30BtcTotal() {
         return recent30BtcTotal;
     }
@@ -115,7 +115,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #recent30BtcTotal} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRecent30BtcTotal(int decimals) {
         return roundValue(recent30BtcTotal, decimals);
     }
@@ -125,7 +125,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
      * No-any params required
      *
      * @return {@link #recent30BtcFuturesTotal} instance as double
-     **/
+     */
     public double getRecent30BtcFuturesTotal() {
         return recent30BtcFuturesTotal;
     }
@@ -136,7 +136,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #recent30BtcFuturesTotal} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRecent30BtcFuturesTotal(int decimals) {
         return roundValue(recent30BtcFuturesTotal, decimals);
     }
@@ -146,7 +146,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
      * No-any params required
      *
      * @return {@link #recent30BtcMarginTotal} instance as double
-     **/
+     */
     public double getRecent30BtcMarginTotal() {
         return recent30BtcMarginTotal;
     }
@@ -157,7 +157,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #recent30BtcMarginTotal} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRecent30BtcMarginTotal(int decimals) {
         return roundValue(recent30BtcMarginTotal, decimals);
     }
@@ -167,7 +167,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
      * No-any params required
      *
      * @return {@link #recent30BusdTotal} instance as double
-     **/
+     */
     public double getRecent30BusdTotal() {
         return recent30BusdTotal;
     }
@@ -178,7 +178,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #recent30BusdTotal} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRecent30BusdTotal(int decimals) {
         return roundValue(recent30BusdTotal, decimals);
     }
@@ -188,7 +188,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
      * No-any params required
      *
      * @return {@link #recent30BusdFuturesTotal} instance as double
-     **/
+     */
     public double getRecent30BusdFuturesTotal() {
         return recent30BusdFuturesTotal;
     }
@@ -199,7 +199,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #recent30BusdFuturesTotal} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRecent30BusdFuturesTotal(int decimals) {
         return roundValue(recent30BusdFuturesTotal, decimals);
     }
@@ -209,7 +209,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
      * No-any params required
      *
      * @return {@link #recent30BusdMarginTotal} instance as double
-     **/
+     */
     public double getRecent30BusdMarginTotal() {
         return recent30BusdMarginTotal;
     }
@@ -220,7 +220,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #recent30BusdMarginTotal} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRecent30BusdMarginTotal(int decimals) {
         return roundValue(recent30BusdMarginTotal, decimals);
     }
@@ -230,7 +230,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
      * No-any params required
      *
      * @return {@link #tradeInfoVos} instance as {@link ArrayList} of {@link SubTradeInfo}
-     **/
+     */
     public ArrayList<SubTradeInfo> getTradeInfoVos() {
         return tradeInfoVos;
     }
@@ -240,47 +240,47 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class SubTradeInfo extends BinanceItem {
 
         /**
          * {@code userId} user id of the sub trade info
-         **/
+         */
         private final long userId;
 
         /**
          * {@code btc} of the sub trade info
-         **/
+         */
         private final double btc;
 
         /**
          * {@code btcFutures} btc futures of the sub trade info
-         **/
+         */
         private final double btcFutures;
 
         /**
          * {@code btcMargin} btc margin of the sub trade info
-         **/
+         */
         private final double btcMargin;
 
         /**
          * {@code busd} of the sub trade info
-         **/
+         */
         private final double busd;
 
         /**
          * {@code busdFutures} busd futures of the sub trade info
-         **/
+         */
         private final double busdFutures;
 
         /**
          * {@code busdMargin} busd margin of the sub trade info
-         **/
+         */
         private final double busdMargin;
 
         /**
          * {@code date} of the sub trade info
-         **/
+         */
         private final long date;
 
         /**
@@ -294,7 +294,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
          * @param busdFutures: busd futures of the sub trade info
          * @param busdMargin: busd margin of the sub trade info
          * @param date: date of the sub trade info
-         **/
+         */
         public SubTradeInfo(long userId, double btc, double btcFutures, double btcMargin, double busd, double busdFutures,
                             double busdMargin, long date) {
             super(null);
@@ -312,7 +312,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
          * Constructor to init {@link SubTradeInfo} object
          *
          * @param jSubTradeInfo: sub trade info details as {@link JSONObject}
-         **/
+         */
         public SubTradeInfo(JSONObject jSubTradeInfo) {
             super(jSubTradeInfo);
             userId = hItem.getLong("userId", 0);
@@ -330,7 +330,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
          * No-any params required
          *
          * @return {@link #userId} instance as long
-         **/
+         */
         public long getUserId() {
             return userId;
         }
@@ -340,7 +340,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
          * No-any params required
          *
          * @return {@link #btc} instance as double
-         **/
+         */
         public double getBtc() {
             return btc;
         }
@@ -351,7 +351,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
          * @param decimals: number of digits to round final value
          * @return {@link #btc} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getBtc(int decimals) {
             return roundValue(btc, decimals);
         }
@@ -361,7 +361,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
          * No-any params required
          *
          * @return {@link #btcFutures} instance as double
-         **/
+         */
         public double getBtcFutures() {
             return btcFutures;
         }
@@ -372,7 +372,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
          * @param decimals: number of digits to round final value
          * @return {@link #btcFutures} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getBtcFutures(int decimals) {
             return roundValue(btcFutures, decimals);
         }
@@ -382,7 +382,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
          * No-any params required
          *
          * @return {@link #btcMargin} instance as double
-         **/
+         */
         public double getBtcMargin() {
             return btcMargin;
         }
@@ -393,7 +393,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
          * @param decimals: number of digits to round final value
          * @return {@link #btcMargin} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getBtcMargin(int decimals) {
             return roundValue(btcMargin, decimals);
         }
@@ -403,7 +403,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
          * No-any params required
          *
          * @return {@link #busd} instance as double
-         **/
+         */
         public double getBusd() {
             return busd;
         }
@@ -414,7 +414,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
          * @param decimals: number of digits to round final value
          * @return {@link #busd} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getBusd(int decimals) {
             return roundValue(busd, decimals);
         }
@@ -424,7 +424,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
          * No-any params required
          *
          * @return {@link #busdFutures} instance as double
-         **/
+         */
         public double getBusdFutures() {
             return busdFutures;
         }
@@ -435,7 +435,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
          * @param decimals: number of digits to round final value
          * @return {@link #busdFutures} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getBusdFutures(int decimals) {
             return roundValue(busdFutures, decimals);
         }
@@ -445,7 +445,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
          * No-any params required
          *
          * @return {@link #busdMargin} instance as double
-         **/
+         */
         public double getBusdMargin() {
             return busdMargin;
         }
@@ -456,7 +456,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
          * @param decimals: number of digits to round final value
          * @return {@link #busdMargin} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getBusdMargin(int decimals) {
             return roundValue(busdMargin, decimals);
         }
@@ -466,7 +466,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
          * No-any params required
          *
          * @return {@link #date} instance as long
-         **/
+         */
         public long getDate() {
             return date;
         }
@@ -476,7 +476,7 @@ public class SubAccountTransactionsStatistics extends BinanceItem {
          * No-any params required
          *
          * @return {@link #date} instance as {@link Date}
-         **/
+         */
         public Date getTimeDate() {
             return TimeFormatter.getDate(date);
         }

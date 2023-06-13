@@ -21,7 +21,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.c2c.records.C
  * @see BinanceItem
  * @see BinanceDataList
  * @see BinanceResponse
- **/
+ */
 public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
 
     /**
@@ -30,7 +30,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
      * @param total   : number of items
      * @param success :  whether the list is created with success
      * @param data    :  {@link C2CTrade} in the list
-     **/
+     */
     public C2CTradeHistory(int total, boolean success, ArrayList<C2CTrade> data) {
         super(total, success, data);
     }
@@ -39,7 +39,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
      * Constructor to init {@link C2CTradeHistory} object
      *
      * @param jC2CTrades : C2C Trades list details as {@link JSONObject}
-     **/
+     */
     public C2CTradeHistory(JSONObject jC2CTrades) {
         super(jC2CTrades);
         JSONArray jData = hItem.getJSONArray("data", new JSONArray());
@@ -52,124 +52,124 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class C2CTrade extends BinanceItem {
 
         /**
          * {@code C2CStatus} list of available C2C statuses
-         **/
+         */
         public enum C2CStatus {
 
             /**
              * {@code PENDING} C2C status
-             **/
+             */
             PENDING,
 
             /**
              * {@code TRADING} C2C status
-             **/
+             */
             TRADING,
 
             /**
              * {@code BUYER_PAYED} C2C status
-             **/
+             */
             BUYER_PAYED,
 
             /**
              * {@code DISTRIBUTING} C2C status
-             **/
+             */
             DISTRIBUTING,
 
             /**
              * {@code COMPLETED} C2C status
-             **/
+             */
             COMPLETED,
 
             /**
              * {@code IN_APPEAL} C2C status
-             **/
+             */
             IN_APPEAL,
 
             /**
              * {@code CANCELLED} C2C status
-             **/
+             */
             CANCELLED,
 
             /**
              * {@code CANCELLED_BY_SYSTEM} C2C status
-             **/
+             */
             CANCELLED_BY_SYSTEM
 
         }
 
         /**
          * {@code orderNumber} order number of the C2C trade
-         **/
+         */
         private final String orderNumber;
 
         /**
          * {@code advNo} adv number of the C2C trade
-         **/
+         */
         private final String advNo;
 
         /**
          * {@code traderType} trader type of the C2C trade
-         **/
+         */
         private final Side traderType;
 
         /**
          * {@code asset} of the C2C trade
-         **/
+         */
         private final String asset;
 
         /**
          * {@code fiat} fiat used int the C2C trade
-         **/
+         */
         private final String fiat;
 
         /**
          * {@code fiatSymbol} symbol of {@link #fiat}
-         **/
+         */
         private final String fiatSymbol;
 
         /**
          * {@code amount} quantity (in Crypto)
-         **/
+         */
         private final double amount;
 
         /**
          * {@code totalPrice} total price in the C2C trade
-         **/
+         */
         private final double totalPrice;
 
         /**
          * {@code unitPrice} unit Price (in Fiat)
-         **/
+         */
         private final double unitPrice;
 
         /**
          * {@code orderStatus} status of the C2C trade
-         **/
+         */
         private final C2CStatus orderStatus;
 
         /**
          * {@code createTime} creation time of the C2C trade
-         **/
+         */
         private final long createTime;
 
         /**
          * {@code commission} transaction Fee (in Crypto)
-         **/
+         */
         private final double commission;
 
         /**
          * {@code counterPartNickName} counter part nickname of the C2C trade
-         **/
+         */
         private final String counterPartNickName;
 
         /**
          * {@code advertisementRole} advertisement role of the C2C trade
-         **/
+         */
         private final String advertisementRole;
 
         /**
@@ -189,7 +189,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
          * @param commission:          transaction Fee (in Crypto)
          * @param counterPartNickName: counterpart nickname of the C2C trade
          * @param advertisementRole:   advertisement role of the C2C trade
-         **/
+         */
         public C2CTrade(String orderNumber, String advNo, Side traderType, String asset, String fiat, String fiatSymbol,
                         double amount, double totalPrice, double unitPrice, C2CStatus orderStatus, long createTime,
                         double commission, String counterPartNickName, String advertisementRole) {
@@ -214,7 +214,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
          * Constructor to init {@link C2CTrade} object
          *
          * @param jC2CTrade: C2C trade details as {@link JSONObject}
-         **/
+         */
         public C2CTrade(JSONObject jC2CTrade) {
             super(jC2CTrade);
             orderNumber = hItem.getString("orderNumber");
@@ -238,7 +238,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
          * No-any params required
          *
          * @return {@link #orderNumber} instance as {@link String}
-         **/
+         */
         public String getOrderNumber() {
             return orderNumber;
         }
@@ -248,7 +248,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
          * No-any params required
          *
          * @return {@link #advNo} instance as {@link String}
-         **/
+         */
         public String getAdvNo() {
             return advNo;
         }
@@ -258,7 +258,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
          * No-any params required
          *
          * @return {@link #traderType} instance as {@link Side}
-         **/
+         */
         public Side getTraderType() {
             return traderType;
         }
@@ -268,7 +268,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
          * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
-         **/
+         */
         public String getAsset() {
             return asset;
         }
@@ -278,7 +278,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
          * No-any params required
          *
          * @return {@link #fiat} instance as {@link String}
-         **/
+         */
         public String getFiat() {
             return fiat;
         }
@@ -288,7 +288,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
          * No-any params required
          *
          * @return {@link #fiatSymbol} instance as {@link String}
-         **/
+         */
         public String getFiatSymbol() {
             return fiatSymbol;
         }
@@ -298,7 +298,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
          * No-any params required
          *
          * @return {@link #amount} instance as double
-         **/
+         */
         public double getAmount() {
             return amount;
         }
@@ -309,7 +309,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
          * @param decimals: number of digits to round final value
          * @return {@link #amount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getAmount(int decimals) {
             return roundValue(amount, decimals);
         }
@@ -319,7 +319,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
          * No-any params required
          *
          * @return {@link #totalPrice} instance as double
-         **/
+         */
         public double getTotalPrice() {
             return totalPrice;
         }
@@ -330,7 +330,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
          * @param decimals: number of digits to round final value
          * @return {@link #totalPrice} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getTotalPrice(int decimals) {
             return roundValue(totalPrice, decimals);
         }
@@ -340,7 +340,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
          * No-any params required
          *
          * @return {@link #unitPrice} instance as double
-         **/
+         */
         public double getUnitPrice() {
             return unitPrice;
         }
@@ -351,7 +351,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
          * @param decimals: number of digits to round final value
          * @return {@link #unitPrice} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getUnitPrice(int decimals) {
             return roundValue(unitPrice, decimals);
         }
@@ -361,7 +361,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
          * No-any params required
          *
          * @return {@link #orderStatus} instance as {@link C2CStatus}
-         **/
+         */
         public C2CStatus getOrderStatus() {
             return orderStatus;
         }
@@ -371,7 +371,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
          * No-any params required
          *
          * @return {@link #commission} instance as double
-         **/
+         */
         public double getCommission() {
             return commission;
         }
@@ -382,7 +382,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
          * @param decimals: number of digits to round final value
          * @return {@link #commission} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getCommission(int decimals) {
             return roundValue(commission, decimals);
         }
@@ -392,7 +392,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
          * No-any params required
          *
          * @return {@link #counterPartNickName} instance as {@link String}
-         **/
+         */
         public String getCounterPartNickName() {
             return counterPartNickName;
         }
@@ -402,7 +402,7 @@ public class C2CTradeHistory extends BinanceDataList<C2CTrade> {
          * No-any params required
          *
          * @return {@link #advertisementRole} instance as {@link String}
-         **/
+         */
         public String getAdvertisementRole() {
             return advertisementRole;
         }

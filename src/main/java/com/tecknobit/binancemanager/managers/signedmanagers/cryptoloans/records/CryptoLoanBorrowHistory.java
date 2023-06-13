@@ -20,7 +20,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.cryptoloans.r
  * Borrow - Get Loan Borrow History (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class CryptoLoanBorrowHistory extends BinanceRowsList<LoanBorrowHistoryItem> {
 
     /**
@@ -28,7 +28,7 @@ public class CryptoLoanBorrowHistory extends BinanceRowsList<LoanBorrowHistoryIt
      *
      * @param total   : number of borrows
      * @param borrows :  list of the borrows
-     **/
+     */
     public CryptoLoanBorrowHistory(int total, ArrayList<LoanBorrowHistoryItem> borrows) {
         super(total, borrows);
     }
@@ -37,7 +37,7 @@ public class CryptoLoanBorrowHistory extends BinanceRowsList<LoanBorrowHistoryIt
      * Constructor to init {@link CryptoLoanBorrowHistory}
      *
      * @param jHistory : history details as {@link JSONObject}
-     **/
+     */
     public CryptoLoanBorrowHistory(JSONObject jHistory) {
         super(jHistory);
         for (Object row : hItem.fetchList("rows"))
@@ -50,89 +50,89 @@ public class CryptoLoanBorrowHistory extends BinanceRowsList<LoanBorrowHistoryIt
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see LoanBaseStructure
-     **/
+     */
     public static class LoanBorrowHistoryItem extends LoanBaseStructure {
 
         /**
          * {@code BorrowStatus} list of available borrow statuses
-         **/
+         */
         public enum BorrowStatus {
 
             /**
              * {@code Accruing_Interest} borrow status
-             **/
+             */
             Accruing_Interest,
 
             /**
              * {@code Overdue} borrow status
-             **/
+             */
             Overdue,
 
             /**
              * {@code Liquidating} borrow status
-             **/
+             */
             Liquidating,
 
             /**
              * {@code Repaying} borrow status
-             **/
+             */
             Repaying,
 
             /**
              * {@code Repaid} borrow status
-             **/
+             */
             Repaid,
 
             /**
              * {@code Liquidated} borrow status
-             **/
+             */
             Liquidated,
 
             /**
              * {@code Pending} borrow status
-             **/
+             */
             Pending,
 
             /**
              * {@code Failed} borrow status
-             **/
+             */
             Failed
 
         }
 
         /**
          * {@code orderId} order id of the loan borrow
-         **/
+         */
         private final long orderId;
 
         /**
          * {@code initialLoanAmount} initial loan amount of the loan borrow
-         **/
+         */
         private final double initialLoanAmount;
 
         /**
          * {@code hourlyInterestRate} hourly interest rate of the loan borrow
-         **/
+         */
         private final double hourlyInterestRate;
 
         /**
          * {@code loanTerm} loan term of the loan borrow
-         **/
+         */
         private final int loanTerm;
 
         /**
          * {@code initialCollateralAmount} initial collateral amount of the loan borrow
-         **/
+         */
         private final double initialCollateralAmount;
 
         /**
          * {@code borrowTime} borrow time of the loan borrow
-         **/
+         */
         private final long borrowTime;
 
         /**
          * {@code status} of the loan borrow
-         **/
+         */
         private final BorrowStatus status;
 
         /**
@@ -147,7 +147,7 @@ public class CryptoLoanBorrowHistory extends BinanceRowsList<LoanBorrowHistoryIt
          * @param initialCollateralAmount : initial collateral amount of the loan borrow
          * @param borrowTime       : borrow time of the loan borrow
          * @param status : status of the loan borrow
-         **/
+         */
         public LoanBorrowHistoryItem(String loanCoin, String collateralCoin, long orderId, double initialLoanAmount,
                                      double hourlyInterestRate, int loanTerm, double initialCollateralAmount,
                                      long borrowTime, BorrowStatus status) {
@@ -165,7 +165,7 @@ public class CryptoLoanBorrowHistory extends BinanceRowsList<LoanBorrowHistoryIt
          * Constructor to init {@link LoanBorrowHistoryItem} object
          *
          * @param jLoanBorrowHistoryItem : loan borrow history item details as {@link JSONObject}
-         **/
+         */
         public LoanBorrowHistoryItem(JSONObject jLoanBorrowHistoryItem) {
             super(jLoanBorrowHistoryItem);
             orderId = hItem.getLong("orderId", 0);
@@ -182,7 +182,7 @@ public class CryptoLoanBorrowHistory extends BinanceRowsList<LoanBorrowHistoryIt
          * No-any params required
          *
          * @return {@link #orderId} instance as long
-         **/
+         */
         public long getOrderId() {
             return orderId;
         }
@@ -192,7 +192,7 @@ public class CryptoLoanBorrowHistory extends BinanceRowsList<LoanBorrowHistoryIt
          * No-any params required
          *
          * @return {@link #initialLoanAmount} instance as double
-         **/
+         */
         public double getInitialLoanAmount() {
             return initialLoanAmount;
         }
@@ -203,7 +203,7 @@ public class CryptoLoanBorrowHistory extends BinanceRowsList<LoanBorrowHistoryIt
          * @param decimals: number of digits to round final value
          * @return {@link #initialLoanAmount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getInitialLoanAmount(int decimals) {
             return roundValue(initialLoanAmount, decimals);
         }
@@ -213,7 +213,7 @@ public class CryptoLoanBorrowHistory extends BinanceRowsList<LoanBorrowHistoryIt
          * No-any params required
          *
          * @return {@link #hourlyInterestRate} instance as double
-         **/
+         */
         public double getHourlyInterestRate() {
             return hourlyInterestRate;
         }
@@ -224,7 +224,7 @@ public class CryptoLoanBorrowHistory extends BinanceRowsList<LoanBorrowHistoryIt
          * @param decimals: number of digits to round final value
          * @return {@link #hourlyInterestRate} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getHourlyInterestRate(int decimals) {
             return roundValue(hourlyInterestRate, decimals);
         }
@@ -234,7 +234,7 @@ public class CryptoLoanBorrowHistory extends BinanceRowsList<LoanBorrowHistoryIt
          * No-any params required
          *
          * @return {@link #loanTerm} instance as int
-         **/
+         */
         public int getLoanTerm() {
             return loanTerm;
         }
@@ -244,7 +244,7 @@ public class CryptoLoanBorrowHistory extends BinanceRowsList<LoanBorrowHistoryIt
          * No-any params required
          *
          * @return {@link #initialCollateralAmount} instance as double
-         **/
+         */
         public double getInitialCollateralAmount() {
             return initialCollateralAmount;
         }
@@ -255,7 +255,7 @@ public class CryptoLoanBorrowHistory extends BinanceRowsList<LoanBorrowHistoryIt
          * @param decimals: number of digits to round final value
          * @return {@link #initialCollateralAmount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getInitialCollateralAmount(int decimals) {
             return roundValue(initialCollateralAmount, decimals);
         }
@@ -265,7 +265,7 @@ public class CryptoLoanBorrowHistory extends BinanceRowsList<LoanBorrowHistoryIt
          * No-any params required
          *
          * @return {@link #borrowTime} instance as long
-         **/
+         */
         public long getBorrowTime() {
             return borrowTime;
         }
@@ -275,7 +275,7 @@ public class CryptoLoanBorrowHistory extends BinanceRowsList<LoanBorrowHistoryIt
          * No-any params required
          *
          * @return {@link #borrowTime} instance as {@link Date}
-         **/
+         */
         public Date getBorrowDate() {
             return TimeFormatter.getDate(borrowTime);
         }
@@ -285,7 +285,7 @@ public class CryptoLoanBorrowHistory extends BinanceRowsList<LoanBorrowHistoryIt
          * No-any params required
          *
          * @return {@link #status} instance as {@link BorrowStatus}
-         **/
+         */
         public BorrowStatus getStatus() {
             return status;
         }

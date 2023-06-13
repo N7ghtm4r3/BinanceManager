@@ -39,72 +39,72 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * Mining Endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
- **/
+ */
 public class BinanceMiningManager extends BinanceSignedManager {
 
     /**
      * {@code MINING_PUB_ALGOLIST_ENDPOINT} is constant for MINING_PUB_ALGOLIST_ENDPOINT's endpoint
-     **/
+     */
     public static final String MINING_PUB_ALGOLIST_ENDPOINT = "/sapi/v1/mining/pub/algoList";
 
     /**
      * {@code MINING_PUB_COINLIST_ENDPOINT} is constant for MINING_PUB_COINLIST_ENDPOINT's endpoint
-     **/
+     */
     public static final String MINING_PUB_COINLIST_ENDPOINT = "/sapi/v1/mining/pub/coinList";
 
     /**
      * {@code MINING_WORKER_DETAIL_ENDPOINT} is constant for MINING_WORKER_DETAIL_ENDPOINT's endpoint
-     **/
+     */
     public static final String MINING_WORKER_DETAIL_ENDPOINT = "/sapi/v1/mining/worker/detail";
 
     /**
      * {@code MINING_WORKER_LIST_ENDPOINT} is constant for MINING_WORKER_LIST_ENDPOINT's endpoint
-     **/
+     */
     public static final String MINING_WORKER_LIST_ENDPOINT = "/sapi/v1/mining/worker/list";
 
     /**
      * {@code MINING_PAYMENT_LIST_ENDPOINT} is constant for MINING_PAYMENT_LIST_ENDPOINT's endpoint
-     **/
+     */
     public static final String MINING_PAYMENT_LIST_ENDPOINT = "/sapi/v1/mining/payment/list";
 
     /**
      * {@code MINING_PAYMENT_OTHER_ENDPOINT} is constant for MINING_PAYMENT_OTHER_ENDPOINT's endpoint
-     **/
+     */
     public static final String MINING_PAYMENT_OTHER_ENDPOINT = "/sapi/v1/mining/payment/other";
 
     /**
      * {@code MINING_HASH_TRANSFER_CONFIG_DETAILS_LIST_ENDPOINT} is constant for MINING_HASH_TRANSFER_CONFIG_DETAILS_LIST_ENDPOINT's endpoint
-     **/
+     */
     public static final String MINING_HASH_TRANSFER_CONFIG_DETAILS_LIST_ENDPOINT = "/sapi/v1/mining/hash-transfer/config/details/list";
 
     /**
      * {@code MINING_HASH_TRANSFER_PROFIT_DETAILS_ENDPOINT} is constant for MINING_HASH_TRANSFER_PROFIT_DETAILS_ENDPOINT's endpoint
-     **/
+     */
     public static final String MINING_HASH_TRANSFER_PROFIT_DETAILS_ENDPOINT = "/sapi/v1/mining/hash-transfer/profit/details";
 
     /**
      * {@code MINING_HASH_TRANSFER_CONFIG_ENDPOINT} is constant for MINING_HASH_TRANSFER_CONFIG_ENDPOINT's endpoint
-     **/
+     */
     public static final String MINING_HASH_TRANSFER_CONFIG_ENDPOINT = "/sapi/v1/mining/hash-transfer/config";
 
     /**
      * {@code MINING_HASH_TRANSFER_CONFIG_CANCEL_ENDPOINT} is constant for MINING_HASH_TRANSFER_CONFIG_CANCEL_ENDPOINT's endpoint
-     **/
+     */
     public static final String MINING_HASH_TRANSFER_CONFIG_CANCEL_ENDPOINT = "/sapi/v1/mining/hash-transfer/config/cancel";
 
     /**
      * {@code MINING_STATISTICS_USER_STATUS_ENDPOINT} is constant for MINING_STATISTICS_USER_STATUS_ENDPOINT's endpoint
-     **/
+     */
     public static final String MINING_STATISTICS_USER_STATUS_ENDPOINT = "/sapi/v1/mining/statistics/user/status";
 
     /**
      * {@code MINING_STATISTICS_USER_LIST_ENDPOINT} is constant for MINING_STATISTICS_USER_LIST_ENDPOINT's endpoint
-     **/
+     */
     public static final String MINING_STATISTICS_USER_LIST_ENDPOINT = "/sapi/v1/mining/statistics/user/list";
 
     /**
      * {@code MINING_PAYMENT_UID_ENDPOINT} is constant for MINING_PAYMENT_UID_ENDPOINT's endpoint
-     **/
+     */
     public static final String MINING_PAYMENT_UID_ENDPOINT = "/sapi/v1/mining/payment/uid";
 
     /**
@@ -115,7 +115,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceMiningManager(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
                                 String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
@@ -128,7 +128,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceMiningManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
                                 String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, apiKey, secretKey);
@@ -141,7 +141,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceMiningManager(String baseEndpoint, int timeout, String apiKey,
                                 String secretKey) throws SystemException, IOException {
         super(baseEndpoint, timeout, apiKey, secretKey);
@@ -153,7 +153,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceMiningManager(String baseEndpoint, String apiKey,
                                 String secretKey) throws SystemException, IOException {
         super(baseEndpoint, apiKey, secretKey);
@@ -174,7 +174,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *        BinanceSignedManager secondManager = new BinanceSignedManager(); //same credentials used
      *     }
      * </pre>
-     **/
+     */
     public BinanceMiningManager() {
         super();
     }
@@ -198,7 +198,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#acquiring-algorithm-market_data">
      * Acquiring Algorithm (MARKET_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/pub/algoList")
@@ -225,7 +225,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#acquiring-algorithm-market_data">
      * Acquiring Algorithm (MARKET_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/pub/algoList")
@@ -260,7 +260,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#acquiring-coinname-market_data">
      * Acquiring CoinName (MARKET_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/pub/coinList")
@@ -287,7 +287,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#acquiring-coinname-market_data">
      * Acquiring CoinName (MARKET_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/pub/coinList")
@@ -324,7 +324,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#request-for-detail-miner-list-user_data">
      * Request for Detail Miner List (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/worker/detail")
@@ -354,7 +354,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#request-for-detail-miner-list-user_data">
      * Request for Detail Miner List (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/worker/detail")
     public <T> T getDetailMinerList(String algo, String userName, String workerName, ReturnFormat format) throws Exception {
@@ -383,7 +383,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#request-for-detail-miner-list-user_data">
      * Request for Detail Miner List (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/worker/detail")
@@ -415,7 +415,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#request-for-detail-miner-list-user_data">
      * Request for Detail Miner List (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/worker/detail")
@@ -456,7 +456,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#request-for-miner-list-user_data">
      * Request for Miner List (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/worker/list")
@@ -485,7 +485,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#request-for-miner-list-user_data">
      * Request for Miner List (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/worker/list")
     public <T> T getMinerList(String algo, String userName, ReturnFormat format) throws Exception {
@@ -534,7 +534,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#request-for-miner-list-user_data">
      * Request for Miner List (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/worker/list")
@@ -585,7 +585,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#request-for-miner-list-user_data">
      * Request for Miner List (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/worker/list")
@@ -623,7 +623,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#earnings-list-user_data">
      * Earnings List(USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/list")
@@ -652,7 +652,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#earnings-list-user_data">
      * Earnings List(USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/list")
     public <T> T getEarningsList(String algo, String userName, ReturnFormat format) throws Exception {
@@ -703,7 +703,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#earnings-list-user_data">
      * Earnings List(USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/list")
@@ -756,7 +756,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#earnings-list-user_data">
      * Earnings List(USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/list")
@@ -794,7 +794,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#extra-bonus-list-user_data">
      * Extra Bonus List (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/other")
@@ -823,7 +823,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#extra-bonus-list-user_data">
      * Extra Bonus List (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/other")
     public <T> T getExtraBonusList(String algo, String userName, ReturnFormat format) throws Exception {
@@ -874,7 +874,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#extra-bonus-list-user_data">
      * Extra Bonus List (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/other")
@@ -927,7 +927,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#extra-bonus-list-user_data">
      * Extra Bonus List (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/other")
@@ -964,7 +964,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-list-user_data">
      * Hashrate Resale List (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/config/details/list")
@@ -991,7 +991,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-list-user_data">
      * Hashrate Resale List (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/config/details/list")
     public <T> T getHashrateResaleList(ReturnFormat format) throws Exception {
@@ -1029,7 +1029,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-list-user_data">
      * Hashrate Resale List (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/config/details/list")
@@ -1069,7 +1069,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-list-user_data">
      * Hashrate Resale List (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/config/details/list")
@@ -1106,7 +1106,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-detail-user_data">
      * Hashrate Resale Detail (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/profit/details")
@@ -1135,7 +1135,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-detail-user_data">
      * Hashrate Resale Detail (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/profit/details")
     public <T> T getHashrateResaleDetail(long configId, String userName, ReturnFormat format) throws Exception {
@@ -1175,7 +1175,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-detail-user_data">
      * Hashrate Resale Detail (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/profit/details")
@@ -1217,7 +1217,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-detail-user_data">
      * Hashrate Resale Detail (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/hash-transfer/profit/details")
@@ -1261,7 +1261,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-request-user_data">
      * Hashrate Resale Request (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config")
@@ -1295,7 +1295,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-request-user_data">
      * Hashrate Resale Request (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config")
     public <T> T execHashrateResaleRequest(String userName, String algo, long endDate, long startDate, String toPoolUser,
@@ -1328,7 +1328,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-request-user_data">
      * Hashrate Resale Request (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config")
@@ -1365,7 +1365,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#hashrate-resale-request-user_data">
      * Hashrate Resale Request (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config")
@@ -1411,7 +1411,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-hashrate-resale-configuration-user_data>
      * Cancel hashrate resale configuration(USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config/cancel")
@@ -1440,7 +1440,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-hashrate-resale-configuration-user_data>
      * Cancel hashrate resale configuration(USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config/cancel")
     public <T> T cancelHashrateResaleConfiguration(long configId, String userName, ReturnFormat format) throws Exception {
@@ -1468,7 +1468,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-hashrate-resale-configuration-user_data>
      * Cancel hashrate resale configuration(USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config/cancel")
@@ -1499,7 +1499,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-hashrate-resale-configuration-user_data>
      * Cancel hashrate resale configuration(USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/mining/hash-transfer/config/cancel")
@@ -1525,7 +1525,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * @param configId: mining ID
      * @param userName: mining account
      * @return payload as {@link Params}
-     **/
+     */
     private Params createConfigPayload(long configId, String userName) {
         Params payload = createTimestampPayload(null);
         payload.addParam("configId", configId);
@@ -1553,7 +1553,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#statistic-list-user_data">
      * Statistic List (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/status")
@@ -1582,7 +1582,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#statistic-list-user_data">
      * Statistic List (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/status")
     public <T> T getStatisticList(String algo, String userName, ReturnFormat format) throws Exception {
@@ -1610,7 +1610,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#statistic-list-user_data">
      * Statistic List (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/status")
@@ -1640,7 +1640,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#statistic-list-user_data">
      * Statistic List (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/status")
@@ -1679,7 +1679,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-list-user_data">
      * Account List (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/list")
@@ -1708,7 +1708,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-list-user_data">
      * Account List (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/list")
     public <T> T getAccountList(String algo, String userName, ReturnFormat format) throws Exception {
@@ -1736,7 +1736,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-list-user_data">
      * Account List (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/list")
@@ -1766,7 +1766,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-list-user_data">
      * Account List (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/statistics/user/list")
@@ -1791,7 +1791,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      * @param algo:     algorithm
      * @param userName: mining account
      * @return query as {@link Params}
-     **/
+     */
     private Params createAlgoQuery(String algo, String userName) {
         Params query = createTimestampPayload(null);
         query.addParam("algo", algo);
@@ -1818,7 +1818,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#mining-account-earning-user_data">
      * Mining Account Earning (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/uid")
@@ -1846,7 +1846,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#mining-account-earning-user_data">
      * Mining Account Earning (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/uid")
     public <T> T getMiningAccountEarning(String algo, ReturnFormat format) throws Exception {
@@ -1891,7 +1891,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#mining-account-earning-user_data">
      * Mining Account Earning (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/uid")
@@ -1938,7 +1938,7 @@ public class BinanceMiningManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#mining-account-earning-user_data">
      * Mining Account Earning (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/mining/payment/uid")

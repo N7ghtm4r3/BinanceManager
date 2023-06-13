@@ -36,18 +36,18 @@ import org.json.JSONObject;
  *     </li>
  * </ul>
  * @see BinanceItem
- **/
+ */
 @Structure
 public abstract class DataListItem extends BinanceItem {
 
     /**
      * {@code totalNum} total num of the items
-     **/
+     */
     protected final int totalNum;
 
     /**
      * {@code pageSize} page size of the items
-     **/
+     */
     protected final int pageSize;
 
     /**
@@ -55,7 +55,7 @@ public abstract class DataListItem extends BinanceItem {
      *
      * @param totalNum: total num of the items
      * @param pageSize: page size of the items
-     **/
+     */
     public DataListItem(int totalNum, int pageSize) {
         super(null);
         this.totalNum = totalNum;
@@ -66,7 +66,7 @@ public abstract class DataListItem extends BinanceItem {
      * Constructor to init {@link DataListItem} object
      *
      * @param jDataListItem: data list item details as {@link JSONObject}
-     **/
+     */
     public DataListItem(JSONObject jDataListItem) {
         super(jDataListItem);
         totalNum = hItem.getInt("totalNum", 0);
@@ -78,7 +78,7 @@ public abstract class DataListItem extends BinanceItem {
      * No-any params required
      *
      * @return {@link #totalNum} instance as int
-     **/
+     */
     public int getTotalNum() {
         return totalNum;
     }
@@ -88,7 +88,7 @@ public abstract class DataListItem extends BinanceItem {
      * No-any params required
      *
      * @return {@link #pageSize} instance as int
-     **/
+     */
     public int getPageSize() {
         return pageSize;
     }

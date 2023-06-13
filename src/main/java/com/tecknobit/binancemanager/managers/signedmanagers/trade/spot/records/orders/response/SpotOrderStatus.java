@@ -18,32 +18,32 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see Order
  * @see SpotOrder
  * @see ResultSpotOrder
- **/
+ */
 public class SpotOrderStatus extends ResultSpotOrder {
 
     /**
      * {@code stopPrice} is instance that memorizes stop price value
-     * **/
+     */
     private final double stopPrice;
 
     /**
      * {@code icebergQty} is instance that memorizes iceberg quantity value
-     * **/
+     */
     private final double icebergQty;
 
     /**
      * {@code time} is instance that memorizes time value
-     * **/
+     */
     private final long time;
 
     /**
      * {@code isWorking} whether is working
-     **/
+     */
     private final boolean isWorking;
 
     /**
      * {@code origQuoteOrderQty} is instance that memorizes origin quote quantity value
-     **/
+     */
     private final double origQuoteOrderQty;
 
     /**
@@ -72,7 +72,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
      * @param time:                   time value
      * @param isWorking:              whether is working
      * @param origQuoteOrderQty:      origin quote quantity value
-     **/
+     */
     public SpotOrderStatus(String symbol, long orderId, String clientOrderId, long orderListId, long transactTime,
                            long preventedMatchId, double preventedQuantity, double price, double origQty,
                            double executedQty, double cummulativeQuoteQty, Status status, TimeInForce timeInForce,
@@ -93,7 +93,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
      * Constructor to init {@link SpotOrderStatus} object
      *
      * @param spotOrderStatus: spot order status details as {@link JSONObject}
-     **/
+     */
     public SpotOrderStatus(JSONObject spotOrderStatus) {
         super(spotOrderStatus);
         stopPrice = spotOrderStatus.getDouble("stopPrice");
@@ -109,7 +109,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
      * No-any params required
      *
      * @return {@link #stopPrice} instance as double
-     **/
+     */
     public double getStopPrice() {
         return stopPrice;
     }
@@ -120,7 +120,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
      * @param decimals: number of digits to round final value
      * @return {@link #stopPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getStopPrice(int decimals) {
         return roundValue(stopPrice, decimals);
     }
@@ -130,7 +130,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
      * No-any params required
      *
      * @return {@link #stopPrice} instance as double
-     **/
+     */
     public double getIcebergQty() {
         return icebergQty;
     }
@@ -141,7 +141,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
      * @param decimals: number of digits to round final value
      * @return {@link #icebergQty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getIcebergQty(int decimals) {
         return roundValue(icebergQty, decimals);
     }
@@ -151,7 +151,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
      * No-any params required
      *
      * @return {@link #stopPrice} instance as long
-     **/
+     */
     public long getTime() {
         return time;
     }
@@ -161,7 +161,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
      * No-any params required
      *
      * @return {@link #time} instance as {@link Date}
-     **/
+     */
     public Date getDateTime() {
         return TimeFormatter.getDate(time);
     }
@@ -171,7 +171,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
      * No-any params required
      *
      * @return {@link #transactTime} instance as long
-     **/
+     */
     public long getUpdateTime() {
         return transactTime;
     }
@@ -181,7 +181,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
      * No-any params required
      *
      * @return {@link #transactTime} instance as {@link Date}
-     **/
+     */
     public Date getUpdateDate() {
         return TimeFormatter.getDate(transactTime);
     }
@@ -191,7 +191,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
      * No-any params required
      *
      * @return {@link #isWorking} instance as boolean
-     **/
+     */
     public boolean isWorking() {
         return isWorking;
     }
@@ -201,7 +201,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
      * No-any params required
      *
      * @return {@link #origQuoteOrderQty} instance as double
-     **/
+     */
     public double getOrigQuoteOrderQty() {
         return origQuoteOrderQty;
     }
@@ -212,7 +212,7 @@ public class SpotOrderStatus extends ResultSpotOrder {
      * @param decimals: number of digits to round final value
      * @return {@link #origQuoteOrderQty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getOrigQuoteOrderQty(int decimals) {
         return roundValue(origQuoteOrderQty, decimals);
     }

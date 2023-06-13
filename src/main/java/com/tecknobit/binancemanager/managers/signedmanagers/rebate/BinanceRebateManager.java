@@ -23,12 +23,12 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * Rebate endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
- **/
+ */
 public class BinanceRebateManager extends BinanceSignedManager {
 
     /**
      * {@code REBATE_HISTORY_ENDPOINT} is constant for REBATE_HISTORY_ENDPOINT's endpoint
-     **/
+     */
     public static final String REBATE_HISTORY_ENDPOINT = "/sapi/v1/rebate/taxQuery";
 
     /**
@@ -39,7 +39,7 @@ public class BinanceRebateManager extends BinanceSignedManager {
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceRebateManager(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
                                 String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
@@ -52,7 +52,7 @@ public class BinanceRebateManager extends BinanceSignedManager {
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceRebateManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
                                 String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, apiKey, secretKey);
@@ -65,7 +65,7 @@ public class BinanceRebateManager extends BinanceSignedManager {
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceRebateManager(String baseEndpoint, int timeout, String apiKey,
                                 String secretKey) throws SystemException, IOException {
         super(baseEndpoint, timeout, apiKey, secretKey);
@@ -77,7 +77,7 @@ public class BinanceRebateManager extends BinanceSignedManager {
      * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceRebateManager(String baseEndpoint, String apiKey, String secretKey) throws SystemException, IOException {
         super(baseEndpoint, apiKey, secretKey);
     }
@@ -97,7 +97,7 @@ public class BinanceRebateManager extends BinanceSignedManager {
      *        BinanceSignedManager secondManager = new BinanceSignedManager(); //same credentials used
      *     }
      * </pre>
-     **/
+     */
     public BinanceRebateManager() {
         super();
     }
@@ -121,7 +121,7 @@ public class BinanceRebateManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-spot-rebate-history-records-user_data">
      * Get Spot Rebate History Records (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "12000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/rebate/taxQuery")
@@ -148,7 +148,7 @@ public class BinanceRebateManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-spot-rebate-history-records-user_data">
      * Get Spot Rebate History Records (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "12000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/rebate/taxQuery")
     public <T> T getSpotRebateHistory(ReturnFormat format) throws Exception {
@@ -188,7 +188,7 @@ public class BinanceRebateManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-spot-rebate-history-records-user_data">
      * Get Spot Rebate History Records (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "12000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/rebate/taxQuery")
@@ -230,7 +230,7 @@ public class BinanceRebateManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-spot-rebate-history-records-user_data">
      * Get Spot Rebate History Records (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "12000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/rebate/taxQuery")
     public <T> T getSpotRebateHistory(Params extraParams, ReturnFormat format) throws Exception {
@@ -244,7 +244,7 @@ public class BinanceRebateManager extends BinanceSignedManager {
      * @param spotRebateHistoryResponse: obtained from Binance's response
      * @param format:                    return type formatter -> {@link ReturnFormat}
      * @return spot rebate history as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnSpotRebateHistory(String spotRebateHistoryResponse, ReturnFormat format) {
         switch (format) {

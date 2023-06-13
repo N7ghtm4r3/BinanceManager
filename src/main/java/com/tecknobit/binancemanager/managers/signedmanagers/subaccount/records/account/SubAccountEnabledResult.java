@@ -23,17 +23,17 @@ import org.json.JSONObject;
  *     </li>
  * </ul>
  * @see BinanceItem
- **/
+ */
 public class SubAccountEnabledResult extends BinanceItem {
 
     /**
      * {@code email} of the subaccount
-     **/
+     */
     private final String email;
 
     /**
      * {@code isAccountEnabled} whether the subaccount has been enabled
-     **/
+     */
     private final boolean isAccountEnabled;
 
     /**
@@ -41,7 +41,7 @@ public class SubAccountEnabledResult extends BinanceItem {
      *
      * @param email            : email of the subaccount
      * @param isAccountEnabled : whether the subaccount has been enabled
-     **/
+     */
     public SubAccountEnabledResult(String email, boolean isAccountEnabled) {
         super(null);
         this.email = email;
@@ -52,7 +52,7 @@ public class SubAccountEnabledResult extends BinanceItem {
      * Constructor to init {@link SubAccountEnabledResult} object
      *
      * @param jSubAccountEnabledResult : sub account enabled result details as {@link JSONObject}
-     **/
+     */
     public SubAccountEnabledResult(JSONObject jSubAccountEnabledResult) {
         super(jSubAccountEnabledResult);
         email = hItem.getString("email");
@@ -72,7 +72,7 @@ public class SubAccountEnabledResult extends BinanceItem {
      * No-any params required
      *
      * @return {@link #email} instance as {@link String}
-     **/
+     */
     public String getEmail() {
         return email;
     }
@@ -82,7 +82,7 @@ public class SubAccountEnabledResult extends BinanceItem {
      * No-any params required
      *
      * @return {@link #isAccountEnabled} instance as boolean
-     **/
+     */
     public boolean isAccountEnabled() {
         return isAccountEnabled;
     }

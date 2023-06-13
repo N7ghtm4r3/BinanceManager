@@ -10,37 +10,37 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#funding-wallet-user_data">
  * Funding Wallet (USER_DATA)</a>
- **/
+ */
 public class FundingWallet {
 
     /**
      * {@code asset} is instance that memorizes asset value
-     * **/
+     */
     private final String asset;
 
     /**
      * {@code free} is instance that memorizes free value
-     * **/
+     */
     private double free;
 
     /**
      * {@code locked} is instance that memorizes locked value
-     * **/
+     */
     private double locked;
 
     /**
      * {@code freeze} is instance that memorizes freeze value
-     * **/
+     */
     private double freeze;
 
     /**
      * {@code withdrawing} is instance that memorizes withdrawing value
-     * **/
+     */
     private int withdrawing;
 
     /**
      * {@code btcValuation} is instance that memorizes bitcoin valuation value
-     * **/
+     */
     private double btcValuation;
 
     /** Constructor to init {@link FundingWallet} object
@@ -51,7 +51,7 @@ public class FundingWallet {
      * @param withdrawing: withdrawing value
      * @param btcValuation: Bitcoin valuation value
      * @throws IllegalArgumentException if parameters range is not respected
-     * **/
+     */
     public FundingWallet(String asset, double free, double locked, double freeze, int withdrawing, double btcValuation) {
         this.asset = asset;
         if(free < 0)
@@ -81,7 +81,7 @@ public class FundingWallet {
      *
      * @param jFundingWallet: funding wallet details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
-     **/
+     */
     public FundingWallet(JSONObject jFundingWallet) {
         this(jFundingWallet.getString("asset"), jFundingWallet.getDouble("free"),
                 jFundingWallet.getDouble("locked"), jFundingWallet.getDouble("freeze"),
@@ -93,7 +93,7 @@ public class FundingWallet {
      * No-any params required
      *
      * @return {@link #asset} instance as {@link String}
-     **/
+     */
     public String getAsset() {
         return asset;
     }
@@ -103,7 +103,7 @@ public class FundingWallet {
      * No-any params required
      *
      * @return {@link #free} instance as double
-     **/
+     */
     public double getFree() {
         return free;
     }
@@ -114,7 +114,7 @@ public class FundingWallet {
      * @param decimals: number of digits to round final value
      * @return {@link #free} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getFree(int decimals) {
         return roundValue(free, decimals);
     }
@@ -124,7 +124,7 @@ public class FundingWallet {
      *
      * @param free: free value
      * @throws IllegalArgumentException when free value is less than 0
-     **/
+     */
     public void setFree(double free) {
         if (free < 0)
             throw new IllegalArgumentException("Free value cannot be less than 0");
@@ -136,7 +136,7 @@ public class FundingWallet {
      * No-any params required
      *
      * @return {@link #locked} instance as double
-     **/
+     */
     public double getLocked() {
         return locked;
     }
@@ -147,7 +147,7 @@ public class FundingWallet {
      * @param decimals: number of digits to round final value
      * @return {@link #locked} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getLocked(int decimals) {
         return roundValue(locked, decimals);
     }
@@ -157,7 +157,7 @@ public class FundingWallet {
      *
      * @param locked: locked value
      * @throws IllegalArgumentException when locked value is less than 0
-     **/
+     */
     public void setLocked(double locked) {
         if (locked < 0)
             throw new IllegalArgumentException("Locked value cannot be less than 0");
@@ -169,7 +169,7 @@ public class FundingWallet {
      * No-any params required
      *
      * @return {@link #freeze} instance as double
-     **/
+     */
     public double getFreeze() {
         return freeze;
     }
@@ -180,7 +180,7 @@ public class FundingWallet {
      * @param decimals: number of digits to round final value
      * @return {@link #freeze} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getFreeze(int decimals) {
         return roundValue(freeze, decimals);
     }
@@ -190,7 +190,7 @@ public class FundingWallet {
      *
      * @param freeze: freeze value
      * @throws IllegalArgumentException when freeze value is less than 0
-     **/
+     */
     public void setFreeze(double freeze) {
         if (freeze < 0)
             throw new IllegalArgumentException("Freeze value cannot be less than 0");
@@ -202,7 +202,7 @@ public class FundingWallet {
      * No-any params required
      *
      * @return {@link #withdrawing} instance as int
-     **/
+     */
     public int getWithdrawing() {
         return withdrawing;
     }
@@ -212,7 +212,7 @@ public class FundingWallet {
      *
      * @param withdrawing: withdrawing value
      * @throws IllegalArgumentException when withdrawing value is less than 0
-     **/
+     */
     public void setWithdrawing(int withdrawing) {
         if (withdrawing < 0)
             throw new IllegalArgumentException("Withdrawing value cannot be less than 0");
@@ -224,7 +224,7 @@ public class FundingWallet {
      * No-any params required
      *
      * @return {@link #btcValuation} instance as double
-     **/
+     */
     public double getBtcValuation() {
         return btcValuation;
     }
@@ -235,7 +235,7 @@ public class FundingWallet {
      * @param decimals: number of digits to round final value
      * @return {@link #btcValuation} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBtcValuation(int decimals) {
         return roundValue(btcValuation, decimals);
     }
@@ -245,7 +245,7 @@ public class FundingWallet {
      *
      * @param btcValuation: Bitcoin valuation value
      * @throws IllegalArgumentException when Bitcoin valuation value is less than 0
-     **/
+     */
     public void setBtcValuation(double btcValuation) {
         if (btcValuation < 0)
             throw new IllegalArgumentException("BTC valuation value cannot be less than 0");

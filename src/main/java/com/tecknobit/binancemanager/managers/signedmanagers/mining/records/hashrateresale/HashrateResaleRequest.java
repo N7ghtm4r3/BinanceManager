@@ -14,14 +14,14 @@ import org.json.JSONObject;
  * @see BinanceItem
  * @see BinanceResponse
  * @see MiningResponse
- **/
+ */
 public class HashrateResaleRequest extends MiningResponse<Integer> {
 
     /**
      * Constructor to init {@link HashrateResaleRequest} object
      *
      * @param data: hashrate resale request
-     **/
+     */
     public HashrateResaleRequest(int data) {
         super(data);
     }
@@ -30,7 +30,7 @@ public class HashrateResaleRequest extends MiningResponse<Integer> {
      * Constructor to init {@link HashrateResaleRequest} object
      *
      * @param jHashRateResaleRequest: hashrate resale request details as {@link JSONObject}
-     **/
+     */
     public HashrateResaleRequest(JSONObject jHashRateResaleRequest) {
         super(jHashRateResaleRequest);
         data = hItem.getInt("data", 0);

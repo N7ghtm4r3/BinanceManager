@@ -19,27 +19,27 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *             Enable Isolated Margin Account (TRADE)</a>
  *     </li>
  * </ul>
- **/
+ */
 public class Fill {
 
     /**
      * {@code price} is instance that memorizes price of a fill
-     **/
+     */
     protected double price;
 
     /**
      * {@code qty} is instance that memorizes quantity of a fill
-     **/
+     */
     protected double qty;
 
     /**
      * {@code commission} is instance that memorizes commission of a fill
-     **/
+     */
     protected double commission;
 
     /**
      * {@code commissionAsset} is instance that memorizes commission asset of a fill
-     **/
+     */
     protected String commissionAsset;
 
     /**
@@ -50,7 +50,7 @@ public class Fill {
      * @param commission:      commission of a fill
      * @param commissionAsset: commission asset of a fill
      * @throws IllegalArgumentException if parameters range is not respected
-     **/
+     */
     public Fill(double price, double qty, double commission, String commissionAsset) {
         if (price < 0)
             throw new IllegalArgumentException("Price value cannot be less than 0");
@@ -72,7 +72,7 @@ public class Fill {
      *
      * @param fill: fill details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
-     **/
+     */
     public Fill(JSONObject fill) {
         this(fill.getDouble("price"), fill.getDouble("qty"), fill.getDouble("commission"),
                 fill.getString("commissionAsset"));
@@ -83,7 +83,7 @@ public class Fill {
      * No-any params required
      *
      * @return {@link #price} instance as double
-     **/
+     */
     public double getPrice() {
         return price;
     }
@@ -93,7 +93,7 @@ public class Fill {
      *
      * @param price: price of a fill
      * @throws IllegalArgumentException when price value is less than 0
-     **/
+     */
     public void setPrice(double price) {
         if (price < 0)
             throw new IllegalArgumentException("Price value cannot be less than 0");
@@ -106,7 +106,7 @@ public class Fill {
      * @param decimals: number of digits to round final value
      * @return {@link #price} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getPrice(int decimals) {
         return roundValue(price, decimals);
     }
@@ -116,7 +116,7 @@ public class Fill {
      * No-any params required
      *
      * @return {@link #qty} instance as double
-     **/
+     */
     public double getQty() {
         return qty;
     }
@@ -126,7 +126,7 @@ public class Fill {
      *
      * @param qty: price of a fill
      * @throws IllegalArgumentException when quantity value is less than 0
-     **/
+     */
     public void setQty(double qty) {
         if (qty < 0)
             throw new IllegalArgumentException("Quantity value cannot be less than 0");
@@ -139,7 +139,7 @@ public class Fill {
      * @param decimals: number of digits to round final value
      * @return {@link #qty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getQty(int decimals) {
         return roundValue(qty, decimals);
     }
@@ -149,7 +149,7 @@ public class Fill {
      * No-any params required
      *
      * @return {@link #commission} instance as double
-     **/
+     */
     public double getCommission() {
         return commission;
     }
@@ -159,7 +159,7 @@ public class Fill {
      *
      * @param commission: price of a fill
      * @throws IllegalArgumentException when commission value is less than 0
-     **/
+     */
     public void setCommission(double commission) {
         if (commission < 0)
             throw new IllegalArgumentException("Commission value cannot be less than 0");
@@ -172,7 +172,7 @@ public class Fill {
      * @param decimals: number of digits to round final value
      * @return {@link #commission} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getCommission(int decimals) {
         return roundValue(commission, decimals);
     }
@@ -182,7 +182,7 @@ public class Fill {
      * No-any params required
      *
      * @return {@link #commissionAsset} instance as {@link String}
-     **/
+     */
     public String getCommissionAsset() {
         return commissionAsset;
     }

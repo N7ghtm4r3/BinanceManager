@@ -19,7 +19,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.cryptoloans.r
  * Borrow - Get Loan Ongoing Orders (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class CryptoLoanOngoingOrders extends BinanceRowsList<LoanOngoingOrder> {
 
     /**
@@ -27,7 +27,7 @@ public class CryptoLoanOngoingOrders extends BinanceRowsList<LoanOngoingOrder> {
      *
      * @param total  : number of orders
      * @param orders :  list of the orders
-     **/
+     */
     public CryptoLoanOngoingOrders(int total, ArrayList<LoanOngoingOrder> orders) {
         super(total, orders);
     }
@@ -36,7 +36,7 @@ public class CryptoLoanOngoingOrders extends BinanceRowsList<LoanOngoingOrder> {
      * Constructor to init {@link CryptoLoanOngoingOrders}
      *
      * @param jList : list details as {@link JSONObject}
-     **/
+     */
     public CryptoLoanOngoingOrders(JSONObject jList) {
         super(jList);
         for (Object row : hItem.fetchList("rows"))
@@ -50,12 +50,12 @@ public class CryptoLoanOngoingOrders extends BinanceRowsList<LoanOngoingOrder> {
      * @see BinanceItem
      * @see LoanBaseStructure
      * @see LoanOrder
-     **/
+     */
     public static class LoanOngoingOrder extends LoanOrder {
 
         /**
          * {@code collateralAmount} collateral amount of the loan ongoing order
-         **/
+         */
         private final double collateralAmount;
 
         /**
@@ -69,7 +69,7 @@ public class CryptoLoanOngoingOrders extends BinanceRowsList<LoanOngoingOrder> {
          * @param currentLTV        :          current LTV of the loan ongoing order
          * @param expirationTime    :      expiration time of the loan ongoing order
          * @param collateralAmount: collateral amount of the loan ongoing order
-         **/
+         */
         public LoanOngoingOrder(String loanCoin, String collateralCoin, long orderId, double totalDebt,
                                 double residualInterest, double currentLTV, long expirationTime, double collateralAmount) {
             super(loanCoin, collateralCoin, orderId, totalDebt, residualInterest, currentLTV, expirationTime);
@@ -80,7 +80,7 @@ public class CryptoLoanOngoingOrders extends BinanceRowsList<LoanOngoingOrder> {
          * Constructor to init {@link LoanOngoingOrder} object
          *
          * @param jLoanOngoingOrder : loan ongoing order details as {@link JSONObject}
-         **/
+         */
         public LoanOngoingOrder(JSONObject jLoanOngoingOrder) {
             super(jLoanOngoingOrder);
             collateralAmount = hItem.getDouble("collateralAmount", 0);
@@ -91,7 +91,7 @@ public class CryptoLoanOngoingOrders extends BinanceRowsList<LoanOngoingOrder> {
          * No-any params required
          *
          * @return {@link #collateralAmount} instance as double
-         **/
+         */
         public double getCollateralAmount() {
             return collateralAmount;
         }
@@ -102,7 +102,7 @@ public class CryptoLoanOngoingOrders extends BinanceRowsList<LoanOngoingOrder> {
          * @param decimals: number of digits to round final value
          * @return {@link #collateralAmount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getCollateralAmount(int decimals) {
             return roundValue(collateralAmount, decimals);
         }

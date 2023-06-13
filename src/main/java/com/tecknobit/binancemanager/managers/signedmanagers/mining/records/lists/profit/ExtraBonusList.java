@@ -19,14 +19,14 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.mining.record
  * @see BinanceItem
  * @see BinanceResponse
  * @see MiningResponse
- **/
+ */
 public class ExtraBonusList extends MiningResponse<ExtraBonus> {
 
     /**
      * Constructor to init {@link ExtraBonusList} object
      *
      * @param data: extra bonus list
-     **/
+     */
     public ExtraBonusList(ExtraBonus data) {
         super(data);
     }
@@ -35,7 +35,7 @@ public class ExtraBonusList extends MiningResponse<ExtraBonus> {
      * Constructor to init {@link ExtraBonusList} object
      *
      * @param jExtraBonusList: extra bonus list details as {@link JSONObject}
-     **/
+     */
     public ExtraBonusList(JSONObject jExtraBonusList) {
         super(jExtraBonusList);
         JSONObject jData = hItem.getJSONObject("data");
@@ -51,12 +51,12 @@ public class ExtraBonusList extends MiningResponse<ExtraBonus> {
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see DataListItem
-     **/
+     */
     public static class ExtraBonus extends DataListItem {
 
         /**
          * {@code otherProfits} other profits list
-         **/
+         */
         private final ArrayList<Profit> otherProfits;
 
         /**
@@ -65,7 +65,7 @@ public class ExtraBonusList extends MiningResponse<ExtraBonus> {
          * @param totalNum: total num of the other profits list
          * @param pageSize: page size of the other profits list
          * @param otherProfits: page size of the other profits list
-         **/
+         */
         public ExtraBonus(int totalNum, int pageSize, ArrayList<Profit> otherProfits) {
             super(totalNum, pageSize);
             this.otherProfits = otherProfits;
@@ -75,7 +75,7 @@ public class ExtraBonusList extends MiningResponse<ExtraBonus> {
          * Constructor to init {@link ExtraBonus} object
          *
          * @param jExtraBonus: extra bonus details as {@link JSONObject}
-         **/
+         */
         public ExtraBonus(JSONObject jExtraBonus) {
             super(jExtraBonus);
             otherProfits = new ArrayList<>();
@@ -90,7 +90,7 @@ public class ExtraBonusList extends MiningResponse<ExtraBonus> {
          * No-any params required
          *
          * @return {@link #otherProfits} instance as {@link ArrayList} of {@link Profit}
-         **/
+         */
         public ArrayList<Profit> getOtherProfits() {
             return otherProfits;
         }

@@ -26,20 +26,20 @@ import org.json.JSONObject;
  *             24hr Ticker Price Change Statistics</a>
  *     </li>
  * </ul>
- **/
+ */
 @Structure
 public abstract class Ticker {
 
     /**
      * {@code symbol} is instance that contains symbol of the ticker
-     * **/
+     */
     protected final String symbol;
 
     /**
      * Constructor to init {@link Ticker} object
      *
      * @param symbol: symbol of the ticker
-     **/
+     */
     public Ticker(String symbol) {
         this.symbol = symbol;
     }
@@ -49,7 +49,7 @@ public abstract class Ticker {
      * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
-     **/
+     */
     public String getSymbol() {
         return symbol;
     }
@@ -67,17 +67,17 @@ public abstract class Ticker {
 
     /**
      * {@code ResponseType} list of available responses type
-     **/
+     */
     public enum ResponseType {
 
         /**
          * {@code "FULL"} response type
-         **/
+         */
         FULL,
 
         /**
          * {@code "MINI"} response type
-         **/
+         */
         MINI
 
     }

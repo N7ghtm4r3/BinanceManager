@@ -27,37 +27,37 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.trade.commons
  * Futures Algo Endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
- **/
+ */
 public class BinanceFuturesAlgoManager extends BinanceSignedManager {
 
     /**
      * {@code ALGO_FUTURES_NEW_ORDER_VP_ENDPOINT} is constant for ALGO_FUTURES_NEW_ORDER_VP_ENDPOINT's endpoint
-     **/
+     */
     public static final String ALGO_FUTURES_NEW_ORDER_VP_ENDPOINT = "/sapi/v1/algo/futures/newOrderVp";
 
     /**
      * {@code ALGO_FUTURES_NEW_ORDER_TWAP_ENDPOINT} is constant for ALGO_FUTURES_NEW_ORDER_TWAP_ENDPOINT's endpoint
-     **/
+     */
     public static final String ALGO_FUTURES_NEW_ORDER_TWAP_ENDPOINT = "/sapi/v1/algo/futures/newOrderTwap";
 
     /**
      * {@code ALGO_FUTURES_ORDER_ENDPOINT} is constant for ALGO_FUTURES_ORDER_ENDPOINT's endpoint
-     **/
+     */
     public static final String ALGO_FUTURES_ORDER_ENDPOINT = "/sapi/v1/algo/futures/order";
 
     /**
      * {@code ALGO_FUTURES_OPEN_ORDERS_ENDPOINT} is constant for ALGO_FUTURES_OPEN_ORDERS_ENDPOINT's endpoint
-     **/
+     */
     public static final String ALGO_FUTURES_OPEN_ORDERS_ENDPOINT = "/sapi/v1/algo/futures/openOrders";
 
     /**
      * {@code ALGO_FUTURES_HISTORICAL_ORDERS_ENDPOINT} is constant for ALGO_FUTURES_HISTORICAL_ORDERS_ENDPOINT's endpoint
-     **/
+     */
     public static final String ALGO_FUTURES_HISTORICAL_ORDERS_ENDPOINT = "/sapi/v1/algo/futures/historicalOrders";
 
     /**
      * {@code ALGO_FUTURES_SUBORDERS_ENDPOINT} is constant for ALGO_FUTURES_SUBORDERS_ENDPOINT's endpoint
-     **/
+     */
     public static final String ALGO_FUTURES_SUBORDERS_ENDPOINT = "/sapi/v1/algo/futures/subOrders";
 
     /**
@@ -68,7 +68,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceFuturesAlgoManager(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
                                      String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
@@ -81,7 +81,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceFuturesAlgoManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
                                      String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, apiKey, secretKey);
@@ -94,7 +94,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceFuturesAlgoManager(String baseEndpoint, int timeout, String apiKey,
                                      String secretKey) throws SystemException, IOException {
         super(baseEndpoint, timeout, apiKey, secretKey);
@@ -106,7 +106,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceFuturesAlgoManager(String baseEndpoint, String apiKey,
                                      String secretKey) throws SystemException, IOException {
         super(baseEndpoint, apiKey, secretKey);
@@ -127,7 +127,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *        BinanceSignedManager secondManager = new BinanceSignedManager(); //same credentials used
      *     }
      * </pre>
-     **/
+     */
     public BinanceFuturesAlgoManager() {
         super();
     }
@@ -155,7 +155,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#volume-participation-vp-new-order-trade">
      * Volume Participation(VP) New Order (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/algo/futures/newOrderVp")
@@ -187,7 +187,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#volume-participation-vp-new-order-trade">
      * Volume Participation(VP) New Order (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/algo/futures/newOrderVp")
     public <T> T createVPOrder(String symbol, Side side, double quantity, AlgoOrdersList.AlgoOrder.Urgency urgency,
@@ -241,7 +241,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#volume-participation-vp-new-order-trade">
      * Volume Participation(VP) New Order (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/algo/futures/newOrderVp")
@@ -297,7 +297,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#volume-participation-vp-new-order-trade">
      * Volume Participation(VP) New Order (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/algo/futures/newOrderVp")
     public <T> T createVPOrder(String symbol, Side side, double quantity, AlgoOrdersList.AlgoOrder.Urgency urgency, Params extraParams,
@@ -332,7 +332,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#time-weighted-average-price-twap-new-order-trade">
      * Time-Weighted Average Price(Twap) New Order (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/algo/futures/newOrderTwap")
@@ -365,7 +365,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#time-weighted-average-price-twap-new-order-trade">
      * Time-Weighted Average Price(Twap) New Order (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/algo/futures/newOrderTwap")
     public <T> T createTwapOrder(String symbol, Side side, double quantity, long duration,
@@ -420,7 +420,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#time-weighted-average-price-twap-new-order-trade">
      * Time-Weighted Average Price(Twap) New Order (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/algo/futures/newOrderTwap")
@@ -477,7 +477,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#time-weighted-average-price-twap-new-order-trade">
      * Time-Weighted Average Price(Twap) New Order (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/algo/futures/newOrderTwap")
     public <T> T createTwapOrder(String symbol, Side side, double quantity, long duration, Params extraParams,
@@ -496,7 +496,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      * @param quantity:    quantity of base asset
      * @param extraParams: extra params for the request
      * @return order payload as {@link Params}
-     **/
+     */
     private Params createOrderPayload(String symbol, Side side, double quantity, Params extraParams) {
         if (extraParams == null)
             extraParams = new Params();
@@ -525,7 +525,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade">
      * Cancel Algo Order (TRADE)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -554,7 +554,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade">
      * Cancel Algo Order (TRADE)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/sapi/v1/algo/futures/order")
@@ -581,7 +581,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade">
      * Cancel Algo Order (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/sapi/v1/algo/futures/order")
@@ -609,7 +609,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade">
      * Cancel Algo Order (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/sapi/v1/algo/futures/order")
     public <T> T cancelAlgoOrder(long algoId, ReturnFormat format) throws Exception {
@@ -636,7 +636,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade">
      * Cancel Algo Order (TRADE)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -666,7 +666,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade">
      * Cancel Algo Order (TRADE)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/sapi/v1/algo/futures/order")
@@ -694,7 +694,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade">
      * Cancel Algo Order (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/sapi/v1/algo/futures/order")
@@ -723,7 +723,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade">
      * Cancel Algo Order (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/sapi/v1/algo/futures/order")
     public <T> T cancelAlgoOrder(long algoId, long recvWindow, ReturnFormat format) throws Exception {
@@ -754,7 +754,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-algo-open-orders-user_data">
      * Query Current Algo Open Orders (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/futures/openOrders")
@@ -781,7 +781,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-algo-open-orders-user_data">
      * Query Current Algo Open Orders (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/futures/openOrders")
     public <T> T getCurrentAlgoOpenOrders(ReturnFormat format) throws Exception {
@@ -807,7 +807,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-algo-open-orders-user_data">
      * Query Current Algo Open Orders (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/futures/openOrders")
@@ -835,7 +835,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-algo-open-orders-user_data">
      * Query Current Algo Open Orders (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/futures/openOrders")
     public <T> T getCurrentAlgoOpenOrders(long recvWindow, ReturnFormat format) throws Exception {
@@ -864,7 +864,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-historical-algo-orders-user_data">
      * Query Historical Algo Orders (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/futures/historicalOrders")
@@ -891,7 +891,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-historical-algo-orders-user_data">
      * Query Historical Algo Orders (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/futures/historicalOrders")
     public <T> T getHistoricalAlgoOrders(ReturnFormat format) throws Exception {
@@ -942,7 +942,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-historical-algo-orders-user_data">
      * Query Historical Algo Orders (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/futures/historicalOrders")
@@ -995,7 +995,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-historical-algo-orders-user_data">
      * Query Historical Algo Orders (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/futures/historicalOrders")
     public <T> T getHistoricalAlgoOrders(Params extraParams, ReturnFormat format) throws Exception {
@@ -1024,7 +1024,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data">
      * Query Sub Orders (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -1053,7 +1053,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data">
      * Query Sub Orders (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/futures/subOrder")
@@ -1080,7 +1080,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data">
      * Query Sub Orders (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/futures/subOrder")
@@ -1108,7 +1108,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data">
      * Query Sub Orders (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/futures/subOrder")
     public <T> T getSubOrders(long algoId, ReturnFormat format) throws Exception {
@@ -1148,7 +1148,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data">
      * Query Sub Orders (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -1191,7 +1191,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data">
      * Query Sub Orders (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/futures/subOrder")
@@ -1232,7 +1232,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data">
      * Query Sub Orders (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/futures/subOrder")
@@ -1274,7 +1274,7 @@ public class BinanceFuturesAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data">
      * Query Sub Orders (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/futures/subOrder")
     public <T> T getSubOrders(long algoId, Params extraParams, ReturnFormat format) throws Exception {

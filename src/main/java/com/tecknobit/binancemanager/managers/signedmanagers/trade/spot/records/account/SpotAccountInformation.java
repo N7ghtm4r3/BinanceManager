@@ -19,77 +19,77 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data">
  * Account Information (USER_DATA)</a>
- **/
+ */
 public class SpotAccountInformation {
 
     /**
      * {@code makerCommission} is instance that memorizes maker commission
-     * **/
+     */
     private double makerCommission;
 
     /**
      * {@code takerCommission} is instance that memorizes taker commission
-     * **/
+     */
     private double takerCommission;
 
     /**
      * {@code buyerCommission} is instance that memorizes buyer commission
-     **/
+     */
     private double buyerCommission;
 
     /**
      * {@code sellerCommission} is instance that memorizes seller commission
-     **/
+     */
     private double sellerCommission;
 
     /**
      * {@code commissionRates} is instance that memorizes commission rates for the account
-     **/
+     */
     private CommissionRates commissionRates;
 
     /**
      * {@code canTrade} is instance that memorizes if account can trade
-     **/
+     */
     private boolean canTrade;
 
     /**
      * {@code canWithdraw} is instance that memorizes if account can withdraw
-     **/
+     */
     private boolean canWithdraw;
 
     /**
      * {@code canDeposit} is instance that memorizes if account can deposit
-     * **/
+     */
     private boolean canDeposit;
 
     /**
      * {@code brokered} is flag that memorizes if account is brokered
-     * **/
+     */
     private boolean brokered;
 
     /**
      * {@code updateTime} is instance that memorizes update time value
-     * **/
+     */
     private long updateTime;
 
     /**
      * {@code accountType} is instance that memorizes account type value
-     * **/
+     */
     private final String accountType;
 
     /**
      * {@code spotsListBalance} is instance that memorizes balance spot list
-     **/
+     */
     private ArrayList<SpotBalance> spotsListBalance;
 
     /**
      * {@code permissionsList} is instance that memorizes permissions list
-     **/
+     */
     private ArrayList<Permission> permissionsList;
 
     /**
      * {@code requireSelfTradePrevention} whether the spot account require self trade prevention
-     **/
+     */
     private boolean requireSelfTradePrevention;
 
     /**
@@ -109,7 +109,7 @@ public class SpotAccountInformation {
      * @param permissionsList:            permissions list
      * @param requireSelfTradePrevention: whether the spot account require self trade prevention
      * @throws IllegalArgumentException if parameters range is not respected
-     **/
+     */
     public SpotAccountInformation(double makerCommission, double takerCommission, double buyerCommission,
                                   double sellerCommission, CommissionRates commissionRates, boolean canTrade,
                                   boolean canWithdraw, boolean canDeposit, boolean brokered, long updateTime,
@@ -149,7 +149,7 @@ public class SpotAccountInformation {
      *
      * @param spotAccountInformation: spot account details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
-     **/
+     */
     public SpotAccountInformation(JSONObject spotAccountInformation) {
         JsonHelper hSpotAccount = new JsonHelper(spotAccountInformation);
         makerCommission = hSpotAccount.getDouble("makerCommission", 0);
@@ -186,7 +186,7 @@ public class SpotAccountInformation {
      * No-any params required
      *
      * @return {@link #makerCommission} instance as double
-     **/
+     */
     public double getMakerCommission() {
         return makerCommission;
     }
@@ -197,7 +197,7 @@ public class SpotAccountInformation {
      * @param decimals: number of digits to round final value
      * @return {@link #makerCommission} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getMakerCommission(int decimals) {
         return roundValue(makerCommission, decimals);
     }
@@ -207,7 +207,7 @@ public class SpotAccountInformation {
      *
      * @param makerCommission: maker commission
      * @throws IllegalArgumentException when maker commission value is less than 0
-     **/
+     */
     public void setMakerCommission(double makerCommission) {
         if (makerCommission < 0)
             throw new IllegalArgumentException("Maker commission value cannot be less than 0");
@@ -219,7 +219,7 @@ public class SpotAccountInformation {
      * No-any params required
      *
      * @return {@link #takerCommission} instance as double
-     **/
+     */
     public double getTakerCommission() {
         return takerCommission;
     }
@@ -230,7 +230,7 @@ public class SpotAccountInformation {
      * @param decimals: number of digits to round final value
      * @return {@link #takerCommission} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTakerCommission(int decimals) {
         return roundValue(takerCommission, decimals);
     }
@@ -240,7 +240,7 @@ public class SpotAccountInformation {
      *
      * @param takerCommission: taker commission
      * @throws IllegalArgumentException when taker commission value is less than 0
-     **/
+     */
     public void setTakerCommission(double takerCommission) {
         if (takerCommission < 0)
             throw new IllegalArgumentException("Taker commission value cannot be less than 0");
@@ -252,7 +252,7 @@ public class SpotAccountInformation {
      * No-any params required
      *
      * @return {@link #buyerCommission} instance as double
-     **/
+     */
     public double getBuyerCommission() {
         return buyerCommission;
     }
@@ -263,7 +263,7 @@ public class SpotAccountInformation {
      * @param decimals: number of digits to round final value
      * @return {@link #buyerCommission} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBuyerCommission(int decimals) {
         return roundValue(buyerCommission, decimals);
     }
@@ -273,7 +273,7 @@ public class SpotAccountInformation {
      *
      * @param buyerCommission: buyer commission
      * @throws IllegalArgumentException when buyer commission value is less than 0
-     **/
+     */
     public void setBuyerCommission(double buyerCommission) {
         if (buyerCommission < 0)
             throw new IllegalArgumentException("Buyer commission value cannot be less than 0");
@@ -285,7 +285,7 @@ public class SpotAccountInformation {
      * No-any params required
      *
      * @return {@link #sellerCommission} instance as double
-     **/
+     */
     public double getSellerCommission() {
         return sellerCommission;
     }
@@ -296,7 +296,7 @@ public class SpotAccountInformation {
      * @param decimals: number of digits to round final value
      * @return {@link #sellerCommission} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getSellerCommission(int decimals) {
         return roundValue(sellerCommission, decimals);
     }
@@ -306,7 +306,7 @@ public class SpotAccountInformation {
      *
      * @param sellerCommission: seller commission
      * @throws IllegalArgumentException when seller commission value is less than 0
-     **/
+     */
     public void setSellerCommission(double sellerCommission) {
         if (sellerCommission < 0)
             throw new IllegalArgumentException("Seller commission value cannot be less than 0");
@@ -318,7 +318,7 @@ public class SpotAccountInformation {
      * No-any params required
      *
      * @return {@link #commissionRates} instance as {@link CommissionRates}
-     **/
+     */
     public CommissionRates getCommissionRates() {
         return commissionRates;
     }
@@ -327,7 +327,7 @@ public class SpotAccountInformation {
      * Method to set {@link #commissionRates}
      *
      * @param commissionRates: commission rates to set for the spot account
-     **/
+     */
     public void setCommissionRates(CommissionRates commissionRates) {
         this.commissionRates = commissionRates;
     }
@@ -337,7 +337,7 @@ public class SpotAccountInformation {
      * No-any params required
      *
      * @return {@link #canTrade} instance as boolean
-     **/
+     */
     public boolean canTrade() {
         return canTrade;
     }
@@ -346,7 +346,7 @@ public class SpotAccountInformation {
      * Method to set {@link #canTrade} instance <br>
      *
      * @param canTrade: if account can trade
-     **/
+     */
     public void setCanTrade(boolean canTrade) {
         this.canTrade = canTrade;
     }
@@ -356,7 +356,7 @@ public class SpotAccountInformation {
      * No-any params required
      *
      * @return {@link #canWithdraw} instance as boolean
-     **/
+     */
     public boolean canWithdraw() {
         return canWithdraw;
     }
@@ -365,7 +365,7 @@ public class SpotAccountInformation {
      * Method to set {@link #canWithdraw} instance <br>
      *
      * @param canWithdraw: if account can withdraw
-     **/
+     */
     public void setCanWithdraw(boolean canWithdraw) {
         this.canWithdraw = canWithdraw;
     }
@@ -375,7 +375,7 @@ public class SpotAccountInformation {
      * No-any params required
      *
      * @return {@link #canDeposit} instance as boolean
-     **/
+     */
     public boolean canDeposit() {
         return canDeposit;
     }
@@ -384,7 +384,7 @@ public class SpotAccountInformation {
      * Method to set {@link #canDeposit} instance <br>
      *
      * @param canDeposit: if account can deposit
-     **/
+     */
     public void setCanDeposit(boolean canDeposit) {
         this.canDeposit = canDeposit;
     }
@@ -394,7 +394,7 @@ public class SpotAccountInformation {
      * No-any params required
      *
      * @return {@link #brokered} instance as boolean
-     **/
+     */
     public boolean isBrokered() {
         return brokered;
     }
@@ -403,7 +403,7 @@ public class SpotAccountInformation {
      * Method to set {@link #brokered} instance <br>
      *
      * @param brokered: if account is brokered
-     **/
+     */
     public void setBrokered(boolean brokered) {
         this.brokered = brokered;
     }
@@ -413,7 +413,7 @@ public class SpotAccountInformation {
      * No-any params required
      *
      * @return {@link #updateTime} instance as long
-     **/
+     */
     public long getUpdateTime() {
         return updateTime;
     }
@@ -423,7 +423,7 @@ public class SpotAccountInformation {
      * No-any params required
      *
      * @return {@link #updateTime} instance as {@link Date}
-     **/
+     */
     public Date getUpdateDate() {
         return TimeFormatter.getDate(updateTime);
     }
@@ -433,7 +433,7 @@ public class SpotAccountInformation {
      *
      * @param updateTime: update time value
      * @throws IllegalArgumentException when update time value is less than 0
-     **/
+     */
     public void setUpdateTime(long updateTime) {
         if (updateTime < 0)
             throw new IllegalArgumentException("Update time value cannot be less than 0");
@@ -445,7 +445,7 @@ public class SpotAccountInformation {
      * No-any params required
      *
      * @return {@link #accountType} instance as {@link String}
-     **/
+     */
     public String getAccountType() {
         return accountType;
     }
@@ -455,7 +455,7 @@ public class SpotAccountInformation {
      * No-any params required
      *
      * @return {@link #spotsListBalance} instance as {@link ArrayList} of {@link SpotBalance}
-     **/
+     */
     public ArrayList<SpotBalance> getBalancesSpotsList() {
         return spotsListBalance;
     }
@@ -464,7 +464,7 @@ public class SpotAccountInformation {
      * Method to set {@link #spotsListBalance} instance <br>
      *
      * @param spotsListBalance: list of {@link SpotBalance} to set
-     **/
+     */
     public void setBalancesSpotsList(ArrayList<SpotBalance> spotsListBalance) {
         this.spotsListBalance = spotsListBalance;
     }
@@ -473,7 +473,7 @@ public class SpotAccountInformation {
      * Method to add a balance spot to {@link #spotsListBalance}
      *
      * @param spotBalance: balance spot to add
-     **/
+     */
     public void insertBalanceSpot(SpotBalance spotBalance) {
         if (!spotsListBalance.contains(spotBalance))
             spotsListBalance.add(spotBalance);
@@ -484,7 +484,7 @@ public class SpotAccountInformation {
      *
      * @param balanceSpot: balance spot to remove
      * @return result of operation as boolean
-     **/
+     */
     public boolean removeBalanceSpot(SpotBalance balanceSpot) {
         return spotsListBalance.remove(balanceSpot);
     }
@@ -494,7 +494,7 @@ public class SpotAccountInformation {
      *
      * @param index: index to fetch the margin order details
      * @return margin order details  as {@link MarginOrderDetails}
-     **/
+     */
     public SpotBalance getBalanceSpot(int index) {
         return spotsListBalance.get(index);
     }
@@ -504,7 +504,7 @@ public class SpotAccountInformation {
      * No-any params required
      *
      * @return {@link #permissionsList} instance as {@link ArrayList} of {@link Permission}
-     **/
+     */
     public ArrayList<Permission> getPermissionsList() {
         return permissionsList;
     }
@@ -513,7 +513,7 @@ public class SpotAccountInformation {
      * Method to set {@link #permissionsList} instance <br>
      *
      * @param permissionsList: list of {@link Permission} to set
-     **/
+     */
     public void setPermissionsList(ArrayList<Permission> permissionsList) {
         this.permissionsList = permissionsList;
     }
@@ -522,7 +522,7 @@ public class SpotAccountInformation {
      * Method to add a permission  to {@link #permissionsList}
      *
      * @param permission: permission to add
-     **/
+     */
     public void insertBalanceSpot(Permission permission) {
         if (!permissionsList.contains(permission))
             permissionsList.add(permission);
@@ -533,7 +533,7 @@ public class SpotAccountInformation {
      *
      * @param permission: permission  to remove
      * @return result of operation as boolean
-     **/
+     */
     public boolean removeBalanceSpot(Permission permission) {
         return permissionsList.remove(permission);
     }
@@ -543,7 +543,7 @@ public class SpotAccountInformation {
      *
      * @param index: index to fetch the permission
      * @return permission as {@link Permission}
-     **/
+     */
     public Permission getPermission(int index) {
         return permissionsList.get(index);
     }
@@ -553,7 +553,7 @@ public class SpotAccountInformation {
      * No-any params required
      *
      * @return {@link #requireSelfTradePrevention} instance as boolean
-     **/
+     */
     public boolean isRequiredSelfTradePrevention() {
         return requireSelfTradePrevention;
     }
@@ -562,7 +562,7 @@ public class SpotAccountInformation {
      * Method to set {@link #requireSelfTradePrevention} instance <br>
      *
      * @param requireSelfTradePrevention: whether the spot account require self trade prevention
-     **/
+     */
     public void setRequireSelfTradePrevention(boolean requireSelfTradePrevention) {
         this.requireSelfTradePrevention = requireSelfTradePrevention;
     }
@@ -584,19 +584,19 @@ public class SpotAccountInformation {
      * @author N7ghtm4r3 - Tecknobit
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data">
      * Account Information (USER_DATA)</a>
-     **/
+     */
     public static class Permission {
 
         /**
          * {@code permission} is instance that memorizes permission value
-         **/
+         */
         private final String permission;
 
         /**
          * Constructor to init {@link Permission} object
          *
          * @param permission: permission value
-         **/
+         */
         public Permission(String permission) {
             this.permission = permission;
         }
@@ -606,7 +606,7 @@ public class SpotAccountInformation {
          * No-any params required
          *
          * @return {@link #permission} instance as {@link String}
-         **/
+         */
         public String getPermission() {
             return permission;
         }
@@ -630,27 +630,27 @@ public class SpotAccountInformation {
      * @author N7ghtm4r3 - Tecknobit
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data">
      * Account Information (USER_DATA)</a>
-     **/
+     */
     public static class CommissionRates {
 
         /**
          * {@code "maker"} value
-         **/
+         */
         private final double maker;
 
         /**
          * {@code "taker"} value
-         **/
+         */
         private final double taker;
 
         /**
          * {@code "buyer"} value
-         **/
+         */
         private final double buyer;
 
         /**
          * {@code "seller"} value
-         **/
+         */
         private final double seller;
 
         /**
@@ -660,7 +660,7 @@ public class SpotAccountInformation {
          * @param taker:  taker value
          * @param buyer:  buyer value
          * @param seller: seller value
-         **/
+         */
         public CommissionRates(double maker, double taker, double buyer, double seller) {
             this.maker = maker;
             this.taker = taker;
@@ -672,7 +672,7 @@ public class SpotAccountInformation {
          * Constructor to init {@link CommissionRates} object
          *
          * @param jRates: commission rates details as {@link JSONObject}
-         **/
+         */
         public CommissionRates(JSONObject jRates) {
             JsonHelper hRates = new JsonHelper(jRates);
             maker = hRates.getDouble("maker", 0);
@@ -686,7 +686,7 @@ public class SpotAccountInformation {
          * No-any params required
          *
          * @return {@link #maker} instance as double
-         **/
+         */
         public double getMaker() {
             return maker;
         }
@@ -697,7 +697,7 @@ public class SpotAccountInformation {
          * @param decimals: number of digits to round final value
          * @return {@link #maker} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getMaker(int decimals) {
             return roundValue(maker, decimals);
         }
@@ -707,7 +707,7 @@ public class SpotAccountInformation {
          * No-any params required
          *
          * @return {@link #taker} instance as double
-         **/
+         */
         public double getTaker() {
             return taker;
         }
@@ -718,7 +718,7 @@ public class SpotAccountInformation {
          * @param decimals: number of digits to round final value
          * @return {@link #taker} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getTaker(int decimals) {
             return roundValue(taker, decimals);
         }
@@ -728,7 +728,7 @@ public class SpotAccountInformation {
          * No-any params required
          *
          * @return {@link #buyer} instance as double
-         **/
+         */
         public double getBuyer() {
             return buyer;
         }
@@ -739,7 +739,7 @@ public class SpotAccountInformation {
          * @param decimals: number of digits to round final value
          * @return {@link #buyer} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getBuyer(int decimals) {
             return roundValue(buyer, decimals);
         }
@@ -749,7 +749,7 @@ public class SpotAccountInformation {
          * No-any params required
          *
          * @return {@link #seller} instance as double
-         **/
+         */
         public double getSeller() {
             return seller;
         }
@@ -760,7 +760,7 @@ public class SpotAccountInformation {
          * @param decimals: number of digits to round final value
          * @return {@link #seller} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getSeller(int decimals) {
             return roundValue(seller, decimals);
         }

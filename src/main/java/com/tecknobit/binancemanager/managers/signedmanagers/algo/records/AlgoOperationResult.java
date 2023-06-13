@@ -30,20 +30,20 @@ import org.json.JSONObject;
  * </ul>
  * @see BinanceItem
  * @see BinanceResponse
- **/
+ */
 @Structure
 public abstract class AlgoOperationResult extends BinanceItem implements BinanceResponse {
 
     /**
      * {@code success} whether the operation has been successful
-     **/
+     */
     protected final boolean success;
 
     /**
      * Constructor to init {@link AlgoOperationResult} object
      *
      * @param success: whether the operation has been successful
-     **/
+     */
     public AlgoOperationResult(boolean success) {
         super(null);
         this.success = success;
@@ -53,7 +53,7 @@ public abstract class AlgoOperationResult extends BinanceItem implements Binance
      * Constructor to init {@link AlgoOperationResult} object
      *
      * @param jAlgoOperationResult: algo operation result details as {@link JSONObject}
-     **/
+     */
     public AlgoOperationResult(JSONObject jAlgoOperationResult) {
         super(jAlgoOperationResult);
         success = hItem.getBoolean("success");
@@ -64,7 +64,7 @@ public abstract class AlgoOperationResult extends BinanceItem implements Binance
      * No-any params required
      *
      * @return {@link #success} instance as boolean
-     **/
+     */
     public boolean isSuccess() {
         return success;
     }
@@ -76,7 +76,7 @@ public abstract class AlgoOperationResult extends BinanceItem implements Binance
      * @return code of error as int
      * *
      * @implSpec if code error is not present in {@code "Binance"}'s response will be returned -1 as default
-     **/
+     */
     @Override
     public int getCode() {
         if (hItem != null)
@@ -91,7 +91,7 @@ public abstract class AlgoOperationResult extends BinanceItem implements Binance
      * @return message of error as {@link String}
      * *
      * @implSpec if message error is not present in {@code "Binance"}'s response will be returned null as default
-     **/
+     */
     @Override
     public String getMessage() {
         if (hItem != null)

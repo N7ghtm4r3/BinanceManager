@@ -18,32 +18,32 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Universal Transfer (For Master Account)</a>
  * @see BinanceItem
  * @see SubTransferStructure
- **/
+ */
 public class SubUniversalTransfer extends SubTransferStructure {
 
     /**
      * {@code fromEmail} from email of the sub universal transfer
-     **/
+     */
     private final String fromEmail;
 
     /**
      * {@code toEmail} to email of the sub universal transfer
-     **/
+     */
     private final String toEmail;
 
     /**
      * {@code amount} of the sub universal transfer
-     **/
+     */
     private final double amount;
 
     /**
      * {@code createTimestamp} create timestamp of the sub universal transfer
-     **/
+     */
     private final long createTimestamp;
 
     /**
      * {@code clientTranId} client transaction identifier of the sub universal transfer
-     **/
+     */
     private final String clientTranId;
 
     /**
@@ -59,7 +59,7 @@ public class SubUniversalTransfer extends SubTransferStructure {
      * @param amount          : amount of the sub universal transfer
      * @param createTimestamp : create timestamp of the sub universal transfer
      * @param clientTranId    : client transaction identifier of the sub universal transfer
-     **/
+     */
     public SubUniversalTransfer(long tranId, String asset, PrincipalAccountType fromAccountType,
                                 PrincipalAccountType toAccountType, TransferStatus status, String fromEmail,
                                 String toEmail, double amount, long createTimestamp, String clientTranId) {
@@ -75,7 +75,7 @@ public class SubUniversalTransfer extends SubTransferStructure {
      * Constructor to init {@link SubUniversalTransfer} object
      *
      * @param jSubUniversalTransfer: sub universal transfer details as {@link JSONObject}
-     **/
+     */
     public SubUniversalTransfer(JSONObject jSubUniversalTransfer) {
         super(jSubUniversalTransfer);
         fromEmail = hItem.getString("fromEmail");
@@ -90,7 +90,7 @@ public class SubUniversalTransfer extends SubTransferStructure {
      * No-any params required
      *
      * @return {@link #fromEmail} instance as {@link String}
-     **/
+     */
     public String getFromEmail() {
         return fromEmail;
     }
@@ -100,7 +100,7 @@ public class SubUniversalTransfer extends SubTransferStructure {
      * No-any params required
      *
      * @return {@link #toEmail} instance as {@link String}
-     **/
+     */
     public String getToEmail() {
         return toEmail;
     }
@@ -110,7 +110,7 @@ public class SubUniversalTransfer extends SubTransferStructure {
      * No-any params required
      *
      * @return {@link #amount} instance as double
-     **/
+     */
     public double getAmount() {
         return amount;
     }
@@ -121,7 +121,7 @@ public class SubUniversalTransfer extends SubTransferStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #amount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getAmount(int decimals) {
         return roundValue(amount, decimals);
     }
@@ -131,7 +131,7 @@ public class SubUniversalTransfer extends SubTransferStructure {
      * No-any params required
      *
      * @return {@link #createTimestamp} instance as long
-     **/
+     */
     public long getCreateTimestamp() {
         return createTimestamp;
     }
@@ -141,7 +141,7 @@ public class SubUniversalTransfer extends SubTransferStructure {
      * No-any params required
      *
      * @return {@link #createTimestamp} instance as {@link Date}
-     **/
+     */
     public Date getCreateDate() {
         return TimeFormatter.getDate(createTimestamp);
     }
@@ -151,7 +151,7 @@ public class SubUniversalTransfer extends SubTransferStructure {
      * No-any params required
      *
      * @return {@link #clientTranId} instance as {@link String}
-     **/
+     */
     public String getClientTranId() {
         return clientTranId;
     }

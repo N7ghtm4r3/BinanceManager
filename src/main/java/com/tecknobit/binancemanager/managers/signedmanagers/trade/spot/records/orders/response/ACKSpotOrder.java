@@ -14,12 +14,12 @@ import java.util.Date;
  * New Order (TRADE)</a>
  * @see Order
  * @see SpotOrder
- **/
+ */
 public class ACKSpotOrder extends SpotOrder {
 
     /**
      * {@code transactTime} is instance that memorizes transaction time
-     **/
+     */
     protected long transactTime;
 
     /**
@@ -32,7 +32,7 @@ public class ACKSpotOrder extends SpotOrder {
      * @param transactTime       : transaction time
      * @param preventedMatchId:  prevented match identifier
      * @param preventedQuantity: prevented quantity value
-     **/
+     */
     public ACKSpotOrder(String symbol, long orderId, String clientOrderId, long orderListId, long transactTime,
                         long preventedMatchId, double preventedQuantity) {
         super(symbol, orderId, clientOrderId, orderListId, preventedMatchId, preventedQuantity);
@@ -43,7 +43,7 @@ public class ACKSpotOrder extends SpotOrder {
      * Constructor to init {@link ACKSpotOrder} object
      *
      * @param ackOrder: ack order details as {@link JSONObject}
-     **/
+     */
     public ACKSpotOrder(JSONObject ackOrder) {
         super(ackOrder);
         transactTime = hOrder.getLong("transactTime");
@@ -54,7 +54,7 @@ public class ACKSpotOrder extends SpotOrder {
      * No-any params required
      *
      * @return {@link #transactTime} instance as long
-     **/
+     */
     public long getTransactTime() {
         return transactTime;
     }
@@ -64,24 +64,24 @@ public class ACKSpotOrder extends SpotOrder {
      * No-any params required
      *
      * @return {@link #transactTime} instance as {@link Date}
-     **/
+     */
     public Date getTransactDate() {
         return TimeFormatter.getDate(transactTime);
     }
 
     /**
      * {@code ReplaceMode} list of available replace mode
-     **/
+     */
     public enum ReplaceMode {
 
         /**
          * {@code STOP_ON_FAILURE} whether the cancel request fails, the new order placement will not be attempted
-         **/
+         */
         STOP_ON_FAILURE,
 
         /**
          * {@code ALLOW_FAILURE_REPLACE_MODE} whether the new order placement will be attempted even if cancel request fails
-         **/
+         */
         ALLOW_FAILURE
 
     }

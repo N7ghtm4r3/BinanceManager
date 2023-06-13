@@ -19,7 +19,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.
  * Get Small Liability Exchange History (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class SmallLiabilityExchangeHistory extends BinanceRowsList<SmallLiabilityHistoryItem> {
 
     /**
@@ -27,7 +27,7 @@ public class SmallLiabilityExchangeHistory extends BinanceRowsList<SmallLiabilit
      *
      * @param total                      : number of the small liability history items
      * @param smallLiabilityHistoryItems :  list of the small liability history items
-     **/
+     */
     public SmallLiabilityExchangeHistory(int total, ArrayList<SmallLiabilityHistoryItem> smallLiabilityHistoryItems) {
         super(total, smallLiabilityHistoryItems);
     }
@@ -36,7 +36,7 @@ public class SmallLiabilityExchangeHistory extends BinanceRowsList<SmallLiabilit
      * Constructor to init {@link SmallLiabilityExchangeHistory}
      *
      * @param jList : list details as {@link JSONObject}
-     **/
+     */
     public SmallLiabilityExchangeHistory(JSONObject jList) {
         super(jList);
         for (Object row : hItem.fetchList("rows"))
@@ -48,37 +48,37 @@ public class SmallLiabilityExchangeHistory extends BinanceRowsList<SmallLiabilit
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class SmallLiabilityHistoryItem extends BinanceItem {
 
         /**
          * {@code asset} of the history item
-         **/
+         */
         private final String asset;
 
         /**
          * {@code amount} of the history item
-         **/
+         */
         private final double amount;
 
         /**
          * {@code targetAsset} target asset of the history item
-         **/
+         */
         private final String targetAsset;
 
         /**
          * {@code targetAmount} target amount of the history item
-         **/
+         */
         private final double targetAmount;
 
         /**
          * {@code bizType} biz type of the history item
-         **/
+         */
         private final String bizType;
 
         /**
          * {@code timestamp} of the history item
-         **/
+         */
         private final long timestamp;
 
         /**
@@ -90,7 +90,7 @@ public class SmallLiabilityExchangeHistory extends BinanceRowsList<SmallLiabilit
          * @param targetAmount : target amount of the history item
          * @param bizType      : biz type of the history item
          * @param timestamp    : timestamp of the history item
-         **/
+         */
         public SmallLiabilityHistoryItem(String asset, double amount, String targetAsset, double targetAmount,
                                          String bizType, long timestamp) {
             super(null);
@@ -106,7 +106,7 @@ public class SmallLiabilityExchangeHistory extends BinanceRowsList<SmallLiabilit
          * Constructor to init {@link SmallLiabilityExchangeHistory}
          *
          * @param jSmallLiabilityHistoryItem : small liability exchange history item details as {@link JSONObject}
-         **/
+         */
         public SmallLiabilityHistoryItem(JSONObject jSmallLiabilityHistoryItem) {
             super(jSmallLiabilityHistoryItem);
             asset = hItem.getString("asset");
@@ -122,7 +122,7 @@ public class SmallLiabilityExchangeHistory extends BinanceRowsList<SmallLiabilit
          * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
-         **/
+         */
         public String getAsset() {
             return asset;
         }
@@ -132,7 +132,7 @@ public class SmallLiabilityExchangeHistory extends BinanceRowsList<SmallLiabilit
          * No-any params required
          *
          * @return {@link #amount} instance as double
-         **/
+         */
         public double getAmount() {
             return amount;
         }
@@ -143,7 +143,7 @@ public class SmallLiabilityExchangeHistory extends BinanceRowsList<SmallLiabilit
          * @param decimals: number of digits to round final value
          * @return {@link #amount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getAmount(int decimals) {
             return roundValue(amount, decimals);
         }
@@ -153,7 +153,7 @@ public class SmallLiabilityExchangeHistory extends BinanceRowsList<SmallLiabilit
          * No-any params required
          *
          * @return {@link #targetAsset} instance as {@link String}
-         **/
+         */
         public String getTargetAsset() {
             return targetAsset;
         }
@@ -163,7 +163,7 @@ public class SmallLiabilityExchangeHistory extends BinanceRowsList<SmallLiabilit
          * No-any params required
          *
          * @return {@link #targetAmount} instance as double
-         **/
+         */
         public double getTargetAmount() {
             return targetAmount;
         }
@@ -174,7 +174,7 @@ public class SmallLiabilityExchangeHistory extends BinanceRowsList<SmallLiabilit
          * @param decimals: number of digits to round final value
          * @return {@link #targetAmount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getTargetAmount(int decimals) {
             return roundValue(targetAmount, decimals);
         }
@@ -184,7 +184,7 @@ public class SmallLiabilityExchangeHistory extends BinanceRowsList<SmallLiabilit
          * No-any params required
          *
          * @return {@link #bizType} instance as {@link String}
-         **/
+         */
         public String getBizType() {
             return bizType;
         }
@@ -194,7 +194,7 @@ public class SmallLiabilityExchangeHistory extends BinanceRowsList<SmallLiabilit
          * No-any params required
          *
          * @return {@link #timestamp} instance as long
-         **/
+         */
         public long getTimestamp() {
             return timestamp;
         }
@@ -204,7 +204,7 @@ public class SmallLiabilityExchangeHistory extends BinanceRowsList<SmallLiabilit
          * No-any params required
          *
          * @return {@link #timestamp} instance as {@link Date}
-         **/
+         */
         public Date getDate() {
             return TimeFormatter.getDate(timestamp);
         }

@@ -15,29 +15,29 @@ import org.json.JSONObject;
  * @see SavingStructure
  * @see SavingRecordStructure
  * @see RedemptionRecord
- **/
+ */
 public class FlexibleProductRedemption extends RedemptionRecord {
 
     /**
      * {@code RedemptionType} list of available redemption types
-     **/
+     */
     public enum RedemptionType {
 
         /**
          * {@code FAST} redemption type
-         **/
+         */
         FAST,
 
         /**
          * {@code NORMAL} redemption type
-         **/
+         */
         NORMAL
 
     }
 
     /**
      * {@code type} type of the flexible product redemption
-     **/
+     */
     private final RedemptionType type;
 
     /**
@@ -51,7 +51,7 @@ public class FlexibleProductRedemption extends RedemptionRecord {
      * @param projectId:   project id of the flexible product redemption
      * @param projectName: project name of the flexible product redemption
      * @param type:        type of the flexible product redemption
-     **/
+     */
     public FlexibleProductRedemption(String asset, double amount, long createTime, String status, double principal,
                                      String projectId, String projectName, RedemptionType type) {
         super(asset, amount, createTime, status, principal, projectId, projectName);
@@ -62,7 +62,7 @@ public class FlexibleProductRedemption extends RedemptionRecord {
      * Constructor to init {@link FlexibleProductRedemption} object
      *
      * @param jFlexibleProductRedemption: flexible product redemption details as {@link JSONObject}
-     **/
+     */
     public FlexibleProductRedemption(JSONObject jFlexibleProductRedemption) {
         super(jFlexibleProductRedemption);
         this.type = RedemptionType.valueOf(hItem.getString("type"));
@@ -73,7 +73,7 @@ public class FlexibleProductRedemption extends RedemptionRecord {
      * No-any params required
      *
      * @return {@link #type} instance as {@link RedemptionType}
-     **/
+     */
     public RedemptionType getType() {
         return type;
     }

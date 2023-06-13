@@ -23,18 +23,18 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * </ul>
  * @see BinanceItem
  * @see SwapBaseStructure
- **/
+ */
 @Structure
 public abstract class SwapStructure extends SwapBaseStructure {
 
     /**
      * {@code quoteQuantity} quote quantity of the swap
-     **/
+     */
     protected final double quoteQuantity;
 
     /**
      * {@code baseQuantity} quote quantity of the swap
-     **/
+     */
     protected final double baseQuantity;
 
     /**
@@ -46,7 +46,7 @@ public abstract class SwapStructure extends SwapBaseStructure {
      * @param fee:           fee of the swap
      * @param quoteQuantity: quote quantity of the swap
      * @param baseQuantity:  quote quantity of the swap
-     **/
+     */
     public SwapStructure(String quoteAsset, String baseAsset, double price, double fee, double quoteQuantity,
                          double baseQuantity) {
         super(quoteAsset, baseAsset, price, fee);
@@ -58,7 +58,7 @@ public abstract class SwapStructure extends SwapBaseStructure {
      * Constructor to init {@link SwapStructure} object
      *
      * @param jSwapStructure: swap structure details as {@link JSONObject}
-     **/
+     */
     public SwapStructure(JSONObject jSwapStructure) {
         super(jSwapStructure);
         quoteQuantity = hItem.getDouble("quoteQuantity", 0);
@@ -70,7 +70,7 @@ public abstract class SwapStructure extends SwapBaseStructure {
      * No-any params required
      *
      * @return {@link #quoteQuantity} instance as double
-     **/
+     */
     public double getQuoteQuantity() {
         return quoteQuantity;
     }
@@ -81,7 +81,7 @@ public abstract class SwapStructure extends SwapBaseStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #quoteQuantity} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getQuoteQuantity(int decimals) {
         return roundValue(quoteQuantity, decimals);
     }
@@ -91,7 +91,7 @@ public abstract class SwapStructure extends SwapBaseStructure {
      * No-any params required
      *
      * @return {@link #baseQuantity} instance as double
-     **/
+     */
     public double getBaseQuantity() {
         return baseQuantity;
     }
@@ -102,7 +102,7 @@ public abstract class SwapStructure extends SwapBaseStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #baseQuantity} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBaseQuantity(int decimals) {
         return roundValue(baseQuantity, decimals);
     }

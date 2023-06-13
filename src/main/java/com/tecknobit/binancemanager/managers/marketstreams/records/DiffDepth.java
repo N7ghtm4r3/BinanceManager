@@ -17,32 +17,32 @@ import static com.tecknobit.binancemanager.managers.market.records.OrderBook.ret
  * Diff. Depth Stream</a>
  * @see BinanceItem
  * @see BinanceWebsocketResponse
- **/
+ */
 public class DiffDepth extends BinanceWebsocketResponse {
 
     /**
      * {@code symbol} of the diff depth
-     * **/
+     */
     private final String symbol;
 
     /**
      * {@code firstUpdateIdInEvent} first update id in event of the diff depth
-     * **/
+     */
     private final long firstUpdateIdInEvent;
 
     /**
      * {@code finalUpdateIdInEvent} final update id in event of the diff depth
-     * **/
+     */
     private final long finalUpdateIdInEvent;
 
     /**
      * {@code bids} of the diff depth
-     * **/
+     */
     private final ArrayList<BookOrderDetails> bids;
 
     /**
      * {@code asks} the diff depth
-     * **/
+     */
     private final ArrayList<BookOrderDetails> asks;
 
     /**
@@ -55,7 +55,7 @@ public class DiffDepth extends BinanceWebsocketResponse {
      * @param finalUpdateIdInEvent : final update id in event of the diff depth
      * @param bids : bids of the diff depth
      * @param asks : asks of the diff depth
-     **/
+     */
     public DiffDepth(EventType eventType, long eventTime, String symbol, long firstUpdateIdInEvent,
                      long finalUpdateIdInEvent, ArrayList<BookOrderDetails> bids, ArrayList<BookOrderDetails> asks) {
         super(eventType, eventTime);
@@ -70,7 +70,7 @@ public class DiffDepth extends BinanceWebsocketResponse {
      * Constructor to init {@link DiffDepth} object
      *
      * @param jDiffDepth : diff depth details as {@link JSONObject}
-     **/
+     */
     public DiffDepth(JSONObject jDiffDepth) {
         super(jDiffDepth);
         symbol = hItem.getString("s");
@@ -85,7 +85,7 @@ public class DiffDepth extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
-     **/
+     */
     public String getSymbol() {
         return symbol;
     }
@@ -95,7 +95,7 @@ public class DiffDepth extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #firstUpdateIdInEvent} instance as long
-     **/
+     */
     public long getFirstUpdateIdInEvent() {
         return firstUpdateIdInEvent;
     }
@@ -105,7 +105,7 @@ public class DiffDepth extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #finalUpdateIdInEvent} instance as long
-     **/
+     */
     public long getFinalUpdateIdInEvent() {
         return finalUpdateIdInEvent;
     }
@@ -115,7 +115,7 @@ public class DiffDepth extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #bids} instance as {@link ArrayList} of {@link BookOrderDetails}
-     **/
+     */
     public ArrayList<BookOrderDetails> getBids() {
         return bids;
     }
@@ -125,7 +125,7 @@ public class DiffDepth extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #asks} instance as {@link ArrayList} of {@link BookOrderDetails}
-     **/
+     */
 
     public ArrayList<BookOrderDetails> getAsks() {
         return asks;

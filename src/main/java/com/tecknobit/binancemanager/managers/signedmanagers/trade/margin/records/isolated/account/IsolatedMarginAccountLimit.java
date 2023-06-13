@@ -8,24 +8,24 @@ import org.json.JSONObject;
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data">
  * Query Enabled Isolated Margin Account Limit (USER_DATA)</a>
- **/
+ */
 public class IsolatedMarginAccountLimit {
 
     /**
      * {@code enabledAccount} is instance that memorizes account enabled
-     * **/
+     */
     private int enabledAccount;
 
     /**
      * {@code maxAccount} is instance that memorizes max account enabled
-     * **/
+     */
     private int maxAccount;
 
     /** Constructor to init {@link IsolatedMarginAccountLimit} object
      * @param enabledAccount: account enabled
      * @param maxAccount: max account enabled
      * @throws IllegalArgumentException if parameters range is not respected
-     * **/
+     */
     public IsolatedMarginAccountLimit(int enabledAccount, int maxAccount) {
         if (enabledAccount < 0)
             throw new IllegalArgumentException("Enabled account value cannot be less than 0");
@@ -42,7 +42,7 @@ public class IsolatedMarginAccountLimit {
      *
      * @param isolatedMarginAccountLimit: isolated margin account limit details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
-     **/
+     */
     public IsolatedMarginAccountLimit(JSONObject isolatedMarginAccountLimit) {
         enabledAccount = isolatedMarginAccountLimit.getInt("enabledAccount");
         if (enabledAccount < 0)
@@ -57,7 +57,7 @@ public class IsolatedMarginAccountLimit {
      * No-any params required
      *
      * @return {@link #enabledAccount} instance as int
-     **/
+     */
     public int getEnabledAccount() {
         return enabledAccount;
     }
@@ -67,7 +67,7 @@ public class IsolatedMarginAccountLimit {
      *
      * @param enabledAccount: account enabled
      * @throws IllegalArgumentException when account enabled is less than 0
-     **/
+     */
     public void setEnabledAccount(int enabledAccount) {
         if (enabledAccount < 0)
             throw new IllegalArgumentException("Enabled account value cannot be less than 0");
@@ -79,7 +79,7 @@ public class IsolatedMarginAccountLimit {
      * No-any params required
      *
      * @return {@link #maxAccount} instance as int
-     **/
+     */
     public int getMaxAccount() {
         return maxAccount;
     }
@@ -89,7 +89,7 @@ public class IsolatedMarginAccountLimit {
      *
      * @param maxAccount: max account enabled
      * @throws IllegalArgumentException when max account enabled is less than 0
-     **/
+     */
     public void setMaxAccount(int maxAccount) {
         if (maxAccount < 0)
             throw new IllegalArgumentException("Max account value cannot be less than 0");

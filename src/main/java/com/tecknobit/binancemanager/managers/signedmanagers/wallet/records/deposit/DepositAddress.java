@@ -23,27 +23,27 @@ import org.json.JSONObject;
  *             Get Managed Sub-account Deposit Address (For Investor Master Account) (USER_DATA)</a>
  *     </li>
  * </ul>
- **/
+ */
 public class DepositAddress {
 
     /**
      * {@code address} is instance that memorizes address value
-     * **/
+     */
     private final String address;
 
     /**
      * {@code coin} is instance that memorizes coin value
-     * **/
+     */
     private final String coin;
 
     /**
      * {@code tag} is instance that memorizes tag value
-     * **/
+     */
     private final String tag;
 
     /**
      * {@code url} is instance that memorizes url value
-     * **/
+     */
     private final String url;
 
     /** Constructor to init {@link DepositAddress} object
@@ -51,7 +51,7 @@ public class DepositAddress {
      * @param coin: coin value
      * @param tag: address tag value
      * @param url: tx identifier value
-     * **/
+     */
     public DepositAddress(String address, String coin, String tag, String url) {
         this.address = address;
         this.coin = coin;
@@ -63,7 +63,7 @@ public class DepositAddress {
      * Constructor to init {@link DepositAddress} object
      *
      * @param jDeposit: deposit address details as {@link JSONObject}
-     **/
+     */
     public DepositAddress(JSONObject jDeposit) {
         this(jDeposit.getString("address"), jDeposit.getString("coin"), jDeposit.getString("tag"),
                 jDeposit.getString("url"));
@@ -74,7 +74,7 @@ public class DepositAddress {
      * No-any params required
      *
      * @return {@link #address} instance as {@link String}
-     **/
+     */
     public String getAddress() {
         return address;
     }
@@ -84,7 +84,7 @@ public class DepositAddress {
      * No-any params required
      *
      * @return {@link #coin} instance as {@link String}
-     **/
+     */
     public String getCoin() {
         return coin;
     }
@@ -94,7 +94,7 @@ public class DepositAddress {
      * No-any params required
      *
      * @return {@link #tag} instance as {@link String}
-     **/
+     */
     public String getTag() {
         return tag;
     }
@@ -104,7 +104,7 @@ public class DepositAddress {
      * No-any params required
      *
      * @return {@link #url} instance as {@link String}
-     **/
+     */
     public String getUrl() {
         return url;
     }
@@ -115,7 +115,7 @@ public class DepositAddress {
      * @param depositAddressResponse: obtained from Binance's response
      * @param format:                 return type formatter -> {@link ReturnFormat}
      * @return deposit address as {@code "format"} defines
-     **/
+     */
     @Returner
     public static <T> T returnDepositAddress(String depositAddressResponse, ReturnFormat format) {
         switch (format) {

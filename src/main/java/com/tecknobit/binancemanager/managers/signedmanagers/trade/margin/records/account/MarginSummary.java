@@ -10,22 +10,22 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-margin-account-user_data">
  * Get Summary of Margin account (USER_DATA)</a>
- **/
+ */
 public class MarginSummary {
 
     /**
      * {@code normalBar} normal bar value
-     **/
+     */
     private final double normalBar;
 
     /**
      * {@code marginCallBar} margin call bar value
-     **/
+     */
     private final double marginCallBar;
 
     /**
      * {@code forceLiquidationBar} force liquidation bar value
-     **/
+     */
     private final double forceLiquidationBar;
 
     /**
@@ -34,7 +34,7 @@ public class MarginSummary {
      * @param normalBar:           normal bar value
      * @param marginCallBar:       margin call bar value
      * @param forceLiquidationBar: force liquidation bar value
-     **/
+     */
     public MarginSummary(double normalBar, double marginCallBar, double forceLiquidationBar) {
         this.normalBar = normalBar;
         this.marginCallBar = marginCallBar;
@@ -45,7 +45,7 @@ public class MarginSummary {
      * Constructor to init {@link MarginSummary} object
      *
      * @param jSummary: summary details as {@link JSONObject}
-     **/
+     */
     public MarginSummary(JSONObject jSummary) {
         this(jSummary.getDouble("normalBar"), jSummary.getDouble("marginCallBar"),
                 jSummary.getDouble("forceLiquidationBar"));
@@ -56,7 +56,7 @@ public class MarginSummary {
      * No-any params required
      *
      * @return {@link #normalBar} instance as double
-     **/
+     */
     public double getNormalBar() {
         return normalBar;
     }
@@ -67,7 +67,7 @@ public class MarginSummary {
      * @param decimals: number of digits to round final value
      * @return {@link #normalBar} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getNormalBar(int decimals) {
         return roundValue(normalBar, decimals);
     }
@@ -77,7 +77,7 @@ public class MarginSummary {
      * No-any params required
      *
      * @return {@link #marginCallBar} instance as double
-     **/
+     */
     public double getMarginCallBar() {
         return marginCallBar;
     }
@@ -88,7 +88,7 @@ public class MarginSummary {
      * @param decimals: number of digits to round final value
      * @return {@link #marginCallBar} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getMarginCallBar(int decimals) {
         return roundValue(marginCallBar, decimals);
     }
@@ -98,7 +98,7 @@ public class MarginSummary {
      * No-any params required
      *
      * @return {@link #forceLiquidationBar} instance as double
-     **/
+     */
     public double getForceLiquidationBar() {
         return forceLiquidationBar;
     }
@@ -109,7 +109,7 @@ public class MarginSummary {
      * @param decimals: number of digits to round final value
      * @return {@link #forceLiquidationBar} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getForceLiquidationBar(int decimals) {
         return roundValue(forceLiquidationBar, decimals);
     }

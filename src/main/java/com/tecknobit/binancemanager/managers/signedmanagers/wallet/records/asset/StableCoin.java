@@ -23,22 +23,22 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *     </li>
  * </ul>
  * @see BinanceItem
- **/
+ */
 public class StableCoin extends BinanceItem {
 
     /**
      * {@code convertedEnabled} whether conversion is enabled
-     **/
+     */
     private final boolean convertedEnabled;
 
     /**
      * {@code coins} list of coins
-     **/
+     */
     private final ArrayList<String> coins;
 
     /**
      * {@code exchangeRates} exchange rates
-     **/
+     */
     private final ExchangeRates exchangeRates;
 
     /**
@@ -47,7 +47,7 @@ public class StableCoin extends BinanceItem {
      * @param convertedEnabled: whether conversion is enabled
      * @param coins:            list of coins
      * @param exchangeRates:    exchange rates
-     **/
+     */
     public StableCoin(boolean convertedEnabled, ArrayList<String> coins, ExchangeRates exchangeRates) {
         super(null);
         this.convertedEnabled = convertedEnabled;
@@ -59,7 +59,7 @@ public class StableCoin extends BinanceItem {
      * Constructor to init {@link StableCoin} object
      *
      * @param jStableCoin: stable coin details as {@link JSONObject}
-     **/
+     */
     public StableCoin(JSONObject jStableCoin) {
         super(jStableCoin);
         convertedEnabled = hItem.getBoolean("convertEnabled");
@@ -72,7 +72,7 @@ public class StableCoin extends BinanceItem {
      * No-any params required
      *
      * @return {@link #convertedEnabled} instance as boolean
-     **/
+     */
     public boolean isConvertedEnabled() {
         return convertedEnabled;
     }
@@ -82,7 +82,7 @@ public class StableCoin extends BinanceItem {
      * No-any params required
      *
      * @return {@link #coins} instance as {@link ArrayList} of {@link String}
-     **/
+     */
     public ArrayList<String> getCoins() {
         return coins;
     }
@@ -92,7 +92,7 @@ public class StableCoin extends BinanceItem {
      * No-any params required
      *
      * @return {@link #exchangeRates} instance as {@link ExchangeRates}
-     **/
+     */
     public ExchangeRates getExchangeRates() {
         return exchangeRates;
     }
@@ -102,22 +102,22 @@ public class StableCoin extends BinanceItem {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class ExchangeRates extends BinanceItem {
 
         /**
          * {@code USDC} USDC value
-         **/
+         */
         private final double USDC;
 
         /**
          * {@code TUSD} TUSD value
-         **/
+         */
         private final double TUSD;
 
         /**
          * {@code USDP} USDP value
-         **/
+         */
         private final double USDP;
 
         /**
@@ -126,7 +126,7 @@ public class StableCoin extends BinanceItem {
          * @param USDC: USDC value
          * @param TUSD: TUSD value
          * @param USDP: USDP value
-         **/
+         */
         public ExchangeRates(double USDC, double TUSD, double USDP) {
             super(null);
             this.USDC = USDC;
@@ -138,7 +138,7 @@ public class StableCoin extends BinanceItem {
          * Constructor to init {@link ExchangeRates} object
          *
          * @param jExchangeRates: exchange rates details as {@link JSONObject}
-         **/
+         */
         public ExchangeRates(JSONObject jExchangeRates) {
             super(jExchangeRates);
             USDC = hItem.getDouble("USDC", 0);
@@ -151,7 +151,7 @@ public class StableCoin extends BinanceItem {
          * No-any params required
          *
          * @return {@link #USDC} instance as double
-         **/
+         */
         public double getUSDC() {
             return USDC;
         }
@@ -162,7 +162,7 @@ public class StableCoin extends BinanceItem {
          * @param decimals: number of digits to round final value
          * @return {@link #USDC} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getUSDC(int decimals) {
             return roundValue(USDC, decimals);
         }
@@ -172,7 +172,7 @@ public class StableCoin extends BinanceItem {
          * No-any params required
          *
          * @return {@link #TUSD} instance as double
-         **/
+         */
         public double getTUSD() {
             return TUSD;
         }
@@ -183,7 +183,7 @@ public class StableCoin extends BinanceItem {
          * @param decimals: number of digits to round final value
          * @return {@link #TUSD} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getTUSD(int decimals) {
             return roundValue(TUSD, decimals);
         }
@@ -193,7 +193,7 @@ public class StableCoin extends BinanceItem {
          * No-any params required
          *
          * @return {@link #USDP} instance as double
-         **/
+         */
         public double getUSDP() {
             return USDP;
         }
@@ -204,7 +204,7 @@ public class StableCoin extends BinanceItem {
          * @param decimals: number of digits to round final value
          * @return {@link #USDP} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getUSDP(int decimals) {
             return roundValue(USDP, decimals);
         }

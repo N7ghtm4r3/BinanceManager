@@ -15,42 +15,42 @@ import java.util.Date;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-detail-on-sub-account-39-s-futures-account-v2-for-master-account">
  * Get Detail on Sub-account's Futures Account V2 (For Master Account)</a>
  * @see BinanceItem
- **/
+ */
 public class CoinSubFuturesAccount extends BinanceItem {
 
     /**
      * {@code email} of the coin sub futures account
-     **/
+     */
     private final String email;
 
     /**
      * {@code assets} of the coin sub futures account
-     **/
+     */
     private final ArrayList<SubFuturesAsset> assets;
 
     /**
      * {@code canDeposit} whether the coin sub futures account can deposit
-     **/
+     */
     private final boolean canDeposit;
 
     /**
      * {@code canTrade} whether the coin sub futures account can trade
-     **/
+     */
     private final boolean canTrade;
 
     /**
      * {@code canWithdraw} whether the coin sub futures account can withdraw
-     **/
+     */
     private final boolean canWithdraw;
 
     /**
      * {@code feeTier} fee tier of the coin sub futures account
-     **/
+     */
     private final int feeTier;
 
     /**
      * {@code updateTime} update time of the coin sub futures account
-     **/
+     */
     private final long updateTime;
 
     /**
@@ -63,7 +63,7 @@ public class CoinSubFuturesAccount extends BinanceItem {
      * @param canWithdraw: whether the coin sub futures account can withdraw
      * @param feeTier:     fee tier of the coin sub futures account
      * @param updateTime:  update time of the coin sub futures account
-     **/
+     */
     public CoinSubFuturesAccount(String email, ArrayList<SubFuturesAsset> assets, boolean canDeposit, boolean canTrade,
                                  boolean canWithdraw, int feeTier, long updateTime) {
         super(null);
@@ -80,7 +80,7 @@ public class CoinSubFuturesAccount extends BinanceItem {
      * Constructor to init {@link CoinSubFuturesAccount} object
      *
      * @param jCoinSubFuturesAccount: coin sub futures account details {@link JSONObject}
-     **/
+     */
     public CoinSubFuturesAccount(JSONObject jCoinSubFuturesAccount) {
         super(jCoinSubFuturesAccount);
         email = hItem.getString("email");
@@ -101,7 +101,7 @@ public class CoinSubFuturesAccount extends BinanceItem {
      * No-any params required
      *
      * @return {@link #email} instance as {@link String}
-     **/
+     */
     public String getEmail() {
         return email;
     }
@@ -111,7 +111,7 @@ public class CoinSubFuturesAccount extends BinanceItem {
      * No-any params required
      *
      * @return {@link #assets} instance as {@link ArrayList} of {@link SubFuturesAsset}
-     **/
+     */
     public ArrayList<SubFuturesAsset> getAssets() {
         return assets;
     }
@@ -121,7 +121,7 @@ public class CoinSubFuturesAccount extends BinanceItem {
      * No-any params required
      *
      * @return {@link #canDeposit} instance as boolean
-     **/
+     */
     public boolean canDeposit() {
         return canDeposit;
     }
@@ -131,7 +131,7 @@ public class CoinSubFuturesAccount extends BinanceItem {
      * No-any params required
      *
      * @return {@link #canTrade} instance as boolean
-     **/
+     */
     public boolean canTrade() {
         return canTrade;
     }
@@ -141,7 +141,7 @@ public class CoinSubFuturesAccount extends BinanceItem {
      * No-any params required
      *
      * @return {@link #canWithdraw} instance as boolean
-     **/
+     */
     public boolean canWithdraw() {
         return canWithdraw;
     }
@@ -151,7 +151,7 @@ public class CoinSubFuturesAccount extends BinanceItem {
      * No-any params required
      *
      * @return {@link #feeTier} instance as int
-     **/
+     */
     public int getFeeTier() {
         return feeTier;
     }
@@ -161,7 +161,7 @@ public class CoinSubFuturesAccount extends BinanceItem {
      * No-any params required
      *
      * @return {@link #updateTime} instance as long
-     **/
+     */
     public long getUpdateTime() {
         return updateTime;
     }
@@ -171,7 +171,7 @@ public class CoinSubFuturesAccount extends BinanceItem {
      * No-any params required
      *
      * @return {@link #updateTime} instance as {@link Date}
-     **/
+     */
     public Date getUpdateDate() {
         return TimeFormatter.getDate(updateTime);
     }

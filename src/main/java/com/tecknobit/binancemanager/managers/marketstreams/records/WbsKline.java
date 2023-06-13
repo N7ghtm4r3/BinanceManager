@@ -19,62 +19,62 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see BinanceItem
  * @see BinanceWebsocketResponse
  * @see WbsMarketItem
- **/
+ */
 public class WbsKline extends WbsMarketItem {
 
     /**
      * {@code klineStartTime} kline start time of the kline
-     * **/
+     */
     private final long klineStartTime;
 
     /**
      * {@code klineCloseTime} kline close time of the kline
-     * **/
+     */
     private final long klineCloseTime;
 
     /**
      * {@code interval} of the kline
-     * **/
+     */
     private final Interval interval;
 
     /**
      * {@code firstTradeId} first trade id of the kline
-     * **/
+     */
     private final long firstTradeId;
 
     /**
      * {@code lastTradeId} last trade id of the kline
-     * **/
+     */
     private final long lastTradeId;
 
     /**
      * {@code baseAssetVolume} base asset volume of the kline
-     * **/
+     */
     private final double baseAssetVolume;
 
     /**
      * {@code numberOfTrades} number of trades of the kline
-     * **/
+     */
     private final int numberOfTrades;
 
     /**
      * {@code isClosed} whether the kline is closed
-     * **/
+     */
     private final boolean isClosed;
 
     /**
      * {@code quoteAssetVolume} quote asset volume of the kline
-     * **/
+     */
     private final double quoteAssetVolume;
 
     /**
      * {@code takerBuyBaseAssetVolume} taker buy base asset volume of the kline
-     * **/
+     */
     private final double takerBuyBaseAssetVolume;
 
     /**
      * {@code takerBuyQuoteAssetVolume} taker buy quote asset volume of the kline
-     * **/
+     */
     private final double takerBuyQuoteAssetVolume;
 
     /**
@@ -98,7 +98,7 @@ public class WbsKline extends WbsMarketItem {
      * @param quoteAssetVolume : quote asset volume of the kline
      * @param takerBuyBaseAssetVolume : taker buy base asset volume of the kline
      * @param takerBuyQuoteAssetVolume : taker buy quote asset volume of the kline
-     **/
+     */
     public WbsKline(EventType eventType, long eventTime, String symbol, double closePrice, double openPrice,
                     double highPrice, double lowPrice, long klineStartTime, long klineCloseTime, Interval interval,
                     long firstTradeId, long lastTradeId, double baseAssetVolume, int numberOfTrades, boolean isClosed,
@@ -121,7 +121,7 @@ public class WbsKline extends WbsMarketItem {
      * Constructor to init {@link WbsKline} object
      *
      * @param jWbsKline : websocket kline details as {@link JSONObject}
-     **/
+     */
     public WbsKline(JSONObject jWbsKline) {
         super(jWbsKline);
         hItem.setJSONObjectSource(hItem.getJSONObject("k"));
@@ -143,7 +143,7 @@ public class WbsKline extends WbsMarketItem {
      * No-any params required
      *
      * @return {@link #klineStartTime} instance as long
-     **/
+     */
     public long getKlineStartTime() {
         return klineStartTime;
     }
@@ -153,7 +153,7 @@ public class WbsKline extends WbsMarketItem {
      * No-any params required
      *
      * @return {@link #klineStartTime} instance as {@link Date}
-     **/
+     */
     public Date getKlineStartDate() {
         return TimeFormatter.getDate(klineStartTime);
     }
@@ -163,7 +163,7 @@ public class WbsKline extends WbsMarketItem {
      * No-any params required
      *
      * @return {@link #klineCloseTime} instance as long
-     **/
+     */
     public long getKlineCloseTime() {
         return klineCloseTime;
     }
@@ -173,7 +173,7 @@ public class WbsKline extends WbsMarketItem {
      * No-any params required
      *
      * @return {@link #klineCloseTime} instance as {@link Date}
-     **/
+     */
     public Date getKlineCloseDate() {
         return TimeFormatter.getDate(klineCloseTime);
     }
@@ -183,7 +183,7 @@ public class WbsKline extends WbsMarketItem {
      * No-any params required
      *
      * @return {@link #interval} instance as {@link Interval}
-     **/
+     */
     public Interval getInterval() {
         return interval;
     }
@@ -193,7 +193,7 @@ public class WbsKline extends WbsMarketItem {
      * No-any params required
      *
      * @return {@link #firstTradeId} instance as long
-     **/
+     */
     public long getFirstTradeId() {
         return firstTradeId;
     }
@@ -203,7 +203,7 @@ public class WbsKline extends WbsMarketItem {
      * No-any params required
      *
      * @return {@link #lastTradeId} instance as long
-     **/
+     */
     public long getLastTradeId() {
         return lastTradeId;
     }
@@ -213,7 +213,7 @@ public class WbsKline extends WbsMarketItem {
      * No-any params required
      *
      * @return {@link #baseAssetVolume} instance as double
-     **/
+     */
     public double getBaseAssetVolume() {
         return baseAssetVolume;
     }
@@ -224,7 +224,7 @@ public class WbsKline extends WbsMarketItem {
      * @param decimals: number of digits to round final value
      * @return {@link #baseAssetVolume} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBaseAssetVolume(int decimals) {
         return roundValue(baseAssetVolume, decimals);
     }
@@ -234,7 +234,7 @@ public class WbsKline extends WbsMarketItem {
      * No-any params required
      *
      * @return {@link #numberOfTrades} instance as int
-     **/
+     */
     public int getNumberOfTrades() {
         return numberOfTrades;
     }
@@ -244,7 +244,7 @@ public class WbsKline extends WbsMarketItem {
      * No-any params required
      *
      * @return {@link #isClosed} instance as boolean
-     **/
+     */
     public boolean isClosed() {
         return isClosed;
     }
@@ -254,7 +254,7 @@ public class WbsKline extends WbsMarketItem {
      * No-any params required
      *
      * @return {@link #quoteAssetVolume} instance as double
-     **/
+     */
     public double getQuoteAssetVolume() {
         return quoteAssetVolume;
     }
@@ -265,7 +265,7 @@ public class WbsKline extends WbsMarketItem {
      * @param decimals: number of digits to round final value
      * @return {@link #quoteAssetVolume} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getQuoteAssetVolume(int decimals) {
         return roundValue(quoteAssetVolume, decimals);
     }
@@ -275,7 +275,7 @@ public class WbsKline extends WbsMarketItem {
      * No-any params required
      *
      * @return {@link #takerBuyBaseAssetVolume} instance as double
-     **/
+     */
     public double getTakerBuyBaseAssetVolume() {
         return takerBuyBaseAssetVolume;
     }
@@ -286,7 +286,7 @@ public class WbsKline extends WbsMarketItem {
      * @param decimals: number of digits to round final value
      * @return {@link #takerBuyBaseAssetVolume} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTakerBuyBaseAssetVolume(int decimals) {
         return roundValue(takerBuyBaseAssetVolume, decimals);
     }
@@ -296,7 +296,7 @@ public class WbsKline extends WbsMarketItem {
      * No-any params required
      *
      * @return {@link #takerBuyQuoteAssetVolume} instance as double
-     **/
+     */
     public double getTakerBuyQuoteAssetVolume() {
         return takerBuyQuoteAssetVolume;
     }
@@ -307,7 +307,7 @@ public class WbsKline extends WbsMarketItem {
      * @param decimals: number of digits to round final value
      * @return {@link #takerBuyQuoteAssetVolume} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTakerBuyQuoteAssetVolume(int decimals) {
         return roundValue(takerBuyQuoteAssetVolume, decimals);
     }

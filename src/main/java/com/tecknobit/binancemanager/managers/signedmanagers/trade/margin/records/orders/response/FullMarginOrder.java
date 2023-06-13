@@ -18,12 +18,12 @@ import java.util.ArrayList;
  * @see MarginOrder
  * @see ACKMarginOrder
  * @see ResultMarginOrder
- **/
+ */
 public class FullMarginOrder extends ResultMarginOrder {
 
     /**
      * {@code fillMargins} is instance that memorizes fill margin data list
-     **/
+     */
     private ArrayList<Fill> fillMargins;
 
     /** Constructor to init {@link FullMarginOrder} object
@@ -41,7 +41,7 @@ public class FullMarginOrder extends ResultMarginOrder {
      * @param type: type of the order
      * @param side: side of the order
      * @param fillMargins: list of {@link Fill}
-     * **/
+     */
     public FullMarginOrder(String symbol, long orderId, String clientOrderId, long transactTime, boolean isIsolated,
                            double price, double origQty, double executedQty, double cummulativeQuoteQty, Status status,
                            TimeInForce timeInForce, OrderType type, Side side, ArrayList<Fill> fillMargins) {
@@ -54,7 +54,7 @@ public class FullMarginOrder extends ResultMarginOrder {
      * Constructor to init {@link FullMarginOrder} object
      *
      * @param fullMarginOrder: full margin order details as {@link JSONObject}
-     **/
+     */
     public FullMarginOrder(JSONObject fullMarginOrder) {
         super(fullMarginOrder);
         fillMargins = new ArrayList<>();
@@ -68,7 +68,7 @@ public class FullMarginOrder extends ResultMarginOrder {
      * No-any params required
      *
      * @return {@link #fillMargins} instance as {@link ArrayList} of {@link Fill}
-     **/
+     */
     public ArrayList<Fill> getFillMargins() {
         return fillMargins;
     }
@@ -77,7 +77,7 @@ public class FullMarginOrder extends ResultMarginOrder {
      * Method to set {@link #fillMargins} instance <br>
      *
      * @param fillMargins: list of {@link ComposedMarginOrderDetails} to set
-     **/
+     */
     public void setFillMargins(ArrayList<Fill> fillMargins) {
         this.fillMargins = fillMargins;
     }
@@ -86,7 +86,7 @@ public class FullMarginOrder extends ResultMarginOrder {
      * Method to add a fill to {@link #fillMargins}
      *
      * @param fill: fill to add
-     **/
+     */
     public void insertFill(Fill fill) {
         if (!fillMargins.contains(fill))
             fillMargins.add(fill);
@@ -97,7 +97,7 @@ public class FullMarginOrder extends ResultMarginOrder {
      *
      * @param fill: fill to remove
      * @return result of operation as boolean
-     **/
+     */
     public boolean removeFill(Fill fill) {
         return fillMargins.remove(fill);
     }
@@ -107,7 +107,7 @@ public class FullMarginOrder extends ResultMarginOrder {
      *
      * @param index: index to fetch the fill
      * @return fill as {@link ComposedMarginOrderDetails}
-     **/
+     */
     public Fill getFillMargin(int index) {
         return fillMargins.get(index);
     }

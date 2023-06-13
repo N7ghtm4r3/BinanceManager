@@ -16,22 +16,22 @@ import java.util.Date;
  * @see BinanceItem
  * @see SwapBaseStructure
  * @see SwapStructure
- **/
+ */
 public class SwapHistoryItem extends SwapStructure {
 
     /**
      * {@code swapId} id of the swap
-     **/
+     */
     private final long swapId;
 
     /**
      * {@code swapTime} time of the swap
-     **/
+     */
     private final long swapTime;
 
     /**
      * {@code status} of the swap
-     **/
+     */
     private final BSwapStatus status;
 
     /**
@@ -46,7 +46,7 @@ public class SwapHistoryItem extends SwapStructure {
      * @param swapId:        id of the swap
      * @param swapTime:      time of the swap
      * @param status:        status of the swap
-     **/
+     */
     public SwapHistoryItem(String quoteAsset, String baseAsset, double price, double fee, double quoteQuantity,
                            double baseQuantity, long swapId, long swapTime, BSwapStatus status) {
         super(quoteAsset, baseAsset, price, fee, quoteQuantity, baseQuantity);
@@ -59,7 +59,7 @@ public class SwapHistoryItem extends SwapStructure {
      * Constructor to init {@link SwapHistoryItem} object
      *
      * @param jSwapHistoryItem: swap history item details as {@link JSONObject}
-     **/
+     */
     public SwapHistoryItem(JSONObject jSwapHistoryItem) {
         super(jSwapHistoryItem);
         swapId = hItem.getLong("swapId", 0);
@@ -72,7 +72,7 @@ public class SwapHistoryItem extends SwapStructure {
      * No-any params required
      *
      * @return {@link #swapId} instance as long
-     **/
+     */
     public long getSwapId() {
         return swapId;
     }
@@ -82,7 +82,7 @@ public class SwapHistoryItem extends SwapStructure {
      * No-any params required
      *
      * @return {@link #swapTime} instance as long
-     **/
+     */
     public long getSwapTime() {
         return swapTime;
     }
@@ -92,7 +92,7 @@ public class SwapHistoryItem extends SwapStructure {
      * No-any params required
      *
      * @return {@link #swapTime} instance as {@link Date}
-     **/
+     */
     public Date getSwapDate() {
         return TimeFormatter.getDate(swapTime);
     }
@@ -102,7 +102,7 @@ public class SwapHistoryItem extends SwapStructure {
      * No-any params required
      *
      * @return {@link #status} instance as {@link BSwapStatus}
-     **/
+     */
     public BSwapStatus getStatus() {
         return status;
     }

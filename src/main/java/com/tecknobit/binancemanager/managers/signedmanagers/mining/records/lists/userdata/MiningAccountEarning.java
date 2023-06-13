@@ -24,14 +24,14 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.mining.record
  * @see BinanceItem
  * @see BinanceResponse
  * @see MiningResponse
- **/
+ */
 public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> {
 
     /**
      * Constructor to init {@link MiningAccountEarning} object
      *
      * @param data: mining account earning
-     **/
+     */
     public MiningAccountEarning(AccountEarningDetails data) {
         super(data);
     }
@@ -40,7 +40,7 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
      * Constructor to init {@link MiningAccountEarning} object
      *
      * @param jMiningAccountEarning: mining account earning details as {@link JSONObject}
-     **/
+     */
     public MiningAccountEarning(JSONObject jMiningAccountEarning) {
         super(jMiningAccountEarning);
         JSONObject jData = hItem.getJSONObject("data");
@@ -56,12 +56,12 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see DataListItem
-     **/
+     */
     public static class AccountEarningDetails extends DataListItem {
 
         /**
          * {@code accountProfits} account profits list
-         **/
+         */
         private final ArrayList<AccountEarning> accountProfits;
 
         /**
@@ -70,7 +70,7 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
          * @param totalNum: total num of the account profits
          * @param pageSize: page size of the account profits
          * @param accountProfits: account profits list
-         **/
+         */
         public AccountEarningDetails(int totalNum, int pageSize, ArrayList<AccountEarning> accountProfits) {
             super(totalNum, pageSize);
             this.accountProfits = accountProfits;
@@ -80,7 +80,7 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
          * Constructor to init {@link AccountEarningDetails} object
          *
          * @param jAccountEarningDetails: account earning details as {@link JSONObject}
-         **/
+         */
         public AccountEarningDetails(JSONObject jAccountEarningDetails) {
             super(jAccountEarningDetails);
             accountProfits = new ArrayList<>();
@@ -95,7 +95,7 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
          * No-any params required
          *
          * @return {@link #accountProfits} instance as {@link ArrayList} of {@link AccountEarning}
-         **/
+         */
         public ArrayList<AccountEarning> getAccountProfits() {
             return accountProfits;
         }
@@ -105,44 +105,44 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
          *
          * @author N7ghtm4r3 - Tecknobit
          * @see BinanceItem
-         **/
+         */
         public static class AccountEarning extends BinanceItem {
 
             /**
              * {@code EarningType} list of available earning types
-             **/
+             */
             public enum EarningType {
 
                 /**
                  * {@code Referral} earning type
-                 **/
+                 */
                 Referral(0),
 
                 /**
                  * {@code Refund} earning type
-                 **/
+                 */
                 Refund(1),
 
                 /**
                  * {@code Rebate} earning type
-                 **/
+                 */
                 Rebate(2);
 
                 /**
                  * {@code type} earning type value
-                 **/
+                 */
                 private final int type;
 
                 /**
                  * {@code VALUES} list of the types
-                 **/
+                 */
                 private static final List<EarningType> VALUES = Arrays.stream(EarningType.values()).toList();
 
                 /**
                  * Constructor to init {@link EarningType} object
                  *
                  * @param type: earning type value
-                 **/
+                 */
                 EarningType(int type) {
                     this.type = type;
                 }
@@ -152,7 +152,7 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
                  * No-any params required
                  *
                  * @return {@link #type} instance as int
-                 **/
+                 */
                 public int getType() {
                     return type;
                 }
@@ -162,7 +162,7 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
                  *
                  * @param value: value to reach
                  * @return enum constant as {@link EarningType}
-                 **/
+                 */
                 public static EarningType reachEnumConstant(int value) {
                     return VALUES.get(value);
                 }
@@ -172,7 +172,7 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
                  * No-any params required
                  *
                  * @return {@link #type} instance as {@link String}
-                 **/
+                 */
                 @Override
                 public String toString() {
                     return type + "";
@@ -182,32 +182,32 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
 
             /**
              * {@code time} of the account earning
-             **/
+             */
             private final long time;
 
             /**
              * {@code coinName} coin
-             **/
+             */
             private final String coinName;
 
             /**
              * {@code type} of the account earning
-             **/
+             */
             private final EarningType type;
 
             /**
              * {@code puid} sub-account id
-             **/
+             */
             private final long puid;
 
             /**
              * {@code subName} mining account
-             **/
+             */
             private final String subName;
 
             /**
              * {@code amount} value
-             **/
+             */
             private final double amount;
 
             /**
@@ -221,7 +221,7 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
              * @param puid: sub-account id
              * @param subName: mining account
              * @param amount: amount value
-             **/
+             */
             public AccountEarning(int totalNum, int pageSize, long time, String coinName, EarningType type, long puid,
                                   String subName, double amount) {
                 super(null);
@@ -237,7 +237,7 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
              * Constructor to init {@link AccountEarning} object
              *
              * @param jAccountEarning: account earning details as {@link JSONObject}
-             **/
+             */
             public AccountEarning(JSONObject jAccountEarning) {
                 super(jAccountEarning);
                 time = hItem.getLong("time", 0);
@@ -253,7 +253,7 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
              * No-any params required
              *
              * @return {@link #time} instance as long
-             **/
+             */
             public long getTime() {
                 return time;
             }
@@ -263,7 +263,7 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
              * No-any params required
              *
              * @return {@link #time} instance as {@link Date}
-             **/
+             */
             public Date getDate() {
                 return TimeFormatter.getDate(time);
             }
@@ -273,7 +273,7 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
              * No-any params required
              *
              * @return {@link #coinName} instance as {@link String}
-             **/
+             */
             public String getCoinName() {
                 return coinName;
             }
@@ -283,7 +283,7 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
              * No-any params required
              *
              * @return {@link #type} instance as {@link EarningType}
-             **/
+             */
             public EarningType getType() {
                 return type;
             }
@@ -293,7 +293,7 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
              * No-any params required
              *
              * @return {@link #puid} instance as long
-             **/
+             */
             public long getPuid() {
                 return puid;
             }
@@ -303,7 +303,7 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
              * No-any params required
              *
              * @return {@link #subName} instance as {@link String}
-             **/
+             */
             public String getSubName() {
                 return subName;
             }
@@ -313,7 +313,7 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
              * No-any params required
              *
              * @return {@link #amount} instance as double
-             **/
+             */
             public double getAmount() {
                 return amount;
             }
@@ -324,7 +324,7 @@ public class MiningAccountEarning extends MiningResponse<AccountEarningDetails> 
              * @param decimals: number of digits to round final value
              * @return {@link #amount} instance rounded with decimal digits inserted
              * @throws IllegalArgumentException if decimalDigits is negative
-             **/
+             */
             public double getAmount(int decimals) {
                 return roundValue(amount, decimals);
             }

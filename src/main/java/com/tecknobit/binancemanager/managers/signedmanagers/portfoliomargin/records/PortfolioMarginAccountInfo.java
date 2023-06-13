@@ -12,69 +12,69 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-portfolio-margin-account-info-user_data">
  * Get Portfolio Margin Account Info (USER_DATA)</a>
  * @see BinanceItem
- **/
+ */
 public class PortfolioMarginAccountInfo extends BinanceItem {
 
     /**
      * {@code PortfolioStatus} list of the available portfolio statuses
-     **/
+     */
     public enum PortfolioStatus {
 
         /**
          * {@code NORMAL} portfolio status
-         **/
+         */
         NORMAL,
 
         /**
          * {@code MARGIN_CALL} portfolio status
-         **/
+         */
         MARGIN_CALL,
 
         /**
          * {@code SUPPLY_MARGIN} portfolio status
-         **/
+         */
         SUPPLY_MARGIN,
 
         /**
          * {@code REDUCE_ONLY} portfolio status
-         **/
+         */
         REDUCE_ONLY,
 
         /**
          * {@code ACTIVE_LIQUIDATION} portfolio status
-         **/
+         */
         ACTIVE_LIQUIDATION,
 
         /**
          * {@code FORCE_LIQUIDATION} portfolio status
-         **/
+         */
         FORCE_LIQUIDATION,
 
         /**
          * {@code BANKRUPTED} portfolio status
-         **/
+         */
         BANKRUPTED
 
     }
 
     /**
      * {@code uniMMR} portfolio margin account maintenance margin rate
-     **/
+     */
     private final double uniMMR;
 
     /**
      * {@code accountEquity} account equity
-     **/
+     */
     private final double accountEquity;
 
     /**
      * {@code accountMaintMargin} portfolio margin account maintenance margin
-     **/
+     */
     private final double accountMaintMargin;
 
     /**
      * {@code accountStatus} portfolio margin account status
-     **/
+     */
     private final PortfolioStatus accountStatus;
 
     /**
@@ -84,7 +84,7 @@ public class PortfolioMarginAccountInfo extends BinanceItem {
      * @param accountEquity      : account equity
      * @param accountMaintMargin : portfolio margin account maintenance margin
      * @param accountStatus      : portfolio margin account status
-     **/
+     */
     public PortfolioMarginAccountInfo(double uniMMR, double accountEquity, double accountMaintMargin,
                                       PortfolioStatus accountStatus) {
         super(null);
@@ -98,7 +98,7 @@ public class PortfolioMarginAccountInfo extends BinanceItem {
      * Constructor to init {@link PortfolioMarginAccountInfo}
      *
      * @param jPortfolioMarginAccountInfo : portfolio margin account info details as {@link JSONObject}
-     **/
+     */
     public PortfolioMarginAccountInfo(JSONObject jPortfolioMarginAccountInfo) {
         super(jPortfolioMarginAccountInfo);
         uniMMR = hItem.getDouble("uniMMR", 0);
@@ -112,7 +112,7 @@ public class PortfolioMarginAccountInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #uniMMR} instance as double
-     **/
+     */
     public double getUniMMR() {
         return uniMMR;
     }
@@ -123,7 +123,7 @@ public class PortfolioMarginAccountInfo extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #uniMMR} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getUniMMR(int decimals) {
         return roundValue(uniMMR, decimals);
     }
@@ -133,7 +133,7 @@ public class PortfolioMarginAccountInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #accountEquity} instance as double
-     **/
+     */
     public double getAccountEquity() {
         return accountEquity;
     }
@@ -144,7 +144,7 @@ public class PortfolioMarginAccountInfo extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #accountEquity} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getAccountEquity(int decimals) {
         return roundValue(accountEquity, decimals);
     }
@@ -154,7 +154,7 @@ public class PortfolioMarginAccountInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #accountMaintMargin} instance as double
-     **/
+     */
     public double getAccountMaintMargin() {
         return accountMaintMargin;
     }
@@ -165,7 +165,7 @@ public class PortfolioMarginAccountInfo extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #accountMaintMargin} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getAccountMaintMargin(int decimals) {
         return roundValue(accountMaintMargin, decimals);
     }
@@ -175,7 +175,7 @@ public class PortfolioMarginAccountInfo extends BinanceItem {
      * No-any params required
      *
      * @return {@link #accountStatus} instance as {@link PortfolioStatus}
-     **/
+     */
     public PortfolioStatus getAccountStatus() {
         return accountStatus;
     }

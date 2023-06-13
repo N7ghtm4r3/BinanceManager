@@ -30,7 +30,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  *     </li>
  * </ul>
  * @see BinanceRowsList
- **/
+ */
 public class DustLogList extends BinanceRowsList<AssetDribblets> {
 
     /**
@@ -38,7 +38,7 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
      *
      * @param total:              total size of {@link #rows}
      * @param userAssetDribblets: list of {@link AssetDribblets}
-     **/
+     */
     public DustLogList(int total, ArrayList<AssetDribblets> userAssetDribblets) {
         super(total, userAssetDribblets);
     }
@@ -47,7 +47,7 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
      * Constructor to init {@link DustLogList} object
      *
      * @param jDustLog: dust log details as {@link JSONObject}
-     **/
+     */
     public DustLogList(JSONObject jDustLog) {
         super(jDustLog);
         for (Object row : hItem.fetchList("userAssetDribblets"))
@@ -60,7 +60,7 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
      * @param dustLogResponse: obtained from Binance's response
      * @param format:          return type formatter -> {@link ReturnFormat}
      * @return dust log as {@code "format"} defines
-     **/
+     */
     @Returner
     public static <T> T returnDustLog(String dustLogResponse, ReturnFormat format) {
         switch (format) {
@@ -78,32 +78,32 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class AssetDribblets extends BinanceItem {
 
         /**
          * {@code operateTime} is instance that memorizes operate time value
-         **/
+         */
         private final long operateTime;
 
         /**
          * {@code totalTransferedAmount} is instance that memorizes total transfered amount value
-         **/
+         */
         private final double totalTransferedAmount;
 
         /**
          * {@code totalServiceChargeAmount} is instance that memorizes total service charge amount value
-         * **/
+         */
         private final double totalServiceChargeAmount;
 
         /**
          * {@code transId} is instance that memorizes transaction identifier value
-         * **/
+         */
         private final long transId;
 
         /**
          * {@code assetDribbletsDetailsList} is instance that memorizes list of {@link DustItem}
-         * **/
+         */
         private final ArrayList<DustItem> assetDribbletsDetailsList;
 
         /** Constructor to init {@link AssetDribblets} object
@@ -112,7 +112,7 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
          * @param totalServiceChargeAmount: total service charge amount value
          * @param transId: transaction identifier value
          * @param assetDribbletsDetails: list of {@link DustItem}
-         * **/
+         */
         public AssetDribblets(long operateTime, double totalTransferedAmount, double totalServiceChargeAmount,
                               long transId, ArrayList<DustItem> assetDribbletsDetails) {
             super(null);
@@ -127,7 +127,7 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
          * Constructor to init {@link AssetDribblets} object
          *
          * @param jAssetDribblets: asset dribblets details as {@link JSONObject}
-         **/
+         */
         public AssetDribblets(JSONObject jAssetDribblets) {
             super(jAssetDribblets);
             operateTime = hItem.getLong("operateTime", 0);
@@ -142,7 +142,7 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
          * No-any params required
          *
          * @return {@link #operateTime} instance as long
-         **/
+         */
         public long getOperateTime() {
             return operateTime;
         }
@@ -152,7 +152,7 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
          * No-any params required
          *
          * @return {@link #operateTime} instance as {@link Date}
-         **/
+         */
         public Date getOperateDate() {
             return TimeFormatter.getDate(operateTime);
         }
@@ -162,7 +162,7 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
          * No-any params required
          *
          * @return {@link #totalTransferedAmount} instance as double
-         **/
+         */
         public double getTotalTransferedAmount() {
             return totalTransferedAmount;
         }
@@ -173,7 +173,7 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
          * @param decimals: number of digits to round final value
          * @return {@link #totalTransferedAmount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getTotalTransferedAmount(int decimals) {
             return roundValue(totalTransferedAmount, decimals);
         }
@@ -183,7 +183,7 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
          * No-any params required
          *
          * @return {@link #totalServiceChargeAmount} instance as double
-         **/
+         */
         public double getTotalServiceChargeAmount() {
             return totalServiceChargeAmount;
         }
@@ -194,7 +194,7 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
          * @param decimals: number of digits to round final value
          * @return {@link #totalServiceChargeAmount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getTotalServiceChargeAmount(int decimals) {
             return roundValue(totalServiceChargeAmount, decimals);
         }
@@ -204,7 +204,7 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
          * No-any params required
          *
          * @return {@link #transId} instance as long
-         **/
+         */
         public long getTransId() {
             return transId;
         }
@@ -214,7 +214,7 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
          * No-any params required
          *
          * @return {@link #assetDribbletsDetailsList} instance as {@link ArrayList} of {@link DustItem}
-         **/
+         */
         public ArrayList<DustItem> getAssetDribbletsDetails() {
             return assetDribbletsDetailsList;
         }
@@ -223,7 +223,7 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
          * Method to add an asset dribblets details  to {@link #assetDribbletsDetailsList}
          *
          * @param assetDribbletsDetails: asset dribblets details to add
-         **/
+         */
         public void insertAssetDribbletDetails(DustItem assetDribbletsDetails) {
             if (!assetDribbletsDetailsList.contains(assetDribbletsDetails))
                 assetDribbletsDetailsList.add(assetDribbletsDetails);
@@ -234,7 +234,7 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
          *
          * @param assetDribbletsDetails: asset dribblets details  to remove
          * @return result of operation as boolean
-         **/
+         */
         public boolean removeAssetDribbletDetails(DustItem assetDribbletsDetails) {
             return assetDribbletsDetailsList.remove(assetDribbletsDetails);
         }
@@ -244,7 +244,7 @@ public class DustLogList extends BinanceRowsList<AssetDribblets> {
          *
          * @param index: index to fetch the composed asset dribblets details
          * @return asset dribblets details as {@link DustItem}
-         **/
+         */
         public DustItem getAssetDribbletDetails(int index) {
             return assetDribbletsDetailsList.get(index);
         }

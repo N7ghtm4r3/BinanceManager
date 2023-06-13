@@ -23,37 +23,37 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * Convert Endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
- **/
+ */
 public class BinanceConvertManager extends BinanceSignedManager {
 
     /**
      * {@code CONVERT_EXCHANGE_INFO_ENDPOINT} is constant for CONVERT_EXCHANGE_INFO_ENDPOINT's endpoint
-     **/
+     */
     public static final String CONVERT_EXCHANGE_INFO_ENDPOINT = "/sapi/v1/convert/exchangeInfo";
 
     /**
      * {@code ASSET_INFO_ENDPOINT} is constant for ASSET_INFO_ENDPOINT's endpoint
-     **/
+     */
     public static final String ASSET_INFO_ENDPOINT = "/sapi/v1/convert/assetInfo";
 
     /**
      * {@code GET_QUOTE_ENDPOINT} is constant for ASSET_INFO_ENDPOINT's endpoint
-     **/
+     */
     public static final String GET_QUOTE_ENDPOINT = "/sapi/v1/convert/getQuote";
 
     /**
      * {@code ACCEPT_QUOTE_ENDPOINT} is constant for ACCEPT_QUOTE_ENDPOINT's endpoint
-     **/
+     */
     public static final String ACCEPT_QUOTE_ENDPOINT = "/sapi/v1/convert/acceptQuote";
 
     /**
      * {@code CONVERT_ORDER_STATUS_ENDPOINT} is constant for CONVERT_ORDER_STATUS_ENDPOINT's endpoint
-     **/
+     */
     public static final String CONVERT_ORDER_STATUS_ENDPOINT = "/sapi/v1/convert/orderStatus";
 
     /**
      * {@code TRADE_FLOW_ENDPOINT} is constant for TRADE_FLOW_ENDPOINT's endpoint
-     **/
+     */
     public static final String TRADE_FLOW_ENDPOINT = "/sapi/v1/convert/tradeFlow";
 
     /**
@@ -64,7 +64,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceConvertManager(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
                                  String secretKey) throws Exception {
         super(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
@@ -77,7 +77,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceConvertManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
                                  String secretKey) throws Exception {
         super(baseEndpoint, defaultErrorMessage, apiKey, secretKey);
@@ -90,7 +90,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceConvertManager(String baseEndpoint, int timeout, String apiKey,
                                  String secretKey) throws Exception {
         super(baseEndpoint, timeout, apiKey, secretKey);
@@ -102,7 +102,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceConvertManager(String baseEndpoint, String apiKey, String secretKey) throws Exception {
         super(baseEndpoint, apiKey, secretKey);
     }
@@ -122,7 +122,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *        BinanceSignedManager secondManager = new BinanceSignedManager(); //same credentials used
      *     }
      * </pre>
-     **/
+     */
     public BinanceConvertManager() {
         super();
     }
@@ -146,7 +146,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-c2c-trade-history-user_data">
      * List All Convert Pairs</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "3000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/exchangeInfo")
@@ -174,7 +174,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-c2c-trade-history-user_data">
      * List All Convert Pairs</a>
-     **/
+     */
     @RequestWeight(weight = "3000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/exchangeInfo")
     public <T> T getAllFromConvertPairs(String fromAsset, ReturnFormat format) throws Exception {
@@ -200,7 +200,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-c2c-trade-history-user_data">
      * List All Convert Pairs</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "3000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/exchangeInfo")
@@ -228,7 +228,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-c2c-trade-history-user_data">
      * List All Convert Pairs</a>
-     **/
+     */
     @RequestWeight(weight = "3000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/exchangeInfo")
     public <T> T getAllToConvertPairs(String toAsset, ReturnFormat format) throws Exception {
@@ -255,7 +255,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-c2c-trade-history-user_data">
      * List All Convert Pairs</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "3000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/exchangeInfo")
@@ -284,7 +284,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-c2c-trade-history-user_data">
      * List All Convert Pairs</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "3000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/exchangeInfo")
@@ -328,7 +328,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-order-quantity-precision-per-asset-user_data">
      * Query order quantity precision per asset (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "100(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/assetInfo")
@@ -355,7 +355,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-order-quantity-precision-per-asset-user_data">
      * Query order quantity precision per asset (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "100(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/assetInfo")
@@ -396,7 +396,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#send-quote-request-user_data">
      * Send quote request (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
@@ -426,7 +426,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#send-quote-request-user_data">
      * Send quote request (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
     public <T> T sendFromQuoteRequest(String fromAsset, String toAsset, double fromAmount,
@@ -470,7 +470,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#send-quote-request-user_data">
      * Send quote request (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
@@ -516,7 +516,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#send-quote-request-user_data">
      * Send quote request (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
     public <T> T sendFromQuoteRequest(String fromAsset, String toAsset, double fromAmount, Params extraParams,
@@ -545,7 +545,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#send-quote-request-user_data">
      * Send quote request (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
@@ -575,7 +575,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#send-quote-request-user_data">
      * Send quote request (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
     public <T> T sendToQuoteRequest(String fromAsset, String toAsset, double toAmount,
@@ -619,7 +619,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#send-quote-request-user_data">
      * Send quote request (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
@@ -665,7 +665,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#send-quote-request-user_data">
      * Send quote request (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
     public <T> T sendToQuoteRequest(String fromAsset, String toAsset, double toAmount, Params extraParams,
@@ -695,7 +695,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#send-quote-request-user_data">
      * Send quote request (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
@@ -727,7 +727,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#send-quote-request-user_data">
      * Send quote request (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
     public <T> T sendQuoteRequest(String fromAsset, String toAsset, double fromAmount, double toAmount,
@@ -772,7 +772,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#send-quote-request-user_data">
      * Send quote request (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
@@ -819,7 +819,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#send-quote-request-user_data">
      * Send quote request (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "200(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/getQuote")
@@ -861,7 +861,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#accept-quote-trade">
      * Accept Quote (TRADE)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "500(UID)")
@@ -890,7 +890,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#accept-quote-trade">
      * Accept Quote (TRADE)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "500(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/acceptQuote")
@@ -917,7 +917,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#accept-quote-trade">
      * Accept Quote (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "500(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/acceptQuote")
@@ -945,7 +945,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#accept-quote-trade">
      * Accept Quote (TRADE)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "500(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/convert/acceptQuote")
@@ -983,7 +983,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-status-user_data">
      * Order status (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "100(UID)")
@@ -1012,7 +1012,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-status-user_data">
      * Order status (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
@@ -1039,7 +1039,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-status-user_data">
      * Order status (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
@@ -1067,7 +1067,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-status-user_data">
      * Order status (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
     public <T> T getOrderStatusByOrderId(long orderId, ReturnFormat format) throws Exception {
@@ -1093,7 +1093,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-status-user_data">
      * Order status (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "100(UID)")
@@ -1122,7 +1122,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-status-user_data">
      * Order status (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
@@ -1149,7 +1149,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-status-user_data">
      * Order status (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
@@ -1177,7 +1177,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-status-user_data">
      * Order status (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
     public <T> T getOrderStatusByQuoteId(long quoteId, ReturnFormat format) throws Exception {
@@ -1204,7 +1204,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-status-user_data">
      * Order status (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "100(UID)")
@@ -1234,7 +1234,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-status-user_data">
      * Order status (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
@@ -1262,7 +1262,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-status-user_data">
      * Order status (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
@@ -1291,7 +1291,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#order-status-user_data">
      * Order status (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/orderStatus")
@@ -1333,7 +1333,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-convert-trade-history-user_data">
      * Get Convert Trade History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/tradeFlow")
@@ -1362,7 +1362,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-convert-trade-history-user_data">
      * Get Convert Trade History (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/tradeFlow")
     public <T> T getConvertTradeHistory(long startTime, long endTime, ReturnFormat format) throws Exception {
@@ -1399,7 +1399,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-convert-trade-history-user_data">
      * Get Convert Trade History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/tradeFlow")
@@ -1438,7 +1438,7 @@ public class BinanceConvertManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-convert-trade-history-user_data">
      * Get Convert Trade History (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/convert/tradeFlow")

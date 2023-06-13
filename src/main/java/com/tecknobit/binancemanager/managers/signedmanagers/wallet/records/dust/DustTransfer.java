@@ -13,22 +13,22 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
  * User Universal Transfer (USER_DATA)</a>
- **/
+ */
 public class DustTransfer {
 
     /**
      * {@code totalServiceCharge} is instance that memorizes total service charge value
-     * **/
+     */
     private final double totalServiceCharge;
 
     /**
      * {@code totalTransfered} is instance that memorizes total transferred value
-     **/
+     */
     private final double totalTransfered;
 
     /**
      * {@code transferResultsList} is instance that memorizes list of {@link DustItem}
-     **/
+     */
     private ArrayList<DustItem> transferResultsList;
 
     /**
@@ -37,7 +37,7 @@ public class DustTransfer {
      * @param totalServiceCharge: total service charge value
      * @param totalTransfered:    total transferred value
      * @param transferResults:    list of {@link DustItem}
-     **/
+     */
     public DustTransfer(double totalServiceCharge, double totalTransfered, ArrayList<DustItem> transferResults) {
         this.totalServiceCharge = totalServiceCharge;
         this.totalTransfered = totalTransfered;
@@ -48,7 +48,7 @@ public class DustTransfer {
      * Constructor to init {@link DustLogList} object
      *
      * @param dustTransfer: dust transfer details as {@link JSONObject}
-     **/
+     */
     public DustTransfer(JSONObject dustTransfer) {
         totalServiceCharge = dustTransfer.getDouble("totalServiceCharge");
         totalTransfered = dustTransfer.getDouble("totalTransfered");
@@ -60,7 +60,7 @@ public class DustTransfer {
      * No-any params required
      *
      * @return {@link #totalServiceCharge} instance as double
-     **/
+     */
     public double getTotalServiceCharge() {
         return totalServiceCharge;
     }
@@ -71,7 +71,7 @@ public class DustTransfer {
      * @param decimals: number of digits to round final value
      * @return {@link #totalServiceCharge} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTotalServiceCharge(int decimals) {
         return roundValue(totalServiceCharge, decimals);
     }
@@ -81,7 +81,7 @@ public class DustTransfer {
      * No-any params required
      *
      * @return {@link #totalTransfered} instance as double
-     **/
+     */
     public double getTotalTransfered() {
         return totalTransfered;
     }
@@ -92,7 +92,7 @@ public class DustTransfer {
      * @param decimals: number of digits to round final value
      * @return {@link #totalTransfered} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTotalTransfered(int decimals) {
         return roundValue(totalTransfered, decimals);
     }
@@ -102,7 +102,7 @@ public class DustTransfer {
      * No-any params required
      *
      * @return {@link #transferResultsList} instance as {@link ArrayList} of {@link DustItem}
-     **/
+     */
     public ArrayList<DustItem> getTransferResults() {
         return transferResultsList;
     }
@@ -111,7 +111,7 @@ public class DustTransfer {
      * Method to set {@link #transferResultsList} instance <br>
      *
      * @param transferResultsList: list of {@link DustItem} to set
-     **/
+     */
     public void setTransferResultsList(ArrayList<DustItem> transferResultsList) {
         this.transferResultsList = transferResultsList;
     }
@@ -120,7 +120,7 @@ public class DustTransfer {
      * Method to add a transfer result   to {@link #transferResultsList}
      *
      * @param transferResult: transfer result  to add
-     **/
+     */
     public void insertTransferResult(DustItem transferResult) {
         if (!transferResultsList.contains(transferResult))
             transferResultsList.add(transferResult);
@@ -131,7 +131,7 @@ public class DustTransfer {
      *
      * @param transferResult: transfer result   to remove
      * @return result of operation as boolean
-     **/
+     */
     public boolean removeTransferResult(DustItem transferResult) {
         return transferResultsList.remove(transferResult);
     }
@@ -141,7 +141,7 @@ public class DustTransfer {
      *
      * @param index: index to fetch the composed transfer result
      * @return transfer result  as {@link DustItem}
-     **/
+     */
     public DustItem getAssetDribbletDetails(int index) {
         return transferResultsList.get(index);
     }

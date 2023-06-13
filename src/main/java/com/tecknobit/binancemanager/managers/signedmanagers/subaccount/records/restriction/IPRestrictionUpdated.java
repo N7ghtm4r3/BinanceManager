@@ -15,39 +15,39 @@ import java.util.List;
  * Update IP Restriction for Sub-Account API key (For Master Account)</a>
  * @see BinanceItem
  * @see RestrictionStructure
- **/
+ */
 public class IPRestrictionUpdated extends RestrictionStructure {
 
     /**
      * {@code IPStatus} list of available ip statuses
-     **/
+     */
     public enum IPStatus {
 
         /**
          * {@code unrestricted} ip status
-         **/
+         */
         unrestricted(1),
 
         /**
          * {@code restricted_to_trusted_ips} ip status
-         **/
+         */
         restricted_to_trusted_ips(2);
 
         /**
          * {@code status} value
-         **/
+         */
         private final int status;
 
         /**
          * {@code VALUES} list of the statuses
-         **/
+         */
         private static final List<IPStatus> VALUES = Arrays.stream(IPStatus.values()).toList();
 
         /**
          * Constructor to init {@link IPStatus}
          *
          * @param status: status value
-         **/
+         */
         IPStatus(int status) {
             this.status = status;
         }
@@ -57,7 +57,7 @@ public class IPRestrictionUpdated extends RestrictionStructure {
          *
          * @param status: status to reach
          * @return enum constant as {@link IPStatus}
-         **/
+         */
         public static IPStatus reachEnumConstant(int status) {
             return VALUES.get(status - 1);
         }
@@ -67,7 +67,7 @@ public class IPRestrictionUpdated extends RestrictionStructure {
          * No-any params required
          *
          * @return {@link #status} instance as int
-         **/
+         */
         public int getStatus() {
             return status;
         }
@@ -77,7 +77,7 @@ public class IPRestrictionUpdated extends RestrictionStructure {
          * No-any params required
          *
          * @return {@link #status} instance as {@link String}
-         **/
+         */
         @Override
         public String toString() {
             return status + "";
@@ -87,7 +87,7 @@ public class IPRestrictionUpdated extends RestrictionStructure {
 
     /**
      * {@code status} value
-     **/
+     */
     private final IPStatus status;
 
     /**
@@ -97,7 +97,7 @@ public class IPRestrictionUpdated extends RestrictionStructure {
      * @param updateTime : update time of the ip restriction updated
      * @param apiKey     : api key of the ip restriction updated
      * @param status     : status value
-     **/
+     */
     public IPRestrictionUpdated(ArrayList<String> ipList, long updateTime, String apiKey, IPStatus status) {
         super(ipList, updateTime, apiKey);
         this.status = status;
@@ -107,7 +107,7 @@ public class IPRestrictionUpdated extends RestrictionStructure {
      * Constructor to init {@link IPRestrictionUpdated} object
      *
      * @param jIPRestrictionUpdated : ip restriction updated details as {@link JSONObject}
-     **/
+     */
     public IPRestrictionUpdated(JSONObject jIPRestrictionUpdated) {
         super(jIPRestrictionUpdated);
         status = IPStatus.reachEnumConstant(hItem.getInt("status"));
@@ -118,7 +118,7 @@ public class IPRestrictionUpdated extends RestrictionStructure {
      * No-any params required
      *
      * @return {@link #status} instance as {@link IPStatus}
-     **/
+     */
     public IPStatus getStatus() {
         return status;
     }

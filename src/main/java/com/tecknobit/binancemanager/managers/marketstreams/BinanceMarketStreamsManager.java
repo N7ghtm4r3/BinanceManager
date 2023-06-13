@@ -44,79 +44,79 @@ import static java.lang.Thread.onSpinWait;
  * @see BinanceManager
  * @see BinanceSignedManager
  * @see BinanceWebsocketManager
- **/
+ */
 public class BinanceMarketStreamsManager extends BinanceManager {
 
     /**
      * {@code Streams} list of available streams
-     **/
+     */
     public enum Streams {
 
         /**
          * {@code aggTrade} stream
-         **/
+         */
         aggTrade("@aggTrade"),
 
         /**
          * {@code trade} stream
-         **/
+         */
         trade("@trade"),
 
         /**
          * {@code kline_} stream
-         **/
+         */
         kline_("@kline_"),
 
         /**
          * {@code miniTicker} stream
-         **/
+         */
         miniTicker("@miniTicker"),
 
         /**
          * {@code miniTickerArr} stream
-         **/
+         */
         miniTickerArr("!miniTicker@arr"),
 
         /**
          * {@code ticker} stream
-         **/
+         */
         ticker("@ticker"),
 
         /**
          * {@code tickersArr} stream
-         **/
+         */
         tickersArr("!ticker@arr"),
 
         /**
          * {@code rollingTickersArr} stream
-         **/
+         */
         rollingTickersArr("!ticker_"),
 
         /**
          * {@code ticker_} stream
-         **/
+         */
         ticker_("@ticker_"),
 
         /**
          * {@code bookTicker} stream
-         **/
+         */
         bookTicker("@bookTicker"),
 
         /**
          * {@code depth} stream
-         **/
+         */
         depth("@depth");
 
         /**
          * {@code stream} value
-         **/
+         */
         private final String stream;
 
         /**
          * Constructor to init a {@link Streams}
          *
          * @param stream: stream value
-         **/
+         */
         Streams(String stream) {
             this.stream = stream;
         }
@@ -126,7 +126,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
          * No-any params required
          *
          * @return {@link #stream} instance as {@link String}
-         **/
+         */
         public String getStream() {
             return stream;
         }
@@ -136,7 +136,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
          * No-any params required
          *
          * @return {@link #stream} instance as {@link String}
-         **/
+         */
         @Override
         public String toString() {
             return stream;
@@ -146,17 +146,17 @@ public class BinanceMarketStreamsManager extends BinanceManager {
 
     /**
      * {@code WEB_SOCKET_DATA_STREAM_ENDPOINT} is constant for WEB_SOCKET_DATA_STREAM_ENDPOINT's endpoint
-     **/
+     */
     public static final String WEB_SOCKET_DATA_STREAM_ENDPOINT = "wss://data-stream.binance.com";
 
     /**
      * {@code webSocketResponse} response obtained from the websocket connection
-     **/
+     */
     private volatile String webSocketResponse;
 
     /**
      * {@code streamAvailable} whether the stream chanel is available
-     **/
+     */
     private volatile boolean streamAvailable = true;
 
     /**
@@ -164,7 +164,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      *
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param timeout             :             custom timeout for request
-     **/
+     */
     public BinanceMarketStreamsManager(String defaultErrorMessage, int timeout) throws SystemException, IOException {
         super(null, defaultErrorMessage, timeout);
     }
@@ -173,7 +173,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * Constructor to init a {@link BinanceMarketStreamsManager}
      *
      * @param defaultErrorMessage : custom error to show when is not a request error
-     **/
+     */
     public BinanceMarketStreamsManager(String defaultErrorMessage) throws SystemException, IOException {
         super(null, defaultErrorMessage);
     }
@@ -182,7 +182,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * Constructor to init a {@link BinanceMarketStreamsManager}
      *
      * @param timeout :     custom timeout for request
-     **/
+     */
     public BinanceMarketStreamsManager(int timeout) throws SystemException, IOException {
         super(null, timeout);
     }
@@ -202,7 +202,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      *        BinanceManager secondManager = new BinanceManager(); //same credentials used
      *     }
      * </pre>
-     **/
+     */
     public BinanceMarketStreamsManager() {
         super();
     }
@@ -213,7 +213,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * @param streams: list of streams
      * @implNote the stream item must concatenate in this way: <br>
      * <b>stream params</b> + {@link Streams} item
-     **/
+     */
     public void connectToMultipleStreams(String... streams) throws Exception {
         StringBuilder reqUrl = new StringBuilder(WEB_SOCKET_DATA_STREAM_ENDPOINT + "/stream?streams=");
         for (int j = 0; j < streams.length; j++) {
@@ -243,7 +243,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#aggregate-trade-streams">
      * Aggregate Trade Streams</a>
-     **/
+     */
     @RequestPath(method = GET, path = "<symbol>@aggTrade")
     public void connectToAggTradeStream(String symbol) throws Exception {
         connectToSingleStream(symbol.toLowerCase() + Streams.aggTrade);
@@ -257,7 +257,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#aggregate-trade-streams">
      * Aggregate Trade Streams</a>
      * @implNote you must at least invoke one time first {@link #connectToAggTradeStream(String)} to get the correct response
-     **/
+     */
     @Wrapper
     @RequestPath(method = GET, path = "<symbol>@aggTrade")
     public AggregateTrade getAggregateTrade() {
@@ -272,7 +272,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#aggregate-trade-streams">
      * Aggregate Trade Streams</a>
      * @implNote you must at least invoke one time first {@link #connectToAggTradeStream(String)} to get the correct response
-     **/
+     */
     @Returner
     @RequestPath(method = GET, path = "<symbol>@aggTrade")
     public <T> T getAggregateTrade(ReturnFormat format) {
@@ -310,7 +310,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#trade-streams">
      * Trade Streams</a>
-     **/
+     */
     @RequestPath(method = GET, path = "<symbol>@trade")
     public void connectToTradeStream(String symbol) throws Exception {
         connectToSingleStream(symbol.toLowerCase() + Streams.trade);
@@ -324,7 +324,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#trade-streams">
      * Trade Streams</a>
      * @implNote you must at least invoke one time first {@link #connectToTradeStream(String)} to get the correct response
-     **/
+     */
     @Wrapper
     @RequestPath(method = GET, path = "<symbol>@trade")
     public WbsTrade getTrade() {
@@ -339,7 +339,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#trade-streams">
      * Trade Streams</a>
      * @implNote you must at least invoke one time first {@link #connectToTradeStream(String)} to get the correct response
-     **/
+     */
     @Returner
     @RequestPath(method = GET, path = "<symbol>@trade")
     public <T> T getTrade(ReturnFormat format) {
@@ -378,7 +378,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#kline-candlestick-streams">
      * Kline/Candlestick Streams</a>
-     **/
+     */
     @RequestPath(method = GET, path = "<symbol>@kline_<interval>")
     public void connectToKlineCandlestickStream(String symbol, Interval interval) throws Exception {
         connectToSingleStream(symbol.toLowerCase() + kline_ + interval);
@@ -393,7 +393,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * Kline/Candlestick Streams</a>
      * @implNote you must at least invoke one time first {@link #connectToKlineCandlestickStream(String, Interval)}
      * to get the correct response
-     **/
+     */
     @Wrapper
     @RequestPath(method = GET, path = "<symbol>@kline_<interval>")
     public WbsKline getKlineCandlestick() {
@@ -409,7 +409,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * Kline/Candlestick Streams</a>
      * @implNote you must at least invoke one time first {@link #connectToKlineCandlestickStream(String, Interval)}
      * to get the correct response
-     **/
+     */
     @Returner
     @RequestPath(method = GET, path = "<symbol>@kline_<interval>")
     public <T> T getKlineCandlestick(ReturnFormat format) {
@@ -447,7 +447,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#individual-symbol-mini-ticker-stream">
      * Individual Symbol Mini Ticker Stream</a>
-     **/
+     */
     @RequestPath(method = GET, path = "<symbol>@miniTicker")
     public void connectToIndividualSymbolMiniTickerStream(String symbol) throws Exception {
         connectToSingleStream(symbol.toLowerCase() + miniTicker);
@@ -462,7 +462,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * Individual Symbol Mini Ticker Stream</a>
      * @implNote you must at least invoke one time first {@link #connectToIndividualSymbolMiniTickerStream(String)}
      * to get the correct response
-     **/
+     */
     @Wrapper
     @RequestPath(method = GET, path = "<symbol>@kline_<interval>")
     public WbsMiniTicker getMiniTicker() {
@@ -478,7 +478,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * Individual Symbol Mini Ticker Stream</a>
      * @implNote you must at least invoke one time first {@link #connectToIndividualSymbolMiniTickerStream(String)}
      * to get the correct response
-     **/
+     */
     @Returner
     @RequestPath(method = GET, path = "<symbol>@kline_<interval>")
     public <T> T getMiniTicker(ReturnFormat format) {
@@ -516,7 +516,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-market-mini-tickers-stream">
      * All Market Mini Tickers Stream</a>
-     **/
+     */
     @RequestPath(method = GET, path = "!miniTicker@arr")
     public void connectToAllMarketMiniTickersStream() throws Exception {
         connectToSingleStream(miniTickerArr.stream);
@@ -531,7 +531,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * All Market Mini Tickers Stream</a>
      * @implNote you must at least invoke one time first {@link #connectToAllMarketMiniTickersStream()}
      * to get the correct response
-     **/
+     */
     @Wrapper
     @RequestPath(method = GET, path = "!miniTicker@arr")
     public ArrayList<WbsMiniTicker> getMiniTickers() {
@@ -547,7 +547,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * All Market Mini Tickers Stream</a>
      * @implNote you must at least invoke one time first {@link #connectToAllMarketMiniTickersStream()}
      * to get the correct response
-     **/
+     */
     @Returner
     @RequestPath(method = GET, path = "!miniTicker@arr")
     public <T> T getMiniTickers(ReturnFormat format) {
@@ -589,7 +589,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#individual-symbol-ticker-streams">
      * Individual Symbol Ticker Streams</a>
-     **/
+     */
     @RequestPath(method = GET, path = "<symbol>@ticker")
     public void connectToIndividualSymbolTickerStream(String symbol) throws Exception {
         connectToSingleStream(symbol.toLowerCase() + ticker);
@@ -604,7 +604,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * All Market Mini Tickers Stream</a>
      * @implNote you must at least invoke one time first {@link #connectToIndividualSymbolTickerStream(String)}
      * to get the correct response
-     **/
+     */
     @Wrapper
     @RequestPath(method = GET, path = "<symbol>@ticker")
     public WbsTicker getSymbolTicker() {
@@ -620,7 +620,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * All Market Mini Tickers Stream</a>
      * @implNote you must at least invoke one time first {@link #connectToIndividualSymbolTickerStream(String)}
      * to get the correct response
-     **/
+     */
     @Returner
     @RequestPath(method = GET, path = "<symbol>@ticker")
     public <T> T getSymbolTicker(ReturnFormat format) {
@@ -658,7 +658,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-market-tickers-stream">
      * All Market Tickers Stream</a>
-     **/
+     */
     @RequestPath(method = GET, path = "!ticker@arr")
     public void connectToAllMarketTickersStream() throws Exception {
         connectToSingleStream(tickersArr.stream);
@@ -673,7 +673,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * All Market Tickers Stream</a>
      * @implNote you must at least invoke one time first {@link #connectToAllMarketTickersStream()}
      * to get the correct response
-     **/
+     */
     @Wrapper
     @RequestPath(method = GET, path = "!ticker@arr")
     public ArrayList<WbsTicker> getSymbolTickers() {
@@ -689,7 +689,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * All Market Tickers Stream</a>
      * @implNote you must at least invoke one time first {@link #connectToAllMarketTickersStream()}
      * to get the correct response
-     **/
+     */
     @Returner
     @RequestPath(method = GET, path = "!ticker@arr")
     public <T> T getSymbolTickers(ReturnFormat format) {
@@ -732,7 +732,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#individual-symbol-rolling-window-statistics-streams">
      * Individual Symbol Rolling Window Statistics Streams</a>
-     **/
+     */
     @RequestPath(method = GET, path = "<symbol>@ticker_<window_size>")
     public void connectToIndividualSymbolRollingWindowStatisticsStreams(String symbol, WindowSize size) throws Exception {
         connectToSingleStream(symbol.toLowerCase() + ticker_ + size.getSize());
@@ -747,7 +747,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * Individual Symbol Rolling Window Statistics Streams</a>
      * @implNote you must at least invoke one time first {@link #connectToIndividualSymbolRollingWindowStatisticsStreams(String, WindowSize)}
      * to get the correct response
-     **/
+     */
     @Wrapper
     @RequestPath(method = GET, path = "<symbol>@ticker_<window_size>")
     public WbsRollingWindowTicker getRollingWindowTicker(WindowSize size) {
@@ -764,7 +764,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * Individual Symbol Rolling Window Statistics Streams</a>
      * @implNote you must at least invoke one time first {@link #connectToIndividualSymbolRollingWindowStatisticsStreams(String, WindowSize)}
      * to get the correct response
-     **/
+     */
     @Returner
     @RequestPath(method = GET, path = "<symbol>@ticker_<window_size>")
     public <T> T getRollingWindowTicker(WindowSize size, ReturnFormat format) {
@@ -802,7 +802,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#all-market-rolling-window-statistics-streams">
      * All Market Rolling Window Statistics Streams</a>
-     **/
+     */
     @RequestPath(method = GET, path = "!ticker_<window-size>@arr")
     public void connectToAllMarketRollingWindowStatisticsStreams(WindowSize size) throws Exception {
         connectToSingleStream(rollingTickersArr + size.getSize() + "@arr");
@@ -817,7 +817,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * All Market Rolling Window Statistics Streams</a>
      * @implNote you must at least invoke one time first {@link #connectToAllMarketRollingWindowStatisticsStreams(WindowSize)}
      * to get the correct response
-     **/
+     */
     @Wrapper
     @RequestPath(method = GET, path = "!ticker_<window-size>@arr")
     public ArrayList<WbsRollingWindowTicker> getRollingWindowTickers(WindowSize size) {
@@ -834,7 +834,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * All Market Rolling Window Statistics Streams</a>
      * @implNote you must at least invoke one time first {@link #connectToAllMarketRollingWindowStatisticsStreams(WindowSize)}
      * to get the correct response
-     **/
+     */
     @Returner
     @RequestPath(method = GET, path = "!ticker_<window-size>@arr")
     public <T> T getRollingWindowTickers(WindowSize size, ReturnFormat format) {
@@ -876,7 +876,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#individual-symbol-book-ticker-streams">
      * Individual Symbol Book Ticker Streams</a>
-     **/
+     */
     @RequestPath(method = GET, path = "<symbol>@bookTicker")
     public void connectToIndividualSymbolBookTickerStreams(String symbol) throws Exception {
         connectToSingleStream(symbol.toLowerCase() + bookTicker);
@@ -891,7 +891,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * Individual Symbol Book Ticker Streams</a>
      * @implNote you must at least invoke one time first {@link #connectToIndividualSymbolBookTickerStreams(String)}
      * to get the correct response
-     **/
+     */
     @Wrapper
     @RequestPath(method = GET, path = "<symbol>@bookTicker")
     public WbsBookTicker getBookTicker() {
@@ -907,7 +907,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * Individual Symbol Book Ticker Streams</a>
      * @implNote you must at least invoke one time first {@link #connectToIndividualSymbolBookTickerStreams(String)}
      * to get the correct response
-     **/
+     */
     @Returner
     @RequestPath(method = GET, path = "<symbol>@bookTicker")
     public <T> T getBookTicker(ReturnFormat format) {
@@ -947,7 +947,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#partial-book-depth-streams">
      * Partial Book Depth Streams</a>
-     **/
+     */
     @Wrapper
     @RequestPath(method = GET, path = "<symbol>@depth<levels>")
     public void connectToPartialBookDepthStreams(String symbol, int levels) throws Exception {
@@ -974,7 +974,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#partial-book-depth-streams">
      * Partial Book Depth Streams</a>
-     **/
+     */
     @RequestPath(method = GET, path = "<symbol>@depth<levels>")
     public void connectToPartialBookDepthStreams(String symbol, int levels, int updateSpeed) throws Exception {
         String streamUrl = symbol.toLowerCase() + Streams.depth + levels;
@@ -992,7 +992,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * Partial Book Depth Streams</a>
      * @implNote you must at least invoke one time first {@link #connectToPartialBookDepthStreams(String, int)} or
      * {@link #connectToPartialBookDepthStreams(String, int, int)}  to get the correct response
-     **/
+     */
     @Wrapper
     @RequestPath(method = GET, path = "<symbol>@depth<levels>")
     public OrderBook getPartialBookDepth() {
@@ -1008,7 +1008,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * Partial Book Depth Streams</a>
      * @implNote you must at least invoke one time first {@link #connectToPartialBookDepthStreams(String, int)} or
      * {@link #connectToPartialBookDepthStreams(String, int, int)}  to get the correct response
-     **/
+     */
     @Returner
     @RequestPath(method = GET, path = "<symbol>@depth<levels>")
     public <T> T getPartialBookDepth(ReturnFormat format) {
@@ -1047,7 +1047,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#diff-depth-stream">
      * Diff. Depth Stream</a>
-     **/
+     */
     @Wrapper
     @RequestPath(method = GET, path = "<symbol>@depth")
     public void connectToDiffDepthStream(String symbol) throws Exception {
@@ -1073,7 +1073,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#diff-depth-stream">
      * Diff. Depth Stream</a>
-     **/
+     */
     @RequestPath(method = GET, path = "<symbol>@depth")
     public void connectToDiffDepthStream(String symbol, int updateSpeed) throws Exception {
         String streamUrl = symbol.toLowerCase() + Streams.depth;
@@ -1091,7 +1091,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * Diff. Depth Stream</a>
      * @implNote you must at least invoke one time first {@link #connectToDiffDepthStream(String)} or
      * {@link #connectToDiffDepthStream(String, int)}  to get the correct response
-     **/
+     */
     @Wrapper
     @RequestPath(method = GET, path = "<symbol>@depth")
     public DiffDepth getDiffDepth() {
@@ -1107,7 +1107,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * Diff. Depth Stream</a>
      * @implNote you must at least invoke one time first {@link #connectToDiffDepthStream(String)} or
      * {@link #connectToDiffDepthStream(String, int)}  to get the correct response
-     **/
+     */
     @Returner
     @RequestPath(method = GET, path = "<symbol>@depth")
     public <T> T getDiffDepth(ReturnFormat format) {
@@ -1131,7 +1131,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * Method to connect to one stream
      *
      * @param stream: the stream name to connect
-     **/
+     */
     private void connectToSingleStream(String stream) throws Exception {
         startWebsocket(WEB_SOCKET_DATA_STREAM_ENDPOINT + "/ws/" + stream);
     }
@@ -1139,7 +1139,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
     /**
      * Method to release the resources after websocket communication <br>
      * No-any params required
-     **/
+     */
     private void releaseResources() {
         webSocketResponse = null;
         streamAvailable = true;
@@ -1149,7 +1149,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * Method to start the websocket connection
      *
      * @param endpoint: the endpoint of the stream
-     **/
+     */
     private void startWebsocket(String endpoint) throws Exception {
         new WebSocketClient(new URI(endpoint)) {
 
@@ -1167,7 +1167,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
              * Callback for string messages received from the remote host
              *
              * @param message The UTF-8 decoded message that was received.
-             **/
+             */
             @Override
             public void onMessage(String message) {
                 if (streamAvailable) {
@@ -1187,7 +1187,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
              * @param reason Additional information string
              * @param remote Returns whether the closing of the connection was initiated by the remote
              *               host.
-             **/
+             */
             @Override
             public void onClose(int code, String reason, boolean remote) {
             }
@@ -1199,7 +1199,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
              * that probably means that you encountered a bug.<br>
              *
              * @param ex The exception causing this error
-             **/
+             */
             @Override
             public void onError(Exception ex) {
                 try {
@@ -1215,7 +1215,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      * Method to wait the correct response to format the correct object or return the correct response
      *
      * @param type: type of the event to wait
-     **/
+     */
     @Wrapper
     private void waitCorrectResponse(EventType type) {
         waitCorrectResponse(type, null);
@@ -1226,7 +1226,7 @@ public class BinanceMarketStreamsManager extends BinanceManager {
      *
      * @param type:       type of the event to wait
      * @param charToWait: the start char of the {@link #webSocketResponse} to wait
-     **/
+     */
     private synchronized void waitCorrectResponse(EventType type, String charToWait) {
         while (!streamAvailable)
             onSpinWait();

@@ -13,17 +13,17 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Redeem BLVT (USER_DATA)</a>
  * @see BinanceItem
  * @see BLVTStructure
- **/
+ */
 public class RedeemedBLVT extends BLVTStructure {
 
     /**
      * {@code status} of the redeemed BLVT
-     **/
+     */
     private final BLVTStatus status;
 
     /**
      * {@code redeemAmount} amount of the redeemed BLVT
-     **/
+     */
     private final double redeemAmount;
 
     /**
@@ -35,7 +35,7 @@ public class RedeemedBLVT extends BLVTStructure {
      * @param timestamp:    timestamp of the BLVT
      * @param status:       status of the redeemed BLVT
      * @param redeemAmount: amount of the redeemed BLVT
-     **/
+     */
     public RedeemedBLVT(long id, String tokenName, double amount, long timestamp, BLVTStatus status, double redeemAmount) {
         super(id, tokenName, amount, timestamp);
         this.status = status;
@@ -46,7 +46,7 @@ public class RedeemedBLVT extends BLVTStructure {
      * Constructor to init {@link RedeemedBLVT} object
      *
      * @param jRedeemedBLVT: redeemed BLVT details as {@link JSONObject}
-     **/
+     */
     public RedeemedBLVT(JSONObject jRedeemedBLVT) {
         super(jRedeemedBLVT);
         status = BLVTStatus.valueOf(hItem.getString("status"));
@@ -58,7 +58,7 @@ public class RedeemedBLVT extends BLVTStructure {
      * No-any params required
      *
      * @return {@link #status} instance as {@link BLVTStatus}
-     **/
+     */
     public BLVTStatus getStatus() {
         return status;
     }
@@ -68,7 +68,7 @@ public class RedeemedBLVT extends BLVTStructure {
      * No-any params required
      *
      * @return {@link #redeemAmount} instance as double
-     **/
+     */
     public double getRedeemAmount() {
         return redeemAmount;
     }
@@ -79,7 +79,7 @@ public class RedeemedBLVT extends BLVTStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #redeemAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRedeemAmount(int decimals) {
         return roundValue(redeemAmount, decimals);
     }

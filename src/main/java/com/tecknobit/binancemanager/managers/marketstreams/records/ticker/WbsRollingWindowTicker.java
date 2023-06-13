@@ -20,39 +20,39 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see BinanceWebsocketResponse
  * @see WbsMarketItem
  * @see WbsMiniTicker
- **/
+ */
 public class WbsRollingWindowTicker extends WbsMiniTicker {
 
     /**
      * {@code WindowSize} list of available window sizes
-     * **/
+     */
     public enum WindowSize {
 
         /**
          * {@code 1h} window size
-         * **/
+         */
         _1h("1h"),
 
         /**
          * {@code 4h} window size
-         * **/
+         */
         _4h("4h"),
 
         /**
          * {@code 1d} window size
-         * **/
+         */
         _1d("1d");
 
         /**
          * {@code size} of the window 
-         * * **/
+         */
         private final String size;
 
         /**
          * Constructor to init {@link WindowSize} object
          *
          * @param size : size of the window 
-         **/
+         */
         WindowSize(String size) {
             this.size = size;
         }
@@ -62,7 +62,7 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
          * No-any params required
          *
          * @return {@link #size} instance as {@link String}
-         **/
+         */
         public String getSize() {
             return size;
         }
@@ -72,7 +72,7 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
          * No-any params required
          *
          * @return {@link #size} instance as {@link String}
-         **/
+         */
         @Override
         public String toString() {
             return size;
@@ -82,47 +82,47 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
 
     /**
      * {@code priceChange} price change of the rolling window ticker
-     * **/
+     */
     protected final double priceChange;
 
     /**
      * {@code priceChangePercent} price change percent of the rolling window ticker
-     * **/
+     */
     protected final double priceChangePercent;
 
     /**
      * {@code lastPrice} last price of the rolling window ticker
-     * **/
+     */
     protected final double lastPrice;
 
     /**
      * {@code weightedAveragePrice} weighted average price of the rolling window ticker
-     * **/
+     */
     protected final double weightedAveragePrice;
 
     /**
      * {@code statisticsOpenTime} statistics open time of the rolling window ticker
-     * **/
+     */
     protected final long statisticsOpenTime;
 
     /**
      * {@code statisticsCloseTime} statistics close time of the rolling window ticker
-     * **/
+     */
     protected final long statisticsCloseTime;
 
     /**
      * {@code firstTradeId} first trade id of the rolling window ticker
-     * **/
+     */
     protected final long firstTradeId;
 
     /**
      * {@code lastTradeId} last trade id of the rolling window ticker
-     * **/
+     */
     protected final long lastTradeId;
 
     /**
      * {@code totalNumberOfTrades} total number of trades of the rolling window ticker
-     * **/
+     */
     protected final int totalNumberOfTrades;
 
     /**
@@ -146,7 +146,7 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
      * @param firstTradeId : first trade id of the rolling window ticker
      * @param lastTradeId : last trade id of the rolling window ticker
      * @param totalNumberOfTrades : total number of trades of the rolling window ticker
-     **/
+     */
     public WbsRollingWindowTicker(EventType eventType, long eventTime, String symbol, double closePrice, double openPrice,
                                   double highPrice, double lowPrice, double totalTradedBaseAssetVolume,
                                   double totalTradedQuoteAssetVolume, double priceChange, double priceChangePercent,
@@ -169,7 +169,7 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
      * Constructor to init {@link WbsRollingWindowTicker} object
      *
      * @param jWbsRollingWindow : rolling window ticker details as {@link JSONObject}
-     **/
+     */
     public WbsRollingWindowTicker(JSONObject jWbsRollingWindow) {
         super(jWbsRollingWindow);
         priceChange = hItem.getDouble("p", 0);
@@ -188,7 +188,7 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
      * No-any params required
      *
      * @return {@link #priceChange} instance as double
-     **/
+     */
     public double getPriceChange() {
         return priceChange;
     }
@@ -199,7 +199,7 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
      * @param decimals: number of digits to round final value
      * @return {@link #priceChange} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getPriceChange(int decimals) {
         return roundValue(priceChange, decimals);
     }
@@ -209,7 +209,7 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
      * No-any params required
      *
      * @return {@link #priceChangePercent} instance as double
-     **/
+     */
     public double getPriceChangePercent() {
         return priceChangePercent;
     }
@@ -220,7 +220,7 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
      * @param decimals: number of digits to round final value
      * @return {@link #priceChangePercent} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getPriceChangePercent(int decimals) {
         return roundValue(priceChangePercent, decimals);
     }
@@ -230,7 +230,7 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
      * No-any params required
      *
      * @return {@link #lastPrice} instance as double
-     **/
+     */
     public double getLastPrice() {
         return lastPrice;
     }
@@ -241,7 +241,7 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
      * @param decimals: number of digits to round final value
      * @return {@link #lastPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getLastPrice(int decimals) {
         return roundValue(lastPrice, decimals);
     }
@@ -251,7 +251,7 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
      * No-any params required
      *
      * @return {@link #weightedAveragePrice} instance as double
-     **/
+     */
     public double getWeightedAveragePrice() {
         return weightedAveragePrice;
     }
@@ -262,7 +262,7 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
      * @param decimals: number of digits to round final value
      * @return {@link #weightedAveragePrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getWeightedAveragePrice(int decimals) {
         return roundValue(weightedAveragePrice, decimals);
     }
@@ -272,7 +272,7 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
      * No-any params required
      *
      * @return {@link #statisticsOpenTime} instance as long
-     **/
+     */
     public long getStatisticsOpenTime() {
         return statisticsOpenTime;
     }
@@ -282,7 +282,7 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
      * No-any params required
      *
      * @return {@link #statisticsOpenTime} instance as {@link Date}
-     **/
+     */
     public Date getStatisticsOpenDate() {
         return TimeFormatter.getDate(statisticsOpenTime);
     }
@@ -292,7 +292,7 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
      * No-any params required
      *
      * @return {@link #statisticsCloseTime} instance as long
-     **/
+     */
     public long getStatisticsCloseTime() {
         return statisticsCloseTime;
     }
@@ -302,7 +302,7 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
      * No-any params required
      *
      * @return {@link #statisticsCloseTime} instance as {@link Date}
-     **/
+     */
     public Date getStatisticsCloseDate() {
         return TimeFormatter.getDate(statisticsCloseTime);
     }
@@ -312,7 +312,7 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
      * No-any params required
      *
      * @return {@link #firstTradeId} instance as long
-     **/
+     */
     public long getFirstTradeId() {
         return firstTradeId;
     }
@@ -322,7 +322,7 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
      * No-any params required
      *
      * @return {@link #lastTradeId} instance as long
-     **/
+     */
     public long getLastTradeId() {
         return lastTradeId;
     }
@@ -332,7 +332,7 @@ public class WbsRollingWindowTicker extends WbsMiniTicker {
      * No-any params required
      *
      * @return {@link #totalNumberOfTrades} instance as int
-     **/
+     */
     public int getTotalNumberOfTrades() {
         return totalNumberOfTrades;
     }

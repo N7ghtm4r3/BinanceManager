@@ -18,37 +18,37 @@ import static com.tecknobit.binancemanager.managers.market.records.stats.Exchang
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
  * Exchange Information</a>
- **/
+ */
 public class ExchangeInformation {
 
     /**
      * {@code timezone} is instance that contains timezone information
-     * **/
+     */
     private final String timezone;
 
     /**
      * {@code serverTime} is instance that contains server time information
-     * **/
+     */
     private final long serverTime;
 
     /**
      * {@code jsonInformation} is instance that contains exchange information in JSON format
-     **/
+     */
     private final JsonHelper hInfo;
 
     /**
      * {@code rateLimits} is instance that contains rate limits list
-     * **/
+     */
     private ArrayList<RateLimit> rateLimits;
 
     /**
      * {@code exchangeFilters} is instance that contains filters list
-     * **/
+     */
     private final ArrayList<Filter> exchangeFilters;
 
     /**
      * {@code symbols} is instance that contains symbols list
-     * **/
+     */
     private ArrayList<Symbol> symbols;
 
     /** Constructor to init {@link ExchangeInformation} object
@@ -57,7 +57,7 @@ public class ExchangeInformation {
      * @param rateLimits: rate limits list
      * @param exchangeFilters: filters list
      * @param symbols: symbols list
-     * **/
+     */
     public ExchangeInformation(String timezone, long serverTime, ArrayList<RateLimit> rateLimits,
                                ArrayList<Filter> exchangeFilters, ArrayList<Symbol> symbols) {
         this.timezone = timezone;
@@ -72,7 +72,7 @@ public class ExchangeInformation {
      * Constructor to init {@link ExchangeInformation} object
      *
      * @param exchangeInfo: exchange details as {@link JSONObject}
-     **/
+     */
     public ExchangeInformation(JSONObject exchangeInfo) {
         hInfo = new JsonHelper(exchangeInfo);
         timezone = exchangeInfo.getString("timezone");
@@ -87,7 +87,7 @@ public class ExchangeInformation {
      *
      * @param jsonFilters: obtained from {@code "Binance"} request
      * @return filters list as {@link ArrayList} of {@link Filter} custom object
-     **/
+     */
     @Returner
     private static ArrayList<Filter> returnFilters(JSONArray jsonFilters) {
         ArrayList<Filter> filters = new ArrayList<>();
@@ -105,7 +105,7 @@ public class ExchangeInformation {
     /**
      * Method to assemble an RateLimits list <br>
      * No-any params required
-     **/
+     */
     private void assembleRateLimits() {
         rateLimits = new ArrayList<>();
         JSONArray jsonRateLimits = hInfo.getJSONArray("rateLimits", new JSONArray());
@@ -116,7 +116,7 @@ public class ExchangeInformation {
     /**
      * Method to assemble a Symbols list <br>
      * No-any params required
-     **/
+     */
     private void assembleSymbols() {
         symbols = new ArrayList<>();
         JSONArray jsonSymbols = hInfo.getJSONArray("symbols", new JSONArray());
@@ -129,7 +129,7 @@ public class ExchangeInformation {
      * No-any params required
      *
      * @return {@link #timezone} instance as {@link String}
-     **/
+     */
     public String getTimezone() {
         return timezone;
     }
@@ -139,7 +139,7 @@ public class ExchangeInformation {
      * No-any params required
      *
      * @return {@link #serverTime} instance as long
-     **/
+     */
     public long getServerTime() {
         return serverTime;
     }
@@ -149,7 +149,7 @@ public class ExchangeInformation {
      * No-any params required
      *
      * @return {@link #rateLimits} instance as {@link ArrayList} of {@link RateLimit}
-     **/
+     */
     public ArrayList<RateLimit> getRateLimits() {
         return rateLimits;
     }
@@ -159,7 +159,7 @@ public class ExchangeInformation {
      * No-any params required
      *
      * @return {@link #exchangeFilters} instance as {@link ArrayList} of {@link Filter}
-     **/
+     */
     public ArrayList<Filter> getExchangeFilters() {
         return exchangeFilters;
     }
@@ -170,7 +170,7 @@ public class ExchangeInformation {
      * @param symbols: filter symbols to fetch
      * @return {@link #symbols} list filtered as {@link ArrayList} of {@link Symbol} if the symbols requested are
      * multiple, if is a single one will be returned as {@link Symbol}
-     **/
+     */
     public <T> T getSymbols(String... symbols) {
         if (symbols != null && symbols.length > 0) {
             ArrayList<Symbol> fSymbols = new ArrayList<>();
@@ -194,7 +194,7 @@ public class ExchangeInformation {
      * No-any params required
      *
      * @return {@link #symbols} instance as {@link ArrayList} of {@link Symbol}
-     **/
+     */
     public ArrayList<Symbol> getSymbols() {
         return symbols;
     }
@@ -216,26 +216,26 @@ public class ExchangeInformation {
      * @author N7ghtm4r3 - Tecknobit
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
      * Exchange Information</a>
-     **/
+     */
     public static class RateLimit {
 
         /**
          * {@code interval} is instance that contains interval for rate limit
-         * **/
+         */
         private final RateLimitInterval interval;
         /**
          * {@code rateLimitType} is instance that contains rate limit type
-         **/
+         */
         private final RateLimitType rateLimitType;
 
         /**
          * {@code intervalNum} is instance that contains interval number for rate limit
-         * **/
+         */
         private final int intervalNum;
 
         /**
          * {@code limit} is instance that contains limit number for rate
-         * **/
+         */
         private final int limit;
 
         /** Constructor to init {@link RateLimit} object
@@ -243,7 +243,7 @@ public class ExchangeInformation {
          * @param limit: limit number for rate
          * @param interval: interval for rate limit
          * @param rateLimitType: rate limit type
-         * **/
+         */
         public RateLimit(int intervalNum, int limit, RateLimitInterval interval, RateLimitType rateLimitType) {
             this.intervalNum = intervalNum;
             this.limit = limit;
@@ -255,7 +255,7 @@ public class ExchangeInformation {
          * Constructor to init {@link RateLimit} object
          *
          * @param rateLimit: rate limit details as {@link JSONObject}
-         **/
+         */
         public RateLimit(JSONObject rateLimit) {
             intervalNum = rateLimit.getInt("intervalNum");
             limit = rateLimit.getInt("limit");
@@ -268,7 +268,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #intervalNum} instance as int
-         **/
+         */
         public int getIntervalNum() {
             return intervalNum;
         }
@@ -278,7 +278,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #limit} instance as int
-         **/
+         */
         public int getLimit() {
             return limit;
         }
@@ -288,7 +288,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #interval} instance as {@link RateLimitInterval}
-         **/
+         */
         public RateLimitInterval getInterval() {
             return interval;
         }
@@ -298,7 +298,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #rateLimitType} instance as {@link RateLimitType}
-         **/
+         */
         public RateLimitType getRateLimitType() {
             return rateLimitType;
         }
@@ -316,49 +316,49 @@ public class ExchangeInformation {
 
         /**
          * {@code RateLimitInterval} list of available intervals types
-         **/
+         */
         public enum RateLimitInterval {
 
             /**
              * {@code "SECOND"} interval type
-             **/
+             */
             SECOND,
 
             /**
              * {@code "MINUTE"} interval type
-             **/
+             */
             MINUTE,
 
             /**
              * {@code "HOUR"} interval type
-             **/
+             */
             HOUR,
 
             /**
              * {@code "DAY"} interval type
-             **/
+             */
             DAY
 
         }
 
         /**
          * {@code RateLimitType} list of available rate types
-         **/
+         */
         public enum RateLimitType {
 
             /**
              * {@code "REQUEST_WEIGHT"} rate type
-             **/
+             */
             REQUEST_WEIGHT,
 
             /**
              * {@code "ORDERS"} rate type
-             **/
+             */
             ORDERS,
 
             /**
              * {@code "RAW_REQUESTS"} rate type
-             **/
+             */
             RAW_REQUESTS
 
         }
@@ -370,97 +370,97 @@ public class ExchangeInformation {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#exchange-information">
      *     Exchange Information</a>
      *  @author N7ghtm4r3 - Tecknobit
-     * **/
+     */
     public static class Symbol {
 
         /**
          * {@code symbol} is instance that contains symbol
-         * **/
+         */
         private final String symbol;
 
         /**
          * {@code quoteOrderQtyMarketAllowed} is instance that contains quote order quantity market allowed
-         * **/
+         */
         private final boolean quoteOrderQtyMarketAllowed;
 
         /**
          * {@code status} is instance that contains status of symbol
-         * **/
+         */
         private final String status;
 
         /**
          * {@code baseAsset} is instance that contains base asset of symbol
-         * **/
+         */
         private final String baseAsset;
 
         /**
          * {@code baseAssetPrecision} is instance that contains base asset precision of symbol
-         * **/
+         */
         private final int baseAssetPrecision;
 
         /**
          * {@code quoteAsset} is instance that contains quote asset of symbol
-         * **/
+         */
         private final String quoteAsset;
 
         /**
          * {@code quotePrecision} is instance that contains quote precision of symbol
-         * **/
+         */
         private final int quotePrecision;
 
         /**
          * {@code quoteAssetPrecision} is instance that contains quote asset precision of symbol
-         * **/
+         */
         private final int quoteAssetPrecision;
 
         /**
          * {@code orderTypes} is instance that contains order types of symbol
-         * **/
+         */
         private final ArrayList<String> orderTypes;
 
         /**
          * {@code icebergAllowed} is instance that contains if iceberg is allowed for the symbol
-         * **/
+         */
         private final boolean icebergAllowed;
 
         /**
          * {@code ocoAllowed} is instance that contains if oco is allowed for the symbol
-         * **/
+         */
         private final boolean ocoAllowed;
 
         /**
          * {@code isSpotTradingAllowed} is instance that contains if spot trading is allowed for the symbol
-         * **/
+         */
         private final boolean isSpotTradingAllowed;
 
         /**
          * {@code isMarginTradingAllowed} is instance that contains if margin trading is allowed for the symbol
-         * **/
+         */
         private final boolean isMarginTradingAllowed;
 
         /**
          * {@code filters} is instance that contains filters list of symbol
-         * **/
+         */
         private final ArrayList<Filter> filters;
 
         /**
          * {@code permissions} is instance that contains permissions list of symbol
-         **/
+         */
         private final ArrayList<String> permissions;
 
         /**
          * {@code baseCommissionPrecision} is instance that contains base commission precision of symbol
-         **/
+         */
         private final int baseCommissionPrecision;
 
         /**
          * {@code defaultSelfTradePreventionMode} is instance that contains the default self trade prevention mode
-         **/
+         */
         private final SelfTradePreventionMode defaultSelfTradePreventionMode;
 
         /**
          * {@code allowedSelfTradePreventionModes} is instance that contains allowed self trade prevention modes
-         **/
+         */
         private final ArrayList<SelfTradePreventionMode> allowedSelfTradePreventionModes;
 
         /**
@@ -484,7 +484,7 @@ public class ExchangeInformation {
          * @param baseCommissionPrecision          : base commission precision of symbol
          * @param defaultSelfTradePreventionMode   default self trade prevention mode
          * @param allowedSelfTradePreventionModes: allowed self trade prevention modes
-         **/
+         */
         public Symbol(String symbol, boolean quoteOrderQtyMarketAllowed, String status, String baseAsset,
                       int baseAssetPrecision, String quoteAsset, int quotePrecision, int quoteAssetPrecision,
                       ArrayList<String> orderTypes, boolean icebergAllowed, boolean ocoAllowed,
@@ -516,7 +516,7 @@ public class ExchangeInformation {
          * Constructor to init {@link Symbol} object
          *
          * @param symbol: symbol details as {@link JSONObject}
-         **/
+         */
         public Symbol(JSONObject symbol) {
             JsonHelper hSymbol = new JsonHelper(symbol);
             this.symbol = hSymbol.getString("symbol");
@@ -547,7 +547,7 @@ public class ExchangeInformation {
          *
          * @param jsonList: obtained from {@code "Binance"} request
          * @return enums from exchange as {@link ArrayList} of {@link String}
-         **/
+         */
         @Returner
         private ArrayList<String> returnEnumsList(JSONArray jsonList) {
             ArrayList<String> enumValues = new ArrayList<>();
@@ -561,7 +561,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #symbol} instance as {@link String}
-         **/
+         */
         public String getSymbol() {
             return symbol;
         }
@@ -571,7 +571,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #quoteOrderQtyMarketAllowed} instance as boolean
-         **/
+         */
         public boolean isQuoteOrderQtyMarketAllowed() {
             return quoteOrderQtyMarketAllowed;
         }
@@ -581,7 +581,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #status} instance as {@link String}
-         **/
+         */
         public String getStatus() {
             return status;
         }
@@ -591,7 +591,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #baseAsset} instance as {@link String}
-         **/
+         */
         public String getBaseAsset() {
             return baseAsset;
         }
@@ -601,7 +601,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #baseAssetPrecision} instance as int
-         **/
+         */
         public int getBaseAssetPrecision() {
             return baseAssetPrecision;
         }
@@ -611,7 +611,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #quoteAsset} instance as {@link String}
-         **/
+         */
         public String getQuoteAsset() {
             return quoteAsset;
         }
@@ -621,7 +621,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #quotePrecision} instance as int
-         **/
+         */
         public int getQuotePrecision() {
             return quotePrecision;
         }
@@ -631,7 +631,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #quoteAssetPrecision} instance as int
-         **/
+         */
         public int getQuoteAssetPrecision() {
             return quoteAssetPrecision;
         }
@@ -641,7 +641,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #orderTypes} instance as {@link ArrayList} of {@link String}
-         **/
+         */
         public ArrayList<String> getOrderTypesList() {
             return orderTypes;
         }
@@ -651,7 +651,7 @@ public class ExchangeInformation {
          *
          * @param index: index to fetch the order type
          * @return order type as {@link String}
-         **/
+         */
         public String getOrderType(int index) {
             return orderTypes.get(index);
         }
@@ -661,7 +661,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #icebergAllowed} instance as boolean
-         **/
+         */
         public boolean isIcebergAllowed() {
             return icebergAllowed;
         }
@@ -671,7 +671,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #ocoAllowed} instance as boolean
-         **/
+         */
         public boolean isOcoAllowed() {
             return ocoAllowed;
         }
@@ -681,7 +681,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #isSpotTradingAllowed} instance as boolean
-         **/
+         */
         public boolean isSpotTradingAllowed() {
             return isSpotTradingAllowed;
         }
@@ -691,7 +691,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #isMarginTradingAllowed} instance as boolean
-         **/
+         */
         public boolean isMarginTradingAllowed() {
             return isMarginTradingAllowed;
         }
@@ -702,7 +702,7 @@ public class ExchangeInformation {
          * @param types: list of types to filter the list
          * @return {@link #filters} instance as {@link ArrayList} of {@link Filter} if types are multiple, if
          * type is a single one will be returned the filter as {@link Filter}
-         **/
+         */
         public <T> T getFiltersList(FilterType... types) {
             if (types != null && types.length > 0) {
                 ArrayList<Filter> filters = new ArrayList<>();
@@ -726,7 +726,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #filters} instance as {@link ArrayList} of {@link Filter}
-         **/
+         */
         public ArrayList<Filter> getFiltersList() {
             return filters;
         }
@@ -736,7 +736,7 @@ public class ExchangeInformation {
          *
          * @param index: index from fetch the filter
          * @return filter as {@link Filter}
-         **/
+         */
         public Filter getFilter(int index) {
             return filters.get(index);
         }
@@ -746,7 +746,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #permissions} instance as {@link ArrayList} of {@link String}
-         **/
+         */
         public ArrayList<String> getPermissionsList() {
             return permissions;
         }
@@ -756,7 +756,7 @@ public class ExchangeInformation {
          *
          * @param index: index from fetch the permission
          * @return filter as {@link String}
-         **/
+         */
         public String getPermission(int index) {
             return permissions.get(index);
         }
@@ -766,7 +766,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #defaultSelfTradePreventionMode} instance as {@link String}
-         **/
+         */
         public SelfTradePreventionMode getDefaultSelfTradePreventionMode() {
             return defaultSelfTradePreventionMode;
         }
@@ -776,7 +776,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #allowedSelfTradePreventionModes} instance as {@link ArrayList} of {@link String}
-         **/
+         */
         public ArrayList<SelfTradePreventionMode> getAllowedSelfTradePreventionModes() {
             return allowedSelfTradePreventionModes;
         }
@@ -786,7 +786,7 @@ public class ExchangeInformation {
          *
          * @param index: index from fetch the allowed self trade prevention mode
          * @return allowed self trade prevention mode as {@link String}
-         **/
+         */
         public SelfTradePreventionMode getAllowedSelfTradePreventionMode(int index) {
             return allowedSelfTradePreventionModes.get(index);
         }
@@ -796,7 +796,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #baseCommissionPrecision} instance as int
-         **/
+         */
         public int getBaseCommissionPrecision() {
             return baseCommissionPrecision;
         }
@@ -818,29 +818,29 @@ public class ExchangeInformation {
      * The {@code Filter} class is useful to format filter of {@link ExchangeInformation} of {@code "Binance"}
      *
      *  @author N7ghtm4r3 - Tecknobit
-     **/
+     */
     public static class Filter {
 
         /**
          * {@code filterType} is instance that contains type of the filter
-         * **/
+         */
         private final FilterType filterType;
 
         /**
          * {@code keys} is instance that contains keys of the filters
-         * **/
+         */
         private final ArrayList<String> keys;
 
         /**
          * {@code values} is instance that contains values of the filters
-         * **/
+         */
         private final ArrayList<Object> values;
 
         /** Constructor to init {@link Filter} object
          * @param keys: keys of the filters
          * @param values: values of the filters
          * @param filterType: type of the filter
-         * **/
+         */
         public Filter(ArrayList<String> keys, ArrayList<Object> values, FilterType filterType) {
             this.keys = keys;
             this.values = values;
@@ -852,7 +852,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #keys} instance as {@link ArrayList} of {@link String}
-         **/
+         */
         public ArrayList<String> getKeys() {
             return keys;
         }
@@ -862,7 +862,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #values} instance as {@link ArrayList}
-         **/
+         */
         public ArrayList<?> getValues() {
             return values;
         }
@@ -872,7 +872,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return {@link #filterType} instance as {@link FilterType}
-         **/
+         */
         public FilterType getFilterType() {
             return filterType;
         }
@@ -883,7 +883,7 @@ public class ExchangeInformation {
          * @param valuesKey: list of values key to fetch
          * @return filter details as {@link HashMap} of {@link FilterDetails} or if is a single
          * filter requested as {@link FilterDetails}
-         **/
+         */
         public <T> T getFilterDetails(String... valuesKey) {
             if (valuesKey != null && valuesKey.length > 0) {
                 HashMap<String, FilterDetails> filterDetails = new HashMap<>();
@@ -909,7 +909,7 @@ public class ExchangeInformation {
          * No-any params required
          *
          * @return filter details as {@link HashMap} of {@link FilterDetails}
-         **/
+         */
         public HashMap<String, FilterDetails> getFilterDetails() {
             HashMap<String, FilterDetails> filterDetails = new HashMap<>();
             for (int j = 0; j < keys.size(); j++) {
@@ -932,67 +932,67 @@ public class ExchangeInformation {
 
         /**
          * {@code FilterType} list of available filter types
-         **/
+         */
         public enum FilterType {
 
             /**
              * {@code "PRICE_FILTER"} filter type
-             **/
+             */
             PRICE_FILTER,
 
             /**
              * {@code "PERCENT_PRICE"} filter type
-             **/
+             */
             PERCENT_PRICE,
 
             /**
              * {@code "LOT_SIZE"} filter type
-             **/
+             */
             LOT_SIZE,
 
             /**
              * {@code "MIN_NOTIONAL"} filter type
-             **/
+             */
             MIN_NOTIONAL,
 
             /**
              * {@code "ICEBERG_PARTS"} filter type
-             **/
+             */
             ICEBERG_PARTS,
 
             /**
              * {@code "MARKET_LOT_SIZE"} filter type
-             **/
+             */
             MARKET_LOT_SIZE,
 
             /**
              * {@code "MAX_NUM_ORDERS"} filter type
-             **/
+             */
             MAX_NUM_ORDERS,
 
             /**
              * {@code "MAX_NUM_ALGO_ORDERS"} filter type
-             **/
+             */
             MAX_NUM_ALGO_ORDERS,
 
             /**
              * {@code "TRAILING_DELTA"} filter type
-             **/
+             */
             TRAILING_DELTA,
 
             /**
              * {@code "PERCENT_PRICE_BY_SIDE"} filter type
-             **/
+             */
             PERCENT_PRICE_BY_SIDE,
 
             /**
              * {@code "MAX_POSITION"} filter type
-             **/
+             */
             MAX_POSITION,
 
             /**
              * {@code "NOTIONAL"} filter type
-             **/
+             */
             NOTIONAL
 
         }
@@ -1001,17 +1001,17 @@ public class ExchangeInformation {
          * The {@code FilterDetails} class is useful to format details of a {@link Filter}
          *
          * @author N7ghtm4r3 - Tecknobit
-         **/
+         */
         public static class FilterDetails {
 
             /**
              * {@code key} is instance that contains key of the filter
-             * **/
+             */
             private final String key;
 
             /**
              * {@code value} is instance that contains value of the filter
-             * **/
+             */
             private final Object value;
 
             /**
@@ -1019,7 +1019,7 @@ public class ExchangeInformation {
              *
              * @param key:   key of the filter
              * @param value: value of the filter
-             **/
+             */
             public FilterDetails(String key, Object value) {
                 this.key = key;
                 this.value = value;
@@ -1030,7 +1030,7 @@ public class ExchangeInformation {
              * No-any params required
              *
              * @return {@link #key} instance as {@link String}
-             **/
+             */
             public String getKey() {
                 return key;
             }
@@ -1040,7 +1040,7 @@ public class ExchangeInformation {
              * No-any params required
              *
              * @return {@link #value} instance as {@link Object}
-             **/
+             */
             public <T> T getValue() {
                 return (T) value;
             }
@@ -1062,54 +1062,54 @@ public class ExchangeInformation {
 
     /**
      * The {@code ExchangePermissions} list of available exchange permissions
-     **/
+     */
     public enum ExchangePermission {
 
         /**
          * The {@code "SPOT"}  exchange permission
-         **/
+         */
         SPOT,
 
         /**
          * The {@code "MARGIN"}  exchange permission
-         **/
+         */
         MARGIN,
 
         /**
          * The {@code "FUTURES"}  exchange permission
-         **/
+         */
         FUTURES,
 
         /**
          * The {@code "LEVERAGED"}  exchange permission
-         **/
+         */
         LEVERAGED
 
     }
 
     /**
      * The {@code SelfTradePreventionMode} list of available self trade prevention modes
-     **/
+     */
     public enum SelfTradePreventionMode {
 
         /**
          * The {@code EXPIRE_TAKER} self trade prevention mode
-         **/
+         */
         EXPIRE_TAKER,
 
         /**
          * The {@code EXPIRE_MAKER} self trade prevention mode
-         **/
+         */
         EXPIRE_MAKER,
 
         /**
          * The {@code EXPIRE_BOTH} self trade prevention mode
-         **/
+         */
         EXPIRE_BOTH,
 
         /**
          * The {@code NONE} self trade prevention mode
-         **/
+         */
         NONE
 
     }

@@ -2,6 +2,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.giftcard.records;
 
 import com.tecknobit.binancemanager.managers.BinanceManager.BinanceResponse;
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
+import com.tecknobit.binancemanager.managers.records.BinanceResponseStructure;
 import org.json.JSONObject;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
@@ -15,16 +16,16 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.giftcard.reco
  * Verify Binance Gift Card by Gift Card Number (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceResponse
- * @see GiftCardStructure
- **/
-public class GiftCardVerification extends GiftCardStructure<VerificationData> {
+ * @see BinanceResponseStructure
+ */
+public class GiftCardVerification extends BinanceResponseStructure<VerificationData> {
 
     /**
      * Constructor to init {@link GiftCardVerification} object
      *
      * @param success: whether the operation has been successful
-     * @param data: data of the giftcard
-     **/
+     * @param data:    data of the giftcard
+     */
     public GiftCardVerification(boolean success, VerificationData data) {
         super(success, data);
     }
@@ -33,7 +34,7 @@ public class GiftCardVerification extends GiftCardStructure<VerificationData> {
      * Constructor to init {@link GiftCardVerification} object
      *
      * @param jGitCardVerification: giftcard verification details as {@link JSONObject}
-     **/
+     */
     public GiftCardVerification(JSONObject jGitCardVerification) {
         super(jGitCardVerification);
         data = new VerificationData(hItem.getJSONObject("data"));
@@ -44,22 +45,22 @@ public class GiftCardVerification extends GiftCardStructure<VerificationData> {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class VerificationData extends BinanceItem {
 
         /**
          * {@code valid} whether the giftcard is valid
-         **/
+         */
         private final boolean valid;
 
         /**
          * {@code token} of the verification data
-         **/
+         */
         private final String token;
 
         /**
          * {@code amount} of the verification data
-         **/
+         */
         private final double amount;
 
         /**
@@ -68,7 +69,7 @@ public class GiftCardVerification extends GiftCardStructure<VerificationData> {
          * @param valid: whether the giftcard is valid
          * @param token: token of the verification data
          * @param amount: amount of the verification data
-         **/
+         */
         public VerificationData(boolean valid, String token, double amount) {
             super(null);
             this.valid = valid;
@@ -80,7 +81,7 @@ public class GiftCardVerification extends GiftCardStructure<VerificationData> {
          * Constructor to init {@link VerificationData} object
          *
          * @param jVerificationData: verification data details as {@link JSONObject}
-         **/
+         */
         public VerificationData(JSONObject jVerificationData) {
             super(jVerificationData);
             valid = hItem.getBoolean("valid");
@@ -93,7 +94,7 @@ public class GiftCardVerification extends GiftCardStructure<VerificationData> {
          * No-any params required
          *
          * @return {@link #valid} instance as boolean
-         **/
+         */
         public boolean isValid() {
             return valid;
         }
@@ -103,7 +104,7 @@ public class GiftCardVerification extends GiftCardStructure<VerificationData> {
          * No-any params required
          *
          * @return {@link #token} instance as {@link String}
-         **/
+         */
         public String getToken() {
             return token;
         }
@@ -113,7 +114,7 @@ public class GiftCardVerification extends GiftCardStructure<VerificationData> {
          * No-any params required
          *
          * @return {@link #amount} instance as double
-         **/
+         */
         public double getAmount() {
             return amount;
         }
@@ -124,7 +125,7 @@ public class GiftCardVerification extends GiftCardStructure<VerificationData> {
          * @param decimals: number of digits to round final value
          * @return {@link #amount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getAmount(int decimals) {
             return roundValue(amount, decimals);
         }

@@ -21,7 +21,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.cryptoloans.r
  * Repay - Get Loan Repayment History (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class CryptoLoanRepaymentHistory extends BinanceRowsList<CryptoLoanRepayment> {
 
     /**
@@ -29,7 +29,7 @@ public class CryptoLoanRepaymentHistory extends BinanceRowsList<CryptoLoanRepaym
      *
      * @param total      : number of repayments
      * @param repayments :  list of the repayments
-     **/
+     */
     public CryptoLoanRepaymentHistory(int total, ArrayList<CryptoLoanRepayment> repayments) {
         super(total, repayments);
     }
@@ -38,7 +38,7 @@ public class CryptoLoanRepaymentHistory extends BinanceRowsList<CryptoLoanRepaym
      * Constructor to init {@link CryptoLoanRepaymentHistory}
      *
      * @param jHistory : history details as {@link JSONObject}
-     **/
+     */
     public CryptoLoanRepaymentHistory(JSONObject jHistory) {
         super(jHistory);
         for (Object row : hItem.fetchList("rows"))
@@ -53,22 +53,22 @@ public class CryptoLoanRepaymentHistory extends BinanceRowsList<CryptoLoanRepaym
      * @see LoanBaseStructure
      * @see LoanBaseRepayStructure
      * @see VIPLoanRepayment
-     **/
+     */
     public static class CryptoLoanRepayment extends VIPLoanRepayment {
 
         /**
          * {@code collateralUsed} collateral used for the crypto loan repayment
-         **/
+         */
         private final double collateralUsed;
 
         /**
          * {@code collateralReturn} collateral return of the crypto loan repayment
-         **/
+         */
         private final double collateralReturn;
 
         /**
          * {@code repayType} repay type of the crypto loan repayment
-         **/
+         */
         private final LoanRepayType repayType;
 
         /**
@@ -83,7 +83,7 @@ public class CryptoLoanRepaymentHistory extends BinanceRowsList<CryptoLoanRepaym
          * @param collateralUsed   : collateral used for the crypto loan repayment
          * @param collateralReturn : collateral return of the crypto loan repayment
          * @param repayType        : repay type of the crypto loan repayment
-         **/
+         */
         public CryptoLoanRepayment(String loanCoin, String collateralCoin, RepayStatus repayStatus, long repayTime,
                                    long orderId, double repayAmount, double collateralUsed, double collateralReturn,
                                    LoanRepayType repayType) {
@@ -97,7 +97,7 @@ public class CryptoLoanRepaymentHistory extends BinanceRowsList<CryptoLoanRepaym
          * Constructor to init {@link CryptoLoanRepayment} object
          *
          * @param jCryptoLoanRepayment : loan repayment details as {@link JSONObject}
-         **/
+         */
         public CryptoLoanRepayment(JSONObject jCryptoLoanRepayment) {
             super(jCryptoLoanRepayment);
             collateralUsed = hItem.getDouble("collateralUsed", 0);
@@ -110,7 +110,7 @@ public class CryptoLoanRepaymentHistory extends BinanceRowsList<CryptoLoanRepaym
          * No-any params required
          *
          * @return {@link #collateralUsed} instance as double
-         **/
+         */
         public double getCollateralUsed() {
             return collateralUsed;
         }
@@ -121,7 +121,7 @@ public class CryptoLoanRepaymentHistory extends BinanceRowsList<CryptoLoanRepaym
          * @param decimals: number of digits to round final value
          * @return {@link #collateralUsed} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getCollateralUsed(int decimals) {
             return roundValue(collateralUsed, decimals);
         }
@@ -131,7 +131,7 @@ public class CryptoLoanRepaymentHistory extends BinanceRowsList<CryptoLoanRepaym
          * No-any params required
          *
          * @return {@link #collateralReturn} instance as double
-         **/
+         */
         public double getCollateralReturn() {
             return collateralReturn;
         }
@@ -142,7 +142,7 @@ public class CryptoLoanRepaymentHistory extends BinanceRowsList<CryptoLoanRepaym
          * @param decimals: number of digits to round final value
          * @return {@link #collateralReturn} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getCollateralReturn(int decimals) {
             return roundValue(collateralReturn, decimals);
         }
@@ -152,7 +152,7 @@ public class CryptoLoanRepaymentHistory extends BinanceRowsList<CryptoLoanRepaym
          * No-any params required
          *
          * @return {@link #repayType} instance as {@link LoanRepayType}
-         **/
+         */
         public LoanRepayType getRepayType() {
             return repayType;
         }

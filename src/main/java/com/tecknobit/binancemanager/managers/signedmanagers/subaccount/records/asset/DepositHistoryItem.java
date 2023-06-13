@@ -11,17 +11,17 @@ import org.json.JSONObject;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-sub-account-deposit-history-for-master-account">
  * Get Sub-account Deposit History (For Master Account)</a>
  * @see BinanceItem
- **/
+ */
 public class DepositHistoryItem extends Deposit {
 
     /**
      * {@code id} of the deposit
-     **/
+     */
     private final long id;
 
     /**
      * {@code walletType} wallet type of the deposit
-     **/
+     */
     private final int walletType;
 
     /**
@@ -40,7 +40,7 @@ public class DepositHistoryItem extends Deposit {
      * @param confirmTimes  : confirm times value
      * @param id : id of the deposit
      * @param walletType  : wallet type of the deposit
-     **/
+     */
     public DepositHistoryItem(double amount, String coin, String network, DepositStatus status, String address,
                               String addressTag, String txId, long insertTime, int transferType, int unlockConfirm,
                               String confirmTimes, long id, int walletType) {
@@ -54,7 +54,7 @@ public class DepositHistoryItem extends Deposit {
      * Constructor to init {@link DepositHistoryItem} object
      *
      * @param jDepositHistoryItem : deposit history item details as {@link JSONObject}
-     **/
+     */
     public DepositHistoryItem(JSONObject jDepositHistoryItem) {
         super(jDepositHistoryItem);
         id = hItem.getLong("id", 0);
@@ -66,7 +66,7 @@ public class DepositHistoryItem extends Deposit {
      * No-any params required
      *
      * @return {@link #id} instance as long
-     **/
+     */
     public long getId() {
         return id;
     }
@@ -76,7 +76,7 @@ public class DepositHistoryItem extends Deposit {
      * No-any params required
      *
      * @return {@link #walletType} instance as int
-     **/
+     */
     public int getWalletType() {
         return walletType;
     }

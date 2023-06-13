@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Get NFT Asset (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class NFTAssetsList extends BinanceRowsList<NFTAsset> {
 
     /**
@@ -22,7 +22,7 @@ public class NFTAssetsList extends BinanceRowsList<NFTAsset> {
      *
      * @param total  : number of assets
      * @param assets :  list of the assets
-     **/
+     */
     public NFTAssetsList(int total, ArrayList<NFTAsset> assets) {
         super(total, assets);
     }
@@ -31,7 +31,7 @@ public class NFTAssetsList extends BinanceRowsList<NFTAsset> {
      * Constructor to init {@link NFTAssetsList}
      *
      * @param jList : list details as {@link JSONObject}
-     **/
+     */
     public NFTAssetsList(JSONObject jList) {
         super(jList);
         for (Object asset : hItem.fetchList("list"))

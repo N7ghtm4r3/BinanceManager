@@ -16,7 +16,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-cross-margin-transfer-history-user_data">
  * Get Cross Margin Transfer History (USER_DATA)</a>
  * @see BinanceRowsList
- **/
+ */
 public class TransfersHistoryList extends BinanceRowsList<Transfer> {
 
     /**
@@ -24,7 +24,7 @@ public class TransfersHistoryList extends BinanceRowsList<Transfer> {
      *
      * @param total:                    total size of transfers
      * @param marginTransferAssetsList: list of {@link Transfer}
-     **/
+     */
     public TransfersHistoryList(int total, ArrayList<Transfer> marginTransferAssetsList) {
         super(total, marginTransferAssetsList);
     }
@@ -33,7 +33,7 @@ public class TransfersHistoryList extends BinanceRowsList<Transfer> {
      * Constructor to init {@link TransfersHistoryList} object
      *
      * @param jTransfersHistoryList: transfer history details as {@link JSONObject}
-     **/
+     */
     public TransfersHistoryList(JSONObject jTransfersHistoryList) {
         super(jTransfersHistoryList);
         for (Object row : hItem.fetchList("rows"))
@@ -42,17 +42,17 @@ public class TransfersHistoryList extends BinanceRowsList<Transfer> {
 
     /**
      * {@code TransferType} list of available types for a transfer
-     **/
+     */
     public enum TransferType {
 
         /**
          * {@code "ROLL_IN"} transfer type
-         **/
+         */
         ROLL_IN,
 
         /**
          * {@code "ROLL_OUT"} transfer type
-         **/
+         */
         ROLL_OUT
 
     }
@@ -62,17 +62,17 @@ public class TransfersHistoryList extends BinanceRowsList<Transfer> {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see MarginListItem
-     **/
+     */
     public static class Transfer extends MarginListItem {
 
         /**
          * {@code amount} is instance that memorizes amount to transfer
-         **/
+         */
         private double amount;
 
         /**
          * {@code type} is instance that memorizes type value
-         **/
+         */
         private TransferType type;
 
         /**
@@ -85,7 +85,7 @@ public class TransfersHistoryList extends BinanceRowsList<Transfer> {
          * @param status:    status of transaction
          * @param type:      type value
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public Transfer(String asset, long txId, double amount, Status status, long timestamp, TransferType type) {
             super(asset, txId, timestamp, status);
             if (amount < 0)
@@ -100,7 +100,7 @@ public class TransfersHistoryList extends BinanceRowsList<Transfer> {
          *
          * @param transferAsset: transfer asset details as {@link JSONObject}
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public Transfer(JSONObject transferAsset) {
             super(transferAsset);
             amount = transferAsset.getDouble("amount");
@@ -114,7 +114,7 @@ public class TransfersHistoryList extends BinanceRowsList<Transfer> {
          * No-any params required
          *
          * @return {@link #amount} instance as double
-         **/
+         */
         public double getAmount() {
             return amount;
         }
@@ -124,7 +124,7 @@ public class TransfersHistoryList extends BinanceRowsList<Transfer> {
          *
          * @param amount: amount to transfer
          * @throws IllegalArgumentException when amount to transfer value is less than 0
-         **/
+         */
         public void setAmount(double amount) {
             if (amount < 0)
                 throw new IllegalArgumentException("Amount value cannot be less than 0");
@@ -137,7 +137,7 @@ public class TransfersHistoryList extends BinanceRowsList<Transfer> {
          * @param decimals: number of digits to round final value
          * @return {@link #amount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getAmount(int decimals) {
             return roundValue(amount, decimals);
         }
@@ -147,7 +147,7 @@ public class TransfersHistoryList extends BinanceRowsList<Transfer> {
          * No-any params required
          *
          * @return {@link #type} instance as {@link TransferType}
-         **/
+         */
         public TransferType getType() {
             return type;
         }
@@ -156,7 +156,7 @@ public class TransfersHistoryList extends BinanceRowsList<Transfer> {
          * Method to set {@link #type}
          *
          * @param type: transfer type to set
-         **/
+         */
         public void setType(TransferType type) {
             this.type = type;
         }

@@ -14,37 +14,37 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Order status (USER_DATA)</a>
  * @see BinanceItem
  * @see AcceptQuote
- **/
+ */
 public class Convert extends AcceptQuote {
 
     /**
      * {@code fromAsset} from asset of the convert
-     **/
+     */
     private final String fromAsset;
 
     /**
      * {@code fromAmount} from amount of the convert
-     **/
+     */
     private final double fromAmount;
 
     /**
      * {@code toAsset} to asset of the convert
-     **/
+     */
     private final String toAsset;
 
     /**
      * {@code toAmount} to amount of the convert
-     **/
+     */
     private final double toAmount;
 
     /**
      * {@code ratio} of the convert
-     **/
+     */
     private final double ratio;
 
     /**
      * {@code inverseRatio} inverse ratio of the convert
-     **/
+     */
     private final double inverseRatio;
 
     /**
@@ -59,7 +59,7 @@ public class Convert extends AcceptQuote {
      * @param toAmount:     to amount of the convert
      * @param ratio:        ratio of the convert
      * @param inverseRatio: inverse ratio of the convert
-     **/
+     */
     public Convert(long orderId, long createTime, AcceptQuoteStatus orderStatus, String fromAsset,
                    double fromAmount, String toAsset, double toAmount, double ratio, double inverseRatio) {
         super(orderId, createTime, orderStatus);
@@ -75,7 +75,7 @@ public class Convert extends AcceptQuote {
      * Constructor to init {@link Convert} object
      *
      * @param jConvertStatus: convert details as {@link JSONObject}
-     **/
+     */
     public Convert(JSONObject jConvertStatus) {
         super(jConvertStatus);
         fromAsset = hItem.getString("fromAsset");
@@ -91,7 +91,7 @@ public class Convert extends AcceptQuote {
      * No-any params required
      *
      * @return {@link #fromAsset} instance as {@link String}
-     **/
+     */
     public String getFromAsset() {
         return fromAsset;
     }
@@ -101,7 +101,7 @@ public class Convert extends AcceptQuote {
      * No-any params required
      *
      * @return {@link #fromAmount} instance as double
-     **/
+     */
     public double getFromAmount() {
         return fromAmount;
     }
@@ -112,7 +112,7 @@ public class Convert extends AcceptQuote {
      * @param decimals: number of digits to round final value
      * @return {@link #fromAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getFromAmount(int decimals) {
         return roundValue(fromAmount, decimals);
     }
@@ -122,7 +122,7 @@ public class Convert extends AcceptQuote {
      * No-any params required
      *
      * @return {@link #toAsset} instance as {@link String}
-     **/
+     */
     public String getToAsset() {
         return toAsset;
     }
@@ -132,7 +132,7 @@ public class Convert extends AcceptQuote {
      * No-any params required
      *
      * @return {@link #toAmount} instance as double
-     **/
+     */
     public double getToAmount() {
         return toAmount;
     }
@@ -143,7 +143,7 @@ public class Convert extends AcceptQuote {
      * @param decimals: number of digits to round final value
      * @return {@link #toAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getToAmount(int decimals) {
         return roundValue(toAmount, decimals);
     }
@@ -153,7 +153,7 @@ public class Convert extends AcceptQuote {
      * No-any params required
      *
      * @return {@link #ratio} instance as double
-     **/
+     */
     public double getRatio() {
         return ratio;
     }
@@ -164,7 +164,7 @@ public class Convert extends AcceptQuote {
      * @param decimals: number of digits to round final value
      * @return {@link #ratio} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRatio(int decimals) {
         return roundValue(ratio, decimals);
     }
@@ -174,7 +174,7 @@ public class Convert extends AcceptQuote {
      * No-any params required
      *
      * @return {@link #inverseRatio} instance as double
-     **/
+     */
     public double getInverseRatio() {
         return inverseRatio;
     }
@@ -185,7 +185,7 @@ public class Convert extends AcceptQuote {
      * @param decimals: number of digits to round final value
      * @return {@link #inverseRatio} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getInverseRatio(int decimals) {
         return roundValue(inverseRatio, decimals);
     }

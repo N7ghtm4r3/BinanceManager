@@ -14,27 +14,27 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Borrow - Crypto Loan Borrow (TRADE)</a>
  * @see BinanceItem
  * @see LoanBaseStructure
- **/
+ */
 public class CryptoLoanBorrow extends LoanBaseStructure {
 
     /**
      * {@code loanAmount} loan amount of the loan borrow
-     **/
+     */
     private final double loanAmount;
 
     /**
      * {@code collateralAmount} collateral amount of the loan borrow
-     **/
+     */
     private final double collateralAmount;
 
     /**
      * {@code hourlyInterestRate} hourly interest rate of the loan borrow
-     **/
+     */
     private final double hourlyInterestRate;
 
     /**
      * {@code orderId} order id of the loan borrow
-     **/
+     */
     private final long orderId;
 
     /**
@@ -46,7 +46,7 @@ public class CryptoLoanBorrow extends LoanBaseStructure {
      * @param collateralAmount   : collateral amount of the loan borrow
      * @param hourlyInterestRate : hourly interest rate of the loan borrow
      * @param orderId            : order id of the loan borrow
-     **/
+     */
     public CryptoLoanBorrow(String loanCoin, String collateralCoin, double loanAmount, double collateralAmount,
                             double hourlyInterestRate, long orderId) {
         super(loanCoin, collateralCoin);
@@ -60,7 +60,7 @@ public class CryptoLoanBorrow extends LoanBaseStructure {
      * Constructor to init {@link CryptoLoanBorrow} object
      *
      * @param jCryptoLoanBorrow : crypto loan borrow details as {@link JSONObject}
-     **/
+     */
     public CryptoLoanBorrow(JSONObject jCryptoLoanBorrow) {
         super(jCryptoLoanBorrow);
         loanAmount = hItem.getDouble("loanAmount", 0);
@@ -74,7 +74,7 @@ public class CryptoLoanBorrow extends LoanBaseStructure {
      * No-any params required
      *
      * @return {@link #loanAmount} instance as double
-     **/
+     */
     public double getLoanAmount() {
         return loanAmount;
     }
@@ -85,7 +85,7 @@ public class CryptoLoanBorrow extends LoanBaseStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #loanAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getLoanAmount(int decimals) {
         return roundValue(loanAmount, decimals);
     }
@@ -95,7 +95,7 @@ public class CryptoLoanBorrow extends LoanBaseStructure {
      * No-any params required
      *
      * @return {@link #collateralAmount} instance as double
-     **/
+     */
     public double getCollateralAmount() {
         return collateralAmount;
     }
@@ -106,7 +106,7 @@ public class CryptoLoanBorrow extends LoanBaseStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #collateralAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getCollateralAmount(int decimals) {
         return roundValue(collateralAmount, decimals);
     }
@@ -116,7 +116,7 @@ public class CryptoLoanBorrow extends LoanBaseStructure {
      * No-any params required
      *
      * @return {@link #hourlyInterestRate} instance as double
-     **/
+     */
     public double getHourlyInterestRate() {
         return hourlyInterestRate;
     }
@@ -127,7 +127,7 @@ public class CryptoLoanBorrow extends LoanBaseStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #hourlyInterestRate} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getHourlyInterestRate(int decimals) {
         return roundValue(hourlyInterestRate, decimals);
     }
@@ -137,7 +137,7 @@ public class CryptoLoanBorrow extends LoanBaseStructure {
      * No-any params required
      *
      * @return {@link #orderId} instance as long
-     **/
+     */
     public long getOrderId() {
         return orderId;
     }

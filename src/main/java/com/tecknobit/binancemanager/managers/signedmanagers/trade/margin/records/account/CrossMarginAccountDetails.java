@@ -17,32 +17,32 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
  * Query Cross Margin Account Details (USER_DATA)</a>
  * @see MarginAccount
- **/
+ */
 public class CrossMarginAccountDetails extends MarginAccount {
 
     /**
      * {@code borrowEnabled} is instance that memorizes if borrow is enable
-     **/
+     */
     private final boolean borrowEnabled;
 
     /**
      * {@code marginLevel} is instance that memorizes margin level
-     **/
+     */
     private final double marginLevel;
 
     /**
      * {@code tradeEnabled} is instance that memorizes if trade is enable
-     **/
+     */
     private final boolean tradeEnabled;
 
     /**
      * {@code transferEnabled} is instance that memorizes if transfer is enable
-     **/
+     */
     private final boolean transferEnabled;
 
     /**
      * {@code userMarginAssets} is instance that memorizes list of {@link UserMarginAsset}
-     **/
+     */
     private final ArrayList<UserMarginAsset> userMarginAssets;
 
     /** Constructor to init {@link CrossMarginAccountDetails} object
@@ -55,7 +55,7 @@ public class CrossMarginAccountDetails extends MarginAccount {
      * @param transferEnabled: transfer is enable
      * @param userMarginAssets: list of {@link UserMarginAsset}
      * @throws IllegalArgumentException if parameters range is not respected
-     * **/
+     */
     public CrossMarginAccountDetails(double totalAssetOfBtc, double totalLiabilityOfBtc, double totalNetAssetOfBtc,
                                      boolean borrowEnabled, double marginLevel, boolean tradeEnabled,
                                      boolean transferEnabled, ArrayList<UserMarginAsset> userMarginAssets) {
@@ -72,7 +72,7 @@ public class CrossMarginAccountDetails extends MarginAccount {
      *
      * @param crossMarginAccount: cross margin account details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
-     **/
+     */
     public CrossMarginAccountDetails(JSONObject crossMarginAccount) {
         super(crossMarginAccount);
         borrowEnabled = crossMarginAccount.getBoolean("borrowEnabled");
@@ -89,7 +89,7 @@ public class CrossMarginAccountDetails extends MarginAccount {
      * No-any params required
      *
      * @return {@link #borrowEnabled} instance as boolean
-     **/
+     */
     public boolean isBorrowEnabled() {
         return borrowEnabled;
     }
@@ -99,7 +99,7 @@ public class CrossMarginAccountDetails extends MarginAccount {
      * No-any params required
      *
      * @return {@link #marginLevel} instance as double
-     **/
+     */
     public double getMarginLevel() {
         return marginLevel;
     }
@@ -109,7 +109,7 @@ public class CrossMarginAccountDetails extends MarginAccount {
      * No-any params required
      *
      * @return {@link #tradeEnabled} instance as boolean
-     **/
+     */
     public boolean isTradeEnabled() {
         return tradeEnabled;
     }
@@ -119,7 +119,7 @@ public class CrossMarginAccountDetails extends MarginAccount {
      * No-any params required
      *
      * @return {@link #transferEnabled} instance as boolean
-     **/
+     */
     public boolean isTransferEnabled() {
         return transferEnabled;
     }
@@ -129,7 +129,7 @@ public class CrossMarginAccountDetails extends MarginAccount {
      * No-any params required
      *
      * @return {@link #userMarginAssets} instance as {@link ArrayList} of {@link UserMarginAsset}
-     **/
+     */
     public ArrayList<UserMarginAsset> getUserAssetMargins() {
         return userMarginAssets;
     }
@@ -138,7 +138,7 @@ public class CrossMarginAccountDetails extends MarginAccount {
      * Method to add a {@link MarginAsset} to {@link #userMarginAssets}
      *
      * @param assetMargin: asset margin to add
-     **/
+     */
     public void insertUserAssetMargin(UserMarginAsset assetMargin) {
         if (!userMarginAssets.contains(assetMargin))
             userMarginAssets.add(assetMargin);
@@ -149,7 +149,7 @@ public class CrossMarginAccountDetails extends MarginAccount {
      *
      * @param assetMargin: asset margin to remove
      * @return result of operation as boolean
-     **/
+     */
     public boolean removeUserAssetMargin(UserMarginAsset assetMargin) {
         return userMarginAssets.remove(assetMargin);
     }
@@ -159,7 +159,7 @@ public class CrossMarginAccountDetails extends MarginAccount {
      *
      * @param index: index to fetch the order
      * @return margin asset as {@link UserMarginAsset}
-     **/
+     */
     public UserMarginAsset getUserAssetMargin(int index) {
         return userMarginAssets.get(index);
     }

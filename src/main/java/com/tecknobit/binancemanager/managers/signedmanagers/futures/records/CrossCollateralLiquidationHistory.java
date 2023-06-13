@@ -20,7 +20,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.futures.recor
  * Cross-Collateral Liquidation History (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class CrossCollateralLiquidationHistory extends BinanceRowsList<CrossCollateralLiquidation> {
 
     /**
@@ -28,7 +28,7 @@ public class CrossCollateralLiquidationHistory extends BinanceRowsList<CrossColl
      *
      * @param total        : number of liquidations
      * @param liquidations :  list of the liquidations
-     **/
+     */
     public CrossCollateralLiquidationHistory(int total, ArrayList<CrossCollateralLiquidation> liquidations) {
         super(total, liquidations);
     }
@@ -37,7 +37,7 @@ public class CrossCollateralLiquidationHistory extends BinanceRowsList<CrossColl
      * Constructor to init {@link CrossCollateralLiquidationHistory}
      *
      * @param jHistory : liquidation history details as {@link JSONObject}
-     **/
+     */
     public CrossCollateralLiquidationHistory(JSONObject jHistory) {
         super(jHistory);
         for (Object row : hItem.fetchList("rows"))
@@ -50,33 +50,33 @@ public class CrossCollateralLiquidationHistory extends BinanceRowsList<CrossColl
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see CrossCollateralItem
-     **/
+     */
     public static class CrossCollateralLiquidation extends CrossCollateralItem {
 
         /**
          * {@code collateralAmountForLiquidation} collateral amount for liquidation of the cross collateral liquidation
-         **/
+         */
         private final double collateralAmountForLiquidation;
 
         /**
          * {@code forceLiquidationStartTime} force liquidation start time of the cross collateral liquidation
-         **/
+         */
         private final long forceLiquidationStartTime;
 
         /**
          * {@code restCollateralAmountAfterLiquidation} rest collateral amount after liquidation of the cross collateral
          * liquidation
-         **/
+         */
         private final double restCollateralAmountAfterLiquidation;
 
         /**
          * {@code restLoanAmount} rest loan amount of the cross collateral liquidation
-         **/
+         */
         private final double restLoanAmount;
 
         /**
          * {@code status} of the cross collateral liquidation
-         **/
+         */
         private final Status status;
 
         /**
@@ -90,7 +90,7 @@ public class CrossCollateralLiquidationHistory extends BinanceRowsList<CrossColl
          *                                              liquidation
          * @param restLoanAmount:                       rest loan amount of the cross collateral liquidation
          * @param status:                               status of the cross collateral liquidation
-         **/
+         */
         public CrossCollateralLiquidation(String coin, String collateralCoin, double collateralAmountForLiquidation,
                                           long forceLiquidationStartTime, double restCollateralAmountAfterLiquidation,
                                           double restLoanAmount, Status status) {
@@ -106,7 +106,7 @@ public class CrossCollateralLiquidationHistory extends BinanceRowsList<CrossColl
          * Constructor to init {@link CrossCollateralLiquidation} object
          *
          * @param jCrossCollateralLiquidation: cross collateral liquidation details as {@link JSONObject}
-         **/
+         */
         public CrossCollateralLiquidation(JSONObject jCrossCollateralLiquidation) {
             super(jCrossCollateralLiquidation);
             collateralAmountForLiquidation = hItem.getDouble("collateralAmountForLiquidation", 0);
@@ -121,7 +121,7 @@ public class CrossCollateralLiquidationHistory extends BinanceRowsList<CrossColl
          * No-any params required
          *
          * @return {@link #collateralAmountForLiquidation} instance as double
-         **/
+         */
         public double getCollateralAmountForLiquidation() {
             return collateralAmountForLiquidation;
         }
@@ -132,7 +132,7 @@ public class CrossCollateralLiquidationHistory extends BinanceRowsList<CrossColl
          * @param decimals: number of digits to round final value
          * @return {@link #collateralAmountForLiquidation} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getCollateralAmountForLiquidation(int decimals) {
             return roundValue(collateralAmountForLiquidation, decimals);
         }
@@ -142,7 +142,7 @@ public class CrossCollateralLiquidationHistory extends BinanceRowsList<CrossColl
          * No-any params required
          *
          * @return {@link #forceLiquidationStartTime} instance as long
-         **/
+         */
         public long getForceLiquidationStartTime() {
             return forceLiquidationStartTime;
         }
@@ -152,7 +152,7 @@ public class CrossCollateralLiquidationHistory extends BinanceRowsList<CrossColl
          * No-any params required
          *
          * @return {@link #forceLiquidationStartTime} instance as {@link Date}
-         **/
+         */
         public Date getForceLiquidationStartDate() {
             return TimeFormatter.getDate(forceLiquidationStartTime);
         }
@@ -162,7 +162,7 @@ public class CrossCollateralLiquidationHistory extends BinanceRowsList<CrossColl
          * No-any params required
          *
          * @return {@link #restCollateralAmountAfterLiquidation} instance as double
-         **/
+         */
         public double getRestCollateralAmountAfterLiquidation() {
             return restCollateralAmountAfterLiquidation;
         }
@@ -173,7 +173,7 @@ public class CrossCollateralLiquidationHistory extends BinanceRowsList<CrossColl
          * @param decimals: number of digits to round final value
          * @return {@link #restCollateralAmountAfterLiquidation} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getRestCollateralAmountAfterLiquidation(int decimals) {
             return roundValue(restCollateralAmountAfterLiquidation, decimals);
         }
@@ -183,7 +183,7 @@ public class CrossCollateralLiquidationHistory extends BinanceRowsList<CrossColl
          * No-any params required
          *
          * @return {@link #restLoanAmount} instance as double
-         **/
+         */
         public double getRestLoanAmount() {
             return restLoanAmount;
         }
@@ -194,7 +194,7 @@ public class CrossCollateralLiquidationHistory extends BinanceRowsList<CrossColl
          * @param decimals: number of digits to round final value
          * @return {@link #restLoanAmount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getRestLoanAmount(int decimals) {
             return roundValue(restLoanAmount, decimals);
         }
@@ -204,7 +204,7 @@ public class CrossCollateralLiquidationHistory extends BinanceRowsList<CrossColl
          * No-any params required
          *
          * @return {@link #status} instance as {@link Status}
-         **/
+         */
         public Status getStatus() {
             return status;
         }

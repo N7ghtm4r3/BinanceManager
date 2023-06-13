@@ -17,7 +17,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-interest-history-user_data">
  * Get Interest History (USER_DATA)</a>
  * @see BinanceRowsList
- **/
+ */
 public class InterestHistoryList extends BinanceRowsList<Interest> {
 
     /**
@@ -25,7 +25,7 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
      *
      * @param total:              total size of interest assets
      * @param interestAssetsList: list of {@link Interest}
-     **/
+     */
     public InterestHistoryList(int total, ArrayList<Interest> interestAssetsList) {
         super(total, interestAssetsList);
     }
@@ -34,7 +34,7 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
      * Constructor to init {@link InterestHistoryList} object
      *
      * @param jsonHistory: history details as {@link JSONObject}
-     **/
+     */
     public InterestHistoryList(JSONObject jsonHistory) {
         super(jsonHistory);
         for (Object row : hItem.fetchList("rows"))
@@ -43,27 +43,27 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
 
     /**
      * {@code OptionType} list of available option types
-     **/
+     */
     public enum OptionType {
 
         /**
          * {@code "ON_BORROW"} option type
-         **/
+         */
         ON_BORROW,
 
         /**
          * {@code "PERIODIC"} option type
-         **/
+         */
         PERIODIC,
 
         /**
          * {@code "PERIODIC_CONVERTED"} option type
-         **/
+         */
         PERIODIC_CONVERTED,
 
         /**
          * {@code "ON_BORROW_CONVERTED"} option type
-         **/
+         */
         ON_BORROW_CONVERTED
 
     }
@@ -72,37 +72,37 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
      * The {@code Interest} class is useful to create an interest
      *
      * @author N7ghtm4r3 - Tecknobit
-     **/
+     */
     public static class Interest {
 
         /**
          * {@code isolatedSymbol} is instance that memorizes isolated symbol of the asset
-         **/
+         */
         private final String isolatedSymbol;
 
         /**
          * {@code asset} is instance that memorizes asset
-         **/
+         */
         private final String asset;
         /**
          * {@code type} is instance that memorizes type value
-         **/
+         */
         private final OptionType type;
         /**
          * {@code interest} is instance that memorizes interest on the asset
-         **/
+         */
         private double interest;
         /**
          * {@code interestAccuredTime} is instance that memorizes accurate time value
-         **/
+         */
         private long interestAccuredTime;
         /**
          * {@code interestRate} is instance that memorizes interest rate value
-         **/
+         */
         private double interestRate;
         /**
          * {@code principal} is instance that memorizes principal value
-         **/
+         */
         private double principal;
 
         /**
@@ -116,7 +116,7 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
          * @param principal:           principal value
          * @param type:                type value
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public Interest(String isolatedSymbol, String asset, double interest, long interestAccuredTime,
                         double interestRate, double principal, OptionType type) {
             this.isolatedSymbol = isolatedSymbol;
@@ -145,7 +145,7 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
          *
          * @param interestAsset: interest asset details as {@link JSONObject}
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public Interest(JSONObject interestAsset) {
             this(interestAsset.getString("isolatedSymbol"), interestAsset.getString("asset"),
                     interestAsset.getDouble("interest"), interestAsset.getLong("interestAccuredTime"),
@@ -158,7 +158,7 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
          * No-any params required
          *
          * @return {@link #isolatedSymbol} instance as {@link String}
-         **/
+         */
         public String getIsolatedSymbol() {
             return isolatedSymbol;
         }
@@ -168,7 +168,7 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
          * No-any params required
          *
          * @return {@link #asset} instance as {@link String}
-         **/
+         */
         public String getAsset() {
             return asset;
         }
@@ -178,7 +178,7 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
          * No-any params required
          *
          * @return {@link #interest} instance as double
-         **/
+         */
         public double getInterest() {
             return interest;
         }
@@ -188,7 +188,7 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
          *
          * @param interest: interest on the asset
          * @throws IllegalArgumentException when interest value is less than 0
-         **/
+         */
         public void setInterest(double interest) {
             if (interest < 0)
                 throw new IllegalArgumentException("Interest value cannot be less than 0");
@@ -201,7 +201,7 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
          * @param decimals: number of digits to round final value
          * @return {@link #interest} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getInterest(int decimals) {
             return roundValue(interest, decimals);
         }
@@ -211,7 +211,7 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
          * No-any params required
          *
          * @return {@link #total} instance as int
-         **/
+         */
         public long getInterestAccuredTime() {
             return interestAccuredTime;
         }
@@ -221,7 +221,7 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
          *
          * @param interestAccuredTime: accurate time value
          * @throws IllegalArgumentException when accurate time value is less than 0
-         **/
+         */
         public void setInterestAccuredTime(long interestAccuredTime) {
             if (interestAccuredTime < 0)
                 throw new IllegalArgumentException("Interest accured time value cannot be less than 0");
@@ -233,7 +233,7 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
          * No-any params required
          *
          * @return {@link #interestAccuredTime} instance as {@link Date}
-         **/
+         */
         public Date getInterestAccuredDate() {
             return TimeFormatter.getDate(interestAccuredTime);
         }
@@ -243,7 +243,7 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
          * No-any params required
          *
          * @return {@link #interestRate} instance as double
-         **/
+         */
         public double getInterestRate() {
             return interestRate;
         }
@@ -253,7 +253,7 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
          *
          * @param interestRate: interest rate value
          * @throws IllegalArgumentException when interest rate value is less than 0
-         **/
+         */
         public void setInterestRate(double interestRate) {
             if (interestRate < 0)
                 throw new IllegalArgumentException("Interest rate value cannot be less than 0");
@@ -266,7 +266,7 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
          * @param decimals: number of digits to round final value
          * @return {@link #interestRate} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getInterestRate(int decimals) {
             return roundValue(interestRate, decimals);
         }
@@ -276,7 +276,7 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
          * No-any params required
          *
          * @return {@link #principal} instance as double
-         **/
+         */
         public double getPrincipal() {
             return principal;
         }
@@ -286,7 +286,7 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
          *
          * @param principal: principal value
          * @throws IllegalArgumentException when principal value is less than 0
-         **/
+         */
         public void setPrincipal(double principal) {
             if (principal < 0)
                 throw new IllegalArgumentException("Principal value cannot be less than 0");
@@ -299,7 +299,7 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
          * @param decimals: number of digits to round final value
          * @return {@link #principal} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getPrincipal(int decimals) {
             return roundValue(principal, decimals);
         }
@@ -309,7 +309,7 @@ public class InterestHistoryList extends BinanceRowsList<Interest> {
          * No-any params required
          *
          * @return {@link #type} instance as {@link OptionType}
-         **/
+         */
         public OptionType getType() {
             return type;
         }

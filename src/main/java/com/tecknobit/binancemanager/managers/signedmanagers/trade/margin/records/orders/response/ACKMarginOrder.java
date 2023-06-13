@@ -11,12 +11,12 @@ import org.json.JSONObject;
  * Margin Account New Order (TRADE)</a>
  * @see Order
  * @see MarginOrder
- **/
+ */
 public class ACKMarginOrder extends MarginOrder {
 
     /**
      * {@code isIsolated} is instance that memorizes if is isolated
-     **/
+     */
     protected final boolean isIsolated;
 
     /**
@@ -27,7 +27,7 @@ public class ACKMarginOrder extends MarginOrder {
      * @param clientOrderId: client order identifier
      * @param transactTime:  transaction time
      * @param isIsolated:    is isolated
-     **/
+     */
     public ACKMarginOrder(String symbol, long orderId, String clientOrderId, long transactTime, boolean isIsolated) {
         super(symbol, orderId, clientOrderId, transactTime);
         this.isIsolated = isIsolated;
@@ -37,7 +37,7 @@ public class ACKMarginOrder extends MarginOrder {
      * Constructor to init {@link ACKMarginOrder} object
      *
      * @param ackMarginOrder: ack margin order details as {@link JSONObject}
-     **/
+     */
     public ACKMarginOrder(JSONObject ackMarginOrder) {
         super(ackMarginOrder);
         isIsolated = ackMarginOrder.getBoolean("isIsolated");
@@ -48,7 +48,7 @@ public class ACKMarginOrder extends MarginOrder {
      * No-any params required
      *
      * @return {@link #isIsolated} instance as boolean
-     **/
+     */
     public boolean isIsolated() {
         return isIsolated;
     }

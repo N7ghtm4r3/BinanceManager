@@ -13,17 +13,17 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Subscribe BLVT (USER_DATA)</a>
  * @see BinanceItem
  * @see BLVTStructure
- **/
+ */
 public class BLVT extends BLVTStructure {
 
     /**
      * {@code status} of the BLVT
-     **/
+     */
     private final BLVTStatus status;
 
     /**
      * {@code cost} of the BLVT
-     **/
+     */
     private final double cost;
 
     /**
@@ -35,7 +35,7 @@ public class BLVT extends BLVTStructure {
      * @param timestamp: timestamp of the BLVT
      * @param status:    status of the BLVT
      * @param cost:      cost of the BLVT
-     **/
+     */
     public BLVT(long id, String tokenName, double amount, long timestamp, BLVTStatus status, double cost) {
         super(id, tokenName, amount, timestamp);
         this.status = status;
@@ -46,7 +46,7 @@ public class BLVT extends BLVTStructure {
      * Constructor to init {@link BLVT} object
      *
      * @param jBLVT: BLVT details as {@link JSONObject}
-     **/
+     */
     public BLVT(JSONObject jBLVT) {
         super(jBLVT);
         status = BLVTStatus.valueOf(hItem.getString("status"));
@@ -58,7 +58,7 @@ public class BLVT extends BLVTStructure {
      * No-any params required
      *
      * @return {@link #status} instance as {@link BLVTStatus}
-     **/
+     */
     public BLVTStatus getStatus() {
         return status;
     }
@@ -68,7 +68,7 @@ public class BLVT extends BLVTStructure {
      * No-any params required
      *
      * @return {@link #cost} instance as double
-     **/
+     */
     public double getCost() {
         return cost;
     }
@@ -79,7 +79,7 @@ public class BLVT extends BLVTStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #cost} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getCost(int decimals) {
         return roundValue(cost, decimals);
     }

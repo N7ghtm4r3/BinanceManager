@@ -18,37 +18,37 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see WbsMarketItem
  * @see WbsMiniTicker
  * @see WbsRollingWindowTicker
- **/
+ */
 public class WbsTicker extends WbsRollingWindowTicker {
 
     /**
      * {@code firstTradePrice} first trade price of the ticker
-     * **/
+     */
     private final double firstTradePrice;
 
     /**
      * {@code lastQuantity} last quantity of the ticker
-     * **/
+     */
     private final double lastQuantity;
 
     /**
      * {@code bestBidPrice} best bid price of the ticker
-     * **/
+     */
     private final double bestBidPrice;
 
     /**
      * {@code bestBidQuantity} best bid quantity of the ticker
-     * **/
+     */
     private final double bestBidQuantity;
 
     /**
      * {@code bestAskPrice} best ask price of the ticker
-     * **/
+     */
     private final double bestAskPrice;
 
     /**
      * {@code bestAskQuantity} best ask quantity of the ticker
-     * **/
+     */
     private final double bestAskQuantity;
 
     /**
@@ -78,7 +78,7 @@ public class WbsTicker extends WbsRollingWindowTicker {
      * @param bestBidQuantity : best bid quantity of the ticker
      * @param bestAskPrice : best ask price of the ticker
      * @param bestAskQuantity : best ask quantity of the ticker
-     **/
+     */
     public WbsTicker(EventType eventType, long eventTime, String symbol, double closePrice, double openPrice,
                      double highPrice, double lowPrice, double totalTradedBaseAssetVolume,
                      double totalTradedQuoteAssetVolume, double priceChange, double priceChangePercent, double lastPrice,
@@ -100,7 +100,7 @@ public class WbsTicker extends WbsRollingWindowTicker {
      * Constructor to init {@link WbsTicker} object
      *
      * @param jWbsTicker : websocket ticker details as {@link JSONObject}
-     **/
+     */
     public WbsTicker(JSONObject jWbsTicker) {
         super(jWbsTicker);
         firstTradePrice = hItem.getDouble("x", 0);
@@ -116,7 +116,7 @@ public class WbsTicker extends WbsRollingWindowTicker {
      * No-any params required
      *
      * @return {@link #lastQuantity} instance as double
-     **/
+     */
     public double getLastQuantity() {
         return lastQuantity;
     }
@@ -127,7 +127,7 @@ public class WbsTicker extends WbsRollingWindowTicker {
      * @param decimals: number of digits to round final value
      * @return {@link #lastQuantity} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getLastQuantity(int decimals) {
         return roundValue(lastQuantity, decimals);
     }
@@ -137,7 +137,7 @@ public class WbsTicker extends WbsRollingWindowTicker {
      * No-any params required
      *
      * @return {@link #bestBidPrice} instance as double
-     **/
+     */
     public double getBestBidPrice() {
         return bestBidPrice;
     }
@@ -148,7 +148,7 @@ public class WbsTicker extends WbsRollingWindowTicker {
      * @param decimals: number of digits to round final value
      * @return {@link #bestBidPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBestBidPrice(int decimals) {
         return roundValue(bestBidPrice, decimals);
     }
@@ -158,7 +158,7 @@ public class WbsTicker extends WbsRollingWindowTicker {
      * No-any params required
      *
      * @return {@link #bestBidQuantity} instance as double
-     **/
+     */
     public double getBestBidQuantity() {
         return bestBidQuantity;
     }
@@ -169,7 +169,7 @@ public class WbsTicker extends WbsRollingWindowTicker {
      * @param decimals: number of digits to round final value
      * @return {@link #bestBidQuantity} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBestBidQuantity(int decimals) {
         return roundValue(bestBidQuantity, decimals);
     }
@@ -179,7 +179,7 @@ public class WbsTicker extends WbsRollingWindowTicker {
      * No-any params required
      *
      * @return {@link #bestAskPrice} instance as double
-     **/
+     */
     public double getBestAskPrice() {
         return bestAskPrice;
     }
@@ -190,7 +190,7 @@ public class WbsTicker extends WbsRollingWindowTicker {
      * @param decimals: number of digits to round final value
      * @return {@link #bestAskPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBestAskPrice(int decimals) {
         return roundValue(bestAskPrice, decimals);
     }
@@ -200,7 +200,7 @@ public class WbsTicker extends WbsRollingWindowTicker {
      * No-any params required
      *
      * @return {@link #bestAskQuantity} instance as double
-     **/
+     */
     public double getBestAskQuantity() {
         return bestAskQuantity;
     }
@@ -211,7 +211,7 @@ public class WbsTicker extends WbsRollingWindowTicker {
      * @param decimals: number of digits to round final value
      * @return {@link #bestAskQuantity} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBestAskQuantity(int decimals) {
         return roundValue(bestAskQuantity, decimals);
     }

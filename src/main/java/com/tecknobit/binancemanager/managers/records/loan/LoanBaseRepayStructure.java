@@ -10,35 +10,35 @@ import org.json.JSONObject;
  * @author N7ghtm4r3 - Tecknobit
  * @see BinanceItem
  * @see LoanBaseStructure
- **/
+ */
 @Structure
 public abstract class LoanBaseRepayStructure extends LoanBaseStructure {
 
     /**
      * {@code RepayStatus} list of available repay statuses
-     **/
+     */
     public enum RepayStatus {
 
         /**
          * {@code Repaid} repay status
-         **/
+         */
         Repaid,
 
         /**
          * {@code Repaying} repay status
-         **/
+         */
         Repaying,
 
         /**
          * {@code Failed} repay status
-         **/
+         */
         Failed
 
     }
 
     /**
      * {@code repayStatus} repay status of the loan
-     **/
+     */
     protected final RepayStatus repayStatus;
 
     /**
@@ -47,7 +47,7 @@ public abstract class LoanBaseRepayStructure extends LoanBaseStructure {
      * @param loanCoin:       coin of the loan
      * @param collateralCoin: collateral coin of the loan
      * @param repayStatus:    repay status of the loan
-     **/
+     */
     public LoanBaseRepayStructure(String loanCoin, String collateralCoin, RepayStatus repayStatus) {
         super(loanCoin, collateralCoin);
         this.repayStatus = repayStatus;
@@ -57,7 +57,7 @@ public abstract class LoanBaseRepayStructure extends LoanBaseStructure {
      * Constructor to init {@link LoanBaseRepayStructure} object
      *
      * @param jLoanBaseRepayStructure: loan base repay structure details as {@link JSONObject}
-     **/
+     */
     public LoanBaseRepayStructure(JSONObject jLoanBaseRepayStructure) {
         super(jLoanBaseRepayStructure);
         repayStatus = RepayStatus.valueOf(hItem.getString("repayStatus"));
@@ -68,7 +68,7 @@ public abstract class LoanBaseRepayStructure extends LoanBaseStructure {
      * No-any params required
      *
      * @return {@link #repayStatus} instance as {@link RepayStatus}
-     **/
+     */
     public RepayStatus getRepayStatus() {
         return repayStatus;
     }

@@ -10,37 +10,37 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-margin-assets-market_data">
  * Get All Margin Assets (MARKET_DATA)</a>
- **/
+ */
 public class MarginAsset {
 
     /**
      * {@code assetFullName} is instance that memorizes asset full name
-     * **/
+     */
     private final String assetFullName;
 
     /**
      * {@code assetName} is instance that memorizes asset name
-     * **/
+     */
     private final String assetName;
 
     /**
      * {@code isBorrowable} is instance that memorizes if is borrowable
-     **/
+     */
     private final boolean isBorrowable;
 
     /**
      * {@code isMortgageable} is instance that memorizes if is mortgageable
-     **/
+     */
     private final boolean isMortgageable;
 
     /**
      * {@code userMinBorrow} is instance that memorizes user min repay quote
-     **/
+     */
     private final double userMinBorrow;
 
     /**
      * {@code userMinRepay} is instance that memorizes user min repay quote
-     **/
+     */
     private final double userMinRepay;
 
     /** Constructor to init {@link MarginAsset} object
@@ -51,7 +51,7 @@ public class MarginAsset {
      * @param userMinBorrow: min borrow quote
      * @param userMinRepay: min repay quote
      * @throws IllegalArgumentException if parameters range is not respected
-     * **/
+     */
     public MarginAsset(String assetFullName, String assetName, boolean isBorrowable, boolean isMortgageable,
                        double userMinBorrow, double userMinRepay) {
         this.assetFullName = assetFullName;
@@ -73,7 +73,7 @@ public class MarginAsset {
      *
      * @param marginAsset: margin asset details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
-     **/
+     */
     public MarginAsset(JSONObject marginAsset) {
         assetFullName = marginAsset.getString("assetFullName");
         assetName = marginAsset.getString("assetName");
@@ -92,7 +92,7 @@ public class MarginAsset {
      * No-any params required
      *
      * @return {@link #assetFullName} instance as {@link String}
-     **/
+     */
     public String getAssetFullName() {
         return assetFullName;
     }
@@ -102,7 +102,7 @@ public class MarginAsset {
      * No-any params required
      *
      * @return {@link #assetName} instance as {@link String}
-     **/
+     */
     public String getAssetName() {
         return assetName;
     }
@@ -112,7 +112,7 @@ public class MarginAsset {
      * No-any params required
      *
      * @return {@link #isBorrowable} instance as boolean
-     **/
+     */
     public boolean isBorrowable() {
         return isBorrowable;
     }
@@ -122,7 +122,7 @@ public class MarginAsset {
      * No-any params required
      *
      * @return {@link #isMortgageable} instance as boolean
-     **/
+     */
     public boolean isMortgageable() {
         return isMortgageable;
     }
@@ -132,7 +132,7 @@ public class MarginAsset {
      * No-any params required
      *
      * @return {@link #userMinBorrow} instance as double
-     **/
+     */
     public double getUserMinBorrow() {
         return userMinBorrow;
     }
@@ -143,7 +143,7 @@ public class MarginAsset {
      * @param decimals: number of digits to round final value
      * @return {@link #userMinBorrow} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getUserMinBorrow(int decimals) {
         return roundValue(userMinBorrow, decimals);
     }
@@ -153,7 +153,7 @@ public class MarginAsset {
      * No-any params required
      *
      * @return {@link #userMinRepay} instance as double
-     **/
+     */
     public double getUserMinRepay() {
         return userMinRepay;
     }
@@ -164,7 +164,7 @@ public class MarginAsset {
      * @param decimals: number of digits to round final value
      * @return {@link #userMinRepay} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getUserMinRepay(int decimals) {
         return roundValue(userMinRepay, decimals);
     }

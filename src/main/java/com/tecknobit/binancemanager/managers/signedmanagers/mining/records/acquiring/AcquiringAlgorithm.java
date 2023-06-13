@@ -18,14 +18,14 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.mining.record
  * @see BinanceItem
  * @see BinanceManager.BinanceResponse
  * @see MiningResponse
- **/
+ */
 public class AcquiringAlgorithm extends MiningResponse<ArrayList<AcquiringAlgorithmItem>> {
 
     /**
      * Constructor to init {@link AcquiringAlgorithm} object
      *
      * @param data: acquiring algorithms
-     **/
+     */
     public AcquiringAlgorithm(ArrayList<AcquiringAlgorithmItem> data) {
         super(data);
     }
@@ -34,7 +34,7 @@ public class AcquiringAlgorithm extends MiningResponse<ArrayList<AcquiringAlgori
      * Constructor to init {@link AcquiringAlgorithm} object
      *
      * @param jAcquiringAlgorithm: acquiring algorithm details as {@link JSONObject}
-     **/
+     */
     public AcquiringAlgorithm(JSONObject jAcquiringAlgorithm) {
         super(jAcquiringAlgorithm);
         data = new ArrayList<>();
@@ -48,12 +48,12 @@ public class AcquiringAlgorithm extends MiningResponse<ArrayList<AcquiringAlgori
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see AcquiringStructure
-     **/
+     */
     public static class AcquiringAlgorithmItem extends AcquiringStructure {
 
         /**
          * {@code unit} of the algorithm item
-         **/
+         */
         private final String unit;
 
         /**
@@ -63,7 +63,7 @@ public class AcquiringAlgorithm extends MiningResponse<ArrayList<AcquiringAlgori
          * @param algoId: algo id of the algorithm item
          * @param poolIndex: pool index of the algorithm item
          * @param unit: unit of the algorithm item
-         **/
+         */
         public AcquiringAlgorithmItem(String algoName, long algoId, int poolIndex, String unit) {
             super(algoName, algoId, poolIndex);
             this.unit = unit;
@@ -73,7 +73,7 @@ public class AcquiringAlgorithm extends MiningResponse<ArrayList<AcquiringAlgori
          * Constructor to init {@link AcquiringAlgorithmItem} object
          *
          * @param jAcquiringAlgorithm: acquiring algorithm item details as {@link JSONObject}
-         **/
+         */
         public AcquiringAlgorithmItem(JSONObject jAcquiringAlgorithm) {
             super(jAcquiringAlgorithm);
             unit = hItem.getString("unit");
@@ -84,7 +84,7 @@ public class AcquiringAlgorithm extends MiningResponse<ArrayList<AcquiringAlgori
          * No-any params required
          *
          * @return {@link #unit} instance as {@link String}
-         **/
+         */
         public String getUnit() {
             return unit;
         }

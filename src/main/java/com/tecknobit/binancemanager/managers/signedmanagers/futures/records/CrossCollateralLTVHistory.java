@@ -20,7 +20,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.futures.recor
  * Adjust Cross-Collateral LTV History (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class CrossCollateralLTVHistory extends BinanceRowsList<CrossCollateralLTV> {
 
     /**
@@ -28,7 +28,7 @@ public class CrossCollateralLTVHistory extends BinanceRowsList<CrossCollateralLT
      *
      * @param total            : number of LTVs
      * @param crossCollaterals :  list of the LTVs
-     **/
+     */
     public CrossCollateralLTVHistory(int total, ArrayList<CrossCollateralLTV> crossCollaterals) {
         super(total, crossCollaterals);
     }
@@ -37,7 +37,7 @@ public class CrossCollateralLTVHistory extends BinanceRowsList<CrossCollateralLT
      * Constructor to init {@link CrossCollateralLTVHistory}
      *
      * @param jHistory : history details as {@link JSONObject}
-     **/
+     */
     public CrossCollateralLTVHistory(JSONObject jHistory) {
         super(jHistory);
         for (Object row : hItem.fetchList("rows"))
@@ -50,37 +50,37 @@ public class CrossCollateralLTVHistory extends BinanceRowsList<CrossCollateralLT
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see CrossCollateralItem
-     **/
+     */
     public static class CrossCollateralLTV extends CrossCollateralItem {
 
         /**
          * {@code amount} of the cross collateral ltv
-         **/
+         */
         private final double amount;
 
         /**
          * {@code preCollateralRate} pre collateral rate of the cross collateral ltv
-         **/
+         */
         private final double preCollateralRate;
 
         /**
          * {@code afterCollateralRate} after collateral rate of the cross collateral ltv
-         **/
+         */
         private final double afterCollateralRate;
 
         /**
          * {@code direction} of the cross collateral ltv
-         **/
+         */
         private final String direction;
 
         /**
          * {@code status} of the cross collateral ltv
-         **/
+         */
         private final Status status;
 
         /**
          * {@code adjustTime} adjust time of the cross collateral ltv
-         **/
+         */
         private final long adjustTime;
 
         /**
@@ -94,7 +94,7 @@ public class CrossCollateralLTVHistory extends BinanceRowsList<CrossCollateralLT
          * @param direction:           direction of the cross collateral ltv
          * @param status:              status of the cross collateral ltv
          * @param adjustTime:          adjust time of the cross collateral ltv
-         **/
+         */
         public CrossCollateralLTV(String coin, String collateralCoin, double amount, double preCollateralRate,
                                   double afterCollateralRate, String direction, Status status, long adjustTime) {
             super(coin, collateralCoin);
@@ -110,7 +110,7 @@ public class CrossCollateralLTVHistory extends BinanceRowsList<CrossCollateralLT
          * Constructor to init {@link CrossCollateralLTV} object
          *
          * @param jCrossCollateralLTV: cross collateral LTV details as {@link JSONObject}
-         **/
+         */
         public CrossCollateralLTV(JSONObject jCrossCollateralLTV) {
             super(jCrossCollateralLTV);
             amount = hItem.getDouble("amount", 0);
@@ -126,7 +126,7 @@ public class CrossCollateralLTVHistory extends BinanceRowsList<CrossCollateralLT
          * No-any params required
          *
          * @return {@link #amount} instance as double
-         **/
+         */
         public double getAmount() {
             return amount;
         }
@@ -137,7 +137,7 @@ public class CrossCollateralLTVHistory extends BinanceRowsList<CrossCollateralLT
          * @param decimals: number of digits to round final value
          * @return {@link #amount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getAmount(int decimals) {
             return roundValue(amount, decimals);
         }
@@ -147,7 +147,7 @@ public class CrossCollateralLTVHistory extends BinanceRowsList<CrossCollateralLT
          * No-any params required
          *
          * @return {@link #preCollateralRate} instance as double
-         **/
+         */
         public double getPreCollateralRate() {
             return preCollateralRate;
         }
@@ -158,7 +158,7 @@ public class CrossCollateralLTVHistory extends BinanceRowsList<CrossCollateralLT
          * @param decimals: number of digits to round final value
          * @return {@link #preCollateralRate} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getPreCollateralRate(int decimals) {
             return roundValue(preCollateralRate, decimals);
         }
@@ -168,7 +168,7 @@ public class CrossCollateralLTVHistory extends BinanceRowsList<CrossCollateralLT
          * No-any params required
          *
          * @return {@link #afterCollateralRate} instance as double
-         **/
+         */
         public double getAfterCollateralRate() {
             return afterCollateralRate;
         }
@@ -179,7 +179,7 @@ public class CrossCollateralLTVHistory extends BinanceRowsList<CrossCollateralLT
          * @param decimals: number of digits to round final value
          * @return {@link #afterCollateralRate} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getAfterCollateralRate(int decimals) {
             return roundValue(afterCollateralRate, decimals);
         }
@@ -189,7 +189,7 @@ public class CrossCollateralLTVHistory extends BinanceRowsList<CrossCollateralLT
          * No-any params required
          *
          * @return {@link #direction} instance as {@link String}
-         **/
+         */
         public String getDirection() {
             return direction;
         }
@@ -199,7 +199,7 @@ public class CrossCollateralLTVHistory extends BinanceRowsList<CrossCollateralLT
          * No-any params required
          *
          * @return {@link #status} instance as {@link Status}
-         **/
+         */
         public Status getStatus() {
             return status;
         }
@@ -209,7 +209,7 @@ public class CrossCollateralLTVHistory extends BinanceRowsList<CrossCollateralLT
          * No-any params required
          *
          * @return {@link #adjustTime} instance as long
-         **/
+         */
         public long getAdjustTime() {
             return adjustTime;
         }
@@ -219,7 +219,7 @@ public class CrossCollateralLTVHistory extends BinanceRowsList<CrossCollateralLT
          * No-any params required
          *
          * @return {@link #adjustTime} instance as {@link Date}
-         **/
+         */
         public Date getAdjustDate() {
             return TimeFormatter.getDate(adjustTime);
         }

@@ -30,72 +30,72 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * BSwap Endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
- **/
+ */
 public class BinanceBSwapManager extends BinanceSignedManager {
 
     /**
      * {@code BSWAP_POOLS_ENDPOINT} is constant for BSWAP_POOLS_ENDPOINT's endpoint
-     **/
+     */
     public static final String BSWAP_POOLS_ENDPOINT = "/sapi/v1/bswap/pools";
 
     /**
      * {@code BSWAP_LIQUIDITY_ENDPOINT} is constant for BSWAP_LIQUIDITY_ENDPOINT's endpoint
-     **/
+     */
     public static final String BSWAP_LIQUIDITY_ENDPOINT = "/sapi/v1/bswap/liquidity";
 
     /**
      * {@code BSWAP_LIQUIDITY_ADD_ENDPOINT} is constant for BSWAP_LIQUIDITY_ADD_ENDPOINT's endpoint
-     **/
+     */
     public static final String BSWAP_LIQUIDITY_ADD_ENDPOINT = "/sapi/v1/bswap/liquidityAdd";
 
     /**
      * {@code BSWAP_LIQUIDITY_REMOVE_ENDPOINT} is constant for BSWAP_LIQUIDITY_REMOVE_ENDPOINT's endpoint
-     **/
+     */
     public static final String BSWAP_LIQUIDITY_REMOVE_ENDPOINT = "/sapi/v1/bswap/liquidityRemove";
 
     /**
      * {@code BSWAP_LIQUIDITY_OPS_ENDPOINT} is constant for BSWAP_LIQUIDITY_OPS_ENDPOINT's endpoint
-     **/
+     */
     public static final String BSWAP_LIQUIDITY_OPS_ENDPOINT = "/sapi/v1/bswap/liquidityOps";
 
     /**
      * {@code BSWAP_QUOTE_ENDPOINT} is constant for BSWAP_QUOTE_ENDPOINT's endpoint
-     **/
+     */
     public static final String BSWAP_QUOTE_ENDPOINT = "/sapi/v1/bswap/quote";
 
     /**
      * {@code BSWAP_SWAP_ENDPOINT} is constant for BSWAP_SWAP_ENDPOINT's endpoint
-     **/
+     */
     public static final String BSWAP_SWAP_ENDPOINT = "/sapi/v1/bswap/swap";
 
     /**
      * {@code BSWAP_POOL_CONFIGURE_ENDPOINT} is constant for BSWAP_POOL_CONFIGURE_ENDPOINT's endpoint
-     **/
+     */
     public static final String BSWAP_POOL_CONFIGURE_ENDPOINT = "/sapi/v1/bswap/poolConfigure";
 
     /**
      * {@code BSWAP_ADD_LIQUIDITY_PREVIEW_ENDPOINT} is constant for BSWAP_ADD_LIQUIDITY_PREVIEW_ENDPOINT's endpoint
-     **/
+     */
     public static final String BSWAP_ADD_LIQUIDITY_PREVIEW_ENDPOINT = "/sapi/v1/bswap/addLiquidityPreview";
 
     /**
      * {@code BSWAP_REMOVE_LIQUIDITY_PREVIEW_ENDPOINT} is constant for BSWAP_REMOVE_LIQUIDITY_PREVIEW_ENDPOINT's endpoint
-     **/
+     */
     public static final String BSWAP_REMOVE_LIQUIDITY_PREVIEW_ENDPOINT = "/sapi/v1/bswap/removeLiquidityPreview";
 
     /**
      * {@code BSWAP_UNCLAIMED_REWARDS_ENDPOINT} is constant for BSWAP_UNCLAIMED_REWARDS_ENDPOINT's endpoint
-     **/
+     */
     public static final String BSWAP_UNCLAIMED_REWARDS_ENDPOINT = "/sapi/v1/bswap/unclaimedRewards";
 
     /**
      * {@code BSWAP_CLAIM_REWARDS_ENDPOINT} is constant for BSWAP_CLAIM_REWARDS_ENDPOINT's endpoint
-     **/
+     */
     public static final String BSWAP_CLAIM_REWARDS_ENDPOINT = "/sapi/v1/bswap/claimRewards";
 
     /**
      * {@code BSWAP_CLAIMED_HISTORY_ENDPOINT} is constant for BSWAP_CLAIMED_HISTORY_ENDPOINT's endpoint
-     **/
+     */
     public static final String BSWAP_CLAIMED_HISTORY_ENDPOINT = "/sapi/v1/bswap/claimedHistory";
 
     /**
@@ -106,7 +106,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceBSwapManager(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
                                String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
@@ -119,7 +119,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceBSwapManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
                                String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, apiKey, secretKey);
@@ -132,7 +132,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceBSwapManager(String baseEndpoint, int timeout, String apiKey,
                                String secretKey) throws SystemException, IOException {
         super(baseEndpoint, timeout, apiKey, secretKey);
@@ -144,7 +144,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceBSwapManager(String baseEndpoint, String apiKey, String secretKey) throws SystemException, IOException {
         super(baseEndpoint, apiKey, secretKey);
     }
@@ -164,7 +164,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *        BinanceSignedManager secondManager = new BinanceSignedManager(); //same credentials used
      *     }
      * </pre>
-     **/
+     */
     public BinanceBSwapManager() {
         super();
     }
@@ -188,7 +188,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#list-all-swap-pools-market_data">
      * List All Swap Pools (MARKET_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/pools")
@@ -215,7 +215,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#list-all-swap-pools-market_data">
      * List All Swap Pools (MARKET_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/pools")
@@ -254,7 +254,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-liquidity-information-of-a-pool-user_data">
      * Get liquidity information of a pool (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1 / 10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/liquidity")
@@ -281,7 +281,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-liquidity-information-of-a-pool-user_data">
      * Get liquidity information of a pool (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1 / 10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/liquidity")
     public <T> T getPoolLiquidityInformation(ReturnFormat format) throws Exception {
@@ -315,7 +315,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-liquidity-information-of-a-pool-user_data">
      * Get liquidity information of a pool (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1 / 10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/liquidity")
@@ -351,7 +351,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-liquidity-information-of-a-pool-user_data">
      * Get liquidity information of a pool (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1 / 10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/liquidity")
@@ -395,7 +395,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-trade">
      * Add Liquidity (TRADE)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1000(UID)")
@@ -426,7 +426,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-trade">
      * Add Liquidity (TRADE)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityAdd")
@@ -455,7 +455,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-trade">
      * Add Liquidity (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityAdd")
@@ -485,7 +485,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-trade">
      * Add Liquidity (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityAdd")
     public <T> T addLiquidity(long poolId, String asset, double quantity, ReturnFormat format) throws Exception {
@@ -523,7 +523,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-trade">
      * Add Liquidity (TRADE)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1000(UID)")
@@ -564,7 +564,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-trade">
      * Add Liquidity (TRADE)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityAdd")
@@ -604,7 +604,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-trade">
      * Add Liquidity (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityAdd")
@@ -644,7 +644,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-trade">
      * Add Liquidity (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityAdd")
     public <T> T addLiquidity(long poolId, String asset, double quantity, Params extraParams,
@@ -679,7 +679,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-trade">
      * Remove Liquidity (TRADE)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1000(UID)")
@@ -711,7 +711,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-trade">
      * Remove Liquidity (TRADE)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityRemove")
@@ -742,7 +742,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-trade">
      * Remove Liquidity (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityRemove")
@@ -773,7 +773,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-trade">
      * Remove Liquidity (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityRemove")
     public <T> T removeLiquidity(long poolId, PoolType type, double shareAmount, ReturnFormat format) throws Exception {
@@ -811,7 +811,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-trade">
      * Remove Liquidity (TRADE)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1000(UID)")
@@ -852,7 +852,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-trade">
      * Remove Liquidity (TRADE)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityRemove")
@@ -892,7 +892,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-trade">
      * Remove Liquidity (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityRemove")
@@ -932,7 +932,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-trade">
      * Remove Liquidity (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/liquidityRemove")
     public <T> T removeLiquidity(long poolId, PoolType type, double shareAmount, Params extraParams,
@@ -951,7 +951,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @param operationIdResponse: obtained from Binance's response
      * @param format:              return type formatter -> {@link ReturnFormat}
      * @return an operation id as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnOperationId(String operationIdResponse, ReturnFormat format) {
         switch (format) {
@@ -983,7 +983,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-liquidity-operation-record-user_data">
      * Get Liquidity Operation Record (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/liquidityOps")
@@ -1010,7 +1010,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-liquidity-operation-record-user_data">
      * Get Liquidity Operation Record (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/liquidityOps")
     public <T> T getLiquidityOperation(ReturnFormat format) throws Exception {
@@ -1060,7 +1060,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-liquidity-operation-record-user_data">
      * Get Liquidity Operation Record (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/liquidityOps")
@@ -1112,7 +1112,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-liquidity-operation-record-user_data">
      * Get Liquidity Operation Record (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/liquidityOps")
@@ -1156,7 +1156,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#request-quote-user_data">
      * Request Quote (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "150(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/quote")
@@ -1186,7 +1186,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#request-quote-user_data">
      * Request Quote (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "150(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/quote")
     public <T> T requestQuote(String quoteAsset, String baseAsset, double quoteQty, ReturnFormat format) throws Exception {
@@ -1215,7 +1215,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#request-quote-user_data">
      * Request Quote (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "150(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/quote")
@@ -1246,7 +1246,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#request-quote-user_data">
      * Request Quote (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "150(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/quote")
@@ -1285,7 +1285,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#swap-trade">
      * Swap (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/swap")
@@ -1315,7 +1315,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#swap-trade">
      * Swap (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/swap")
     public <T> T swap(String quoteAsset, String baseAsset, double quoteQty, ReturnFormat format) throws Exception {
@@ -1344,7 +1344,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#swap-trade">
      * Swap (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/swap")
@@ -1375,7 +1375,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#swap-trade">
      * Swap (TRADE)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/swap")
@@ -1401,7 +1401,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @param quoteQty:   quote quantity of the swap
      * @param recvWindow: request is valid for in ms, must be less than 60000
      * @return query as {@link Params}
-     **/
+     */
     private Params createSwapQuery(String quoteAsset, String baseAsset, double quoteQty, long recvWindow) {
         Params query = new Params();
         query.addParam("quoteAsset", quoteAsset);
@@ -1433,7 +1433,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-swap-history-user_data">
      * Get Swap History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/swap")
@@ -1460,7 +1460,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-swap-history-user_data">
      * Get Swap History (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/swap")
     public <T> T getSwapHistory(ReturnFormat format) throws Exception {
@@ -1512,7 +1512,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-swap-history-user_data">
      * Get Swap History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/swap")
@@ -1566,7 +1566,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-swap-history-user_data">
      * Get Swap History (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/swap")
@@ -1608,7 +1608,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-pool-configure-user_data">
      * Get Pool Configure (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/poolConfigure")
@@ -1635,7 +1635,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-pool-configure-user_data">
      * Get Pool Configure (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/poolConfigure")
     public <T> T getPoolConfigure(ReturnFormat format) throws Exception {
@@ -1669,7 +1669,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-pool-configure-user_data">
      * Get Pool Configure (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/poolConfigure")
@@ -1705,7 +1705,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-pool-configure-user_data">
      * Get Pool Configure (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/poolConfigure")
@@ -1750,7 +1750,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-preview-user_data">
      * Add Liquidity Preview (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "150(IP)")
@@ -1783,7 +1783,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-preview-user_data">
      * Add Liquidity Preview (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/addLiquidityPreview")
@@ -1814,7 +1814,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-preview-user_data">
      * Add Liquidity Preview (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/addLiquidityPreview")
@@ -1845,7 +1845,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-preview-user_data">
      * Add Liquidity Preview (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/addLiquidityPreview")
     public <T> T addLiquidityPreview(long poolId, PoolType type, String quoteAsset, double quoteQty,
@@ -1876,7 +1876,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-preview-user_data">
      * Add Liquidity Preview (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "150(IP)")
@@ -1910,7 +1910,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-preview-user_data">
      * Add Liquidity Preview (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/addLiquidityPreview")
@@ -1942,7 +1942,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-preview-user_data">
      * Add Liquidity Preview (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/addLiquidityPreview")
@@ -1975,7 +1975,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#add-liquidity-preview-user_data">
      * Add Liquidity Preview (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/addLiquidityPreview")
     public <T> T addLiquidityPreview(long poolId, PoolType type, String quoteAsset, double quoteQty, long recvWindow,
@@ -2007,7 +2007,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-preview-user_data">
      * Remove Liquidity Preview (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "150(IP)")
@@ -2040,7 +2040,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-preview-user_data">
      * Remove Liquidity Preview (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/removeLiquidityPreview")
@@ -2071,7 +2071,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-preview-user_data">
      * Remove Liquidity Preview (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/removeLiquidityPreview")
@@ -2103,7 +2103,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-preview-user_data">
      * Remove Liquidity Preview (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/removeLiquidityPreview")
     public <T> T removeLiquidityPreview(long poolId, PoolType type, String quoteAsset, double shareAmount,
@@ -2134,7 +2134,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-preview-user_data">
      * Remove Liquidity Preview (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "150(IP)")
@@ -2168,7 +2168,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-preview-user_data">
      * Remove Liquidity Preview (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/removeLiquidityPreview")
@@ -2200,7 +2200,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-preview-user_data">
      * Remove Liquidity Preview (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/removeLiquidityPreview")
@@ -2233,7 +2233,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#remove-liquidity-preview-user_data">
      * Remove Liquidity Preview (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "150(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/removeLiquidityPreview")
     public <T> T removeLiquidityPreview(long poolId, PoolType type, String quoteAsset, double shareAmount, long recvWindow,
@@ -2251,7 +2251,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @param quoteAsset: quote asset of the preview
      * @param recvWindow: request is valid for in ms, must be less than 60000
      * @return preview payload as {@link Params}
-     **/
+     */
     private Params createPreviewPayload(long poolId, PoolType type, String quoteAsset, long recvWindow) {
         Params query = new Params();
         query.addParam("poolId", poolId);
@@ -2269,7 +2269,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      * @param swapPreviewResponse: obtained from Binance's response
      * @param format:              return type formatter -> {@link ReturnFormat}
      * @return a swap preview as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnSwapPreview(String swapPreviewResponse, ReturnFormat format) {
         switch (format) {
@@ -2301,7 +2301,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-unclaimed-rewards-record-user_data">
      * Get Unclaimed Rewards Record (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/unclaimedRewards")
@@ -2328,7 +2328,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-unclaimed-rewards-record-user_data">
      * Get Unclaimed Rewards Record (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/unclaimedRewards")
     public <T> T getUnclaimedRewards(ReturnFormat format) throws Exception {
@@ -2363,7 +2363,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-unclaimed-rewards-record-user_data">
      * Get Unclaimed Rewards Record (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/unclaimedRewards")
@@ -2400,7 +2400,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-unclaimed-rewards-record-user_data">
      * Get Unclaimed Rewards Record (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/unclaimedRewards")
@@ -2438,7 +2438,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#claim-rewards-trade">
      * Claim Rewards (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/claimRewards")
@@ -2465,7 +2465,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#claim-rewards-trade">
      * Claim Rewards (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/claimRewards")
     public <T> T claimRewards(ReturnFormat format) throws Exception {
@@ -2500,7 +2500,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#claim-rewards-trade">
      * Claim Rewards (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/claimRewards")
@@ -2537,7 +2537,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#claim-rewards-trade">
      * Claim Rewards (TRADE)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/bswap/claimRewards")
@@ -2572,7 +2572,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-claimed-history-user_data">
      * Get Claimed History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/claimedHistory")
@@ -2599,7 +2599,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-claimed-history-user_data">
      * Get Claimed History (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/claimedHistory")
     public <T> T getClaimedHistory(ReturnFormat format) throws Exception {
@@ -2649,7 +2649,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-claimed-history-user_data">
      * Get Claimed History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/claimedHistory")
@@ -2701,7 +2701,7 @@ public class BinanceBSwapManager extends BinanceSignedManager {
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-claimed-history-user_data">
      * Get Claimed History (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1000(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/bswap/claimedHistory")

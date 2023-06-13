@@ -20,14 +20,14 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.mining.record
  * @see BinanceItem
  * @see BinanceResponse
  * @see MiningResponse
- **/
+ */
 public class EarningsList extends MiningResponse<Earning> {
 
     /**
      * Constructor to init {@link EarningsList} object
      *
      * @param data: earnings list
-     **/
+     */
     public EarningsList(Earning data) {
         super(data);
     }
@@ -36,7 +36,7 @@ public class EarningsList extends MiningResponse<Earning> {
      * Constructor to init {@link EarningsList} object
      *
      * @param jEarningsList: earnings list details as {@link JSONObject}
-     **/
+     */
     public EarningsList(JSONObject jEarningsList) {
         super(jEarningsList);
         JSONObject jData = hItem.getJSONObject("data");
@@ -52,12 +52,12 @@ public class EarningsList extends MiningResponse<Earning> {
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see DataListItem
-     **/
+     */
     public static class Earning extends DataListItem {
 
         /**
          * {@code accountProfits} account profits list
-         **/
+         */
         private final ArrayList<AccountProfit> accountProfits;
 
         /**
@@ -66,7 +66,7 @@ public class EarningsList extends MiningResponse<Earning> {
          * @param totalNum: total num of the account profits list
          * @param pageSize: page size of the account profits list
          * @param accountProfits: page size of the account profits list
-         **/
+         */
         public Earning(int totalNum, int pageSize, ArrayList<AccountProfit> accountProfits) {
             super(totalNum, pageSize);
             this.accountProfits = accountProfits;
@@ -76,7 +76,7 @@ public class EarningsList extends MiningResponse<Earning> {
          * Constructor to init {@link Earning} object
          *
          * @param jEarning: earning details as {@link JSONObject}
-         **/
+         */
         public Earning(JSONObject jEarning) {
             super(jEarning);
             accountProfits = new ArrayList<>();
@@ -91,7 +91,7 @@ public class EarningsList extends MiningResponse<Earning> {
          * No-any params required
          *
          * @return {@link #accountProfits} instance as {@link ArrayList} of {@link AccountProfit}
-         **/
+         */
         public ArrayList<AccountProfit> getAccountProfits() {
             return accountProfits;
         }
@@ -101,22 +101,22 @@ public class EarningsList extends MiningResponse<Earning> {
          * @author N7ghtm4r3 - Tecknobit
          * @see BinanceItem
          * @see Profit
-         **/
+         */
         public static class AccountProfit extends Profit {
 
             /**
              * {@code dayHashRate} daily hashrate
-             **/
+             */
             private final long dayHashRate;
 
             /**
              * {@code hashTransfer} transferred hashrate
-             **/
+             */
             private final long hashTransfer;
 
             /**
              * {@code transferAmount} transferred income
-             **/
+             */
             private final double transferAmount;
 
             /**
@@ -130,7 +130,7 @@ public class EarningsList extends MiningResponse<Earning> {
              * @param dayHashRate: daily hashrate
              * @param hashTransfer: transferred hashrate
              * @param transferAmount: transferred income
-             **/
+             */
             public AccountProfit(long time, ProfitType type, double profitAmount, String coinName, ProfitStatus status,
                                  long dayHashRate, long hashTransfer, double transferAmount) {
                 super(time, type, profitAmount, coinName, status);
@@ -143,7 +143,7 @@ public class EarningsList extends MiningResponse<Earning> {
              * Constructor to init {@link AccountProfit} object
              *
              * @param jAccountProfit: account profit details as {@link JSONObject}
-             **/
+             */
             public AccountProfit(JSONObject jAccountProfit) {
                 super(jAccountProfit);
                 dayHashRate = hItem.getLong("dayHashRate", 0);
@@ -156,7 +156,7 @@ public class EarningsList extends MiningResponse<Earning> {
              * No-any params required
              *
              * @return {@link #dayHashRate} instance as long
-             **/
+             */
             public long getDayHashRate() {
                 return dayHashRate;
             }
@@ -166,7 +166,7 @@ public class EarningsList extends MiningResponse<Earning> {
              * No-any params required
              *
              * @return {@link #hashTransfer} instance as long
-             **/
+             */
             public long getHashTransfer() {
                 return hashTransfer;
             }
@@ -176,7 +176,7 @@ public class EarningsList extends MiningResponse<Earning> {
              * No-any params required
              *
              * @return {@link #transferAmount} instance as double
-             **/
+             */
             public double getTransferAmount() {
                 return transferAmount;
             }
@@ -187,7 +187,7 @@ public class EarningsList extends MiningResponse<Earning> {
              * @param decimals: number of digits to round final value
              * @return {@link #transferAmount} instance rounded with decimal digits inserted
              * @throws IllegalArgumentException if decimalDigits is negative
-             **/
+             */
             public double getAmount(int decimals) {
                 return roundValue(transferAmount, decimals);
             }

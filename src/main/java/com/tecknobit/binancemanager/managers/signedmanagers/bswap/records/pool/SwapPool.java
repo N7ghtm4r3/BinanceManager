@@ -13,12 +13,12 @@ import java.util.ArrayList;
  * List All Swap Pools (MARKET_DATA)</a>
  * @see BinanceItem
  * @see PoolStructure
- **/
+ */
 public class SwapPool extends PoolStructure {
 
     /**
      * {@code assets} of the swap pool
-     **/
+     */
     private final ArrayList<String> assets;
 
     /**
@@ -27,7 +27,7 @@ public class SwapPool extends PoolStructure {
      * @param poolId:   id of the swap pool
      * @param poolName: name of the swap pool
      * @param assets:   assets of the swap pool
-     **/
+     */
     public SwapPool(long poolId, String poolName, ArrayList<String> assets) {
         super(poolId, poolName);
         this.assets = assets;
@@ -37,7 +37,7 @@ public class SwapPool extends PoolStructure {
      * Constructor to init {@link SwapPool} object
      *
      * @param jSwapPool: swap pool details as {@link JSONObject}
-     **/
+     */
     public SwapPool(JSONObject jSwapPool) {
         super(jSwapPool);
         assets = new ArrayList<>();
@@ -50,7 +50,7 @@ public class SwapPool extends PoolStructure {
      * No-any params required
      *
      * @return {@link #assets} instance as {@link ArrayList} of {@link String}
-     **/
+     */
     public ArrayList<String> getAssets() {
         return assets;
     }

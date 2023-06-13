@@ -10,24 +10,24 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-borrow-user_data">
  * Query Max Borrow (USER_DATA)</a>
- **/
+ */
 public class MarginMaxBorrow {
 
     /**
      * {@code amount} is instance that memorizes amount of borrow
-     * **/
+     */
     private double amount;
 
     /**
      * {@code borrowLimit} is instance that memorizes limit of borrow
-     * **/
+     */
     private double borrowLimit;
 
     /** Constructor to init {@link MarginMaxBorrow} object
      * @param amount: amount of borrow
      * @param borrowLimit: limit of borrow
      * @throws IllegalArgumentException if parameters range is not respected
-     * **/
+     */
     public MarginMaxBorrow(double amount, double borrowLimit) {
         if (amount < 0)
             throw new IllegalArgumentException("Amount value cannot be less than 0");
@@ -44,7 +44,7 @@ public class MarginMaxBorrow {
      *
      * @param maxBorrow: margin max borrow details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
-     **/
+     */
     public MarginMaxBorrow(JSONObject maxBorrow) {
         this(maxBorrow.getDouble("amount"), maxBorrow.getDouble("borrowLimit"));
     }
@@ -54,7 +54,7 @@ public class MarginMaxBorrow {
      * No-any params required
      *
      * @return {@link #amount} instance as double
-     **/
+     */
     public double getAmount() {
         return amount;
     }
@@ -65,7 +65,7 @@ public class MarginMaxBorrow {
      * @param decimals: number of digits to round final value
      * @return {@link #amount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getAmount(int decimals) {
         return roundValue(amount, decimals);
     }
@@ -76,7 +76,7 @@ public class MarginMaxBorrow {
      *
      * @param amount: amount of borrow
      * @throws IllegalArgumentException when amount value is less than 0
-     **/
+     */
     public void setAmount(double amount) {
         if (amount < 0)
             throw new IllegalArgumentException("Amount value cannot be less than 0");
@@ -88,7 +88,7 @@ public class MarginMaxBorrow {
      * No-any params required
      *
      * @return {@link #borrowLimit} instance as double
-     **/
+     */
     public double getBorrowLimit() {
         return borrowLimit;
     }
@@ -99,7 +99,7 @@ public class MarginMaxBorrow {
      * @param decimals: number of digits to round final value
      * @return {@link #borrowLimit} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBorrowLimit(int decimals) {
         return roundValue(borrowLimit, decimals);
     }
@@ -109,7 +109,7 @@ public class MarginMaxBorrow {
      *
      * @param borrowLimit: limit of borrow
      * @throws IllegalArgumentException when limit of borrow value is less than 0
-     **/
+     */
     public void setBorrowLimit(double borrowLimit) {
         if (borrowLimit < 0)
             throw new IllegalArgumentException("Borrow limit value cannot be less than 0");

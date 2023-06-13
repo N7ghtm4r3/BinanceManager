@@ -10,37 +10,37 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#asset-detail-user_data">
  * Asset Detail (USER_DATA)</a>
- **/
+ */
 public class AssetDetail {
 
     /**
      * {@code assetName} is instance that memorizes asset name
-     * **/
+     */
     private final String assetName;
 
     /**
      * {@code minWithdrawAmount} is instance that memorizes minimum withdraw amount value
-     **/
+     */
     private final double minWithdrawAmount;
 
     /**
      * {@code depositStatus} is instance that memorizes status of deposits
-     * **/
+     */
     private final boolean depositStatus;
 
     /**
      * {@code withdrawFee} is instance that memorizes withdraw fee amount value
-     * **/
+     */
     private final double withdrawFee;
 
     /**
      * {@code withdrawStatus} is instance that memorizes withdraw status
-     * **/
+     */
     private final boolean withdrawStatus;
 
     /**
      * {@code depositTip} is instance that memorizes deposit tip
-     * **/
+     */
     private final String depositTip;
 
     /** Constructor to init {@link AssetDetail} object
@@ -51,7 +51,7 @@ public class AssetDetail {
      * @param withdrawStatus: withdraw status
      * @param depositTip: deposit tip
      * @throws IllegalArgumentException if parameters range is not respected
-     * **/
+     */
     public AssetDetail(String assetName, double minWithdrawAmount, boolean depositStatus, double withdrawFee,
                        boolean withdrawStatus, String depositTip) {
         this.assetName = assetName;
@@ -73,7 +73,7 @@ public class AssetDetail {
      *
      * @param assetDetail: asset details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
-     **/
+     */
     public AssetDetail(JSONObject assetDetail) {
         assetName = assetDetail.getString("assetName");
         minWithdrawAmount = assetDetail.getDouble("minWithdrawAmount");
@@ -92,7 +92,7 @@ public class AssetDetail {
      * No-any params required
      *
      * @return {@link #assetName} instance as {@link String}
-     **/
+     */
     public String getAssetName() {
         return assetName;
     }
@@ -102,7 +102,7 @@ public class AssetDetail {
      * No-any params required
      *
      * @return {@link #minWithdrawAmount} instance as double
-     **/
+     */
     public double getMinWithdrawAmount() {
         return minWithdrawAmount;
     }
@@ -113,7 +113,7 @@ public class AssetDetail {
      * @param decimals: number of digits to round final value
      * @return {@link #minWithdrawAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getMinWithdrawAmount(int decimals) {
         return roundValue(minWithdrawAmount, decimals);
     }
@@ -123,7 +123,7 @@ public class AssetDetail {
      * No-any params required
      *
      * @return {@link #depositStatus} instance as boolean
-     **/
+     */
     public boolean isDepositStatus() {
         return depositStatus;
     }
@@ -133,7 +133,7 @@ public class AssetDetail {
      * No-any params required
      *
      * @return {@link #withdrawFee} instance as double
-     **/
+     */
     public double getWithdrawFee() {
         return withdrawFee;
     }
@@ -144,7 +144,7 @@ public class AssetDetail {
      * @param decimals: number of digits to round final value
      * @return {@link #withdrawFee} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getWithdrawFee(int decimals) {
         return roundValue(withdrawFee, decimals);
     }
@@ -154,7 +154,7 @@ public class AssetDetail {
      * No-any params required
      *
      * @return {@link #withdrawStatus} instance as boolean
-     **/
+     */
     public boolean isWithdrawStatus() {
         return withdrawStatus;
     }
@@ -164,7 +164,7 @@ public class AssetDetail {
      * No-any params required
      *
      * @return {@link #depositTip} instance as {@link String}
-     **/
+     */
     public String getDepositTip() {
         return depositTip;
     }

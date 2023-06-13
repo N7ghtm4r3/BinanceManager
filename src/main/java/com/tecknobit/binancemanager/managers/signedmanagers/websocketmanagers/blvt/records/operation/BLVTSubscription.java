@@ -15,12 +15,12 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see BinanceItem
  * @see BLVTStructure
  * @see BLVTOperation
- **/
+ */
 public class BLVTSubscription extends BLVTOperation {
 
     /**
      * {@code totalCharge} total charge of the BLVT subscription
-     **/
+     */
     private final double totalCharge;
 
     /**
@@ -33,7 +33,7 @@ public class BLVTSubscription extends BLVTOperation {
      * @param nav:         nav of the BLVT redemption
      * @param fee:         fee of the BLVT redemption
      * @param totalCharge: total charge of the BLVT subscription
-     **/
+     */
     public BLVTSubscription(long id, String tokenName, double amount, long timestamp, double nav, double fee,
                             double totalCharge) {
         super(id, tokenName, amount, timestamp, nav, fee);
@@ -44,7 +44,7 @@ public class BLVTSubscription extends BLVTOperation {
      * Constructor to init {@link BLVTSubscription} object
      *
      * @param jBLVTSubscription: BLVT subscription details as {@link JSONObject}
-     **/
+     */
     public BLVTSubscription(JSONObject jBLVTSubscription) {
         super(jBLVTSubscription);
         totalCharge = hItem.getDouble("totalCharge", 0);
@@ -55,7 +55,7 @@ public class BLVTSubscription extends BLVTOperation {
      * No-any params required
      *
      * @return {@link #totalCharge} instance as double
-     **/
+     */
     public double getTotalCharge() {
         return totalCharge;
     }
@@ -66,7 +66,7 @@ public class BLVTSubscription extends BLVTOperation {
      * @param decimals: number of digits to round final value
      * @return {@link #totalCharge} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTotalCharge(int decimals) {
         return roundValue(totalCharge, decimals);
     }

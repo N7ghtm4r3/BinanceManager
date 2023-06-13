@@ -14,17 +14,17 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Check Collateral Repay Rate (USER_DATA)</a>
  * @see BinanceItem
  * @see LoanBaseStructure
- **/
+ */
 public class CollateralRepayRate extends LoanBaseStructure {
 
     /**
      * {@code repayAmount} repay amount of the collateral repay rate
-     **/
+     */
     private final double repayAmount;
 
     /**
      * {@code rate} of the collateral repay rate
-     **/
+     */
     private final double rate;
 
     /**
@@ -33,7 +33,7 @@ public class CollateralRepayRate extends LoanBaseStructure {
      * @param loanCoin:      coin of the collateral repay rate
      * @param repayAmount:   repay amount of the collateral repay rate
      * @param collateralCoin : collateral coin of the collateral repay rate
-     **/
+     */
     public CollateralRepayRate(String loanCoin, String collateralCoin, double repayAmount, double rate) {
         super(loanCoin, collateralCoin);
         this.repayAmount = repayAmount;
@@ -44,7 +44,7 @@ public class CollateralRepayRate extends LoanBaseStructure {
      * Constructor to init {@link CollateralRepayRate} object
      *
      * @param jCollateralRepayRate : collateral repay rate details as {@link JSONObject}
-     **/
+     */
     public CollateralRepayRate(JSONObject jCollateralRepayRate) {
         super(jCollateralRepayRate);
         repayAmount = hItem.getDouble("repayAmount", 0);
@@ -56,7 +56,7 @@ public class CollateralRepayRate extends LoanBaseStructure {
      * No-any params required
      *
      * @return {@link #repayAmount} instance as double
-     **/
+     */
     public double getRepayAmount() {
         return repayAmount;
     }
@@ -67,7 +67,7 @@ public class CollateralRepayRate extends LoanBaseStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #repayAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRepayAmount(int decimals) {
         return roundValue(repayAmount, decimals);
     }
@@ -77,7 +77,7 @@ public class CollateralRepayRate extends LoanBaseStructure {
      * No-any params required
      *
      * @return {@link #rate} instance as double
-     **/
+     */
     public double getRate() {
         return rate;
     }
@@ -88,7 +88,7 @@ public class CollateralRepayRate extends LoanBaseStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #rate} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRate(int decimals) {
         return roundValue(rate, decimals);
     }

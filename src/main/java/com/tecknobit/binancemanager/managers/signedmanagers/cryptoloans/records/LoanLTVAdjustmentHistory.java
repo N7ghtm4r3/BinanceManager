@@ -21,7 +21,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.cryptoloans.r
  * Adjust LTV - Get Loan LTV Adjustment History (USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class LoanLTVAdjustmentHistory extends BinanceRowsList<LoanLTVAdjustment> {
 
     /**
@@ -29,7 +29,7 @@ public class LoanLTVAdjustmentHistory extends BinanceRowsList<LoanLTVAdjustment>
      *
      * @param total       : number of adjustments
      * @param adjustments :  list of the adjustments
-     **/
+     */
     public LoanLTVAdjustmentHistory(int total, ArrayList<LoanLTVAdjustment> adjustments) {
         super(total, adjustments);
     }
@@ -38,7 +38,7 @@ public class LoanLTVAdjustmentHistory extends BinanceRowsList<LoanLTVAdjustment>
      * Constructor to init {@link LoanLTVAdjustmentHistory}
      *
      * @param jHistory : history details as {@link JSONObject}
-     **/
+     */
     public LoanLTVAdjustmentHistory(JSONObject jHistory) {
         super(jHistory);
         for (Object row : hItem.fetchList("rows"))
@@ -51,37 +51,37 @@ public class LoanLTVAdjustmentHistory extends BinanceRowsList<LoanLTVAdjustment>
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see LoanBaseStructure
-     **/
+     */
     public static class LoanLTVAdjustment extends LoanBaseStructure {
 
         /**
          * {@code direction} of the loan LTV adjustment
-         **/
+         */
         private final LoanAdjustDirection direction;
 
         /**
          * {@code amount} of the loan LTV adjustment
-         **/
+         */
         private final double amount;
 
         /**
          * {@code preLTV} pre LTV of the loan LTV adjustment
-         **/
+         */
         private final double preLTV;
 
         /**
          * {@code afterLTV} after LTV of the loan LTV adjustment
-         **/
+         */
         private final double afterLTV;
 
         /**
          * {@code adjustTime} adjust time of the loan LTV adjustment
-         **/
+         */
         private final long adjustTime;
 
         /**
          * {@code orderId} order id of the loan LTV adjustment
-         **/
+         */
         private final long orderId;
 
         /**
@@ -95,7 +95,7 @@ public class LoanLTVAdjustmentHistory extends BinanceRowsList<LoanLTVAdjustment>
          * @param afterLTV : after LTV of the loan LTV adjustment
          * @param adjustTime       : adjust time of the loan LTV adjustment
          * @param orderId : order id of the loan LTV adjustment
-         **/
+         */
         public LoanLTVAdjustment(String loanCoin, String collateralCoin, LoanAdjustDirection direction, double amount,
                                  double preLTV, double afterLTV, long adjustTime, long orderId) {
             super(loanCoin, collateralCoin);
@@ -111,7 +111,7 @@ public class LoanLTVAdjustmentHistory extends BinanceRowsList<LoanLTVAdjustment>
          * Constructor to init {@link LoanLTVAdjustment} object
          *
          * @param jLoanLTVAdjustment : loan LTV adjustment details as {@link JSONObject}
-         **/
+         */
         public LoanLTVAdjustment(JSONObject jLoanLTVAdjustment) {
             super(jLoanLTVAdjustment);
             direction = LoanAdjustDirection.valueOf(hItem.getString("direction"));
@@ -127,7 +127,7 @@ public class LoanLTVAdjustmentHistory extends BinanceRowsList<LoanLTVAdjustment>
          * No-any params required
          *
          * @return {@link #direction} instance as {@link LoanAdjustDirection}
-         **/
+         */
         public LoanAdjustDirection getDirection() {
             return direction;
         }
@@ -137,7 +137,7 @@ public class LoanLTVAdjustmentHistory extends BinanceRowsList<LoanLTVAdjustment>
          * No-any params required
          *
          * @return {@link #amount} instance as double
-         **/
+         */
         public double getAmount() {
             return amount;
         }
@@ -148,7 +148,7 @@ public class LoanLTVAdjustmentHistory extends BinanceRowsList<LoanLTVAdjustment>
          * @param decimals: number of digits to round final value
          * @return {@link #amount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getAmount(int decimals) {
             return roundValue(amount, decimals);
         }
@@ -158,7 +158,7 @@ public class LoanLTVAdjustmentHistory extends BinanceRowsList<LoanLTVAdjustment>
          * No-any params required
          *
          * @return {@link #preLTV} instance as double
-         **/
+         */
         public double getPreLTV() {
             return preLTV;
         }
@@ -169,7 +169,7 @@ public class LoanLTVAdjustmentHistory extends BinanceRowsList<LoanLTVAdjustment>
          * @param decimals: number of digits to round final value
          * @return {@link #preLTV} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getPreLTV(int decimals) {
             return roundValue(preLTV, decimals);
         }
@@ -179,7 +179,7 @@ public class LoanLTVAdjustmentHistory extends BinanceRowsList<LoanLTVAdjustment>
          * No-any params required
          *
          * @return {@link #afterLTV} instance as double
-         **/
+         */
         public double getAfterLTV() {
             return afterLTV;
         }
@@ -190,7 +190,7 @@ public class LoanLTVAdjustmentHistory extends BinanceRowsList<LoanLTVAdjustment>
          * @param decimals: number of digits to round final value
          * @return {@link #afterLTV} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getAfterLTV(int decimals) {
             return roundValue(afterLTV, decimals);
         }
@@ -200,7 +200,7 @@ public class LoanLTVAdjustmentHistory extends BinanceRowsList<LoanLTVAdjustment>
          * No-any params required
          *
          * @return {@link #adjustTime} instance as long
-         **/
+         */
         public long getAdjustTime() {
             return adjustTime;
         }
@@ -210,7 +210,7 @@ public class LoanLTVAdjustmentHistory extends BinanceRowsList<LoanLTVAdjustment>
          * No-any params required
          *
          * @return {@link #adjustTime} instance as {@link Date}
-         **/
+         */
         public Date getAdjustDate() {
             return TimeFormatter.getDate(adjustTime);
         }
@@ -220,7 +220,7 @@ public class LoanLTVAdjustmentHistory extends BinanceRowsList<LoanLTVAdjustment>
          * No-any params required
          *
          * @return {@link #orderId} instance as long
-         **/
+         */
         public long getOrderId() {
             return orderId;
         }

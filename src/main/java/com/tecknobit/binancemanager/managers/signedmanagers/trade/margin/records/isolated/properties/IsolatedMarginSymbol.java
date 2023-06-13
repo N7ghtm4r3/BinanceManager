@@ -8,37 +8,37 @@ import org.json.JSONObject;
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data">
  * Query Isolated Margin Symbol (USER_DATA)</a>
- **/
+ */
 public class IsolatedMarginSymbol {
 
     /**
      * {@code symbol} is instance that memorizes symbol of asset
-     * **/
+     */
     private final String symbol;
 
     /**
      * {@code base} is instance that memorizes base asset
-     * **/
+     */
     private final String base;
 
     /**
      * {@code quote} is instance that memorizes quote asset
-     * **/
+     */
     private final String quote;
 
     /**
      * {@code isMarginTrade} is instance that memorizes if is margin trade
-     * **/
+     */
     private final boolean isMarginTrade;
 
     /**
      * {@code isBuyAllowed} is instance that memorizes if is buy allowed
-     * **/
+     */
     private final boolean isBuyAllowed;
 
     /**
      * {@code isSellAllowed} is instance that memorizes if is sell allowed
-     * **/
+     */
     private final boolean isSellAllowed;
 
     /** Constructor to init {@link IsolatedMarginSymbol} object
@@ -48,7 +48,7 @@ public class IsolatedMarginSymbol {
      * @param isMarginTrade: is margin trade
      * @param isBuyAllowed: is buy allowed
      * @param isSellAllowed: is sell allowed
-     * **/
+     */
     public IsolatedMarginSymbol(String symbol, String base, String quote, boolean isMarginTrade, boolean isBuyAllowed,
                                 boolean isSellAllowed) {
         this.symbol = symbol;
@@ -63,7 +63,7 @@ public class IsolatedMarginSymbol {
      * Constructor to init {@link IsolatedMarginSymbol} object
      *
      * @param isolatedMarginSymbol: isolated margin symbol details as {@link JSONObject}
-     **/
+     */
     public IsolatedMarginSymbol(JSONObject isolatedMarginSymbol) {
         symbol = isolatedMarginSymbol.getString("symbol");
         base = isolatedMarginSymbol.getString("base");
@@ -78,7 +78,7 @@ public class IsolatedMarginSymbol {
      * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
-     **/
+     */
     public String getSymbol() {
         return symbol;
     }
@@ -88,7 +88,7 @@ public class IsolatedMarginSymbol {
      * No-any params required
      *
      * @return {@link #base} instance as {@link String}
-     **/
+     */
     public String getBase() {
         return base;
     }
@@ -98,7 +98,7 @@ public class IsolatedMarginSymbol {
      * No-any params required
      *
      * @return {@link #quote} instance as {@link String}
-     **/
+     */
     public String getQuote() {
         return quote;
     }
@@ -108,7 +108,7 @@ public class IsolatedMarginSymbol {
      * No-any params required
      *
      * @return {@link #isMarginTrade} instance as boolean
-     **/
+     */
     public boolean isMarginTrade() {
         return isMarginTrade;
     }
@@ -118,7 +118,7 @@ public class IsolatedMarginSymbol {
      * No-any params required
      *
      * @return {@link #isBuyAllowed} instance as boolean
-     **/
+     */
     public boolean isBuyAllowed() {
         return isBuyAllowed;
     }
@@ -128,7 +128,7 @@ public class IsolatedMarginSymbol {
      * No-any params required
      *
      * @return {@link #isSellAllowed} instance as boolean
-     **/
+     */
     public boolean isSellAllowed() {
         return isSellAllowed;
     }

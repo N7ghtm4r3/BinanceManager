@@ -24,37 +24,37 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * Binance Gift Card Endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
- **/
+ */
 public class BinanceGiftCardManager extends BinanceSignedManager {
 
     /**
      * {@code GIFTCARD_CREATE_CODE_ENDPOINT} is constant for GIFTCARD_CREATE_CODE_ENDPOINT's endpoint
-     **/
+     */
     public static final String GIFTCARD_CREATE_CODE_ENDPOINT = "/sapi/v1/giftcard/createCode";
 
     /**
      * {@code GIFTCARD_BUY_CODE_ENDPOINT} is constant for GIFTCARD_BUY_CODE_ENDPOINT's endpoint
-     **/
+     */
     public static final String GIFTCARD_BUY_CODE_ENDPOINT = "/sapi/v1/giftcard/buyCode";
 
     /**
      * {@code GIFTCARD_REDEEM_CODE_ENDPOINT} is constant for GIFTCARD_REDEEM_CODE_ENDPOINT's endpoint
-     **/
+     */
     public static final String GIFTCARD_REDEEM_CODE_ENDPOINT = "/sapi/v1/giftcard/redeemCode";
 
     /**
      * {@code GIFTCARD_VERIFY_ENDPOINT} is constant for GIFTCARD_VERIFY_ENDPOINT's endpoint
-     **/
+     */
     public static final String GIFTCARD_VERIFY_ENDPOINT = "/sapi/v1/giftcard/verify";
 
     /**
      * {@code GIFTCARD_RSA_PUBLIC_KEY_ENDPOINT} is constant for GIFTCARD_RSA_PUBLIC_KEY_ENDPOINT's endpoint
-     **/
+     */
     public static final String GIFTCARD_RSA_PUBLIC_KEY_ENDPOINT = "/sapi/v1/giftcard/cryptography/rsa-public-key";
 
     /**
      * {@code GIFTCARD_BUY_CODE_TOKEN_LIMIT_ENDPOINT} is constant for GIFTCARD_BUY_CODE_TOKEN_LIMIT_ENDPOINT's endpoint
-     **/
+     */
     public static final String GIFTCARD_BUY_CODE_TOKEN_LIMIT_ENDPOINT = "/sapi/v1/giftcard/buyCode/token-limit";
 
     /**
@@ -65,7 +65,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceGiftCardManager(String baseEndpoint, String defaultErrorMessage, int timeout,
                                   String apiKey, String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
@@ -78,7 +78,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceGiftCardManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
                                   String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, apiKey, secretKey);
@@ -91,7 +91,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceGiftCardManager(String baseEndpoint, int timeout, String apiKey,
                                   String secretKey) throws SystemException, IOException {
         super(baseEndpoint, timeout, apiKey, secretKey);
@@ -103,7 +103,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceGiftCardManager(String baseEndpoint, String apiKey,
                                   String secretKey) throws SystemException, IOException {
         super(baseEndpoint, apiKey, secretKey);
@@ -124,7 +124,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *        BinanceSignedManager secondManager = new BinanceSignedManager(); //same credentials used
      *     }
      * </pre>
-     **/
+     */
     public BinanceGiftCardManager() {
         super();
     }
@@ -149,7 +149,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-single-token-gift-card-user_data">
      * Create a single-token gift card (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/createCode")
@@ -178,7 +178,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-single-token-gift-card-user_data">
      * Create a single-token gift card (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/createCode")
     public <T> T createSingleTokenGiftCard(String token, double amount, ReturnFormat format) throws Exception {
@@ -206,7 +206,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-single-token-gift-card-user_data">
      * Create a single-token gift card (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/createCode")
@@ -236,7 +236,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-single-token-gift-card-user_data">
      * Create a single-token gift card (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/createCode")
     public <T> T createSingleTokenGiftCard(String token, double amount, long recvWindow,
@@ -270,7 +270,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-dual-token-gift-card-fixed-value-discount-feature-trade">
      * Create a dual-token gift card (fixed value, discount feature) (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/buyCode")
@@ -301,7 +301,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-dual-token-gift-card-fixed-value-discount-feature-trade">
      * Create a dual-token gift card (fixed value, discount feature) (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/buyCode")
     public <T> T createDualTokenGiftCard(String baseToken, String faceToken, double baseTokenAmount,
@@ -341,7 +341,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-dual-token-gift-card-fixed-value-discount-feature-trade">
      * Create a dual-token gift card (fixed value, discount feature) (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/buyCode")
@@ -383,7 +383,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#create-a-dual-token-gift-card-fixed-value-discount-feature-trade">
      * Create a dual-token gift card (fixed value, discount feature) (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/buyCode")
     public <T> T createDualTokenGiftCard(String baseToken, String faceToken, double baseTokenAmount, Params extraParams,
@@ -402,7 +402,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * @param tokenGiftCardResponse: obtained from Binance's response
      * @param format:                return type formatter -> {@link ReturnFormat}
      * @return token giftcard as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnTokenGiftCard(String tokenGiftCardResponse, ReturnFormat format) {
         switch (format) {
@@ -434,7 +434,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-a-binance-gift-card-user_data">
      * Redeem a Binance Gift Card (USER_DATA) </a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/redeemCode")
@@ -462,7 +462,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-a-binance-gift-card-user_data">
      * Redeem a Binance Gift Card (USER_DATA) </a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/redeemCode")
     public <T> T redeemBinanceGiftCard(String code, ReturnFormat format) throws Exception {
@@ -507,7 +507,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-a-binance-gift-card-user_data">
      * Redeem a Binance Gift Card (USER_DATA) </a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/redeemCode")
@@ -554,7 +554,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-a-binance-gift-card-user_data">
      * Redeem a Binance Gift Card (USER_DATA) </a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/giftcard/redeemCode")
@@ -594,7 +594,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * Verify Binance Gift Card by Gift Card Number (USER_DATA) </a>
      * @implNote please note that if you enter the wrong Gift Card Number 5 times within an hour, you will no longer be
      * able to verify any Gift Card Number for that hour
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/verify")
@@ -624,7 +624,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * Verify Binance Gift Card by Gift Card Number (USER_DATA) </a>
      * @implNote please note that if you enter the wrong Gift Card Number 5 times within an hour, you will no longer be
      * able to verify any Gift Card Number for that hour
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/verify")
     public <T> T verifyBinanceGiftCard(String referenceNo, ReturnFormat format) throws Exception {
@@ -653,7 +653,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * Verify Binance Gift Card by Gift Card Number (USER_DATA) </a>
      * @implNote please note that if you enter the wrong Gift Card Number 5 times within an hour, you will no longer be
      * able to verify any Gift Card Number for that hour
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/verify")
@@ -684,7 +684,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      * Verify Binance Gift Card by Gift Card Number (USER_DATA) </a>
      * @implNote please note that if you enter the wrong Gift Card Number 5 times within an hour, you will no longer be
      * able to verify any Gift Card Number for that hour
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/verify")
@@ -721,7 +721,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fetch-rsa-public-key-user_data">
      * Fetch RSA Public Key (USER_DATA) </a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/cryptography/rsa-public-key")
@@ -748,7 +748,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fetch-rsa-public-key-user_data">
      * Fetch RSA Public Key (USER_DATA) </a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/cryptography/rsa-public-key")
     public <T> T fetchRSAPublicKey(ReturnFormat format) throws Exception {
@@ -774,7 +774,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fetch-rsa-public-key-user_data">
      * Fetch RSA Public Key (USER_DATA) </a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/cryptography/rsa-public-key")
@@ -802,7 +802,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fetch-rsa-public-key-user_data">
      * Fetch RSA Public Key (USER_DATA) </a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/cryptography/rsa-public-key")
@@ -838,7 +838,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fetch-token-limit-user_data">
      * Fetch Token Limit (USER_DATA) </a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/buyCode/token-limit")
@@ -867,7 +867,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fetch-token-limit-user_data">
      * Fetch Token Limit (USER_DATA) </a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/buyCode/token-limit")
     public <T> T fetchTokenLimit(String baseToken, ReturnFormat format) throws Exception {
@@ -895,7 +895,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fetch-token-limit-user_data">
      * Fetch Token Limit (USER_DATA) </a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/buyCode/token-limit")
@@ -925,7 +925,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fetch-token-limit-user_data">
      * Fetch Token Limit (USER_DATA) </a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/giftcard/buyCode/token-limit")
@@ -948,7 +948,7 @@ public class BinanceGiftCardManager extends BinanceSignedManager {
      *
      * @param recvWindow: will be inserted in the query only if different from {@code "-1"}
      * @return query as {@link Params}
-     **/
+     */
     private Params createTimestampQuery(long recvWindow) {
         Params query = new Params();
         if (recvWindow != -1)

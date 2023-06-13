@@ -39,7 +39,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.algo.records.
  * </ul>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class AlgoOrdersList extends BinanceRowsList<AlgoOrder> {
 
     /**
@@ -47,7 +47,7 @@ public class AlgoOrdersList extends BinanceRowsList<AlgoOrder> {
      *
      * @param total  : number of orders
      * @param orders :  list of the orders
-     **/
+     */
     public AlgoOrdersList(int total, ArrayList<AlgoOrder> orders) {
         super(total, orders);
     }
@@ -56,7 +56,7 @@ public class AlgoOrdersList extends BinanceRowsList<AlgoOrder> {
      * Constructor to init {@link AlgoOrdersList}
      *
      * @param jAlgoOrdersList : orders list details as {@link JSONObject}
-     **/
+     */
     public AlgoOrdersList(JSONObject jAlgoOrdersList) {
         super(jAlgoOrdersList);
         for (Object row : hItem.fetchList("orders"))
@@ -69,7 +69,7 @@ public class AlgoOrdersList extends BinanceRowsList<AlgoOrder> {
      * @param algoOrdersResponse: obtained from Binance's response
      * @param format:             return type formatter -> {@link ReturnFormat}
      * @return algo orders list as {@code "format"} defines
-     **/
+     */
     @Returner
     public static <T> T returnAlgoOrdersList(String algoOrdersResponse, ReturnFormat format) {
         switch (format) {
@@ -88,120 +88,120 @@ public class AlgoOrdersList extends BinanceRowsList<AlgoOrder> {
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see AlgoOrderStructure
-     **/
+     */
     public static class AlgoOrder extends AlgoOrderStructure {
 
         /**
          * {@code PositionSide} list of available position sides
-         **/
+         */
         public enum PositionSide {
 
             /**
              * {@code BOTH} position side
-             **/
+             */
             BOTH,
 
             /**
              * {@code LONG} position side
-             **/
+             */
             LONG,
 
             /**
              * {@code SHORT} position side
-             **/
+             */
             SHORT
 
         }
 
         /**
          * {@code AlgoStatus} list of available algo statuses
-         **/
+         */
         public enum AlgoStatus {
 
             /**
              * {@code WORKING} algo status
-             **/
+             */
             WORKING,
 
             /**
              * {@code CANCELLED} algo status
-             **/
+             */
             CANCELLED
 
         }
 
         /**
          * {@code Urgency} list of available urgencies
-         **/
+         */
         public enum Urgency {
 
             /**
              * {@code LOW} urgency
-             **/
+             */
             LOW,
 
             /**
              * {@code MEDIUM} urgency
-             **/
+             */
             MEDIUM,
 
             /**
              * {@code HIGH} urgency
-             **/
+             */
             HIGH
 
         }
 
         /**
          * {@code AlgoType} list of available algo types
-         **/
+         */
         public enum AlgoType {
 
             /**
              * {@code VP} algo type
-             **/
+             */
             VP,
 
             /**
              * {@code Twap} algo type
-             **/
+             */
             Twap
 
         }
 
         /**
          * {@code positionSide} position side of the algo order
-         **/
+         */
         private final PositionSide positionSide;
 
         /**
          * {@code totalQty} total quantity of the algo order
-         **/
+         */
         private final double totalQty;
 
         /**
          * {@code clientAlgoId} client algo identifier of the algo order
-         **/
+         */
         private final String clientAlgoId;
 
         /**
          * {@code endTime} end time of the algo order
-         **/
+         */
         private final long endTime;
 
         /**
          * {@code algoStatus} status of the algo order
-         **/
+         */
         private final AlgoStatus algoStatus;
 
         /**
          * {@code algoType} type of the algo order
-         **/
+         */
         private final AlgoType algoType;
 
         /**
          * {@code urgency} of the algo order
-         **/
+         */
         private final Urgency urgency;
 
         /**
@@ -221,7 +221,7 @@ public class AlgoOrdersList extends BinanceRowsList<AlgoOrder> {
          * @param algoStatus   : status of the algo order
          * @param algoType     : type of the algo order
          * @param urgency      : urgency of the algo order
-         **/
+         */
         public AlgoOrder(long algoId, String symbol, Side side, double executedQty, double executedAmt, double avgPrice,
                          long bookTime, PositionSide positionSide, double totalQty, String clientAlgoId, long endTime,
                          AlgoStatus algoStatus, AlgoType algoType, Urgency urgency) {
@@ -239,7 +239,7 @@ public class AlgoOrdersList extends BinanceRowsList<AlgoOrder> {
          * Constructor to init {@link AlgoOrder}
          *
          * @param jAlgoOrder : algo order details as {@link JSONObject}
-         **/
+         */
         public AlgoOrder(JSONObject jAlgoOrder) {
             super(jAlgoOrder);
             String sPositionSide = hItem.getString("positionSide");
@@ -260,7 +260,7 @@ public class AlgoOrdersList extends BinanceRowsList<AlgoOrder> {
          * No-any params required
          *
          * @return {@link #positionSide} instance as {@link PositionSide}
-         **/
+         */
         public PositionSide getPositionSide() {
             return positionSide;
         }
@@ -270,7 +270,7 @@ public class AlgoOrdersList extends BinanceRowsList<AlgoOrder> {
          * No-any params required
          *
          * @return {@link #totalQty} instance as double
-         **/
+         */
         public double getTotalQty() {
             return totalQty;
         }
@@ -281,7 +281,7 @@ public class AlgoOrdersList extends BinanceRowsList<AlgoOrder> {
          * @param decimals: number of digits to round final value
          * @return {@link #totalQty} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getTotalQty(int decimals) {
             return roundValue(totalQty, decimals);
         }
@@ -291,7 +291,7 @@ public class AlgoOrdersList extends BinanceRowsList<AlgoOrder> {
          * No-any params required
          *
          * @return {@link #clientAlgoId} instance as {@link String}
-         **/
+         */
         public String getClientAlgoId() {
             return clientAlgoId;
         }
@@ -301,7 +301,7 @@ public class AlgoOrdersList extends BinanceRowsList<AlgoOrder> {
          * No-any params required
          *
          * @return {@link #algoId} instance as long
-         **/
+         */
         public long getEndTime() {
             return endTime;
         }
@@ -311,7 +311,7 @@ public class AlgoOrdersList extends BinanceRowsList<AlgoOrder> {
          * No-any params required
          *
          * @return {@link #endTime} instance as {@link Date}
-         **/
+         */
         public Date getEndDate() {
             return TimeFormatter.getDate(endTime);
         }
@@ -321,7 +321,7 @@ public class AlgoOrdersList extends BinanceRowsList<AlgoOrder> {
          * No-any params required
          *
          * @return {@link #algoStatus} instance as {@link AlgoStatus}
-         **/
+         */
         public AlgoStatus getAlgoStatus() {
             return algoStatus;
         }
@@ -331,7 +331,7 @@ public class AlgoOrdersList extends BinanceRowsList<AlgoOrder> {
          * No-any params required
          *
          * @return {@link #algoType} instance as {@link AlgoType}
-         **/
+         */
         public AlgoType getAlgoType() {
             return algoType;
         }
@@ -341,7 +341,7 @@ public class AlgoOrdersList extends BinanceRowsList<AlgoOrder> {
          * No-any params required
          *
          * @return {@link #urgency} instance as {@link Urgency}
-         **/
+         */
         public Urgency getUrgency() {
             return urgency;
         }

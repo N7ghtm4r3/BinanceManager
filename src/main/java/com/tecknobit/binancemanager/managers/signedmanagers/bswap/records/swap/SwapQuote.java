@@ -14,12 +14,12 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @see BinanceItem
  * @see SwapBaseStructure
  * @see SwapStructure
- **/
+ */
 public class SwapQuote extends SwapStructure {
 
     /**
      * {@code slippage} of the swap quote
-     **/
+     */
     private final double slippage;
 
     /**
@@ -32,7 +32,7 @@ public class SwapQuote extends SwapStructure {
      * @param price:         price of the swap quote
      * @param fee:           fee of the swap quote
      * @param slippage:      slippage of the swap quote
-     **/
+     */
     public SwapQuote(String quoteAsset, String baseAsset, double quoteQuantity, double baseQuantity, double price,
                      double fee, double slippage) {
         super(quoteAsset, baseAsset, quoteQuantity, baseQuantity, price, fee);
@@ -43,7 +43,7 @@ public class SwapQuote extends SwapStructure {
      * Constructor to init {@link SwapQuote} object
      *
      * @param jSwapQuote: swap quote details as {@link JSONObject}
-     **/
+     */
     public SwapQuote(JSONObject jSwapQuote) {
         super(jSwapQuote);
         slippage = hItem.getDouble("slippage", 0);
@@ -54,7 +54,7 @@ public class SwapQuote extends SwapStructure {
      * No-any params required
      *
      * @return {@link #slippage} instance as double
-     **/
+     */
     public double getSlippage() {
         return slippage;
     }
@@ -65,7 +65,7 @@ public class SwapQuote extends SwapStructure {
      * @param decimals: number of digits to round final value
      * @return {@link #slippage} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getSlippage(int decimals) {
         return roundValue(slippage, decimals);
     }

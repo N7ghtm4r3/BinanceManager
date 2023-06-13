@@ -12,77 +12,77 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#rolling-window-price-change-statistics">
  * Rolling window price change statistics</a>
  * @see Ticker
- **/
+ */
 public class RollingTicker extends Ticker {
 
     /**
      * {@code priceChange} is instance that contains price change of the ticker
-     * **/
+     */
     private final double priceChange;
 
     /**
      * {@code priceChangePercent} is instance that contains price change percent of the ticker
-     * **/
+     */
     private final double priceChangePercent;
 
     /**
      * {@code weightedAveragePrice} is instance that contains weighted average price of the ticker
-     **/
+     */
     private final double weightedAveragePrice;
 
     /**
      * {@code lastPrice} is instance that contains last price of the ticker
-     * **/
+     */
     private final double lastPrice;
 
     /**
      * {@code openPrice} is instance that contains open price of the ticker
-     * **/
+     */
     private final double openPrice;
 
     /**
      * {@code highPrice} is instance that contains high price of the ticker
-     * **/
+     */
     private final double highPrice;
 
     /**
      * {@code lowPrice} is instance that contains low price of the ticker
-     * **/
+     */
     private final double lowPrice;
 
     /**
      * {@code volume} is instance that contains volume of the ticker
-     * **/
+     */
     private final double volume;
 
     /**
      * {@code quoteVolume} is instance that contains quote volume of the ticker
-     * **/
+     */
     private final double quoteVolume;
 
     /**
      * {@code openTime} is instance that contains open time of the ticker
-     * **/
+     */
     private final long openTime;
 
     /**
      * {@code closeTime} is instance that contains close time of the ticker
-     * **/
+     */
     private final long closeTime;
 
     /**
      * {@code firstId} is instance that contains first id of the ticker
-     * **/
+     */
     private final long firstId;
 
     /**
      * {@code lastId} is instance that contains last id of the ticker
-     * **/
+     */
     private final long lastId;
 
     /**
      * {@code count} is instance that contains count number in the ticker
-     * **/
+     */
     private final int count;
 
     /** Constructor to init {@link RollingTicker} object
@@ -101,7 +101,7 @@ public class RollingTicker extends Ticker {
      * @param firstId: first id of the ticker
      * @param lastId: last id of the ticker
      * @param count: count number in the ticker
-     * **/
+     */
     public RollingTicker(String symbol, double priceChange, double priceChangePercent, double weightedAveragePrice,
                          double lastPrice, double openPrice, double highPrice, double lowPrice, double volume,
                          double quoteVolume, long openTime, long closeTime, long firstId, long lastId, int count) {
@@ -124,7 +124,7 @@ public class RollingTicker extends Ticker {
 
     /** Constructor to init {@link RollingTicker} object
      * @param rollingTicker: rolling ticker details as {@link JSONObject}
-     * **/
+     */
     public RollingTicker(JSONObject rollingTicker) {
         super(rollingTicker.getString("symbol"));
         JsonHelper hRollingTicker = new JsonHelper(rollingTicker);
@@ -151,7 +151,7 @@ public class RollingTicker extends Ticker {
      * @return {@link #priceChange} instance as double
      * @implSpec if this rolling ticket has been created with {@link ResponseType#MINI} type response this instance will be return
      * 0 by default
-     **/
+     */
     public double getPriceChange() {
         return priceChange;
     }
@@ -164,7 +164,7 @@ public class RollingTicker extends Ticker {
      * @throws IllegalArgumentException if decimalDigits is negative
      * @implSpec if this rolling ticket has been created with {@link ResponseType#MINI} type response this instance will be return
      * 0 by default
-     **/
+     */
     public double getPriceChange(int decimals) {
         return roundValue(priceChange, decimals);
     }
@@ -176,7 +176,7 @@ public class RollingTicker extends Ticker {
      * @return {@link #priceChangePercent} instance as double
      * @implSpec if this rolling ticket has been created with {@link ResponseType#MINI} type response this instance will be return
      * 0 by default
-     **/
+     */
     public double getPriceChangePercent() {
         return priceChangePercent;
     }
@@ -189,7 +189,7 @@ public class RollingTicker extends Ticker {
      * @throws IllegalArgumentException if decimalDigits is negative
      * @implSpec if this rolling ticket has been created with {@link ResponseType#MINI} type response this instance will be return
      * 0 by default
-     **/
+     */
     public double getPriceChangePercent(int decimals) {
         return roundValue(priceChangePercent, decimals);
     }
@@ -201,7 +201,7 @@ public class RollingTicker extends Ticker {
      * @return {@link #weightedAveragePrice} instance as double
      * @implSpec if this rolling ticket has been created with {@link ResponseType#MINI} type response this instance will be return
      * 0 by default
-     **/
+     */
     public double getWeightedAveragePrice() {
         return weightedAveragePrice;
     }
@@ -214,7 +214,7 @@ public class RollingTicker extends Ticker {
      * @throws IllegalArgumentException if decimalDigits is negative
      * @implSpec if this rolling ticket has been created with {@link ResponseType#MINI} type response this instance will be return
      * 0 by default
-     **/
+     */
     public double getWeightedAveragePrice(int decimals) {
         return roundValue(weightedAveragePrice, decimals);
     }
@@ -224,7 +224,7 @@ public class RollingTicker extends Ticker {
      * No-any params required
      *
      * @return {@link #lastPrice} instance as double
-     **/
+     */
     public double getLastPrice() {
         return lastPrice;
     }
@@ -235,7 +235,7 @@ public class RollingTicker extends Ticker {
      * @param decimals: number of digits to round final value
      * @return {@link #lastPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getLastPrice(int decimals) {
         return roundValue(lastPrice, decimals);
     }
@@ -245,7 +245,7 @@ public class RollingTicker extends Ticker {
      * No-any params required
      *
      * @return {@link #openPrice} instance as double
-     **/
+     */
     public double getOpenPrice() {
         return openPrice;
     }
@@ -256,7 +256,7 @@ public class RollingTicker extends Ticker {
      * @param decimals: number of digits to round final value
      * @return {@link #openPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getOpenPrice(int decimals) {
         return roundValue(openPrice, decimals);
     }
@@ -266,7 +266,7 @@ public class RollingTicker extends Ticker {
      * No-any params required
      *
      * @return {@link #highPrice} instance as double
-     **/
+     */
     public double getHighPrice() {
         return highPrice;
     }
@@ -277,7 +277,7 @@ public class RollingTicker extends Ticker {
      * @param decimals: number of digits to round final value
      * @return {@link #highPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getHighPrice(int decimals) {
         return roundValue(highPrice, decimals);
     }
@@ -287,7 +287,7 @@ public class RollingTicker extends Ticker {
      * No-any params required
      *
      * @return {@link #lowPrice} instance as double
-     **/
+     */
     public double getLowPrice() {
         return lowPrice;
     }
@@ -298,7 +298,7 @@ public class RollingTicker extends Ticker {
      * @param decimals: number of digits to round final value
      * @return {@link #lowPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getLowPrice(int decimals) {
         return roundValue(lowPrice, decimals);
     }
@@ -308,7 +308,7 @@ public class RollingTicker extends Ticker {
      * No-any params required
      *
      * @return {@link #volume} instance as double
-     **/
+     */
     public double getVolume() {
         return volume;
     }
@@ -319,7 +319,7 @@ public class RollingTicker extends Ticker {
      * @param decimals: number of digits to round final value
      * @return {@link #volume} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getVolume(int decimals) {
         return roundValue(volume, decimals);
     }
@@ -329,7 +329,7 @@ public class RollingTicker extends Ticker {
      * No-any params required
      *
      * @return {@link #quoteVolume} instance as double
-     **/
+     */
     public double getQuoteVolume() {
         return quoteVolume;
     }
@@ -340,7 +340,7 @@ public class RollingTicker extends Ticker {
      * @param decimals: number of digits to round final value
      * @return {@link #quoteVolume} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getQuoteVolume(int decimals) {
         return roundValue(quoteVolume, decimals);
     }
@@ -350,7 +350,7 @@ public class RollingTicker extends Ticker {
      * No-any params required
      *
      * @return {@link #openTime} instance as long
-     **/
+     */
     public long getOpenTime() {
         return openTime;
     }
@@ -360,7 +360,7 @@ public class RollingTicker extends Ticker {
      * No-any params required
      *
      * @return {@link #closeTime} instance as long
-     **/
+     */
     public long getCloseTime() {
         return closeTime;
     }
@@ -370,7 +370,7 @@ public class RollingTicker extends Ticker {
      * No-any params required
      *
      * @return {@link #firstId} instance as long
-     **/
+     */
     public long getFirstId() {
         return firstId;
     }
@@ -380,7 +380,7 @@ public class RollingTicker extends Ticker {
      * No-any params required
      *
      * @return {@link #lastId} instance as long
-     **/
+     */
     public long getLastId() {
         return lastId;
     }
@@ -390,7 +390,7 @@ public class RollingTicker extends Ticker {
      * No-any params required
      *
      * @return {@link #count} instance as int
-     **/
+     */
     public int getCount() {
         return count;
     }

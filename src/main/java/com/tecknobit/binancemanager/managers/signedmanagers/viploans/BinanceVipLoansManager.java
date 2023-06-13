@@ -25,27 +25,27 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * Vip Loans Endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
- **/
+ */
 public class BinanceVipLoansManager extends BinanceSignedManager {
 
     /**
      * {@code VIP_ONGOING_ORDERS_ENDPOINT} is constant for VIP_ONGOING_ORDERS_ENDPOINT's endpoint
-     **/
+     */
     public static final String VIP_ONGOING_ORDERS_ENDPOINT = "/sapi/v1/loan/vip/ongoing/orders";
 
     /**
      * {@code VIP_REPAY_ENDPOINT} is constant for VIP_REPAY_ENDPOINT's endpoint
-     **/
+     */
     public static final String VIP_REPAY_ENDPOINT = "/sapi/v1/loan/vip/repay";
 
     /**
      * {@code VIP_REPAY_HISTORY_ENDPOINT} is constant for VIP_REPAY_HISTORY_ENDPOINT's endpoint
-     **/
+     */
     public static final String VIP_REPAY_HISTORY_ENDPOINT = VIP_REPAY_ENDPOINT + "/history";
 
     /**
      * {@code VIP_COLLATERAL_ACCOUNT_ENDPOINT} is constant for VIP_COLLATERAL_ACCOUNT_ENDPOINT's endpoint
-     **/
+     */
     public static final String VIP_COLLATERAL_ACCOUNT_ENDPOINT = "/sapi/v1/loan/vip/collateral/account";
 
     /**
@@ -56,7 +56,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceVipLoansManager(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
                                   String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
@@ -69,7 +69,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceVipLoansManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
                                   String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, apiKey, secretKey);
@@ -82,7 +82,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceVipLoansManager(String baseEndpoint, int timeout, String apiKey,
                                   String secretKey) throws SystemException, IOException {
         super(baseEndpoint, timeout, apiKey, secretKey);
@@ -94,7 +94,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceVipLoansManager(String baseEndpoint, String apiKey,
                                   String secretKey) throws SystemException, IOException {
         super(baseEndpoint, apiKey, secretKey);
@@ -115,7 +115,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *        BinanceSignedManager secondManager = new BinanceSignedManager(); //same credentials used
      *     }
      * </pre>
-     **/
+     */
     public BinanceVipLoansManager() {
         super();
     }
@@ -139,7 +139,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-vip-loan-ongoing-orders-user_data">
      * Get VIP Loan Ongoing Orders (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/ongoing/orders")
@@ -166,7 +166,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-vip-loan-ongoing-orders-user_data">
      * Get VIP Loan Ongoing Orders (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/ongoing/orders")
     public <T> T getVIPLoanOngoingOrders(ReturnFormat format) throws Exception {
@@ -216,7 +216,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-vip-loan-ongoing-orders-user_data">
      * Get VIP Loan Ongoing Orders (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/ongoing/orders")
@@ -268,7 +268,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-vip-loan-ongoing-orders-user_data">
      * Get VIP Loan Ongoing Orders (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/ongoing/orders")
@@ -304,7 +304,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#vip-loan-repay-trade">
      * VIP Loan Repay (TRADE)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "6000(UID)")
@@ -334,7 +334,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#vip-loan-repay-trade">
      * VIP Loan Repay (TRADE)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/vip/repay")
@@ -362,7 +362,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#vip-loan-repay-trade">
      * VIP Loan Repay (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/vip/repay")
@@ -391,7 +391,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#vip-loan-repay-trade">
      * VIP Loan Repay (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/vip/repay")
     public <T> T execVIPLoanRepay(long orderId, double amount, ReturnFormat format) throws Exception {
@@ -419,7 +419,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#vip-loan-repay-trade">
      * VIP Loan Repay (TRADE)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "6000(UID)")
@@ -450,7 +450,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#vip-loan-repay-trade">
      * VIP Loan Repay (TRADE)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/vip/repay")
@@ -479,7 +479,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#vip-loan-repay-trade">
      * VIP Loan Repay (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/vip/repay")
@@ -509,7 +509,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#vip-loan-repay-trade">
      * VIP Loan Repay (TRADE)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "6000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/loan/vip/repay")
@@ -550,7 +550,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-vip-loan-repayment-history-user_data">
      * Get VIP Loan Repayment History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/repay/history")
@@ -577,7 +577,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-vip-loan-repayment-history-user_data">
      * Get VIP Loan Repayment History (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/repay/history")
     public <T> T getVIPLoanRepaymentHistory(ReturnFormat format) throws Exception {
@@ -627,7 +627,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-vip-loan-repayment-history-user_data">
      * Get VIP Loan Repayment History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/repay/history")
@@ -679,7 +679,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-vip-loan-repayment-history-user_data">
      * Get VIP Loan Repayment History (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "400(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/repay/history")
@@ -714,7 +714,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#check-locked-value-of-vip-collateral-account-user_data">
      * Check Locked Value of VIP Collateral Account (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "6000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/collateral/account")
@@ -741,7 +741,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#check-locked-value-of-vip-collateral-account-user_data">
      * Check Locked Value of VIP Collateral Account (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "6000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/collateral/account")
     public <T> T checkCollateralAccountLockedValue(ReturnFormat format) throws Exception {
@@ -779,7 +779,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#check-locked-value-of-vip-collateral-account-user_data">
      * Check Locked Value of VIP Collateral Account (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "6000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/collateral/account")
@@ -819,7 +819,7 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#check-locked-value-of-vip-collateral-account-user_data">
      * Check Locked Value of VIP Collateral Account (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "6000(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/loan/vip/collateral/account")

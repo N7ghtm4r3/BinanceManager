@@ -22,38 +22,38 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *     </li>
  * </ul>
  * @see BinanceItem
- **/
+ */
 @Structure
 public abstract class RiskStructure extends BinanceItem {
 
     /**
      * {@code entryPrice} entry price of the risk structure
-     **/
+     */
     protected final double entryPrice;
 
     /**
      * {@code leverage} of the risk structure
-     **/
+     */
     protected final double leverage;
 
     /**
      * {@code markPrice} mark price of the risk structure
-     **/
+     */
     protected final double markPrice;
 
     /**
      * {@code positionAmount} position amount of the risk structure
-     **/
+     */
     protected final double positionAmount;
 
     /**
      * {@code symbol} of the risk structure
-     **/
+     */
     protected final String symbol;
 
     /**
      * {@code unrealizedProfit} unrealized profit of the risk structure
-     **/
+     */
     protected final double unrealizedProfit;
 
     /**
@@ -65,7 +65,7 @@ public abstract class RiskStructure extends BinanceItem {
      * @param positionAmount:   position amount of the risk structure
      * @param symbol:           symbol of the risk structure
      * @param unrealizedProfit: unrealized profit of the risk structure
-     **/
+     */
     public RiskStructure(double entryPrice, double leverage, double markPrice, double positionAmount, String symbol,
                          double unrealizedProfit) {
         super(null);
@@ -81,7 +81,7 @@ public abstract class RiskStructure extends BinanceItem {
      * Constructor to init {@link RiskStructure} object
      *
      * @param jFuturesPositionRisk: futures position risk details as {@link JSONObject}
-     **/
+     */
     public RiskStructure(JSONObject jFuturesPositionRisk) {
         super(jFuturesPositionRisk);
         entryPrice = hItem.getDouble("entryPrice", 0);
@@ -97,7 +97,7 @@ public abstract class RiskStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #entryPrice} instance as double
-     **/
+     */
     public double getEntryPrice() {
         return entryPrice;
     }
@@ -108,7 +108,7 @@ public abstract class RiskStructure extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #entryPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getEntryPrice(int decimals) {
         return roundValue(entryPrice, decimals);
     }
@@ -118,7 +118,7 @@ public abstract class RiskStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #leverage} instance as double
-     **/
+     */
     public double getLeverage() {
         return leverage;
     }
@@ -129,7 +129,7 @@ public abstract class RiskStructure extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #leverage} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getLeverage(int decimals) {
         return roundValue(leverage, decimals);
     }
@@ -139,7 +139,7 @@ public abstract class RiskStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #markPrice} instance as double
-     **/
+     */
     public double getMarkPrice() {
         return markPrice;
     }
@@ -150,7 +150,7 @@ public abstract class RiskStructure extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #markPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getMarkPrice(int decimals) {
         return roundValue(markPrice, decimals);
     }
@@ -160,7 +160,7 @@ public abstract class RiskStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #positionAmount} instance as double
-     **/
+     */
     public double getPositionAmount() {
         return positionAmount;
     }
@@ -171,7 +171,7 @@ public abstract class RiskStructure extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #positionAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getPositionAmount(int decimals) {
         return roundValue(positionAmount, decimals);
     }
@@ -181,7 +181,7 @@ public abstract class RiskStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
-     **/
+     */
     public String getSymbol() {
         return symbol;
     }
@@ -191,7 +191,7 @@ public abstract class RiskStructure extends BinanceItem {
      * No-any params required
      *
      * @return {@link #unrealizedProfit} instance as double
-     **/
+     */
     public double getUnrealizedProfit() {
         return unrealizedProfit;
     }
@@ -202,7 +202,7 @@ public abstract class RiskStructure extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #unrealizedProfit} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getUnrealizedProfit(int decimals) {
         return roundValue(unrealizedProfit, decimals);
     }

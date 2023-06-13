@@ -13,20 +13,20 @@ import java.util.ArrayList;
  *
  * @author N7ghtm4r3 - Tecknobit
  * @since 1.1.2
- **/
+ */
 @Structure
 public abstract class BinanceItem {
 
     /**
      * {@code hItem} {@code "JSON"} helper
-     **/
+     */
     protected final JsonHelper hItem;
 
     /**
      * Constructor to init {@link BinanceItem} object
      *
      * @param jItem: {@code Binance}'s item details as {@link JSONObject}
-     **/
+     */
     public BinanceItem(JSONObject jItem) {
         if (jItem != null)
             hItem = new JsonHelper(jItem);
@@ -39,7 +39,7 @@ public abstract class BinanceItem {
      *
      * @param jList: obtained from Binance's response
      * @return strings as {@link ArrayList} of {@link String}
-     **/
+     */
     @Returner
     protected ArrayList<String> returnStringsList(JSONArray jList) {
         ArrayList<String> strings = new ArrayList<>();

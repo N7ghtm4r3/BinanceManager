@@ -22,42 +22,42 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *             Account Trade List (USER_DATA)</a>
  *     </li>
  * </ul>
- **/
+ */
 public class Trade {
 
     /**
      * {@code id} is instance that contains trade id
-     **/
+     */
     protected final long id;
 
     /**
      * {@code price} is instance that contains price in trade
-     * **/
+     */
     protected final double price;
 
     /**
      * {@code qty} is instance that contains quantity in trade
-     * **/
+     */
     protected final double qty;
 
     /**
      * {@code quoteQty} is instance that contains quote quantity in trade
-     * **/
+     */
     protected final double quoteQty;
 
     /**
      * {@code time} is instance that contains time of trade
-     * **/
+     */
     protected final long time;
 
     /**
      * {@code isBuyerMaker} is instance that contains if trade is buyer maker
-     * **/
+     */
     protected final boolean isBuyerMaker;
 
     /**
      * {@code isBestMatch} is instance that contains if is best match of trade
-     * **/
+     */
     protected final boolean isBestMatch;
 
     /** Constructor to init {@link Trade} object
@@ -68,7 +68,7 @@ public class Trade {
      * @param time: time of the trade
      * @param isBuyerMaker: trade is buyer maker
      * @param isBestMatch: is best match of trade
-     * **/
+     */
     public Trade(long id, double price, double qty, double quoteQty, long time, boolean isBuyerMaker, boolean isBestMatch) {
         this.id = id;
         this.price = price;
@@ -83,7 +83,7 @@ public class Trade {
      * Constructor to init {@link Trade} object
      *
      * @param trade: trade details as {@link JSONObject}
-     **/
+     */
     public Trade(JSONObject trade) {
         id = trade.getLong("id");
         price = trade.getDouble("price");
@@ -99,7 +99,7 @@ public class Trade {
      * No-any params required
      *
      * @return {@link #id} instance as long
-     **/
+     */
     public long getId() {
         return id;
     }
@@ -109,7 +109,7 @@ public class Trade {
      * No-any params required
      *
      * @return {@link #price} instance as double
-     **/
+     */
     public double getPrice() {
         return price;
     }
@@ -120,7 +120,7 @@ public class Trade {
      * @param decimals: number of digits to round final value
      * @return {@link #price} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getPrice(int decimals) {
         return roundValue(price, decimals);
     }
@@ -130,7 +130,7 @@ public class Trade {
      * No-any params required
      *
      * @return {@link #qty} instance as double
-     **/
+     */
     public double getQty() {
         return qty;
     }
@@ -141,7 +141,7 @@ public class Trade {
      * @param decimals: number of digits to round final value
      * @return {@link #qty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getQty(int decimals) {
         return roundValue(qty, decimals);
     }
@@ -151,7 +151,7 @@ public class Trade {
      * No-any params required
      *
      * @return {@link #quoteQty} instance as double
-     **/
+     */
     public double getQuoteQty() {
         return quoteQty;
     }
@@ -162,7 +162,7 @@ public class Trade {
      * @param decimals: number of digits to round final value
      * @return {@link #quoteQty} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getQuoteQty(int decimals) {
         return roundValue(quoteQty, decimals);
     }
@@ -172,7 +172,7 @@ public class Trade {
      * No-any params required
      *
      * @return {@link #time} instance as long
-     **/
+     */
     public long getTime() {
         return time;
     }
@@ -182,7 +182,7 @@ public class Trade {
      * No-any params required
      *
      * @return {@link #time} instance as {@link Date}
-     **/
+     */
     public Date getDate() {
         return TimeFormatter.getDate(time);
     }
@@ -192,7 +192,7 @@ public class Trade {
      * No-any params required
      *
      * @return {@link #isBuyerMaker} instance as boolean
-     **/
+     */
     public boolean isBuyerMaker() {
         return isBuyerMaker;
     }
@@ -202,7 +202,7 @@ public class Trade {
      * No-any params required
      *
      * @return {@link #isBestMatch} instance as boolean
-     **/
+     */
     public boolean isBestMatch() {
         return isBestMatch;
     }

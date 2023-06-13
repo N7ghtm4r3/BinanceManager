@@ -13,32 +13,32 @@ import org.json.JSONObject;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-an-existing-order-and-send-a-new-order-trade">
  * Cancel an Existing Order and Send a New Order (TRADE)</a>
  * @see BinanceResponse
- **/
+ */
 public class SpotOrderCAS implements BinanceResponse {
 
     /**
      * {@code cancelResult} is instance that memorizes result of cancellation of the past order
-     **/
+     */
     private final String cancelResult;
 
     /**
      * {@code newOrderResult} is instance that memorizes result of creation of the new order
-     **/
+     */
     private final String newOrderResult;
 
     /**
      * {@code orderCanceled} is instance that memorizes order canceled details as {@link SpotOrderDetails}
-     **/
+     */
     private final SpotOrderDetails orderCanceled;
 
     /**
      * {@code newOrder} is instance that memorizes new order details as {@link FullSpotOrder}
-     * **/
+     */
     private final FullSpotOrder newOrder;
 
     /**
      * {@code hSpotOrder} is instance useful to manage different responses scenarios
-     * **/
+     */
     private final JsonHelper hSpotOrder;
 
     /** Constructor to init {@link SpotOrderCAS} object
@@ -46,7 +46,7 @@ public class SpotOrderCAS implements BinanceResponse {
      * @param newOrderResult: order identifier
      * @param orderCanceled: client order identifier
      * @param newOrder: list order identifier
-     * **/
+     */
     public SpotOrderCAS(String cancelResult, String newOrderResult, SpotOrderDetails orderCanceled, FullSpotOrder newOrder) {
         this.cancelResult = cancelResult;
         this.newOrderResult = newOrderResult;
@@ -59,7 +59,7 @@ public class SpotOrderCAS implements BinanceResponse {
      * Constructor to init {@link SpotOrderCAS} object
      *
      * @param casOrder: cancel and send order details as {@link JSONObject}
-     **/
+     */
     public SpotOrderCAS(JSONObject casOrder) {
         hSpotOrder = new JsonHelper(casOrder);
         cancelResult = hSpotOrder.getString("cancelResult");
@@ -77,7 +77,7 @@ public class SpotOrderCAS implements BinanceResponse {
      * No-any params required
      *
      * @return {@link #cancelResult} instance as {@link String}
-     **/
+     */
     public String getCancelResult() {
         return cancelResult;
     }
@@ -87,7 +87,7 @@ public class SpotOrderCAS implements BinanceResponse {
      * No-any params required
      *
      * @return {@link #newOrderResult} instance as {@link String}
-     **/
+     */
     public String getNewOrderResult() {
         return newOrderResult;
     }
@@ -97,7 +97,7 @@ public class SpotOrderCAS implements BinanceResponse {
      * No-any params required
      *
      * @return {@link #orderCanceled} instance as {@link SpotOrderDetails}
-     **/
+     */
     public SpotOrderDetails getOrderCanceled() {
         return orderCanceled;
     }
@@ -107,7 +107,7 @@ public class SpotOrderCAS implements BinanceResponse {
      * No-any params required
      *
      * @return {@link #newOrder} instance as {@link FullSpotOrder}
-     **/
+     */
     public FullSpotOrder getNewOrder() {
         return newOrder;
     }
@@ -119,7 +119,7 @@ public class SpotOrderCAS implements BinanceResponse {
      * @return code of error as int
      * *
      * @implSpec if code error is not present in {@code "Binance"}'s response will be returned -1 as default
-     **/
+     */
     @Override
     public int getCode() {
         if (hSpotOrder != null)
@@ -134,7 +134,7 @@ public class SpotOrderCAS implements BinanceResponse {
      * @return message of error as {@link String}
      * *
      * @implSpec if message error is not present in {@code "Binance"}'s response will be returned null as default
-     **/
+     */
     @Override
     public String getMessage() {
         if (hSpotOrder != null)

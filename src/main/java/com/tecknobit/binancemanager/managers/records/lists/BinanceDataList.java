@@ -14,23 +14,23 @@ import java.util.ArrayList;
  * @author N7ghtm4r3 - Tecknobit
  * @see BinanceItem
  * @see BinanceResponse
- **/
+ */
 @Structure
 public abstract class BinanceDataList<T> extends BinanceItem implements BinanceResponse {
 
     /**
      * {@code total} number of items
-     **/
+     */
     protected final int total;
 
     /**
      * {@code success} whether the list is created with success
-     **/
+     */
     protected final boolean success;
 
     /**
      * {@code data} items of the list
-     **/
+     */
     protected final ArrayList<T> data;
 
     /**
@@ -39,7 +39,7 @@ public abstract class BinanceDataList<T> extends BinanceItem implements BinanceR
      * @param total:   number of items
      * @param success: whether the list is created with success
      * @param data:    items of the list
-     **/
+     */
     public BinanceDataList(int total, boolean success, ArrayList<T> data) {
         super(null);
         this.total = total;
@@ -51,7 +51,7 @@ public abstract class BinanceDataList<T> extends BinanceItem implements BinanceR
      * Constructor to init {@link BinanceDataList} object
      *
      * @param jBinanceDataList: data list details as {@link JSONObject}
-     **/
+     */
     public BinanceDataList(JSONObject jBinanceDataList) {
         super(jBinanceDataList);
         total = hItem.getInt("total", 0);
@@ -64,7 +64,7 @@ public abstract class BinanceDataList<T> extends BinanceItem implements BinanceR
      * No-any params required
      *
      * @return {@link #total} instance as int
-     **/
+     */
     public int getTotal() {
         return total;
     }
@@ -74,7 +74,7 @@ public abstract class BinanceDataList<T> extends BinanceItem implements BinanceR
      * No-any params required
      *
      * @return {@link #success} instance as boolean
-     **/
+     */
     public boolean isSuccess() {
         return success;
     }
@@ -84,7 +84,7 @@ public abstract class BinanceDataList<T> extends BinanceItem implements BinanceR
      * No-any params required
      *
      * @return {@link #data} instance as {@link ArrayList} of {@link T}
-     **/
+     */
     public ArrayList<T> getData() {
         return data;
     }
@@ -96,7 +96,7 @@ public abstract class BinanceDataList<T> extends BinanceItem implements BinanceR
      * @return code of error as int
      * *
      * @implSpec if code error is not present in {@code "Binance"}'s response will be returned -1 as default
-     **/
+     */
     @Override
     public int getCode() {
         if (hItem != null)
@@ -111,7 +111,7 @@ public abstract class BinanceDataList<T> extends BinanceItem implements BinanceR
      * @return message of error as {@link String}
      * *
      * @implSpec if message error is not present in {@code "Binance"}'s response will be returned null as default
-     **/
+     */
     @Override
     public String getMessage() {
         if (hItem != null)

@@ -15,39 +15,39 @@ import java.util.List;
  * Query Sub-account Futures Asset Transfer History (For Master Account)</a>
  * @see BinanceItem
  * @see AssetTransfer
- **/
+ */
 public class FutureAssetTransferHistory extends BinanceItem {
 
     /**
      * {@code FuturesType} list of available futures types
-     **/
+     */
     public enum FuturesType {
 
         /**
          * {@code USDT_MARGINED} futures type
-         **/
+         */
         USDT_MARGINED(1),
 
         /**
          * {@code USDT_MARGINED} futures type
-         **/
+         */
         COIN_MARGINED(2);
 
         /**
          * {@code type} value
-         **/
+         */
         private final int type;
 
         /**
          * {@code VALUES} list of the types
-         **/
+         */
         private static final List<FuturesType> VALUES = Arrays.stream(FuturesType.values()).toList();
 
         /**
          * Constructor to init {@link FuturesType} object
          *
          * @param type: futures types value
-         **/
+         */
         FuturesType(int type) {
             this.type = type;
         }
@@ -57,7 +57,7 @@ public class FutureAssetTransferHistory extends BinanceItem {
          * No-any params required
          *
          * @return {@link #type} instance as int
-         **/
+         */
         public int getType() {
             return type;
         }
@@ -67,7 +67,7 @@ public class FutureAssetTransferHistory extends BinanceItem {
          *
          * @param type: type to reach
          * @return enum constant as {@link FuturesType}
-         **/
+         */
         public static FuturesType reachEnumConstant(int type) {
             return VALUES.get(type - 1);
         }
@@ -77,7 +77,7 @@ public class FutureAssetTransferHistory extends BinanceItem {
          * No-any params required
          *
          * @return {@link #type} instance as {@link String}
-         **/
+         */
         @Override
         public String toString() {
             return type + "";
@@ -87,17 +87,17 @@ public class FutureAssetTransferHistory extends BinanceItem {
 
     /**
      * {@code success} whether the request has been successful
-     **/
+     */
     private final boolean success;
 
     /**
      * {@code futuresType} futures type of the transfers history
-     **/
+     */
     private final FuturesType futuresType;
 
     /**
      * {@code transfers} list of transfers
-     **/
+     */
     private final ArrayList<AssetTransfer> transfers;
 
     /**
@@ -106,7 +106,7 @@ public class FutureAssetTransferHistory extends BinanceItem {
      * @param success:     whether the request has been successful
      * @param futuresType: futures type of the transfers history
      * @param transfers:   list of transfers
-     **/
+     */
     public FutureAssetTransferHistory(boolean success, FuturesType futuresType, ArrayList<AssetTransfer> transfers) {
         super(null);
         this.success = success;
@@ -118,7 +118,7 @@ public class FutureAssetTransferHistory extends BinanceItem {
      * Constructor to init {@link FutureAssetTransferHistory} object
      *
      * @param jFutureAssetTransferHistory: future asset transfer history details as {@link JSONObject}
-     **/
+     */
     public FutureAssetTransferHistory(JSONObject jFutureAssetTransferHistory) {
         super(jFutureAssetTransferHistory);
         success = hItem.getBoolean("success");
@@ -135,7 +135,7 @@ public class FutureAssetTransferHistory extends BinanceItem {
      * No-any params required
      *
      * @return {@link #success} instance as boolean
-     **/
+     */
     public boolean isSuccess() {
         return success;
     }
@@ -145,7 +145,7 @@ public class FutureAssetTransferHistory extends BinanceItem {
      * No-any params required
      *
      * @return {@link #futuresType} instance as {@link FuturesType}
-     **/
+     */
     public FuturesType getFuturesType() {
         return futuresType;
     }
@@ -155,7 +155,7 @@ public class FutureAssetTransferHistory extends BinanceItem {
      * No-any params required
      *
      * @return {@link #transfers} instance as {@link ArrayList} of {@link AssetTransfer}
-     **/
+     */
     public ArrayList<AssetTransfer> getTransfers() {
         return transfers;
     }

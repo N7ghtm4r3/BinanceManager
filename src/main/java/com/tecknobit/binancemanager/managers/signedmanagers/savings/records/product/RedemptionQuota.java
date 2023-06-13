@@ -13,17 +13,17 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Get Left Daily Redemption Quota of Flexible Product (USER_DATA)</a>
  * @see BinanceItem
  * @see PurchaseQuota
- **/
+ */
 public class RedemptionQuota extends PurchaseQuota {
 
     /**
      * {@code dailyQuota} daily quota of the redemption
-     **/
+     */
     private final double dailyQuota;
 
     /**
      * {@code minRedemptionAmount} min redemption amount of the redemption quota
-     **/
+     */
     private final double minRedemptionAmount;
 
     /**
@@ -33,7 +33,7 @@ public class RedemptionQuota extends PurchaseQuota {
      * @param leftQuota:           left quota of the redemption quota
      * @param dailyQuota:          daily quota of the redemption
      * @param minRedemptionAmount: min redemption amount of the redemption quota
-     **/
+     */
     public RedemptionQuota(String asset, double leftQuota, double dailyQuota, double minRedemptionAmount) {
         super(asset, leftQuota);
         this.dailyQuota = dailyQuota;
@@ -44,7 +44,7 @@ public class RedemptionQuota extends PurchaseQuota {
      * Constructor to init {@link RedemptionQuota} object
      *
      * @param jRedemptionQuota: redemption quota details as {@link JSONObject}
-     **/
+     */
     public RedemptionQuota(JSONObject jRedemptionQuota) {
         super(jRedemptionQuota);
         dailyQuota = hItem.getDouble("dailyQuota", 0);
@@ -56,7 +56,7 @@ public class RedemptionQuota extends PurchaseQuota {
      * No-any params required
      *
      * @return {@link #dailyQuota} instance as double
-     **/
+     */
     public double getDailyQuota() {
         return dailyQuota;
     }
@@ -67,7 +67,7 @@ public class RedemptionQuota extends PurchaseQuota {
      * @param decimals: number of digits to round final value
      * @return {@link #dailyQuota} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getDailyQuota(int decimals) {
         return roundValue(dailyQuota, decimals);
     }
@@ -77,7 +77,7 @@ public class RedemptionQuota extends PurchaseQuota {
      * No-any params required
      *
      * @return {@link #minRedemptionAmount} instance as double
-     **/
+     */
     public double getMinRedemptionAmount() {
         return minRedemptionAmount;
     }
@@ -88,7 +88,7 @@ public class RedemptionQuota extends PurchaseQuota {
      * @param decimals: number of digits to round final value
      * @return {@link #minRedemptionAmount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getMinRedemptionAmount(int decimals) {
         return roundValue(minRedemptionAmount, decimals);
     }

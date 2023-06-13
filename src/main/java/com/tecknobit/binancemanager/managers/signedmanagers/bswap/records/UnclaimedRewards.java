@@ -13,34 +13,34 @@ import java.util.HashMap;
  * @apiNote see the official documentation at:  <a href="https://binance-docs.github.io/apidocs/spot/en/#get-unclaimed-rewards-record-user_data">
  * Get Unclaimed Rewards Record (USER_DATA)</a>
  * @see BinanceItem
- **/
+ */
 public class UnclaimedRewards extends BinanceItem {
 
     /**
      * {@code RewardsType} list of available rewards types
-     **/
+     */
     public enum RewardsType {
 
         /**
          * {@code SWAP_REWARDS} rewards type
-         **/
+         */
         SWAP_REWARDS(0),
 
         /**
          * {@code LIQUIDITY_REWARD} rewards type
-         **/
+         */
         LIQUIDITY_REWARD(1);
 
         /**
          * {@code type} rewards type
-         **/
+         */
         private final int type;
 
         /**
          * Constructor to init {@link RewardsType} object
          *
          * @param type: rewards type
-         **/
+         */
         RewardsType(int type) {
             this.type = type;
         }
@@ -50,7 +50,7 @@ public class UnclaimedRewards extends BinanceItem {
          * No-any params required
          *
          * @return {@link #type} instance as int
-         **/
+         */
         public int getType() {
             return type;
         }
@@ -60,7 +60,7 @@ public class UnclaimedRewards extends BinanceItem {
          * No-any params required
          *
          * @return {@link #type} instance as {@link String}
-         **/
+         */
         @Override
         public String toString() {
             return type + "";
@@ -70,12 +70,12 @@ public class UnclaimedRewards extends BinanceItem {
 
     /**
      * {@code totalUnclaimedRewards} total unclaimed rewards value
-     **/
+     */
     private final HashMap<String, Double> totalUnclaimedRewards;
 
     /**
      * {@code details} details of the unclaimed rewards
-     **/
+     */
     private final ArrayList<Detail> details;
 
     /**
@@ -83,7 +83,7 @@ public class UnclaimedRewards extends BinanceItem {
      *
      * @param totalUnclaimedRewards: total unclaimed rewards value
      * @param details: details of the unclaimed rewards
-     **/
+     */
     public UnclaimedRewards(HashMap<String, Double> totalUnclaimedRewards, ArrayList<Detail> details) {
         super(null);
         this.totalUnclaimedRewards = totalUnclaimedRewards;
@@ -94,7 +94,7 @@ public class UnclaimedRewards extends BinanceItem {
      * Constructor to init {@link UnclaimedRewards} object
      *
      * @param jUnclaimedRewards: unclaimed rewards details as {@link JSONObject}
-     **/
+     */
     public UnclaimedRewards(JSONObject jUnclaimedRewards) {
         super(jUnclaimedRewards);
         totalUnclaimedRewards = new HashMap<>();
@@ -112,7 +112,7 @@ public class UnclaimedRewards extends BinanceItem {
      * No-any params required
      *
      * @return {@link #totalUnclaimedRewards} instance as {@link HashMap} of {@link String} and {@link Double}
-     **/
+     */
     public HashMap<String, Double> getTotalUnclaimedRewards() {
         return totalUnclaimedRewards;
     }
@@ -122,7 +122,7 @@ public class UnclaimedRewards extends BinanceItem {
      * No-any params required
      *
      * @return {@link #details} instance as {@link ArrayList} of {@link Detail}
-     **/
+     */
     public ArrayList<Detail> getDetails() {
         return details;
     }
@@ -132,17 +132,17 @@ public class UnclaimedRewards extends BinanceItem {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class Detail extends BinanceItem {
 
         /**
          * {@code pair} of the detail
-         **/
+         */
         private final String pair;
 
         /**
          * {@code rewards} of the detail
-         **/
+         */
         private final HashMap<String, Double> rewards;
 
         /**
@@ -150,7 +150,7 @@ public class UnclaimedRewards extends BinanceItem {
          *
          * @param pair: pair of the detail
          * @param rewards: rewards of the detail
-         **/
+         */
         public Detail(String pair, HashMap<String, Double> rewards) {
             super(null);
             this.pair = pair;
@@ -161,7 +161,7 @@ public class UnclaimedRewards extends BinanceItem {
          * Constructor to init {@link Detail} object
          *
          * @param jDetail: details as {@link JSONObject}
-         **/
+         */
         public Detail(JSONObject jDetail) {
             super(jDetail);
             pair = hItem.getString("pair");
@@ -176,7 +176,7 @@ public class UnclaimedRewards extends BinanceItem {
          * No-any params required
          *
          * @return {@link #pair} instance as {@link String}
-         **/
+         */
         public String getPair() {
             return pair;
         }
@@ -186,7 +186,7 @@ public class UnclaimedRewards extends BinanceItem {
          * No-any params required
          *
          * @return {@link #rewards} instance as {@link HashMap} of {@link String} and {@link Double}
-         **/
+         */
         public HashMap<String, Double> getRewards() {
             return rewards;
         }

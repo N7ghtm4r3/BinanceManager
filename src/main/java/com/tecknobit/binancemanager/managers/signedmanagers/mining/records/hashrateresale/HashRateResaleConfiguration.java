@@ -14,14 +14,14 @@ import org.json.JSONObject;
  * @see BinanceItem
  * @see BinanceResponse
  * @see MiningResponse
- **/
+ */
 public class HashRateResaleConfiguration extends MiningResponse<Boolean> {
 
     /**
      * Constructor to init {@link HashRateResaleConfiguration} object
      *
      * @param data: hashrate resale configuration result
-     **/
+     */
     public HashRateResaleConfiguration(boolean data) {
         super(data);
     }
@@ -30,7 +30,7 @@ public class HashRateResaleConfiguration extends MiningResponse<Boolean> {
      * Constructor to init {@link HashRateResaleConfiguration} object
      *
      * @param jHashRateResaleConfiguration: hashrate resale configuration details as {@link JSONObject}
-     **/
+     */
     public HashRateResaleConfiguration(JSONObject jHashRateResaleConfiguration) {
         super(jHashRateResaleConfiguration);
         data = hItem.getBoolean("data");

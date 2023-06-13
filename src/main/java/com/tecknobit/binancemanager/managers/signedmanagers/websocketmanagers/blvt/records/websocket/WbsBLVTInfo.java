@@ -16,42 +16,42 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Websocket BLVT Info Streams</a>
  * @see BinanceItem
  * @see BinanceWebsocketResponse
- **/
+ */
 public class WbsBLVTInfo extends BinanceWebsocketResponse {
 
     /**
      * {@code BLVTName} BLVT name of the BLVT info
-     **/
+     */
     private final String BLVTName;
 
     /**
      * {@code tokenIssued} token issued of the BLVT info
-     **/
+     */
     private final double tokenIssued;
 
     /**
      * {@code baskets} baskets of the BLVT info
-     **/
+     */
     private final ArrayList<WbsBasket> baskets;
 
     /**
      * {@code BLVTNav} BLVT nav of the BLVT info
-     **/
+     */
     private final double BLVTNav;
 
     /**
      * {@code realLeverage} real leverage of the BLVT info
-     **/
+     */
     private final double realLeverage;
 
     /**
      * {@code targetLeverage} target leverage of the BLVT info
-     **/
+     */
     private final double targetLeverage;
 
     /**
      * {@code fundingRatio} funding ratio of the BLVT info
-     **/
+     */
     private final double fundingRatio;
 
     /**
@@ -66,7 +66,7 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
      * @param realLeverage: real leverage of the BLVT info
      * @param targetLeverage: target leverage of the BLVT info
      * @param fundingRatio: funding ratio of the BLVT info
-     **/
+     */
     public WbsBLVTInfo(EventType eventType, long eventTime, String BLVTName, double tokenIssued,
                        ArrayList<WbsBasket> baskets, double BLVTNav, double realLeverage, double targetLeverage,
                        double fundingRatio) {
@@ -84,7 +84,7 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
      * Constructor to init {@link WbsBLVTInfo} object
      *
      * @param jWbsBLVTInfo: websocket BLVT info details as {@link JSONObject}
-     **/
+     */
     public WbsBLVTInfo(JSONObject jWbsBLVTInfo) {
         super(jWbsBLVTInfo);
         BLVTName = hItem.getString("s");
@@ -103,7 +103,7 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #BLVTName} instance as {@link String}
-     **/
+     */
     public String getBLVTName() {
         return BLVTName;
     }
@@ -113,7 +113,7 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #tokenIssued} instance as double
-     **/
+     */
     public double getTokenIssued() {
         return tokenIssued;
     }
@@ -124,7 +124,7 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #tokenIssued} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTokenIssued(int decimals) {
         return roundValue(tokenIssued, decimals);
     }
@@ -134,7 +134,7 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #baskets} instance as {@link ArrayList} of {@link WbsBasket}
-     **/
+     */
     public ArrayList<WbsBasket> getBaskets() {
         return baskets;
     }
@@ -144,7 +144,7 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #BLVTNav} instance as double
-     **/
+     */
     public double getBLVTNav() {
         return BLVTNav;
     }
@@ -155,7 +155,7 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #BLVTNav} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBLVTNav(int decimals) {
         return roundValue(BLVTNav, decimals);
     }
@@ -165,7 +165,7 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #realLeverage} instance as double
-     **/
+     */
     public double getRealLeverage() {
         return realLeverage;
     }
@@ -176,7 +176,7 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #realLeverage} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRealLeverage(int decimals) {
         return roundValue(realLeverage, decimals);
     }
@@ -186,7 +186,7 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #targetLeverage} instance as double
-     **/
+     */
     public double getTargetLeverage() {
         return targetLeverage;
     }
@@ -197,7 +197,7 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #targetLeverage} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTargetLeverage(int decimals) {
         return roundValue(targetLeverage, decimals);
     }
@@ -207,7 +207,7 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
      * No-any params required
      *
      * @return {@link #fundingRatio} instance as double
-     **/
+     */
     public double getFundingRatio() {
         return fundingRatio;
     }
@@ -218,7 +218,7 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
      * @param decimals: number of digits to round final value
      * @return {@link #fundingRatio} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getFundingRatio(int decimals) {
         return roundValue(fundingRatio, decimals);
     }
@@ -228,17 +228,17 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class WbsBasket extends BinanceItem {
 
         /**
          * {@code futuresSymbol} futures symbol of the websocket basket
-         **/
+         */
         private final String futuresSymbol;
 
         /**
          * {@code position} of the websocket basket
-         **/
+         */
         private final double position;
 
         /**
@@ -246,7 +246,7 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
          *
          * @param futuresSymbol: futures symbol of the websocket basket
          * @param position: position of the websocket basket
-         **/
+         */
         public WbsBasket(String futuresSymbol, double position) {
             super(null);
             this.futuresSymbol = futuresSymbol;
@@ -257,7 +257,7 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
          * Constructor to init {@link WbsBasket} object
          *
          * @param jWbsBasket: websocket basket details as {@link JSONObject}
-         **/
+         */
         public WbsBasket(JSONObject jWbsBasket) {
             super(jWbsBasket);
             futuresSymbol = hItem.getString("s");
@@ -269,7 +269,7 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
          * No-any params required
          *
          * @return {@link #futuresSymbol} instance as {@link String}
-         **/
+         */
         public String getFuturesSymbol() {
             return futuresSymbol;
         }
@@ -279,7 +279,7 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
          * No-any params required
          *
          * @return {@link #position} instance as double
-         **/
+         */
         public double getPosition() {
             return position;
         }
@@ -290,7 +290,7 @@ public class WbsBLVTInfo extends BinanceWebsocketResponse {
          * @param decimals: number of digits to round final value
          * @return {@link #position} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getPosition(int decimals) {
             return roundValue(position, decimals);
         }

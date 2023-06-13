@@ -20,17 +20,17 @@ public class MarginAssetIndexPrice extends BinanceItem {
 
     /**
      * {@code asset} of the margin asset index price
-     **/
+     */
     private final String asset;
 
     /**
      * {@code assetIndexPrice} value of the margin asset index price
-     **/
+     */
     private final double assetIndexPrice;
 
     /**
      * {@code time} of the margin asset index price
-     **/
+     */
     private final long time;
 
     /**
@@ -64,7 +64,7 @@ public class MarginAssetIndexPrice extends BinanceItem {
      * No-any params required
      *
      * @return {@link #asset} instance as {@link String}
-     **/
+     */
     public String getAsset() {
         return asset;
     }
@@ -74,7 +74,7 @@ public class MarginAssetIndexPrice extends BinanceItem {
      * No-any params required
      *
      * @return {@link #assetIndexPrice} instance as {@link double}
-     **/
+     */
     public double getAssetIndexPrice() {
         return assetIndexPrice;
     }
@@ -85,7 +85,7 @@ public class MarginAssetIndexPrice extends BinanceItem {
      * @param decimals: number of digits to round final value
      * @return {@link #assetIndexPrice} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getAssetIndexPrice(int decimals) {
         return roundValue(assetIndexPrice, decimals);
     }
@@ -95,7 +95,7 @@ public class MarginAssetIndexPrice extends BinanceItem {
      * No-any params required
      *
      * @return {@link #time} instance as {@link long}
-     **/
+     */
     public long getTime() {
         return time;
     }
@@ -105,7 +105,7 @@ public class MarginAssetIndexPrice extends BinanceItem {
      * No-any params required
      *
      * @return {@link #time} instance as {@link Date}
-     **/
+     */
     public Date getDate() {
         return TimeFormatter.getDate(time);
     }

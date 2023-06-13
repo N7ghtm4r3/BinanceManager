@@ -15,32 +15,32 @@ import java.util.Date;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-convert-trade-history-user_data">
  * Get Convert Trade History (USER_DATA)</a>
  * @see BinanceItem
- **/
+ */
 public class ConvertTradeHistory extends BinanceItem {
 
     /**
      * {@code list} of {@link Convert} of the history
-     **/
+     */
     private final ArrayList<Convert> list;
 
     /**
      * {@code startTime} start time of the history
-     **/
+     */
     private final long startTime;
 
     /**
      * {@code endTime} end time of the history
-     **/
+     */
     private final long endTime;
 
     /**
      * {@code limit} of the history
-     **/
+     */
     private final int limit;
 
     /**
      * {@code moreData} whether the history has more data
-     **/
+     */
     private final boolean moreData;
 
     /**
@@ -51,7 +51,7 @@ public class ConvertTradeHistory extends BinanceItem {
      * @param endTime:   end time of the history
      * @param limit:     limit of the history
      * @param moreData:  whether the history has more data
-     **/
+     */
     public ConvertTradeHistory(ArrayList<Convert> list, long startTime, long endTime, int limit, boolean moreData) {
         super(null);
         this.list = list;
@@ -65,7 +65,7 @@ public class ConvertTradeHistory extends BinanceItem {
      * Constructor to init {@link ConvertTradeHistory} object
      *
      * @param jConvertTradeHistory: convert trade history details as {@link JSONObject}
-     **/
+     */
     public ConvertTradeHistory(JSONObject jConvertTradeHistory) {
         super(jConvertTradeHistory);
         list = new ArrayList<>();
@@ -83,7 +83,7 @@ public class ConvertTradeHistory extends BinanceItem {
      * No-any params required
      *
      * @return {@link #list} instance as {@link ArrayList} of {@link Convert}
-     **/
+     */
     public ArrayList<Convert> getList() {
         return list;
     }
@@ -93,7 +93,7 @@ public class ConvertTradeHistory extends BinanceItem {
      * No-any params required
      *
      * @return {@link #startTime} instance as long
-     **/
+     */
     public long getStartTime() {
         return startTime;
     }
@@ -103,7 +103,7 @@ public class ConvertTradeHistory extends BinanceItem {
      * No-any params required
      *
      * @return {@link #startTime} instance as {@link Date}
-     **/
+     */
     public Date getStartDate() {
         return TimeFormatter.getDate(startTime);
     }
@@ -113,7 +113,7 @@ public class ConvertTradeHistory extends BinanceItem {
      * No-any params required
      *
      * @return {@link #endTime} instance as long
-     **/
+     */
     public long getEndTime() {
         return endTime;
     }
@@ -123,7 +123,7 @@ public class ConvertTradeHistory extends BinanceItem {
      * No-any params required
      *
      * @return {@link #endTime} instance as {@link Date}
-     **/
+     */
     public Date getEndDate() {
         return TimeFormatter.getDate(endTime);
     }
@@ -133,7 +133,7 @@ public class ConvertTradeHistory extends BinanceItem {
      * No-any params required
      *
      * @return {@link #limit} instance as int
-     **/
+     */
     public int getLimit() {
         return limit;
     }
@@ -143,7 +143,7 @@ public class ConvertTradeHistory extends BinanceItem {
      * No-any params required
      *
      * @return {@link #moreData} instance as boolean
-     **/
+     */
     public boolean isMoreData() {
         return moreData;
     }

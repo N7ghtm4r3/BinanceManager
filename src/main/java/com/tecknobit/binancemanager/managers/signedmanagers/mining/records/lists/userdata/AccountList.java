@@ -19,14 +19,14 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.mining.record
  * @see BinanceItem
  * @see BinanceResponse
  * @see MiningResponse
- **/
+ */
 public class AccountList extends MiningResponse<ArrayList<MiningAccount>> {
 
     /**
      * Constructor to init {@link AccountList} object
      *
      * @param data: account list
-     **/
+     */
     public AccountList(ArrayList<MiningAccount> data) {
         super(data);
     }
@@ -35,7 +35,7 @@ public class AccountList extends MiningResponse<ArrayList<MiningAccount>> {
      * Constructor to init {@link AccountList} object
      *
      * @param jAccountList: account list details as {@link JSONObject}
-     **/
+     */
     public AccountList(JSONObject jAccountList) {
         super(jAccountList);
         data = new ArrayList<>();
@@ -50,22 +50,22 @@ public class AccountList extends MiningResponse<ArrayList<MiningAccount>> {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
-     **/
+     */
     public static class MiningAccount extends BinanceItem {
 
         /**
          * {@code type} of the hashrate
-         **/
+         */
         private final HashRateType type;
 
         /**
          * {@code userName} mining account
-         **/
+         */
         private final String userName;
 
         /**
          * {@code list} hashrate data list
-         **/
+         */
         private final ArrayList<HashrateData> list;
 
         /**
@@ -74,7 +74,7 @@ public class AccountList extends MiningResponse<ArrayList<MiningAccount>> {
          * @param type: type of the hashrate
          * @param userName: mining account
          * @param list: hashrate data list
-         **/
+         */
         public MiningAccount(HashRateType type, String userName, ArrayList<HashrateData> list) {
             super(null);
             this.type = type;
@@ -86,7 +86,7 @@ public class AccountList extends MiningResponse<ArrayList<MiningAccount>> {
          * Constructor to init {@link MiningAccount} object
          *
          * @param jMiningAccount: mining account details as {@link JSONObject}
-         **/
+         */
         public MiningAccount(JSONObject jMiningAccount) {
             super(jMiningAccount);
             type = HashRateType.valueOf(hItem.getString("type"));
@@ -103,7 +103,7 @@ public class AccountList extends MiningResponse<ArrayList<MiningAccount>> {
          * No-any params required
          *
          * @return {@link #type} instance as {@link HashRateType}
-         **/
+         */
         public HashRateType getType() {
             return type;
         }
@@ -113,7 +113,7 @@ public class AccountList extends MiningResponse<ArrayList<MiningAccount>> {
          * No-any params required
          *
          * @return {@link #userName} instance as {@link String}
-         **/
+         */
         public String getUserName() {
             return userName;
         }
@@ -123,7 +123,7 @@ public class AccountList extends MiningResponse<ArrayList<MiningAccount>> {
          * No-any params required
          *
          * @return {@link #list} instance as {@link ArrayList} of {@link HashrateData}
-         **/
+         */
         public ArrayList<HashrateData> getList() {
             return list;
         }

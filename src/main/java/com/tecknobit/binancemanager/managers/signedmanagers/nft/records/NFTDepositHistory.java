@@ -18,7 +18,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.nft.records.N
  * Get NFT Deposit History(USER_DATA)</a>
  * @see BinanceItem
  * @see BinanceRowsList
- **/
+ */
 public class NFTDepositHistory extends BinanceRowsList<NFTDeposit> {
 
     /**
@@ -26,7 +26,7 @@ public class NFTDepositHistory extends BinanceRowsList<NFTDeposit> {
      *
      * @param total    : number of deposits
      * @param deposits :  list of the deposits
-     **/
+     */
     public NFTDepositHistory(int total, ArrayList<NFTDeposit> deposits) {
         super(total, deposits);
     }
@@ -35,7 +35,7 @@ public class NFTDepositHistory extends BinanceRowsList<NFTDeposit> {
      * Constructor to init {@link NFTDepositHistory}
      *
      * @param jHistory : history details as {@link JSONObject}
-     **/
+     */
     public NFTDepositHistory(JSONObject jHistory) {
         super(jHistory);
         for (Object deposit : hItem.fetchList("list"))
@@ -48,17 +48,17 @@ public class NFTDepositHistory extends BinanceRowsList<NFTDeposit> {
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
      * @see NFTAsset
-     **/
+     */
     public static class NFTDeposit extends NFTAsset {
 
         /**
          * {@code txId} transaction id of the NFT deposit
-         **/
+         */
         protected final String txId;
 
         /**
          * {@code timestamp} of the NFT deposit
-         **/
+         */
         protected final long timestamp;
 
         /**
@@ -69,7 +69,7 @@ public class NFTDepositHistory extends BinanceRowsList<NFTDeposit> {
          * @param contractAddress: contract address of the NFT deposit
          * @param txId:            transaction id of the NFT deposit
          * @param timestamp:       timestamp of the NFT deposit
-         **/
+         */
         public NFTDeposit(String network, long tokenId, String contractAddress, String txId, long timestamp) {
             super(network, tokenId, contractAddress);
             this.txId = txId;
@@ -80,7 +80,7 @@ public class NFTDepositHistory extends BinanceRowsList<NFTDeposit> {
          * Constructor to init {@link NFTDeposit} object
          *
          * @param jNFTDeposit: NFT deposit details as {@link JSONObject}
-         **/
+         */
         public NFTDeposit(JSONObject jNFTDeposit) {
             super(jNFTDeposit);
             txId = hItem.getString("txID");
@@ -92,7 +92,7 @@ public class NFTDepositHistory extends BinanceRowsList<NFTDeposit> {
          * No-any params required
          *
          * @return {@link #txId} instance as {@link String}
-         **/
+         */
         public String getTxId() {
             return txId;
         }
@@ -102,7 +102,7 @@ public class NFTDepositHistory extends BinanceRowsList<NFTDeposit> {
          * No-any params required
          *
          * @return {@link #timestamp} instance as long
-         **/
+         */
         public long getTimestamp() {
             return timestamp;
         }
@@ -112,7 +112,7 @@ public class NFTDepositHistory extends BinanceRowsList<NFTDeposit> {
          * No-any params required
          *
          * @return {@link #timestamp} instance as {@link Date}
-         **/
+         */
         public Date getDate() {
             return TimeFormatter.getDate(timestamp);
         }

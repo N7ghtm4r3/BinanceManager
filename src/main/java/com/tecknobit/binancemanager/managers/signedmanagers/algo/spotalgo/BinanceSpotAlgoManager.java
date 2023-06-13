@@ -26,32 +26,32 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.algo.records.
  * Spot Algo Endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
- **/
+ */
 public class BinanceSpotAlgoManager extends BinanceSignedManager {
 
     /**
      * {@code ALGO_SPOT_NEW_ORDER_TWAP_ENDPOINT} is constant for ALGO_SPOT_NEW_ORDER_TWAP_ENDPOINT's endpoint
-     **/
+     */
     public static final String ALGO_SPOT_NEW_ORDER_TWAP_ENDPOINT = "/sapi/v1/algo/spot/newOrderTwap";
 
     /**
      * {@code ALGO_SPOT_ORDER_ENDPOINT} is constant for ALGO_SPOT_ORDER_ENDPOINT's endpoint
-     **/
+     */
     public static final String ALGO_SPOT_ORDER_ENDPOINT = "/sapi/v1/algo/spot/order";
 
     /**
      * {@code ALGO_SPOT_OPEN_ORDERS_ENDPOINT} is constant for ALGO_SPOT_OPEN_ORDERS_ENDPOINT's endpoint
-     **/
+     */
     public static final String ALGO_SPOT_OPEN_ORDERS_ENDPOINT = "/sapi/v1/algo/spot/openOrders";
 
     /**
      * {@code ALGO_SPOT_HISTORICAL_ORDERS_ENDPOINT} is constant for ALGO_SPOT_HISTORICAL_ORDERS_ENDPOINT's endpoint
-     **/
+     */
     public static final String ALGO_SPOT_HISTORICAL_ORDERS_ENDPOINT = "/sapi/v1/algo/spot/historicalOrders";
 
     /**
      * {@code ALGO_SPOT_SUB_ORDERS_ENDPOINT} is constant for ALGO_SPOT_SUB_ORDERS_ENDPOINT's endpoint
-     **/
+     */
     public static final String ALGO_SPOT_SUB_ORDERS_ENDPOINT = "/sapi/v1/algo/spot/subOrders";
 
     /**
@@ -62,7 +62,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      * @param timeout             :             custom timeout for request
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceSpotAlgoManager(String baseEndpoint, String defaultErrorMessage, int timeout, String apiKey,
                                   String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, timeout, apiKey, secretKey);
@@ -75,7 +75,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      * @param defaultErrorMessage : custom error to show when is not a request error
      * @param apiKey              your api key
      * @param secretKey           your secret key
-     **/
+     */
     public BinanceSpotAlgoManager(String baseEndpoint, String defaultErrorMessage, String apiKey,
                                   String secretKey) throws SystemException, IOException {
         super(baseEndpoint, defaultErrorMessage, apiKey, secretKey);
@@ -88,7 +88,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      * @param timeout      :             custom timeout for request
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceSpotAlgoManager(String baseEndpoint, int timeout, String apiKey,
                                   String secretKey) throws SystemException, IOException {
         super(baseEndpoint, timeout, apiKey, secretKey);
@@ -100,7 +100,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      * @param baseEndpoint base endpoint to work on, insert {@code "null"} to auto-search that's working
      * @param apiKey       your api key
      * @param secretKey    your secret key
-     **/
+     */
     public BinanceSpotAlgoManager(String baseEndpoint, String apiKey,
                                   String secretKey) throws SystemException, IOException {
         super(baseEndpoint, apiKey, secretKey);
@@ -121,7 +121,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *        BinanceSignedManager secondManager = new BinanceSignedManager(); //same credentials used
      *     }
      * </pre>
-     **/
+     */
     public BinanceSpotAlgoManager() {
         super();
     }
@@ -149,7 +149,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#time-weighted-average-price-twap-new-order-trade-2">
      * Time-Weighted Average Price (Twap) New Order (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/algo/spot/newOrderTwap")
@@ -181,7 +181,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#time-weighted-average-price-twap-new-order-trade-2">
      * Time-Weighted Average Price (Twap) New Order (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/algo/spot/newOrderTwap")
     public <T> T createTwapOrder(String symbol, Side side, double quantity, long duration,
@@ -227,7 +227,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#time-weighted-average-price-twap-new-order-trade-2">
      * Time-Weighted Average Price (Twap) New Order (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/algo/spot/newOrderTwap")
@@ -275,7 +275,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#time-weighted-average-price-twap-new-order-trade-2">
      * Time-Weighted Average Price (Twap) New Order (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/algo/spot/newOrderTwap")
     public <T> T createTwapOrder(String symbol, Side side, double quantity, long duration, Params extraParams,
@@ -308,7 +308,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade-2">
      * Cancel Algo Order (TRADE)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -337,7 +337,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade-2">
      * Cancel Algo Order (TRADE)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/sapi/v1/algo/spot/order")
@@ -364,7 +364,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade-2">
      * Cancel Algo Order (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/sapi/v1/algo/spot/order")
@@ -392,7 +392,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade-2">
      * Cancel Algo Order (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/sapi/v1/algo/spot/order")
     public <T> T cancelAlgoOrder(long algoId, ReturnFormat format) throws Exception {
@@ -419,7 +419,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade-2">
      * Cancel Algo Order (TRADE)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -449,7 +449,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade-2">
      * Cancel Algo Order (TRADE)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/sapi/v1/algo/spot/order")
@@ -477,7 +477,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade-2">
      * Cancel Algo Order (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/sapi/v1/algo/spot/order")
@@ -506,7 +506,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cancel-algo-order-trade-2">
      * Cancel Algo Order (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = DELETE, path = "/sapi/v1/algo/spot/order")
     public <T> T cancelAlgoOrder(long algoId, long recvWindow, ReturnFormat format) throws Exception {
@@ -537,7 +537,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-algo-open-orders-user_data-2">
      * Query Current Algo Open Orders (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/spot/openOrders")
@@ -564,7 +564,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-algo-open-orders-user_data-2">
      * Query Current Algo Open Orders (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/spot/openOrders")
     public <T> T getCurrentAlgoOpenOrders(ReturnFormat format) throws Exception {
@@ -590,7 +590,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-algo-open-orders-user_data-2">
      * Query Current Algo Open Orders (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/spot/openOrders")
@@ -618,7 +618,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-algo-open-orders-user_data-2">
      * Query Current Algo Open Orders (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/spot/openOrders")
     public <T> T getCurrentAlgoOpenOrders(long recvWindow, ReturnFormat format) throws Exception {
@@ -647,7 +647,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-historical-algo-orders-user_data-2">
      * Query Historical Algo Orders (USER_DATA))</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/spot/historicalOrders")
@@ -674,7 +674,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-historical-algo-orders-user_data-2">
      * Query Historical Algo Orders (USER_DATA))</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/spot/historicalOrders")
     public <T> T getHistoricalAlgoOrders(ReturnFormat format) throws Exception {
@@ -724,7 +724,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-historical-algo-orders-user_data-2">
      * Query Historical Algo Orders (USER_DATA))</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/spot/historicalOrders")
@@ -776,7 +776,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-historical-algo-orders-user_data-2">
      * Query Historical Algo Orders (USER_DATA))</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/spot/historicalOrders")
     public <T> T getHistoricalAlgoOrders(Params extraParams, ReturnFormat format) throws Exception {
@@ -803,7 +803,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data-2">
      * Query Sub Orders (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -832,7 +832,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data-2">
      * Query Sub Orders (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/spot/subOrders")
@@ -859,7 +859,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data-2">
      * Query Sub Orders (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/spot/subOrders")
@@ -887,7 +887,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data-2">
      * Query Sub Orders (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/spot/subOrders")
     public <T> T getSubOrders(long algoId, ReturnFormat format) throws Exception {
@@ -927,7 +927,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data-2">
      * Query Sub Orders (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
@@ -970,7 +970,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data-2">
      * Query Sub Orders (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/spot/subOrders")
@@ -1011,7 +1011,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data-2">
      * Query Sub Orders (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/spot/subOrders")
@@ -1053,7 +1053,7 @@ public class BinanceSpotAlgoManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-sub-orders-user_data-2">
      * Query Sub Orders (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/algo/spot/subOrders")
     public <T> T getSubOrders(long algoId, Params extraParams, ReturnFormat format) throws Exception {

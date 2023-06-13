@@ -17,124 +17,124 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * Get Staking Product Position(USER_DATA)</a>
  * @see BinanceItem
  * @see StakingDetail
- **/
+ */
 public class StakingProductPosition extends StakingDetail {
 
     /**
      * {@code StakingPositionType} list of available staking position types
-     **/
+     */
     public enum StakingPositionType {
 
         /**
          * {@code AUTO} staking position type
-         **/
+         */
         AUTO,
 
         /**
          * {@code NORMAL} staking position type
-         **/
+         */
         NORMAL
 
     }
 
     /**
      * {@code positionId} staking position id
-     **/
+     */
     private final long positionId;
 
     /**
      * {@code amount} locked Amount
-     **/
+     */
     private final double amount;
 
     /**
      * {@code purchaseTime} subscription time
-     **/
+     */
     private final long purchaseTime;
 
     /**
      * {@code accrualDays} accrue days
-     **/
+     */
     private final int accrualDays;
 
     /**
      * {@code rewardAmt} earned amount
-     **/
+     */
     private final double rewardAmt;
 
     /**
      * {@code extraRewardAsset} rewards assets of extra staking type
-     **/
+     */
     private final String extraRewardAsset;
 
     /**
      * {@code extraRewardAPY} APY of extra staking type
-     **/
+     */
     private final double extraRewardAPY;
 
     /**
      * {@code estExtraRewardAmt} rewards of extra staking type, distribute when order expires
-     **/
+     */
     private final double estExtraRewardAmt;
 
     /**
      * {@code nextInterestPay} next estimated interest payment
-     **/
+     */
     private final double nextInterestPay;
 
     /**
      * {@code nextInterestPayDate} next interest payment date
-     **/
+     */
     private final long nextInterestPayDate;
 
     /**
      * {@code payInterestPeriod} interest cycle
-     **/
+     */
     private final int payInterestPeriod;
 
     /**
      * {@code redeemAmountEarly} early redemption amount
-     **/
+     */
     private final double redeemAmountEarly;
 
     /**
      * {@code interestEndDate} interest accrual end date
-     **/
+     */
     private final long interestEndDate;
 
     /**
      * {@code deliverDate} redemption arrival time
-     **/
+     */
     private final long deliverDate;
 
     /**
      * {@code redeemPeriod} redemption interval
-     **/
+     */
     private final int redeemPeriod;
 
     /**
      * {@code redeemingAmt} amount under redemption
-     **/
+     */
     private final double redeemingAmt;
 
     /**
      * {@code partialAmtDeliverDate} arrival time of partial redemption amount of order
-     **/
+     */
     private final long partialAmtDeliverDate;
 
     /**
      * {@code canRedeemEarly} when it is true, early redemption can be operated
-     **/
+     */
     private final boolean canRedeemEarly;
 
     /**
      * {@code type} order type is auto-staking or normal
-     **/
+     */
     private final StakingPositionType type;
 
     /**
      * {@code status} of the staking position
-     **/
+     */
     private final String status;
 
     /**
@@ -165,7 +165,7 @@ public class StakingProductPosition extends StakingDetail {
      * @param canRedeemEarly:        when it is true, early redemption can be operated
      * @param type:                  order type is auto-staking or normal
      * @param status:                status of the staking position
-     **/
+     */
     public StakingProductPosition(String asset, String rewardAsset, int duration, boolean renewable, double apy,
                                   long positionId, double amount, long purchaseTime, int accrualDays, double rewardAmt,
                                   String extraRewardAsset, double extraRewardAPY, double estExtraRewardAmt,
@@ -200,7 +200,7 @@ public class StakingProductPosition extends StakingDetail {
      * Constructor to init {@link StakingProductPosition} object
      *
      * @param jStakingProductPosition: staking product position details as {@link JSONObject
-     **/
+     */
     public StakingProductPosition(JSONObject jStakingProductPosition) {
         super(jStakingProductPosition);
         positionId = hItem.getLong("positionId", 0);
@@ -230,7 +230,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #positionId} instance as long
-     **/
+     */
     public long getPositionId() {
         return positionId;
     }
@@ -240,7 +240,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #amount} instance as double
-     **/
+     */
     public double getAmount() {
         return amount;
     }
@@ -251,7 +251,7 @@ public class StakingProductPosition extends StakingDetail {
      * @param decimals: number of digits to round final value
      * @return {@link #amount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getAmount(int decimals) {
         return roundValue(amount, decimals);
     }
@@ -261,7 +261,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #purchaseTime} instance as long
-     **/
+     */
     public long getPurchaseTime() {
         return purchaseTime;
     }
@@ -271,7 +271,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #purchaseTime} instance as {@link Date}
-     **/
+     */
     public Date getPurchaseDate() {
         return TimeFormatter.getDate(purchaseTime);
     }
@@ -281,7 +281,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #accrualDays} instance as int
-     **/
+     */
     public int getAccrualDays() {
         return accrualDays;
     }
@@ -291,7 +291,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #rewardAmt} instance as double
-     **/
+     */
     public double getRewardAmt() {
         return rewardAmt;
     }
@@ -302,7 +302,7 @@ public class StakingProductPosition extends StakingDetail {
      * @param decimals: number of digits to round final value
      * @return {@link #rewardAmt} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRewardAmt(int decimals) {
         return roundValue(rewardAmt, decimals);
     }
@@ -312,7 +312,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #extraRewardAsset} instance as {@link String}
-     **/
+     */
     public String getExtraRewardAsset() {
         return extraRewardAsset;
     }
@@ -322,7 +322,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #extraRewardAPY} instance as double
-     **/
+     */
     public double getExtraRewardAPY() {
         return extraRewardAPY;
     }
@@ -333,7 +333,7 @@ public class StakingProductPosition extends StakingDetail {
      * @param decimals: number of digits to round final value
      * @return {@link #amount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getExtraRewardAPY(int decimals) {
         return roundValue(extraRewardAPY, decimals);
     }
@@ -343,7 +343,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #estExtraRewardAmt} instance as double
-     **/
+     */
     public double getEstExtraRewardAmt() {
         return estExtraRewardAmt;
     }
@@ -354,7 +354,7 @@ public class StakingProductPosition extends StakingDetail {
      * @param decimals: number of digits to round final value
      * @return {@link #amount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getEstExtraRewardAmt(int decimals) {
         return roundValue(estExtraRewardAmt, decimals);
     }
@@ -364,7 +364,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #nextInterestPay} instance as double
-     **/
+     */
     public double getNextInterestPay() {
         return nextInterestPay;
     }
@@ -375,7 +375,7 @@ public class StakingProductPosition extends StakingDetail {
      * @param decimals: number of digits to round final value
      * @return {@link #nextInterestPay} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getNextInterestPay(int decimals) {
         return roundValue(nextInterestPay, decimals);
     }
@@ -385,7 +385,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #nextInterestPayDate} instance as long
-     **/
+     */
     public long getNextInterestPayDate() {
         return nextInterestPayDate;
     }
@@ -395,7 +395,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #nextInterestPayDate} instance as {@link Date}
-     **/
+     */
     public Date getDNextInterestPayDate() {
         return TimeFormatter.getDate(nextInterestPayDate);
     }
@@ -405,7 +405,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #payInterestPeriod} instance as int
-     **/
+     */
     public int getPayInterestPeriod() {
         return payInterestPeriod;
     }
@@ -415,7 +415,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #redeemAmountEarly} instance as double
-     **/
+     */
     public double getRedeemAmountEarly() {
         return redeemAmountEarly;
     }
@@ -426,7 +426,7 @@ public class StakingProductPosition extends StakingDetail {
      * @param decimals: number of digits to round final value
      * @return {@link #amount} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRedeemAmountEarly(int decimals) {
         return roundValue(redeemAmountEarly, decimals);
     }
@@ -436,7 +436,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #interestEndDate} instance as long
-     **/
+     */
     public long getInterestEndDate() {
         return interestEndDate;
     }
@@ -446,7 +446,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #interestEndDate} instance as {@link Date}
-     **/
+     */
     public Date getInterestEnd() {
         return TimeFormatter.getDate(interestEndDate);
     }
@@ -456,7 +456,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #deliverDate} instance as long
-     **/
+     */
     public long getDeliverDate() {
         return deliverDate;
     }
@@ -466,7 +466,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #deliverDate} instance as {@link Date}
-     **/
+     */
     public Date getDeliver() {
         return TimeFormatter.getDate(deliverDate);
     }
@@ -476,7 +476,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #redeemPeriod} instance as int
-     **/
+     */
     public int getRedeemPeriod() {
         return redeemPeriod;
     }
@@ -486,7 +486,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #redeemingAmt} instance as double
-     **/
+     */
     public double getRedeemingAmt() {
         return redeemingAmt;
     }
@@ -497,7 +497,7 @@ public class StakingProductPosition extends StakingDetail {
      * @param decimals: number of digits to round final value
      * @return {@link #redeemingAmt} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getRedeemingAmt(int decimals) {
         return roundValue(redeemingAmt, decimals);
     }
@@ -507,7 +507,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #partialAmtDeliverDate} instance as long
-     **/
+     */
     public long getPartialAmtDeliverDate() {
         return partialAmtDeliverDate;
     }
@@ -517,7 +517,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #partialAmtDeliverDate} instance as {@link Date}
-     **/
+     */
     public Date getDPartialAmtDeliverDate() {
         return TimeFormatter.getDate(partialAmtDeliverDate);
     }
@@ -527,7 +527,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #canRedeemEarly} instance as boolean
-     **/
+     */
     public boolean canRedeemEarly() {
         return canRedeemEarly;
     }
@@ -537,7 +537,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #type} instance as {@link StakingPositionType}
-     **/
+     */
     public StakingPositionType getType() {
         return type;
     }
@@ -547,7 +547,7 @@ public class StakingProductPosition extends StakingDetail {
      * No-any params required
      *
      * @return {@link #status} instance as {@link String}
-     **/
+     */
     public String getStatus() {
         return status;
     }

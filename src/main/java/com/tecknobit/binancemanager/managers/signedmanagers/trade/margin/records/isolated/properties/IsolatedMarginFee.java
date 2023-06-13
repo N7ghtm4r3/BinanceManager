@@ -14,27 +14,27 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
  * Query Isolated Margin Fee Data (USER_DATA)</a>
- **/
+ */
 public class IsolatedMarginFee {
 
     /**
      * {@code vipLevel} is instance that memorizes vip level
-     **/
+     */
     private final int vipLevel;
 
     /**
      * {@code symbol} is instance that memorizes symbol of asset
-     * **/
+     */
     private final String symbol;
 
     /**
      * {@code leverage} is instance that memorizes leverage value
-     **/
+     */
     private final int leverage;
 
     /**
      * {@code isolatedDataList} is instance that memorizes isolated data list
-     **/
+     */
     private final ArrayList<IsolatedData> isolatedDataList;
 
     /**
@@ -45,7 +45,7 @@ public class IsolatedMarginFee {
      * @param leverage:         leverage value
      * @param isolatedDataList: list of fees as {@link ArrayList} of {@link IsolatedData}
      * @throws IllegalArgumentException if parameters range is not respected
-     **/
+     */
     public IsolatedMarginFee(int vipLevel, String symbol, int leverage, ArrayList<IsolatedData> isolatedDataList) {
         this.vipLevel = vipLevel;
         this.symbol = symbol;
@@ -58,7 +58,7 @@ public class IsolatedMarginFee {
      *
      * @param isolatedMarginFee: isolated margin fee details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
-     **/
+     */
     public IsolatedMarginFee(JSONObject isolatedMarginFee) {
         vipLevel = isolatedMarginFee.getInt("vipLevel");
         if (vipLevel < 0)
@@ -78,7 +78,7 @@ public class IsolatedMarginFee {
      * No-any params required
      *
      * @return {@link #vipLevel} instance as int
-     **/
+     */
     public int getVipLevel() {
         return vipLevel;
     }
@@ -88,7 +88,7 @@ public class IsolatedMarginFee {
      * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
-     **/
+     */
     public String getSymbol() {
         return symbol;
     }
@@ -98,7 +98,7 @@ public class IsolatedMarginFee {
      * No-any params required
      *
      * @return {@link #leverage} instance as int
-     **/
+     */
     public int getLeverage() {
         return leverage;
     }
@@ -108,7 +108,7 @@ public class IsolatedMarginFee {
      * No-any params required
      *
      * @return {@link #isolatedDataList} instance as {@link ArrayList} of {@link IsolatedData}
-     **/
+     */
     public ArrayList<IsolatedData> getIsolatedDataList() {
         return isolatedDataList;
     }
@@ -117,7 +117,7 @@ public class IsolatedMarginFee {
      * Method to add an {@link IsolatedData} to {@link #isolatedDataList}
      *
      * @param isolatedData: isolated data to add
-     **/
+     */
     public void insertIsolatedData(IsolatedData isolatedData) {
         if (!isolatedDataList.contains(isolatedData))
             isolatedDataList.add(isolatedData);
@@ -128,7 +128,7 @@ public class IsolatedMarginFee {
      *
      * @param isolatedData: isolated data to remove
      * @return result of operation as boolean
-     **/
+     */
     public boolean removeIsolatedData(IsolatedData isolatedData) {
         return isolatedDataList.remove(isolatedData);
     }
@@ -138,7 +138,7 @@ public class IsolatedMarginFee {
      *
      * @param index: index to fetch the isolated data
      * @return isolated data as {@link Order}
-     **/
+     */
     public IsolatedData getIsolatedData(int index) {
         return isolatedDataList.get(index);
     }
@@ -158,22 +158,22 @@ public class IsolatedMarginFee {
      * The {@code IsolatedData} class is useful to create an isolated data object
      *
      * @author N7ghtm4r3 - Tecknobit
-     **/
+     */
     public static class IsolatedData {
 
         /**
          * {@code coin} is instance that memorizes coin
-         * **/
+         */
         protected final String coin;
 
         /**
          * {@code dailyInterest} is instance that memorizes value of daily interest
-         **/
+         */
         protected final double dailyInterest;
 
         /**
          * {@code borrowLimit} is instance that memorizes value of limit for borrow
-         **/
+         */
         protected final double borrowLimit;
 
         /** Constructor to init {@link IsolatedData} object
@@ -181,7 +181,7 @@ public class IsolatedMarginFee {
          * @param dailyInterest: value of daily interest
          * @param borrowLimit: limit for borrow
          * @throws IllegalArgumentException if parameters range is not respected
-         * **/
+         */
         public IsolatedData(String coin, double dailyInterest, double borrowLimit) {
             this.coin = coin;
             if (dailyInterest < 0)
@@ -199,7 +199,7 @@ public class IsolatedMarginFee {
          *
          * @param isolatedData: isolated data details as {@link JSONObject}
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public IsolatedData(JSONObject isolatedData) {
             coin = isolatedData.getString("coin");
             dailyInterest = isolatedData.getDouble("dailyInterest");
@@ -215,7 +215,7 @@ public class IsolatedMarginFee {
          * No-any params required
          *
          * @return {@link #coin} instance as {@link String}
-         **/
+         */
         public String getCoin() {
             return coin;
         }
@@ -225,7 +225,7 @@ public class IsolatedMarginFee {
          * No-any params required
          *
          * @return {@link #dailyInterest} instance as double
-         **/
+         */
         public double getDailyInterest() {
             return dailyInterest;
         }
@@ -236,7 +236,7 @@ public class IsolatedMarginFee {
          * @param decimals: number of digits to round final value
          * @return {@link #dailyInterest} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getDailyInterest(int decimals) {
             return roundValue(dailyInterest, decimals);
         }
@@ -246,7 +246,7 @@ public class IsolatedMarginFee {
          * No-any params required
          *
          * @return {@link #borrowLimit} instance as double
-         **/
+         */
         public double getBorrowLimit() {
             return borrowLimit;
         }
@@ -257,7 +257,7 @@ public class IsolatedMarginFee {
          * @param decimals: number of digits to round final value
          * @return {@link #borrowLimit} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getBorrowLimit(int decimals) {
             return roundValue(borrowLimit, decimals);
         }

@@ -10,42 +10,42 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data">
  * Query Isolated Margin Tier Data (USER_DATA)</a>
- **/
+ */
 public class IsolatedMarginTierData {
 
     /**
      * {@code symbol} is instance that memorizes symbol of asset
-     * **/
+     */
     private final String symbol;
 
     /**
      * {@code tier} is instance that memorizes tier value
-     **/
+     */
     private final int tier;
 
     /**
      * {@code effectiveMultiple} is instance that memorizes effective multiple value
-     **/
+     */
     private final double effectiveMultiple;
 
     /**
      * {@code initialRiskRatio} is instance that memorizes initial risk ratio value
-     **/
+     */
     private final double initialRiskRatio;
 
     /**
      * {@code liquidationRiskRatio} is instance that memorizes liquidation risk ratio value
-     **/
+     */
     private final double liquidationRiskRatio;
 
     /**
      * {@code baseAssetMaxBorrowable} is instance that memorizes max base asset borrowable
-     **/
+     */
     private final double baseAssetMaxBorrowable;
 
     /**
      * {@code quoteAssetMaxBorrowable} is instance that memorizes max quote asset borrowable
-     * **/
+     */
     private final double quoteAssetMaxBorrowable;
 
     /** Constructor to init {@link IsolatedMarginTierData} object
@@ -57,7 +57,7 @@ public class IsolatedMarginTierData {
      * @param baseAssetMaxBorrowable: max base asset borrowable
      * @param quoteAssetMaxBorrowable: max quote asset borrowable
      * @throws IllegalArgumentException if parameters range is not respected
-     * **/
+     */
     public IsolatedMarginTierData(String symbol, int tier, double effectiveMultiple, double initialRiskRatio,
                                   double liquidationRiskRatio, double baseAssetMaxBorrowable, double quoteAssetMaxBorrowable) {
         this.symbol = symbol;
@@ -92,7 +92,7 @@ public class IsolatedMarginTierData {
      *
      * @param jTierData: isolated margin tier data details as {@link JSONObject}
      * @throws IllegalArgumentException if parameters range is not respected
-     **/
+     */
     public IsolatedMarginTierData(JSONObject jTierData) {
         this(jTierData.getString("symbol"), jTierData.getInt("tier"), jTierData.getDouble("effectiveMultiple"),
                 jTierData.getDouble("initialRiskRatio"), jTierData.getDouble("liquidationRiskRatio"),
@@ -104,7 +104,7 @@ public class IsolatedMarginTierData {
      * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
-     **/
+     */
     public String getSymbol() {
         return symbol;
     }
@@ -114,7 +114,7 @@ public class IsolatedMarginTierData {
      * No-any params required
      *
      * @return {@link #tier} instance as int
-     **/
+     */
     public int getTier() {
         return tier;
     }
@@ -125,7 +125,7 @@ public class IsolatedMarginTierData {
      * @param decimals: number of digits to round final value
      * @return {@link #tier} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getTier(int decimals) {
         return roundValue(tier, decimals);
     }
@@ -135,7 +135,7 @@ public class IsolatedMarginTierData {
      * No-any params required
      *
      * @return {@link #effectiveMultiple} instance as double
-     **/
+     */
     public double getEffectiveMultiple() {
         return effectiveMultiple;
     }
@@ -146,7 +146,7 @@ public class IsolatedMarginTierData {
      * @param decimals: number of digits to round final value
      * @return {@link #effectiveMultiple} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getEffectiveMultiple(int decimals) {
         return roundValue(effectiveMultiple, decimals);
     }
@@ -156,7 +156,7 @@ public class IsolatedMarginTierData {
      * No-any params required
      *
      * @return {@link #initialRiskRatio} instance as double
-     **/
+     */
     public double getInitialRiskRatio() {
         return initialRiskRatio;
     }
@@ -167,7 +167,7 @@ public class IsolatedMarginTierData {
      * @param decimals: number of digits to round final value
      * @return {@link #initialRiskRatio} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getInitialRiskRatio(int decimals) {
         return roundValue(initialRiskRatio, decimals);
     }
@@ -177,7 +177,7 @@ public class IsolatedMarginTierData {
      * No-any params required
      *
      * @return {@link #liquidationRiskRatio} instance as double
-     **/
+     */
     public double getLiquidationRiskRatio() {
         return liquidationRiskRatio;
     }
@@ -188,7 +188,7 @@ public class IsolatedMarginTierData {
      * @param decimals: number of digits to round final value
      * @return {@link #liquidationRiskRatio} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getLiquidationRiskRatio(int decimals) {
         return roundValue(liquidationRiskRatio, decimals);
     }
@@ -198,7 +198,7 @@ public class IsolatedMarginTierData {
      * No-any params required
      *
      * @return {@link #baseAssetMaxBorrowable} instance as double
-     **/
+     */
     public double getBaseAssetMaxBorrowable() {
         return baseAssetMaxBorrowable;
     }
@@ -209,7 +209,7 @@ public class IsolatedMarginTierData {
      * @param decimals: number of digits to round final value
      * @return {@link #baseAssetMaxBorrowable} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getBaseAssetMaxBorrowable(int decimals) {
         return roundValue(baseAssetMaxBorrowable, decimals);
     }
@@ -219,7 +219,7 @@ public class IsolatedMarginTierData {
      * No-any params required
      *
      * @return {@link #quoteAssetMaxBorrowable} instance as double
-     **/
+     */
     public double getQuoteAssetMaxBorrowable() {
         return quoteAssetMaxBorrowable;
     }
@@ -230,7 +230,7 @@ public class IsolatedMarginTierData {
      * @param decimals: number of digits to round final value
      * @return {@link #quoteAssetMaxBorrowable} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getQuoteAssetMaxBorrowable(int decimals) {
         return roundValue(quoteAssetMaxBorrowable, decimals);
     }

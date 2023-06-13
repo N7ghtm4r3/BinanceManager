@@ -15,7 +15,7 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
  * Get Isolated Margin Transfer History (USER_DATA)</a>
  * @see BinanceRowsList
- **/
+ */
 public class IsolatedTransferHistoryList extends BinanceRowsList<IsolatedTransferHistoryList.IsolatedTransfer> {
 
     /**
@@ -23,7 +23,7 @@ public class IsolatedTransferHistoryList extends BinanceRowsList<IsolatedTransfe
      *
      * @param total:                 total size of transfers history
      * @param isolatedTransfersList: list of {@link IsolatedTransfer}
-     **/
+     */
     public IsolatedTransferHistoryList(int total, ArrayList<IsolatedTransfer> isolatedTransfersList) {
         super(total, isolatedTransfersList);
     }
@@ -32,7 +32,7 @@ public class IsolatedTransferHistoryList extends BinanceRowsList<IsolatedTransfe
      * Constructor to init {@link IsolatedTransferHistoryList} object
      *
      * @param jsonTransfer: transfers details as {@link JSONObject}
-     **/
+     */
     public IsolatedTransferHistoryList(JSONObject jsonTransfer) {
         super(jsonTransfer);
         for (Object row : hItem.fetchList("rows"))
@@ -41,17 +41,17 @@ public class IsolatedTransferHistoryList extends BinanceRowsList<IsolatedTransfe
 
     /**
      * {@code TransferType} list of available transfer types
-     **/
+     */
     public enum TransferType {
 
         /**
          * {@code "SPOT"} transfer type
-         **/
+         */
         SPOT,
 
         /**
          * {@code "ISOLATED_MARGIN"} transfer type
-         **/
+         */
         ISOLATED_MARGIN
 
     }
@@ -61,22 +61,22 @@ public class IsolatedTransferHistoryList extends BinanceRowsList<IsolatedTransfe
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see MarginListItem
-     **/
+     */
     public static class IsolatedTransfer extends MarginListItem {
 
         /**
          * {@code amount} is instance that memorizes amount to transfer
-         **/
+         */
         private final double amount;
 
         /**
          * {@code transFrom} is instance that memorizes address of sender
-         **/
+         */
         private final String transFrom;
 
         /**
          * {@code transTo} is instance that memorizes address of receiver
-         **/
+         */
         private final String transTo;
 
         /**
@@ -90,7 +90,7 @@ public class IsolatedTransferHistoryList extends BinanceRowsList<IsolatedTransfe
          * @param transFrom: address of sender
          * @param transTo:   address of receiver
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public IsolatedTransfer(String asset, long txId, long timestamp, Status status, double amount,
                                 String transFrom, String transTo) {
             super(asset, txId, timestamp, status);
@@ -104,7 +104,7 @@ public class IsolatedTransferHistoryList extends BinanceRowsList<IsolatedTransfe
          *
          * @param isolatedTransfer: isolated transfer details as {@link JSONObject}
          * @throws IllegalArgumentException if parameters range is not respected
-         **/
+         */
         public IsolatedTransfer(JSONObject isolatedTransfer) {
             super(isolatedTransfer);
             amount = isolatedTransfer.getDouble("amount");
@@ -117,7 +117,7 @@ public class IsolatedTransferHistoryList extends BinanceRowsList<IsolatedTransfe
          * No-any params required
          *
          * @return {@link #amount} instance as double
-         **/
+         */
         public double getAmount() {
             return amount;
         }
@@ -128,7 +128,7 @@ public class IsolatedTransferHistoryList extends BinanceRowsList<IsolatedTransfe
          * @param decimals: number of digits to round final value
          * @return {@link #amount} instance rounded with decimal digits inserted
          * @throws IllegalArgumentException if decimalDigits is negative
-         **/
+         */
         public double getAmount(int decimals) {
             return roundValue(amount, decimals);
         }
@@ -138,7 +138,7 @@ public class IsolatedTransferHistoryList extends BinanceRowsList<IsolatedTransfe
          * No-any params required
          *
          * @return {@link #transFrom} instance as {@link String}
-         **/
+         */
         public String getTransFrom() {
             return transFrom;
         }
@@ -148,7 +148,7 @@ public class IsolatedTransferHistoryList extends BinanceRowsList<IsolatedTransfe
          * No-any params required
          *
          * @return {@link #transTo} instance as {@link String}
-         **/
+         */
         public String getTransTo() {
             return transTo;
         }

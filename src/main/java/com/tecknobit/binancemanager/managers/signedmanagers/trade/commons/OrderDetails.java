@@ -32,52 +32,52 @@ import java.util.Date;
  *             Margin Account New OCO (TRADE)</a>
  *     </li>
  * </ul>
- **/
+ */
 public class OrderDetails {
 
     /**
      * {@code orderListId} is instance that memorizes list order identifier
-     **/
+     */
     protected final long orderListId;
 
     /**
      * {@code contingencyType} is instance that memorizes contingency type of the order
-     **/
+     */
     protected final String contingencyType;
 
     /**
      * {@code listStatusType} is instance that memorizes list status type of the order
-     **/
+     */
     protected final Status listStatusType;
 
     /**
      * {@code listOrderStatus} is instance that memorizes list order status
-     **/
+     */
     protected final Status listOrderStatus;
 
     /**
      * {@code listClientOrderId} is instance that list client order id
-     **/
+     */
     protected final String listClientOrderId;
 
     /**
      * {@code transactionTime} is instance that memorizes transaction time of the order
-     **/
+     */
     protected final long transactionTime;
 
     /**
      * {@code symbol} is instance that memorizes symbol used in the order
-     **/
+     */
     protected final String symbol;
 
     /**
      * {@code hOrder} {@code "JSON"} helper
-     **/
+     */
     protected final JsonHelper hOrder;
 
     /**
      * {@code orders} is instance that memorizes order values
-     **/
+     */
     protected ArrayList<Order> orders;
 
     /**
@@ -91,7 +91,7 @@ public class OrderDetails {
      * @param transactionTime:   transaction time of the order
      * @param symbol:            symbol used in the order
      * @param orders:            list of {@link Order}
-     **/
+     */
     public OrderDetails(long orderListId, String contingencyType, Status listStatusType, Status listOrderStatus,
                         String listClientOrderId, long transactionTime, String symbol,
                         ArrayList<Order> orders) {
@@ -110,7 +110,7 @@ public class OrderDetails {
      * Constructor to init {@link OrderDetails} object
      *
      * @param orderDetails: order details as {@link JSONObject}
-     **/
+     */
     public OrderDetails(JSONObject orderDetails) {
         hOrder = new JsonHelper(orderDetails);
         orderListId = hOrder.getLong("orderListId", 0);
@@ -131,7 +131,7 @@ public class OrderDetails {
      * No-any params required
      *
      * @return {@link #orderListId} instance as long
-     **/
+     */
     public long getOrderListId() {
         return orderListId;
     }
@@ -141,7 +141,7 @@ public class OrderDetails {
      * No-any params required
      *
      * @return {@link #contingencyType} instance as {@link String}
-     **/
+     */
     public String getContingencyType() {
         return contingencyType;
     }
@@ -151,7 +151,7 @@ public class OrderDetails {
      * No-any params required
      *
      * @return {@link #listStatusType} instance as {@link Status}
-     **/
+     */
     public Status getListStatusType() {
         return listStatusType;
     }
@@ -161,7 +161,7 @@ public class OrderDetails {
      * No-any params required
      *
      * @return {@link #listOrderStatus} instance as {@link Status}
-     **/
+     */
     public Status getListOrderStatus() {
         return listOrderStatus;
     }
@@ -171,7 +171,7 @@ public class OrderDetails {
      * No-any params required
      *
      * @return {@link #listClientOrderId} instance as {@link String}
-     **/
+     */
     public String getListClientOrderId() {
         return listClientOrderId;
     }
@@ -181,7 +181,7 @@ public class OrderDetails {
      * No-any params required
      *
      * @return {@link #transactionTime} instance as long
-     **/
+     */
     public long getTransactionTime() {
         return transactionTime;
     }
@@ -191,7 +191,7 @@ public class OrderDetails {
      * No-any params required
      *
      * @return {@link #transactionTime} instance as {@link Date}
-     **/
+     */
     public Date getTransactionDate() {
         return TimeFormatter.getDate(transactionTime);
     }
@@ -201,7 +201,7 @@ public class OrderDetails {
      * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
-     **/
+     */
     public String getSymbol() {
         return symbol;
     }
@@ -211,7 +211,7 @@ public class OrderDetails {
      * No-any params required
      *
      * @return {@link #orders} instance as {@link ArrayList} of {@link Order}
-     **/
+     */
     public ArrayList<Order> getOrdersList() {
         return orders;
     }
@@ -220,7 +220,7 @@ public class OrderDetails {
      * Method to add a {@link Order} to {@link #orders}
      *
      * @param order: order to add
-     **/
+     */
     public void insertOrder(Order order) {
         if (!orders.contains(order))
             orders.add(order);
@@ -231,7 +231,7 @@ public class OrderDetails {
      *
      * @param order: order to remove
      * @return result of operation as boolean
-     **/
+     */
     public boolean removeOrder(Order order) {
         return orders.remove(order);
     }
@@ -241,7 +241,7 @@ public class OrderDetails {
      *
      * @param index: index to fetch the order
      * @return order as {@link Order}
-     **/
+     */
     public Order getOrder(int index) {
         return orders.get(index);
     }

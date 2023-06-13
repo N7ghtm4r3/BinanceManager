@@ -12,37 +12,37 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-trade-list-user_data">
  * Account Trade List (USER_DATA)</a>
  * @see Trade
- **/
+ */
 public class SpotAccountTradesList extends Trade {
 
     /**
      * {@code symbol} is instance that memorizes symbol
-     **/
+     */
     private final String symbol;
 
     /**
      * {@code orderId} is instance that memorizes order identifier
-     **/
+     */
     private final long orderId;
 
     /**
      * {@code orderListId} is instance that memorizes order list identifier
-     **/
+     */
     private final long orderListId;
 
     /**
      * {@code commission} is instance that memorizes commission value
-     * **/
+     */
     private final double commission;
 
     /**
      * {@code commissionAsset} is instance that memorizes commission asset value
-     * **/
+     */
     private final String commissionAsset;
 
     /**
      * {@code isMaker} is instance that memorizes if is maker
-     * **/
+     */
     private final boolean isMaker;
 
     /**
@@ -61,7 +61,7 @@ public class SpotAccountTradesList extends Trade {
      * @param commission:      commission value
      * @param commissionAsset: commission asset value
      * @param isMaker:         is maker
-     **/
+     */
     public SpotAccountTradesList(String symbol, long id, long orderId, long orderListId, double price, double qty,
                                  double quoteQty, double commission, String commissionAsset, long time,
                                  boolean isBuyerMaker, boolean isMaker, boolean isBestMatch) {
@@ -78,7 +78,7 @@ public class SpotAccountTradesList extends Trade {
      * Constructor to init {@link SpotAccountTradesList} object
      *
      * @param spotAccountTradeList: spot account trade list details as {@link JSONObject}
-     **/
+     */
     public SpotAccountTradesList(JSONObject spotAccountTradeList) {
         super(spotAccountTradeList);
         symbol = spotAccountTradeList.getString("symbol");
@@ -94,7 +94,7 @@ public class SpotAccountTradesList extends Trade {
      * No-any params required
      *
      * @return {@link #symbol} instance as {@link String}
-     **/
+     */
     public String getSymbol() {
         return symbol;
     }
@@ -104,7 +104,7 @@ public class SpotAccountTradesList extends Trade {
      * No-any params required
      *
      * @return {@link #orderId} instance as long
-     **/
+     */
     public long getOrderId() {
         return orderId;
     }
@@ -114,7 +114,7 @@ public class SpotAccountTradesList extends Trade {
      * No-any params required
      *
      * @return {@link #orderListId} instance as long
-     **/
+     */
     public long getOrderListId() {
         return orderListId;
     }
@@ -124,7 +124,7 @@ public class SpotAccountTradesList extends Trade {
      * No-any params required
      *
      * @return {@link #commission} instance as double
-     **/
+     */
     public double getCommission() {
         return commission;
     }
@@ -135,7 +135,7 @@ public class SpotAccountTradesList extends Trade {
      * @param decimals: number of digits to round final value
      * @return {@link #commission} instance rounded with decimal digits inserted
      * @throws IllegalArgumentException if decimalDigits is negative
-     **/
+     */
     public double getCommission(int decimals) {
         return roundValue(commission, decimals);
     }
@@ -145,7 +145,7 @@ public class SpotAccountTradesList extends Trade {
      * No-any params required
      *
      * @return {@link #commissionAsset} instance as {@link String}
-     **/
+     */
     public String getCommissionAsset() {
         return commissionAsset;
     }
@@ -155,7 +155,7 @@ public class SpotAccountTradesList extends Trade {
      * No-any params required
      *
      * @return {@link #isMaker} instance as boolean
-     **/
+     */
     public boolean isMaker() {
         return isMaker;
     }

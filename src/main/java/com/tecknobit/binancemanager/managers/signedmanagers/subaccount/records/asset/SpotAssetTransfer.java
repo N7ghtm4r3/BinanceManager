@@ -11,34 +11,34 @@ import org.json.JSONObject;
  * Query Sub-account Spot Asset Transfer History (For Master Account)</a>
  * @see BinanceItem
  * @see AssetTransfer
- **/
+ */
 public class SpotAssetTransfer extends AssetTransfer {
 
     /**
      * {@code TransferStatus} list of available transfer statuses
-     **/
+     */
     public enum TransferStatus {
 
         /**
          * {@code PROCESS} transfer status
-         **/
+         */
         PROCESS,
 
         /**
          * {@code SUCCESS} transfer status
-         **/
+         */
         SUCCESS,
 
         /**
          * {@code FAILURE} transfer status
-         **/
+         */
         FAILURE
 
     }
 
     /**
      * {@code status} of the spot asset transfer
-     **/
+     */
     private final TransferStatus status;
 
     /**
@@ -51,7 +51,7 @@ public class SpotAssetTransfer extends AssetTransfer {
      * @param tranId : transaction id of the spot asset transfer
      * @param time   : time of the spot asset transfer
      * @param status : status of the spot asset transfer
-     **/
+     */
     public SpotAssetTransfer(String from, String to, String asset, double qty, long tranId, long time,
                              TransferStatus status) {
         super(from, to, asset, qty, tranId, time);
@@ -62,7 +62,7 @@ public class SpotAssetTransfer extends AssetTransfer {
      * Constructor to init {@link SpotAssetTransfer} object
      *
      * @param jSpotAssetTransfer: spot asset transfer details as {@link JSONObject}
-     **/
+     */
     public SpotAssetTransfer(JSONObject jSpotAssetTransfer) {
         super(jSpotAssetTransfer);
         status = TransferStatus.valueOf(hItem.getString("status"));
@@ -73,7 +73,7 @@ public class SpotAssetTransfer extends AssetTransfer {
      * No-any params required
      *
      * @return {@link #status} instance as {@link TransferStatus}
-     **/
+     */
     public TransferStatus getStatus() {
         return status;
     }

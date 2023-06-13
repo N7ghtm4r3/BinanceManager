@@ -15,27 +15,27 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.savings.recor
  * @see BinanceItem
  * @see SavingStructure
  * @see SavingRecordStructure
- **/
+ */
 public class PurchaseRecord extends SavingRecordStructure {
 
     /**
      * {@code lendingType} lending type of the purchase record
-     **/
+     */
     private final SavingActivityType lendingType;
 
     /**
      * {@code lot} of the purchase record
-     **/
+     */
     private final int lot;
 
     /**
      * {@code productName} product name of the purchase record
-     **/
+     */
     private final String productName;
 
     /**
      * {@code purchaseId} purchase id of the purchase record
-     **/
+     */
     private final long purchaseId;
 
     /**
@@ -49,7 +49,7 @@ public class PurchaseRecord extends SavingRecordStructure {
      * @param lot:         the lot of the purchase record
      * @param productName: product name of the purchase record
      * @param purchaseId:  purchase id of the purchase record
-     **/
+     */
     public PurchaseRecord(String asset, double amount, long createTime, String status, SavingActivityType lendingType,
                           int lot, String productName, long purchaseId) {
         super(asset, amount, createTime, status);
@@ -63,7 +63,7 @@ public class PurchaseRecord extends SavingRecordStructure {
      * Constructor to init {@link PurchaseRecord} object
      *
      * @param jPurchaseRecord: purchase record details as {@link JSONObject}
-     **/
+     */
     public PurchaseRecord(JSONObject jPurchaseRecord) {
         super(jPurchaseRecord);
         lendingType = SavingActivityType.valueOf(hItem.getString("lendingType"));
@@ -77,7 +77,7 @@ public class PurchaseRecord extends SavingRecordStructure {
      * No-any params required
      *
      * @return {@link #lendingType} instance as {@link SavingActivityType}
-     **/
+     */
     public SavingActivityType getLendingType() {
         return lendingType;
     }
@@ -87,7 +87,7 @@ public class PurchaseRecord extends SavingRecordStructure {
      * No-any params required
      *
      * @return {@link #lot} instance as int
-     **/
+     */
     public int getLot() {
         return lot;
     }
@@ -97,7 +97,7 @@ public class PurchaseRecord extends SavingRecordStructure {
      * No-any params required
      *
      * @return {@link #productName} instance as {@link SavingActivityType}
-     **/
+     */
     public String getProductName() {
         return productName;
     }
@@ -107,7 +107,7 @@ public class PurchaseRecord extends SavingRecordStructure {
      * No-any params required
      *
      * @return {@link #purchaseId} instance as long
-     **/
+     */
     public long getPurchaseId() {
         return purchaseId;
     }
