@@ -99,7 +99,12 @@ public abstract class BinanceWebsocketResponse extends BinanceItem {
         /**
          * {@code depthUpdate} event type
          */
-        depthUpdate("depthUpdate");
+        depthUpdate("depthUpdate"),
+
+        /**
+         * {@code COMMAND} event type
+         */
+        COMMAND("COMMAND");
 
         /**
          * {@code type} of the event

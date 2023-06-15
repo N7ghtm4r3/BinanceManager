@@ -33,6 +33,23 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
 public class BinancePortfolioMarginManager extends BinanceSignedManager {
 
     /**
+     * {@code TransferSide} list of available transfer sides
+     */
+    public enum TransferSide {
+
+        /**
+         * {@code TO_UM} transfer side
+         */
+        TO_UM,
+
+        /**
+         * {@code FROM_UM} transfer side
+         */
+        FROM_UM
+
+    }
+
+    /**
      * {@code PORTFOLIO_ACCOUNT_ENDPOINT} is constant for PORTFOLIO_ACCOUNT_ENDPOINT's endpoint
      */
     public static final String PORTFOLIO_ACCOUNT_ENDPOINT = "/sapi/v1/portfolio/account";
@@ -70,6 +87,16 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * {@code PORTFOLIO_ASSET_INDEX_PRICE_ENDPOINT} is constant for PORTFOLIO_ASSET_INDEX_PRICE_ENDPOINT's endpoint
      */
     public static final String PORTFOLIO_ASSET_INDEX_PRICE_ENDPOINT = "/sapi/v1/portfolio/asset-index-price";
+
+    /**
+     * {@code AUTO_COLLECTION_ENDPOINT} is constant for AUTO_COLLECTION_ENDPOINT's endpoint
+     */
+    public static final String AUTO_COLLECTION_ENDPOINT = "/sapi/v1/portfolio/auto-collection";
+
+    /**
+     * {@code BNB_TRANSFER_ENDPOINT} is constant for BNB_TRANSFER_ENDPOINT's endpoint
+     */
+    public static final String BNB_TRANSFER_ENDPOINT = "/sapi/v1/portfolio/bnb-transfer";
 
     /**
      * Constructor to init a {@link BinancePortfolioMarginManager}
@@ -567,7 +594,7 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * @param recvWindow: request is valid for in ms, must be less than 60000
      * @return query as {@link String}
      */
-    public String createQuery(long recvWindow) {
+    private String createQuery(long recvWindow) {
         String query = getTimestampParam();
         if (recvWindow != -1)
             query += "&recvWindow=" + recvWindow;
@@ -1001,6 +1028,241 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
             default:
                 return (T) listResponse;
         }
+    }
+
+    /**
+     * Request to transfers all assets from Futures Account to Margin account <br>
+     * No-any params required
+     *
+     * @return transfers all assets from Futures Account to Margin account as {@link String}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fund-auto-collection-trade">
+     * Fund Auto-collection (TRADE)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "100(UID)")
+    @RequestPath(method = POST, path = "/sapi/v1/portfolio/auto-collection")
+    public String fundAutoCollection() throws Exception {
+        return fundAutoCollection(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to transfers all assets from Futures Account to Margin account
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return transfers all assets from Futures Account to Margin account as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fund-auto-collection-trade">
+     * Fund Auto-collection (TRADE)</a>
+     */
+    @RequestWeight(weight = "100(UID)")
+    @RequestPath(method = POST, path = "/sapi/v1/portfolio/auto-collection")
+    public <T> T fundAutoCollection(ReturnFormat format) throws Exception {
+        return fundAutoCollection(-1, format);
+    }
+
+    /**
+     * Request to transfers all assets from Futures Account to Margin account
+     *
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return transfers all assets from Futures Account to Margin account as {@link String}
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fund-auto-collection-trade">
+     * Fund Auto-collection (TRADE)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "100(UID)")
+    @RequestPath(method = POST, path = "/sapi/v1/portfolio/auto-collection")
+    public String fundAutoCollection(long recvWindow) throws Exception {
+        return fundAutoCollection(recvWindow, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to transfers all assets from Futures Account to Margin account
+     *
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return transfers all assets from Futures Account to Margin account as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#fund-auto-collection-trade">
+     * Fund Auto-collection (TRADE)</a>
+     */
+    @Returner
+    @RequestWeight(weight = "100(UID)")
+    @RequestPath(method = POST, path = "/sapi/v1/portfolio/auto-collection")
+    public <T> T fundAutoCollection(long recvWindow, ReturnFormat format) throws Exception {
+        Params payload = createTimestampPayload(null);
+        if (recvWindow != -1)
+            payload.addParam("recvWindow", recvWindow);
+        JSONObject response = new JSONObject(sendPostRequest(AUTO_COLLECTION_ENDPOINT, payload, apiKey));
+        return switch (format) {
+            case JSON -> (T) response;
+            case LIBRARY_OBJECT -> (T) response.getString("msg");
+            default -> (T) response.toString();
+        };
+    }
+
+    /**
+     * Request to execute BNB transfer can be between Margin Account and USDM Account
+     *
+     * @param amount: amount of the transfer
+     * @param side:   side of the transfer
+     * @return transaction identifier as long
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#bnb-transfer-trade">
+     * BNB transfer (TRADE)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "100(UID)")
+    @RequestPath(method = POST, path = "/sapi/v1/portfolio/bnb-transfer")
+    public long execBNBTransfer(double amount, TransferSide side) throws Exception {
+        return Long.parseLong(execBNBTransfer(amount, side, LIBRARY_OBJECT));
+    }
+
+    /**
+     * Request to execute BNB transfer can be between Margin Account and USDM Account
+     *
+     * @param amount: amount of the transfer
+     * @param side:   side of the transfer
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return transaction identifier as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#bnb-transfer-trade">
+     * BNB transfer (TRADE)</a>
+     */
+    @RequestWeight(weight = "100(UID)")
+    @RequestPath(method = POST, path = "/sapi/v1/portfolio/bnb-transfer")
+    public <T> T execBNBTransfer(double amount, TransferSide side, ReturnFormat format) throws Exception {
+        return execBNBTransfer(amount, side, -1, format);
+    }
+
+    /**
+     * Request to execute BNB transfer can be between Margin Account and USDM Account
+     *
+     * @param amount:     amount of the transfer
+     * @param side:       side of the transfer
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return transaction identifier as long
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#bnb-transfer-trade">
+     * BNB transfer (TRADE)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "100(UID)")
+    @RequestPath(method = POST, path = "/sapi/v1/portfolio/bnb-transfer")
+    public long execBNBTransfer(double amount, TransferSide side, long recvWindow) throws Exception {
+        return Long.parseLong(execBNBTransfer(amount, side, recvWindow, LIBRARY_OBJECT));
+    }
+
+    /**
+     * Request to execute BNB transfer can be between Margin Account and USDM Account
+     *
+     * @param amount:     amount of the transfer
+     * @param side:       side of the transfer
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return transaction identifier as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#bnb-transfer-trade">
+     * BNB transfer (TRADE)</a>
+     */
+    @RequestWeight(weight = "100(UID)")
+    @RequestPath(method = POST, path = "/sapi/v1/portfolio/bnb-transfer")
+    public <T> T execBNBTransfer(double amount, TransferSide side, long recvWindow, ReturnFormat format) throws Exception {
+        Params payload = createTimestampPayload(null);
+        payload.addParam("amount", amount);
+        payload.addParam("side", side);
+        if (recvWindow != -1)
+            payload.addParam("recvWindow", recvWindow);
+        return returnTranId(sendPostRequest(BNB_TRANSFER_ENDPOINT, payload), format);
     }
 
 }
