@@ -166,7 +166,7 @@ Thank you for your help!
 
 [![](https://jitpack.io/v/N7ghtm4r3/BinanceManager.svg)](https://jitpack.io/#N7ghtm4r3/BinanceManager)
 
-## Busisness contact
+## Business contact
 
 If you need to contact me for a project 
 
