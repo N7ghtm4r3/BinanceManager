@@ -4,6 +4,7 @@ import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.apimanager.annotations.RequestWeight;
 import com.tecknobit.apimanager.annotations.WrappedRequest;
 import com.tecknobit.apimanager.annotations.Wrapper;
+import com.tecknobit.apimanager.interfaces.Manager;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
@@ -27,6 +28,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.trade.commons
  * Futures Algo Endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
+ * @see Manager
  */
 public class BinanceFuturesAlgoManager extends BinanceSignedManager {
 

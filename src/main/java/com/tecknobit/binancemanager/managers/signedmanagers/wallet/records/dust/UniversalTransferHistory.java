@@ -48,41 +48,9 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
     public enum TransferType {
 
         /**
-         * {@code "MAIN_UMFUTURE"} transfer type
-         *
-         * @deprecated this type is deprecated and will be removed in the next release
-         */
-        @Deprecated
-        MAIN_UMFUTURE,
-
-        /**
-         * {@code "MAIN_CMFUTURE"} transfer type
-         *
-         * @deprecated this type is deprecated and will be removed in the next release
-         */
-        @Deprecated
-        MAIN_CMFUTURE,
-
-        /**
          * {@code "MAIN_MARGIN"} transfer type
          */
         MAIN_MARGIN,
-
-        /**
-         * {@code "UMFUTURE_MAIN"} transfer type
-         *
-         * @deprecated this type is deprecated and will be removed in the next release
-         */
-        @Deprecated
-        UMFUTURE_MAIN,
-
-        /**
-         * {@code "UMFUTURE_MARGIN"} transfer type
-         *
-         * @deprecated this type is deprecated and will be removed in the next release
-         */
-        @Deprecated
-        UMFUTURE_MARGIN,
 
         /**
          * {@code "CMFUTURE_MAIN"} transfer type
@@ -90,33 +58,9 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
         CMFUTURE_MAIN,
 
         /**
-         * {@code "CMFUTURE_MARGIN"} transfer type
-         *
-         * @deprecated this type is deprecated and will be removed in the next release
-         */
-        @Deprecated
-        CMFUTURE_MARGIN,
-
-        /**
          * {@code "MARGIN_MAIN"} transfer type
          */
         MARGIN_MAIN,
-
-        /**
-         * {@code "MARGIN_UMFUTURE"} transfer type
-         *
-         * @deprecated this type is deprecated and will be removed in the next release
-         */
-        @Deprecated
-        MARGIN_UMFUTURE,
-
-        /**
-         * {@code "MARGIN_CMFUTURE"} transfer type
-         *
-         * @deprecated this type is deprecated and will be removed in the next release
-         */
-        @Deprecated
-        MARGIN_CMFUTURE,
 
         /**
          * {@code "ISOLATEDMARGIN_MARGIN"} transfer type
@@ -144,22 +88,6 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
         FUNDING_MAIN,
 
         /**
-         * {@code "FUNDING_UMFUTURE"} transfer type
-         *
-         * @deprecated this type is deprecated and will be removed in the next release
-         */
-        @Deprecated
-        FUNDING_UMFUTURE,
-
-        /**
-         * {@code "UMFUTURE_FUNDING"} transfer type
-         *
-         * @deprecated this type is deprecated and will be removed in the next release
-         */
-        @Deprecated
-        UMFUTURE_FUNDING,
-
-        /**
          * {@code "MARGIN_FUNDING"} transfer type
          */
         MARGIN_FUNDING,
@@ -168,21 +96,6 @@ public class UniversalTransferHistory extends BinanceRowsList<UniversalTransfer>
          * {@code "FUNDING_MARGIN"} transfer type
          */
         FUNDING_MARGIN,
-
-        /**
-         * {@code "FUNDING_CMFUTURE"} transfer type
-         *
-         * @deprecated this type is deprecated and will be removed in the next release
-         */
-        @Deprecated
-        FUNDING_CMFUTURE,
-
-        /**
-         * {@code "CMFUTURE_FUNDING"} transfer type
-         * @deprecated this type is deprecated and will be removed in the next release
-         */
-        @Deprecated
-        CMFUTURE_FUNDING,
 
         /**
          * {@code "MAIN_PORTFOLIO_MARGIN"} transfer type

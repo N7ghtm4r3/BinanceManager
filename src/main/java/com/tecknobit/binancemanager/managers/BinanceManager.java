@@ -5,6 +5,7 @@ import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.apimanager.apis.APIRequest;
 import com.tecknobit.apimanager.apis.APIRequest.RequestMethod;
+import com.tecknobit.apimanager.interfaces.Manager;
 import com.tecknobit.apimanager.trading.TradingTools;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import org.json.JSONObject;
@@ -29,8 +30,9 @@ import static java.lang.System.currentTimeMillis;
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
  * Introduction</a>
+ * @see Manager
  */
-public class BinanceManager {
+public class BinanceManager implements Manager {
 
     /**
      * {@code WEB_SOCKET_STREAM_ENDPOINT} is constant for WEB_SOCKET_STREAM_ENDPOINT's endpoint
@@ -399,44 +401,6 @@ public class BinanceManager {
     }
 
     /**
-     * Method to get status code of request response <br>
-     * No-any params required
-     *
-     * @return status code of request response
-     */
-    public int getStatusResponse() {
-        return apiRequest.getResponseStatusCode();
-    }
-
-    /**
-     * Method to get error response of an HTTP request <br>
-     * No-any params required
-     *
-     * @return apiRequest.getErrorResponse();
-     */
-    public String getErrorResponse() {
-        return apiRequest.getErrorResponse();
-    }
-
-    /**
-     * Method to get error response of an HTTP request <br>
-     * No-any params required
-     *
-     * @return apiRequest.getErrorResponse() as
-     */
-    public <T> T getJSONErrorResponse() {
-        return apiRequest.getJSONErrorResponse();
-    }
-
-    /**
-     * Method to print error response of an HTTP request  <br>
-     * No-any params required
-     */
-    public void printErrorResponse() {
-        apiRequest.printErrorResponse();
-    }
-
-    /**
      * Method to round a value
      *
      * @param value:         value to round
@@ -536,6 +500,59 @@ public class BinanceManager {
             if (list instanceof Object[] && !Arrays.toString((Object[]) list).contains("%22"))
                 params.addParam(key, "[" + assembleSymbolsList((T[]) list) + "]");
         }
+    }
+
+    /**
+     * Method to get the status code of a request <br>
+     * No-any params required
+     *
+     * @return status code of a request as int
+     */
+    @Override
+    public int getStatusResponse() {
+        return apiRequest.getResponseStatusCode();
+    }
+
+    /**
+     * Method to get the response af a request <br>
+     * No-any params required
+     *
+     * @return response of a request as {@link String}
+     */
+    @Override
+    public String getResponse() {
+        return apiRequest.getResponse();
+    }
+
+    /**
+     * Method to get the error response af a request <br>
+     * No-any params required
+     *
+     * @return error response of a request as {@link String}
+     */
+    @Override
+    public String getErrorResponse() {
+        return apiRequest.getErrorResponse();
+    }
+
+    /**
+     * Method to get the error response of a request formatted in JSON <br>
+     * No-any params required
+     *
+     * @return error response of a request formatted in JSON as {@link T}
+     */
+    @Override
+    public <T> T getJSONErrorResponse() {
+        return apiRequest.getJSONErrorResponse();
+    }
+
+    /**
+     * Method to print the error response of a request <br>
+     * No-any params required
+     */
+    @Override
+    public void printErrorResponse() {
+        apiRequest.printErrorResponse();
     }
 
     /**

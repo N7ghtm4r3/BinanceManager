@@ -6,11 +6,11 @@ import com.tecknobit.apimanager.annotations.RequestWeight;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.apimanager.formatters.JsonHelper;
+import com.tecknobit.apimanager.interfaces.Manager;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.portfoliomargin.records.*;
-import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.BinanceMarginManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -29,6 +29,7 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * Portfolio Margin Endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
+ * @see Manager
  */
 public class BinancePortfolioMarginManager extends BinanceSignedManager {
 
@@ -73,15 +74,6 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
      * {@code PORTFOLIO_INTEREST_HISTORY_ENDPOINT} is constant for PORTFOLIO_INTEREST_HISTORY_ENDPOINT's endpoint
      */
     public static final String PORTFOLIO_INTEREST_HISTORY_ENDPOINT = "/sapi/v1/portfolio/interest-history";
-
-    /**
-     * {@code PORTFOLIO_INTEREST_RATE_ENDPOINT} is constant for PORTFOLIO_INTEREST_RATE_ENDPOINT's endpoint
-     *
-     * @deprecated this endpoint is deprecated and will be removed in the next release of the library, use instead
-     * {@link BinanceMarginManager#MARGIN_INTEREST_RATE_HISTORY_ENDPOINT}
-     */
-    @Deprecated
-    public static final String PORTFOLIO_INTEREST_RATE_ENDPOINT = "/sapi/v1/portfolio/interest-rate";
 
     /**
      * {@code PORTFOLIO_ASSET_INDEX_PRICE_ENDPOINT} is constant for PORTFOLIO_ASSET_INDEX_PRICE_ENDPOINT's endpoint
@@ -752,156 +744,6 @@ public class BinancePortfolioMarginManager extends BinanceSignedManager {
                 return (T) new PortfolioMarginInterestHistory(new JSONObject(historyResponse));
             default:
                 return (T) historyResponse;
-        }
-    }
-
-    /**
-     * Request to get the portfolio margin interest rate<br>
-     * No-any params required
-     *
-     * @return portfolio margin interest rate as {@link ArrayList} of {@link PortfolioMarginInterestRate} custom object
-     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
-     *                   <ul>
-     *                       <li>
-     *                           {@link #getErrorResponse()}
-     *                       </li>
-     *                       <li>
-     *                           {@link #getJSONErrorResponse()}
-     *                       </li>
-     *                       <li>
-     *                           {@link #printErrorResponse()}
-     *                       </li>
-     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-rate-market_data">
-     * Query Portfolio Margin Interest Rate (MARKET_DATA)</a>
-     * @deprecated this method is deprecated and will be removed in the next release of the library, use instead
-     * {@link BinanceMarginManager#getInterestRateHistory}'s method
-     */
-    @Deprecated
-    @Wrapper
-    @RequestWeight(weight = "50(IP)")
-    @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-rate")
-    public ArrayList<PortfolioMarginInterestRate> getPortfolioMarginInterestRate() throws Exception {
-        return getPortfolioMarginInterestRate(LIBRARY_OBJECT);
-    }
-
-    /**
-     * Request to get the portfolio margin interest rate
-     *
-     * @param format: return type formatter -> {@link ReturnFormat}
-     * @return portfolio margin interest rate as {@code "format"} defines
-     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
-     *                   <ul>
-     *                       <li>
-     *                           {@link #getErrorResponse()}
-     *                       </li>
-     *                       <li>
-     *                           {@link #getJSONErrorResponse()}
-     *                       </li>
-     *                       <li>
-     *                           {@link #printErrorResponse()}
-     *                       </li>
-     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-rate-market_data">
-     * Query Portfolio Margin Interest Rate (MARKET_DATA)</a>
-     * @deprecated this method is deprecated and will be removed in the next release of the library, use instead
-     * {@link BinanceMarginManager#getInterestRateHistory}'s method
-     */
-    @Deprecated
-    @RequestWeight(weight = "50(IP)")
-    @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-rate")
-    public <T> T getPortfolioMarginInterestRate(ReturnFormat format) throws Exception {
-        return getPortfolioMarginInterestRate(null, format);
-    }
-
-    /**
-     * Request to get the portfolio margin interest rate
-     *
-     * @param extraParams: additional params of the request, keys accepted are:
-     *                     <ul>
-     *                           <li>
-     *                                {@code "asset"} -> asset from fetch the list - [STRING]
-     *                           </li>
-     *                           <li>
-     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
-     *                                - [LONG, default 5000]
-     *                           </li>
-     *                     </ul>
-     * @return portfolio margin interest rate as {@link ArrayList} of {@link PortfolioMarginInterestRate} custom object
-     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
-     *                   <ul>
-     *                       <li>
-     *                           {@link #getErrorResponse()}
-     *                       </li>
-     *                       <li>
-     *                           {@link #getJSONErrorResponse()}
-     *                       </li>
-     *                       <li>
-     *                           {@link #printErrorResponse()}
-     *                       </li>
-     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-rate-market_data">
-     * Query Portfolio Margin Interest Rate (MARKET_DATA)</a>
-     * @deprecated this method is deprecated and will be removed in the next release of the library, use instead
-     * {@link BinanceMarginManager#getInterestRateHistory}'s method
-     */
-    @Deprecated
-    @Wrapper
-    @RequestWeight(weight = "50(IP)")
-    @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-rate")
-    public ArrayList<PortfolioMarginInterestRate> getPortfolioMarginInterestRate(Params extraParams) throws Exception {
-        return getPortfolioMarginInterestRate(extraParams, LIBRARY_OBJECT);
-    }
-
-    /**
-     * Request to get the portfolio margin interest rate
-     *
-     * @param extraParams: additional params of the request, keys accepted are:
-     *                     <ul>
-     *                           <li>
-     *                                {@code "asset"} -> asset from fetch the list - [STRING]
-     *                           </li>
-     *                           <li>
-     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
-     *                                - [LONG, default 5000]
-     *                           </li>
-     *                     </ul>
-     * @param format:      return type formatter -> {@link ReturnFormat}
-     * @return portfolio margin interest rate as {@code "format"} defines
-     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
-     *                   <ul>
-     *                       <li>
-     *                           {@link #getErrorResponse()}
-     *                       </li>
-     *                       <li>
-     *                           {@link #getJSONErrorResponse()}
-     *                       </li>
-     *                       <li>
-     *                           {@link #printErrorResponse()}
-     *                       </li>
-     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-portfolio-margin-interest-rate-market_data">
-     * Query Portfolio Margin Interest Rate (MARKET_DATA)</a>
-     * @deprecated this method is deprecated and will be removed in the next release of the library, use instead
-     * {@link BinanceMarginManager#getInterestRateHistory}'s method
-     */
-    @Deprecated
-    @Returner
-    @RequestWeight(weight = "50(IP)")
-    @RequestPath(method = GET, path = "/sapi/v1/portfolio/interest-rate")
-    public <T> T getPortfolioMarginInterestRate(Params extraParams, ReturnFormat format) throws Exception {
-        String listResponse = sendGetRequest(PORTFOLIO_INTEREST_RATE_ENDPOINT, extraParams, apiKey);
-        switch (format) {
-            case JSON:
-                return (T) new JSONArray(listResponse);
-            case LIBRARY_OBJECT:
-                ArrayList<PortfolioMarginInterestRate> interestRates = new ArrayList<>();
-                JSONArray jInterestRates = new JSONArray(listResponse);
-                for (int j = 0; j < jInterestRates.length(); j++)
-                    interestRates.add(new PortfolioMarginInterestRate(jInterestRates.getJSONObject(j)));
-                return (T) interestRates;
-            default:
-                return (T) listResponse;
         }
     }
 

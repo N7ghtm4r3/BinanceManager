@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers.blvt;
 
 import com.tecknobit.apimanager.annotations.*;
+import com.tecknobit.apimanager.interfaces.Manager;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.market.records.stats.Candlestick.Interval;
@@ -36,6 +37,7 @@ import static com.tecknobit.binancemanager.managers.records.websocketstream.Bina
  * @see BinanceManager
  * @see BinanceSignedManager
  * @see BinanceWebsocketManager
+ * @see Manager
  */
 public class BinanceBLVTManager extends BinanceWebsocketManager {
 

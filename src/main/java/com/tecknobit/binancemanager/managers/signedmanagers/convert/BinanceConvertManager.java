@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.convert;
 
 import com.tecknobit.apimanager.annotations.*;
+import com.tecknobit.apimanager.interfaces.Manager;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.convert.records.*;
@@ -23,6 +24,7 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * Convert Endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
+ * @see Manager
  */
 public class BinanceConvertManager extends BinanceSignedManager {
 

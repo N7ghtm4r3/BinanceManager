@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.market;
 
 import com.tecknobit.apimanager.annotations.*;
+import com.tecknobit.apimanager.interfaces.Manager;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.market.records.CurrentAveragePrice;
@@ -34,6 +35,7 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#market-data-endpoints">
  * Market Data Endpoints</a>
  * @see BinanceManager
+ * @see Manager
  */
 public class BinanceMarketManager extends BinanceManager {
 

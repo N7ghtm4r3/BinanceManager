@@ -3,6 +3,7 @@ package com.tecknobit.binancemanager.managers.marketstreams;
 import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.annotations.Wrapper;
+import com.tecknobit.apimanager.interfaces.Manager;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.market.records.OrderBook;
@@ -42,6 +43,7 @@ import static java.lang.Thread.onSpinWait;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#websocket-market-streams">
  * Websocket Market Streams</a>
  * @see BinanceManager
+ * @see Manager
  * @see BinanceSignedManager
  * @see BinanceWebsocketManager
  */

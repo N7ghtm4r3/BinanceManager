@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.savings;
 
 import com.tecknobit.apimanager.annotations.*;
+import com.tecknobit.apimanager.interfaces.Manager;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
@@ -42,6 +43,7 @@ import static java.lang.Long.parseLong;
  * Savings endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
+ * @see Manager
  */
 public class BinanceSavingsManager extends BinanceSignedManager {
 

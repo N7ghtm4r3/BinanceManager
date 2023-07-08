@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.trade.margin;
 
 import com.tecknobit.apimanager.annotations.*;
+import com.tecknobit.apimanager.interfaces.Manager;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
@@ -44,7 +45,6 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.re
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustLogList.returnDustLog;
 import static java.lang.Long.parseLong;
 
-
 /**
  * The {@code BinanceMarginManager} class is useful to manage all {@code "Binance"}'s Margin Endpoints
  *
@@ -53,8 +53,63 @@ import static java.lang.Long.parseLong;
  * Margin Account/Trade</a>
  * @see BinanceManager
  * @see BinanceSignedManager
+ * @see Manager
  */
 public class BinanceMarginManager extends BinanceSignedManager {
+
+    /**
+     * {@code MarginTransferType} list of available transfer type
+     */
+    public enum MarginTransferType {
+
+        /**
+         * {@code "pending"} status
+         */
+        MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT(1),
+
+        /**
+         * {@code "credited_but_cannot_withdraw"} status
+         */
+        CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT(2);
+
+        /**
+         * {@code "status"} value
+         */
+        private final int transferType;
+
+        /**
+         * Constructor to init {@link Deposit.DepositStatus}
+         *
+         * @param transferType: status value
+         */
+        MarginTransferType(int transferType) {
+            this.transferType = transferType;
+        }
+
+        /**
+         * Method to get the {@link MarginTransferType} by an int <br>
+         * No-any params required
+         *
+         * @return {@link MarginTransferType} corresponding value
+         */
+        public static MarginTransferType valueOf(int status) {
+            if (status == 1)
+                return MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT;
+            return CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT;
+        }
+
+        /**
+         * Method to get {@link #transferType} instance <br>
+         * No-any params required
+         *
+         * @return {@link #transferType} instance as {@link String}
+         */
+        @Override
+        public String toString() {
+            return String.valueOf(transferType);
+        }
+
+    }
 
     /**
      * {@code CROSS_MARGIN_TRANSFERS_ENDPOINT} is constant for CROSS_MARGIN_TRANSFERS_ENDPOINT's endpoint
@@ -245,6 +300,11 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * {@code EXCHANGE_SMALL_LIABILITY_HISTORY_ENDPOINT} is constant for EXCHANGE_SMALL_LIABILITY_HISTORY_ENDPOINT's endpoint
      */
     public static final String EXCHANGE_SMALL_LIABILITY_HISTORY_ENDPOINT = "/sapi/v1/margin/exchange-small-liability-history";
+
+    /**
+     * {@code DELIST_SCHEDULE_ENDPOINT} is constant for DELIST_SCHEDULE_ENDPOINT's endpoint
+     */
+    public static final String DELIST_SCHEDULE_ENDPOINT = "/sapi/v1/margin/delist-schedule";
 
     /**
      * Constructor to init a {@link BinanceMarginManager}
@@ -4526,7 +4586,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/forceLiquidationRec")
@@ -4553,7 +4613,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
      * Get Force Liquidation Record (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/forceLiquidationRec")
     public <T> T getForceLiquidation(ReturnFormat format) throws Exception {
@@ -4602,7 +4662,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/forceLiquidationRec")
@@ -4653,7 +4713,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-force-liquidation-record-user_data">
      * Get Force Liquidation Record (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/forceLiquidationRec")
     public <T> T getForceLiquidation(Params extraParams, ReturnFormat format) throws Exception {
@@ -4667,7 +4727,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param forceLiquidationListResponse: obtained from Binance's response
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return force liquidation list as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnForceLiquidationList(String forceLiquidationListResponse, ReturnFormat format) {
         switch (format) {
@@ -4697,7 +4757,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/account")
@@ -4722,7 +4782,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/account")
     public <T> T getCrossMarginAccountDetails(ReturnFormat format) throws Exception {
@@ -4749,7 +4809,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
      * Query Cross Margin Account Details (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/account")
@@ -4777,7 +4837,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-account-details-user_data">
      * Query Cross Margin Account Details (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/account")
     public <T> T getCrossMarginAccountDetails(long recvWindow, ReturnFormat format) throws Exception {
@@ -4791,7 +4851,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param crossAccountResponse: obtained from Binance's response
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return cross margin account object as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnCrossMarginAccountDetails(String crossAccountResponse, ReturnFormat format) {
         switch (format) {
@@ -4821,7 +4881,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/order")
@@ -4849,7 +4909,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data">
      * Query Margin Account's Order (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/order")
     public <T> T getMarginOrderStatus(String symbol, ReturnFormat format) throws Exception {
@@ -4889,7 +4949,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/order")
@@ -4932,7 +4992,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-order-user_data">
      * Query Margin Account's Order (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/order")
     public <T> T getMarginOrderStatus(String symbol, Params extraParams, ReturnFormat format) throws Exception {
@@ -4946,7 +5006,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param marginOrderStatusResponse: obtained from Binance's response
      * @param format:                    return type formatter -> {@link ReturnFormat}
      * @return margin order status object as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnMarginOrderStatus(String marginOrderStatusResponse, ReturnFormat format) {
         switch (format) {
@@ -4976,7 +5036,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/openOrders")
@@ -5001,7 +5061,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/openOrders")
     public <T> T getAllOpenOrders(ReturnFormat format) throws Exception {
@@ -5025,7 +5085,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "10(IP)")
@@ -5054,7 +5114,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-orders-user_data">
      * Query Margin Account's Open Orders (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/openOrders")
@@ -5092,7 +5152,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/openOrders")
@@ -5130,7 +5190,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/openOrders")
     public <T> T getAllOpenOrders(Params extraParams, ReturnFormat format) throws Exception {
@@ -5156,7 +5216,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "10(IP)")
@@ -5184,7 +5244,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @WrappedRequest
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/openOrders")
@@ -5210,7 +5270,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrders")
@@ -5238,7 +5298,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-orders-user_data">
      * Query Margin Account's All Orders (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrders")
     public <T> T getAllOrders(String symbol, ReturnFormat format) throws Exception {
@@ -5284,7 +5344,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrders")
@@ -5331,7 +5391,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrders")
     public <T> T getAllOrders(String symbol, Params extraParams, ReturnFormat format) throws Exception {
@@ -5345,7 +5405,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param ordersResponse: obtained from Binance's response
      * @param format:         return type formatter -> {@link ReturnFormat}
      * @return all open margin orders as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnAllOrders(String ordersResponse, ReturnFormat format) {
         switch (format) {
@@ -5385,7 +5445,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
      * Margin Account New OCO (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "6(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/margin/order/oco")
@@ -5418,7 +5478,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
      * Margin Account New OCO (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "6(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/margin/order/oco")
     public <T> T sendNewOCOMarginOrder(String symbol, Side side, double quantity, double price,
@@ -5490,7 +5550,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
      * Margin Account New OCO (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "6(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/margin/order/oco")
@@ -5558,7 +5618,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
      * Margin Account New OCO (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "6(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/margin/order/oco")
     public <T> T sendNewOCOMarginOrder(String symbol, Side side, double quantity, double price, double stopPrice,
@@ -5594,7 +5654,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "6(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/margin/order/oco")
@@ -5629,7 +5689,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                           {@link #printErrorResponse()}
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     **/
+     */
     @RequestWeight(weight = "6(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/margin/order/oco")
     public <T> T sendNewOCOMarginOrder(String symbol, Side side, double quantity, double price, double stopPrice,
@@ -5703,7 +5763,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
      * Margin Account New OCO (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "6(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/margin/order/oco")
@@ -5772,7 +5832,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-new-oco-trade">
      * Margin Account New OCO (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "6(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/margin/order/oco")
     public <T> T sendNewOCOMarginOrder(String symbol, Side side, double quantity, double price, double stopPrice,
@@ -5794,7 +5854,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param OCOMarginOrderResponse: obtained from Binance's response
      * @param format:                 return type formatter -> {@link ReturnFormat}
      * @return OCO margin order as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnOCOMarginOrder(String OCOMarginOrderResponse, ReturnFormat format) {
         switch (format) {
@@ -5825,7 +5885,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "1(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/margin/orderList")
@@ -5852,7 +5912,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "1(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/margin/orderList")
     public <T> T cancelOCOMarginOrder(String symbol, long orderListId, ReturnFormat format) throws Exception {
@@ -5878,7 +5938,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "1(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/margin/orderList")
@@ -5907,7 +5967,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade">
      * Margin Account Cancel OCO (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "1(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/margin/orderList")
     public <T> T cancelOCOMarginOrder(String symbol, String listClientOrderId, ReturnFormat format) throws Exception {
@@ -5949,7 +6009,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "1(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/margin/orderList")
@@ -5993,7 +6053,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "1(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/margin/orderList")
     public <T> T cancelOCOMarginOrder(String symbol, long orderListId, Params extraParams,
@@ -6037,7 +6097,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "1(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/margin/orderList")
@@ -6083,7 +6143,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-account-cancel-oco-trade">
      * Margin Account Cancel OCO (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "1(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/margin/orderList")
     public <T> T cancelOCOMarginOrder(String symbol, String listClientOrderId, Params extraParams,
@@ -6099,7 +6159,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param composedOrderResponse: obtained from Binance's response
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return composed margin order details object as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnComposedMarginOrderDetails(String composedOrderResponse, ReturnFormat format) {
         switch (format) {
@@ -6130,7 +6190,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/orderList")
@@ -6157,7 +6217,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/orderList")
     public <T> T getOCOMarginOrderStatus(String symbol, long orderListId, ReturnFormat format) throws Exception {
@@ -6183,7 +6243,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/orderList")
@@ -6210,7 +6270,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/orderList")
     public <T> T getOCOMarginOrderStatus(String symbol, String origClientOrderId, ReturnFormat format) throws Exception {
@@ -6236,7 +6296,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/orderList")
@@ -6262,7 +6322,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/orderList")
     public <T> T getOCOMarginOrderStatus(long orderListId, ReturnFormat format) throws Exception {
@@ -6289,7 +6349,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
      * Query Margin Account's OCO (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/orderList")
@@ -6317,7 +6377,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-oco-user_data">
      * Query Margin Account's OCO (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/orderList")
     public <T> T getOCOMarginOrderStatus(String origClientOrderId, ReturnFormat format) throws Exception {
@@ -6331,7 +6391,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param orderStatusResponse: obtained from Binance's response
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return an order status details object as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnMarginOrderStatusDetails(String orderStatusResponse, ReturnFormat format) {
         switch (format) {
@@ -6362,7 +6422,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
@@ -6389,7 +6449,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
     public <T> T getAllOCOOrders(String symbol, long orderListId, ReturnFormat format) throws Exception {
@@ -6416,7 +6476,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
@@ -6445,7 +6505,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
      * Query Margin Account's all OCO (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
     public <T> T getAllOCOOrders(String symbol, String origClientOrderId, ReturnFormat format) throws Exception {
@@ -6477,7 +6537,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
      * Query Margin Account's all OCO (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "200(IP)")
@@ -6511,7 +6571,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
      * Query Margin Account's all OCO (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
@@ -6545,7 +6605,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
      * Query Margin Account's all OCO (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
@@ -6576,7 +6636,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
     public <T> T getAllOCOOrders(String symbol, String origClientOrderId, long fromId, String keyTime,
@@ -6603,7 +6663,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
@@ -6629,7 +6689,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
     public <T> T getAllOCOOrders(long orderListId, ReturnFormat format) throws Exception {
@@ -6654,7 +6714,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
@@ -6682,7 +6742,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
      * Query Margin Account's all OCO (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
     public <T> T getAllOCOOrders(String origClientOrderId, ReturnFormat format) throws Exception {
@@ -6712,7 +6772,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
      * Query Margin Account's all OCO (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
@@ -6744,7 +6804,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
      * Query Margin Account's all OCO (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
     public <T> T getAllOCOOrders(long orderListId, long fromId, String keyTime, long valueTime,
@@ -6776,7 +6836,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
      * Query Margin Account's all OCO (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
@@ -6808,7 +6868,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-all-oco-user_data">
      * Query Margin Account's all OCO (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
     public <T> T getAllOCOOrders(String origClientOrderId, long fromId, String keyTime, long valueTime,
@@ -6857,7 +6917,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
@@ -6906,7 +6966,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
     public <T> T getAllOCOOrders(String symbol, long orderListId, Params extraParams, ReturnFormat format) throws Exception {
@@ -6953,7 +7013,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
@@ -7001,7 +7061,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
     public <T> T getAllOCOOrders(String symbol, String origClientOrderId, Params extraParams,
@@ -7053,7 +7113,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
@@ -7106,7 +7166,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
     public <T> T getAllOCOOrders(String symbol, long orderListId, long fromId, String keyTime, long valueTime,
@@ -7159,7 +7219,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
@@ -7212,7 +7272,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
     public <T> T getAllOCOOrders(String symbol, String origClientOrderId, long fromId, String keyTime, long valueTime,
@@ -7261,7 +7321,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
@@ -7308,7 +7368,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
     public <T> T getAllOCOOrders(long orderListId, Params extraParams, ReturnFormat format) throws Exception {
@@ -7355,7 +7415,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
@@ -7402,7 +7462,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
     public <T> T getAllOCOOrders(String origClientOrderId, Params extraParams, ReturnFormat format) throws Exception {
@@ -7452,7 +7512,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
@@ -7503,7 +7563,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
     public <T> T getAllOCOOrders(long orderListId, long fromId, String keyTime, long valueTime, Params extraParams,
@@ -7554,7 +7614,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
@@ -7605,7 +7665,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "200(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/allOrderList")
     public <T> T getAllOCOOrders(String origClientOrderId, long fromId, String keyTime, long valueTime, Params extraParams,
@@ -7632,7 +7692,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "10(IP)")
@@ -7661,7 +7721,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data">
      * Query Margin Account's Open OCO (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/openOrderList")
@@ -7689,7 +7749,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data">
      * Query Margin Account's Open OCO (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/openOrderList")
@@ -7714,7 +7774,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/openOrderList")
     public <T> T getAllOCOOpenOrders(ReturnFormat format) throws Exception {
@@ -7740,7 +7800,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @WrappedRequest
     @RequestWeight(weight = "10(IP)")
@@ -7770,7 +7830,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-open-oco-user_data">
      * Query Margin Account's Open OCO (USER_DATA)</a>
-     **/
+     */
     @WrappedRequest
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/openOrderList")
@@ -7816,7 +7876,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/openOrderList")
@@ -7862,7 +7922,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/openOrderList")
     public <T> T getAllOCOOpenOrders(Params extraParams, ReturnFormat format) throws Exception {
@@ -7876,7 +7936,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param orderStatusResponse: obtained from Binance's response
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return an order status details list as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnMarginOrderStatusDetailsList(String orderStatusResponse, ReturnFormat format) {
         switch (format) {
@@ -7912,7 +7972,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data">
      * Query Margin Account's Trade List (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/myTrades")
@@ -7938,7 +7998,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/myTrades")
     public <T> T getTradesList(String symbol, ReturnFormat format) throws Exception {
@@ -7986,7 +8046,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data">
      * Query Margin Account's Trade List (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/myTrades")
@@ -8035,7 +8095,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data">
      * Query Margin Account's Trade List (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/myTrades")
     public <T> T getTradesList(String symbol, Params extraParams, ReturnFormat format) throws Exception {
@@ -8050,7 +8110,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param tradesListResponse: obtained from Binance's response
      * @param format:             return type formatter -> {@link ReturnFormat}
      * @return a trades list as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnTradesList(String tradesListResponse, ReturnFormat format) {
         switch (format) {
@@ -8084,7 +8144,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/maxBorrowable")
@@ -8110,7 +8170,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/maxBorrowable")
     public <T> T getMaxBorrow(String asset, ReturnFormat format) throws Exception {
@@ -8144,7 +8204,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/maxBorrowable")
@@ -8179,7 +8239,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/maxBorrowable")
     public <T> T getMaxBorrow(String asset, Params extraParams, ReturnFormat format) throws Exception {
@@ -8194,7 +8254,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param maxBorrowResponse: obtained from Binance's response
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return a max borrow as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnMaxBorrow(String maxBorrowResponse, ReturnFormat format) {
         switch (format) {
@@ -8227,7 +8287,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-max-transfer-out-amount-user_data">
      * Query Max Transfer-Out Amount (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/maxTransferable")
@@ -8252,7 +8312,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/maxTransferable")
@@ -8278,7 +8338,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/maxTransferable")
     public <T> T getMaxTransferOutAmount(String asset, ReturnFormat format) throws Exception {
@@ -8313,7 +8373,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/maxTransferable")
@@ -8347,7 +8407,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/maxTransferable")
@@ -8381,7 +8441,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "50(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/maxTransferable")
     public <T> T getMaxTransferOutAmount(String asset, Params extraParams, ReturnFormat format) throws Exception {
@@ -8397,7 +8457,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param format:                    return type formatter -> {@link ReturnFormat}
      * @return max transfer amount as {@code "format"} defines
      * @implSpec in this case {@link ReturnFormat#LIBRARY_OBJECT} will return the amount value as double
-     **/
+     */
     @Returner
     private <T> T returnMaxTransferAmount(String maxTransferAmountResponse, ReturnFormat format) {
         switch (format) {
@@ -8429,7 +8489,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-margin-account-user_data">
      * Get Summary of Margin account (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/tradeCoeff")
@@ -8456,7 +8516,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-margin-account-user_data">
      * Get Summary of Margin account (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/tradeCoeff")
     public <T> T getMarginAccountSummary(ReturnFormat format) throws Exception {
@@ -8482,7 +8542,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-margin-account-user_data">
      * Get Summary of Margin account (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/tradeCoeff")
@@ -8510,7 +8570,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-summary-of-margin-account-user_data">
      * Get Summary of Margin account (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/tradeCoeff")
     public <T> T getMarginAccountSummary(long recvWindow, ReturnFormat format) throws Exception {
@@ -8524,7 +8584,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param summaryResponse: obtained from Binance's response
      * @param format:          return type formatter -> {@link ReturnFormat}
      * @return summary as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnSummary(String summaryResponse, ReturnFormat format) {
         switch (format) {
@@ -8560,7 +8620,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#isolated-margin-account-transfer-margin">
      * Isolated Margin Account Transfer (MARGIN)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "600(UIDP)")
     @RequestPath(method = POST, path = "/sapi/v1/margin/isolated/transfer")
@@ -8592,7 +8652,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "600(UIDP)")
     @RequestPath(method = POST, path = "/sapi/v1/margin/isolated/transfer")
     public <T> T execIsolatedMarginAccountTransfer(String asset, String symbol, String transFrom, String transTo,
@@ -8628,7 +8688,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "600(UIDP)")
     @RequestPath(method = POST, path = "/sapi/v1/margin/isolated/transfer")
@@ -8660,7 +8720,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "600(UIDP)")
     @RequestPath(method = POST, path = "/sapi/v1/margin/isolated/transfer")
     public <T> T execIsolatedMarginAccountTransfer(String asset, String symbol, String transFrom, String transTo,
@@ -8694,7 +8754,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
      * Get Isolated Margin Transfer History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/transfer")
@@ -8722,7 +8782,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-isolated-margin-transfer-history-user_data">
      * Get Isolated Margin Transfer History (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/transfer")
     public <T> T getIsolatedTransferHistory(String symbol, ReturnFormat format) throws Exception {
@@ -8779,7 +8839,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/transfer")
@@ -8837,7 +8897,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/transfer")
     public <T> T getIsolatedTransferHistory(String symbol, Params extraParams, ReturnFormat format) throws Exception {
@@ -8852,7 +8912,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param isolatedTransferHistoryResponse: obtained from Binance's response
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return isolated transfer history as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnIsolatedTransferHistoryList(String isolatedTransferHistoryResponse, ReturnFormat format) {
         switch (format) {
@@ -8882,7 +8942,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/account")
@@ -8909,7 +8969,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-account-info-user_data">
      * Query Isolated Margin Account Info (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/account")
     public <T> T getMarginIsolatedAccount(ReturnFormat format) throws Exception {
@@ -8943,7 +9003,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/account")
@@ -8978,7 +9038,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/account")
     public <T> T getMarginIsolatedAccount(Params extraParams, ReturnFormat format) throws Exception {
@@ -8992,7 +9052,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param composedAccountResponse: obtained from Binance's response
      * @param format:                  return type formatter -> {@link ReturnFormat}
      * @return composed account object as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnComposedAccountInfo(String composedAccountResponse, ReturnFormat format) {
         switch (format) {
@@ -9024,7 +9084,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#disable-isolated-margin-account-trade">
      * Disable Isolated Margin Account (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "300(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/margin/isolated/account")
@@ -9050,7 +9110,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "300(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/margin/isolated/account")
     public <T> T disableIsolatedMarginAccount(String symbol, ReturnFormat format) throws Exception {
@@ -9075,7 +9135,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "300(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/margin/isolated/account")
@@ -9102,7 +9162,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "300(UID)")
     @RequestPath(method = DELETE, path = "/sapi/v1/margin/isolated/account")
     public <T> T disableIsolatedMarginAccount(String symbol, long recvWindow, ReturnFormat format) throws Exception {
@@ -9128,7 +9188,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-isolated-margin-account-trade">
      * Enable Isolated Margin Account (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "300(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/margin/isolated/account")
@@ -9156,7 +9216,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-isolated-margin-account-trade">
      * Enable Isolated Margin Account (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "300(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/margin/isolated/account")
     public <T> T enableIsolatedMarginAccount(String symbol, ReturnFormat format) throws Exception {
@@ -9183,7 +9243,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-isolated-margin-account-trade">
      * Enable Isolated Margin Account (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "300(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/margin/isolated/account")
@@ -9212,7 +9272,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-isolated-margin-account-trade">
      * Enable Isolated Margin Account (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "300(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/margin/isolated/account")
     public <T> T enableIsolatedMarginAccount(String symbol, long recvWindow, ReturnFormat format) throws Exception {
@@ -9227,7 +9287,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param #recvWindow:     time to keep alive request, then rejected. Max value is 60000
      * @param format:          return type formatter -> {@link ReturnFormat}
      * @return change margin account status as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T changeMarginAccountStatus(String symbol, boolean enableIsolated, long recvWindow,
                                             ReturnFormat format) throws Exception {
@@ -9270,7 +9330,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/accountLimit")
@@ -9297,7 +9357,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-enabled-isolated-margin-account-limit-user_data">
      * Query Enabled Isolated Margin Account Limit (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/accountLimit")
     public <T> T getIsolateMarginAccountLimit(ReturnFormat format) throws Exception {
@@ -9322,7 +9382,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/accountLimit")
@@ -9348,7 +9408,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/accountLimit")
     public <T> T getIsolateMarginAccountLimit(long recvWindow, ReturnFormat format) throws Exception {
@@ -9362,7 +9422,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param isolatedMarginAccountResponse: obtained from Binance's response
      * @param format:                        return type formatter -> {@link ReturnFormat}
      * @return isolated margin account limit as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnIsolatedMarginAccountLimit(String isolatedMarginAccountResponse, ReturnFormat format) {
         switch (format) {
@@ -9394,7 +9454,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-symbol-user_data">
      * Query Isolated Margin Symbol (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/pair")
@@ -9420,7 +9480,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/pair")
     public <T> T getIsolatedMarginSymbol(String symbol, ReturnFormat format) throws Exception {
@@ -9446,7 +9506,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/pair")
@@ -9473,7 +9533,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/pair")
     public <T> T getIsolatedMarginSymbol(String symbol, long recvWindow, ReturnFormat format) throws Exception {
@@ -9487,7 +9547,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param isolatedMarginSymbolResponse: obtained from Binance's response
      * @param format:                       return type formatter -> {@link ReturnFormat}
      * @return isolated margin symbol as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnIsolatedMarginSymbol(String isolatedMarginSymbolResponse, ReturnFormat format) {
         switch (format) {
@@ -9519,7 +9579,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data">
      * https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/allPairs")
@@ -9546,7 +9606,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data">
      * https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data</a>
-     **/
+     */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/allPairs")
     public <T> T getAllIsolatedSymbols(ReturnFormat format) throws Exception {
@@ -9573,7 +9633,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-all-isolated-margin-symbol-user_data">
      * Get All Isolated Margin Symbol(USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/allPairs")
@@ -9601,7 +9661,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolated/allPairs")
     public <T> T getAllIsolatedSymbols(long recvWindow, ReturnFormat format) throws Exception {
@@ -9615,7 +9675,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param symbolsResponse: obtained from Binance's response
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return isolated margin symbols list as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnAllIMarginSymbols(String symbolsResponse, ReturnFormat format) {
         switch (format) {
@@ -9651,7 +9711,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data">
      * Toggle BNB Burn On Spot Trade And Margin Interest (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/bnbBurn")
@@ -9678,7 +9738,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data">
      * Toggle BNB Burn On Spot Trade And Margin Interest (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/bnbBurn")
     public <T> T toggleBNBOnTradeInterest(ReturnFormat format) throws Exception {
@@ -9717,7 +9777,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#toggle-bnb-burn-on-spot-trade-and-margin-interest-user_data">
      * Toggle BNB Burn On Spot Trade And Margin Interest (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/bnbBurn")
@@ -9756,7 +9816,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = POST, path = "/sapi/v1/bnbBurn")
     public <T> T toggleBNBOnTradeInterest(Params extraParams, ReturnFormat format) throws Exception {
@@ -9782,7 +9842,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data">
      * Get BNB Burn Status (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bnbBurn")
@@ -9809,7 +9869,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-bnb-burn-status-user_data">
      * Get BNB Burn Status (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bnbBurn")
     public <T> T getBNBBurnStatus(ReturnFormat format) throws Exception {
@@ -9833,7 +9893,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bnbBurn")
@@ -9859,7 +9919,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/bnbBurn")
     public <T> T getBNBBurnStatus(long recvWindow, ReturnFormat format) throws Exception {
@@ -9874,7 +9934,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param toggleBNBResponse: obtained from Binance's response
      * @param format:            return type formatter -> {@link ReturnFormat}
      * @return toggle BNB object as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnToggleBNB(String toggleBNBResponse, ReturnFormat format) {
         switch (format) {
@@ -9906,7 +9966,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-margin-interest-rate-history-user_data">
      * Query Margin Interest Rate History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/interestRateHistory")
@@ -9932,7 +9992,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/interestRateHistory")
     public <T> T getInterestRateHistory(String asset, ReturnFormat format) throws Exception {
@@ -9975,7 +10035,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/interestRateHistory")
@@ -10019,7 +10079,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/interestRateHistory")
     public <T> T getInterestRateHistory(String asset, Params extraParams, ReturnFormat format) throws Exception {
@@ -10034,7 +10094,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param rateHistoryListResponse: obtained from Binance's response
      * @param format:                  return type formatter -> {@link ReturnFormat}
      * @return rate history list as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnRateHistoryList(String rateHistoryListResponse, ReturnFormat format) {
         switch (format) {
@@ -10070,7 +10130,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data">
      * Query Cross Margin Fee Data (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1/5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/crossMarginData")
@@ -10097,7 +10157,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data">
      * Query Cross Margin Fee Data (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1/5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/crossMarginData")
     public <T> T getCrossMarginFeeData(ReturnFormat format) throws Exception {
@@ -10135,7 +10195,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-cross-margin-fee-data-user_data">
      * Query Cross Margin Fee Data (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1/5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/crossMarginData")
@@ -10173,7 +10233,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "1/5(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/crossMarginData")
     public <T> T getCrossMarginFeeData(Params extraParams, ReturnFormat format) throws Exception {
@@ -10187,7 +10247,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param feesResponse: obtained from Binance's response
      * @param format:       return type formatter -> {@link ReturnFormat}
      * @return cross margin fees list as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnCrossMarginFee(String feesResponse, ReturnFormat format) {
         switch (format) {
@@ -10223,7 +10283,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
      * Query Isolated Margin Fee Data (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1/10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolatedMarginData")
@@ -10250,7 +10310,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
      * Query Isolated Margin Fee Data (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1/10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolatedMarginData")
     public <T> T getIsolatedMarginFeeData(ReturnFormat format) throws Exception {
@@ -10288,7 +10348,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-fee-data-user_data">
      * Query Isolated Margin Fee Data (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1/10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolatedMarginData")
@@ -10326,7 +10386,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "1/10(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolatedMarginData")
     public <T> T getIsolatedMarginFeeData(Params extraParams, ReturnFormat format) throws Exception {
@@ -10340,7 +10400,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param feesResponse: obtained from Binance's response
      * @param format:       return type formatter -> {@link ReturnFormat}
      * @return isolated margin fees list as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnIsolatedMarginFee(String feesResponse, ReturnFormat format) {
         switch (format) {
@@ -10376,7 +10436,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data">
      * Query Isolated Margin Tier Data (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolatedMarginTier")
@@ -10404,7 +10464,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data">
      * Query Isolated Margin Tier Data (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolatedMarginTier")
     public <T> T getIsolatedMarginTierData(String symbol, ReturnFormat format) throws Exception {
@@ -10443,7 +10503,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-isolated-margin-tier-data-user_data">
      * Query Isolated Margin Tier Data (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolatedMarginTier")
@@ -10483,7 +10543,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                             {@link #printErrorResponse()}
      *                         </li>
      *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
-     * **/
+     * */
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/isolatedMarginTier")
     public <T> T getIsolatedMarginTierData(String symbol, Params extraParams, ReturnFormat format) throws Exception {
@@ -10498,7 +10558,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      * @param tierDataResponse: obtained from Binance's response
      * @param format:           return type formatter -> {@link ReturnFormat}
      * @return isolated margin tier data list as {@code "format"} defines
-     **/
+     */
     @Returner
     private <T> T returnIsolatedMarginTierData(String tierDataResponse, ReturnFormat format) {
         switch (format) {
@@ -10534,7 +10594,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-margin-order-count-usage-trade">
      * Query Current Margin Order Count Usage (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "20(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/rateLimit/order")
@@ -10561,7 +10621,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-margin-order-count-usage-trade">
      * Query Current Margin Order Count Usage (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "20(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/rateLimit/order")
     public <T> T getCurrentMarginOrderCountUsage(ReturnFormat format) throws Exception {
@@ -10600,7 +10660,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-margin-order-count-usage-trade">
      * Query Current Margin Order Count Usage (TRADE)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "20(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/rateLimit/order")
@@ -10641,7 +10701,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-current-margin-order-count-usage-trade">
      * Query Current Margin Order Count Usage (TRADE)</a>
-     **/
+     */
     @RequestWeight(weight = "20(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/rateLimit/order")
     public <T> T getCurrentMarginOrderCountUsage(Params extraParams, ReturnFormat format) throws Exception {
@@ -10668,7 +10728,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-dustlog-user_data">
      * Margin Dustlog (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestPath(method = GET, path = "/sapi/v1/margin/dribblet")
     public DustLogList getMarginDustLog() throws Exception {
@@ -10694,7 +10754,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-dustlog-user_data">
      * Margin Dustlog (USER_DATA)</a>
-     **/
+     */
     @RequestPath(method = GET, path = "/sapi/v1/margin/dribblet")
     public <T> T getMarginDustLog(ReturnFormat format) throws Exception {
         return getMarginDustLog(null, format);
@@ -10731,7 +10791,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-dustlog-user_data">
      * Margin Dustlog (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestPath(method = GET, path = "/sapi/v1/margin/dribblet")
     public DustLogList getMarginDustLog(Params extraParams) throws Exception {
@@ -10770,7 +10830,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#margin-dustlog-user_data">
      * Margin Dustlog (USER_DATA)</a>
-     **/
+     */
     @RequestPath(method = GET, path = "/sapi/v1/margin/dribblet")
     public <T> T getMarginDustLog(Params extraParams, ReturnFormat format) throws Exception {
         return returnDustLog(sendGetSignedRequest(MARGIN_DRIBBLET_ENDPOINT, createTimestampPayload(extraParams)), format);
@@ -10795,7 +10855,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-margin-collateral-ratio-market_data">
      * Cross margin collateral ratio (MARKET_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "100(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/crossMarginCollateralRatio")
@@ -10822,7 +10882,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#cross-margin-collateral-ratio-market_data">
      * Cross margin collateral ratio (MARKET_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "100(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/crossMarginCollateralRatio")
@@ -10861,7 +10921,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-small-liability-exchange-coin-list-user_data">
      * Get Small Liability Exchange Coin List (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/exchange-small-liability")
@@ -10888,7 +10948,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-small-liability-exchange-coin-list-user_data">
      * Get Small Liability Exchange Coin List (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/exchange-small-liability")
@@ -10927,7 +10987,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#small-liability-exchange-margin">
      * Small Liability Exchange (MARGIN)</a>
-     **/
+     */
     @RequestWeight(weight = "3000(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/margin/exchange-small-liability")
     public boolean smallLiabilityExchange(String... assetNames) throws Exception {
@@ -10957,7 +11017,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-small-liability-exchange-history-user_data">
      * Get Small Liability Exchange History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/exchange-small-liability-history")
@@ -10986,7 +11046,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-small-liability-exchange-history-user_data">
      * Get Small Liability Exchange History (USER_DATA)</a>
-     **/
+     */
     @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/exchange-small-liability-history")
     public <T> T getSmallLiabilityExchangeHistory(int current, int size, ReturnFormat format) throws Exception {
@@ -11026,7 +11086,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-small-liability-exchange-history-user_data">
      * Get Small Liability Exchange History (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/exchange-small-liability-history")
@@ -11069,7 +11129,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-small-liability-exchange-history-user_data">
      * Get Small Liability Exchange History (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/exchange-small-liability-history")
@@ -11111,7 +11171,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-a-future-hourly-interest-rate-user_data">
      * Get a future hourly interest rate (USER_DATA)</a>
-     **/
+     */
     @Wrapper
     @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/next-hourly-interest-rate")
@@ -11141,7 +11201,7 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-a-future-hourly-interest-rate-user_data">
      * Get a future hourly interest rate (USER_DATA)</a>
-     **/
+     */
     @Returner
     @RequestWeight(weight = "100(UID)")
     @RequestPath(method = GET, path = "/sapi/v1/margin/next-hourly-interest-rate")
@@ -11166,57 +11226,122 @@ public class BinanceMarginManager extends BinanceSignedManager {
     }
 
     /**
-     * {@code MarginTransferType} list of available transfer type
-     **/
-    public enum MarginTransferType {
+     * Request to get tokens or symbols delist schedule for cross margin and isolated margin <br>
+     * No-any params required
+     *
+     * @return delist schedule as {@link ArrayList} of {@link DelistSchedule} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-tokens-or-symbols-delist-schedule-for-cross-margin-and-isolated-margin-market_data">
+     * Get tokens or symbols delist schedule for cross margin and isolated margin (MARKET_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "100(UID)")
+    @RequestPath(method = GET, path = "/sapi/v1/margin/delist-schedule")
+    public ArrayList<DelistSchedule> getDelistSchedule() throws Exception {
+        return getDelistSchedule(LIBRARY_OBJECT);
+    }
 
-        /**
-         * {@code "pending"} status
-         **/
-        MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT(1),
+    /**
+     * Request to get tokens or symbols delist schedule for cross margin and isolated margin
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return delist schedule as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-tokens-or-symbols-delist-schedule-for-cross-margin-and-isolated-margin-market_data">
+     * Get tokens or symbols delist schedule for cross margin and isolated margin (MARKET_DATA)</a>
+     */
+    @RequestWeight(weight = "100(UID)")
+    @RequestPath(method = GET, path = "/sapi/v1/margin/delist-schedule")
+    public <T> T getDelistSchedule(ReturnFormat format) throws Exception {
+        return getDelistSchedule(-1, format);
+    }
 
-        /**
-         * {@code "credited_but_cannot_withdraw"} status
-         **/
-        CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT(2);
+    /**
+     * Request to get tokens or symbols delist schedule for cross margin and isolated margin
+     *
+     * @param recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @return delist schedule as {@link ArrayList} of {@link DelistSchedule} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-tokens-or-symbols-delist-schedule-for-cross-margin-and-isolated-margin-market_data">
+     * Get tokens or symbols delist schedule for cross margin and isolated margin (MARKET_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "100(UID)")
+    @RequestPath(method = GET, path = "/sapi/v1/margin/delist-schedule")
+    public ArrayList<DelistSchedule> getDelistSchedule(long recvWindow) throws Exception {
+        return getDelistSchedule(recvWindow, LIBRARY_OBJECT);
+    }
 
-        /**
-         * {@code "status"} value
-         **/
-        private final int transferType;
-
-        /**
-         * Constructor to init {@link Deposit.DepositStatus}
-         *
-         * @param transferType: status value
-         **/
-        MarginTransferType(int transferType) {
-            this.transferType = transferType;
-        }
-
-        /**
-         * Method to get the {@link MarginTransferType} by an int <br>
-         * No-any params required
-         *
-         * @return {@link MarginTransferType} corresponding value
-         **/
-        public static MarginTransferType valueOf(int status) {
-            if (status == 1)
-                return MAIN_ACCOUNT_TO_CROSS_MARGIN_ACCOUNT;
-            return CROSS_MARGIN_ACCOUNT_MAIN_ACCOUNT;
-        }
-
-        /**
-         * Method to get {@link #transferType} instance <br>
-         * No-any params required
-         *
-         * @return {@link #transferType} instance as {@link String}
-         **/
-        @Override
-        public String toString() {
-            return String.valueOf(transferType);
-        }
-
+    /**
+     * Request to get tokens or symbols delist schedule for cross margin and isolated margin
+     *
+     * @param recvWindow: time to keep alive request, then rejected. Max value is 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return delist schedule as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-tokens-or-symbols-delist-schedule-for-cross-margin-and-isolated-margin-market_data">
+     * Get tokens or symbols delist schedule for cross margin and isolated margin (MARKET_DATA)</a>
+     */
+    @Returner
+    @RequestWeight(weight = "100(UID)")
+    @RequestPath(method = GET, path = "/sapi/v1/margin/delist-schedule")
+    public <T> T getDelistSchedule(long recvWindow, ReturnFormat format) throws Exception {
+        JSONArray scheduleResponse = new JSONArray(sendGetSignedRequest(DELIST_SCHEDULE_ENDPOINT,
+                createTimestampPayload(null, recvWindow)));
+        return switch (format) {
+            case JSON -> (T) scheduleResponse;
+            case LIBRARY_OBJECT -> {
+                ArrayList<DelistSchedule> schedules = new ArrayList<>();
+                for (int j = 0; j < scheduleResponse.length(); j++)
+                    schedules.add(new DelistSchedule(scheduleResponse.getJSONObject(j)));
+                yield (T) schedules;
+            }
+            default -> (T) scheduleResponse.toString();
+        };
     }
 
 }

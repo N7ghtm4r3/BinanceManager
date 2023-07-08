@@ -2,6 +2,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.staking;
 
 import com.tecknobit.apimanager.annotations.*;
 import com.tecknobit.apimanager.formatters.JsonHelper;
+import com.tecknobit.apimanager.interfaces.Manager;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
@@ -29,6 +30,7 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.staking.recor
  * Staking Endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
+ * @see Manager
  */
 public class BinanceStakingManager extends BinanceSignedManager {
 

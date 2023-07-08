@@ -3,6 +3,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.apimanager.apis.APIRequest;
+import com.tecknobit.apimanager.interfaces.Manager;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import org.json.JSONObject;
@@ -20,6 +21,7 @@ import static com.tecknobit.apimanager.apis.APIRequest.getSignature;
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#introduction">
  * Introduction</a>
  * @see BinanceManager
+ * @see Manager
  */
 public class BinanceSignedManager extends BinanceManager {
 
@@ -135,10 +137,23 @@ public class BinanceSignedManager extends BinanceManager {
      * @param extraParams: extra params of the request
      * @return payload as {@link Params}
      */
+    @Wrapper
     protected Params createTimestampPayload(Params extraParams) {
+        return createTimestampPayload(extraParams, -1);
+    }
+
+    /**
+     * Method to create a payload with the timestamp value
+     *
+     * @param extraParams: extra params of the request
+     * @return payload as {@link Params}
+     */
+    protected Params createTimestampPayload(Params extraParams, long recvWindow) {
         if (extraParams == null)
             extraParams = new Params();
         extraParams.addParam("timestamp", getServerTime());
+        if (recvWindow != -1)
+            extraParams.addParam("recvWindow", recvWindow);
         return extraParams;
     }
 

@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet;
 
 import com.tecknobit.apimanager.annotations.*;
+import com.tecknobit.apimanager.interfaces.Manager;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.records.BinanceResponseStructure;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
@@ -47,6 +48,7 @@ import static java.lang.Long.parseLong;
  * Wallet Endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
+ * @see Manager
  */
 public class BinanceWalletManager extends BinanceSignedManager {
 

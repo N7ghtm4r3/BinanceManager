@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.viploans;
 
 import com.tecknobit.apimanager.annotations.*;
+import com.tecknobit.apimanager.interfaces.Manager;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
@@ -25,6 +26,7 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * Vip Loans Endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
+ * @see Manager
  */
 public class BinanceVipLoansManager extends BinanceSignedManager {
 

@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.bswap;
 
 import com.tecknobit.apimanager.annotations.*;
+import com.tecknobit.apimanager.interfaces.Manager;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
@@ -30,6 +31,7 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
  * BSwap Endpoints</a>
  * @see BinanceManager
  * @see BinanceSignedManager
+ * @see Manager
  */
 public class BinanceBSwapManager extends BinanceSignedManager {
 

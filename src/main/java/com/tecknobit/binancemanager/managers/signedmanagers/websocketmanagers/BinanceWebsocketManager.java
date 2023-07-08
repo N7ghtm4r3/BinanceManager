@@ -1,5 +1,6 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.websocketmanagers;
 
+import com.tecknobit.apimanager.interfaces.Manager;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.records.websocketstream.BinanceWebsocketResponse.EventType;
@@ -23,6 +24,7 @@ import static com.tecknobit.binancemanager.managers.records.websocketstream.Bina
  * Introduction</a>
  * @see BinanceManager
  * @see BinanceSignedManager
+ * @see Manager
  */
 public class BinanceWebsocketManager extends BinanceSignedManager {
 
