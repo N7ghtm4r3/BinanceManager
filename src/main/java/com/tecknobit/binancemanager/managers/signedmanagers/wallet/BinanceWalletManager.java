@@ -36,8 +36,10 @@ import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.POST;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.JSON;
 import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.LIBRARY_OBJECT;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.accountsnapshots.AccountSnapshot.returnAccountSnapshot;
+import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.ConvertibleBNBAssets.returnConvertibleBNBAssets;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.DepositAddress.returnDepositAddress;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustLogList.returnDustLog;
+import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustTransfer.returnDustTransfer;
 import static java.lang.Long.parseLong;
 
 /**
@@ -1939,19 +1941,10 @@ public class BinanceWalletManager extends BinanceSignedManager {
      * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
      * Get Assets That Can Be Converted Into BNB (USER_DATA)</a>
      */
-    @Returner
     @RequestWeight(weight = "1(IP)")
     @RequestPath(method = GET, path = "/sapi/v1/asset/dust-btc")
     public <T> T getConvertibleBNBAssets(ReturnFormat format) throws Exception {
-        String assetsResponse = sendGetSignedRequest(ASSET_CONVERTIBLE_BNB_ENDPOINT, getTimestampParam());
-        switch (format) {
-            case JSON:
-                return (T) new JSONObject(assetsResponse);
-            case LIBRARY_OBJECT:
-                return (T) new ConvertibleBNBAssets(new JSONObject(assetsResponse));
-            default:
-                return (T) assetsResponse;
-        }
+        return returnConvertibleBNBAssets(sendGetSignedRequest(ASSET_CONVERTIBLE_BNB_ENDPOINT, getTimestampParam()), format);
     }
 
     /** Request to get dust transfer
@@ -1998,21 +1991,12 @@ public class BinanceWalletManager extends BinanceSignedManager {
      *                       </li>
      *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
      */
-    @Returner
     @RequestWeight(weight = "10(UID)")
     @RequestPath(method = POST, path = "/sapi/v1/asset/dust")
     public <T> T getDustTransfer(ArrayList<String> assets, ReturnFormat format) throws Exception {
         Params payload = new Params();
         payload.addParam("asset", apiRequest.concatenateParamsList("", "asset", assets));
-        String dustResponse = sendPostSignedRequest(DUST_TRANSFER_ENDPOINT, payload);
-        switch (format) {
-            case JSON:
-                return (T) new JSONObject(dustResponse);
-            case LIBRARY_OBJECT:
-                return (T) new DustTransfer(new JSONObject(dustResponse));
-            default:
-                return (T) dustResponse;
-        }
+        return returnDustTransfer(sendPostSignedRequest(DUST_TRANSFER_ENDPOINT, payload), format);
     }
 
     /**

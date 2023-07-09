@@ -6,10 +6,7 @@ import com.tecknobit.apimanager.interfaces.Manager;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
-import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.ManagedSubAccountList;
-import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.SubAccount;
-import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.SubAccountEnabledResult;
-import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.SubAccountStatus;
+import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.*;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.futures.SubFuturesAccount;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.futures.SummarySubFuturesAccount;
 import com.tecknobit.binancemanager.managers.signedmanagers.subaccount.records.account.futures.coin.CoinSubFuturesAccount;
@@ -251,12 +248,22 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
     /**
      * {@code SUB_ACCOUNT_TRANSACTION_STATISTICS_ENDPOINT} is constant for SUB_ACCOUNT_TRANSACTION_STATISTICS_ENDPOINT's endpoint
      */
-    public static final String SUB_ACCOUNT_TRANSACTION_STATISTICS_ENDPOINT = "/sapi/v1/sub-account/transaction-tatistics";
+    public static final String SUB_ACCOUNT_TRANSACTION_STATISTICS_ENDPOINT = "/sapi/v1/sub-account/transaction-statistics";
 
     /**
      * {@code MANAGED_SUB_ACCOUNT_DEPOSIT_ADDRESS_ENDPOINT} is constant for MANAGED_SUB_ACCOUNT_DEPOSIT_ADDRESS_ENDPOINT's endpoint
      */
     public static final String MANAGED_SUB_ACCOUNT_DEPOSIT_ADDRESS_ENDPOINT = "/sapi/v1/managed-subaccount/deposit/address";
+
+    /**
+     * {@code ENABLE_SUB_ACCOUNT_OPTIONS_ENDPOINT} is constant for ENABLE_SUB_ACCOUNT_OPTIONS_ENDPOINT's endpoint
+     */
+    public static final String ENABLE_SUB_ACCOUNT_OPTIONS_ENDPOINT = "/sapi/v1/sub-account/eoptions/enable";
+
+    /**
+     * {@code MANAGED_SUB_ACCOUNT_TRANS_LOG_ENDPOINT} is constant for MANAGED_SUB_ACCOUNT_TRANS_LOG_ENDPOINT's endpoint
+     */
+    public static final String MANAGED_SUB_ACCOUNT_TRANS_LOG_ENDPOINT = "/sapi/v1/managed-subaccount/query-trans-log";
 
     /**
      * Constructor to init a {@link BinanceSubAccountManager}
@@ -7426,25 +7433,6 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
     }
 
     /**
-     * Method to create a subaccount transfer log
-     *
-     * @param transferResponse: obtained from Binance's response
-     * @param format:           return type formatter -> {@link ReturnFormat}
-     * @return subaccount transfer log as {@code "format"} defines
-     */
-    @Returner
-    private <T> T returnTransferLog(String transferResponse, ReturnFormat format) {
-        switch (format) {
-            case JSON:
-                return (T) new JSONObject(transferResponse);
-            case LIBRARY_OBJECT:
-                return (T) new SubAccountTransferLog(new JSONObject(transferResponse));
-            default:
-                return (T) transferResponse;
-        }
-    }
-
-    /**
      * Request to get the subaccount futures asset details
      *
      * @param subAccount: the subaccount from fetch the list
@@ -8613,6 +8601,404 @@ public class BinanceSubAccountManager extends BinanceSignedManager {
         extraParams.addParam("email", email);
         extraParams.addParam("coin", coin);
         return extraParams;
+    }
+
+    /**
+     * Request to enable options for subaccount
+     *
+     * @param account: where enable the options
+     * @return options for subaccount as {@link SubAccountOptions} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-options-for-sub-account-for-master-account-user_data">
+     * Enable Options for Sub-account (For Master Account)(USER_DATA)</a>
+     */
+    @Wrapper
+    @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/sub-account/eoptions/enable")
+    public SubAccountOptions enableSubAccountOptions(SubAccount account) throws Exception {
+        return enableSubAccountOptions(account.getEmail(), LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to enable options for subaccount
+     *
+     * @param account: where enable the options
+     * @param format:  return type formatter -> {@link ReturnFormat}
+     * @return options for subaccount as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-options-for-sub-account-for-master-account-user_data">
+     * Enable Options for Sub-account (For Master Account)(USER_DATA)</a>
+     */
+    @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/sub-account/eoptions/enable")
+    public <T> T enableSubAccountOptions(SubAccount account, ReturnFormat format) throws Exception {
+        return enableSubAccountOptions(account.getEmail(), format);
+    }
+
+    /**
+     * Request to enable options for subaccount
+     *
+     * @param email: sub user email
+     * @return options for subaccount as {@link SubAccountOptions} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-options-for-sub-account-for-master-account-user_data">
+     * Enable Options for Sub-account (For Master Account)(USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "1(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/sub-account/eoptions/enable")
+    public SubAccountOptions enableSubAccountOptions(String email) throws Exception {
+        return enableSubAccountOptions(email, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to enable options for subaccount
+     *
+     * @param email:  sub user email
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return options for subaccount as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-options-for-sub-account-for-master-account-user_data">
+     * Enable Options for Sub-account (For Master Account)(USER_DATA)</a>
+     */
+    @RequestWeight(weight = "1(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/sub-account/eoptions/enable")
+    public <T> T enableSubAccountOptions(String email, ReturnFormat format) throws Exception {
+        return enableSubAccountOptions(email, -1, format);
+    }
+
+    /**
+     * Request to enable options for subaccount
+     *
+     * @param account:    where enable the options
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return options for subaccount as {@link SubAccountOptions} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-options-for-sub-account-for-master-account-user_data">
+     * Enable Options for Sub-account (For Master Account)(USER_DATA)</a>
+     */
+    @Wrapper
+    @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/sub-account/eoptions/enable")
+    public SubAccountOptions enableSubAccountOptions(SubAccount account, long recvWindow) throws Exception {
+        return enableSubAccountOptions(account.getEmail(), recvWindow, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to enable options for subaccount
+     *
+     * @param account:    where enable the options
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return options for subaccount as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-options-for-sub-account-for-master-account-user_data">
+     * Enable Options for Sub-account (For Master Account)(USER_DATA)</a>
+     */
+    @WrappedRequest
+    @RequestWeight(weight = "1(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/sub-account/eoptions/enable")
+    public <T> T enableSubAccountOptions(SubAccount account, long recvWindow, ReturnFormat format) throws Exception {
+        return enableSubAccountOptions(account.getEmail(), recvWindow, format);
+    }
+
+    /**
+     * Request to enable options for subaccount
+     *
+     * @param email:      sub user email
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return options for subaccount as {@link SubAccountOptions} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-options-for-sub-account-for-master-account-user_data">
+     * Enable Options for Sub-account (For Master Account)(USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "1(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/sub-account/eoptions/enable")
+    public SubAccountOptions enableSubAccountOptions(String email, long recvWindow) throws Exception {
+        return enableSubAccountOptions(email, recvWindow, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to enable options for subaccount
+     *
+     * @param email:      sub user email
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return options for subaccount as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#enable-options-for-sub-account-for-master-account-user_data">
+     * Enable Options for Sub-account (For Master Account)(USER_DATA)</a>
+     */
+    @Returner
+    @RequestWeight(weight = "1(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/sub-account/eoptions/enable")
+    public <T> T enableSubAccountOptions(String email, long recvWindow, ReturnFormat format) throws Exception {
+        Params payload = createTimestampPayload(null, recvWindow);
+        payload.addParam("email", email);
+        JSONObject response = new JSONObject(sendPostSignedRequest(ENABLE_SUB_ACCOUNT_OPTIONS_ENDPOINT, payload));
+        return switch (format) {
+            case JSON -> (T) response;
+            case LIBRARY_OBJECT -> (T) new SubAccountOptions(response);
+            default -> (T) response.toString();
+        };
+    }
+
+    /**
+     * Request to get the managed subaccount transfer log
+     *
+     * @param startTime: the start time
+     * @param endTime:   end time (The start time and end time interval cannot exceed half a year)
+     * @param page:      page from fetch the result
+     * @param limit:     results limit (Max: 500)
+     * @return subaccount transfer log as {@link SubAccountTransferLog} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-managed-sub-account-transfer-log-for-trading-team-sub-account-user_data">
+     * Query Managed Sub Account Transfer Log (For Trading Team Sub Account)(USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "60(UID)")
+    @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/query-trans-log")
+    public SubAccountTransferLog getManagedSubAccountTransferLog(long startTime, long endTime, int page,
+                                                                 int limit) throws Exception {
+        return getManagedSubAccountTransferLog(startTime, endTime, page, limit, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get the managed subaccount transfer log
+     *
+     * @param startTime: the start time
+     * @param endTime:   end time (The start time and end time interval cannot exceed half a year)
+     * @param page:      page from fetch the result
+     * @param limit:     results limit (Max: 500)
+     * @param format:    return type formatter -> {@link ReturnFormat}
+     * @return subaccount transfer log as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-managed-sub-account-transfer-log-for-trading-team-sub-account-user_data">
+     * Query Managed Sub Account Transfer Log (For Trading Team Sub Account)(USER_DATA)</a>
+     */
+    @RequestWeight(weight = "60(UID)")
+    @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/query-trans-log")
+    public <T> T getManagedSubAccountTransferLog(long startTime, long endTime, int page, int limit,
+                                                 ReturnFormat format) throws Exception {
+        return getManagedSubAccountTransferLog(startTime, endTime, page, limit, null, format);
+    }
+
+    /**
+     * Request to get the managed subaccount transfer log
+     *
+     * @param startTime:   the start time
+     * @param endTime:     end time (The start time and end time interval cannot exceed half a year)
+     * @param page:        page from fetch the result
+     * @param limit:       results limit (Max: 500)
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "transfers"} -> transfer direction, constants available
+     *                                {@link TransferDirection} - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "transferFunctionAccountType"} -> transfer function account type,
+     *                                constants available {@link PrincipalAccountType} - [STRING]
+     *                           </li>
+     *                     </ul>
+     * @return subaccount transfer log as {@link SubAccountTransferLog} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-managed-sub-account-transfer-log-for-trading-team-sub-account-user_data">
+     * Query Managed Sub Account Transfer Log (For Trading Team Sub Account)(USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "60(UID)")
+    @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/query-trans-log")
+    public SubAccountTransferLog getManagedSubAccountTransferLog(long startTime, long endTime, int page, int limit,
+                                                                 Params queryParams) throws Exception {
+        return getManagedSubAccountTransferLog(startTime, endTime, page, limit, queryParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get the managed subaccount transfer log
+     *
+     * @param startTime:   the start time
+     * @param endTime:     end time (The start time and end time interval cannot exceed half a year)
+     * @param page:        page from fetch the result
+     * @param limit:       results limit (Max: 500)
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "transfers"} -> transfer direction, constants available
+     *                                {@link TransferDirection} - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "transferFunctionAccountType"} -> transfer function account type,
+     *                                constants available {@link PrincipalAccountType} - [STRING]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return subaccount transfer log as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-managed-sub-account-transfer-log-for-trading-team-sub-account-user_data">
+     * Query Managed Sub Account Transfer Log (For Trading Team Sub Account)(USER_DATA)</a>
+     */
+    @RequestWeight(weight = "60(UID)")
+    @RequestPath(method = GET, path = "/sapi/v1/managed-subaccount/query-trans-log")
+    public <T> T getManagedSubAccountTransferLog(long startTime, long endTime, int page, int limit, Params queryParams,
+                                                 ReturnFormat format) throws Exception {
+        return returnTransferLog(sendGetSignedRequest(MANAGED_SUB_ACCOUNT_TRANS_LOG_ENDPOINT,
+                createTransferLogQuery(null, startTime, endTime, page, limit, queryParams)), format);
+    }
+
+    /**
+     * Method to create a subaccount transfer log
+     *
+     * @param transferResponse: obtained from Binance's response
+     * @param format:           return type formatter -> {@link ReturnFormat}
+     * @return subaccount transfer log as {@code "format"} defines
+     */
+    @Returner
+    private <T> T returnTransferLog(String transferResponse, ReturnFormat format) {
+        switch (format) {
+            case JSON:
+                return (T) new JSONObject(transferResponse);
+            case LIBRARY_OBJECT:
+                return (T) new SubAccountTransferLog(new JSONObject(transferResponse));
+            default:
+                return (T) transferResponse;
+        }
     }
 
 }

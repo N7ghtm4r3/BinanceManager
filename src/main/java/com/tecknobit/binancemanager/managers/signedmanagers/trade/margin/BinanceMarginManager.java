@@ -4,6 +4,7 @@ import com.tecknobit.apimanager.annotations.*;
 import com.tecknobit.apimanager.interfaces.Manager;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
+import com.tecknobit.binancemanager.managers.market.records.stats.ExchangeInformation.SelfTradePreventionMode;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.OrderType;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.Side;
@@ -26,8 +27,10 @@ import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.details.*;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.response.*;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.response.MarginOrder.SideEffectType;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.ConvertibleBNBAssets;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.deposit.Deposit;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustLogList;
+import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustTransfer;
 import com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.UniversalTransferHistory.TransferType;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -42,7 +45,9 @@ import static com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat.
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.Order.OrderType.*;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.commons.OrderCountUsage.returnCountUsageList;
 import static com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.orders.response.SpotOrder.*;
+import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset.ConvertibleBNBAssets.returnConvertibleBNBAssets;
 import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustLogList.returnDustLog;
+import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust.DustTransfer.returnDustTransfer;
 import static java.lang.Long.parseLong;
 
 /**
@@ -110,6 +115,11 @@ public class BinanceMarginManager extends BinanceSignedManager {
         }
 
     }
+
+    /**
+     * {@code MAX_LEVERAGE_ENDPOINT} is constant for MAX_LEVERAGE_ENDPOINT's endpoint
+     */
+    public static final String MAX_LEVERAGE_ENDPOINT = "/sapi/v1/margin/max-leverage";
 
     /**
      * {@code CROSS_MARGIN_TRANSFERS_ENDPOINT} is constant for CROSS_MARGIN_TRANSFERS_ENDPOINT's endpoint
@@ -287,6 +297,11 @@ public class BinanceMarginManager extends BinanceSignedManager {
     public static final String MARGIN_DRIBBLET_ENDPOINT = "/sapi/v1/margin/dribblet";
 
     /**
+     * {@code MARGIN_DUST_ENDPOINT} is constant for MARGIN_DUST_ENDPOINT's endpoint
+     */
+    public static final String MARGIN_DUST_ENDPOINT = "/sapi/v1/margin/dust";
+
+    /**
      * {@code COLLATERAL_RATIO_ENDPOINT} is constant for COLLATERAL_RATIO_ENDPOINT's endpoint
      */
     public static final String COLLATERAL_RATIO_ENDPOINT = "/sapi/v1/margin/crossMarginCollateralRatio";
@@ -375,6 +390,34 @@ public class BinanceMarginManager extends BinanceSignedManager {
      */
     public BinanceMarginManager() {
         super();
+    }
+
+    /**
+     * Request to adjust cross margin max leverage
+     *
+     * @param maxLeverage: can only adjust 3 or 5
+     * @return result of the operation as boolean
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#adjust-cross-margin-max-leverage-user_data">
+     * Adjust cross margin max leverage (USER_DATA)</a>
+     */
+    @RequestWeight(weight = "3000(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/margin/max-leverage")
+    public boolean adjustCrossMarginMaxLeverage(int maxLeverage) throws Exception {
+        Params payload = new Params();
+        payload.addParam("maxLeverage", maxLeverage);
+        return new JSONObject(sendPostSignedRequest(MAX_LEVERAGE_ENDPOINT, payload)).getBoolean("success");
     }
 
     /**
@@ -1148,6 +1191,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                              - [ENUM, default NO_SIDE_EFFECT]
      *                          </li>
+     *                          <li>
+     *                              {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                              on the symbol - [{@link SelfTradePreventionMode}]
+     *                          </li>
+     *                          <li>
+     *                              {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                              true means that the debt generated by the order needs to be repay after the order
+     *                              is cancelled - [BOOLEAN, default true]
+     *                          </li>
      *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                          </li>
@@ -1210,6 +1262,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                              - [ENUM, default NO_SIDE_EFFECT]
      *                          </li>
+     *                          <li>
+     *                              {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                              on the symbol - [{@link SelfTradePreventionMode}]
+     *                          </li>
+     *                          <li>
+     *                              {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                              true means that the debt generated by the order needs to be repay after the order
+     *                              is cancelled - [BOOLEAN, default true]
+     *                          </li>
      *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                          </li>
@@ -1269,6 +1330,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                         <li>
      *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                              - [ENUM, default NO_SIDE_EFFECT]
+     *                          </li>
+     *                          <li>
+     *                              {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                              on the symbol - [{@link SelfTradePreventionMode}]
+     *                          </li>
+     *                          <li>
+     *                              {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                              true means that the debt generated by the order needs to be repay after the order
+     *                              is cancelled - [BOOLEAN, default true]
      *                          </li>
      *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -1330,6 +1400,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                              - [ENUM, default NO_SIDE_EFFECT]
      *                          </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                on the symbol - [{@link SelfTradePreventionMode}]
+     *                           </li>
+     *                           <li>
+     *                               {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                               true means that the debt generated by the order needs to be repay after the order
+     *                               is cancelled - [BOOLEAN, default true]
+     *                           </li>
      *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                         </li>
@@ -1388,6 +1467,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                                - [ENUM, default NO_SIDE_EFFECT]
      *                            </li>
      *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                on the symbol - [{@link SelfTradePreventionMode}]
+     *                           </li>
+     *                           <li>
+     *                               {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                               true means that the debt generated by the order needs to be repay after the order
+     *                               is cancelled - [BOOLEAN, default true]
+     *                           </li>
+     *                           <li>
      *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                           </li>
      *                       </ul>
@@ -1444,6 +1532,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                                {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                                - [ENUM, default NO_SIDE_EFFECT]
      *                            </li>
+     *                           <li>
+     *                               {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                on the symbol - [{@link SelfTradePreventionMode}]
+     *                           </li>
+     *                           <li>
+     *                               {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                               true means that the debt generated by the order needs to be repay after the order
+     *                               is cancelled - [BOOLEAN, default true]
+     *                           </li>
      *                           <li>
      *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                           </li>
@@ -1505,6 +1602,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                              - [ENUM, default NO_SIDE_EFFECT]
      *                          </li>
+     *                          <li>
+     *                              {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                              on the symbol - [{@link SelfTradePreventionMode}]
+     *                          </li>
+     *                          <li>
+     *                               {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                              true means that the debt generated by the order needs to be repay after the order
+     *                               is cancelled - [BOOLEAN, default true]
+     *                          </li>
      *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                         </li>
@@ -1564,6 +1670,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                         <li>
      *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                              - [ENUM, default NO_SIDE_EFFECT]
+     *                          </li>
+     *                          <li>
+     *                              {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                              on the symbol - [{@link SelfTradePreventionMode}]
+     *                          </li>
+     *                          <li>
+     *                               {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                              true means that the debt generated by the order needs to be repay after the order
+     *                               is cancelled - [BOOLEAN, default true]
      *                          </li>
      *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -1625,6 +1740,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                              - [ENUM, default NO_SIDE_EFFECT]
      *                          </li>
+     *                          <li>
+     *                              {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                              on the symbol - [{@link SelfTradePreventionMode}]
+     *                          </li>
+     *                          <li>
+     *                               {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                              true means that the debt generated by the order needs to be repay after the order
+     *                               is cancelled - [BOOLEAN, default true]
+     *                          </li>
      *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                         </li>
@@ -1685,6 +1809,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                         <li>
      *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                              - [ENUM, default NO_SIDE_EFFECT]
+     *                          </li>
+     *                          <li>
+     *                              {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                              on the symbol - [{@link SelfTradePreventionMode}]
+     *                          </li>
+     *                          <li>
+     *                               {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                              true means that the debt generated by the order needs to be repay after the order
+     *                               is cancelled - [BOOLEAN, default true]
      *                          </li>
      *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -1748,6 +1881,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                              - [ENUM, default NO_SIDE_EFFECT]
      *                          </li>
+     *                          <li>
+     *                              {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                              on the symbol - [{@link SelfTradePreventionMode}]
+     *                          </li>
+     *                          <li>
+     *                               {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                              true means that the debt generated by the order needs to be repay after the order
+     *                               is cancelled - [BOOLEAN, default true]
+     *                          </li>
      *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                         </li>
@@ -1809,6 +1951,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                              - [ENUM, default NO_SIDE_EFFECT]
      *                          </li>
+     *                          <li>
+     *                              {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                              on the symbol - [{@link SelfTradePreventionMode}]
+     *                          </li>
+     *                          <li>
+     *                               {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                              true means that the debt generated by the order needs to be repay after the order
+     *                               is cancelled - [BOOLEAN, default true]
+     *                          </li>
      *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                         </li>
@@ -1868,6 +2019,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                         <li>
      *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                              - [ENUM, default NO_SIDE_EFFECT]
+     *                          </li>
+     *                          <li>
+     *                              {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                              on the symbol - [{@link SelfTradePreventionMode}]
+     *                          </li>
+     *                          <li>
+     *                               {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                              true means that the debt generated by the order needs to be repay after the order
+     *                               is cancelled - [BOOLEAN, default true]
      *                          </li>
      *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -1930,9 +2090,18 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                              - [ENUM, default NO_SIDE_EFFECT]
      *                          </li>
-     *                         <li>
+     *                          <li>
+     *                              {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                              on the symbol - [{@link SelfTradePreventionMode}]
+     *                          </li>
+     *                          <li>
+     *                               {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                              true means that the debt generated by the order needs to be repay after the order
+     *                               is cancelled - [BOOLEAN, default true]
+     *                          </li>
+     *                          <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
-     *                         </li>
+     *                          </li>
      *                     </ul>
      * @param format:      return type formatter -> {@link ReturnFormat}
      * @return result of the order as {@code "format"} defines
@@ -1992,6 +2161,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                            - [ENUM, default NO_SIDE_EFFECT]
      *                        </li>
+     *                        <li>
+     *                            {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                            on the symbol - [{@link SelfTradePreventionMode}]
+     *                        </li>
+     *                        <li>
+     *                            {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                            true means that the debt generated by the order needs to be repay after the order
+     *                            is cancelled - [BOOLEAN, default true]
+     *                         </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -2053,6 +2231,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                            - [ENUM, default NO_SIDE_EFFECT]
      *                        </li>
+     *                        <li>
+     *                            {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                            on the symbol - [{@link SelfTradePreventionMode}]
+     *                        </li>
+     *                        <li>
+     *                            {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                            true means that the debt generated by the order needs to be repay after the order
+     *                            is cancelled - [BOOLEAN, default true]
+     *                         </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -2107,6 +2294,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                                   {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                                   - [ENUM, default NO_SIDE_EFFECT]
      *                               </li>
+     *                              <li>
+     *                                  {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                  on the symbol - [{@link SelfTradePreventionMode}]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                                  true means that the debt generated by the order needs to be repay after the order
+     *                                  is cancelled - [BOOLEAN, default true]
+     *                              </li>
      *                              <li>
      *                                   {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                              </li>
@@ -2163,7 +2359,16 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                                   - [ENUM, default NO_SIDE_EFFECT]
      *                               </li>
      *                              <li>
-     *                                   {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                                  {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                  on the symbol - [{@link SelfTradePreventionMode}]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                                  true means that the debt generated by the order needs to be repay after the order
+     *                                  is cancelled - [BOOLEAN, default true]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                              </li>
      *                          </ul>
      * @param format:           return type formatter -> {@link ReturnFormat}
@@ -2219,6 +2424,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                            - [ENUM, default NO_SIDE_EFFECT]
      *                        </li>
+     *                        <li>
+     *                            {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                            on the symbol - [{@link SelfTradePreventionMode}]
+     *                        </li>
+     *                        <li>
+     *                            {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                            true means that the debt generated by the order needs to be repay after the order
+     *                            is cancelled - [BOOLEAN, default true]
+     *                       </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -2276,6 +2490,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                            - [ENUM, default NO_SIDE_EFFECT]
      *                        </li>
+     *                        <li>
+     *                            {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                            on the symbol - [{@link SelfTradePreventionMode}]
+     *                        </li>
+     *                        <li>
+     *                            {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                            true means that the debt generated by the order needs to be repay after the order
+     *                            is cancelled - [BOOLEAN, default true]
+     *                       </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -2330,6 +2553,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                                   {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                                   - [ENUM, default NO_SIDE_EFFECT]
      *                               </li>
+     *                               <li>
+     *                                  {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                  on the symbol - [{@link SelfTradePreventionMode}]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                                  true means that the debt generated by the order needs to be repay after the order
+     *                                  is cancelled - [BOOLEAN, default true]
+     *                              </li>
      *                              <li>
      *                                   {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                              </li>
@@ -2384,6 +2616,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                                   {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                                   - [ENUM, default NO_SIDE_EFFECT]
      *                               </li>
+     *                               <li>
+     *                                  {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                  on the symbol - [{@link SelfTradePreventionMode}]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                                  true means that the debt generated by the order needs to be repay after the order
+     *                                  is cancelled - [BOOLEAN, default true]
+     *                              </li>
      *                              <li>
      *                                   {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                              </li>
@@ -2442,6 +2683,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                                   {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                                   - [ENUM, default NO_SIDE_EFFECT]
      *                               </li>
+     *                               <li>
+     *                                  {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                  on the symbol - [{@link SelfTradePreventionMode}]
+     *                              </li>
+     *                              <li>
+     *                                  {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                                  true means that the debt generated by the order needs to be repay after the order
+     *                                  is cancelled - [BOOLEAN, default true]
+     *                              </li>
      *                              <li>
      *                                   {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                              </li>
@@ -2501,6 +2751,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                                   {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                                   - [ENUM, default NO_SIDE_EFFECT]
      *                               </li>
+     *                       <li>
+     *                           {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                           on the symbol - [{@link SelfTradePreventionMode}]
+     *                       </li>
+     *                       <li>
+     *                           {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                           true means that the debt generated by the order needs to be repay after the order
+     *                           is cancelled - [BOOLEAN, default true]
+     *                       </li>
      *                              <li>
      *                                   {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                              </li>
@@ -2559,6 +2818,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                            - [ENUM, default NO_SIDE_EFFECT]
      *                        </li>
      *                       <li>
+     *                           {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                           on the symbol - [{@link SelfTradePreventionMode}]
+     *                       </li>
+     *                       <li>
+     *                           {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                           true means that the debt generated by the order needs to be repay after the order
+     *                           is cancelled - [BOOLEAN, default true]
+     *                       </li>
+     *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
      *                   </ul>
@@ -2616,6 +2884,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                            - [ENUM, default NO_SIDE_EFFECT]
      *                        </li>
+     *                       <li>
+     *                           {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                           on the symbol - [{@link SelfTradePreventionMode}]
+     *                       </li>
+     *                       <li>
+     *                           {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                           true means that the debt generated by the order needs to be repay after the order
+     *                           is cancelled - [BOOLEAN, default true]
+     *                       </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -2676,6 +2953,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                            - [ENUM, default NO_SIDE_EFFECT]
      *                        </li>
      *                       <li>
+     *                           {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                           on the symbol - [{@link SelfTradePreventionMode}]
+     *                       </li>
+     *                       <li>
+     *                           {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                           true means that the debt generated by the order needs to be repay after the order
+     *                           is cancelled - [BOOLEAN, default true]
+     *                       </li>
+     *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
      *                   </ul>
@@ -2735,6 +3021,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                            - [ENUM, default NO_SIDE_EFFECT]
      *                        </li>
      *                       <li>
+     *                           {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                           on the symbol - [{@link SelfTradePreventionMode}]
+     *                       </li>
+     *                       <li>
+     *                           {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                           true means that the debt generated by the order needs to be repay after the order
+     *                           is cancelled - [BOOLEAN, default true]
+     *                       </li>
+     *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
      *                   </ul>
@@ -2791,6 +3086,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                            - [ENUM, default NO_SIDE_EFFECT]
      *                        </li>
+     *                       <li>
+     *                           {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                           on the symbol - [{@link SelfTradePreventionMode}]
+     *                       </li>
+     *                       <li>
+     *                           {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                           true means that the debt generated by the order needs to be repay after the order
+     *                           is cancelled - [BOOLEAN, default true]
+     *                       </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -2849,6 +3153,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                            - [ENUM, default NO_SIDE_EFFECT]
      *                        </li>
+     *                       <li>
+     *                           {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                           on the symbol - [{@link SelfTradePreventionMode}]
+     *                       </li>
+     *                       <li>
+     *                           {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                           true means that the debt generated by the order needs to be repay after the order
+     *                           is cancelled - [BOOLEAN, default true]
+     *                       </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -2909,6 +3222,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                            - [ENUM, default NO_SIDE_EFFECT]
      *                        </li>
      *                       <li>
+     *                           {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                           on the symbol - [{@link SelfTradePreventionMode}]
+     *                       </li>
+     *                       <li>
+     *                           {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                           true means that the debt generated by the order needs to be repay after the order
+     *                           is cancelled - [BOOLEAN, default true]
+     *                       </li>
+     *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
      *                   </ul>
@@ -2966,6 +3288,15 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                            {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                            - [ENUM, default NO_SIDE_EFFECT]
      *                        </li>
+     *                       <li>
+     *                           {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                           on the symbol - [{@link SelfTradePreventionMode}]
+     *                       </li>
+     *                       <li>
+     *                           {@code "autoRepayAtCancel"} -> only when MARGIN_BUY or AUTO_BORROW_REPAY order takes effect,
+     *                           true means that the debt generated by the order needs to be repay after the order
+     *                           is cancelled - [BOOLEAN, default true]
+     *                       </li>
      *                       <li>
      *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                       </li>
@@ -5531,6 +5862,10 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                              - [ENUM, default NO_SIDE_EFFECT]
      *                          </li>
+     *                          <li>
+     *                              {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                              on the
+     *                          </li>
      *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                         </li>
@@ -5597,6 +5932,10 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                         <li>
      *                              {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                              - [ENUM, default NO_SIDE_EFFECT]
+     *                          </li>
+     *                          <li>
+     *                              {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                              on the
      *                          </li>
      *                         <li>
      *                              {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
@@ -5744,6 +6083,10 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                                        {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                                        - [ENUM, default NO_SIDE_EFFECT]
      *                                    </li>
+     *                                    <li>
+     *                                        {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                        on the
+     *                                   </li>
      *                                   <li>
      *                                        {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                                   </li>
@@ -5812,6 +6155,10 @@ public class BinanceMarginManager extends BinanceSignedManager {
      *                                        {@code "sideEffectType"} -> side effect type, constants available {@link SideEffectType}
      *                                        - [ENUM, default NO_SIDE_EFFECT]
      *                                    </li>
+     *                                    <li>
+     *                                        {@code "selfTradePreventionMode"} -> the allowed enums is dependent on what is configured
+     *                                        on the
+     *                                   </li>
      *                                   <li>
      *                                        {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
      *                                   </li>
@@ -10834,6 +11181,226 @@ public class BinanceMarginManager extends BinanceSignedManager {
     @RequestPath(method = GET, path = "/sapi/v1/margin/dribblet")
     public <T> T getMarginDustLog(Params extraParams, ReturnFormat format) throws Exception {
         return returnDustLog(sendGetSignedRequest(MARGIN_DRIBBLET_ENDPOINT, createTimestampPayload(extraParams)), format);
+    }
+
+    /**
+     * Request to get convertible assets into BNB <br>
+     * No-any params required
+     *
+     * @return convertible assets into BNB as {@link ConvertibleBNBAssets} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data-2">
+     * Get Assets That Can Be Converted Into BNB (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "100(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/margin/dust")
+    public ConvertibleBNBAssets getConvertibleBNBAssets() throws Exception {
+        return getConvertibleBNBAssets(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get convertible assets into BNB
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return convertible assets list as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data-2">
+     * Get Assets That Can Be Converted Into BNB (USER_DATA)</a>
+     */
+    @RequestWeight(weight = "100(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/margin/dust")
+    public <T> T getConvertibleBNBAssets(ReturnFormat format) throws Exception {
+        return getConvertibleBNBAssets(-1, format);
+    }
+
+    /**
+     * Request to get convertible assets into BNB
+     *
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return convertible assets into BNB as {@link ConvertibleBNBAssets} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data-2">
+     * Get Assets That Can Be Converted Into BNB (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "100(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/margin/dust")
+    public ConvertibleBNBAssets getConvertibleBNBAssets(long recvWindow) throws Exception {
+        return getConvertibleBNBAssets(recvWindow, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get convertible assets into BNB
+     *
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return convertible assets list as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data-2">
+     * Get Assets That Can Be Converted Into BNB (USER_DATA)</a>
+     */
+    @RequestWeight(weight = "100(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/margin/dust")
+    public <T> T getConvertibleBNBAssets(long recvWindow, ReturnFormat format) throws Exception {
+        return returnConvertibleBNBAssets(sendGetSignedRequest(MARGIN_DUST_ENDPOINT, createTimestampPayload(null,
+                recvWindow)), format);
+    }
+
+    /**
+     * Request to convert dust assets to BNB
+     *
+     * @param asset: the asset being converted
+     * @return dust transfer as {@link DustTransfer} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-trade">
+     * Dust Transfer (TRADE)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "3000(UID)")
+    @RequestPath(method = POST, path = "/sapi/v1/margin/dust")
+    public DustTransfer execDustTransfer(String asset) throws Exception {
+        return execDustTransfer(asset, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to convert dust assets to BNB
+     *
+     * @param asset:  the asset being converted
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return dust transfer as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-trade">
+     * Dust Transfer (TRADE)</a>
+     */
+    @RequestWeight(weight = "3000(UID)")
+    @RequestPath(method = POST, path = "/sapi/v1/margin/dust")
+    public <T> T execDustTransfer(String asset, ReturnFormat format) throws Exception {
+        return execDustTransfer(asset, -1, format);
+    }
+
+    /**
+     * Request to convert dust assets to BNB
+     *
+     * @param asset:      the asset being converted
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return dust transfer as {@link DustTransfer} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-trade">
+     * Dust Transfer (TRADE)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "3000(UID)")
+    @RequestPath(method = POST, path = "/sapi/v1/margin/dust")
+    public DustTransfer execDustTransfer(String asset, long recvWindow) throws Exception {
+        return execDustTransfer(asset, recvWindow, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to convert dust assets to BNB
+     *
+     * @param asset:      the asset being converted
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return dust transfer as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#dust-transfer-trade">
+     * Dust Transfer (TRADE)</a>
+     */
+    @RequestWeight(weight = "3000(UID)")
+    @RequestPath(method = POST, path = "/sapi/v1/margin/dust")
+    public <T> T execDustTransfer(String asset, long recvWindow, ReturnFormat format) throws Exception {
+        Params payload = createTimestampPayload(null, recvWindow);
+        payload.addParam("asset", asset);
+        return returnDustTransfer(sendPostSignedRequest(MARGIN_DUST_ENDPOINT, payload), format);
     }
 
     /**

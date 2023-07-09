@@ -25,6 +25,10 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  *         <a href="https://binance-docs.github.io/apidocs/spot/en/#query-managed-sub-account-transfer-log-for-trading-team-master-account-user_data">
  *             Query Managed Sub Account Transfer Log (For Trading Team Master Account) (USER_DATA)</a>
  *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#query-managed-sub-account-transfer-log-for-trading-team-sub-account-user_data">
+ *             Query Managed Sub Account Transfer Log (For Trading Team Sub Account)(USER_DATA)</a>
+ *     </li>
  * </ul>
  * @see BinanceItem
  */

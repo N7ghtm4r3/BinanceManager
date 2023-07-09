@@ -1,6 +1,8 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.asset;
 
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.JsonHelper;
+import com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,8 +14,17 @@ import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
  * The {@code ConvertibleBNBAssets} class is useful to format a {@code "Binance"}'s convertible BNB Asset
  *
  * @author N7ghtm4r3 - Tecknobit
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
- * Get Assets That Can Be Converted Into BNB (USER_DATA)</a>
+ * @apiNote see the official documentation at:
+ * <ul>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data">
+ *             Get Assets That Can Be Converted Into BNB (USER_DATA)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data-2">
+ *             Get Assets That Can Be Converted Into BNB (USER_DATA)</a>
+ *     </li>
+ * </ul>
  */
 public class ConvertibleBNBAssets {
 
@@ -214,6 +225,23 @@ public class ConvertibleBNBAssets {
         if (dribbletPercentage < 0)
             throw new IllegalArgumentException("Dribblet percentage value cannot be less than 0");
         this.dribbletPercentage = dribbletPercentage;
+    }
+
+    /**
+     * Method to create a convertible assets list
+     *
+     * @param assetsResponse: obtained from Binance's response
+     * @param format:         return type formatter -> {@link ReturnFormat}
+     * @return convertible assets list as {@code "format"} defines
+     */
+    @Returner
+    public static <T> T returnConvertibleBNBAssets(String assetsResponse, ReturnFormat format) {
+        JSONObject response = new JSONObject(assetsResponse);
+        return switch (format) {
+            case JSON -> (T) response;
+            case LIBRARY_OBJECT -> (T) new ConvertibleBNBAssets(response);
+            default -> (T) assetsResponse;
+        };
     }
 
     /**

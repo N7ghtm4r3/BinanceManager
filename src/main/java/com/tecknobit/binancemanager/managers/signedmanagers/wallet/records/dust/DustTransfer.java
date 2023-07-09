@@ -1,5 +1,8 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.wallet.records.dust;
 
+import com.tecknobit.apimanager.annotations.Returner;
+import com.tecknobit.binancemanager.managers.BinanceManager.ReturnFormat;
+import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -11,10 +14,20 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  * The {@code DustTransfer} class is useful to format a {@code "Binance"}'s dust transfer
  *
  * @author N7ghtm4r3 - Tecknobit
- * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
- * User Universal Transfer (USER_DATA)</a>
+ * @apiNote see the official documentation at:
+ * <ul>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#user-universal-transfer-user_data">
+ *             User Universal Transfer (USER_DATA)</a>
+ *     </li>
+ *     <li>
+ *         <a href="https://binance-docs.github.io/apidocs/spot/en/#get-assets-that-can-be-converted-into-bnb-user_data-2">
+ *             Dust Transfer (TRADE)</a>
+ *     </li>
+ * </ul>
+ * @see BinanceItem
  */
-public class DustTransfer {
+public class DustTransfer extends BinanceItem {
 
     /**
      * {@code totalServiceCharge} is instance that memorizes total service charge value
@@ -39,6 +52,7 @@ public class DustTransfer {
      * @param transferResults:    list of {@link DustItem}
      */
     public DustTransfer(double totalServiceCharge, double totalTransfered, ArrayList<DustItem> transferResults) {
+        super(null);
         this.totalServiceCharge = totalServiceCharge;
         this.totalTransfered = totalTransfered;
         this.transferResultsList = transferResults;
@@ -50,9 +64,10 @@ public class DustTransfer {
      * @param dustTransfer: dust transfer details as {@link JSONObject}
      */
     public DustTransfer(JSONObject dustTransfer) {
-        totalServiceCharge = dustTransfer.getDouble("totalServiceCharge");
-        totalTransfered = dustTransfer.getDouble("totalTransfered");
-        transferResultsList = getListDribbletsDetails(dustTransfer.getJSONArray("transferResult"));
+        super(dustTransfer);
+        totalServiceCharge = hItem.getDouble("totalServiceCharge", 0);
+        totalTransfered = hItem.getDouble("totalTransfered", 0);
+        transferResultsList = getListDribbletsDetails(hItem.getJSONArray("transferResult"));
     }
 
     /**
@@ -147,14 +162,20 @@ public class DustTransfer {
     }
 
     /**
-     * Returns a string representation of the object <br>
-     * No-any params required
+     * Method to create a dust transfer
      *
-     * @return a string representation of the object as {@link String}
+     * @param assetsResponse: obtained from Binance's response
+     * @param format:         return type formatter -> {@link ReturnFormat}
+     * @return dust transfer as {@code "format"} defines
      */
-    @Override
-    public String toString() {
-        return new JSONObject(this).toString();
+    @Returner
+    public static <T> T returnDustTransfer(String assetsResponse, ReturnFormat format) {
+        JSONObject response = new JSONObject(assetsResponse);
+        return switch (format) {
+            case JSON -> (T) response;
+            case LIBRARY_OBJECT -> (T) new DustTransfer(response);
+            default -> (T) assetsResponse;
+        };
     }
 
 }
