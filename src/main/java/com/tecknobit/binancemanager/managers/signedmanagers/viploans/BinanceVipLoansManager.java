@@ -5,11 +5,8 @@ import com.tecknobit.apimanager.interfaces.Manager;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
 import com.tecknobit.binancemanager.managers.signedmanagers.BinanceSignedManager;
-import com.tecknobit.binancemanager.managers.signedmanagers.viploans.records.LockedValuesList;
-import com.tecknobit.binancemanager.managers.signedmanagers.viploans.records.VIPLoanOngoingOrders;
+import com.tecknobit.binancemanager.managers.signedmanagers.viploans.records.*;
 import com.tecknobit.binancemanager.managers.signedmanagers.viploans.records.VIPLoanOngoingOrders.VIPLoanOrder;
-import com.tecknobit.binancemanager.managers.signedmanagers.viploans.records.VIPLoanRepay;
-import com.tecknobit.binancemanager.managers.signedmanagers.viploans.records.VIPLoanRepaymentHistory;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -49,6 +46,26 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
      * {@code VIP_COLLATERAL_ACCOUNT_ENDPOINT} is constant for VIP_COLLATERAL_ACCOUNT_ENDPOINT's endpoint
      */
     public static final String VIP_COLLATERAL_ACCOUNT_ENDPOINT = "/sapi/v1/loan/vip/collateral/account";
+
+    /**
+     * {@code VIP_LOAN_BORROW_ENDPOINT} is constant for VIP_LOAN_BORROW_ENDPOINT's endpoint
+     */
+    public static final String VIP_LOAN_BORROW_ENDPOINT = "/sapi/v1/loan/vip/borrow";
+
+    /**
+     * {@code VIP_LOANABLE_DATA_ENDPOINT} is constant for VIP_LOANABLE_DATA_ENDPOINT's endpoint
+     */
+    public static final String VIP_LOANABLE_DATA_ENDPOINT = "/sapi/v1/loan/vip/loanable/data";
+
+    /**
+     * {@code VIP_COLLATERAL_DATA_ENDPOINT} is constant for VIP_COLLATERAL_DATA_ENDPOINT's endpoint
+     */
+    public static final String VIP_COLLATERAL_DATA_ENDPOINT = "/sapi/v1/loan/vip/collateral/data";
+
+    /**
+     * {@code VIP_REQUEST_DATA_ENDPOINT} is constant for VIP_REQUEST_DATA_ENDPOINT's endpoint
+     */
+    public static final String VIP_REQUEST_DATA_ENDPOINT = "/sapi/v1/loan/vip/request/data";
 
     /**
      * Constructor to init a {@link BinanceVipLoansManager}
@@ -836,6 +853,566 @@ public class BinanceVipLoansManager extends BinanceSignedManager {
             default:
                 return (T) lockedValuesResponse;
         }
+    }
+
+    /**
+     * Request to execute a VIP loan borrow
+     *
+     * @param accountId:           loan account identifier
+     * @param loanCoin:            loan coin value
+     * @param loanAmount:          loan amount value
+     * @param collateralAccountId: collateral account identifier
+     * @param collateralCoin:      collateral coin value
+     * @param loanTerm:            30 or 60
+     * @return VIP loan borrow as {@link VIPLoanBorrow} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#vip-loan-borrow-trade">
+     * VIP Loan Borrow (TRADE)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "6000(UID)")
+    @RequestPath(method = POST, path = "/sapi/v1/loan/vip/borrow")
+    public VIPLoanBorrow execVIPLoanBorrow(long accountId, String loanCoin, double loanAmount, String collateralAccountId,
+                                           String collateralCoin, int loanTerm) throws Exception {
+        return execVIPLoanBorrow(accountId, loanCoin, loanAmount, collateralAccountId, collateralCoin, loanTerm,
+                LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to execute a VIP loan borrow
+     *
+     * @param accountId:           loan account identifier
+     * @param loanCoin:            loan coin value
+     * @param loanAmount:          loan amount value
+     * @param collateralAccountId: collateral account identifier
+     * @param collateralCoin:      collateral coin value
+     * @param loanTerm:            30 or 60
+     * @param format:              return type formatter -> {@link ReturnFormat}
+     * @return VIP loan borrow as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#vip-loan-borrow-trade">
+     * VIP Loan Borrow (TRADE)</a>
+     */
+    @RequestWeight(weight = "6000(UID)")
+    @RequestPath(method = POST, path = "/sapi/v1/loan/vip/borrow")
+    public <T> T execVIPLoanBorrow(long accountId, String loanCoin, double loanAmount, String collateralAccountId,
+                                   String collateralCoin, int loanTerm, ReturnFormat format) throws Exception {
+        return execVIPLoanBorrow(accountId, loanCoin, loanAmount, collateralAccountId, collateralCoin, loanTerm, -1,
+                format);
+    }
+
+    /**
+     * Request to execute a VIP loan borrow
+     *
+     * @param accountId:           loan account identifier
+     * @param loanCoin:            loan coin value
+     * @param loanAmount:          loan amount value
+     * @param collateralAccountId: collateral account identifier
+     * @param collateralCoin:      collateral coin value
+     * @param loanTerm:            30 or 60
+     * @param recvWindow:          request is valid for in ms, must be less than 60000
+     * @return VIP loan borrow as {@link VIPLoanBorrow} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#vip-loan-borrow-trade">
+     * VIP Loan Borrow (TRADE)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "6000(UID)")
+    @RequestPath(method = POST, path = "/sapi/v1/loan/vip/borrow")
+    public VIPLoanBorrow execVIPLoanBorrow(long accountId, String loanCoin, double loanAmount, String collateralAccountId,
+                                           String collateralCoin, int loanTerm, long recvWindow) throws Exception {
+        return execVIPLoanBorrow(accountId, loanCoin, loanAmount, collateralAccountId, collateralCoin, loanTerm,
+                recvWindow, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to execute a VIP loan borrow
+     *
+     * @param accountId:           loan account identifier
+     * @param loanCoin:            loan coin value
+     * @param loanAmount:          loan amount value
+     * @param collateralAccountId: collateral account identifier
+     * @param collateralCoin:      collateral coin value
+     * @param loanTerm:            30 or 60
+     * @param recvWindow:          request is valid for in ms, must be less than 60000
+     * @param format:              return type formatter -> {@link ReturnFormat}
+     * @return VIP loan borrow as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#vip-loan-borrow-trade">
+     * VIP Loan Borrow (TRADE)</a>
+     */
+    @Returner
+    @RequestWeight(weight = "6000(UID)")
+    @RequestPath(method = POST, path = "/sapi/v1/loan/vip/borrow")
+    public <T> T execVIPLoanBorrow(long accountId, String loanCoin, double loanAmount, String collateralAccountId,
+                                   String collateralCoin, int loanTerm, long recvWindow,
+                                   ReturnFormat format) throws Exception {
+        Params payload = createTimestampPayload(null, recvWindow);
+        payload.addParam("accountId", accountId);
+        payload.addParam("loanCoin", loanCoin);
+        payload.addParam("loanAmount", loanAmount);
+        payload.addParam("collateralAccountId", collateralAccountId);
+        payload.addParam("collateralCoin", collateralCoin);
+        payload.addParam("loanTerm", loanAmount);
+        JSONObject response = new JSONObject(sendPostSignedRequest(VIP_LOAN_BORROW_ENDPOINT, payload));
+        return switch (format) {
+            case JSON -> (T) response;
+            case LIBRARY_OBJECT -> (T) new VIPLoanBorrow(response);
+            default -> (T) response.toString();
+        };
+    }
+
+    /**
+     * Request to get interest rate and borrow limit of loanable assets. The borrow limit is shown in USD value<br>
+     * No-any params required
+     *
+     * @return interest rate and borrow limit of loanable assets as {@link VIPLoanableAssetsData} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-loanable-assets-data-user_data">
+     * Get Loanable Assets Data (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "400(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/loan/vip/loanable/data")
+    public VIPLoanableAssetsData getLoanableAssetsData() throws Exception {
+        return getLoanableAssetsData(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get interest rate and borrow limit of loanable assets. The borrow limit is shown in USD value
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return interest rate and borrow limit of loanable assets as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-loanable-assets-data-user_data">
+     * Get Loanable Assets Data (USER_DATA)</a>
+     */
+    @RequestWeight(weight = "400(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/loan/vip/loanable/data")
+    public <T> T getLoanableAssetsData(ReturnFormat format) throws Exception {
+        return getLoanableAssetsData(null, format);
+    }
+
+    /**
+     * Request to get interest rate and borrow limit of loanable assets. The borrow limit is shown in USD value
+     *
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "collateralCoin"} -> collateral coin from fetch the list - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "vipLevel"} -> vip level value - [INT, default user's vip level]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return interest rate and borrow limit of loanable assets as {@link VIPLoanableAssetsData} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-loanable-assets-data-user_data">
+     * Get Loanable Assets Data (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "400(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/loan/vip/loanable/data")
+    public VIPLoanableAssetsData getLoanableAssetsData(Params queryParams) throws Exception {
+        return getLoanableAssetsData(queryParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get interest rate and borrow limit of loanable assets. The borrow limit is shown in USD value
+     *
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "collateralCoin"} -> collateral coin from fetch the list - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "vipLevel"} -> vip level value - [INT, default user's vip level]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return interest rate and borrow limit of loanable assets as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-loanable-assets-data-user_data">
+     * Get Loanable Assets Data (USER_DATA)</a>
+     */
+    @Returner
+    @RequestWeight(weight = "400(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/loan/vip/loanable/data")
+    public <T> T getLoanableAssetsData(Params queryParams, ReturnFormat format) throws Exception {
+        JSONObject response = new JSONObject(sendGetRequest(VIP_LOANABLE_DATA_ENDPOINT,
+                createTimestampPayload(queryParams), apiKey));
+        return switch (format) {
+            case JSON -> (T) response;
+            case LIBRARY_OBJECT -> (T) new VIPLoanableAssetsData(response);
+            default -> (T) response.toString();
+        };
+    }
+
+    /**
+     * Request to get collateral asset data <br>
+     * No-any params required
+     *
+     * @return collateral asset data as {@link VIPLoanData} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-collateral-asset-data-user_data">
+     * Get Collateral Asset Data (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "400(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/loan/vip/collateral/data")
+    public VIPLoanData getCollateralAssetData() throws Exception {
+        return getCollateralAssetData(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get collateral asset data
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return loan data as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-collateral-asset-data-user_data">
+     * Get Collateral Asset Data (USER_DATA)</a>
+     */
+    @RequestWeight(weight = "400(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/loan/vip/collateral/data")
+    public <T> T getCollateralAssetData(ReturnFormat format) throws Exception {
+        return getCollateralAssetData(null, format);
+    }
+
+    /**
+     * Request to get collateral asset data
+     *
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "collateralCoin"} -> collateral coin from fetch the list - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return collateral asset data as {@link VIPLoanData} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-collateral-asset-data-user_data">
+     * Get Collateral Asset Data (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "400(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/loan/vip/collateral/data")
+    public VIPLoanData getCollateralAssetData(Params queryParams) throws Exception {
+        return getCollateralAssetData(queryParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get collateral asset data
+     *
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "collateralCoin"} -> collateral coin from fetch the list - [STRING]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return loan data as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-collateral-asset-data-user_data">
+     * Get Collateral Asset Data (USER_DATA)</a>
+     */
+    @RequestWeight(weight = "400(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/loan/vip/collateral/data")
+    public <T> T getCollateralAssetData(Params queryParams, ReturnFormat format) throws Exception {
+        return returnLoanData(sendGetRequest(VIP_COLLATERAL_DATA_ENDPOINT, createTimestampPayload(queryParams), apiKey),
+                format);
+    }
+
+    /**
+     * Request to get application status <br>
+     * No-any params required
+     *
+     * @return collateral asset data as {@link VIPLoanData} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-application-status-user_data">
+     * Query Application Status (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "400(UID)")
+    @RequestPath(method = GET, path = "/sapi/v1/loan/vip/request/data")
+    public VIPLoanData getApplicationStatus() throws Exception {
+        return getApplicationStatus(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get application status
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return loan data as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-application-status-user_data">
+     * Query Application Status (USER_DATA)</a>
+     */
+    @RequestWeight(weight = "400(UID)")
+    @RequestPath(method = GET, path = "/sapi/v1/loan/vip/request/data")
+    public <T> T getApplicationStatus(ReturnFormat format) throws Exception {
+        return getApplicationStatus(null, format);
+    }
+
+    /**
+     * Request to get application status
+     *
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page, max 1000 - [INT, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size of the results per page, max 100 - [INT, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
+     *                                - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @return collateral asset data as {@link VIPLoanData} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-application-status-user_data">
+     * Query Application Status (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "400(UID)")
+    @RequestPath(method = GET, path = "/sapi/v1/loan/vip/request/data")
+    public VIPLoanData getApplicationStatus(Params queryParams) throws Exception {
+        return getApplicationStatus(queryParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get application status
+     *
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page, max 1000 - [INT, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "limit"} -> size of the results per page, max 100 - [INT, default 10]
+     *                           </li>
+     *                           <li>
+     *                                {@code "recvWindow"} -> request is valid for in ms, must be less than 60000
+     *                                - [LONG, default 5000]
+     *                           </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return loan data as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#query-application-status-user_data">
+     * Query Application Status (USER_DATA)</a>
+     */
+    @RequestWeight(weight = "400(UID)")
+    @RequestPath(method = GET, path = "/sapi/v1/loan/vip/request/data")
+    public <T> T getApplicationStatus(Params queryParams, ReturnFormat format) throws Exception {
+        return returnLoanData(sendGetRequest(VIP_REQUEST_DATA_ENDPOINT, createTimestampPayload(queryParams), apiKey),
+                format);
+    }
+
+    /**
+     * Method to create a loan data
+     *
+     * @param loanResponse: obtained from Binance's response
+     * @param format:       return type formatter -> {@link ReturnFormat}
+     * @return loan data as {@code "format"} defines
+     */
+    @Returner
+    private <T> T returnLoanData(String loanResponse, ReturnFormat format) {
+        JSONObject response = new JSONObject(loanResponse);
+        return switch (format) {
+            case JSON -> (T) response;
+            case LIBRARY_OBJECT -> (T) new VIPLoanData(response);
+            default -> (T) loanResponse;
+        };
     }
 
 }

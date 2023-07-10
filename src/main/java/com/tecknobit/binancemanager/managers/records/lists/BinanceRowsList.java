@@ -32,6 +32,15 @@ public abstract class BinanceRowsList<T> extends BinanceItem {
     /**
      * Constructor to init {@link BinanceRowsList} object
      *
+     * @param rows: list of the items
+     */
+    public BinanceRowsList(ArrayList<T> rows) {
+        this(rows.size(), rows);
+    }
+
+    /**
+     * Constructor to init {@link BinanceRowsList} object
+     *
      * @param total: number of items
      * @param rows:  list of the items
      */

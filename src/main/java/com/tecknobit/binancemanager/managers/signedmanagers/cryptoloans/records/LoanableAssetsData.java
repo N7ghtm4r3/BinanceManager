@@ -2,6 +2,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.cryptoloans.records
 
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import com.tecknobit.binancemanager.managers.records.lists.BinanceRowsList;
+import com.tecknobit.binancemanager.managers.records.loan.LoanAssetStructure;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -46,13 +47,9 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see BinanceItem
+     * @see LoanAssetStructure
      */
-    public static class LoanableAsset extends BinanceItem {
-
-        /**
-         * {@code loanCoin} loan coin of the loanable asset
-         */
-        private final String loanCoin;
+    public static class LoanableAsset extends LoanAssetStructure {
 
         /**
          * {@code _7dHourlyInterestRate} 7 hourly interest rate of the loanable asset
@@ -78,12 +75,6 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * {@code _30dHourlyInterestRate} 30 hourly interest rate of the loanable asset
          */
         private final double _30dHourlyInterestRate;
-
-        /**
-         * {@code _30dDailyInterestRate} 30 daily interest rate of the loanable asset
-         */
-        private final double _30dDailyInterestRate;
-
         /**
          * {@code _90dHourlyInterestRate} 90 hourly interest rate of the loanable asset
          */
@@ -103,21 +94,6 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          * {@code _180dDailyInterestRate} 180 daily interest rate of the loanable asset
          */
         private final double _180dDailyInterestRate;
-
-        /**
-         * {@code minLimit} min limit of the loanable asset
-         */
-        private final double minLimit;
-
-        /**
-         * {@code maxLimit} max limit of the loanable asset
-         */
-        private final double maxLimit;
-
-        /**
-         * {@code vipLevel} vip level of the loanable asset
-         */
-        private final int vipLevel;
 
         /**
          * Constructor to init {@link LoanableAsset}
@@ -143,20 +119,15 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
                              double _180dHourlyInterestRate, double _180dDailyInterestRate, double minLimit,
                              double maxLimit, int vipLevel) {
             super(null);
-            this.loanCoin = loanCoin;
             this._7dHourlyInterestRate = _7dHourlyInterestRate;
             this._7dDailyInterestRate = _7dDailyInterestRate;
             this._14dHourlyInterestRate = _14dHourlyInterestRate;
             this._14dDailyInterestRate = _14dDailyInterestRate;
             this._30dHourlyInterestRate = _30dHourlyInterestRate;
-            this._30dDailyInterestRate = _30dDailyInterestRate;
             this._90dHourlyInterestRate = _90dHourlyInterestRate;
             this._90dDailyInterestRate = _90dDailyInterestRate;
             this._180dHourlyInterestRate = _180dHourlyInterestRate;
             this._180dDailyInterestRate = _180dDailyInterestRate;
-            this.minLimit = minLimit;
-            this.maxLimit = maxLimit;
-            this.vipLevel = vipLevel;
         }
 
         /**
@@ -166,30 +137,15 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          */
         public LoanableAsset(JSONObject jLoanableAsset) {
             super(jLoanableAsset);
-            loanCoin = hItem.getString("loanCoin");
             _7dHourlyInterestRate = hItem.getDouble("_7dHourlyInterestRate", 0);
             _7dDailyInterestRate = hItem.getDouble("_7dDailyInterestRate", 0);
             _14dHourlyInterestRate = hItem.getDouble("_14dHourlyInterestRate", 0);
             _14dDailyInterestRate = hItem.getDouble("_14dDailyInterestRate", 0);
             _30dHourlyInterestRate = hItem.getDouble("_30dHourlyInterestRate", 0);
-            _30dDailyInterestRate = hItem.getDouble("_30dDailyInterestRate", 0);
             _90dHourlyInterestRate = hItem.getDouble("_90dHourlyInterestRate", 0);
             _90dDailyInterestRate = hItem.getDouble("_90dDailyInterestRate", 0);
             _180dHourlyInterestRate = hItem.getDouble("_180dHourlyInterestRate", 0);
             _180dDailyInterestRate = hItem.getDouble("_180dDailyInterestRate", 0);
-            minLimit = hItem.getDouble("minLimit", 0);
-            maxLimit = hItem.getDouble("maxLimit", 0);
-            vipLevel = hItem.getInt("vipLevel", 0);
-        }
-
-        /**
-         * Method to get {@link #loanCoin} instance <br>
-         * No-any params required
-         *
-         * @return {@link #loanCoin} instance as {@link String}
-         */
-        public String getLoanCoin() {
-            return loanCoin;
         }
 
         /**
@@ -298,27 +254,6 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
         }
 
         /**
-         * Method to get {@link #_30dDailyInterestRate} instance <br>
-         * No-any params required
-         *
-         * @return {@link #_30dDailyInterestRate} instance as double
-         */
-        public double get30dDailyInterestRate() {
-            return _30dDailyInterestRate;
-        }
-
-        /**
-         * Method to get {@link #_30dDailyInterestRate} instance
-         *
-         * @param decimals: number of digits to round final value
-         * @return {@link #_30dDailyInterestRate} instance rounded with decimal digits inserted
-         * @throws IllegalArgumentException if decimalDigits is negative
-         */
-        public double get30dDailyInterestRate(int decimals) {
-            return roundValue(_30dDailyInterestRate, decimals);
-        }
-
-        /**
          * Method to get {@link #_90dHourlyInterestRate} instance <br>
          * No-any params required
          *
@@ -400,58 +335,6 @@ public class LoanableAssetsData extends BinanceRowsList<LoanableAsset> {
          */
         public double get180dDailyInterestRate(int decimals) {
             return roundValue(_180dDailyInterestRate, decimals);
-        }
-
-        /**
-         * Method to get {@link #minLimit} instance <br>
-         * No-any params required
-         *
-         * @return {@link #minLimit} instance as double
-         */
-        public double getMinLimit() {
-            return minLimit;
-        }
-
-        /**
-         * Method to get {@link #minLimit} instance
-         *
-         * @param decimals: number of digits to round final value
-         * @return {@link #minLimit} instance rounded with decimal digits inserted
-         * @throws IllegalArgumentException if decimalDigits is negative
-         */
-        public double getMinLimit(int decimals) {
-            return roundValue(minLimit, decimals);
-        }
-
-        /**
-         * Method to get {@link #maxLimit} instance <br>
-         * No-any params required
-         *
-         * @return {@link #maxLimit} instance as double
-         */
-        public double getMaxLimit() {
-            return maxLimit;
-        }
-
-        /**
-         * Method to get {@link #maxLimit} instance
-         *
-         * @param decimals: number of digits to round final value
-         * @return {@link #maxLimit} instance rounded with decimal digits inserted
-         * @throws IllegalArgumentException if decimalDigits is negative
-         */
-        public double getMaxLimit(int decimals) {
-            return roundValue(maxLimit, decimals);
-        }
-
-        /**
-         * Method to get {@link #vipLevel} instance <br>
-         * No-any params required
-         *
-         * @return {@link #vipLevel} instance as int
-         */
-        public int getVipLevel() {
-            return vipLevel;
         }
 
     }
