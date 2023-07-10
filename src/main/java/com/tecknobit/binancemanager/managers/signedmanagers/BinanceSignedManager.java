@@ -3,6 +3,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.apimanager.apis.APIRequest;
+import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.apimanager.interfaces.Manager;
 import com.tecknobit.binancemanager.exceptions.SystemException;
 import com.tecknobit.binancemanager.managers.BinanceManager;
@@ -251,6 +252,18 @@ public class BinanceSignedManager extends BinanceManager {
         params.addParam("timestamp", getServerTime());
         params.addParam("signature", getSignature(secretKey, params.createQueryString(), HMAC_SHA256_ALGORITHM));
         return sendPostRequest(endpoint, params, apiKey);
+    }
+
+    /**
+     * Method to execute a request and check if is a successful response
+     *
+     * @param endpoint: endpoint to request
+     * @param payload:  payload of the request
+     * @return whether the response is successful or not as boolean
+     */
+    public boolean isSuccessResponse(String endpoint, Params payload) throws Exception {
+        sendPostSignedRequest(endpoint, payload);
+        return JsonHelper.getBoolean(apiRequest.getJSONResponse(), "success");
     }
 
     /**

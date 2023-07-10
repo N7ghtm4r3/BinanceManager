@@ -70,6 +70,66 @@ public class BinanceStakingManager extends BinanceSignedManager {
     public static final String PERSONAL_LEFT_QUOTA_ENDPOINT = "/sapi/v1/staking/personalLeftQuota";
 
     /**
+     * {@code ETH_STAKE_ENDPOINT} is constant for ETH_STAKE_ENDPOINT's endpoint
+     */
+    public static final String ETH_STAKE_ENDPOINT = "/sapi/v1/eth-staking/eth/stake";
+
+    /**
+     * {@code ETH_REDEEM_ENDPOINT} is constant for ETH_REDEEM_ENDPOINT's endpoint
+     */
+    public static final String ETH_REDEEM_ENDPOINT = "/sapi/v1/eth-staking/eth/redeem";
+
+    /**
+     * {@code ETH_STAKING_HISTORY_ENDPOINT} is constant for ETH_STAKING_HISTORY_ENDPOINT's endpoint
+     */
+    public static final String ETH_STAKING_HISTORY_ENDPOINT = "/sapi/v1/eth-staking/eth/history/stakingHistory";
+
+    /**
+     * {@code ETH_REDEMPTION_HISTORY_ENDPOINT} is constant for ETH_REDEMPTION_HISTORY_ENDPOINT's endpoint
+     */
+    public static final String ETH_REDEMPTION_HISTORY_ENDPOINT = "/sapi/v1/eth-staking/eth/history/redemptionHistory";
+
+    /**
+     * {@code ETH_REWARDS_HISTORY_ENDPOINT} is constant for ETH_REWARDS_HISTORY_ENDPOINT's endpoint
+     */
+    public static final String ETH_REWARDS_HISTORY_ENDPOINT = "/sapi/v1/eth-staking/eth/history/rewardsHistory";
+
+    /**
+     * {@code ETH_QUOTA_ENDPOINT} is constant for ETH_QUOTA_ENDPOINT's endpoint
+     */
+    public static final String ETH_QUOTA_ENDPOINT = "/sapi/v1/eth-staking/eth/quota";
+
+    /**
+     * {@code ETH_RATE_HISTORY_ENDPOINT} is constant for ETH_RATE_HISTORY_ENDPOINT's endpoint
+     */
+    public static final String ETH_RATE_HISTORY_ENDPOINT = "/sapi/v1/eth-staking/eth/history/rateHistory";
+
+    /**
+     * {@code ETH_STAKING_ACCOUNT_ENDPOINT} is constant for ETH_STAKING_ACCOUNT_ENDPOINT's endpoint
+     */
+    public static final String ETH_STAKING_ACCOUNT_ENDPOINT = "/sapi/v1/eth-staking/account";
+
+    /**
+     * {@code WBETH_WRAP_ENDPOINT} is constant for WBETH_WRAP_ENDPOINT's endpoint
+     */
+    public static final String WBETH_WRAP_ENDPOINT = "/sapi/v1/eth-staking/wbeth/wrap";
+
+    /**
+     * {@code WBETH_UNWRAP_ENDPOINT} is constant for WBETH_UNWRAP_ENDPOINT's endpoint
+     */
+    public static final String WBETH_UNWRAP_ENDPOINT = "/sapi/v1/eth-staking/wbeth/unwrap";
+
+    /**
+     * {@code WBETH_WRAP_HISTORY_ENDPOINT} is constant for WBETH_WRAP_HISTORY_ENDPOINT's endpoint
+     */
+    public static final String WBETH_WRAP_HISTORY_ENDPOINT = "/sapi/v1/eth-staking/wbeth/history/wrapHistory";
+
+    /**
+     * {@code WBETH_UNWRAP_HISTORY_ENDPOINT} is constant for WBETH_UNWRAP_HISTORY_ENDPOINT's endpoint
+     */
+    public static final String WBETH_UNWRAP_HISTORY_ENDPOINT = "/sapi/v1/eth-staking/wbeth/history/unwrapHistory";
+
+    /**
      * Constructor to init a {@link BinanceStakingManager}
      *
      * @param baseEndpoint        base endpoint to work on, insert {@code "null"} to auto-search that's working
@@ -959,8 +1019,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
         payload.addParam("renewable", renewable);
         if (recvWindow != -1)
             payload.addParam("recvWindow", recvWindow);
-        sendPostSignedRequest(SET_AUTO_STAKING_ENDPOINT, payload);
-        return JsonHelper.getBoolean(apiRequest.getJSONResponse(), "success");
+        return isSuccessResponse(SET_AUTO_STAKING_ENDPOINT, payload);
     }
 
     /**
@@ -971,9 +1030,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * @return payload as {@link Params}
      */
     private Params createStakingProductPayload(ProductType product, Params extraParams) {
-        if (extraParams == null)
-            extraParams = new Params();
-        extraParams.addParam("timestamp", getServerTime());
+        extraParams = createTimestampPayload(extraParams);
         extraParams.addParam("product", product);
         return extraParams;
     }
@@ -1125,5 +1182,6 @@ public class BinanceStakingManager extends BinanceSignedManager {
         extraParams.addParam("productId", productId);
         return extraParams;
     }
+
 
 }
