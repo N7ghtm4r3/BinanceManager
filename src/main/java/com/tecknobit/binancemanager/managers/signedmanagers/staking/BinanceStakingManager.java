@@ -11,6 +11,7 @@ import com.tecknobit.binancemanager.managers.signedmanagers.staking.records.Stak
 import com.tecknobit.binancemanager.managers.signedmanagers.staking.records.StakingProduct;
 import com.tecknobit.binancemanager.managers.signedmanagers.staking.records.StakingProduct.ProductType;
 import com.tecknobit.binancemanager.managers.signedmanagers.staking.records.StakingProductPosition;
+import com.tecknobit.binancemanager.managers.signedmanagers.staking.records.ethereum.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -1040,7 +1041,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      *
      * @param product:   product type
      * @param productId: product identifier
-     * @return personal Left Quota as {@link ArrayList} of {@link Double}
+     * @return personal left quota as {@link ArrayList} of {@link Double}
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
      *                   <ul>
      *                       <li>
@@ -1097,7 +1098,7 @@ public class BinanceStakingManager extends BinanceSignedManager {
      * @param product:    product type
      * @param productId:  product identifier
      * @param recvWindow: request is valid for in ms, must be less than 60000
-     * @return personal Left Quota as {@link ArrayList} of {@link Double}
+     * @return personal left quota as {@link ArrayList} of {@link Double}
      * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
      *                   <ul>
      *                       <li>
@@ -1183,5 +1184,1427 @@ public class BinanceStakingManager extends BinanceSignedManager {
         return extraParams;
     }
 
+    /**
+     * Request to subscribe ETH Staking
+     *
+     * @param amount: amount to subscribe
+     * @return result of the operation -> {@code "true"} is successful, {@code "false"} if not successful
+     * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#subscribe-eth-staking-trade">
+     * Subscribe ETH Staking(TRADE)</a>
+     * @implNote rate Limit: 1/3s per account
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/eth-staking/eth/stake")
+    public boolean subscribeETHStaking(double amount) throws Exception {
+        return subscribeETHStaking(amount, -1);
+    }
+
+    /**
+     * Request to subscribe ETH Staking
+     *
+     * @param amount:     amount to subscribe
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return result of the operation -> {@code "true"} is successful, {@code "false"} if not successful
+     * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#subscribe-eth-staking-trade">
+     * Subscribe ETH Staking(TRADE)</a>
+     * @implNote rate Limit: 1/3s per account
+     */
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/eth-staking/eth/stake")
+    public boolean subscribeETHStaking(double amount, long recvWindow) throws Exception {
+        return isSuccessResponse(ETH_STAKE_ENDPOINT, createETHOperationPayload(amount, recvWindow));
+    }
+
+    /**
+     * Request to redeem ETH
+     *
+     * @param amount: amount to redeem
+     * @return ETH redeemed as {@link ETHRedeem} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-eth-trade">
+     * Redeem ETH (TRADE)</a>
+     * @implNote rate Limit: 1/3s per account
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/eth-staking/eth/redeem")
+    public ETHRedeem redeemETHStaking(double amount) throws Exception {
+        return redeemETHStaking(amount, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to redeem ETH
+     *
+     * @param amount: amount to redeem
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return ETH redeemed as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-eth-trade">
+     * Redeem ETH (TRADE)</a>
+     * @implNote rate Limit: 1/3s per account
+     */
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/eth-staking/eth/redeem")
+    public <T> T redeemETHStaking(double amount, ReturnFormat format) throws Exception {
+        return redeemETHStaking(amount, -1, format);
+    }
+
+    /**
+     * Request to redeem ETH
+     *
+     * @param amount:     amount to redeem
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return ETH redeemed as {@link ETHRedeem} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-eth-trade">
+     * Redeem ETH (TRADE)</a>
+     * @implNote rate Limit: 1/3s per account
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/eth-staking/eth/redeem")
+    public ETHRedeem redeemETHStaking(double amount, long recvWindow) throws Exception {
+        return redeemETHStaking(amount, recvWindow, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to redeem ETH
+     *
+     * @param amount:     amount to redeem
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return ETH redeemed as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#redeem-eth-trade">
+     * Redeem ETH (TRADE)</a>
+     * @implNote rate Limit: 1/3s per account
+     */
+    @Returner
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/eth-staking/eth/redeem")
+    public <T> T redeemETHStaking(double amount, long recvWindow, ReturnFormat format) throws Exception {
+        JSONObject response = new JSONObject(sendPostSignedRequest(ETH_REDEEM_ENDPOINT, createETHOperationPayload(amount,
+                recvWindow)));
+        return switch (format) {
+            case JSON -> (T) response;
+            case LIBRARY_OBJECT -> (T) new ETHRedeem(response);
+            default -> (T) response.toString();
+        };
+    }
+
+    /**
+     * Request to get ETH staking history<br>
+     * No-any params required
+     *
+     * @return ETH staking history as {@link ETHStakingHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-eth-staking-history-user_data">
+     * Get ETH staking history (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/history/stakingHistory")
+    public ETHStakingHistory getETHStakingHistory() throws Exception {
+        return getETHStakingHistory(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get ETH staking history
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return ETH staking history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-eth-staking-history-user_data">
+     * Get ETH staking history (USER_DATA)</a>
+     */
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/history/stakingHistory")
+    public <T> T getETHStakingHistory(ReturnFormat format) throws Exception {
+        return getETHStakingHistory(null, format);
+    }
+
+    /**
+     * Request to get ETH staking history
+     *
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> results that matching after this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> results that matching before this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page - [LONG, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size of the results, max 100 - [LONG, default 10]
+     *                           </li>
+     *                          <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                          </li>
+     *                     </ul>
+     * @return ETH staking history as {@link ETHStakingHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-eth-staking-history-user_data">
+     * Get ETH staking history (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/history/stakingHistory")
+    public ETHStakingHistory getETHStakingHistory(Params queryParams) throws Exception {
+        return getETHStakingHistory(queryParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get ETH staking history
+     *
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> results that matching after this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> results that matching before this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page - [LONG, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size of the results, max 100 - [LONG, default 10]
+     *                           </li>
+     *                          <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                          </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return ETH staking history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-eth-staking-history-user_data">
+     * Get ETH staking history (USER_DATA)</a>
+     */
+    @Returner
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/history/stakingHistory")
+    public <T> T getETHStakingHistory(Params queryParams, ReturnFormat format) throws Exception {
+        JSONObject response = new JSONObject(sendGetSignedRequest(ETH_STAKING_HISTORY_ENDPOINT,
+                createTimestampPayload(queryParams)));
+        return switch (format) {
+            case JSON -> (T) response;
+            case LIBRARY_OBJECT -> (T) new ETHStakingHistory(response);
+            default -> (T) response.toString();
+        };
+    }
+
+    /**
+     * Request to get ETH redemption history<br>
+     * No-any params required
+     *
+     * @return ETH redemption history as {@link ETHRedemptionHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-eth-redemption-history-user_data">
+     * Get ETH redemption history (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/history/redemptionHistory")
+    public ETHRedemptionHistory getETHRedemptionHistory() throws Exception {
+        return getETHRedemptionHistory(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get ETH redemption history
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return ETH redemption history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-eth-redemption-history-user_data">
+     * Get ETH redemption history (USER_DATA)</a>
+     */
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/history/redemptionHistory")
+    public <T> T getETHRedemptionHistory(ReturnFormat format) throws Exception {
+        return getETHRedemptionHistory(null, format);
+    }
+
+    /**
+     * Request to get ETH redemption history
+     *
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> results that matching after this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> results that matching before this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page - [LONG, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size of the results, max 100 - [LONG, default 10]
+     *                           </li>
+     *                          <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                          </li>
+     *                     </ul>
+     * @return ETH redemption history as {@link ETHRedemptionHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-eth-redemption-history-user_data">
+     * Get ETH redemption history (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/history/redemptionHistory")
+    public ETHRedemptionHistory getETHRedemptionHistory(Params queryParams) throws Exception {
+        return getETHRedemptionHistory(queryParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get ETH redemption history
+     *
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> results that matching after this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> results that matching before this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page - [LONG, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size of the results, max 100 - [LONG, default 10]
+     *                           </li>
+     *                          <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                          </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return ETH redemption history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-eth-redemption-history-user_data">
+     * Get ETH redemption history (USER_DATA)</a>
+     */
+    @Returner
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/history/redemptionHistory")
+    public <T> T getETHRedemptionHistory(Params queryParams, ReturnFormat format) throws Exception {
+        JSONObject response = new JSONObject(sendGetSignedRequest(ETH_REDEMPTION_HISTORY_ENDPOINT,
+                createTimestampPayload(queryParams)));
+        return switch (format) {
+            case JSON -> (T) response;
+            case LIBRARY_OBJECT -> (T) new ETHRedemptionHistory(response);
+            default -> (T) response.toString();
+        };
+    }
+
+    /**
+     * Request to get ETH rewards history<br>
+     * No-any params required
+     *
+     * @return ETH rewards history as {@link ETHRewardsHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-eth-rewards-distribution-history-user_data">
+     * Get ETH rewards distribution history (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/history/rewardsHistory")
+    public ETHRewardsHistory getETHRewardsDistributionHistory() throws Exception {
+        return getETHRewardsDistributionHistory(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get ETH rewards history
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return ETH rewards history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-eth-rewards-distribution-history-user_data">
+     * Get ETH rewards distribution history (USER_DATA)</a>
+     */
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/history/rewardsHistory")
+    public <T> T getETHRewardsDistributionHistory(ReturnFormat format) throws Exception {
+        return getETHRewardsDistributionHistory(null, format);
+    }
+
+    /**
+     * Request to get ETH rewards history
+     *
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> results that matching after this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> results that matching before this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page - [LONG, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size of the results, max 100 - [LONG, default 10]
+     *                           </li>
+     *                          <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                          </li>
+     *                     </ul>
+     * @return ETH rewards history as {@link ETHRewardsHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-eth-rewards-distribution-history-user_data">
+     * Get ETH rewards distribution history (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/history/rewardsHistory")
+    public ETHRewardsHistory getETHRewardsDistributionHistory(Params queryParams) throws Exception {
+        return getETHRewardsDistributionHistory(queryParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get ETH rewards history
+     *
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> results that matching after this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> results that matching before this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page - [LONG, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size of the results, max 100 - [LONG, default 10]
+     *                           </li>
+     *                          <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                          </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return ETH rewards history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-eth-rewards-distribution-history-user_data">
+     * Get ETH rewards distribution history (USER_DATA)</a>
+     */
+    @Returner
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/history/rewardsHistory")
+    public <T> T getETHRewardsDistributionHistory(Params queryParams, ReturnFormat format) throws Exception {
+        JSONObject response = new JSONObject(sendGetSignedRequest(ETH_REWARDS_HISTORY_ENDPOINT,
+                createTimestampPayload(queryParams)));
+        return switch (format) {
+            case JSON -> (T) response;
+            case LIBRARY_OBJECT -> (T) new ETHRewardsHistory(response);
+            default -> (T) response.toString();
+        };
+    }
+
+    /**
+     * Request to get ETH staking quota<br>
+     * No-any params required
+     *
+     * @return ETH staking quota as {@link ETHStakingQuota} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-current-eth-staking-quota-user_data">
+     * Get current ETH staking quota (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/quota")
+    public ETHStakingQuota getCurrentETHStakingQuota() throws Exception {
+        return getCurrentETHStakingQuota(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get ETH staking quota
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return ETH staking quota as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-current-eth-staking-quota-user_data">
+     * Get current ETH staking quota (USER_DATA)</a>
+     */
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/quota")
+    public <T> T getCurrentETHStakingQuota(ReturnFormat format) throws Exception {
+        return getCurrentETHStakingQuota(-1, format);
+    }
+
+    /**
+     * Request to get ETH staking quota
+     *
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return ETH staking quota as {@link ETHStakingQuota} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-current-eth-staking-quota-user_data">
+     * Get current ETH staking quota (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/quota")
+    public ETHStakingQuota getCurrentETHStakingQuota(long recvWindow) throws Exception {
+        return getCurrentETHStakingQuota(recvWindow, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get ETH staking quota
+     *
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return ETH staking quota as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-current-eth-staking-quota-user_data">
+     * Get current ETH staking quota (USER_DATA)</a>
+     */
+    @Returner
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/quota")
+    public <T> T getCurrentETHStakingQuota(long recvWindow, ReturnFormat format) throws Exception {
+        JSONObject response = new JSONObject(sendGetSignedRequest(ETH_QUOTA_ENDPOINT, createTimestampPayload(null,
+                recvWindow)));
+        return switch (format) {
+            case JSON -> (T) response;
+            case LIBRARY_OBJECT -> (T) new ETHStakingQuota(response);
+            default -> (T) response.toString();
+        };
+    }
+
+    /**
+     * Request to get BETH rate history<br>
+     * No-any params required
+     *
+     * @return BETH rate history as {@link BETHRateHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-beth-rate-history-user_data">
+     * Get BETH Rate History (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/history/rateHistory")
+    public BETHRateHistory getBETHRateHistory() throws Exception {
+        return getBETHRateHistory(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get BETH rate history
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return BETH rate history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-beth-rate-history-user_data">
+     * Get BETH Rate History (USER_DATA)</a>
+     */
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/history/rateHistory")
+    public <T> T getBETHRateHistory(ReturnFormat format) throws Exception {
+        return getBETHRateHistory(null, format);
+    }
+
+    /**
+     * Request to get BETH rate history
+     *
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> results that matching after this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> results that matching before this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page - [LONG, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size of the results, max 100 - [LONG, default 10]
+     *                           </li>
+     *                          <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                          </li>
+     *                     </ul>
+     * @return BETH rate history as {@link BETHRateHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-beth-rate-history-user_data">
+     * Get BETH Rate History (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/history/rateHistory")
+    public BETHRateHistory getBETHRateHistory(Params queryParams) throws Exception {
+        return getBETHRateHistory(queryParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get BETH rate history
+     *
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> results that matching after this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> results that matching before this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page - [LONG, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size of the results, max 100 - [LONG, default 10]
+     *                           </li>
+     *                          <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                          </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return BETH rate history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-beth-rate-history-user_data">
+     * Get BETH Rate History (USER_DATA)</a>
+     */
+    @Returner
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/eth/history/rateHistory")
+    public <T> T getBETHRateHistory(Params queryParams, ReturnFormat format) throws Exception {
+        JSONObject response = new JSONObject(sendGetSignedRequest(ETH_RATE_HISTORY_ENDPOINT,
+                createTimestampPayload(queryParams)));
+        return switch (format) {
+            case JSON -> (T) response;
+            case LIBRARY_OBJECT -> (T) new BETHRateHistory(response);
+            default -> (T) response.toString();
+        };
+    }
+
+    /**
+     * Request to get ETH staking account<br>
+     * No-any params required
+     *
+     * @return ETH staking account as {@link ETHStakingAccount} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#eth-staking-account-user_data">
+     * ETH Staking account (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/account")
+    public ETHStakingAccount getETHStakingAccount() throws Exception {
+        return getETHStakingAccount(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get ETH staking account
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return ETH staking account as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#eth-staking-account-user_data">
+     * ETH Staking account (USER_DATA)</a>
+     */
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/account")
+    public <T> T getETHStakingAccount(ReturnFormat format) throws Exception {
+        return getETHStakingAccount(-1, format);
+    }
+
+    /**
+     * Request to get ETH staking account
+     *
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return ETH staking account as {@link ETHStakingAccount} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#eth-staking-account-user_data">
+     * ETH Staking account (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/account")
+    public ETHStakingAccount getETHStakingAccount(long recvWindow) throws Exception {
+        return getETHStakingAccount(recvWindow, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get ETH staking account
+     *
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @param format:     return type formatter -> {@link ReturnFormat}
+     * @return ETH staking account as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#eth-staking-account-user_data">
+     * ETH Staking account (USER_DATA)</a>
+     */
+    @Returner
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/account")
+    public <T> T getETHStakingAccount(long recvWindow, ReturnFormat format) throws Exception {
+        JSONObject response = new JSONObject(sendGetSignedRequest(ETH_STAKING_ACCOUNT_ENDPOINT, createTimestampPayload(null,
+                recvWindow)));
+        return switch (format) {
+            case JSON -> (T) response;
+            case LIBRARY_OBJECT -> (T) new ETHStakingAccount(response);
+            default -> (T) response.toString();
+        };
+    }
+
+    /**
+     * Request to wrap BETH
+     *
+     * @param amount: amount to wrap
+     * @return result of the operation -> {@code "true"} is successful, {@code "false"} if not successful
+     * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#wrap-beth-trade">
+     * Wrap BETH(TRADE)</a>
+     * @implNote rate Limit: 1/3s per account
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/eth-staking/wbeth/wrap")
+    public boolean wrapBETH(double amount) throws Exception {
+        return wrapBETH(amount, -1);
+    }
+
+    /**
+     * Request to wrap BETH
+     *
+     * @param amount:     amount to wrap
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return result of the operation -> {@code "true"} is successful, {@code "false"} if not successful
+     * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#wrap-beth-trade">
+     * Wrap BETH(TRADE)</a>
+     * @implNote rate Limit: 1/3s per account
+     */
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/eth-staking/wbeth/wrap")
+    public boolean wrapBETH(double amount, long recvWindow) throws Exception {
+        return isSuccessResponse(WBETH_WRAP_ENDPOINT, createETHOperationPayload(amount, recvWindow));
+    }
+
+    /**
+     * Request to unwrap BETH
+     *
+     * @param amount: amount to unwrap
+     * @return result of the operation -> {@code "true"} is successful, {@code "false"} if not successful
+     * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#unwrap-wbeth-trade">
+     * Unwrap WBETH(TRADE)</a>
+     * @implNote rate Limit: 1/3s per account
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/eth-staking/wbeth/unwrap")
+    public boolean unwrapBETH(double amount) throws Exception {
+        return wrapBETH(amount, -1);
+    }
+
+    /**
+     * Request to unwrap BETH
+     *
+     * @param amount:     amount to unwrap
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return result of the operation -> {@code "true"} is successful, {@code "false"} if not successful
+     * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
+     *                     <ul>
+     *                         <li>
+     *                             {@link #getErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #getJSONErrorResponse()}
+     *                         </li>
+     *                         <li>
+     *                             {@link #printErrorResponse()}
+     *                         </li>
+     *                     </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#unwrap-wbeth-trade">
+     * Unwrap WBETH(TRADE)</a>
+     * @implNote rate Limit: 1/3s per account
+     */
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = POST, path = "/sapi/v1/eth-staking/wbeth/unwrap")
+    public boolean unwrapBETH(double amount, long recvWindow) throws Exception {
+        return isSuccessResponse(WBETH_UNWRAP_ENDPOINT, createETHOperationPayload(amount, recvWindow));
+    }
+
+    /**
+     * Method to create a ETH operation payload
+     *
+     * @param amount:     amount of the operation
+     * @param recvWindow: request is valid for in ms, must be less than 60000
+     * @return payload as {@link Params}
+     */
+    private Params createETHOperationPayload(double amount, long recvWindow) {
+        Params payload = createTimestampPayload(null, recvWindow);
+        payload.addParam("amount", amount);
+        return payload;
+    }
+
+    /**
+     * Request to get WBETH wraps history<br>
+     * No-any params required
+     *
+     * @return WBETH wraps history as {@link WBETHActionsHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-wbeth-wrap-history-user_data">
+     * Get WBETH wrap history (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/wbeth/history/wrapHistory")
+    public WBETHActionsHistory getWBETHWrapHistory() throws Exception {
+        return getWBETHWrapHistory(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get WBETH wraps history
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return WBETH actions history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-wbeth-wrap-history-user_data">
+     * Get WBETH wrap history (USER_DATA)</a>
+     */
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/wbeth/history/wrapHistory")
+    public <T> T getWBETHWrapHistory(ReturnFormat format) throws Exception {
+        return getWBETHWrapHistory(null, format);
+    }
+
+    /**
+     * Request to get WBETH wraps history
+     *
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> results that matching after this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> results that matching before this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page - [LONG, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size of the results, max 100 - [LONG, default 10]
+     *                           </li>
+     *                          <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                          </li>
+     *                     </ul>
+     * @return WBETH wraps history as {@link WBETHActionsHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-wbeth-wrap-history-user_data">
+     * Get WBETH wrap history (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/wbeth/history/wrapHistory")
+    public WBETHActionsHistory getWBETHWrapHistory(Params queryParams) throws Exception {
+        return getWBETHWrapHistory(queryParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get WBETH wraps history
+     *
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> results that matching after this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> results that matching before this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page - [LONG, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size of the results, max 100 - [LONG, default 10]
+     *                           </li>
+     *                          <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                          </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return WBETH actions history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-wbeth-wrap-history-user_data">
+     * Get WBETH wrap history (USER_DATA)</a>
+     */
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/wbeth/history/wrapHistory")
+    public <T> T getWBETHWrapHistory(Params queryParams, ReturnFormat format) throws Exception {
+        return returnWBETHActionsHistory(sendGetSignedRequest(WBETH_WRAP_HISTORY_ENDPOINT,
+                createTimestampPayload(queryParams)), format);
+    }
+
+    /**
+     * Request to get WBETH unwraps history<br>
+     * No-any params required
+     *
+     * @return WBETH unwraps history as {@link WBETHActionsHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-wbeth-unwrap-history-user_data">
+     * Get WBETH unwrap history (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/wbeth/history/unwrapHistory")
+    public WBETHActionsHistory getWBETHUnwrapHistory() throws Exception {
+        return getWBETHUnwrapHistory(LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get WBETH unwraps history
+     *
+     * @param format: return type formatter -> {@link ReturnFormat}
+     * @return WBETH actions history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-wbeth-unwrap-history-user_data">
+     * Get WBETH unwrap history (USER_DATA)</a>
+     */
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/wbeth/history/unwrapHistory")
+    public <T> T getWBETHUnwrapHistory(ReturnFormat format) throws Exception {
+        return getWBETHUnwrapHistory(null, format);
+    }
+
+    /**
+     * Request to get WBETH unwraps history
+     *
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> results that matching after this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> results that matching before this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page - [LONG, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size of the results, max 100 - [LONG, default 10]
+     *                           </li>
+     *                          <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                          </li>
+     *                     </ul>
+     * @return WBETH unwraps history as {@link WBETHActionsHistory} custom object
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-wbeth-unwrap-history-user_data">
+     * Get WBETH unwrap history (USER_DATA)</a>
+     */
+    @Wrapper
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/wbeth/history/unwrapHistory")
+    public WBETHActionsHistory getWBETHUnwrapHistory(Params queryParams) throws Exception {
+        return getWBETHUnwrapHistory(queryParams, LIBRARY_OBJECT);
+    }
+
+    /**
+     * Request to get WBETH unwraps history
+     *
+     * @param queryParams: additional params of the request, keys accepted are:
+     *                     <ul>
+     *                           <li>
+     *                                {@code "startTime"} -> results that matching after this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "endTime"} -> results that matching before this time will be fetched - [LONG]
+     *                           </li>
+     *                           <li>
+     *                                {@code "current"} -> currently querying page - [LONG, default 1]
+     *                           </li>
+     *                           <li>
+     *                                {@code "size"} -> size of the results, max 100 - [LONG, default 10]
+     *                           </li>
+     *                          <li>
+     *                            {@code "recvWindow"} -> request is valid for in ms, must be less than 60000 - [LONG, default 5000]
+     *                          </li>
+     *                     </ul>
+     * @param format:      return type formatter -> {@link ReturnFormat}
+     * @return WBETH actions history as {@code "format"} defines
+     * @throws Exception when request has been go wrong -> you can use these methods to get more details about error:
+     *                   <ul>
+     *                       <li>
+     *                           {@link #getErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #getJSONErrorResponse()}
+     *                       </li>
+     *                       <li>
+     *                           {@link #printErrorResponse()}
+     *                       </li>
+     *                   </ul> using a {@code "try and catch statement"} during runtime, see how to do in {@code "README"} file
+     * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#get-wbeth-unwrap-history-user_data">
+     * Get WBETH unwrap history (USER_DATA)</a>
+     */
+    @RequestWeight(weight = "150(IP)")
+    @RequestPath(method = GET, path = "/sapi/v1/eth-staking/wbeth/history/unwrapHistory")
+    public <T> T getWBETHUnwrapHistory(Params queryParams, ReturnFormat format) throws Exception {
+        return returnWBETHActionsHistory(sendGetSignedRequest(WBETH_UNWRAP_HISTORY_ENDPOINT,
+                createTimestampPayload(queryParams)), format);
+    }
+
+    /**
+     * Method to create a WBETH actions history
+     *
+     * @param WBETHActionsHistoryResponse: obtained from Binance's response
+     * @param format:                      return type formatter -> {@link ReturnFormat}
+     * @return WBETH actions history as {@code "format"} defines
+     */
+    @Returner
+    private <T> T returnWBETHActionsHistory(String WBETHActionsHistoryResponse, ReturnFormat format) {
+        JSONObject response = new JSONObject(WBETHActionsHistoryResponse);
+        return switch (format) {
+            case JSON -> (T) response;
+            case LIBRARY_OBJECT -> (T) new WBETHActionsHistory(response);
+            default -> (T) WBETHActionsHistoryResponse;
+        };
+    }
 
 }

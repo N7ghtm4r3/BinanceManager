@@ -828,7 +828,6 @@ public class BinanceMarketManager extends BinanceManager {
      * Request to get old trade
      *
      * @param symbol: symbol to fetch exchange information es. BTCBUSD
-     * @param apiKey: apiKey of your {@code "Binance"} account
      * @return old trade as {@link ArrayList} of {@link Trade}
      * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
      *                     <ul>
@@ -848,15 +847,14 @@ public class BinanceMarketManager extends BinanceManager {
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/api/v3/historicalTrades")
-    public ArrayList<Trade> getOldTradesList(String symbol, String apiKey) throws IOException {
-        return getOldTradesList(symbol, apiKey, LIBRARY_OBJECT);
+    public ArrayList<Trade> getOldTradesList(String symbol) throws IOException {
+        return getOldTradesList(symbol, LIBRARY_OBJECT);
     }
 
     /**
      * Request to get old trade
      *
      * @param symbol: symbol to fetch exchange information es. BTCBUSD
-     * @param apiKey: apiKey of your {@code "Binance"} account
      * @param format: return type formatter -> {@link ReturnFormat}
      * @return old trade as {@code "format"} defines
      * @throws IOException when request has been go wrong -> you can use these methods to get more details about error:
@@ -876,15 +874,14 @@ public class BinanceMarketManager extends BinanceManager {
      */
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/api/v3/historicalTrades")
-    public <T> T getOldTradesList(String symbol, String apiKey, ReturnFormat format) throws IOException {
-        return returnTradesList(sendGetRequest(OLD_TRADE_LOOKUP_ENDPOINT, "?symbol=" + symbol, apiKey), format);
+    public <T> T getOldTradesList(String symbol, ReturnFormat format) throws IOException {
+        return returnTradesList(sendGetRequest(OLD_TRADE_LOOKUP_ENDPOINT, "?symbol=" + symbol), format);
     }
 
     /**
      * Request to get old trade
      *
      * @param symbol:      symbol to fetch exchange information es. BTCBUSD
-     * @param apiKey:      apiKey of your {@code "Binance"} account
      * @param extraParams: additional params of the request, keys accepted are:
      *                     <ul>
      *                           <li>
@@ -913,15 +910,14 @@ public class BinanceMarketManager extends BinanceManager {
     @Wrapper
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/api/v3/historicalTrades")
-    public ArrayList<Trade> getOldTradeList(String symbol, String apiKey, Params extraParams) throws IOException {
-        return getOldTradeList(symbol, apiKey, extraParams, LIBRARY_OBJECT);
+    public ArrayList<Trade> getOldTradeList(String symbol, Params extraParams) throws IOException {
+        return getOldTradeList(symbol, extraParams, LIBRARY_OBJECT);
     }
 
     /**
      * Request to get old trade
      *
      * @param symbol:      symbol to fetch exchange information es. BTCBUSD
-     * @param apiKey:      apiKey of your {@code "Binance"} account
      * @param extraParams: additional params of the request, keys accepted are:
      *                     <ul>
      *                           <li>
@@ -950,10 +946,10 @@ public class BinanceMarketManager extends BinanceManager {
      */
     @RequestWeight(weight = "5(IP)")
     @RequestPath(method = GET, path = "/api/v3/historicalTrades")
-    public <T> T getOldTradeList(String symbol, String apiKey, Params extraParams, ReturnFormat format) throws IOException {
+    public <T> T getOldTradeList(String symbol, Params extraParams, ReturnFormat format) throws IOException {
         String payload = "?symbol=" + symbol;
         payload = apiRequest.encodeAdditionalParams(payload, extraParams);
-        return returnTradesList(sendGetRequest(OLD_TRADE_LOOKUP_ENDPOINT, payload, apiKey), format);
+        return returnTradesList(sendGetRequest(OLD_TRADE_LOOKUP_ENDPOINT, payload), format);
     }
 
     /**

@@ -2,6 +2,7 @@ package com.tecknobit.binancemanager.managers.signedmanagers.trade.spot.records.
 
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.binancemanager.managers.records.BinanceItem;
 import com.tecknobit.binancemanager.managers.signedmanagers.trade.margin.records.orders.details.MarginOrderDetails;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,8 +20,9 @@ import static com.tecknobit.binancemanager.managers.signedmanagers.wallet.record
  * @author N7ghtm4r3 - Tecknobit
  * @apiNote see the official documentation at: <a href="https://binance-docs.github.io/apidocs/spot/en/#account-information-user_data">
  * Account Information (USER_DATA)</a>
+ * @see BinanceItem
  */
-public class SpotAccountInformation {
+public class SpotAccountInformation extends BinanceItem {
 
     /**
      * {@code makerCommission} is instance that memorizes maker commission
@@ -93,28 +95,44 @@ public class SpotAccountInformation {
     private boolean requireSelfTradePrevention;
 
     /**
+     * {@code preventSor} prevent sor flag
+     */
+    private final boolean preventSor;
+
+    /**
+     * {@code uid} user identifier
+     */
+    private final long uid;
+
+    /**
      * Constructor to init {@link SpotAccountInformation} object
      *
-     * @param makerCommission:            maker commission
-     * @param takerCommission:            taker commission
-     * @param buyerCommission:            buyer commission
-     * @param sellerCommission:           seller commission
-     * @param canTrade:                   can trade
-     * @param canWithdraw:                can withdraw
-     * @param canDeposit:                 can deposit
-     * @param brokered:                   is brokered
-     * @param updateTime:                 update time value
-     * @param accountType:                account type value
-     * @param spotsListBalance:           balance spot list
-     * @param permissionsList:            permissions list
-     * @param requireSelfTradePrevention: whether the spot account require self trade prevention
+     * @param makerCommission            :            maker commission
+     * @param takerCommission            :            taker commission
+     * @param buyerCommission            :            buyer commission
+     * @param sellerCommission           :           seller commission
+     * @param canTrade                   :                   can trade
+     * @param canWithdraw                :                can withdraw
+     * @param canDeposit                 :                 can deposit
+     * @param brokered                   :                   is brokered
+     * @param updateTime                 :                 update time value
+     * @param accountType                :                account type value
+     * @param spotsListBalance           :           balance spot list
+     * @param permissionsList            :            permissions list
+     * @param requireSelfTradePrevention : whether the spot account require self trade prevention
+     * @param preventSor                 : prevent sor flag
+     * @param uid:                       user identifier
      * @throws IllegalArgumentException if parameters range is not respected
      */
     public SpotAccountInformation(double makerCommission, double takerCommission, double buyerCommission,
                                   double sellerCommission, CommissionRates commissionRates, boolean canTrade,
                                   boolean canWithdraw, boolean canDeposit, boolean brokered, long updateTime,
                                   String accountType, ArrayList<SpotBalance> spotsListBalance,
-                                  ArrayList<Permission> permissionsList, boolean requireSelfTradePrevention) {
+                                  ArrayList<Permission> permissionsList, boolean requireSelfTradePrevention,
+                                  boolean preventSor, long uid) {
+        super(null);
+        this.preventSor = preventSor;
+        this.uid = uid;
         if (makerCommission < 0)
             throw new IllegalArgumentException("Maker commission value cannot be less than 0");
         else
@@ -151,34 +169,36 @@ public class SpotAccountInformation {
      * @throws IllegalArgumentException if parameters range is not respected
      */
     public SpotAccountInformation(JSONObject spotAccountInformation) {
-        JsonHelper hSpotAccount = new JsonHelper(spotAccountInformation);
-        makerCommission = hSpotAccount.getDouble("makerCommission", 0);
+        super(spotAccountInformation);
+        makerCommission = hItem.getDouble("makerCommission", 0);
         if (makerCommission < 0)
             throw new IllegalArgumentException("Maker commission value cannot be less than 0");
-        takerCommission = hSpotAccount.getDouble("takerCommission", 0);
+        takerCommission = hItem.getDouble("takerCommission", 0);
         if (takerCommission < 0)
             throw new IllegalArgumentException("Taker commission value cannot be less than 0");
-        buyerCommission = hSpotAccount.getDouble("buyerCommission", 0);
+        buyerCommission = hItem.getDouble("buyerCommission", 0);
         if (buyerCommission < 0)
             throw new IllegalArgumentException("Buyer commission value cannot be less than 0");
-        sellerCommission = hSpotAccount.getDouble("sellerCommission", 0);
+        sellerCommission = hItem.getDouble("sellerCommission", 0);
         if (sellerCommission < 0)
             throw new IllegalArgumentException("Seller commission value cannot be less than 0");
-        commissionRates = new CommissionRates(hSpotAccount.getJSONObject("commissionRates", new JSONObject()));
-        canTrade = hSpotAccount.getBoolean("canTrade");
-        canWithdraw = hSpotAccount.getBoolean("canWithdraw");
-        canDeposit = hSpotAccount.getBoolean("canDeposit");
-        brokered = hSpotAccount.getBoolean("brokered");
-        updateTime = hSpotAccount.getLong("updateTime", 0);
+        commissionRates = new CommissionRates(hItem.getJSONObject("commissionRates", new JSONObject()));
+        canTrade = hItem.getBoolean("canTrade");
+        canWithdraw = hItem.getBoolean("canWithdraw");
+        canDeposit = hItem.getBoolean("canDeposit");
+        brokered = hItem.getBoolean("brokered");
+        updateTime = hItem.getLong("updateTime", 0);
         if (updateTime < 0)
             throw new IllegalArgumentException("Update time value cannot be less than 0");
-        accountType = hSpotAccount.getString("accountType");
-        spotsListBalance = getBalancesSpot(hSpotAccount.getJSONArray("balances", new JSONArray()));
+        accountType = hItem.getString("accountType");
+        spotsListBalance = getBalancesSpot(hItem.getJSONArray("balances", new JSONArray()));
         permissionsList = new ArrayList<>();
-        JSONArray jPermissions = hSpotAccount.getJSONArray("permissionsList", new JSONArray());
+        JSONArray jPermissions = hItem.getJSONArray("permissionsList", new JSONArray());
         for (int j = 0; j < jPermissions.length(); j++)
             permissionsList.add(new Permission(jPermissions.getString(j)));
-        requireSelfTradePrevention = hSpotAccount.getBoolean("requireSelfTradePrevention");
+        requireSelfTradePrevention = hItem.getBoolean("requireSelfTradePrevention");
+        preventSor = hItem.getBoolean("preventSor");
+        uid = hItem.getLong("uid", -1);
     }
 
     /**
@@ -568,14 +588,23 @@ public class SpotAccountInformation {
     }
 
     /**
-     * Returns a string representation of the object <br>
+     * Method to get {@link #preventSor} instance <br>
      * No-any params required
      *
-     * @return a string representation of the object as {@link String}
+     * @return {@link #preventSor} instance as boolean
      */
-    @Override
-    public String toString() {
-        return new JSONObject(this).toString();
+    public boolean isPreventSor() {
+        return preventSor;
+    }
+
+    /**
+     * Method to get {@link #uid} instance <br>
+     * No-any params required
+     *
+     * @return {@link #uid} instance as long
+     */
+    public long getUid() {
+        return uid;
     }
 
     /**
