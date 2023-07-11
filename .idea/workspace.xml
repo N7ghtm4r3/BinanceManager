@@ -4,34 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="24c31f43-703f-43c2-b6a1-81b04a165e9d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/records/products/ProductQuota.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/CollateralHistory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/ProductRedemption.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/RateHistory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/SimpleEarnAccount.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/SimpleEarnProductRecord.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/SimpleEarnProductStructure.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/TierAnnualPercentageRate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleProductSubscription.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleRedemptionHistory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleRewardsHistory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleSubscriptionHistory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleSubscriptionPreview.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/SimpleEarnFlexibleProductList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/SimpleEarnFlexibleProductPositions.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedProductList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedProductPositions.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedProductSubscription.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedRedemptionHistory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedRewardsHistory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedSubscriptionHistory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedSubscriptionPreview.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+    <list default="true" id="24c31f43-703f-43c2-b6a1-81b04a165e9d" name="Changes" comment="Updated the library to the last changelogs (July 2023)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/savings/records/product/SavingProductStructure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/savings/records/product/SavingProductStructure.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/BinanceSimpleEarnManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/BinanceSimpleEarnManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/StakingProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/StakingProduct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/CollateralHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/CollateralHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/ProductRedemption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/ProductRedemption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/RateHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/RateHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/SimpleEarnAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/SimpleEarnAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/SimpleEarnProductRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/SimpleEarnProductRecord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/SimpleEarnProductStructure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/SimpleEarnProductStructure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleProductSubscription.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleProductSubscription.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleRedemptionHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleRedemptionHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleRewardsHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleRewardsHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleSubscriptionHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleSubscriptionHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleSubscriptionPreview.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleSubscriptionPreview.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/SimpleEarnFlexibleProductList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/SimpleEarnFlexibleProductList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/SimpleEarnFlexibleProductPositions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/SimpleEarnFlexibleProductPositions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedProductList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedProductList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedProductPositions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedProductPositions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedProductSubscription.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedProductSubscription.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedRedemptionHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedRedemptionHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedRewardsHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedRewardsHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedSubscriptionHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedSubscriptionHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedSubscriptionPreview.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedSubscriptionPreview.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -501,7 +496,7 @@
       <option name="project" value="LOCAL" />
       <updated>1686832439569</updated>
     </task>
-    <option name="localTasksCounter" value="288" />
+    <option name="localTasksCounter" value="289" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -528,7 +523,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="Futures Algo | Portfolio Margin" />
     <MESSAGE value="Portfolio Margin | Vip loans" />
     <MESSAGE value="Vip loans | NFT | Gift Card" />
     <MESSAGE value="Gift Card" />
@@ -553,7 +547,8 @@
     <MESSAGE value="Added RequestWeight and Structure annotations" />
     <MESSAGE value="Updated to the last changelogs" />
     <MESSAGE value="Work on the last changelogs (July 2023)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Work on the last changelogs (July 2023)" />
+    <MESSAGE value="Updated the library to the last changelogs (July 2023)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated the library to the last changelogs (July 2023)" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
