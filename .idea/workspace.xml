@@ -5,20 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="24c31f43-703f-43c2-b6a1-81b04a165e9d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/BinanceSimpleEarnManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/records/products/ProductQuota.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/CollateralHistory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/ProductRedemption.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/RateHistory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/SimpleEarnAccount.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/SimpleEarnProductRecord.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/SimpleEarnProductStructure.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/TierAnnualPercentageRate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleProductSubscription.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleRedemptionHistory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleRewardsHistory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleSubscriptionHistory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/FlexibleSubscriptionPreview.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/SimpleEarnFlexibleProductList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/flexible/SimpleEarnFlexibleProductPositions.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedProductList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedProductPositions.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedProductSubscription.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedRedemptionHistory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedRewardsHistory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedSubscriptionHistory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/records/locked/LockedSubscriptionPreview.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/market/BinanceMarketManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/market/BinanceMarketManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/BinanceStakingManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/BinanceStakingManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/ethereum/BETHRateHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/ethereum/BETHRateHistory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/ethereum/ETHRedeem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/ethereum/ETHRedeem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/ethereum/ETHRedemptionHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/ethereum/ETHRedemptionHistory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/ethereum/ETHRewardsHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/ethereum/ETHRewardsHistory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/ethereum/ETHStakingAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/ethereum/ETHStakingAccount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/ethereum/ETHStakingHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/ethereum/ETHStakingHistory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/ethereum/ETHStakingQuota.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/ethereum/ETHStakingQuota.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/ethereum/WBETHActionsHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/ethereum/WBETHActionsHistory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/spot/records/account/SpotAccountInformation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/trade/spot/records/account/SpotAccountInformation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/savings/records/product/SavingProductStructure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/savings/records/product/SavingProductStructure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/BinanceSimpleEarnManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/simpleearn/BinanceSimpleEarnManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/StakingProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tecknobit/binancemanager/managers/signedmanagers/staking/records/StakingProduct.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -488,7 +501,7 @@
       <option name="project" value="LOCAL" />
       <updated>1686832439569</updated>
     </task>
-    <option name="localTasksCounter" value="287" />
+    <option name="localTasksCounter" value="288" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

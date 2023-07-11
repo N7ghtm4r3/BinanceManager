@@ -1,6 +1,7 @@
 package com.tecknobit.binancemanager.managers.signedmanagers.staking.records;
 
 import com.tecknobit.binancemanager.managers.records.BinanceItem;
+import com.tecknobit.binancemanager.managers.records.products.ProductQuota;
 import org.json.JSONObject;
 
 import static com.tecknobit.apimanager.trading.TradingTools.roundValue;
@@ -50,7 +51,7 @@ public class StakingProduct extends BinanceItem {
     /**
      * {@code quota} of the staking product
      */
-    private final StakingQuota quota;
+    private final ProductQuota quota;
 
     /**
      * Constructor to init {@link StakingProduct} object
@@ -59,7 +60,7 @@ public class StakingProduct extends BinanceItem {
      * @param detail:    detail of the staking product
      * @param quota:     quota of the staking product
      */
-    public StakingProduct(String projectId, StakingDetail detail, StakingQuota quota) {
+    public StakingProduct(String projectId, StakingDetail detail, ProductQuota quota) {
         super(null);
         this.projectId = projectId;
         this.detail = detail;
@@ -75,7 +76,7 @@ public class StakingProduct extends BinanceItem {
         super(jStakingProduct);
         projectId = hItem.getString("projectId");
         detail = new StakingDetail(hItem.getJSONObject("detail"));
-        quota = new StakingQuota(hItem.getJSONObject("quota"));
+        quota = new ProductQuota(hItem.getJSONObject("quota"));
     }
 
     /**
@@ -102,9 +103,9 @@ public class StakingProduct extends BinanceItem {
      * Method to get {@link #quota} instance <br>
      * No-any params required
      *
-     * @return {@link #quota} instance as {@link StakingQuota}
+     * @return {@link #quota} instance as {@link ProductQuota}
      */
-    public StakingQuota getQuota() {
+    public ProductQuota getQuota() {
         return quota;
     }
 
@@ -235,91 +236,6 @@ public class StakingProduct extends BinanceItem {
          */
         public double getApy(int decimals) {
             return roundValue(apy, decimals);
-        }
-
-    }
-
-    /**
-     * The {@code StakingQuota} class is useful to format a staking quota
-     *
-     * @author N7ghtm4r3 - Tecknobit
-     * @see BinanceItem
-     */
-    public static class StakingQuota extends BinanceItem {
-
-        /**
-         * {@code totalPersonalQuota} total Personal quota
-         */
-        private final double totalPersonalQuota;
-
-        /**
-         * {@code minimum} minimum amount per order
-         */
-        private final double minimum;
-
-        /**
-         * Constructor to init {@link StakingQuota} object
-         *
-         * @param totalPersonalQuota: total Personal quota
-         * @param minimum:            minimum amount per order
-         */
-        public StakingQuota(double totalPersonalQuota, double minimum) {
-            super(null);
-            this.totalPersonalQuota = totalPersonalQuota;
-            this.minimum = minimum;
-        }
-
-        /**
-         * Constructor to init {@link StakingQuota} object
-         *
-         * @param jStakingQuota: staking quota details as {@link JSONObject}
-         */
-        public StakingQuota(JSONObject jStakingQuota) {
-            super(jStakingQuota);
-            totalPersonalQuota = hItem.getDouble("totalPersonalQuota", 0);
-            minimum = hItem.getDouble("minimum", 0);
-        }
-
-        /**
-         * Method to get {@link #totalPersonalQuota} instance <br>
-         * No-any params required
-         *
-         * @return {@link #totalPersonalQuota} instance as double
-         */
-        public double getTotalPersonalQuota() {
-            return totalPersonalQuota;
-        }
-
-        /**
-         * Method to get {@link #totalPersonalQuota} instance
-         *
-         * @param decimals: number of digits to round final value
-         * @return {@link #totalPersonalQuota} instance rounded with decimal digits inserted
-         * @throws IllegalArgumentException if decimalDigits is negative
-         */
-        public double getTotalPersonalQuota(int decimals) {
-            return roundValue(totalPersonalQuota, decimals);
-        }
-
-        /**
-         * Method to get {@link #minimum} instance <br>
-         * No-any params required
-         *
-         * @return {@link #minimum} instance as double
-         */
-        public double getMinimum() {
-            return minimum;
-        }
-
-        /**
-         * Method to get {@link #minimum} instance
-         *
-         * @param decimals: number of digits to round final value
-         * @return {@link #minimum} instance rounded with decimal digits inserted
-         * @throws IllegalArgumentException if decimalDigits is negative
-         */
-        public double getMinimum(int decimals) {
-            return roundValue(minimum, decimals);
         }
 
     }
